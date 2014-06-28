@@ -2,7 +2,7 @@ var mongoose = require('lib/mongoose');
 var hash = require('lib/hash');
 var Schema = mongoose.Schema;
 
-var schema = Schema({
+var schema = new Schema({
   username: {
     type: String,
     required: true

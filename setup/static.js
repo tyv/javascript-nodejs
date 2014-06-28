@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const serve = require('koa-static');
 const favicon = require('koa-favicon');

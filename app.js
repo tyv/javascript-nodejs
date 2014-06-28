@@ -1,8 +1,5 @@
 "use strict";
 
-const log = require('lib/log')(module);
-const config = require('config');
-
 const koa = require('koa');
 
 require('models');

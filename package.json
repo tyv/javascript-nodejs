@@ -26,16 +26,18 @@
     "winston": "*"
   },
   "devDependencies": {
-    "javascript-brunch": "*",
-    "css-brunch": "*",
-    "uglify-js-brunch": "*",
-    "clean-css-brunch": "*",
-    "stylus-brunch": "*",
     "autoprefixer-brunch": "*",
-    "supervisor": "*"
+    "clean-css-brunch": "*",
+    "css-brunch": "*",
+    "gulp": "^3.8.5",
+    "gulp-jshint": "^1.6.3",
+    "javascript-brunch": "*",
+    "stylus-brunch": "*",
+    "supervisor": "*",
+    "uglify-js-brunch": "*"
   },
   "engines": {
-    "node" : "0.11.12"
+    "node": "0.11.12"
   },
   "engineStrict": true,
   "repository": {
