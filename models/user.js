@@ -5,8 +5,7 @@ var Schema = mongoose.Schema;
 var schema = Schema({
   username: {
     type: String,
-    required: true,
-    unique: true
+    required: true
   },
   email: {
     type: String,
@@ -21,22 +20,9 @@ var schema = Schema({
     default: Date.now
   },
   avatar: {
-    type: String,
-    default: '1.jpg'
+    type: String
   }
 });
-
-schema.methods.toPublicObject = function() {
-  return {
-    username: this.get('username'),
-    email: this.get('email'),
-    avatar: this.get('avatar'),
-    following: this.get('following'),
-    created: this.get('created'),
-    messagesCount: this.get('messagesCount'),
-    id: this.id
-  };
-};
 
 schema.virtual('password')
   .set(function(password) {
@@ -48,27 +34,14 @@ schema.virtual('password')
     return this._plainPassword;
   });
 
-
-schema.statics.signup = function(username, email, password, done) {
-  var User = this;
-
-  User.create({
-    username: username,
-    email: email,
-    password: password,
-    avatar: (Math.random()*42^0) + '.jpg'
-  }, done);
-
-};
-
 schema.methods.checkPassword = function(password) {
   return hash.createHash(password, this.salt) == this.hash;
 };
 
 schema.path('email').validate(function(value) {
   // wrap in new RegExp instead of /.../, to evade WebStorm validation errors (buggy webstorm)
-  return new RegExp('^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,5}$').test(value);
-}, 'Please provide the correct e-mail.');
+  return new RegExp('^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,10}$').test(value);
+}, 'Укажите, пожалуйста, корретный email.');
 
 // all references using mongoose.model for safe recreation
 // when I recreate model (for tests) => I can reload it from mongoose.model (single source of truth)
