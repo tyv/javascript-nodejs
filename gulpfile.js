@@ -7,6 +7,7 @@ gulp.task('lint', function() {
   return gulp.src(serverDirs.map(function(dir) { return dir + '/**/*.js'; }))
     .pipe(jshint({
       maxerr: 25,
+      latedef: true,
       browser: false,
       node: true,
       indent: 2,
