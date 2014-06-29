@@ -5,11 +5,14 @@
   "scripts": {
     "start": "NODE_ENV=production NODE_PATH=. node --harmony ./bin/www",
     "dev": "NODE_ENV=development DEBUG=server:* NODE_PATH=. supervisor --harmony --debug --ignore node_modules ./bin/www",
-    "test": "NODE_ENV=test DEBUG=server:* NODE_PATH=. supervisor --harmony --debug --ignore node_modules ./bin/www"
+    "test": "NODE_ENV=test DEBUG=server:* NODE_PATH=. supervisor --harmony --debug --ignore node_modules ./bin/www",
+    "postinstall": "scripts/postinstall.js"
   },
   "dependencies": {
     "body-parser": "*",
+    "clarify": "*",
     "co": "*",
+    "gulp-util": "^2.2.19",
     "jade": "*",
     "koa": "*",
     "koa-bodyparser": "*",
@@ -21,12 +24,12 @@
     "koa-static": "*",
     "koa-views": "*",
     "lodash": "*",
+    "map-stream": "^0.1.0",
     "mongoose": "*",
     "passport": "*",
     "thunkify": "*",
-    "winston": "*",
-    "clarify": "*",
-    "trace": "*"
+    "trace": "*",
+    "winston": "*"
   },
   "devDependencies": {
     "autoprefixer-brunch": "*",
