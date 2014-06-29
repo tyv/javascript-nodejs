@@ -1,6 +1,5 @@
 var data = require('test/data');
 var mongoose = require('mongoose');
-var async = require('async');
 
 describe('User', function() {
   before(function(done) {

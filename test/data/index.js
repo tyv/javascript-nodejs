@@ -1,95 +1,116 @@
-var mongoose = require('lib/mongoose');
-var async = require('async');
-var log = require('lib/log')(module);
+//require('trace'); // active long stack trace
+//require('clarify'); // Exclude node internal calls from the stack
 
+var mongoose = require('lib/mongoose');
+var log = require('lib/log')(module);
+var co = require('co');
+var thunk = require('thunkify');
 var db = mongoose.connection.db;
 
-function createEmptyDb(callback) {
+log.debugOn();
 
-  async.series([
-    function open(callback) {
-      if (mongoose.connection.readyState == 1) { // already connected
-        return callback();
-      } else {
-        mongoose.connection.on('open', callback);
-      }
-    },
-    function clearDatabase(callback) {
+function *createEmptyDb() {
 
-      // db.dropDatabase reallocates file and is slow
-      // that's why we drop collections one-by-one
+  function *open() {
 
-      db.collectionNames(function(err, collections) {
+    if (mongoose.connection.readyState == 1) { // connected
+      return;
+    }
 
-        async.each(collections, function(collection, callback) {
-          var collectionName = collection.name.slice(db.databaseName.length + 1);
-          if (collectionName.indexOf('system.') === 0) {
-            return callback();
-          }
-          log.debug("drop ", collectionName);
-          db.dropCollection(collectionName, callback);
-        }, callback);
+    yield thunk(mongoose.connection.on)('open');
 
+  }
+
+  function *clearDatabase() {
+
+    var collections = yield thunk(db.collectionNames)();
+
+    var collectionNames = collections
+      .map(function(collection) {
+        var collectionName = collection.name.slice(db.databaseName.length + 1);
+        if (collectionName.indexOf('system.') === 0) {
+          return null;
+        }
+        return collectionName;
+      })
+      .filter(function(name) {
+        return name;
       });
 
-    },
-    function ensureIndexes(callback) {
-      // models must be recreated
-      // but that's problematic
-      // so we just make sure all necessary features are in place
-      async.each(mongoose.modelNames(), function(modelName, callback) {
-        mongoose.models[modelName].ensureIndexes(callback);
-      }, callback);
-    },
-    function ensureCapped(callback) {
-      // models must be recreated
-      // but that's problematic
-      // so we just make sure all necessary features are in place
-      async.each(mongoose.modelNames(), function(modelName, callback) {
-        var schema = mongoose.models[modelName].schema;
-        if (!schema.options.capped) return callback();
-        db.command({convertToCapped: mongoose.models[modelName].collection.name, size: schema.options.capped}, callback);
-      }, callback);
-    }
-  ], function(err) {
-    callback(err);
+    yield collectionNames.map(function(name) {
+      log.debug("drop ", name);
+      return thunk(db.dropCollection)(name);
+    });
+
+  }
+
+  // wait till indexes are complete, especially unique
+  // required to throw errors
+  function *ensureIndexes() {
+
+    yield mongoose.modelNames().map(function(modelName) {
+      var model = mongoose.models[modelName];
+      return thunk(model.ensureIndexes.bind(model))();
+    });
+
+  }
+
+  // ensure that capped collections are actually capped
+  function *ensureCapped() {
+
+    yield mongoose.modelNames().map(function(modelName) {
+      var model = mongoose.models[modelName];
+      var schema = model.schema;
+      if (!schema.options.capped) return;
+
+      return thunk(db.command)({convertToCapped: model.collection.name, size: schema.options.capped});
+    });
+  }
+
+  log.debug("co");
+
+  yield open;
+  log.debug("open");
+
+  yield clearDatabase;
+  log.debug("clear");
+
+  yield ensureIndexes;
+  log.debug('indexes');
+
+  yield ensureCapped;
+  log.debug('capped');
+
+}
+
+// not using pow-mongoose-fixtures, becuae it fails with capped collections
+// it calls remove() on them => everything dies
+function *loadDb(dataFile) {
+  yield createEmptyDb;
+
+  var modelsData = require('test/data/' + dataFile);
+
+  yield Object.keys(modelsData).map(function(modelName) {
+    return loadModel(modelName, modelsData[modelName]);
   });
 }
 
-exports.createEmptyDb = createEmptyDb;
-
-/**
- * Clear database,
- * require models & wait until indexes are created,
- * then load data from test/data/dataFile.json & callback
- * @param dataFile
- * @param callback
- */
-exports.loadDb = function(dataFile, callback) {
-  // warning: pow-mongoose-fixtures fails to work with capped collections
-  // it calls remove() on them => everything dies
-  async.series([
-    createEmptyDb,
-    function fillDb(callback) {
-      var modelsData = require('test/data/' + dataFile);
-
-      async.each(Object.keys(modelsData), function(modelName, callback) {
-        loadModel(modelName, modelsData[modelName], callback);
-      }, callback);
-    }
-  ], function(err) {
-    callback(err);
-  });
-
-};
-
-function loadModel(name, data, callback) {
+function *loadModel(name, data) {
 
   var Model = mongoose.models[name];
 
-  async.each(data, function(itemData, callback) {
+  yield data.map(function(itemData) {
     var model = new Model(itemData);
-    model.save(callback);
-  }, callback);
+    log.debug("save", itemData);
+    return thunk(model.save.bind(model))();
+  });
 
 }
+
+exports.loadDb = loadDb;
+exports.createEmptyDb = createEmptyDb;
+
+co(loadDb('sampleDb'))(function(err) {
+  if (err) throw err;
+  mongoose.connection.close();
+});
