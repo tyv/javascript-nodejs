@@ -14,8 +14,14 @@ var schema = new Schema({
     required: true,
     index: true
   },
-  salt: String,
-  hash: String,
+  salt: {
+    type: String,
+    required: true
+  },
+  passwordHash: {
+    type: String,
+    required: true
+  },
   created: {
     type: Date,
     default: Date.now
@@ -29,19 +35,19 @@ schema.virtual('password')
   .set(function(password) {
     this._plainPassword = password;
     this.salt = hash.createSalt();
-    this.hash = hash.createHash(password, this.salt);
+    this.passwordHash = hash.createHashSlow(password, this.salt);
   })
   .get(function() {
     return this._plainPassword;
   });
 
 schema.methods.checkPassword = function(password) {
-  return hash.createHash(password, this.salt) == this.hash;
+  return hash.createHashSlow(password, this.salt) == this.passwordHash;
 };
 
 schema.path('email').validate(function(value) {
   // wrap in new RegExp instead of /.../, to evade WebStorm validation errors (buggy webstorm)
-  return new RegExp('^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,10}$').test(value);
+  return new RegExp('^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,12}$').test(value);
 }, 'Укажите, пожалуйста, корретный email.');
 
 // all references using mongoose.model for safe recreation

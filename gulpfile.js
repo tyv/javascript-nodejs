@@ -1,5 +1,5 @@
-var jshint = require('gulp-jshint');
 var gulp   = require('gulp');
+var jshint = require('gulp-jshint');
 
 const serverDirs = 'lib,config,controllers,error,models,routes,setup'.split(',');
 

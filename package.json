@@ -9,8 +9,7 @@
   },
   "dependencies": {
     "body-parser": "*",
-    "co": "^3.0.6",
-    "gulp-stylus": "^1.0.2",
+    "co": "*",
     "jade": "*",
     "koa": "*",
     "koa-bodyparser": "*",
@@ -24,16 +23,22 @@
     "lodash": "*",
     "mongoose": "*",
     "passport": "*",
-    "thunkify": "^2.1.2",
-    "winston": "*"
+    "thunkify": "*",
+    "winston": "*",
+    "clarify": "*",
+    "trace": "*"
   },
   "devDependencies": {
     "autoprefixer-brunch": "*",
     "clean-css-brunch": "*",
+    "co-mocha": "*",
     "css-brunch": "*",
-    "gulp": "^3.8.5",
-    "gulp-jshint": "^1.6.3",
+    "gulp": "*",
+    "gulp-jshint": "*",
     "javascript-brunch": "*",
+    "mocha": "*",
+    "should": "^4.0.4",
+    "sinon": "^1.10.2",
     "stylus-brunch": "*",
     "supervisor": "*",
     "uglify-js-brunch": "*"
@@ -46,7 +51,7 @@
     "type": "git",
     "url": "https://github.com/iliakan/javascript-nodejs.git"
   },
-  "author": "Ilya Kantor and other contributors listed in git repo",
+  "author": "Ilya Kantor and other contributors in git repo",
   "license": "CC BY-NC-SA 3.0",
   "bugs": {
     "url": "https://github.com/iliakan/javascript-nodejs/issues"

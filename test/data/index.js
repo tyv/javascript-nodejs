@@ -1,3 +1,4 @@
+"use strict";
 
 var mongoose = require('lib/mongoose');
 var log = require('lib/log')(module);
@@ -5,7 +6,7 @@ var co = require('co');
 var thunk = require('thunkify');
 var db = mongoose.connection.db;
 
-log.debugOn();
+//log.debugOn();
 
 function *createEmptyDb() {
 
@@ -100,7 +101,7 @@ function *loadModel(name, data) {
   yield data.map(function(itemData) {
     var model = new Model(itemData);
     log.debug("save", itemData);
-    return thunk(model.save.bind(model))();
+    return model.persist();
   });
 
 }
@@ -108,7 +109,9 @@ function *loadModel(name, data) {
 exports.loadDb = loadDb;
 exports.createEmptyDb = createEmptyDb;
 
+/*
+Usage:
 co(loadDb('sampleDb'))(function(err) {
   if (err) throw err;
   mongoose.connection.close();
-});
+});*/

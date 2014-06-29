@@ -22,6 +22,13 @@ module.exports = function() {
         'default': 'jade',
         'cache': process.env.NODE_ENV != 'development'
       }
+    },
+    crypto: {
+      hash: {
+        length: 128,
+        // iterations = 12000 take ~60ms to generate strong password
+        iterations: process.env.NODE_ENV == 'prod' ? 12000 : 1
+      }
     }
   };
 };
