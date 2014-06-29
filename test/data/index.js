@@ -1,5 +1,3 @@
-//require('trace'); // active long stack trace
-//require('clarify'); // Exclude node internal calls from the stack
 
 var mongoose = require('lib/mongoose');
 var log = require('lib/log')(module);
