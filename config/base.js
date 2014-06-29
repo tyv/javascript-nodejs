@@ -20,7 +20,7 @@ module.exports = function() {
       path: process.cwd() + '/views',
       options: {
         'default': 'jade',
-        'cache': true
+        'cache': process.env.NODE_ENV != 'development'
       }
     }
   };

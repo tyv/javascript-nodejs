@@ -1,7 +1,7 @@
 var jshint = require('gulp-jshint');
 var gulp   = require('gulp');
 
-const serverDirs = ['lib', 'config', 'controllers', 'error', 'models', 'routes', 'setup'];
+const serverDirs = 'lib,config,controllers,error,models,routes,setup'.split(',');
 
 gulp.task('lint', function() {
   return gulp.src(serverDirs.map(function(dir) { return dir + '/**/*.js'; }))
@@ -18,4 +18,3 @@ gulp.task('lint', function() {
     .pipe(jshint.reporter('default'))
     .pipe(jshint.reporter('fail'))
 });
-
