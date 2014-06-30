@@ -5,9 +5,9 @@
   "scripts": {
     "start": "NODE_ENV=production NODE_PATH=. node --harmony ./bin/www",
     "dev": "NODE_ENV=development DEBUG=server:* NODE_PATH=. supervisor --harmony --debug --ignore node_modules ./bin/www",
-    "test": "NODE_ENV=test DEBUG=server:* NODE_PATH=. supervisor --harmony --debug --ignore node_modules ./bin/www",
-    "pre-commit": "gulp pre-commit"
+    "test": "NODE_ENV=test DEBUG=server:* NODE_PATH=. supervisor --harmony --debug --ignore node_modules ./bin/www"
   },
+  "precommit": "gulp pre-commit",
   "dependencies": {
     "body-parser": "*",
     "clarify": "*",
