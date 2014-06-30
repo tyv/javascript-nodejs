@@ -19,7 +19,8 @@ gulp.task('lint', function() {
     camelcase: true,
     newcap: true,
     undef: true,
-    esnext: true
+    esnext: true,
+    multistr: true
   };
 
   return gulp.src(lintDirs.map(function(dir) { return dir + '/**/*.js'; }))
