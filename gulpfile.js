@@ -45,6 +45,8 @@ gulp.task('lint', function() {
     });
 });
 
+gulp.task('pre-commit', ['lint']);
+
 process.on('exit', function () {
   process.nextTick(function () {
     var msg = "gulp '" + gulp.seq + "' failed";
