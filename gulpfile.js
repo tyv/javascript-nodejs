@@ -2,6 +2,8 @@ var gulp   = require('gulp');
 var gutil = require('gulp-util');
 var map = require('map-stream');
 var jshint = require('gulp-jshint');
+var fs = require('fs');
+var path = require('path');
 
 var exitCode = 0;
 
@@ -10,18 +12,7 @@ const lintDirs = 'lib,config,controllers,error,models,routes,setup'.split(',');
 gulp.task('lint', function() {
   var totalLintErrors = null;
 
-  var options = {
-    maxerr: 25,
-    latedef: true,
-    browser: false,
-    node: true,
-    indent: 2,
-    camelcase: true,
-    newcap: true,
-    undef: true,
-    esnext: true,
-    multistr: true
-  };
+  var options = JSON.parse(fs.readFileSync(path.join(__dirname, '.jshintrc')));
 
   return gulp.src(lintDirs.map(function(dir) { return dir + '/**/*.js'; }))
     .pipe(jshint(options))

@@ -1,0 +1,12 @@
+{
+  "maxerr": 25,
+  "latedef": true,
+  "browser": false,
+  "node": true,
+  "indent": 2,
+  "camelcase": true,
+  "newcap": true,
+  "undef": true,
+  "esnext": true,
+  "multistr": true
+}
