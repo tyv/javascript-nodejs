@@ -6,7 +6,7 @@
     "start": "NODE_ENV=production NODE_PATH=. node --harmony ./bin/www",
     "dev": "NODE_ENV=development DEBUG=server:* NODE_PATH=. supervisor --harmony --debug --ignore node_modules ./bin/www",
     "test": "NODE_ENV=test DEBUG=server:* NODE_PATH=. supervisor --harmony --debug --ignore node_modules ./bin/www",
-    "postinstall": "scripts/postinstall.js"
+    "pre-commit": "gulp pre-commit"
   },
   "dependencies": {
     "body-parser": "*",
@@ -44,7 +44,8 @@
     "sinon": "^1.10.2",
     "stylus-brunch": "*",
     "supervisor": "*",
-    "uglify-js-brunch": "*"
+    "uglify-js-brunch": "*",
+    "javascript-precommit": "*"
   },
   "engines": {
     "node": "0.11.12"
