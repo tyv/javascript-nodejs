@@ -1,10 +1,8 @@
 --reporter spec
 --colors
---harmony
---timeout 1000000
+--timeout 10000
 --require should
 --require co
 --require co-mocha
---require test/env
 --recursive
 --ui bdd
