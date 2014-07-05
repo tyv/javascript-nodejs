@@ -28,6 +28,7 @@
     "markdown-js": "0.0.3",
     "mongoose": "3.8",
     "passport": "*",
+    "require-tree": "^0.3.3",
     "stylus": "^0.47.1",
     "thunkify": "*",
     "trace": "*",
