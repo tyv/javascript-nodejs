@@ -10,11 +10,7 @@ module.exports = function(app) {
 
   app.get('/', require('controllers/frontpage').get);
 
-  app.get('/stylesheets/main.css', function *(next) {
-    yield require('stylus')
-      .middleware(process.cwd() + '/app')
-      .bind(null, this.req, this.res)(next);
-  });
+  app.get('/stylesheets/main.css', require('controllers/stylus').get);
 
   if (process.env.NODE_ENV == 'development') {
     app.get('/markup/*', require('controllers/markup').get);

@@ -29,7 +29,7 @@ tmp/
 www/
 
 # compiled stylus root files
-app/main.css
+app/stylesheets/main.css
 
 # Bower stuff.
 bower_components/
