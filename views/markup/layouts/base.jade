@@ -1,5 +1,18 @@
 block variables
 include ../blocks/head
 body(id='#{self.bodyId}')
-  block content
+  include ../blocks/top-parts
+  .page
+    .page__inner
+      include ../blocks/navbar
+      include ../blocks/social-aside
+      .main-content
+        article.main
+        header.main__header.main__header_center
+          include ../blocks/breadcrumbs
+          h1.main__header-title= self.title
+          .main__header-comments
+            a(href='http://learn.javascript.ru/intro#disqus_thread') Комментариев #{self.comments.length}
+          include ../blocks/lesson-next-prev
+        block content
   include ../blocks/scripts
