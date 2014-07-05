@@ -11,7 +11,6 @@ module.exports = function(app) {
   app.get('/', require('controllers/frontpage').get);
 
   app.get('/stylesheets/main.css', function *(next) {
-    // TODO: Оставлю пока тут, потому что не понимаю, что будет если нет `yield`
     yield require('stylus')
       .middleware(process.cwd() + '/app')
       .bind(null, this.req, this.res)(next);
