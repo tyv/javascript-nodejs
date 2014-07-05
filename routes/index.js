@@ -10,7 +10,6 @@ module.exports = function(app) {
 
   app.get('/', require('controllers/frontpage').get);
 
-
   if (process.env.NODE_ENV == 'development') {
     app.get('/markup/*', require('controllers/markup').get);
   }

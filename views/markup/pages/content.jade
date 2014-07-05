@@ -1,0 +1,31 @@
+extends ../layouts/base
+
+// - http://stackoverflow.com/questions/12646451/how-to-pass-variables-between-jade-templates
+block variables
+  - var self = {};
+  - self.bodyId = 'page';
+  - self.title = 'Учебник — Javascript.ru';
+  - self.comments = {} // хм?
+  - self.comments.lenght = 5;
+
+block content
+  :markdown
+    Давайте посмотрим, что такого особенного в JavaScript, почему именно он, 
+    и какие еще технологии существуют, кроме JavaScript.
+    
+    ## [Что такое JavaScript?](#что-такое-javascript)
+    
+    _JavaScript_ изначально создавался для того, чтобы сделать web-странички
+    «живыми».
+    
+    Программы на этом языке называются _скриптами_. Они подключаются напрямую к HTML
+    и, как только загружается страничка — тут же выполняются.
+    
+    **Программы на JavaScript — обычный текст**. Они не требуют какой-то
+    специальной подготовки.
+
+        function sayHi(name) {
+          var phrase = "Привет, " + name;
+          alert(phrase);
+        }
+        sayHi('Вася');
