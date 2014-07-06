@@ -4,7 +4,7 @@ var co = require('co');
 
 describe('User', function() {
   before(function *() {
-    yield data.createEmptyDb
+    yield data.createEmptyDb;
   });
 
   var User = mongoose.models.User;
