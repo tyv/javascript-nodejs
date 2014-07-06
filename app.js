@@ -6,6 +6,8 @@ require('models');
 
 const app = koa();
 
+require('setup/stylus')(app);
+
 require('setup/static')(app);
 
 require('setup/errors')(app);

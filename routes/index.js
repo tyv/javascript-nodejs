@@ -11,7 +11,6 @@ var controllers = requireTree('../controllers');
 module.exports = function(app) {
 
   app.get('/', controllers.frontpage.get);
-  app.get('/stylesheets/main.css', controllers.stylus.get);
 
   if (process.env.NODE_ENV == 'development') {
     app.get('/markup/*', controllers.markup.get);
