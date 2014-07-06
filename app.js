@@ -1,23 +1,32 @@
 "use strict";
 
 const koa = require('koa');
-
-require('models');
+const log = require('lib/log')(module);
 
 const app = koa();
 
-require('setup/stylus')(app);
+require('models');
 
-require('setup/static')(app);
+function requireMiddleware(path) {
+  app.use(function *(next) {
+    log.debug("middleware " + path);
+    yield next;
+  });
+  require(path)(app);
+}
 
-require('setup/errors')(app);
+requireMiddleware('setup/stylus');
 
-require('setup/logger')(app);
-require('setup/bodyParser')(app);
-require('setup/session')(app);
-require('setup/render')(app);
-require('setup/router')(app);
+requireMiddleware('setup/static');
 
-require('./routes')(app);
+requireMiddleware('setup/errors');
+
+requireMiddleware('setup/logger');
+requireMiddleware('setup/bodyParser');
+requireMiddleware('setup/session');
+requireMiddleware('setup/render');
+requireMiddleware('setup/router');
+
+requireMiddleware('./routes');
 
 module.exports = app;

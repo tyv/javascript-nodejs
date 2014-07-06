@@ -13,6 +13,6 @@ module.exports = function(app) {
   app.get('/', controllers.frontpage.get);
 
   if (process.env.NODE_ENV == 'development') {
-    app.get('/markup/*', controllers.markup.get);
+    app.get(/^\/markup\/(.*)/, controllers.markup.get);
   }
 };

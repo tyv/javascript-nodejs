@@ -14,9 +14,9 @@ var middleware = thunkify(stylus.middleware({
 
 module.exports = function(app) {
   app.use(function *(next) {
-    // compile if needed
+    // compile if needed (doesn't send)
     yield middleware(this.req, this.res);
-    // send compiled
+    // continue the middleware stack (will send compiled if was a *.css request)
     yield next;
   });
 };
