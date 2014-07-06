@@ -1,3 +1,4 @@
+/** NOT USED ANYWHERE */
 var HttpError = require('lib/error').HttpError;
 
 exports.mustBeAuthenticated = function(req, res, next) {
