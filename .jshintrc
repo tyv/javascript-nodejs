@@ -1,6 +1,6 @@
 {
   "maxerr": 25,
-  "latedef": true,
+  "latedef": "nofunc",
   "browser": false,
   "node": true,
   "indent": 2,
@@ -8,5 +8,6 @@
   "newcap": true,
   "undef": true,
   "esnext": true,
-  "multistr": true
+  "multistr": true,
+  "noyield": true
 }
