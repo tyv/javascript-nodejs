@@ -5,11 +5,13 @@ const path = require('path');
 const log = require('lib/log')(module);
 const mongoose = require('lib/mongoose');
 const Article = mongoose.models.Article;
+const Reference = mongoose.models.Reference;
 const Task = mongoose.models.Task;
 const articlePathHelper = require('lib/pathHelper').articlePathHelper;
 const taskPathHelper = require('lib/pathHelper').taskPathHelper;
 const BodyParser = require('javascript-parser').BodyParser;
 const HtmlTransformer = require('javascript-parser').HtmlTransformer;
+const Walker = require('javascript-parser').Walker;
 const HeaderTag = require('javascript-parser').HeaderTag;
 const Imagemin = require('imagemin');
 const pngcrush = require('imagemin-pngcrush');
@@ -32,6 +34,7 @@ module.exports = function(options) {
 
       yield Article.destroy({});
       yield Task.destroy({});
+      yield Reference.destroy({});
 
       fse.removeSync(articlePathHelper.resourceRoot);
       fse.removeSync(taskPathHelper.resourceRoot);
@@ -119,6 +122,18 @@ module.exports = function(options) {
 
   }
 
+  function findErrorsInParsed(parsed) {
+    const walker = new Walker(parsed, { trusted: true });
+    const errors = [];
+    walker.visit = function(node) {
+      if (node.getType() == 'ErrorTag') {
+        errors.push(node);
+      }
+    };
+    walker.walk();
+    return errors;
+  }
+
   function* importArticle(articlePath, parent) {
     log.info("importArticle", articlePath);
 
@@ -141,7 +156,9 @@ module.exports = function(options) {
     const options = {
       resourceFsRoot:  articlePath,
       resourceWebRoot: articlePathHelper.getResourceWebRootBySlug(data.slug),
-      metadata:        {},
+      metadata:        {
+        refs: {}
+      },
       trusted:         true
     };
 
@@ -156,6 +173,22 @@ module.exports = function(options) {
 
     const article = new Article(data);
     yield article.persist();
+
+
+    const refs = Object.keys(options.metadata.refs);
+    const refThunks = refs.map(function(anchor) {
+      return new Reference({anchor: anchor, article: article._id}).persist();
+    });
+
+    try {
+      // save all references in parallel
+      yield refThunks;
+    } catch(e) {
+      // something went wrong => we don't need an unfinished article
+      yield article.destroy(); // will kill it's refs too
+      throw e;
+    }
+
 
     const subPaths = fs.readdirSync(articlePath);
 

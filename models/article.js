@@ -34,8 +34,12 @@ var schema = new Schema({
 
 });
 
-schema.plugin(troop.timestamp);
+schema.pre('remove', function (next) {
+  const Reference = mongoose.models.Reference;
+  Reference.remove({article: this._id}, next);
+});
 
+schema.plugin(troop.timestamp);
 
 mongoose.model('Article', schema);
 

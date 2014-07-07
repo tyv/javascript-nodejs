@@ -15,4 +15,7 @@ module.exports = function(app) {
   if (process.env.NODE_ENV == 'development') {
     app.get(/^\/markup\/(.*)/, controllers.markup.get);
   }
+
+  app.get(/^\/(.*)$/, controllers.article.get);
+
 };
