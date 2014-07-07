@@ -28,8 +28,5 @@ tmp/
 # Brunch output folder.
 www/
 
-# compiled stylus root files
-app/stylesheets/main.css
-
 # Bower stuff.
 bower_components/

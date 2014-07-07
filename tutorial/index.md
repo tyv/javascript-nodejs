@@ -1,3 +1,0 @@
-# Учебник
-
-Content tutorial

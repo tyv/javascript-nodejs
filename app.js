@@ -5,28 +5,36 @@ const log = require('lib/log')(module);
 
 const app = koa();
 
-require('models');
-
 function requireMiddleware(path) {
-  app.use(function *(next) {
-    log.debug("middleware " + path);
-    yield next;
-  });
-  require(path)(app);
+  // if debug is on => will log the middleware travel chain
+  if (process.env.NODE_ENV == 'development') {
+    app.use(function *(next) {
+      log.debug("middleware " + path);
+      yield next;
+    });
+  }
+  return require(path)(app);
 }
 
-requireMiddleware('setup/stylus');
 
-requireMiddleware('setup/static');
+module.exports = function* () {
 
-requireMiddleware('setup/errors');
+  // wait for DB to get connected before proceeding
+  yield requireMiddleware('setup/mongoose');
 
-requireMiddleware('setup/logger');
-requireMiddleware('setup/bodyParser');
-requireMiddleware('setup/session');
-requireMiddleware('setup/render');
-requireMiddleware('setup/router');
+  requireMiddleware('setup/stylus');
 
-requireMiddleware('./routes');
+  requireMiddleware('setup/static');
 
-module.exports = app;
+  requireMiddleware('setup/errors');
+
+  requireMiddleware('setup/logger');
+  requireMiddleware('setup/bodyParser');
+  requireMiddleware('setup/session');
+  requireMiddleware('setup/render');
+  requireMiddleware('setup/router');
+
+  requireMiddleware('./routes');
+
+  return app;
+};

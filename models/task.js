@@ -12,7 +12,8 @@ var schema = new Schema({
   importance: {
     type: Number
   },
-  slug:       {
+
+  slug: {
     type:     String,
     unique:   true,
     required: true,
@@ -30,15 +31,11 @@ var schema = new Schema({
   },
 
   parent: {
-    type: ObjectId,
-    ref:  'Article'
-  },
-
-  weight: {
-    type:     Number,
-    required: true
+    type:     ObjectId,
+    ref:      'Article',
+    required: true,
+    index:    true
   }
-
 });
 
 schema.plugin(troop.timestamp);

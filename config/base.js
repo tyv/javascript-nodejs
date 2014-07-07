@@ -1,3 +1,5 @@
+var path = require('path');
+
 module.exports = function() {
   return {
     "port": process.env.PORT || 3000,
@@ -17,7 +19,7 @@ module.exports = function() {
       "keys": ["KillerIsJim"]
     },
     template: {
-      path: process.cwd() + '/views',
+      path: path.join(process.cwd(), 'views'),
       options: {
         'default': 'jade',
         'cache': process.env.NODE_ENV != 'development'
@@ -26,9 +28,10 @@ module.exports = function() {
     crypto: {
       hash: {
         length: 128,
-        // iterations = 12000 take ~60ms to generate strong password
+        // may be slow(!): iterations = 12000 take ~60ms to generate strong password
         iterations: process.env.NODE_ENV == 'prod' ? 12000 : 1
       }
-    }
+    },
+    publicPath: path.join(process.cwd(), 'www')
   };
 };

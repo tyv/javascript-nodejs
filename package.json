@@ -7,12 +7,16 @@
     "dev": "NODE_ENV=development NODE_PATH=. supervisor --harmony --debug --ignore node_modules ./bin/www",
     "test": "NODE_ENV=test NODE_PATH=. supervisor --harmony --debug --ignore node_modules ./bin/www"
   },
-  "precommit": "gulp pre-commit",
+  "precommit": "NODE_PATH=. NODE_ENV=development node --harmony `which gulp` pre-commit",
   "dependencies": {
     "body-parser": "*",
-    "clarify": "*",
     "co": "*",
+    "fs-extra": "^0.10.0",
+    "gm": "^1.16.0",
     "gulp-util": "*",
+    "imagemin": "^0.4.6",
+    "imagemin-pngcrush": "^0.1.0",
+    "imagemin-svgo": "^0.1.0",
     "jade": "*",
     "javascript-gulp-task-lint": "*",
     "javascript-parser": "*",
@@ -34,10 +38,11 @@
     "require-tree": "*",
     "stylus": "*",
     "thunkify": "*",
-    "trace": "*",
     "winston": "*"
   },
   "devDependencies": {
+    "clarify": "*",
+    "trace": "*",
     "autoprefixer-brunch": "*",
     "clean-css-brunch": "*",
     "co-mocha": "*",

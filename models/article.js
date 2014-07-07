@@ -17,17 +17,18 @@ var schema = new Schema({
   },
 
   content: {
-    type: String,
+    type:     String,
     required: true
   },
 
   parent: {
-    type: ObjectId,
-    ref: 'Article'
+    type:  ObjectId,
+    ref:   'Article',
+    index: true
   },
 
   weight: {
-    type: Number,
+    type:     Number,
     required: true
   }
 
