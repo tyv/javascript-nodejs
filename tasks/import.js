@@ -36,11 +36,13 @@ module.exports = function(options) {
       yield Task.destroy({});
       yield Reference.destroy({});
 
-      fse.removeSync(articlePathHelper.resourceRoot);
-      fse.removeSync(taskPathHelper.resourceRoot);
+      if (!options.update) {
+        fse.removeSync(articlePathHelper.resourceRoot);
+        fse.removeSync(taskPathHelper.resourceRoot);
 
-      fs.mkdirSync(articlePathHelper.resourceRoot);
-      fs.mkdirSync(taskPathHelper.resourceRoot);
+        fs.mkdirSync(articlePathHelper.resourceRoot);
+        fs.mkdirSync(taskPathHelper.resourceRoot);
+      }
 
 
       const subPaths = fs.readdirSync(root);
@@ -93,6 +95,8 @@ module.exports = function(options) {
 
     const parsed = yield new BodyParser(content, options).parse();
 
+    checkIfErrorsInParsed(parsed);
+
     const titleHeader = parsed[0];
     if (parsed[0].getType() != 'HeaderTag') {
       throw new Error(contentPath + ": must start with a #Header");
@@ -122,16 +126,19 @@ module.exports = function(options) {
 
   }
 
-  function findErrorsInParsed(parsed) {
+  // TODO: MAKE ME WORK
+  function checkIfErrorsInParsed(parsed) {
     const walker = new Walker(parsed, { trusted: true });
     const errors = [];
     walker.visit = function(node) {
       if (node.getType() == 'ErrorTag') {
-        errors.push(node);
+        errors.push(node.text);
       }
     };
     walker.walk();
-    return errors;
+    if (errors.length) {
+      throw new Error("Errors: " + errors.join());
+    }
   }
 
   function* importArticle(articlePath, parent) {
@@ -156,13 +163,13 @@ module.exports = function(options) {
     const options = {
       resourceFsRoot:  articlePath,
       resourceWebRoot: articlePathHelper.getResourceWebRootBySlug(data.slug),
-      metadata:        {
-        refs: {}
-      },
+      metadata:        { },
       trusted:         true
     };
 
     const parsed = yield new BodyParser(content, options).parse();
+
+    checkIfErrorsInParsed(parsed);
 
     const titleHeader = parsed[0];
     if (parsed[0].getType() != 'HeaderTag') {
@@ -171,11 +178,15 @@ module.exports = function(options) {
 
     data.title = stripTags(htmlTransform(titleHeader, options));
 
+    // todo: updating:
+    // first check if references are unique,
+    // -> fail w/o deleting old article if not unique,
+    // delete old article & insert the new one & insert refs
     const article = new Article(data);
     yield article.persist();
 
 
-    const refs = Object.keys(options.metadata.refs);
+    const refs = options.metadata.refs.toArray();
     const refThunks = refs.map(function(anchor) {
       return new Reference({anchor: anchor, article: article._id}).persist();
     });
@@ -221,9 +232,9 @@ module.exports = function(options) {
         yield importImage(sourcePath, destDir);
         return;
       }
-      fse.copySync(sourcePath, destPath);
+      copySync(sourcePath, destPath);
     } else if (stat.isDirectory()) {
-      fs.mkdirSync(destPath);
+      fse.ensureDirSync(destPath);
       const subPathNames = fs.readdirSync(sourcePath);
       for (var i = 0; i < subPathNames.length; i++) {
         var subPath = path.join(sourcePath, subPathNames[i]);
@@ -246,7 +257,11 @@ module.exports = function(options) {
     const filename = path.basename(srcPath);
     const dstPath = path.join(dstDir, filename);
 
-    fse.copySync(srcPath, dstPath);
+    if (checkSameSizeFiles(srcPath, dstPath)) {
+      return;
+    }
+
+    copySync(srcPath, dstPath);
     yield minifyImage(dstPath);
 
 
@@ -256,11 +271,21 @@ module.exports = function(options) {
     if (isRetina) {
       var normalResolutionFilename = filename.replace(/@2x(?=\.[^.]+$)/, '');
       var normalResolutionPath = path.join(dstDir, normalResolutionFilename);
+
       yield function(callback) {
         gm(srcPath).resize("50%").write(normalResolutionPath, callback);
       };
       yield minifyImage(normalResolutionPath);
     }
+
+  }
+
+  function copySync(srcPath, dstPath) {
+    if (options.update && checkSameSizeFiles(srcPath, dstPath)) {
+      return;
+    }
+
+    fse.copySync(srcPath, dstPath);
 
   }
 
@@ -318,6 +343,8 @@ module.exports = function(options) {
 
     const parsed = yield new BodyParser(content, options).parse();
 
+    checkIfErrorsInParsed(parsed);
+
     const titleHeader = parsed[0];
     if (parsed[0].getType() != 'HeaderTag') {
       throw new Error(contentPath + ": must start with a #Header");
@@ -330,6 +357,10 @@ module.exports = function(options) {
     const solutionPath = path.join(taskPath, 'solution.md');
     const solution = fs.readFileSync(solutionPath, 'utf-8');
     data.solution = solution;
+
+
+    const parsedSolution = yield new BodyParser(solution, options).parse();
+    checkIfErrorsInParsed(parsedSolution);
 
     const task = new Task(data);
     yield task.persist();
@@ -346,3 +377,22 @@ module.exports = function(options) {
   }
 
 };
+
+
+
+function checkSameSizeFiles(filePath1, filePath2) {
+  if (!fs.existsSync(filePath2)) return false;
+
+  const stat1 = fs.statSync(filePath1);
+  if (!stat1.isFile()) {
+    throw new Error("not a file: " + filePath1);
+  }
+
+  const stat2 = fs.statSync(filePath2);
+  if (!stat2.isFile()) {
+    throw new Error("not a file: " + filePath2);
+  }
+
+  return stat1.size == stat2.size;
+
+}
