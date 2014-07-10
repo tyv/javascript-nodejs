@@ -16,7 +16,7 @@ gulp.task('pre-commit', ['lint']);
 gulp.task('import', function(callback) {
   taskImport({
     root: '/var/site/js-dev/tutorial',
-    update: true
+    updateFiles: true // skip same size files
     //minify: true // takes time(!)
   })(function() {
     mongoose.disconnect();

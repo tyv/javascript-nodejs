@@ -1,9 +1,12 @@
-var mongoose = require('lib/mongoose');
-var troop = require('mongoose-troop');
-var ObjectId = mongoose.Schema.Types.ObjectId;
-var Schema = mongoose.Schema;
+const mongoose = require('lib/mongoose');
+const troop = require('mongoose-troop');
+const ObjectId = mongoose.Schema.Types.ObjectId;
+const Schema = mongoose.Schema;
+const config = require('config');
+const path = require('path');
+const Reference = mongoose.models.Reference;
 
-var schema = new Schema({
+const schema = new Schema({
   title: {
     type:     String,
     required: true
@@ -34,8 +37,34 @@ var schema = new Schema({
 
 });
 
+// all resources are here
+schema.statics.resourceFsRoot = path.join(config.publicPath, 'article');
+
+schema.statics.getResourceFsRootBySlug = function(slug) {
+  return path.join(schema.statics.resourceFsRoot, slug);
+};
+
+schema.statics.getResourceWebRootBySlug = function(slug) {
+  return '/article/' + slug;
+};
+
+schema.statics.getUrlBySlug = function(slug) {
+  return '/' + slug;
+};
+
+schema.methods.getResourceFsRoot = function() {
+  return schema.statics.getResourceFsRootBySlug(this.get('slug'));
+};
+
+schema.methods.getResourceWebRoot = function() {
+  return schema.statics.getResourceWebRootBySlug(this.get('slug'));
+};
+
+schema.methods.getUrl = function() {
+  return schema.statics.getUrlBySlug(this.get('slug'));
+};
+
 schema.pre('remove', function (next) {
-  const Reference = mongoose.models.Reference;
   Reference.remove({article: this._id}, next);
 });
 

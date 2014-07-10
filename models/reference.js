@@ -1,13 +1,15 @@
 var mongoose = require('lib/mongoose');
-var ObjectId = mongoose.Schema.Types.ObjectId;
 var Schema = mongoose.Schema;
 
+// references can be only in articles
+// [...](/my-url) is not a reference
+// [...](#anchor) *is* a reference
+// when no title, reference content is used: [](#anchor) -> <a href="...">anchor</a>
 var schema = new Schema({
+
   article: {
-    type:     ObjectId,
-    ref:      'Article',
-    index:    true,
-    required: true
+    type: Schema.Types.ObjectId,
+    ref:  'Article'
   },
 
   anchor: {
@@ -16,9 +18,11 @@ var schema = new Schema({
     unique:   true,
     required: true
   }
+
 });
 
+schema.methods.getUrl = function() {
+  return this.article.getUrl() + '#' + this.anchor;
+};
 
 mongoose.model('Reference', schema);
-
-

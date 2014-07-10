@@ -2,16 +2,15 @@ const co = require('co');
 const fs = require('fs');
 const fse = require('fs-extra');
 const path = require('path');
+const config = require('config');
 const log = require('lib/log')(module);
 const mongoose = require('lib/mongoose');
 const Article = mongoose.models.Article;
 const Reference = mongoose.models.Reference;
 const Task = mongoose.models.Task;
-const articlePathHelper = require('lib/pathHelper').articlePathHelper;
-const taskPathHelper = require('lib/pathHelper').taskPathHelper;
 const BodyParser = require('javascript-parser').BodyParser;
 const HtmlTransformer = require('javascript-parser').HtmlTransformer;
-const Walker = require('javascript-parser').Walker;
+const TreeWalker = require('javascript-parser').TreeWalker;
 const HeaderTag = require('javascript-parser').HeaderTag;
 const Imagemin = require('imagemin');
 const pngcrush = require('imagemin-pngcrush');
@@ -36,12 +35,12 @@ module.exports = function(options) {
       yield Task.destroy({});
       yield Reference.destroy({});
 
-      if (!options.update) {
-        fse.removeSync(articlePathHelper.resourceRoot);
-        fse.removeSync(taskPathHelper.resourceRoot);
+      if (!options.updateFiles) {
+        fse.removeSync(Article.resourceFsRoot);
+        fse.removeSync(Task.resourceFsRoot);
 
-        fs.mkdirSync(articlePathHelper.resourceRoot);
-        fs.mkdirSync(taskPathHelper.resourceRoot);
+        fs.mkdirSync(Article.resourceFsRoot);
+        fs.mkdirSync(Task.resourceFsRoot);
       }
 
 
@@ -64,7 +63,7 @@ module.exports = function(options) {
   }
 
   function htmlTransform(roots, options) {
-    return new HtmlTransformer(roots, options).toHtml();
+    return new HtmlTransformer(roots, options).run();
   }
 
   function* importFolder(sourceFolderPath, parent) {
@@ -88,7 +87,7 @@ module.exports = function(options) {
 
     const options = {
       resourceFsRoot:  sourceFolderPath,
-      resourceWebRoot: articlePathHelper.getResourceWebRootBySlug(data.slug),
+      resourceWebRoot: Article.getResourceWebRootBySlug(data.slug),
       metadata:        {},
       trusted:         true
     };
@@ -102,7 +101,7 @@ module.exports = function(options) {
       throw new Error(contentPath + ": must start with a #Header");
     }
 
-    data.title = stripTags(htmlTransform(titleHeader, options));
+    data.title = stripTags(yield htmlTransform(titleHeader, options));
 
 
     const folder = new Article(data);
@@ -120,22 +119,22 @@ module.exports = function(options) {
       } else if (fs.existsSync(path.join(subPath, 'article.md'))) {
         yield importArticle(subPath, folder);
       } else {
-        yield importResource(subPath, articlePathHelper.getResourcePath(folder));
+        yield importResource(subPath, folder.getResourceFsRoot());
       }
     }
 
   }
 
-  // TODO: MAKE ME WORK
+  // todo with incremental import: move to separate task?
   function checkIfErrorsInParsed(parsed) {
-    const walker = new Walker(parsed, { trusted: true });
+    const walker = new TreeWalker(parsed);
     const errors = [];
-    walker.visit = function(node) {
+
+    walker.walk(function*(node) {
       if (node.getType() == 'ErrorTag') {
         errors.push(node.text);
       }
-    };
-    walker.walk();
+    });
     if (errors.length) {
       throw new Error("Errors: " + errors.join());
     }
@@ -162,7 +161,7 @@ module.exports = function(options) {
 
     const options = {
       resourceFsRoot:  articlePath,
-      resourceWebRoot: articlePathHelper.getResourceWebRootBySlug(data.slug),
+      resourceWebRoot: Article.getResourceWebRootBySlug(data.slug),
       metadata:        { },
       trusted:         true
     };
@@ -176,7 +175,7 @@ module.exports = function(options) {
       throw new Error(contentPath + ": must start with a #Header");
     }
 
-    data.title = stripTags(htmlTransform(titleHeader, options));
+    data.title = stripTags(yield htmlTransform(titleHeader, options));
 
     // todo: updating:
     // first check if references are unique,
@@ -211,7 +210,7 @@ module.exports = function(options) {
         yield importTask(subPath, article);
       } else {
         // resources
-        yield importResource(subPath, articlePathHelper.getResourcePath(article));
+        yield importResource(subPath, article.getResourceFsRoot());
       }
     }
 
@@ -281,7 +280,7 @@ module.exports = function(options) {
   }
 
   function copySync(srcPath, dstPath) {
-    if (options.update && checkSameSizeFiles(srcPath, dstPath)) {
+    if (options.updateFiles && checkSameSizeFiles(srcPath, dstPath)) {
       return;
     }
 
@@ -336,7 +335,7 @@ module.exports = function(options) {
 
     const options = {
       resourceFsRoot:  taskPath,
-      resourceWebRoot: taskPathHelper.getResourceWebRootBySlug(data.slug),
+      resourceWebRoot: Task.getResourceWebRootBySlug(data.slug),
       metadata:        {},
       trusted:         true
     };
@@ -350,7 +349,7 @@ module.exports = function(options) {
       throw new Error(contentPath + ": must start with a #Header");
     }
 
-    data.title = stripTags(htmlTransform(titleHeader, options));
+    data.title = stripTags(yield htmlTransform(titleHeader, options));
 
     data.importance = options.metadata.importance;
 
@@ -371,7 +370,7 @@ module.exports = function(options) {
       if (subPaths[i] == 'task.md' || subPaths[i] == 'solution.md') continue;
 
       var subPath = path.join(taskPath, subPaths[i]);
-      yield importResource(subPath, taskPathHelper.getResourcePath(task));
+      yield importResource(subPath, task.getResourceFsRoot());
     }
 
   }

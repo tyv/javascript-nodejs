@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "NODE_ENV=production NODE_PATH=. node --harmony ./bin/www",
+    "prod": "NODE_ENV=production NODE_PATH=. node --harmony ./bin/www",
     "dev": "NODE_ENV=development NODE_PATH=. supervisor --harmony --debug --ignore node_modules ./bin/www",
     "test": "NODE_ENV=test NODE_PATH=. supervisor --harmony --debug --ignore node_modules ./bin/www"
   },

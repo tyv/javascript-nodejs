@@ -1,11 +1,12 @@
 var path = require('path');
 
 module.exports = function() {
+
   return {
     "port": process.env.PORT || 3000,
     "host": process.env.HOST || '0.0.0.0',
     "mongoose": {
-      "uri": "mongodb://localhost/javascript",
+      "uri": "mongodb://localhost/" + (process.env.NODE_ENV == 'test' ? "js_test" : "js"),
       "options": {
         "server": {
           "socketOptions": {
