@@ -1,5 +1,6 @@
 const HtmlTransformer = require('javascript-parser').HtmlTransformer;
 const ReferenceResolver = require('./referenceResolver').ReferenceResolver;
+const TaskResolver = require('./taskResolver').TaskResolver;
 const BodyParser = require('javascript-parser').BodyParser;
 
 /**
@@ -25,6 +26,9 @@ ArticleRenderer.prototype.render = function* (article) {
 
   const referenceResolver = new ReferenceResolver(articleNode);
   yield referenceResolver.run();
+
+  const taskResolver = new TaskResolver(articleNode);
+  yield taskResolver.run();
 
   const transformer = new HtmlTransformer(articleNode, options);
   const content = yield transformer.run();

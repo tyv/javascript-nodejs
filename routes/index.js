@@ -16,6 +16,8 @@ module.exports = function(app) {
     app.get(/^\/markup\/(.*)/, controllers.markup.get);
   }
 
+  app.get(/^\/task\/(.*)$/, controllers.task.get);
+
   app.get(/^\/(.*)$/, controllers.article.get);
 
 };

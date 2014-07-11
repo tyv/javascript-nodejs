@@ -9,10 +9,8 @@ const Reference = mongoose.models.Reference;
 const Article = mongoose.models.Article;
 const Task = mongoose.models.Task;
 
-function ReferenceResolver(root, referenceStore) {
+function ReferenceResolver(root) {
   this.root = root;
-
-  this.referenceStore = referenceStore;
 }
 
 
