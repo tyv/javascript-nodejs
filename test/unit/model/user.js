@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var co = require('co');
 
 describe('User', function() {
-  before(function *() {
+  before(function* () {
     yield data.createEmptyDb;
   });
 
@@ -47,7 +47,7 @@ describe('User', function() {
 
   });
 
-  it('autogenerates salt and hash', function *() {
+  it('autogenerates salt and hash', function* () {
 
     var user = new User({
       email: "a@b.ru",
@@ -61,7 +61,7 @@ describe('User', function() {
 
   });
 
-  it('requires unique email', function *() {
+  it('requires unique email', function* () {
 
     var data = {
       username: "nonunique",

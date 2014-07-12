@@ -58,8 +58,7 @@
     "sinon": "*",
     "stylus-brunch": "*",
     "supervisor": "*",
-    "uglify-js-brunch": "*",
-    "javascript-precommit": "*"
+    "uglify-js-brunch": "*"
   },
   "engines": {
     "node": ">=0.11.13"

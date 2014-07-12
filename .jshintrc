@@ -9,5 +9,6 @@
   "undef": true,
   "esnext": true,
   "multistr": true,
-  "noyield": true
+  "noyield": true,
+  "-W004": true
 }

@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var co = require('co');
 
 describe('Article', function() {
-  before(function *() {
+  before(function* () {
     yield data.createEmptyDb;
   });
 

@@ -1,14 +1,18 @@
-var gulp   = require('gulp');
-var gulpTaskLint = require('javascript-gulp-task-lint');
-var taskImport = require('./tasks/import');
-var path = require('path');
-var mongoose = require('lib/mongoose');
+const gulp   = require('gulp');
+const gulpTaskLint = require('javascript-gulp-task-lint');
+const taskImport = require('./tasks/import');
+const path = require('path');
+const mongoose = require('lib/mongoose');
+const execSync = require('child_process').execSync;
 
 gulp.task('lint', function(callback) {
-  gulpTaskLint(['**/*.js', '!node_modules/**', '!app/**', '!www/**'])(function() {
+  const files = execSync("git ls-files -m '*.js'", {encoding: 'utf-8'}).trim().split("\n");
+  gulpTaskLint(files)(function() {
     mongoose.disconnect();
     callback.apply(null, arguments);
   });
+
+  //gulpTaskLint(['**/*.js', '!node_modules/**', '!app/**', '!www/**'])(function() {
 });
 
 gulp.task('pre-commit', ['lint']);

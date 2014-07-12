@@ -29,7 +29,7 @@ module.exports = function(options) {
 
   return function(callback) {
 
-    co(function *() {
+    co(function* () {
 
       yield Article.destroy({});
       yield Task.destroy({});
@@ -70,7 +70,7 @@ module.exports = function(options) {
     log.info("importFolder", sourceFolderPath);
 
     const contentPath = path.join(sourceFolderPath, 'index.md');
-    const content = fs.readFileSync(contentPath, 'utf-8');
+    const content = fs.readFileSync(contentPath, 'utf-8').trim();
 
     const folderFileName = path.basename(sourceFolderPath);
 
@@ -144,7 +144,7 @@ module.exports = function(options) {
     log.info("importArticle", articlePath);
 
     const contentPath = path.join(articlePath, 'article.md');
-    const content = fs.readFileSync(contentPath, 'utf-8');
+    const content = fs.readFileSync(contentPath, 'utf-8').trim();
 
     const articlePathName = path.basename(articlePath);
 
@@ -193,7 +193,7 @@ module.exports = function(options) {
     try {
       // save all references in parallel
       yield refThunks;
-    } catch(e) {
+    } catch (e) {
       // something went wrong => we don't need an unfinished article
       yield article.destroy(); // will kill it's refs too
       throw e;
@@ -323,7 +323,7 @@ module.exports = function(options) {
     log.info("importTask", taskPath);
 
     const contentPath = path.join(taskPath, 'task.md');
-    const content = fs.readFileSync(contentPath, 'utf-8');
+    const content = fs.readFileSync(contentPath, 'utf-8').trim();
 
     const taskPathName = path.basename(taskPath);
 
@@ -354,7 +354,7 @@ module.exports = function(options) {
     data.importance = options.metadata.importance;
 
     const solutionPath = path.join(taskPath, 'solution.md');
-    const solution = fs.readFileSync(solutionPath, 'utf-8');
+    const solution = fs.readFileSync(solutionPath, 'utf-8').trim();
     data.solution = solution;
 
 
@@ -376,7 +376,6 @@ module.exports = function(options) {
   }
 
 };
-
 
 
 function checkSameSizeFiles(filePath1, filePath2) {

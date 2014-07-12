@@ -54,42 +54,32 @@ TaskRenderer.prototype.renderSolution = function* (task) {
 
   const newChildren = new CompositeTag();
 
-  var i = 0;
   var children = solutionNode.getChildren();
 
-  var titleNodes;
-  while (i < children.length) {
-    var r = new CompositeTag();
-    var child = children[i];
-    if (child instanceof HeaderTag) {
-      i++;
-      titleNodes = child.getChildren();
-    } else {
-      titleNodes = [new TextNode("решение")];
+  const solutionParts = [];
+  if (children[0] instanceof HeaderTag) {
+    // split into parts
+    var currentPart;
+    for (var i = 0; i < children.length; i++) {
+      var child = children[i];
+      if (child instanceof HeaderTag) {
+        currentPart = { title: yield new HtmlTransformer(child, options).run(), content: [] };
+        solutionParts.push(currentPart);
+        continue;
+      }
+
+      currentPart.content.push(child);
     }
-
-    var buttonHeader = new CompositeTag("u", titleNodes);
-    r.appendChild(new CompositeTag("button"), [buttonHeader], {"class": "spoiler__button"});
-    var spoilerContent = new CompositeTag('div', [], {"class": "spoiler__content"});
-
-    while (i < children.length) {
-      child = children[i];
-      if (child instanceof HeaderTag) break;
-      spoilerContent.appendChild(child);
-      i++;
-    }
-
-    r.appendChild(spoilerContent);
-
-//    var spoilerClass = this.options.export ? "spoiler" : "spoiler closed";
-    var spoilerClass = "spoiler closed";
-    newChildren.appendChild(new CompositeTag('div', [r], {"class": spoilerClass}));
-
+  } else {
+    solutionParts.push({title: "", content: children});
   }
 
-  const transformer = new HtmlTransformer(newChildren, options);
-  const content = yield transformer.run();
-  return content;
+  for (var i = 0; i < solutionParts.length; i++) {
+    var part = solutionParts[i];
+    part.content = yield new HtmlTransformer(part.content, options).run();
+  }
+
+  return solutionParts;
 };
 
 
