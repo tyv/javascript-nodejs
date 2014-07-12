@@ -7,6 +7,7 @@ const execSync = require('child_process').execSync;
 
 gulp.task('lint', function(callback) {
   const files = execSync("git ls-files -m '*.js'", {encoding: 'utf-8'}).trim().split("\n");
+  console.log("!!!", files);
   gulpTaskLint(files)(function() {
     mongoose.disconnect();
     callback.apply(null, arguments);

@@ -58,7 +58,7 @@
     "sinon": "*",
     "stylus-brunch": "*",
     "supervisor": "*",
-    "uglify-js-brunch": "*"
+    "uglify-js-brunch": "*"gu
   },
   "engines": {
     "node": ">=0.11.13"
