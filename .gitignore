@@ -26,7 +26,10 @@ node_modules/
 tmp/
 
 # Brunch output folder.
-www/
+# Картинки для CSS
+# Стили CSS
+# JS
+# www/
 
 # Bower stuff.
 bower_components/
