@@ -1,0 +1,27 @@
+body 
+	@extend $center
+	@extend $min-max-width
+
+	// font #{$size}/#{$lineheight} $font
+	-webkit-text-size-adjust none
+	padding 0 60px
+	color color
+	background page_background
+
+.body_redirect 
+	background #fff
+
+
+@media (min-width: media_step_1) 
+	body 
+		padding 0 70px
+
+@media (min-width: media_step_2) 
+	body 
+		padding 0 80px
+
+
+@media (min-width: media_step_3) 
+	body 
+		padding 0 90px
+
