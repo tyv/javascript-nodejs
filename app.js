@@ -1,7 +1,7 @@
 "use strict";
 
 const koa = require('koa');
-const log = require('lib/log')(module);
+const log = require('javascript-log')(module);
 
 const app = koa();
 

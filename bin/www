@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 'use strict';
 
-const log = require('lib/log')(module);
+debugger;
+const log = require('javascript-log')(module);
 const config = require('config');
 const co = require('co');
 

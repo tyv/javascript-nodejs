@@ -1,0 +1,12 @@
+block variables
+include ../blocks/head
+body
+  include ../blocks/top-parts
+  .page
+    .page__inner
+      include ../blocks/navbar
+      include ../blocks/social-aside
+      .main-content
+        block content
+      include ../blocks/footer
+  include ../blocks/scripts

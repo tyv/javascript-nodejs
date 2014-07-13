@@ -2,6 +2,7 @@
 
 var views = require('koa-views');
 var config = require('config');
+var moment = require('moment');
 
 module.exports = function render(app) {
   app.use(function *(next) {
@@ -11,6 +12,8 @@ module.exports = function render(app) {
       this.locals.pretty = true; // jade opts
       this.locals.compileDebug = true;
     }
+
+    this.locals.moment = moment;
 
     yield next;
   });

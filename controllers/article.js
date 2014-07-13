@@ -13,7 +13,10 @@ exports.get = function *get(next) {
   const renderer = new ArticleRenderer();
   const articleBody = yield renderer.render(article);
 
-  this.response.body = articleBody;
+  this.render("tutorial/article", {
+    title: article.title,
+    content: articleBody
+  });
 
 
 };

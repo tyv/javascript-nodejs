@@ -20,7 +20,7 @@ module.exports = function() {
       "keys": ["KillerIsJim"]
     },
     template: {
-      path: path.join(process.cwd(), 'views'),
+      path: path.join(process.cwd(), 'template'),
       options: {
         'default': 'jade',
         'cache': process.env.NODE_ENV != 'development'

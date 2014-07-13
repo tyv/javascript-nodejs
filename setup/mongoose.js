@@ -1,4 +1,4 @@
-const log = require('lib/log')(module);
+const log = require('javascript-log')(module);
 const mongoose = require('lib/mongoose');
 
 module.exports = function(app) {

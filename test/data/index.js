@@ -1,7 +1,7 @@
 "use strict";
 
 var mongoose = require('lib/mongoose');
-var log = require('lib/log')(module);
+var log = require('javascript-log')(module);
 var co = require('co');
 var thunk = require('thunkify');
 var db = mongoose.connection.db;

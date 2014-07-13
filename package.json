@@ -5,6 +5,7 @@
   "scripts": {
     "prod": "NODE_ENV=production NODE_PATH=. node --harmony ./bin/www",
     "dev": "NODE_ENV=development NODE_PATH=. supervisor --harmony --debug --ignore node_modules ./bin/www",
+    "debug": "NODE_ENV=development NODE_PATH=. supervisor --harmony --debug-brk --ignore node_modules ./bin/www",
     "test": "NODE_ENV=test NODE_PATH=. supervisor --harmony --debug --ignore node_modules ./bin/www"
   },
   "precommit": "NODE_PATH=. NODE_ENV=development node --harmony `which gulp` pre-commit",
@@ -21,6 +22,7 @@
     "imagemin-svgo": "^0.1.0",
     "jade": "*",
     "javascript-gulp-task-lint": "*",
+    "javascript-log": "*",
     "javascript-parser": "*",
     "koa": "*",
     "koa-bodyparser": "*",
@@ -34,6 +36,7 @@
     "lodash": "*",
     "map-stream": "*",
     "markdown-js": "*",
+    "moment": "^2.7.0",
     "mongoose": "3.8",
     "mongoose-troop": "git://github.com/iliakan/mongoose-troop",
     "passport": "*",
@@ -58,7 +61,7 @@
     "sinon": "*",
     "stylus-brunch": "*",
     "supervisor": "*",
-    "uglify-js-brunch": "*"gu
+    "uglify-js-brunch": "*"
   },
   "engines": {
     "node": ">=0.11.13"

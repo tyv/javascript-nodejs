@@ -1,7 +1,7 @@
 'use strict';
 
 const config = require('config');
-const log = require('lib/log')(module);
+const log = require('javascript-log')(module);
 const escapeHtml = require('escape-html');
 
 function* renderError(error) {

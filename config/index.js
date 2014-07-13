@@ -10,6 +10,6 @@ if (process.env.NODE_ENV == 'development' && process.env.DEV_TRACE) {
 }
 
 var base = require('./base')();
-var env = require('./env/' + process.env.NODE_ENV)(base);
+//var env = require('./env/' + process.env.NODE_ENV)(base);
 
-module.exports = env;
+module.exports = base;
