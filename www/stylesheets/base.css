@@ -1,0 +1,87 @@
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+address,
+dl,
+dd,
+ul,
+ol,
+fieldset,
+form,
+legend,
+th,
+td,
+figure,
+figcaption {
+  margin: 0;
+  padding: 0;
+}
+section,
+article,
+aside,
+figure,
+figcaption,
+header,
+hgroup,
+footer,
+nav {
+  display: block;
+}
+a img {
+  border: 0;
+}
+ul {
+  list-style: none;
+}
+p {
+  margin: $lineheight 0;
+}
+.invisible {
+  visibility: hidden;
+}
+body,
+.top-part,
+.top-part .logo {
+  margin: auto;
+}
+body {
+  -webkit-text-size-adjust: none;
+  padding: 0 60px;
+  color: #333;
+  background: #d1e9ec;
+}
+.body_redirect {
+  background: #fff;
+}
+@media (min-width: 1120px) {
+  body {
+    padding: 0 70px;
+  }
+}
+@media (min-width: 1170px) {
+  body {
+    padding: 0 80px;
+  }
+}
+@media (min-width: 1220px) {
+  body {
+    padding: 0 90px;
+  }
+}
+.top-part {
+  position: relative;
+  background: url("/assets/top-part.png") 50% 0 no-repeat;
+}
+.top-part .user {
+  position: absolute;
+  z-index: 999;
+  bottom: 36px;
+  right: 46px;
+}
