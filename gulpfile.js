@@ -1,7 +1,7 @@
 const gulp   = require('gulp');
 const debug = require('gulp-debug');
 const gulpTaskLint = require('javascript-gulp-task-lint');
-const taskSprite = require('./tasks/sprite');
+//const taskSprite = require('./tasks/sprite');
 const taskImport = require('./tasks/import');
 const path = require('path');
 const mongoose = require('lib/mongoose');
@@ -23,9 +23,10 @@ gulp.task('lint', function(callback) {
 
 gulp.task('pre-commit', ['lint']);
 
+
 gulp.task('import', function(callback) {
   taskImport({
-    root: '/var/site/js-dev/tutorial',
+    root: path.join(path.dirname(__dirname), 'javascript-tutorial'),
     updateFiles: true // skip same size files
     //minify: true // takes time(!)
   })(function() {
@@ -34,10 +35,9 @@ gulp.task('import', function(callback) {
   });
 });
 
-
+/*
 gulp.task('sprite', taskSprite);
 
-/*
 gulp.task('sprite', function () {
   var spriteData = gulp.src('app/***.sprite/*.png').pipe(spritesmith({
     imgName: 'sprite.png',

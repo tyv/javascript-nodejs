@@ -2,8 +2,7 @@ const gulp = require('gulp');
 const spritesmith = require('gulp.spritesmith');
 const path = require('path');
 const debug = require('gulp-debug');
-
-
+const through2 = require('through2');
 
 module.exports = function() {
 
@@ -13,8 +12,29 @@ module.exports = function() {
   // npm i cairo
   // npm i gulp.spritesmith
 
-  var spriteData = gulp.src('app/**/*.sprite')
-    .pipe();
+  gulp.src('app/**/*.sprite')
+    .pipe(through2.obj(function(dir, enc, callback) {
+
+      var spriteData = gulp.src(path.join('dir', '*'))
+        .pipe(spritesmith({
+          engine: 'pngsmith',
+          imgName: path.basename(dir.path) + '.png',
+          cssName: 'sprite.styl',
+          cssFormat: 'stylus',
+          cssTemplate: path.join(__dirname, 'stylus.template.mustache'),
+          cssVarMap: function (sprite) {
+            // `sprite` has `name`, `image` (full path), `x`, `y`
+            //   `width`, `height`, `total_width`, `total_height`
+            // EXAMPLE: Prefix all sprite names with 'sprite-'
+            sprite.name = 'sprite-' + sprite.name;
+          }
+        }));
+
+//  spriteData.img.pipe(gulp.dest('./spr/img'));
+//  spriteData.css.pipe(gulp.dest('./spr/css'));
+//
+//};
+    });
 
 };
 

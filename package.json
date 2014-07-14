@@ -45,6 +45,7 @@
     "require-tree": "*",
     "stylus": "*",
     "svgutils": "^0.7.0",
+    "through2": "^0.5.1",
     "thunkify": "*",
     "winston": "*"
   },
