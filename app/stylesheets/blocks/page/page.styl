@@ -1,0 +1,22 @@
+.page
+	@extend $min-max-width
+	@extend $center
+
+	box-shadow: 0 0 3px 3px rgba(128, 128, 128, 0.3)
+	position: relative
+	z-index: 0
+	&::before
+		content: ""
+		display: block
+		position: absolute
+		top: -120px
+		left: -20px
+		right: -8px
+		height: 182px
+		z-index: -1
+		background: url('/img/page-left-cloud.png') 0 35px no-repeat,
+		            url('/img/page-central-cloud.png') 50% 35px no-repeat,
+					url('/img/page-right-cloud.png') 100% 0 no-repeat
+
+	.page__inner
+		background: background
