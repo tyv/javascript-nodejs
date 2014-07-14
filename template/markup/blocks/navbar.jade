@@ -1,13 +1,13 @@
 nav.navbar
   ul.navbar__sections
     li.navbar__sections-item.active.study
-      a(href='/study') Обучение
+      span.navbar__sections-text Обучение
     li.navbar__sections-item.blogs
-      a(href='/blogs') Блоги
+      a.navbar__sections-link(href='/blogs') Блоги
     li.navbar__sections-item.qa
-      a(href='/qa') Вопрос / ответ
+      a.navbar__sections-link(href='/qa') Вопрос / ответ
     li.navbar__sections-item.dropdown.dropdown_nav.down-right.inherit-min-width.dropdown_open_hover.reference
-      a.dropdown__toggle.dropdown__toggle_nav(href='http://javascript.ru/manual') Справочник
+      a.navbar__sections-link.dropdown__toggle.dropdown__toggle_nav(href='http://javascript.ru/manual') Справочник
       ul.dropdown__content.dropdown__content_nav
         li
           a(href='http://es5.javascript.ru/') Стандарт ES5
@@ -18,13 +18,13 @@ nav.navbar
         li
           a(href='/book') Книги
     li.navbar__sections-item.events
-      a(href='/event') События
+      a.navbar__sections-link(href='/event') События
     li.navbar__sections-item.job
-      a(href='/job') Работа
+      a.navbar__sections-link(href='/job') Работа
     li.navbar__sections-item.sandbox
-      a(href='/play') Песочница
+      a.navbar__sections-link(href='/play') Песочница
     li.navbar__sections-item.chat
-      a(href='/chat') Чат
+      a.navbar__sections-link(href='/chat') Чат
     li.navbar__sections-item.search.dropdown.down-left
       button.dropdown__toggle
       .dropdown__content.dropdown-search

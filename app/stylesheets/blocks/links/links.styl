@@ -1,0 +1,137 @@
+link-type(type)
+	padding-right image-width('link-types/' + type + '.png') + 3
+	background-image url('/img/link-types/' + type + '.png')
+
+$pseudo 
+	text-decoration none
+	border-bottom 1px dashed transparent
+	&:hover 
+		border-bottom 1px dashed
+		text-decoration none
+
+$link-type 
+	background-position 100% 60%
+	background-repeat no-repeat
+	
+// .pseudo is for any tag but link that should look like pseudo-link
+.pseudo 
+	@extend $pseudo
+	cursor pointer
+	color link_color
+
+.pseudo:hover 
+	color link_hover_color
+
+a:link 
+	color link_color
+
+a:visited 
+	color link_visited_color
+
+@media (print)
+	a:visited 
+		color link_color
+
+a:link,
+a:visited 
+	text-decoration none
+
+a:hover,
+a:active 
+	color link_hover_color
+	text-decoration underline
+
+a.anchor,
+a.pseudo 
+	@extend $pseudo
+
+.link-ref 
+	vertical-align super
+	font-size 90%
+
+// --
+.main a[href^="mailto:"],
+a.mailto 
+	@extend $link-type
+	link-type 'mailto'
+
+// --
+.main a[target="_blank"],
+a.external 
+	@extend $link-type
+	link-type 'newwindow'
+
+// --
+.main a[href^='/play/'],
+.main a[href^='http://plnkr.co/'],
+a.sandbox 
+	@extend $link-type
+	link-type 'sandbox'
+
+// --
+.main a[href$=".doc"],
+.main a[href$=".docx"],
+a.doc 
+	@extend $link-type
+	link-type 'doc'
+
+// --
+.main a[href$=".zip"],
+a.zip 
+	@extend $link-type
+	link-type 'zip'
+
+// --
+.main a[href$=".xls"],
+.main a[href$=".xlsx"],
+a.xls 
+	@extend $link-type
+	link-type 'xls'
+
+// --
+.main a[href$=".pdf"],
+a.pdf 
+	@extend $link-type
+	link-type 'pdf'
+
+// --
+.main a[href^='http://developer.mozilla.org'],
+.main a[href^='https://developer.mozilla.org'],
+a.mdn 
+	@extend $link-type
+	link-type 'mdn'
+
+// --
+.main a[href^='http://msdn.microsoft.com'],
+.main a[href^='https://msdn.microsoft.com'],
+a.msdn 
+	@extend $link-type
+	link-type 'msdn'
+
+// --
+.main a[href^='http://wikipedia.org'],
+.main a[href*='wikipedia.org'],
+a.wiki 
+	@extend $link-type
+	link-type 'wiki'
+
+// --
+.main a[href^='http://w3.org'],
+.main a[href^='http://dev.w3.org'],
+.main a[href^='http://www.w3.org'],
+.main a[href^='https://www.w3.org'],
+.main a[href^='https://w3.org'],
+a.w3c 
+	@extend $link-type
+	link-type 'w3c'
+
+// --
+.main a[href^='http://es5.github.com'],
+a.ecma 
+	@extend $link-type
+	link-type 'ecma'
+// --
+
+.main a.plain 
+	padding 0
+	background-image none

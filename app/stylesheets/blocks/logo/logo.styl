@@ -1,0 +1,18 @@
+////////// Блок из костылей и подпорок, все равно его не обновить //////////
+////////// простой заменой картинки, при редизайне - переделывать //////////
+.logo 
+	width 500px
+	height image-height('logo-light.png') - 2px
+	background url('/img/logo-light.png') 25px 50% no-repeat
+	position relative
+	z-index 99
+	padding 1px
+
+	a, img 
+		image-size('logo.png')
+		@extend $center
+		display block
+		margin 19px 0 0 100px
+
+	a img 
+		margin 0
