@@ -1,10 +1,13 @@
 var data = require('test/data');
 var mongoose = require('mongoose');
-var co = require('co');
+var util = require('util');
+var assert = require('assert');
+var treeUtil = require('lib/treeUtil');
 
 describe('Article', function() {
+
   before(function* () {
-    yield data.createEmptyDb;
+    yield data.loadDb('article');
   });
 
   var Article = mongoose.models.Article;
@@ -16,12 +19,25 @@ describe('Article', function() {
       title: "Title",
       slug: 'slug',
       content: "Content",
+      isFolder: false,
       weight: 0
     });
 
     yield article.persist();
 
-    article.get('modified').should.be.greaterThan(date);
+    assert(article.modified >= date);
+
+    yield article.destroy();
+  });
+
+  describe('findTree', function() {
+
+    it("works", function* () {
+      var tree = yield Article.findTree();
+      console.log(treeUtil.flattenArray(tree));
+//      console.log(util.inspect(tree, {depth:100}));
+    });
+
   });
 
 });

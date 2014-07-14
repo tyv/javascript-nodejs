@@ -1,15 +1,22 @@
 'use strict';
-var stylus = require('stylus');
-var thunkify = require('thunkify');
-
-var src = process.cwd() + '/app';
-var dest = process.cwd() + '/www';
+const stylus = require('stylus');
+const thunkify = require('thunkify');
+const nib = require('nib');
+const src = process.cwd() + '/app';
+const dest = process.cwd() + '/www';
 
 // the middleware only triggers on .css,
 // it compiles styl -> css, but does not send anything
-var middleware = thunkify(stylus.middleware({
+const middleware = thunkify(stylus.middleware({
   src: src,
-  dest: dest
+  dest: dest,
+  compile: function(str, path){
+    return stylus(str)
+      .set('filename', path)
+      .set('linenos', true)
+      .use(nib());
+  }
+
 }));
 
 module.exports = function(app) {

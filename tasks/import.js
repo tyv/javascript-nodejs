@@ -75,6 +75,7 @@ module.exports = function(options) {
     const folderFileName = path.basename(sourceFolderPath);
 
     const data = {
+      isFolder: true,
       content: content
     };
 
@@ -149,7 +150,8 @@ module.exports = function(options) {
     const articlePathName = path.basename(articlePath);
 
     const data = {
-      content: content
+      content: content,
+      isFolder: false
     };
 
     if (parent) {

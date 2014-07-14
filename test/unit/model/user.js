@@ -1,6 +1,6 @@
 var data = require('test/data');
 var mongoose = require('mongoose');
-var co = require('co');
+
 
 describe('User', function() {
   before(function* () {

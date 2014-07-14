@@ -10,7 +10,6 @@ module.exports = function render(app) {
 
     if (process.env.NODE_ENV == 'development') {
       this.locals.pretty = true; // jade opts
-      this.locals.compileDebug = true;
     }
 
     this.locals.moment = moment;

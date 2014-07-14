@@ -2,6 +2,7 @@
 --colors
 --timeout 10000
 --require should
+--require lib/mongoose
 --require co
 --require co-mocha
 --recursive

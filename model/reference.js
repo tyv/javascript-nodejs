@@ -1,4 +1,4 @@
-var mongoose = require('lib/mongoose');
+var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 // references can be only in articles

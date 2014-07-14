@@ -1,4 +1,4 @@
-var mongoose = require('lib/mongoose');
+var mongoose = require('mongoose');
 var hash = require('lib/hash');
 
 var Schema = mongoose.Schema;

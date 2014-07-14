@@ -1,6 +1,6 @@
 "use strict";
 
-var mongoose = require('lib/mongoose');
+var mongoose = require('mongoose');
 var log = require('javascript-log')(module);
 var co = require('co');
 var thunk = require('thunkify');
@@ -104,6 +104,7 @@ function *loadModel(name, data) {
     return model.persist();
   });
 
+  log.debug("loadModel is done");
 }
 
 exports.loadDb = loadDb;

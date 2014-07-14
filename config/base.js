@@ -1,4 +1,8 @@
 var path = require('path');
+var fs = require('fs');
+
+var secretPath = fs.existsSync(path.join(__dirname, 'secret')) ? './secret' : './secret.default';
+var secret = require(secretPath);
 
 module.exports = function() {
 
@@ -17,7 +21,7 @@ module.exports = function() {
       }
     },
     "session": {
-      "keys": ["KillerIsJim"]
+      "keys": [secret.SESSION_KEY]
     },
     template: {
       path: path.join(process.cwd(), 'template'),
