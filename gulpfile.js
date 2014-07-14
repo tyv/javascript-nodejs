@@ -1,17 +1,18 @@
 const gulp   = require('gulp');
 const debug = require('gulp-debug');
 const gulpTaskLint = require('javascript-gulp-task-lint');
+const taskSprite = require('./tasks/sprite');
 const taskImport = require('./tasks/import');
 const path = require('path');
 const mongoose = require('lib/mongoose');
 const execSync = require('child_process').execSync;
-const spritesmith = require('gulp.spritesmith');
 
 gulp.task('lint', function(callback) {
   const files = execSync("git ls-files -m '*.js'", {encoding: 'utf-8'})
     .trim()
     .split("\n")
     .filter(function(s) { return s; });
+
   gulpTaskLint(files)(function() {
     mongoose.disconnect();
     callback.apply(null, arguments);
@@ -34,26 +35,7 @@ gulp.task('import', function(callback) {
 });
 
 
-gulp.task('sprite', function() {
-
-  // for canvas engine (fastest?) need
-  // port install cairo
-  // export PKG_CONFIG_PATH=/opt/local/lib/pkgconfig
-  // npm i cairo
-  // npm i gulp.spritesmith
-  
-  var spriteData = gulp.src('app/**/*.sprite/*.png')
-    .pipe(spritesmith({
-      engine: 'pngsmith',
-      imgName: 'sprite.png',
-      cssName: 'sprite.styl',
-      cssFormat: 'stylus'
-    }));
-
-  spriteData.img.pipe(gulp.dest('./spr/img'));
-  spriteData.css.pipe(gulp.dest('./spr/css'));
-
-});
+gulp.task('sprite', taskSprite);
 
 /*
 gulp.task('sprite', function () {
