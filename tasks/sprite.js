@@ -18,7 +18,7 @@ module.exports = function() {
       var spriteData = gulp.src(path.join('dir', '*'))
         .pipe(spritesmith({
           engine: 'pngsmith',
-          imgName: path.basename(dir.path) + '.png',
+          imgName: path.basename(dir.path) + '.png', // social.sprite -> social.png
           cssName: 'sprite.styl',
           cssFormat: 'stylus',
           cssTemplate: path.join(__dirname, 'stylus.template.mustache'),
@@ -30,8 +30,9 @@ module.exports = function() {
           }
         }));
 
-//  spriteData.img.pipe(gulp.dest('./spr/img'));
-//  spriteData.css.pipe(gulp.dest('./spr/css'));
+
+    spriteData.img.pipe(gulp.dest('./spr/img'));
+    spriteData.css.pipe(gulp.dest('./spr/css')); // sprite.styl
 //
 //};
     });

@@ -32,6 +32,7 @@ tmp/
 # www/
 www/article
 www/task
+www/stylesheets
 
 # Bower stuff.
 bower_components/
