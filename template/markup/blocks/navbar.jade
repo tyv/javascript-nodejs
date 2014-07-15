@@ -1,13 +1,28 @@
 nav.navbar
   ul.navbar__sections
-    li.navbar__sections-item.active.study
-      span.navbar__sections-text Обучение
-    li.navbar__sections-item.blogs
-      a.navbar__sections-link(href='/blogs') Блоги
-    li.navbar__sections-item.qa
-      a.navbar__sections-link(href='/qa') Вопрос / ответ
-    li.navbar__sections-item.dropdown.dropdown_nav.down-right.inherit-min-width.dropdown_open_hover.reference
-      a.navbar__sections-link.dropdown__toggle.dropdown__toggle_nav(href='http://javascript.ru/manual') Справочник
+    li.navbar__sections-item.dropdown.dropdown_nav.down-right.inherit-min-width.dropdown_open_hover
+      a.navbar__sections-link.dropdown__toggle.dropdown__toggle_nav(href='/study')
+        span.navbar__icon.navbar__icon_study
+        Обучение
+      ul.dropdown__content.dropdown__content_nav
+        li
+          a(href='/courses') Курсы
+        li
+          a(href='/mk') Мастерклассы
+        li
+          a(href='/articles') Статьи
+    li.navbar__sections-item
+      a.navbar__sections-link(href='/blogs')
+        span.navbar__icon.navbar__icon_blogs
+        Блоги
+    li.navbar__sections-item
+      a.navbar__sections-link(href='/qa')
+        span.navbar__icon.navbar__icon_qa
+        Вопрос / ответ
+    li.navbar__sections-item.navbar__sections-item_active.dropdown.dropdown_nav.down-right.inherit-min-width.dropdown_open_hover
+      a.navbar__sections-link.dropdown__toggle.dropdown__toggle_nav(href='http://javascript.ru/manual')
+        span.navbar__icon.navbar__icon_reference
+        Справочник
       ul.dropdown__content.dropdown__content_nav
         li
           a(href='http://es5.javascript.ru/') Стандарт ES5
@@ -17,16 +32,25 @@ nav.navbar
           a(href='/php') PHP-функции
         li
           a(href='/book') Книги
-    li.navbar__sections-item.events
-      a.navbar__sections-link(href='/event') События
-    li.navbar__sections-item.job
-      a.navbar__sections-link(href='/job') Работа
-    li.navbar__sections-item.sandbox
-      a.navbar__sections-link(href='/play') Песочница
-    li.navbar__sections-item.chat
-      a.navbar__sections-link(href='/chat') Чат
-    li.navbar__sections-item.search.dropdown.down-left
+    li.navbar__sections-item
+      a.navbar__sections-link(href='/event')
+        span.navbar__icon.navbar__icon_events
+        События
+    li.navbar__sections-item
+      a.navbar__sections-link(href='/job')
+        span.navbar__icon.navbar__icon_job
+        Работа
+    li.navbar__sections-item
+      a.navbar__sections-link(href='/play')
+        span.navbar__icon.navbar__icon_sandbox
+        Песочница
+    li.navbar__sections-item
+      a.navbar__sections-link(href='/chat')
+        span.navbar__icon.navbar__icon_chat
+        Чат
+    li.navbar__sections-item.navbar__sections-item_search.dropdown.down-left
       button.dropdown__toggle
+        span.navbar__icon.navbar__icon_search
       .dropdown__content.dropdown-search
         .search-form
           form#search-block-form(action='/intro', method='post', accept-charset='UTF-8')

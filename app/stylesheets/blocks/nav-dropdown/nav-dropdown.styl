@@ -1,0 +1,30 @@
+.dropdown_nav
+	position relative
+
+.dropdown_nav.open
+	background #373E3F
+
+.dropdown__toggle_nav::after
+	@extend $font-open
+	margin-left 5px
+	color #b0b2b3
+	line-height 0
+
+.navbar__sections-item_open .dropdown__toggle_nav::after,
+.navbar__sections-item_active .dropdown__toggle_nav::after
+	color secondary_color
+
+.dropdown__content_nav
+	background #e9e9dd
+	padding 4px 0 12px
+
+	& > li
+		margin 0 15px 4px 40px
+		font-size 12px
+	
+		a
+			color #0063b9
+
+		a:hover
+			color link_hover_color
+			text-decoration none

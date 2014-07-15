@@ -13,23 +13,28 @@
 	display table-cell
 	vertical-align top
 	text-align center
-	background #22292b
 	border-right 1px solid #384144
 	text-transform uppercase
 	white-space nowrap
+	color secondary_color
 
-// TODO: check if all theese selectors are really necessarry
-.navbar__sections-item.active,
-.navbar__sections-item.open,
-.navbar__sections-link::before,
-.navbar__sections-item.open navbar__section-link::before
+.navbar__sections-item_active,
+.navbar__sections-link
+	padding 4px 15px 7px 10px
+
+.navbar__sections-item_active .navbar__sections-link
+	margin -4px -15px -7px -10px
+
+.navbar__sections-item_active .navbar__sections-link:link,
+.navbar__sections-item_active .navbar__sections-link:visited,
+.navbar__sections-item_active .navbar__sections-link:hover,
+.navbar__sections-item_active .navbar__sections-link:active
 	background none
 	color secondary_color
 
-.navbar__sections-text
 .navbar__sections-link
 	display block
-	padding 4px 15px 6px 10px
+	background #22292b
 
 .navbar__sections-link
 	&:hover
@@ -41,80 +46,74 @@
 		color #fff
 		text-decoration none
 	
-.navbar__sections-link::before,
-.navbar__sections-text::before
+.navbar__icon
 	font-weight 400
-	padding 2px 10px 0 0
+	padding-right 10px
+	line-height 0
+	color #caf3ff
+
+.navbar__sections-item_active .navbar__icon
+	color secondary_color
 
 .navbar__sections-link::before
-.navbar__sections-text::before
 	color #caf3ff
 	
-// 		&.study > ::before {
-// 			@extend %font-study
-// 		}
+.navbar__icon_study::before
+	@extend $font-study
 	
-// 		&.blogs > ::before {
-// 			@extend %font-blogs
-// 		}
+.navbar__icon_blogs::before
+	@extend $font-blogs
 	
-// 		&.qa > ::before {
-// 			@extend %font-qa
-// 		}
+.navbar__icon_qa::before
+	@extend $font-qa
 	
-// 		&.reference > ::before {
-// 			@extend %font-reference
-// 		}
+.navbar__icon_reference::before
+	@extend $font-reference
+
+.navbar__icon_events::before
+	@extend $font-events
+
+.navbar__icon_job::before
+	@extend $font-job
 	
-// 		&.events > ::before {
-// 			@extend %font-events
-// 		}
-	
-// 		&.job > ::before {
-// 			@extend %font-job
-// 		}
-	
-// 		&.sandbox > ::before {
-// 			@extend %font-code
-// 		}
-	
-// 		&.chat > ::before {
-// 			@extend %font-chat
-// 		}
-	
-// 		&.search {
-// 			padding 0
-// 			width 40px
-// 			text-align center
+.navbar__icon_sandbox::before
+	@extend $font-code
+
+.navbar__icon_chat::before
+	@extend $font-chat
+
+.navbar__icon_search
+	padding-right 0
+	color #fff
+
+.navbar__icon_search::before
+	@extend $font-search
+
+.navbar__sections-item_search
+	padding 0
+	width 40px
+	text-align center
+	background #22292b
 		
-// 			.dropdown__toggle {
-// 				@extend %button-reset
-// 				font-size 16px
-// 				width 40px
-// 				height 40px
-// 				display block
-// 			}
-// 			.dropdown__toggle::before {
-// 				@extend %font-search
-// 				color #fff
-// 				padding-right 0
-// 			}
-// 		}
-// 		&.search.open {
-// 			background #B81800
-// 		}
-// 	}
-// 	.navbar__sections-item:first-child,
-// 	.navbar__sections-item:first-child a:hover {
-// 		border-top-left-radius 4px
-// 	}
+	.dropdown__toggle
+		@extend $button-reset
+		font-size 16px
+		width 40px
+		height 40px
+		display block
+			
+
+	&.open
+		background #B81800
+
+.navbar__sections-item:first-child,
+.navbar__sections-item:first-child .navbar__sections-link
+	border-top-left-radius 4px
+
 	
-// 	.navbar__sections-item:nth-last-child(2).active {
-// 		border-right 1px solid transparent
-// 	}
+.navbar__sections-item:nth-last-child(2).navbar__sections-item_active
+	border-right 1px solid transparent
 	
-// 	.navbar__sections-item:last-child {
-// 		border-right 0
-// 		border-top-right-radius 4px
-// 	}
-// }
+.navbar__sections-item:last-child
+	border-right 0
+	border-top-right-radius 4px
