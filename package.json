@@ -44,6 +44,7 @@
     "koa-favicon": "*",
     "koa-generic-session": "*",
     "koa-logger": "*",
+    "koa-mount": "^1.3.0",
     "koa-router": "*",
     "koa-session-mongoose": "*",
     "koa-static": "*",

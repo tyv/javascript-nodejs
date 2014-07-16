@@ -4,6 +4,11 @@ const ArticleRenderer = require('renderer/articleRenderer').ArticleRenderer;
 const treeUtil = require('lib/treeUtil');
 
 exports.get = function *get(next) {
+
+  this.body = "HELLO";
+//  yield this.render('hello');
+  return;
+
   const article = yield Article.findOne({ slug: this.params[0] }).exec();
   if (!article) {
     yield next;
