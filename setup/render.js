@@ -17,6 +17,6 @@ module.exports = function render(app) {
     yield next;
   });
 
-  app.use(views(config.template.path, config.template.options));
+//  app.use(views(config.template.path, config.template.options));
 };
 

@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
 const Article = mongoose.models.Article;
-const ArticleRenderer = require('renderer/articleRenderer').ArticleRenderer;
+const ArticleRenderer = require('../renderer/articleRenderer').ArticleRenderer;
 const treeUtil = require('lib/treeUtil');
+const jade = require('jade');
+const thunkify = require('thunkify');
+const _ = require('lodash');
+const jadeParser = require('lib/jadeParser');
 
 exports.get = function *get(next) {
-
-  this.body = "HELLO";
-//  yield this.render('hello');
-  return;
 
   const article = yield Article.findOne({ slug: this.params[0] }).exec();
   if (!article) {
@@ -32,13 +32,25 @@ exports.get = function *get(next) {
     next.url = Article.getUrlBySlug(next.slug);
   }
 
-  yield this.render("tutorial/article", {
+  var parser = jadeParser(__dirname);
+
+  var locals = {
     title: article.title,
     content: articleBody,
     modified: article.modified,
     prev: prev,
-    next: next
-  });
+    next: next,
+    cache: false,
+    parser: parser,
+    deb: function() {
+      //debugger;
+    }
+  };
+  _.assign(this.locals, locals);
+
+  this.body = jade.renderFile(parser.resolvePath("article"), this.locals);
+
+  //yield this.render("/hmvc/tutorial/template/article", );
 
 
 };

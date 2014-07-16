@@ -13,6 +13,7 @@ function* renderError(error) {
   if (preferredType == 'json') {
     this.body = error;
   } else {
+    // todo: remake this.render into new jade renderer which looks up the template correctly
     yield this.render("error", {error: error});
   }
 }

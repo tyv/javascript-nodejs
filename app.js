@@ -34,7 +34,5 @@ module.exports = function* () {
   requireMiddleware('setup/render');
   requireMiddleware('setup/router');
 
-  requireMiddleware('./routes');
-
   return app;
 };
