@@ -5,6 +5,8 @@ const nib = require('nib');
 const src = process.cwd() + '/app';
 const dest = process.cwd() + '/www';
 
+// DISABLED IN FAVOR OF GULP BUILD
+
 // the middleware only triggers on .css,
 // it compiles styl -> css, but does not send anything
 const middleware = thunkify(stylus.middleware({
@@ -20,6 +22,8 @@ const middleware = thunkify(stylus.middleware({
 }));
 
 module.exports = function(app) {
+  return;
+
   app.use(function *(next) {
     // compile if needed (doesn't send)
     yield middleware(this.req, this.res);

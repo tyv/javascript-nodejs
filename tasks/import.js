@@ -17,6 +17,9 @@ const pngcrush = require('imagemin-pngcrush');
 const gm = require('gm');
 const svgo = require('imagemin-svgo');
 
+// TODO: use htmlhint for html
+
+
 /**
  *
  * @param options

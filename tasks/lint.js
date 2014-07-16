@@ -19,7 +19,7 @@ module.exports = function() {
 
   var totalLintErrors = 0;
 
-  var lintSrcs = ['config', 'controllers', 'lib', 'renderer', 'routes', 'setup', 'tasks'].map(function (d) {
+  var serverSources = ['config', 'controllers', 'lib', 'renderer', 'routes', 'setup', 'tasks'].map(function (d) {
     return d + '/**/*.js';
   }).concat('*.js');
 

@@ -88,7 +88,7 @@ schema.statics.findTree = function* () {
 
   addChildren();
 
-  return {children: root};
+  return {children: root, byId: articlesById};
 
   // ---
 
