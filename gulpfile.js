@@ -1,8 +1,12 @@
 const gulp = require('gulp');
+const fse = require('fs-extra');
 const spawn = require('child_process').spawn;
-const gp = require('gulp-load-plugins')({ lazy: false });
+const gp = require('gulp-load-plugins')();
 const debug = require('gulp-debug');
 const path = require('path');
+const source = require('vinyl-source-stream');
+const watchify = require('watchify');
+const browserifyTask = require('tasks/browserify');
 
 const serverSources = [
   'config/**/*.js', 'controllers/**/*.js', 'lib/**/*.js', 'renderer/**/*.js', 'routes/**/*.js',
@@ -12,6 +16,19 @@ const serverSources = [
 gulp.task('lint', require('./tasks/lint-full-die')(serverSources));
 
 gulp.task('watch', function(neverCalled) {
+  /*
+  browserifyTask({
+    src: 'app/js/index.js',
+    dst: 'www/js'
+  })();
+*/
+
+  fse.ensureDirSync('www/fonts');
+  gp.dirSync('app/fonts', 'www/fonts');
+
+  fse.ensureDirSync('www/img');
+  gp.dirSync('app/img', 'www/img');
+
   gulp.watch("app/**/*.sprite/**", ['sprite']);
   gulp.watch("app/**/*.styl", ['stylus']);
 });

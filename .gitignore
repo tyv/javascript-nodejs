@@ -30,9 +30,7 @@ tmp/
 # Стили CSS
 # JS
 # www/
-www/article
-www/task
-www/stylesheets
+www/*
 
 # Bower stuff.
 bower_components/
