@@ -1,16 +1,14 @@
+var app = require('app');
 var mongoose = require('lib/mongoose');
 
-var dbUtil = require('lib/dbUtil');
+var dataUtil = require('lib/dataUtil');
 
 describe('User', function() {
 
-  var User;
+  var User = mongoose.models.User;
 
   before(function* () {
-    yield require('app');
-    yield dbUtil.createEmptyDb;
-
-    User = mongoose.models.User;
+    yield dataUtil.createEmptyDb;
   });
 
   it('given bad email errors on save', function*() {

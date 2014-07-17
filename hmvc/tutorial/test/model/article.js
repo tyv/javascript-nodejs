@@ -1,16 +1,20 @@
-var data = require('test/data');
+require('app');
+
+var dataUtil = require('lib/dataUtil');
 var mongoose = require('mongoose');
-var util = require('util');
 var assert = require('assert');
+var path = require('path');
 var treeUtil = require('lib/treeUtil');
+var Article = mongoose.models.Article;
+
 
 describe('Article', function() {
 
   before(function* () {
-    yield data.loadDb('article');
+    yield dataUtil.loadDb(path.join(__dirname, '../data/article'));
+
   });
 
-  var Article = mongoose.models.Article;
 
   it('sets created & modified', function*() {
     var date = new Date();

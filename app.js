@@ -13,27 +13,22 @@ function requireMiddleware(path) {
       yield next;
     });
   }
-  return require(path)(app);
+  require(path)(app);
 }
 
 
-module.exports = function* () {
+requireMiddleware('setup/mongoose');
 
-  // wait for DB to get connected before proceeding
-  yield requireMiddleware('setup/mongoose');
+requireMiddleware('setup/static');
 
-//  requireMiddleware('setup/stylus');
+requireMiddleware('setup/errors');
 
-  requireMiddleware('setup/static');
+requireMiddleware('setup/logger');
+requireMiddleware('setup/bodyParser');
+requireMiddleware('setup/session');
+requireMiddleware('setup/hmvc');
+requireMiddleware('setup/render');
+requireMiddleware('setup/router');
 
-  requireMiddleware('setup/errors');
+module.exports = app;
 
-  requireMiddleware('setup/logger');
-  requireMiddleware('setup/bodyParser');
-  requireMiddleware('setup/session');
-  requireMiddleware('setup/hmvc');
-  requireMiddleware('setup/render');
-  requireMiddleware('setup/router');
-
-  return app;
-};

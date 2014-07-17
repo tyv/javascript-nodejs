@@ -1,4 +1,6 @@
-const ArticleRenderer = require('renderer/articleRenderer').ArticleRenderer;
+const app = require('app');
+
+const ArticleRenderer = require('../../renderer/articleRenderer').ArticleRenderer;
 const mongoose = require('lib/mongoose');
 const Article = mongoose.models.Article;
 
@@ -30,6 +32,7 @@ describe("ArticleRenderer", function() {
       title:   "Title",
       slug:    "test",
       weight:  0,
+      isFolder: false,
       content: "# Title\n\n## Title\n\nMy html *string*."
     }).persist();
 
@@ -37,6 +40,7 @@ describe("ArticleRenderer", function() {
       title:   "Title",
       slug:    "test",
       weight:  0,
+      isFolder: false,
       content: "# Title\n\n[](/test)"
     });
 

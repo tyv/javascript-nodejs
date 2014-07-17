@@ -1,8 +1,10 @@
-const TaskRenderer = require('renderer/taskRenderer').TaskRenderer;
+const app = require('app');
+
+const TaskRenderer = require('../../renderer/taskRenderer').TaskRenderer;
 const mongoose = require('lib/mongoose');
 const Task = mongoose.models.Task;
 
-describe("ArticleRenderer", function() {
+describe("TaskRenderer", function() {
 
   beforeEach(function* () {
     yield Task.destroy();

@@ -4,14 +4,15 @@
 const log = require('javascript-log')(module);
 const config = require('config');
 const co = require('co');
+const mongoose = require('lib/mongoose');
+const thunkify = require('thunkify');
+const app = require('app');
 
-co(require('app'))(function(err, app) {
-
+mongoose.waitConnect(function(err) {
   if (err) throw err;
 
   app.listen(config.port, config.host, function() {
     log.info('App listen %s:%d', config.host, config.port);
   });
+
 });
-
-
