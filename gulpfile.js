@@ -18,7 +18,7 @@ gulp.task('lint', require('./tasks/lint')(serverSources));
 
 
 gulp.task('lwatch', ['lint'], function() {
-
+  console.log("WATCH IS NOT REACHED");
   gulp.watch(serverSources, ['lint']);
 
 });
