@@ -55,4 +55,3 @@ schema.path('email').validate(function(value) {
 // exports are less convenient to update
 mongoose.model('User', schema);
 
-

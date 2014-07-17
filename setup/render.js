@@ -16,10 +16,6 @@ module.exports = function render(app) {
 
     this.locals = { };
 
-    if (process.env.NODE_ENV == 'development') {
-      this.locals.pretty = true; // jade opts
-    }
-
     this.locals.moment = moment;
 
     // render(__dirname, 'article', {}) -- 3 args

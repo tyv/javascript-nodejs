@@ -3,9 +3,7 @@
 
 const log = require('javascript-log')(module);
 const config = require('config');
-const co = require('co');
 const mongoose = require('lib/mongoose');
-const thunkify = require('thunkify');
 const app = require('app');
 
 mongoose.waitConnect(function(err) {
@@ -16,3 +14,4 @@ mongoose.waitConnect(function(err) {
   });
 
 });
+
