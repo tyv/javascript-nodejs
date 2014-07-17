@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var hash = require('lib/hash');
+var hash = require('../lib/hash');
 
 var Schema = mongoose.Schema;
 

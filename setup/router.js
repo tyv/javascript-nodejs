@@ -7,9 +7,14 @@ module.exports = function(app) {
 
   //app.use(router(app));
 
-  app.use(mount('/', app.hmvc.tutorial.middleware));
-  app.use(mount('/markup', app.hmvc.markup.middleware));
+  app.use(mount('/', app.hmvc.frontpage.middleware));
 
+  app.use(mount('/', app.hmvc.tutorial.middleware));
+
+  if (process.env.NODE_ENV == 'development') {
+    app.use(mount('/markup', app.hmvc.markup.middleware));
+  }
+  
   // by default if the router didn't find anything => it yields to next middleware
   // so I throw error here
   app.use(function* (next) {
