@@ -1,3 +1,4 @@
+/*
 const gp = require('gulp-load-plugins')();
 const gulp = require('gulp');
 const fs = require('fs');
@@ -5,11 +6,13 @@ const execSync = require('child_process').execSync;
 const es = require('event-stream');
 const getContents = require('vinyl-fs/lib/src/getContents');
 
+*/
 /**
  * Lint task
  * - dies with exit=1
  * on error
- */
+ *//*
+
 module.exports = function(srcs) {
 
   return function() {
@@ -32,3 +35,4 @@ module.exports = function(srcs) {
       });
   };
 };
+*/

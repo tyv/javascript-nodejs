@@ -1,8 +1,7 @@
 var gp = require('gulp-load-plugins')();
 var gulp = require('gulp');
-var log = require('javascript-log')(module);
+//var log = require('javascript-log')(module);
 var fs = require('fs');
-var es = require('event-stream');
 var getContents = require('vinyl-fs/lib/src/getContents');
 var through2 = require('through2');
 var lazypipe = require('lazypipe');
@@ -17,49 +16,39 @@ var jshintChannel = lazypipe()
 
 /**
  * Lint task
- * - caches successfully linted files
- * - dies with exit=1
- * on error
+ * - caches jshint result on files until they are modified
  */
 module.exports = function(sources) {
 
-  console.log("CACHE INIT");
   var cache = {};
-
 
   return function() {
 
     var start = new Date();
     return gulp.src(sources, {read: false})
-      .pipe(gp.plumber())
       .pipe(through2.obj(function(source, enc, callback) {
-        // pass down item from cache OR source
-        log.debug("Cache lookup: " + source.path);
+        // pass down a file from cache OR source if MISS
         if (cache[source.path] && source.stat.mtime <= cache[source.path].stat.mtime) {
-          log.debug("Cache Hit: " + source.path);
           this.push(cache[source.path]);
           return callback();
-        } else {
-          log.debug("Cache Miss: " + source.path);
         }
 
-
-        console.log("PASS-1 " + source.path);
         this.push(source);
         callback();
       }))
       .pipe(gp.if(function(file) {
-        console.log(file.path, file.fromCache);
-        return !file.fromCache;
+        // IF file NOT from cache THEN read && jshint it
+        return !file.fromLintCache;
       }, jshintChannel()))
       .pipe(through2.obj(function(source, enc, callback) {
+        // cache the file
         cache[source.path] = source;
-        cache[source.path].fromCache = true;
+        cache[source.path].fromLintCache = true;
         this.push(source);
-        console.log("PASS-2 " + source.path);
         callback();
       }, function() {
-        console.log("END");
+//        log.debug("END TIME " + (new Date() - start));
+        this.emit('end');
       }))
       .pipe(gp.jshint.reporter('default'));
 
