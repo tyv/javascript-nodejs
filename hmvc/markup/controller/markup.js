@@ -1,7 +1,8 @@
 var join = require('path').join;
 
 exports.get = function *get(next) {
-  var path = join('markup', this.params[0]);
-  this.render(path);
+
+  var path = this.params[0];
+  this.render(__dirname, path);
 };
 

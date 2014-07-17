@@ -51,6 +51,7 @@ module.exports = function(app) {
         // if error is "call stack too long", then log.error(err) is not verbose
         // so I cast it to string
         log.error(err.toString());
+        log.error(err.stack);
 
         this.set('X-Content-Type-Options', 'nosniff');
 

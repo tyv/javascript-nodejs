@@ -15,7 +15,7 @@ const serverSources = [
 
 gulp.task('lint', require('./tasks/lint-full-die')(serverSources));
 
-gulp.task('watch', function(neverCalled) {
+gulp.task('watch', ['sprite', 'stylus'], function(neverCalled) {
   /*
   browserifyTask({
     src: 'app/js/index.js',

@@ -65,7 +65,11 @@ module.exports = function render(app) {
       var loc = _.assign({parser: JadeParser}, config.template.options, this.locals, locals);
 
 //      console.log(loc);
-      this.body = jade.renderFile(resolvePathUp(templateDir, templatePath), loc);
+      var file = resolvePathUp(templateDir, templatePath);
+      if (!file) {
+        throw new Error("Template file not found: " + templatePath + " (in dir " + templateDir + ") ");
+      }
+      this.body = jade.renderFile(file, loc);
     };
 
 
