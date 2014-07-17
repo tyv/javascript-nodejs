@@ -14,7 +14,7 @@ function* renderError(error) {
     this.body = error;
   } else {
     // todo: remake this.render into new jade renderer which looks up the template correctly
-    yield this.render("error", {error: error});
+    this.render("error", {error: error});
   }
 }
 

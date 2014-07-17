@@ -3,9 +3,7 @@ const Article = mongoose.models.Article;
 const ArticleRenderer = require('../renderer/articleRenderer').ArticleRenderer;
 const treeUtil = require('lib/treeUtil');
 const jade = require('jade');
-const thunkify = require('thunkify');
 const _ = require('lodash');
-const jadeParser = require('lib/jadeParser');
 
 exports.get = function *get(next) {
 
@@ -32,23 +30,16 @@ exports.get = function *get(next) {
     next.url = Article.getUrlBySlug(next.slug);
   }
 
-  var parser = jadeParser(__dirname);
-
   var locals = {
     title: article.title,
     content: articleBody,
     modified: article.modified,
     prev: prev,
-    next: next,
-    cache: false,
-    parser: parser,
-    deb: function() {
-      //debugger;
-    }
+    next: next
   };
   _.assign(this.locals, locals);
 
-  this.body = jade.renderFile(parser.resolvePath("article"), this.locals);
+  this.render(__dirname, "article", locals);
 
   //yield this.render("/hmvc/tutorial/template/article", );
 

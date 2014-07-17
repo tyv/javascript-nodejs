@@ -24,9 +24,7 @@ module.exports = function() {
       "keys": [secret.SESSION_KEY]
     },
     template: {
-      path: path.join(process.cwd(), 'template'),
       options: {
-        'default': 'jade',
         'cache': process.env.NODE_ENV != 'development'
       }
     },

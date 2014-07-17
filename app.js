@@ -22,7 +22,7 @@ module.exports = function* () {
   // wait for DB to get connected before proceeding
   yield requireMiddleware('setup/mongoose');
 
-  requireMiddleware('setup/stylus');
+//  requireMiddleware('setup/stylus');
 
   requireMiddleware('setup/static');
 
@@ -31,6 +31,7 @@ module.exports = function* () {
   requireMiddleware('setup/logger');
   requireMiddleware('setup/bodyParser');
   requireMiddleware('setup/session');
+  requireMiddleware('setup/hmvc');
   requireMiddleware('setup/render');
   requireMiddleware('setup/router');
 

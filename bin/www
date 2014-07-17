@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 'use strict';
 
-debugger;
 const log = require('javascript-log')(module);
 const config = require('config');
 const co = require('co');
