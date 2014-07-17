@@ -17,6 +17,9 @@ module.exports = function render(app) {
     this.locals = { };
 
     this.locals.moment = moment;
+    this.locals.readFile = function(file) {
+      return fs.readFileSync(file);
+    };
 
     // render(__dirname, 'article', {}) -- 3 args
     // render(__dirname, 'article') -- 2 args
