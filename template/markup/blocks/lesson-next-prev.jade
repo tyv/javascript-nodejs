@@ -1,7 +1,9 @@
 .main__lesson-nav
   .main__lesson-nav-prev
-    kbd (Ctrl+←)
+    kbd
+        != '(Ctrl+<span class="main__lesson-nav-arr">←</span>)'
     a.main__lesson-nav-link(href='#prev') Предыдущий урок
   .main__lesson-nav-next
     a.main__lesson-nav-link(href='#next') Следующий урок
-    kbd (Ctrl+→)
+    kbd
+        != '(Ctrl+<span class="main__lesson-nav-arr">→</span>)'
