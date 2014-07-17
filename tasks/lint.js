@@ -1,13 +1,19 @@
-const gp = require('gulp-load-plugins')();
-const gulp = require('gulp');
-const gutil = require('gulp-util');
-const debug = require('gulp-debug');
-const jshint = require('gulp-jshint');
-const fs = require('fs');
-const execSync = require('child_process').execSync;
-const es = require('event-stream');
-const cache = require('gulp-cache');
-const getContents = require('vinyl-fs/lib/src/getContents');
+var gp = require('gulp-load-plugins')();
+var gulp = require('gulp');
+var log = require('javascript-log')(module);
+var fs = require('fs');
+var es = require('event-stream');
+var getContents = require('vinyl-fs/lib/src/getContents');
+var through2 = require('through2');
+var lazypipe = require('lazypipe');
+
+//log.debugOn();
+
+var jshintChannel = lazypipe()
+  // adding a pipeline step
+  .pipe(getContents.bind(null, {})) // notice the stream function has not been called!
+  .pipe(gp.jshint);
+
 
 /**
  * Lint task
@@ -15,42 +21,48 @@ const getContents = require('vinyl-fs/lib/src/getContents');
  * - dies with exit=1
  * on error
  */
-module.exports = function() {
+module.exports = function(sources) {
 
-  var totalLintErrors = 0;
+  console.log("CACHE INIT");
+  var cache = {};
 
-  var serverSources = ['config', 'controllers', 'lib', 'renderer', 'routes', 'setup', 'tasks'].map(function (d) {
-    return d + '/**/*.js';
-  }).concat('*.js');
 
-  const cacheOpts = {
-    key: function(file) {
-      return file.stat.mtime.getTime();
-    },
-    // cache based on contents of file by default
-    // caches all results of task by default
-    value:   function(jshintedFile) {
-      return {
-        fromCache: true,
-        jshint: jshintedFile.jshint
-      };
-    }
+  return function() {
+
+    var start = new Date();
+    return gulp.src(sources, {read: false})
+      .pipe(gp.plumber())
+      .pipe(through2.obj(function(source, enc, callback) {
+        // pass down item from cache OR source
+        log.debug("Cache lookup: " + source.path);
+        if (cache[source.path] && source.stat.mtime <= cache[source.path].stat.mtime) {
+          log.debug("Cache Hit: " + source.path);
+          this.push(cache[source.path]);
+          return callback();
+        } else {
+          log.debug("Cache Miss: " + source.path);
+        }
+
+
+        console.log("PASS-1 " + source.path);
+        this.push(source);
+        callback();
+      }))
+      .pipe(gp.if(function(file) {
+        console.log(file.path, file.fromCache);
+        return !file.fromCache;
+      }, jshintChannel()))
+      .pipe(through2.obj(function(source, enc, callback) {
+        cache[source.path] = source;
+        cache[source.path].fromCache = true;
+        this.push(source);
+        console.log("PASS-2 " + source.path);
+        callback();
+      }, function() {
+        console.log("END");
+      }))
+      .pipe(gp.jshint.reporter('default'));
+
   };
 
-
-  // return stream, Orchestrator will consider the task finished when it ends
-  return gulp.src(lintSrcs, {read: false})
-    .pipe(cache(getContents().pipe(jshint(), cacheOpts))) // BROKEN
-    .pipe(jshint.reporter('default'))
-    .pipe(es.map(function(file, cb) {
-      if (!file.jshint.success) {
-        totalLintErrors += file.jshint.results.length;
-      }
-      cb(null, file);
-    }))
-    .on('end', function() {
-      if (totalLintErrors) {
-        process.exit(1);
-      }
-    });
 };

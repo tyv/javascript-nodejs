@@ -24,6 +24,7 @@
     "gulp-concat": "^2.3.3",
     "gulp-debug": "^0.3.0",
     "gulp-dir-sync": "^0.1.1",
+    "gulp-if": "^1.2.2",
     "gulp-load-plugins": "^0.5.3",
     "gulp-notify": "^1.4.0",
     "gulp-plumber": "^0.6.3",
@@ -62,7 +63,9 @@
     "svgutils": "^0.7.0",
     "through2": "^0.5.1",
     "thunkify": "*",
+    "vinyl-fs": "^0.3.4",
     "vinyl-source-stream": "^0.1.1",
+    "watchify": "^0.10.2",
     "winston": "*"
   },
   "devDependencies": {
@@ -78,6 +81,7 @@
     "gulp-stylus-sprite": "*",
     "gulp-tap": "^0.1.1",
     "javascript-brunch": "*",
+    "lazypipe": "^0.2.1",
     "mocha": "*",
     "should": "*",
     "sinon": "*",

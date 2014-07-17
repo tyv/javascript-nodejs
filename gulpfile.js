@@ -13,15 +13,26 @@ const serverSources = [
   'setup/**/*.js', 'tasks/**/*.js', '*.js'
 ];
 
-gulp.task('lint', require('./tasks/lint-full-die')(serverSources));
+gulp.task('lint', require('./tasks/lint')(serverSources));
+
+
+
+gulp.task('lwatch', ['lint'], function() {
+
+  gulp.watch(serverSources, ['lint']);
+
+});
+
+//gulp.task('lint', require('./tasks/lint-full-die')(serverSources));
+
 
 gulp.task('watch', ['sprite', 'stylus'], function(neverCalled) {
   /*
-  browserifyTask({
-    src: 'app/js/index.js',
-    dst: 'www/js'
-  })();
-*/
+   browserifyTask({
+   src: 'app/js/index.js',
+   dst: 'www/js'
+   })();
+   */
 
   fse.ensureDirSync('www/fonts');
   gp.dirSync('app/fonts', 'www/fonts');
@@ -65,15 +76,15 @@ gulp.task('import', function(callback) {
 });
 
 /*
-gulp.task('flo', function() {
-  var node = spawn('node', ['flo.js'], { stdio: 'inherit' });
-  node.on('close', function(code) {
-    if (code === 8) {
-      gulp.log('Error detected, turning off fb-flo...');
-    }
-  });
-});
-*/
+ gulp.task('flo', function() {
+ var node = spawn('node', ['flo.js'], { stdio: 'inherit' });
+ node.on('close', function(code) {
+ if (code === 8) {
+ gulp.log('Error detected, turning off fb-flo...');
+ }
+ });
+ });
+ */
 
 gulp.task('sprite', gp.stylusSprite({
   spritesSearchFsRoot: 'app',

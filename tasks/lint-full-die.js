@@ -1,12 +1,8 @@
 const gp = require('gulp-load-plugins')();
 const gulp = require('gulp');
-const gutil = require('gulp-util');
-const debug = require('gulp-debug');
-const jshint = require('gulp-jshint');
 const fs = require('fs');
 const execSync = require('child_process').execSync;
 const es = require('event-stream');
-const cache = require('gulp-cache');
 const getContents = require('vinyl-fs/lib/src/getContents');
 
 /**
