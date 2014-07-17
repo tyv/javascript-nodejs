@@ -12,6 +12,10 @@ $pseudo
 $link-type 
 	background-position 100% 60%
 	background-repeat no-repeat
+
+$plain-link
+	padding 0
+	background-image none
 	
 // .pseudo is for any tag but link that should look like pseudo-link
 .pseudo 
@@ -133,5 +137,4 @@ a.ecma
 // --
 
 .main a.plain 
-	padding 0
-	background-image none
+	@extend $plain-link

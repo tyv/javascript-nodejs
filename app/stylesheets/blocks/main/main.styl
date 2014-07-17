@@ -1,0 +1,284 @@
+// we use placeholder selector to make it easier to rename the block
+// we can't extend selectors with &, so we don't use them for extends
+$main-loud
+	font-size 15px
+	font-weight 700
+	line-height 21px
+	margin 1em 0
+
+.main
+	display table-cell
+	// position relative
+	padding 0 content_horizontal_padding 35px
+
+	.breadcrumbs
+		margin 34px 0 15px
+		padding 0
+
+	&__header
+		padding 0 0 12px
+		border-bottom 2px solid #f5f2f0
+	
+	&__header_center
+		border 0
+		
+		&__header-title,
+		.breadcrumbs
+			text-align center
+	
+	&__header_search
+		border-bottom 0
+		margin-top 33px
+	
+	&__header-title
+		border-bottom 2px solid #f5f2f0
+		font 700 40px/40px secondary_font
+		margin 18px 0 12px
+		padding 0 0 14px
+    
+	&__header-title_noseparator
+		border-bottom 0
+	
+	&__header_search &__header-title
+		margin-bottom 0
+		padding-bottom 10px
+	
+	&__username
+		font-style inherit
+		font-weight inherit
+		color secondary_color
+	
+	&__header-date,
+	&__header-comments a
+		color #666
+
+	&__header-comments a
+		text-decoration underline
+
+	&__header-comments:hover
+		color link_hover_color
+
+	&__header-date
+		margin-right 23px
+
+	&__header-date::before,
+	&__header-comments::before
+		color secondary_color
+
+	&__header-date::before
+		@extend $font-time
+		margin-right 3px
+
+	&__header-comments::before
+		@extend $font-comment
+		margin-right 3px
+	
+	&__lesson-nav
+		display table
+		float right
+
+	&__lesson-nav-prev,
+	&__lesson-nav-next
+		display table-cell
+	
+	&__lesson-nav-prev
+		padding-right 15px
+		border-right 2px solid #f5f2f0
+	
+	&__lesson-nav-next
+		padding-left 15px
+	
+	&__lesson-nav-prev:last-child
+		border none
+		padding-right 0
+	
+	&__lesson-nav kbd
+		font-size 11px
+		color #999
+		font: inherit
+	
+	&__lesson-nav-arr
+		position relative
+		top -.1em
+	
+	&__lesson-nav-link
+		color #656565
+		text-decoration underline
+
+	ul,
+	ol
+		padding-left 25px
+		margin 1em 0
+	
+		> li
+			margin: .5em 0
+
+	ul > li::before
+		@extend $font-bullet
+		position absolute
+		margin-left -20px
+		color #B2C1C1
+
+	// TODO: h1 вне блока .main__header ??! Проверить, встречается ли
+	h1
+		margin-bottom .5em
+	    /* FIXME пока некрасиво с этим: page-break-before: always; */
+
+	h2
+		padding-bottom 11px
+		margin 36px 0 6px
+		font-size 34px
+		line-height 40px
+		font-family secondary_font
+
+	h3,
+	h4
+		margin 24px 0 8px
+	
+	h3
+		font-size 128%
+		line-height 22px
+	
+	h4
+		font-size 114%
+		line-height 20px
+
+	h1 a,
+	h1 code,
+	h2 a,
+	h2 code,
+	h3 a,
+	h3 code,
+	h4 a,
+	h4 code
+		font inherit
+		color inherit
+		text-decoration none
+
+	// .format_error - old code support?
+	.format_error
+		color red
+
+	div.format_error
+		border 1px solid red
+		padding 5px
+
+	.admin_link
+		float right
+		color gray
+
+	h2 a[href^='#']:focus,
+	h3 a[href^='#']:focus,
+	h4 a[href^='#']:focus
+		outline none
+
+	code
+		color code_color
+		font-family fixed_width_font
+	
+	/* for regexps */
+	code.pattern
+		border-bottom 1px solid red
+
+	code.subject
+		border-bottom 1px solid blue
+
+	code.match
+		border-bottom 1px solid green
+
+	span.shortcut
+		white-space nowrap
+
+	span.shortcut code
+		border 1px solid rgb(51,51,51)
+		padding 0 1px
+		display inline-block
+		margin 1px 0
+
+	p
+		margin round(lineheight*.65) 0
+	
+	// Is it really used?
+	dl
+		margin 1em 0
+	
+	dt
+		font-weight 700
+	
+	dd
+		margin 0 0 round(lineheight*.8) 40px
+	
+	figure,
+	img
+		margin 30px 0
+	
+	figure img
+		margin 0
+
+	&__loud
+		@extend $main-loud
+
+	&__strong
+		@extend $main-loud
+		font-style italic
+		color #8C0000
+
+	&__footer
+		@extend $clearfix
+		background #F5F5F2
+		margin 30px -40px 27px
+		padding 16px 40px 9px
+	
+		.rating
+			margin-right 22px
+	
+		.social
+			float right
+
+	&__footer-date,
+	&__footer-author,
+	&__footer-author a
+		color #444
+		font 13px Arial, Helvetica, sans-serif
+			
+	&__footer-date
+		margin-right 15px
+
+	&__footer-author
+		margin-right 10px
+
+	&__footer-star
+		position absolute
+		font-size 18px
+		color #BBB
+		margin 0 10px
+
+	&__footer-star::before
+		@extend $font-star
+
+	@media (min-width: media_step_1)
+		padding 0 content_horizontal_padding + 10px 35px
+		line-height 19px
+		
+		&__footer
+			margin 30px -content_horizontal_padding + 10px 27px
+			padding 16px (content_horizontal_padding + 10px) 9px
+
+	@media (min-width: media_step_2)
+		padding 0 content_horizontal_padding + 20px 35px
+		line-height 20px
+	
+		&__footer
+			margin 30px -content_horizontal_padding + 20px 27px
+			padding 16px (content_horizontal_padding + 20px) 9px
+
+	@media (min-width: media_step_3)
+		padding 0 content_horizontal_padding + 30px 35px
+		line-height 22px
+
+		&__footer
+			margin 30px -content_horizontal_padding + 30px 27px
+			padding 16px (content_horizontal_padding + 30px) 9px
+
+	@media (min-width: largescreen)
+		font-size 16px

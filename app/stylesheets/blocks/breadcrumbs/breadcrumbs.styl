@@ -1,0 +1,23 @@
+.breadcrumbs
+	list-style none
+	font-size 13px
+	margin 0
+	padding 0
+	color #777
+
+	&__item
+		display inline-block
+		margin 0 5px 0 0
+
+		&::after
+			content " →"
+			color #666
+
+		&:last-child::after
+			display none
+
+	&__link
+		color link_color
+
+	&__link:hover
+		color link_hover_color
