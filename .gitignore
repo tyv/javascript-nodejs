@@ -32,6 +32,8 @@ tmp/
 # www/
 www/*
 
+app/stylesheets/sprite
+
 # Bower stuff.
 bower_components/
 

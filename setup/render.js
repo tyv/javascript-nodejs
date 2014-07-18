@@ -10,6 +10,7 @@ const log = require('javascript-log')(module);
 const jade = require('jade');
 const _ = require('lodash');
 
+//log.debugOn();
 
 module.exports = function render(app) {
   app.use(function *(next) {
@@ -17,9 +18,6 @@ module.exports = function render(app) {
     this.locals = { };
 
     this.locals.moment = moment;
-    this.locals.readFile = function(file) {
-      return fs.readFileSync(file);
-    };
 
     // render(__dirname, 'article', {}) -- 3 args
     // render(__dirname, 'article') -- 2 args
@@ -58,13 +56,26 @@ module.exports = function render(app) {
           return templatePath;
         }
 
-        return resolvePathUp(templateDir, templatePath);
+        return resolvePathUp(templateDir, templatePath + '.jade');
       };
 
-      var loc = _.assign({parser: JadeParser}, config.template.options, this.locals, locals);
+      var serviceLocals = {
+        parser: JadeParser,
+        readFile: function(file) {
+          if (file[0] == '.') {
+            throw new Error("readFile file must not start with . : bad file " + file);
+          }
+          var path = resolvePathUp(templateDir, file);
+          if (!path) {
+            throw new Error("Not found " + file + " (from dir " + templateDir + ")");
+          }
+          return fs.readFileSync(path);
+        }
+      };
+      var loc = _.assign(serviceLocals, config.template.options, this.locals, locals);
 
 //      console.log(loc);
-      var file = resolvePathUp(templateDir, templatePath);
+      var file = resolvePathUp(templateDir, templatePath + '.jade');
       if (!file) {
         throw new Error("Template file not found: " + templatePath + " (in dir " + templateDir + ") ");
       }
@@ -83,17 +94,16 @@ function resolvePathUp(templateDir, templateName) {
   var top = path.resolve(process.cwd());
 
   while (templateDir != path.dirname(top)) {
-    var template = path.join(templateDir, 'template', templateName + '.jade');
-    //log.debug("-- try path", template);
+    var template = path.join(templateDir, 'template', templateName);
+    log.debug("-- try path", template);
     if (fs.existsSync(template)) {
-      //  log.debug("-- found");
+      log.debug("-- found");
       return template;
     }
-    // log.debug("-- skipped");
+    log.debug("-- skipped");
     templateDir = path.dirname(templateDir);
   }
 
+  log.debug("-- failed", templateRoot, top);
   return null;
-
-  //   log.debug("-- end", templateRoot, top);
 }
