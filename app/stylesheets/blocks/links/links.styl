@@ -12,10 +12,6 @@ $pseudo
 $link-type 
 	background-position 100% 60%
 	background-repeat no-repeat
-
-$plain-link
-	padding 0
-	background-image none
 	
 // .pseudo is for any tag but link that should look like pseudo-link
 .pseudo 
@@ -135,6 +131,13 @@ a.ecma
 	@extend $link-type
 	link-type 'ecma'
 // --
+
+// placeholder selector, can't be moved to the top
+// because order matters
+// decared as placeholder to be extended easier
+$plain-link
+	padding 0
+	background-image none
 
 .main a.plain 
 	@extend $plain-link

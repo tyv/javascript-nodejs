@@ -1,0 +1,49 @@
+<p>Давайте посмотрим, что такого особенного в JavaScript, почему именно он, и какие еще технологии существуют, кроме JavaScript.</p>
+
+<h2><a id="что-такое-javascript" href="#что-такое-javascript">Что такое JavaScript?</a></h2>
+
+<p><em>JavaScript</em> изначально создавался для того, чтобы сделать web-странички «живыми».<br>
+Программы на этом языке называются <em>скриптами</em>. Они подключаются напрямую к HTML и, как только загружается страничка &mdash; тут же выполняются.</p>
+<p><a href="http://en.wikipedia.org/wiki/ECMAScript">ECMAScript</a>
+<a href="mailto:me@example.com">намылить</a> <a target="_blank" href="habrahabr.ru">новая вкладка</a> <a href="/play/ECMAScript">песочница</a> <a href="http://plnkr.co/edit/mafDHHQUVJy7jdhlSMTB?p=preview">песочница plnkr.co</a> <a href="/files/file.doc">документ</a> <a href="/files/file.zip">архив</a> <a href="/files/file.xls">таблица</a> <a href="/files/file.pdf">pdf-документ</a> <a href="http://developer.mozilla.org/topic">справка в MDN</a> <a href="http://msdn.microsoft.com/topic">справка microsoft</a> <a href="http://www.w3.org/TR/HTML401">документация w3c</a> <a href="http://es5.github.com">спецификация ECMA</a></p>
+<p><a class="plain" href="http://en.wikipedia.org/wiki/ECMAScript">ECMAScript</a>
+<a class="plain" href="mailto:me@example.com">намылить</a> <a class="plain" target="_blank" href="habrahabr.ru">новая вкладка</a> <a class="plain" href="/play/ECMAScript">песочница</a> <a class="plain" href="http://plnkr.co/edit/mafDHHQUVJy7jdhlSMTB?p=preview">песочница plnkr.co</a> <a class="plain" href="/files/file.doc">документ</a> <a class="plain" href="/files/file.zip">архив</a> <a class="plain" href="/files/file.xls">таблица</a> <a class="plain" href="/files/file.pdf">pdf-документ</a> <a class="plain" href="http://developer.mozilla.org/topic">справка в MDN</a> <a class="plain" href="http://msdn.microsoft.com/topic">справка microsoft</a> <a class="plain" href="http://www.w3.org/TR/HTML401">документация w3c</a> <a class="plain" href="http://es5.github.com">спецификация ECMA</a></p>
+<p><a class="wiki" href="#01">ECMAScript</a>
+<a class="mailto" href="#02">намылить</a> <a class="external" target="_blank" href="#03">новая вкладка</a> <a class="sandbox" href="#04">песочница</a> <a class="sandbox" href="#999">песочница plnkr.co</a> <a class="doc" href="#05">документ</a> <a class="zip" href="#06">архив</a> <a class="xls" href="#07">таблица</a> <a class="pdf" href="#08">pdf-документ</a> <a class="mdn" href="#09">справка в MDN</a> <a class="msdn" href="#10">справка microsoft</a> <a class="w3c" href="#11">документация w3c</a> <a class="ecma" href="#12">спецификация ECMA</a></p>
+<p><strong>Программы на JavaScript &mdash; обычный текст</strong>. Они не требуют какой-то специальной подготовки.</p>
+<p>А здесь мы приведем пример сочетания клавиш <kbd class="shortcut">Cmd <span class="shortcut__plus">+</span> R</kbd> прямо в тексте урока.</p>
+<p>Примеры кода и результата, которые должны создаваться динамически:</p>
+
+<pre class="language-javascript line-numbers">&lt;div class="code-example"&gt;
+    &lt;div class="codebox code-example__codebox"&gt;
+        &lt;div class="toolbar codebox__toolbar"&gt;
+            &lt;div class="toolbar__tool"&gt;
+                &lt;a href="/play/abcdef" class="toolbar__button toolbar__button_run" title="выполнить"&gt;
+                    &lt;span class="toolbar__button-text"&gt;выполнить&lt;/span&gt;
+                &lt;/a&gt;
+            &lt;/div&gt;
+            &lt;div class="toolbar__tool"&gt;
+                &lt;a href="/files/file.doc" class="toolbar__button toolbar__button_edit" title="редактировать"&gt;
+                    &lt;span class="toolbar__button-text"&gt;редактировать&lt;/span&gt;
+                &lt;/a&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+&lt;pre class="language-javascript line-numbers"&gt;function sayHi(name) {
+  var phrase = "Привет, " + name;
+  alert(phrase);
+}
+
+sayHi('Вася');&lt;/pre&gt;
+    &lt;/div&gt;
+
+    &lt;div class="result code-example__result"&gt;
+        &lt;div class="toolbar result__toolbar"&gt;
+            &lt;div class="toolbar__tool"&gt;
+                &lt;a href="/files/file.doc" class="toolbar__button toolbar__button_edit" title="редактировать"&gt;
+                    &lt;span class="toolbar__button-text"&gt;редактировать&lt;/span&gt;
+                &lt;/a&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;iframe class="result__iframe" src="http://sass-lang.com/documentation/Sass/Script/Functions"&gt;&lt;/iframe&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</pre>
