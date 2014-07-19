@@ -1,4 +1,3 @@
-.*
 *.diff
 *.err
 *.orig
@@ -12,27 +11,24 @@
 
 # OS or Editor folders
 .DS_Store
+.idea
 .cache
 .project
 .settings
 .tmproj
+.nvmrc
 nbproject
 Thumbs.db
 
 # NPM packages folder.
 node_modules/
 
-# Brunch folder for temporary files.
+# TMP folder (anything)
 tmp/
 
-# Brunch output folder.
-# Картинки для CSS
-# Стили CSS
-# JS
-# www/
+# Generated content
 www/*
-
-app/stylesheets/sprite
+app/stylesheets/sprite/*
 
 # Bower stuff.
 bower_components/

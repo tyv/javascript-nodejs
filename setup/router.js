@@ -1,11 +1,8 @@
 'use strict';
 
 var mount = require('koa-mount');
-var Router = require('koa-router');
 
 module.exports = function(app) {
-
-  //app.use(router(app));
 
   app.use(mount('/', app.hmvc.frontpage.middleware));
 
@@ -13,6 +10,9 @@ module.exports = function(app) {
     app.use(mount('/markup', app.hmvc.markup.middleware));
   }
 
+  app.use(mount('/getpdf', app.hmvc.getpdf.middleware));
+
+  // stick to bottom
   app.use(mount('/', app.hmvc.tutorial.middleware));
 
   // by default if the router didn't find anything => it yields to next middleware

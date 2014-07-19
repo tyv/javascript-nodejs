@@ -43,6 +43,7 @@
     "jquery": "^2.1.1",
     "koa": "*",
     "koa-bodyparser": "*",
+    "koa-csrf": "^2.1.2",
     "koa-favicon": "*",
     "koa-generic-session": "*",
     "koa-logger": "*",
