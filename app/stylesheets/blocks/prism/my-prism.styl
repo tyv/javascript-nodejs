@@ -1,0 +1,36 @@
+pre[class*="language-"],
+code[class*="language-"]
+	font 14px/17px fixed_width_font
+	z-index 0
+	text-shadow none
+	margin 0
+
+pre[class*="language-"]
+	position relative
+	code
+		color inherit
+		position relative
+
+pre.line-numbers
+	padding-left 3.2em
+
+// span with line numbers is moved from <code> to the outer <pre>,
+// because we need to handle many <code>...</code> inside single <pre>
+// (this we need for highlighting *!*...* /!* inline
+.line-numbers .line-numbers-rows
+	left 0
+	top 0
+	padding 1em 0
+	border 0
+	background #e7e5e3
+	width auto
+
+.line-numbers-rows > span:before
+	padding 0 .7em 0 .8em
+	text-shadow none
+
+@media (min-width: largescreen)
+	pre[class*="language-"],
+	code[class*="language-"]
+		font-size 16px
+		line-height 19px

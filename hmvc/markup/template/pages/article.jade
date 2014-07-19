@@ -7,10 +7,9 @@ block variables
   - self.title = 'Учебник — Javascript.ru';
   - self.comments = {} // хм?
   - self.comments.lenght = 5;
-  - var content = readFile('pages/my.html');
+  - var content = readFile('pages/article.html');
 
 
 block content
-  | BLA
-  div!= content
+  != content
 

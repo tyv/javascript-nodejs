@@ -1,0 +1,31 @@
+.inline-highlight
+	position absolute
+	pointer-events none
+	line-height inherit
+	white-space pre
+	left 0
+	top -1px
+	z-index -1
+
+	.mask 
+		background #F5E7C6
+		outline 2px solid #F5E7C6
+
+.block-highlight
+	position absolute
+	left 0
+	right 0
+	top -1px
+	padding inherit 0
+	margin-top 1em /* Same as .prism’s padding-top */
+
+	pointer-events none
+
+	line-height inherit
+	white-space pre
+	.mask
+		background #F5E7C6
+		outline 2px solid #F5E7C6
+		left 0
+		right 0
+		position absolute

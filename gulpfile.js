@@ -38,6 +38,9 @@ gulp.task('watch', ['sprite', 'stylus'], function(neverCalled) {
   fse.ensureDirSync('www/img');
   gp.dirSync('app/img', 'www/img');
 
+  fse.ensureDirSync('www/js');
+  gp.dirSync('app/js', 'www/js');
+
   gulp.watch("app/**/*.sprite/**", ['sprite']);
   gulp.watch("app/**/*.styl", ['stylus']);
 });

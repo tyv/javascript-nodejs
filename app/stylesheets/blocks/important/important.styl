@@ -15,7 +15,7 @@
 	
 	&__type::before
 		content ""
-		background $important-icon
+		spriteImage $important-ok
 		position absolute
 		margin-left -30px
 		margin-top 1px
@@ -57,21 +57,17 @@
 	&__content
 		margin 12px 25px 22px
 
-	// .important_warn .important__type::before {
-	// 	@include sprite-elem($important-icon, "warning");
-	// }
+	&_warn &__type::before
+		spriteElem $important-warning
 
-	// .important_smart .important__type::before {
-	// 	@include sprite-elem($important-icon, "info");
-	// }
+	&_smart &__type::before
+		spriteElem $important-info
 
-	// .important_ponder .important__type::before {
-	// 	@include sprite-elem($important-icon, "question");
-	// }
+	&_ponder &__type::before
+		spriteElem $important-question
 
-	// .important_ok .important__type::before {
-	// 	@include sprite-elem($important-icon, "ok");
-	// }
+	&_ok &__type::before
+		spriteElem $important-ok
 	
 	@media print
 		page-break-inside avoid

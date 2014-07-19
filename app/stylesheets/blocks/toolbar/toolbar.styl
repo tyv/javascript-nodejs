@@ -1,0 +1,40 @@
+.toolbar
+	display table-row
+
+.toolbar__tool
+	display table-cell
+	padding-left 1px
+
+.toolbar__button
+	display inline-block
+	vertical-align bottom
+	width 30px
+	height 30px
+	background #c4c2c0
+	text-align center
+	line-height 30px
+	font-size 16px
+	@extend $plain-link
+	&:link,
+	&:visited,
+	&:hover,
+	&:active
+		color #fff
+		text-decoration none
+	&:hover
+		background darken(@background, 5%)
+
+.toolbar__button_run::before
+	@extend $font-run
+
+.toolbar__button_external::before
+	@extend $font-external
+
+.toolbar__button_download::before
+	@extend $font-download
+
+.toolbar__button_edit::before
+	@extend $font-edit
+
+.toolbar__button-text
+	display none
