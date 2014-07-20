@@ -1,0 +1,31 @@
+div
+  p Выберите способ оплаты:
+  form.pay-form.notready(onsubmit="alert('Минуточку, идёт загрузка...'); return false")
+    select(name="paymentMethod")
+      each paymentMethod in paymentMethods
+        option(value=paymentMethod.name) #{paymentMethod.title}
+      input(type="submit" value="Оплатить")
+
+script(src="http://code.jquery.com/jquery-2.1.1.js")
+
+script var csrf = "#{csrf}";
+
+script.
+  $('.notready').removeClass('notready').prop('onsubmit', null);
+
+  $('.pay-form')
+    .on('submit', function(e) {
+    e.preventDefault();
+    $.ajax({
+      method: 'POST',
+      url: '/getpdf/order',
+      data: {
+        _csrf: csrf,
+        paymentMethod: this.elements.paymentMethod.value
+      }
+    })
+    .done(function(html) {
+      $(html).submit();
+    });
+
+  });

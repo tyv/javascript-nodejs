@@ -3,21 +3,37 @@
 const moment = require('moment');
 const Parser = require('jade').Parser;
 const util = require('util');
-const path= require('path');
-const config= require('config');
+const path = require('path');
+const config = require('config');
 const fs = require('fs');
 const log = require('javascript-log')(module);
 const jade = require('jade');
 const _ = require('lodash');
+const assert = require('assert');
 
 //log.debugOn();
 
 module.exports = function render(app) {
   app.use(function *(next) {
+    var ctx = this;
 
-    this.locals = { };
-
+    this.locals = _.assign({}, config.template.options);
     this.locals.moment = moment;
+
+    // warning!
+    // _.assign does NOT copy defineProperty
+    Object.defineProperty(this.locals, "csrf", {
+      get: function() {
+        var csrf = ctx.csrf;
+        assert(csrf);
+        return csrf;
+      }
+    });
+
+    // this.locals.debug causes jade to dump function
+    this.locals.deb = function() {
+      debugger;
+    };
 
     // render(__dirname, 'article', {}) -- 3 args
     // render(__dirname, 'article') -- 2 args
@@ -43,6 +59,7 @@ module.exports = function render(app) {
       function JadeParser(str, filename, options) {
         Parser.apply(this, arguments);
       }
+
       util.inherits(JadeParser, Parser);
 
       JadeParser.prototype.resolvePath = function(templatePath, purpose) {
@@ -59,20 +76,16 @@ module.exports = function render(app) {
         return resolvePathUp(templateDir, templatePath + '.jade');
       };
 
-      var serviceLocals = {
-        parser: JadeParser,
+      var loc = Object.create(this.locals);
+
+      var parseLocals = {
+        parser:   JadeParser,
         readFile: function(file) {
-          if (file[0] == '.') {
-            throw new Error("readFile file must not start with . : bad file " + file);
-          }
-          var path = resolvePathUp(templateDir, file);
-          if (!path) {
-            throw new Error("Not found " + file + " (from dir " + templateDir + ")");
-          }
-          return fs.readFileSync(path);
+          return readFile(templateDir, file);
         }
       };
-      var loc = _.assign(serviceLocals, config.template.options, this.locals, locals);
+
+      _.assign(loc, parseLocals, locals);
 
 //      console.log(loc);
       var file = resolvePathUp(templateDir, templatePath + '.jade');
@@ -87,6 +100,18 @@ module.exports = function render(app) {
   });
 
 };
+
+
+function readFile(temlpateDir, file) {
+  if (file[0] == '.') {
+    throw new Error("readFile file must not start with . : bad file " + file);
+  }
+  var path = resolvePathUp(templateDir, file);
+  if (!path) {
+    throw new Error("Not found " + file + " (from dir " + templateDir + ")");
+  }
+  return fs.readFileSync(path);
+}
 
 function resolvePathUp(templateDir, templateName) {
 

@@ -1,0 +1,14 @@
+{
+  "maxerr": 25,
+  "latedef": "nofunc",
+  "browser": true,
+  "node": true, // for browserify require etc
+  "indent": 2,
+  "camelcase": true,
+  "newcap": true,
+  "undef": true,
+  "multistr": true,
+  "noyield": true,
+  "devel": true,
+  "-W004": true
+}

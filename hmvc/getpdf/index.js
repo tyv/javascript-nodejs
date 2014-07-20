@@ -1,6 +1,3 @@
-//var requireTree = require('require-tree');
-//
-//requireTree('./model');
 
 var router = require('./router');
 
