@@ -3,6 +3,7 @@
 const koa = require('koa');
 const log = require('javascript-log')(module);
 
+
 const app = koa();
 
 function requireMiddleware(path) {
@@ -24,8 +25,17 @@ requireMiddleware('setup/static');
 requireMiddleware('setup/errors');
 
 requireMiddleware('setup/logger');
+
 requireMiddleware('setup/bodyParser');
+
+if (process.env.NODE_ENV == 'development') {
+  requireMiddleware('setup/bodyLogger');
+}
+
 requireMiddleware('setup/session');
+requireMiddleware('setup/csrf');
+
+
 requireMiddleware('setup/hmvc');
 requireMiddleware('setup/render');
 requireMiddleware('setup/router');
