@@ -4,6 +4,9 @@ var mount = require('koa-mount');
 
 module.exports = function(app) {
 
+  for (var hmvc in app.hmvc) {
+
+  }
   app.use(mount('/', app.hmvc.frontpage.middleware));
 
   if (process.env.NODE_ENV == 'development') {

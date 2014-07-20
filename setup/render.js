@@ -102,7 +102,7 @@ module.exports = function render(app) {
 };
 
 
-function readFile(temlpateDir, file) {
+function readFile(templateDir, file) {
   if (file[0] == '.') {
     throw new Error("readFile file must not start with . : bad file " + file);
   }

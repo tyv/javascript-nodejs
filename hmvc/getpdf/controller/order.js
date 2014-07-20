@@ -1,11 +1,11 @@
 var mongoose = require('mongoose');
 
 var Order = mongoose.models.Order;
-var Transaction = mongoose.models.Transaction;
 
 var methods = require('../paymentMethods').methods;
 
 exports.post = function*(next) {
+  this.assertCSRF(this.request.body);
 
   var method = methods[this.request.body.paymentMethod];
   if (!method) {
@@ -21,21 +21,12 @@ exports.post = function*(next) {
   });
   yield order.persist();
 
-
-  var transaction = new Transaction({
-    order:       order._id,
-    amount:      order.amount,
-    paymentType: 'webmoney'
-  });
-
-  yield transaction.persist();
-
-  if (!this.session.transactions) {
-    this.session.transactions = [];
+  if (!this.session.orders) {
+    this.session.orders = [];
   }
-  this.session.transactions.push(transaction.number);
+  this.session.orders.push(order.number);
 
-  var form = yield methodApi.createTransactionForm(transaction);
+  var form = yield methodApi.createTransactionForm(order);
 
   this.body = form;
 
