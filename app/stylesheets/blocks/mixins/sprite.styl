@@ -8,7 +8,10 @@ spritePosition($sprite)
   background-position $sprite[2] $sprite[3]
 
 spriteImage($sprite)
-  background-image url($sprite[8])
+  if length($sprite) == 3
+    background-image url($sprite[2])
+  else
+    background-image url($sprite[8])  
 
 sprite($sprite)
   if !match('hover', selector()) && !match('active', selector())
