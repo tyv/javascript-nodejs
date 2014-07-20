@@ -11,6 +11,7 @@ module.exports = function(app) {
   }
 
   app.use(mount('/getpdf', app.hmvc.getpdf.middleware));
+  app.use(mount('/webmoney', app.hmvc.webmoney.middleware));
 
   // stick to bottom
   app.use(mount('/', app.hmvc.tutorial.middleware));

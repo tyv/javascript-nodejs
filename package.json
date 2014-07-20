@@ -10,6 +10,7 @@
   },
   "precommit": "NODE_PATH=. NODE_ENV=development node --harmony `which gulp` pre-commit",
   "dependencies": {
+    "MD5": "^1.2.1",
     "body-parser": "*",
     "brfs": "^1.1.2",
     "co": "*",
@@ -57,6 +58,7 @@
     "markdown-js": "*",
     "moment": "^2.7.0",
     "mongoose": "3.8",
+    "mongoose-auto-increment": "^3.0.8",
     "mongoose-troop": "git://github.com/iliakan/mongoose-troop",
     "nib": "^1.0.3",
     "passport": "*",

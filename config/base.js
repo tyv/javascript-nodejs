@@ -1,7 +1,7 @@
 var path = require('path');
 var fs = require('fs');
 
-var secretPath = fs.existsSync(path.join(__dirname, 'secret')) ? './secret' : './secret.default';
+var secretPath = fs.existsSync(path.join(__dirname, 'secret.js')) ? './secret' : './secret.template';
 var secret = require(secretPath);
 
 module.exports = function() {
@@ -20,9 +20,10 @@ module.exports = function() {
         }
       }
     },
-    "session": {
-      "keys": [secret.SESSION_KEY]
+    session: {
+      keys: [secret.sessionKey]
     },
+    webmoney: secret.webmoney,
     template: {
       options: {
         'cache': process.env.NODE_ENV != 'development'
