@@ -57,6 +57,18 @@
 	&__content
 		margin 12px 25px 22px
 
+		& > .spoiler
+			border 0
+			background none
+			margin 15px 0
+			padding 10px 20px 10px 0
+
+		& > .spoiler + .spoiler
+			margin-top -15px
+
+		& .spoiler__button
+			color #747361
+
 	&_warn &__type::before
 		spriteElem $important-warning
 

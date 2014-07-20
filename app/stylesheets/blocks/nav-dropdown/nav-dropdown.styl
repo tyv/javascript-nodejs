@@ -1,16 +1,13 @@
 .dropdown_nav
 	position relative
 
-.dropdown_nav.open
-	background #373E3F
-
 .dropdown__toggle_nav::after
 	@extend $font-open
 	margin-left 5px
 	color #b0b2b3
 	line-height 0
 
-.navbar__sections-item_open .dropdown__toggle_nav::after,
+.navbar__sections-item.open .dropdown__toggle_nav::after,
 .navbar__sections-item_active .dropdown__toggle_nav::after
 	color secondary_color
 
