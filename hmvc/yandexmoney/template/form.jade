@@ -1,0 +1,7 @@
+
+form(method="POST",action="https://sp-money.yandex.ru/oauth/authorize")
+  input(type="hidden",name="client_id",value=clientId)
+  input(type="hidden",name="response_type",value="code")
+  input(type="hidden",name="redirect_uri",value=(redirectUri + '?transactionNumber=' + transactionNumber))
+  input(type="hidden",name="scope",value=('payment.to-account("' + purse + '").limit(,' + amount + ')'))
+  input(type="submit",value="Оплатить")

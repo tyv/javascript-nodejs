@@ -1,7 +1,7 @@
 "use strict";
 
 const koa = require('koa');
-const log = require('javascript-log')(module);
+const log = require('js-log')();;
 
 
 const app = koa();
@@ -29,6 +29,7 @@ requireMiddleware('setup/logger');
 requireMiddleware('setup/bodyParser');
 
 if (process.env.NODE_ENV == 'development') {
+  requireMiddleware('setup/headersLogger');
   requireMiddleware('setup/bodyLogger');
 }
 

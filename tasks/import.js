@@ -3,7 +3,7 @@ const fs = require('fs');
 const fse = require('fs-extra');
 const path = require('path');
 const config = require('config');
-const log = require('javascript-log')(module);
+const log = require('js-log')();
 const mongoose = require('lib/mongoose');
 const Article = mongoose.models.Article;
 const Reference = mongoose.models.Reference;
@@ -17,7 +17,7 @@ const pngcrush = require('imagemin-pngcrush');
 const gm = require('gm');
 const svgo = require('imagemin-svgo');
 
-// TODO: use htmlhint for html
+// TODO: use htmlhint/jslint for html/js examples
 
 
 /**

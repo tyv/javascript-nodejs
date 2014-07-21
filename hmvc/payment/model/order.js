@@ -11,20 +11,15 @@ var schema = new Schema({
     type:     String,
     required: true
   },
-  data:    String,
+  status: {
+    type: String
+  },
+  data:    Schema.Types.Mixed,
   created: {
     type:    Date,
     default: Date.now
   }
 });
-
-schema.methods.getSuccessUrl = function() {
-  return '/' + this.module + '/success';
-};
-
-schema.methods.getFailUrl = function() {
-  return '/' + this.module + '/fail';
-};
 
 schema.plugin(autoIncrement.plugin, {model: 'Order', field: 'number'});
 

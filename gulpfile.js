@@ -6,18 +6,19 @@ const debug = require('gulp-debug');
 const path = require('path');
 const source = require('vinyl-source-stream');
 const watchify = require('watchify');
-const browserifyTask = require('tasks/browserify');
+//const browserifyTask = require('tasks/browserify');
+
 
 const serverSources = [
   'config/**/*.js', 'controllers/**/*.js', 'lib/**/*.js', 'renderer/**/*.js', 'routes/**/*.js',
   'setup/**/*.js', 'tasks/**/*.js', '*.js'
 ];
 
-gulp.task('lint', require('./tasks/lint')(serverSources));
+gulp.task('lint', gp.jshintCache({ src: serverSources }));
 
+gulp.task('lint-or-die', gp.jshintCache({ src: serverSources, dieOnError: true }));
 
-
-gulp.task('lint-watch', ['lint'], function() {
+gulp.task('lint-watch', ['lint'], function(neverCalled) {
   gulp.watch(serverSources, ['lint']);
 });
 

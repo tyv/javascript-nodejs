@@ -1,6 +1,6 @@
 'use strict';
 
-var log = require('javascript-log')(module);
+var log = require('js-log')();
 var config = require('config');
 var requireTree = require('require-tree');
 var controllers = requireTree('../controllers');

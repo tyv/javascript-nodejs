@@ -4,11 +4,14 @@ const mongoose = require('mongoose');
 const Order = mongoose.models.Order;
 const Transaction = mongoose.models.Transaction;
 const TransactionLog = mongoose.models.TransactionLog;
-const log = require('javascript-log')(module);
+const log = require('js-log')();
 const md5 = require('MD5');
+
+
 
 log.debugOn();
 
+// ONLY ACCESSED from WEBMONEY SERVER
 exports.prerequest = function* (next) {
 
   log.debug("prerequest");
@@ -23,7 +26,7 @@ exports.prerequest = function* (next) {
   yield new TransactionLog().persist({
     transaction: transaction._id,
     event:       'prerequest',
-    data:        JSON.stringify(this.request.body)
+    data:        {url: this.request.originalUrl, body: this.request.body}
   });
 
   if (transaction.status == Transaction.STATUS_SUCCESS ||
@@ -59,7 +62,7 @@ exports.post = function* (next) {
   yield new TransactionLog().persist({
     transaction: transaction._id,
     event:       'result',
-    data:        JSON.stringify(this.request.body)
+    data:        {url: this.request.originalUrl, body: this.request.body}
   });
 
   if (transaction.amount != parseFloat(this.request.body.LMI_PAYMENT_AMOUNT) ||
