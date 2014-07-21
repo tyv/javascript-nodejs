@@ -13,7 +13,9 @@ body(id='#{self.bodyId}')
             h1.main__header-title= self.title
             span.main__header-comments
               a(href='http://learn.javascript.ru/intro#disqus_thread') Комментариев #{self.comments.length}
-            include ../blocks/lesson-next-prev
+            include ../blocks/prev-next-top
           block content
           include ../blocks/article-foot
+          include ../blocks/prev-next-bottom
+          include ../blocks/corrector
   include ../blocks/scripts

@@ -1,0 +1,53 @@
+.prev-next
+	display table
+	table-layout fixed
+
+	&__prev,
+	&__next
+		display table-cell
+
+	&__prev
+		text-align left
+		padding-right 10px
+
+	&__next
+		text-align right
+		padding-left 10px
+
+	&__shortcut
+		color #999
+		font inherit
+
+	&__arr
+		position relative
+		top -.1em
+
+	&_top &__link
+		color #656565
+		text-decoration underline
+		margin 0 .5ex
+
+	&_top &__prev
+		border-right 2px solid #f5f2f0
+
+	&_top &__prev:last-child
+		text-align right
+		border 0
+		padding-right 0
+
+	&_top &__next:first-child
+		padding-left 0
+
+	&_top &__shortcut
+		font-size 11px
+
+	&_bottom
+		width 100%
+		padding 12px 0
+		border-bottom 1px solid #ddd
+
+	&_bottom &__shortcut
+		margin-left .5ex
+
+	&_bottom &__shortcut-wrap
+		margin-bottom 5px
