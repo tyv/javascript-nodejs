@@ -9,7 +9,7 @@ var schema = new Schema({
     ref:  'Transaction'
   },
   event: String,
-  data: String,
+  data: Schema.Types.Mixed,
 
   created:  {
     type:    Date,
@@ -17,5 +17,6 @@ var schema = new Schema({
   }
 });
 
-mongoose.model('TransactionLog', schema);
+/* jshint -W003 */
+var TransactionLog = mongoose.model('TransactionLog', schema);
 

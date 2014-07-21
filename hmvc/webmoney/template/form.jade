@@ -1,4 +1,4 @@
-form(method="POST",action="https://merchant.webmoney.ru/lmi/payment.asp", class="webmoney-form")
+form(method="POST",action="https://merchant.webmoney.ru/lmi/payment.asp")
   input(type="hidden",name="LMI_PAYMENT_AMOUNT",value=amount)
   input(type="hidden",name="LMI_PAYMENT_DESC_BASE64",value=new Buffer('оплата по счету ' + number).toString('base64'))
   input(type="hidden",name="LMI_PAYMENT_NO",value=number)

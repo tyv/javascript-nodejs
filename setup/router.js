@@ -4,9 +4,7 @@ var mount = require('koa-mount');
 
 module.exports = function(app) {
 
-  for (var hmvc in app.hmvc) {
 
-  }
   app.use(mount('/', app.hmvc.frontpage.middleware));
 
   if (process.env.NODE_ENV == 'development') {
@@ -14,7 +12,12 @@ module.exports = function(app) {
   }
 
   app.use(mount('/getpdf', app.hmvc.getpdf.middleware));
+
   app.use(mount('/webmoney', app.hmvc.webmoney.middleware));
+  app.noCsrf.push(/^\/webmoney\//);
+
+  app.use(mount('/yandexmoney', app.hmvc.yandexmoney.middleware));
+  app.noCsrf.push(/^\/yandexmoney\//);
 
   // stick to bottom
   app.use(mount('/', app.hmvc.tutorial.middleware));

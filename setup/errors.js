@@ -1,25 +1,25 @@
 'use strict';
 
 const config = require('config');
-const log = require('javascript-log')(module);
+const log = require('js-log')();
 const escapeHtml = require('escape-html');
 
 function* renderError(error) {
   /*jshint -W040 */
-  this.statusCode = error.status;
+  this.status = error.status;
 
   var preferredType = this.accepts('html', 'json');
 
   if (preferredType == 'json') {
     this.body = error;
   } else {
-    // todo: remake this.render into new jade renderer which looks up the template correctly
     this.render("error", {error: error});
   }
 }
 
 function* renderDevError(error) {
   /*jshint -W040 */
+  this.status = 500;
 
   var preferredType = this.accepts('html', 'json');
 
@@ -56,9 +56,9 @@ module.exports = function(app) {
         this.set('X-Content-Type-Options', 'nosniff');
 
         if (process.env.NODE_ENV == 'development') {
-          yield renderDevError.call(this, err);
+          yield* renderDevError.call(this, err);
         } else {
-          yield renderError.call(this, {status: 500, message: "Internal Error"});
+          yield* renderError.call(this, {status: 500, message: "Internal Error"});
         }
       }
     }

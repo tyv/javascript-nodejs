@@ -1,6 +1,11 @@
+if message
+  div= message
+
 div
   p Выберите способ оплаты:
   form.pay-form.notready(onsubmit="alert('Минуточку, идёт загрузка...'); return false")
+    input(type="text" name="orderNumber" value=(!order.isNew && order.number) placeholder="order number")
+    input(name="email" value=order.data.email placeholder="E-mail")
     select(name="paymentMethod")
       each paymentMethod in paymentMethods
         option(value=paymentMethod.name) #{paymentMethod.title}
@@ -18,14 +23,19 @@ script.
     e.preventDefault();
     $.ajax({
       method: 'POST',
-      url: '/getpdf/order',
+      url: '/getpdf/pay',
       data: {
         _csrf: csrf,
+        orderNumber: this.elements.orderNumber.value,
+        email: this.elements.email.value,
         paymentMethod: this.elements.paymentMethod.value
       }
     })
-    .done(function(html) {
-      $(html).submit();
+    .fail(function(err) {
+      alert("Ошибка на сервере");
+    })
+    .done(function(htmlForm) {
+      $(htmlForm).submit();
     });
 
   });

@@ -24,6 +24,7 @@ module.exports = function() {
       keys: [secret.sessionKey]
     },
     webmoney: secret.webmoney,
+    yandexmoney: secret.yandexmoney,
     template: {
       options: {
         'cache': process.env.NODE_ENV != 'development'

@@ -9,34 +9,63 @@ var autoIncrement = require('mongoose-auto-increment');
  * @type {Schema}
  */
 var schema = new Schema({
-  order:       {
+  order:         {
     type: Schema.Types.ObjectId,
     ref:  'Order'
   },
-  amount:      {
+  amount:        {
     type:     Number,
     required: true
   },
-  paymentType: {
+  paymentType:   {
     type:     String,
     required: true
   },
-  created:     {
+  created:       {
     type:    Date,
     default: Date.now
   },
-  status:      {
+  status:        {
     type: String
   },
-  data:        String
+  statusMessage: {
+    type: String
+  },
+  data:          String
 });
 
 schema.plugin(autoIncrement.plugin, {model: 'Transaction', field: 'number'});
 
+schema.statics.STATUS_SUCCESS = 'success';
+schema.statics.STATUS_FAIL = 'fail';
 
-const Transaction = mongoose.model('Transaction', schema);
+schema.pre('save', function (next) {
+  if (this.status == Transaction.STATUS_SUCCESS) {
+    var orderId = this.order._id || this.order;
+    Order.findByIdAndUpdate(orderId, {status: Transaction.STATUS_SUCCESS}, function(err) {
+      if (err) throw(err);
+    });
+  }
+});
 
-Transaction.STATUS_SUCCESS = 'success';
-Transaction.STATUS_FAIL = 'fail';
+schema.methods.getStatusDescription = function() {
+  if (this.status == Transaction.STATUS_SUCCESS) {
+    return 'оплата прошла успешно';
+  }
 
+  if (!this.status) {
+    return 'нет информации об оплате';
+  }
 
+  return 'оплата не прошла';
+};
+
+schema.methods.log = function*(options) {
+  options.transaction = this._id;
+  var log = new mongoose.models.TransactionLog(options);
+  yield log.persist();
+};
+
+/* jshint -W003 */
+var Transaction = module.exports = mongoose.model('Transaction', schema);
+var Order = mongoose.models.Order;

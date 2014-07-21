@@ -1,11 +1,10 @@
-var mongoose = require('mongoose');
-var Transaction = mongoose.model.Transaction;
+exports.loadOrderMiddleware = require('./lib/loadOrderMiddleware');
+exports.loadTransactionMiddleware = require('./lib/loadTransactionMiddleware');
 
-exports.createTransaction = function* (amount, orderNum, type) {
-  return yield new Transaction({
-    amount: amount,
-    orderNum: orderNum,
-    paymentType: type
-  }).persist();
+exports.loadMiddleware = function(field) {
+  return function* (next) {
+    yield* exports.loadTransactionMiddleware.call(this);
+    yield* exports.loadOrderMiddleware.call(this);
+    yield* next;
+  };
 };
-

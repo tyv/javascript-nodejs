@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const Order = mongoose.models.Order;
 const Transaction = mongoose.models.Transaction;
 const TransactionLog = mongoose.models.TransactionLog;
-const log = require('javascript-log')(module);
+const log = require('js-log')();
 const md5 = require('MD5');
 
 log.debugOn();
@@ -13,18 +13,8 @@ log.debugOn();
 
 exports.post = function* (next) {
 
-  var transaction = yield Transaction.findOne({number: this.query.number}).populate('order').exec();
-
-  if (!transaction) {
-    this.throw(404, 'transaction not found');
-  }
-
-  if (!this.session.orders || this.session.orders.indexOf(transaction.order.number) == -1) {
-    this.throw(403, 'order not in your session');
-  }
-
   var attempt = 0;
-  while (!transaction.status) {
+  while (!this.transaction.status) {
     attempt++;
     if (attempt == 10) {
       log.debug("timeout");
@@ -34,12 +24,12 @@ exports.post = function* (next) {
 
     yield delay(1000);
 
-    transaction = yield Transaction.findOne({number: this.query.number }).exec();
+    this.transaction = yield Transaction.findOne({number: this.transaction.number }).exec();
   }
 
   log.debug('received');
 
-  this.body = 'RECEIVED';
+  this.body = this.transaction.status;
 };
 
 function delay(ms) {

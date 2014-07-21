@@ -13,15 +13,17 @@ exports.createTransactionForm = function* (order) {
   var transaction = new Transaction({
     order:       order._id,
     amount:      order.amount,
-    paymentType: 'webmoney'
+    paymentType: 'yandexmoney'
   });
 
   yield transaction.persist();
 
   return jade.renderFile(path.join(__dirname, 'template/form.jade'), {
-    amount: transaction.amount,
-    number: transaction.number,
-    purse:  config.webmoney.purse
+    clientId: config.yandexmoney.clientId,
+    redirectUri: config.yandexmoney.redirectUri,
+    purse: config.yandexmoney.purse,
+    transactionNumber: transaction.number,
+    amount: transaction.amount
   });
 
 };
