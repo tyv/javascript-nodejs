@@ -1,8 +1,8 @@
 --reporter spec
 --colors
 --timeout 10000
+--require config/mongoose
 --require should
---require lib/mongoose
 --require co
 --require co-mocha
 --recursive

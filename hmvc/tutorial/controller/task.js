@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
-const Task = mongoose.models.Task;
+const Task = require('../models/task');
 const TaskRenderer = require('../renderer/taskRenderer').TaskRenderer;
 
 exports.get = function *get(next) {
   const task = yield Task.findOne({
-    slug: this.params[0]
+    slug: this.params.slug
   }).exec();
 
   if (!task) {

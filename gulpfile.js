@@ -1,23 +1,26 @@
 const gulp = require('gulp');
+const fs = require('fs');
 const fse = require('fs-extra');
 const spawn = require('child_process').spawn;
 const gp = require('gulp-load-plugins')();
 const debug = require('gulp-debug');
 const path = require('path');
 const source = require('vinyl-source-stream');
+const linkModules = require('./tasks/linkModules');
 const watchify = require('watchify');
-const browserifyTask = require('tasks/browserify');
+//const browserifyTask = require('tasks/browserify');
+
 
 const serverSources = [
   'config/**/*.js', 'controllers/**/*.js', 'lib/**/*.js', 'renderer/**/*.js', 'routes/**/*.js',
   'setup/**/*.js', 'tasks/**/*.js', '*.js'
 ];
 
-gulp.task('lint', require('./tasks/lint')(serverSources));
+gulp.task('lint', gp.jshintCache({ src: serverSources }));
 
+gulp.task('lint-or-die', gp.jshintCache({ src: serverSources, dieOnError: true }));
 
-
-gulp.task('lint-watch', ['lint'], function() {
+gulp.task('lint-watch', ['lint'], function(neverCalled) {
   gulp.watch(serverSources, ['lint']);
 });
 
@@ -63,8 +66,8 @@ gulp.task('clean-compiled-css', function() {
 
 
 gulp.task('import', function(callback) {
-  const mongoose = require('lib/mongoose');
-  const taskImport = require('./tasks/import');
+  const mongoose = require('config/mongoose');
+  const taskImport = require('tutorial/tasks/import');
 
   taskImport({
     root:        path.join(path.dirname(__dirname), 'javascript-tutorial'),
@@ -76,20 +79,11 @@ gulp.task('import', function(callback) {
   });
 });
 
-/*
- gulp.task('flo', function() {
- var node = spawn('node', ['flo.js'], { stdio: 'inherit' });
- node.on('close', function(code) {
- if (code === 8) {
- gulp.log('Error detected, turning off fb-flo...');
- }
- });
- });
- */
+gulp.task('link-modules', linkModules(['modules/*', 'hmvc/*']));
 
 gulp.task('sprite', gp.stylusSprite({
   spritesSearchFsRoot: 'app',
   spritesWebRoot:      '/img',
   spritesFsDir:        'www/img',
-  styleFsDir:          'app/stylesheets/sprite'
+  styleFsDir:          'app/stylesheets/sprites'
 }));

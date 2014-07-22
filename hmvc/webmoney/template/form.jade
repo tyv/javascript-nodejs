@@ -1,7 +1,0 @@
-form(method="POST",action="https://merchant.webmoney.ru/lmi/payment.asp", class="webmoney-form")
-  input(type="hidden",name="LMI_PAYMENT_AMOUNT",value=amount)
-  input(type="hidden",name="LMI_PAYMENT_DESC_BASE64",value=new Buffer('оплата по счету ' + number).toString('base64'))
-  input(type="hidden",name="LMI_PAYMENT_NO",value=number)
-  input(type="hidden",name="LMI_PAYEE_PURSE",value=purse)
-  input(type="hidden",name="LMI_SIM_MODE",value=(isTest ? 1 : 0))
-  input(type="submit",value="Оплатить")

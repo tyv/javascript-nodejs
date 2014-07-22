@@ -4,10 +4,10 @@ const ReferenceNode = require('javascript-parser').ReferenceNode;
 const CompositeTag = require('javascript-parser').CompositeTag;
 const TextNode = require('javascript-parser').TextNode;
 const ErrorTag = require('javascript-parser').ErrorTag;
-const mongoose = require('lib/mongoose');
-const Reference = mongoose.models.Reference;
-const Article = mongoose.models.Article;
-const Task = mongoose.models.Task;
+const mongoose = require('mongoose');
+const Reference = require('../models/reference');
+const Article = require('../models/article');
+const Task = require('../models/task');
 
 function ReferenceResolver(root) {
   this.root = root;

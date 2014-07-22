@@ -1,11 +1,11 @@
 var app = require('app');
-var mongoose = require('lib/mongoose');
+var mongoose = require('config/mongoose');
 
 var dataUtil = require('lib/dataUtil');
 
 describe('User', function() {
 
-  var User = mongoose.models.User;
+  var User = require('../../../models/user');
 
   before(function* () {
     yield dataUtil.createEmptyDb;

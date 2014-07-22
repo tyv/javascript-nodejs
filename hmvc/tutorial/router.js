@@ -5,6 +5,6 @@ var article = require('./controller/article');
 
 var router = module.exports = new Router();
 
-router.get(/^\/task\/(.*)$/, task.get);
-router.get(/^\/(.*)$/, article.get);
+router.get('/task/:slug', task.get);
+router.get('/:slug', article.get);
 

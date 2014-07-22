@@ -1,33 +1,25 @@
-const payment = require('../../payment');
+const payment = require('payment');
 const config = require('config');
 const mongoose = require('mongoose');
-const Order = mongoose.models.Order;
-const Transaction = mongoose.models.Transaction;
-const TransactionLog = mongoose.models.TransactionLog;
-const log = require('javascript-log')(module);
+const Order = payment.Order;
+const Transaction = payment.Transaction;
+const log = require('js-log')();
 const md5 = require('MD5');
 
 log.debugOn();
 
+// ONLY ACCESSED from WEBMONEY SERVER
 exports.prerequest = function* (next) {
 
   log.debug("prerequest");
 
-  var transaction = yield Transaction.findOne({number: this.request.body.LMI_PAYMENT_NO}).exec();
-
-  if (!transaction) {
-    log.debug("no transaction " + this.request.body.LMI_PAYMENT_NO);
-    this.throw(404, 'transaction not found');
-  }
-
-  yield new TransactionLog().persist({
-    transaction: transaction._id,
-    event:       'prerequest',
-    data:        JSON.stringify(this.request.body)
+  yield this.transaction.log({
+    event: 'prerequest',
+    data:  {url: this.request.originalUrl, body: this.request.body}
   });
 
-  if (transaction.status == Transaction.STATUS_SUCCESS ||
-    transaction.amount != parseFloat(this.request.body.LMI_PAYMENT_AMOUNT) ||
+  if (this.transaction.status == Transaction.STATUS_SUCCESS ||
+    this.transaction.amount != parseFloat(this.request.body.LMI_PAYMENT_AMOUNT) ||
     this.request.body.LMI_PAYEE_PURSE != config.webmoney.purse
     ) {
     log.debug("no pending transaction " + this.request.body.LMI_PAYMENT_NO);
@@ -50,27 +42,24 @@ exports.post = function* (next) {
     this.throw(403, "wrong signature");
   }
 
-  var transaction = yield Transaction.findOne({number: this.request.body.LMI_PAYMENT_NO}).exec();
-
-  if (!transaction) {
-    this.throw(404, 'transaction not found');
-  }
-
-  yield new TransactionLog().persist({
-    transaction: transaction._id,
-    event:       'result',
-    data:        JSON.stringify(this.request.body)
+  yield this.transaction.log({
+    event: 'result',
+    data:  {url: this.request.originalUrl, body: this.request.body}
   });
 
-  if (transaction.amount != parseFloat(this.request.body.LMI_PAYMENT_AMOUNT) ||
+  if (this.transaction.amount != parseFloat(this.request.body.LMI_PAYMENT_AMOUNT) ||
     this.request.body.LMI_PAYEE_PURSE != config.webmoney.purse) {
     this.throw(404, 'transaction with given params not found');
   }
 
   if (!this.request.body.LMI_SIM_MODE || this.request.body.LMI_SIM_MODE == '0') {
-    transaction.status = Transaction.STATUS_SUCCESS;
-    yield transaction.persist();
+    this.transaction.status = Transaction.STATUS_SUCCESS;
+    yield this.transaction.persist();
   }
+
+  var order = this.transaction.order;
+  log.debug("will call order onSuccess module=" + order.module);
+  require(order.module).onSuccess(order);
 
   this.body = 'OK';
 
