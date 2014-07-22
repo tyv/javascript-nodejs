@@ -1,15 +1,11 @@
-const payment = require('../../payment');
+const payment = require('payment');
 const config = require('config');
 const mongoose = require('mongoose');
-const Order = mongoose.models.Order;
-const Transaction = mongoose.models.Transaction;
-const TransactionLog = mongoose.models.TransactionLog;
+const Transaction = payment.Transaction;
 const log = require('js-log')();
 const md5 = require('MD5');
 
 log.debugOn();
-
-
 
 exports.post = function* (next) {
 

@@ -1,8 +1,7 @@
-const config = require('config');
 const mongoose = require('mongoose');
-const Order = mongoose.models.Order;
-const Transaction = mongoose.models.Transaction;
-const TransactionLog = mongoose.models.TransactionLog;
+const payment = require('payment');
+const Order = payment.Order;
+const Transaction = payment.Transaction;
 const log = require('js-log')();
 const md5 = require('MD5');
 
@@ -11,15 +10,13 @@ log.debugOn();
 
 exports.get = function* (next) {
 
-  this.transaction.status = Transaction.STATUS_FAIL;
-  yield this.transaction.persist();
+  yield this.transaction.persist({
+    status: Transaction.STATUS_FAIL
+  });
 
-  yield new TransactionLog({
-    event: 'fail',
-    transaction: this.transaction._id
-  }).persist();
+  yield this.transaction.log({ event: 'fail' });
 
   var order = this.transaction.order;
-  this.redirect('/' + order.module + '/order/' + order.number);
+  this.redirect(payment.getOrderUrl(order));
 
 };

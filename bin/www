@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 'use strict';
 
-const log = require('js-log')();;
+const log = require('js-log')();
 const config = require('config');
-const mongoose = require('lib/mongoose');
+const mongoose = require('config/mongoose');
 const app = require('app');
 
 mongoose.waitConnect(function(err) {

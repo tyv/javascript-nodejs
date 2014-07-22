@@ -1,8 +1,8 @@
 const app = require('app');
 
 const ArticleRenderer = require('../../renderer/articleRenderer').ArticleRenderer;
-const mongoose = require('lib/mongoose');
-const Article = mongoose.models.Article;
+const mongoose = require('config/mongoose');
+const Article = require('../../models/article');
 
 describe("ArticleRenderer", function() {
 

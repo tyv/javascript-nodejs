@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
-var Order = mongoose.models.Order;
-var Transaction = mongoose.models.Transaction;
+const payment = require('payment');
+var Order = payment.Order;
+var Transaction = payment.Transaction;
 
 exports.get = function*(next) {
 

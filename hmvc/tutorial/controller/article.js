@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Article = mongoose.models.Article;
+const Article = require('../models/article');
 const ArticleRenderer = require('../renderer/articleRenderer').ArticleRenderer;
 const treeUtil = require('lib/treeUtil');
 const jade = require('jade');
@@ -7,7 +7,7 @@ const _ = require('lodash');
 
 exports.get = function *get(next) {
 
-  const article = yield Article.findOne({ slug: this.params[0] }).exec();
+  const article = yield Article.findOne({ slug: this.params.slug }).exec();
   if (!article) {
     yield next;
     return;

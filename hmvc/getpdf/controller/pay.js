@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var log = require('js-log')();
-var Order = mongoose.models.Order;
+var payment = require('payment');
+var Order = payment.Order;
 var methods = require('../paymentMethods').methods;
 
 log.debugOn();
@@ -11,7 +12,7 @@ exports.post = function*(next) {
   if (!method) {
     this.throw(403, "Unsupported payment method");
   }
-  var methodApi = this.app.hmvc[method.name]; // /hmvc/webmoney
+  var methodApi = require(method.module); // webmoney
 
   if (this.order) {
     log.debug("order exists", this.order.number);

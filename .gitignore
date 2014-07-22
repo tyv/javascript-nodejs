@@ -17,7 +17,6 @@
 .settings
 .tmproj
 .nvmrc
-nbproject
 Thumbs.db
 
 # NPM packages folder.
@@ -26,9 +25,12 @@ node_modules/
 # TMP folder (anything)
 tmp/
 
+# contains v8 executable for linux-tick-processor (run from project root)
+out/*
+
 # Generated content
 www/*
-app/stylesheets/sprite/*
+app/stylesheets/sprites/*
 
 # Bower stuff.
 bower_components/

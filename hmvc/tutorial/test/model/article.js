@@ -5,8 +5,7 @@ var mongoose = require('mongoose');
 var assert = require('assert');
 var path = require('path');
 var treeUtil = require('lib/treeUtil');
-var Article = mongoose.models.Article;
-
+var Article = require('../../models/article');
 
 describe('Article', function() {
 

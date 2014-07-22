@@ -1,9 +1,7 @@
-const payment = require('../../payment');
 const config = require('config');
 const mongoose = require('mongoose');
-const Order = mongoose.models.Order;
-const Transaction = mongoose.models.Transaction;
-const TransactionLog = mongoose.models.TransactionLog;
+const payment = require('payment');
+const Transaction = payment.Transaction;
 const log = require('js-log')();
 const md5 = require('MD5');
 
@@ -14,8 +12,9 @@ exports.get = function* (next) {
 
   var transaction = this.transaction;
   var order = this.transaction.order;
-  var successUrl = '/' + order.module + '/success/' + order.number;
-  var failUrl = '/' + order.module + '/order/' + order.number;
+
+  var successUrl = payment.getOrderSuccessUrl(order);
+  var failUrl = payment.getOrderUrl(order);
 
   log.debug("transaction status: " + transaction.status);
 
