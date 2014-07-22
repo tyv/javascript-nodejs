@@ -10,6 +10,7 @@ log.debugOn();
 
 // ONLY ACCESSED from WEBMONEY SERVER
 exports.prerequest = function* (next) {
+  yield* this.loadTransaction('LMI_PAYMENT_NO', {skipOwnerCheck : true});
 
   log.debug("prerequest");
 
@@ -32,10 +33,7 @@ exports.prerequest = function* (next) {
 
 exports.post = function* (next) {
 
-  if (this.request.body.LMI_PREREQUEST == '1') {
-    yield exports.prerequest.call(this, next);
-    return;
-  }
+  yield* this.loadTransaction('LMI_PAYMENT_NO', {skipOwnerCheck : true});
 
   if (!checkSign(this.request.body)) {
     log.debug("wrong signature");
@@ -59,7 +57,7 @@ exports.post = function* (next) {
 
   var order = this.transaction.order;
   log.debug("will call order onSuccess module=" + order.module);
-  require(order.module).onSuccess(order);
+  yield* require(order.module).onSuccess(order);
 
   this.body = 'OK';
 

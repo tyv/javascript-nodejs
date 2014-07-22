@@ -50,6 +50,7 @@
     "js-log": "^0.2.2",
     "koa": "*",
     "koa-bodyparser": "*",
+    "koa-compose": "^2.3.0",
     "koa-csrf": "^2.1.2",
     "koa-favicon": "*",
     "koa-generic-session": "*",

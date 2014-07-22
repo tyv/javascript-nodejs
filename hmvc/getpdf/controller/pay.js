@@ -7,6 +7,7 @@ var methods = require('../paymentMethods').methods;
 log.debugOn();
 
 exports.post = function*(next) {
+  yield* this.loadOrder();
 
   var method = methods[this.request.body.paymentMethod];
   if (!method) {

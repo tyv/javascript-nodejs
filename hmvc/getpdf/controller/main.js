@@ -4,8 +4,11 @@ var Transaction = payment.Transaction;
 
 exports.get = function*(next) {
 
-  if (!this.order) {
+  console.log("HERE");
 
+  if (this.params.orderNumber) {
+    yield* this.loadOrder();
+  } else {
     // this order is not saved anywhere,
     // it's only used to initially fill the form
     this.order = new Order({

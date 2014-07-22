@@ -9,6 +9,8 @@ log.debugOn();
 
 exports.post = function* (next) {
 
+  yield* this.loadTransaction();
+
   var attempt = 0;
   while (!this.transaction.status) {
     attempt++;

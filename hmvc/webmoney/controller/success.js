@@ -9,12 +9,13 @@ log.debugOn();
 
 
 exports.get = function* (next) {
+  yield* this.loadTransaction('LMI_PAYMENT_NO');
 
   var transaction = this.transaction;
-  var order = this.transaction.order;
+  var order = this.order;
 
-  var successUrl = payment.getOrderSuccessUrl(order);
-  var failUrl = payment.getOrderUrl(order);
+  var successUrl = this.getOrderSuccessUrl();
+  var failUrl = this.getOrderUrl();
 
   log.debug("transaction status: " + transaction.status);
 

@@ -59,11 +59,24 @@ schema.methods.getStatusDescription = function() {
     return 'нет информации об оплате';
   }
 
-  return 'оплата не прошла';
+  var result = 'оплата не прошла';
+  if (this.statusMessage) result += ': ' + this.statusMessage;
+  return result;
 };
 
 schema.methods.log = function*(options) {
   options.transaction = this._id;
+
+  // for complex objects -> prior to logging make them simple (must be jsonable)
+  // e.g for HTTP response (HTTP.IncomingMessage)
+  if (options.data && typeof options.data == 'object') {
+    // object keys may not contain "." in mongodb, so I may not store arbitrary objects
+    // only json can help
+    options.data = JSON.stringify(options.data);
+  }
+
+  console.log(options);
+
   var log = new TransactionLog(options);
   yield log.persist();
 };

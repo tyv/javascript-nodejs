@@ -1,114 +1,199 @@
 const config = require('config');
-const mongoose = require('mongoose');
-const Order = mongoose.models.Order;
-const Transaction = mongoose.models.Transaction;
-const TransactionLog = mongoose.models.TransactionLog;
+const payment = require('payment');
+const Order = payment.Order;
+const Transaction = payment.Transaction;
 const log = require('js-log')();
-const md5 = require('MD5');
 const request = require('koa-request');
+
 log.debugOn();
 
 /* jshint -W106 */
-function* fail(ctx) {
-  ctx.transaction.status = Transaction.STATUS_FAIL;
-  yield ctx.transaction.persist();
-
-  yield ctx.transaction.log({ event: 'fail' });
-
-  var order = ctx.transaction.order;
-  ctx.redirect('/' + order.module + '/order/' + order.number);
-}
-
 exports.get = function* (next) {
 
+  var self = this;
+
+  yield* this.loadTransaction();
+
   yield this.transaction.log({
-    event:       'back',
-    data:        {url: this.request.originalUrl, body: this.request.body}
+    event: 'back',
+    data:  {url: this.request.originalUrl, body: this.request.body}
   });
 
-  if (this.query.error) {
-    fail(this);
+
+  if (!this.query.code) {
+    yield* fail(this.query.error_description || this.query.error);
     return;
   }
 
-  if (this.query.code) {
+
+  try {
+    var oauthTokenResponse = yield* requestOauthToken(this.query.code);
+
+    var oauthToken = oauthTokenResponse.access_token;
+    if (!oauthToken) {
+      throwResponseError(oauthTokenResponse);
+    }
+
+    var requestPaymentResponse = yield* requestPayment(oauthToken);
+
+    if (requestPaymentResponse.status != "success") {
+
+      if (requestPaymentResponse.error == 'ext_action_required') {
+        self.redirect(requestPaymentResponse.ext_action_uri);
+        return;
+      }
+
+      throwResponseError(requestPaymentResponse);
+    }
+
+    var requestId = requestPaymentResponse.request_id;
+
+    var startTime = new Date();
+
+    while_in_progress:
+      while (true) {
+        if (new Date() - startTime > 5 * 60 * 1e3) { // 5 minutes wait max
+          yield* fail("timeout");
+          return;
+        }
+        var processPaymentResponse = yield* processPayment(oauthToken, requestId);
+
+        switch (processPaymentResponse.status) {
+        case 'success':
+          break while_in_progress;
+        case 'refused':
+          yield* fail(processPaymentResponse.error);
+          return;
+        case 'ext_auth_required':
+          yield* fail("необходимо подтвердить авторизацию по технологии 3D-Secure");
+          return;
+        case 'in_progress':
+          yield delay(processPaymentResponse.next_retry);
+          break;
+        default:
+          yield delay(1000);
+        }
+
+      }
+
+
+    // success!
+    yield* require(this.order.module).onSuccess(this.order);
+
+
+    self.redirect(self.getOrderSuccessUrl());
+
+  } catch (e) {
+
+    yield* fail(e.message);
+    return;
+  }
+
+  /* jshint -W106 */
+  function* fail(reason) {
+    self.transaction.status = Transaction.STATUS_FAIL;
+    self.transaction.statusMessage = reason;
+
+    yield self.transaction.persist();
+
+    yield self.transaction.log({ event: 'fail', data: reason });
+
+
+    self.redirect(self.getOrderUrl());
+  }
+
+
+  function* requestOauthToken(code) {
 
     // request oauth token
     var options = {
       method: 'POST',
       form:   {
-        code:          this.query.code,
+        code:          code,
         client_id:     config.yandexmoney.clientId,
         grant_type:    'authorization_code',
-        redirect_uri:  config.yandexmoney.redirectUri + '?transactionNumber=' + this.transaction.number,
+        redirect_uri:  config.yandexmoney.redirectUri + '?transactionNumber=' + self.transaction.number,
         client_secret: config.yandexmoney.clientSecret
       },
       url:    'https://sp-money.yandex.ru/oauth/token'
     };
 
-    yield this.transaction.log({ event: 'request oauth/token', data: options });
 
-    var response;
-    try {
-      var response = request(options);
-      yield this.transaction.log({ event: 'response oauth/token', data: response });
+    yield self.transaction.log({ event: 'request oauth/token', data: options });
 
-      response = JSON.parse(response);
-      if (!response.access_token) {
-        throw new Error(response.error);
-      }
-    } catch(e) {
-      fail(this);
-      return;
-    }
+    var response = yield request(options);
 
-    var accessToken = response.access_token;
+    yield self.transaction.log({ event: 'response oauth/token', data: response.body });
 
-    // request payment
-    var options = {
-      method: 'POST',
-      form:   {
-        pattern_id:          'p2p',
-        to:     config.yandexmoney.purse,
-        amount: this.transaction.amount,
-        comment: 'оплата по счету ' + this.transaction.number,
-        message: 'оплата по счету ' + this.transaction.number,
-        identifier_type:    'account'
-      },
-      headers: {
-        'Authorization': 'Bearer ' + accessToken
-      },
-      url:    'https://money.yandex.ru/api/request-payment'
-    };
-
-    // TODO!
-
-    yield this.transaction.log({ event: 'request api/request-payment', data: options });
-
-    var response;
-    try {
-      var response = request(options);
-      yield this.transaction.log({ event: 'response api/request-payment', data: response });
-
-      response = JSON.parse(response);
-      if (!response.access_token) {
-        throw new Error(response.error);
-      }
-    } catch(e) {
-      fail(this);
-      return;
-    }
-
-
-
-
-    this.body = 'OK';
+    return JSON.parse(response.body);
   }
 
-  /*
-  this.transaction.status = Transaction.STATUS_FAIL;
-  yield this.transaction.persist();
-  var order = this.transaction.order;
-  this.redirect('/' + order.module + '/order/' + order.number);
-*/
+  // request payment
+  // return return request_id
+  function* requestPayment(oauthToken) {
+    var options = {
+      method:  'POST',
+      form:    {
+        pattern_id:      'p2p',
+        to:              config.yandexmoney.purse,
+        amount:          self.transaction.amount,
+        comment:         'оплата по счету ' + self.transaction.number,
+        message:         'оплата по счету ' + self.transaction.number,
+        identifier_type: 'account'
+      },
+      headers: {
+        'Authorization': 'Bearer ' + oauthToken
+      },
+      url:     'https://money.yandex.ru/api/request-payment'
+    };
+
+    yield self.transaction.log({ event: 'request api/request-payment', data: options });
+
+    var response = yield request(options);
+    yield self.transaction.log({ event: 'response api/request-payment', data: response.body });
+
+    return JSON.parse(response.body);
+  }
+
+  function* processPayment(oauthToken, requestId) {
+    var options = {
+      method:  'POST',
+      form:    {
+        request_id: requestId
+      },
+      headers: {
+        'Authorization': 'Bearer ' + oauthToken
+      },
+      url:     'https://money.yandex.ru/api/process-payment'
+    };
+
+    yield self.transaction.log({ event: 'request api/process-payment', data: options });
+
+    var response = yield request(options);
+    yield self.transaction.log({ event: 'response api/process-payment', data: response.body });
+
+    return JSON.parse(response.body);
+  }
+
+
 };
+
+function throwResponseError(response) {
+  var message;
+
+  if (response.error && response.error_description) {
+    message = '[' + response.error + '] ' + response.error_description;
+  } else if (response.error) {
+    message = response.error;
+  } else {
+    message = "детали ошибки не указаны";
+  }
+
+  throw new Error(message);
+}
+
+function delay(ms) {
+  return function(callback) {
+    setTimeout(callback, ms);
+  };
+}

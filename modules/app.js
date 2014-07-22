@@ -50,3 +50,16 @@ if (process.env.NODE_ENV == 'test') {
 }
 
 module.exports = app;
+
+if (process.env.NODE_ENV == 'development') {
+
+  global.p = function() {
+    var stack = new Error().stack.split("\n")[2].trim();
+    console.log("----> " + global.p.counter++ + " at " + stack);
+  };
+  global.p.counter = 1;
+} else {
+  global.p = function() {
+
+  };
+}
