@@ -2,47 +2,42 @@ comment-reply-color = #00A3D9
 .comments
 	margin-top 15px
 
-// .comments .comments__header-title {
-// 	border-bottom: 0;
-// 	display: inline;
-// 	margin-right: 16px;
-//     color: $color;
-//     font: 30px/36px $secondary-font;
-// }
+	& &__header-title
+		border-bottom 0
+		display inline
+		margin-right 16px
+		color color
+		font 30px/36px secondary_font
 
-// .comments__header-title::before {
-// 	@extend %font-comment;
+	&__header-title::before
+		@extend $font-comment
+		font-size 80%
+		color #eee
+		margin-right 9px
 
-// 	font-size: 80%;
-// 	color: #eee;
-// 	margin-right: 9px;
-// }
+	&__header-number
+		color #aaa
 
-// .comments__header-number {
-// 	color: #aaa;
-// }
-// .comments__header-number::before {
-// 	content: "(";
-// }
-// .comments__header-number::after {
-// 	content: ")";
-// }
+	&__header-number::before
+		content "("
 
-// .comments__header-write:link {
-// 	@extend %pseudo;
-// 	color: #666;
-// 	font-size: 12px;
-// 	vertical-align: .4em;
-// 	position: relative;
-//     display: inline-block;
-//     line-height: 1;
-// }
-// .comments__header-write::after {
-// 	content: "↓";
-// 	position: absolute;
-// 	margin-left: 3px;
-// 	vertical-align: middle;
-// }
+	&__header-number::after
+		content ")"
+
+	&__header-write:link
+		@extend $pseudo
+		color #666
+		font-size 12px
+		vertical-align .4em
+		position relative
+		display inline-block
+		line-height 1
+
+	&__header-write::after
+		content "↓"
+		position absolute
+		margin-left 3px
+		vertical-align middle
 
 // .comments__items {
 //     overflow-x: hidden;
