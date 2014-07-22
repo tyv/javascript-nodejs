@@ -1,0 +1,74 @@
+.social
+	& &__anchor-up
+		@extend $pseudo;
+		font-size 11px
+		color #868686
+		border-bottom 1px dashed
+		line-height 1
+
+	& &__anchor-up:hover
+		color link_hover_color
+
+	& &__soc
+		line-height 0
+		img
+			margin 0
+			opacity .5
+
+	body & &__soc
+		@extend $plain-link
+
+	&__soc:hover
+		img
+			opacity 1
+
+	&.aside
+		box-shadow 0 0 1px 1px rgba(128, 128, 128, 0.3)
+		float left
+		margin-left -57px
+		max-width 45px
+		padding 5px 7px 14px
+		background #ECF3F3
+	    border-radius 3px
+
+	&.aside &__anchor-up
+		display inline-block
+		margin-bottom 8px
+
+	&.aside &__soc
+		@extend $center
+		display block
+		width 24px
+		margin-top 4px
+		img
+			display block
+
+	&.aside.fixed
+		position fixed
+		top 20px
+
+	&.inline
+		font-size 0
+		line-height 0
+		display inline-block
+	& &__soc
+		font-size: size
+		display inline-block
+		width 24px
+		margin-left 5px
+
+	@media (min-width: media_step_1)
+		&.aside
+			margin-left -62px
+
+	@media (min-width: media_step_2)
+		&.aside
+			margin-left -66px
+
+	@media (min-width: media_step_3)
+		&.aside
+			margin-left -68px
+
+	@media screen and (max-device-width: 760px)
+		&.aside
+			display none

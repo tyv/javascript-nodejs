@@ -236,10 +236,7 @@ alert(a)
         P.P.S. <em>Внимание, здесь подводный камень! Ок, вы предупреждены.</em></p>
 
         <div class="spoiler closed">
-            <button class="spoiler__show">
-                <u>Решение</u>
-            </button>
-            <button class="spoiler__hide">
+            <button class="spoiler__button">
                 <u>Решение</u>
             </button>
             <div class="spoiler__content">
@@ -272,11 +269,8 @@ alert(a)
             </div>
         </div>
         <div class="spoiler closed">
-            <button class="spoiler__show">
-                <u>Показать еще одно решение</u>
-            </button>
-            <button class="spoiler__hide">
-                <u>Скрыть еще одно решение</u>
+            <button class="spoiler__button">
+                <u>Еще одно решение</u>
             </button>
             <div class="spoiler__content">
                 <p>К одной задаче могут быть добавлены одно или несколько решений. Решения, идущие подряд, «стыкуются» без промежутков</p>
@@ -284,6 +278,50 @@ alert(a)
         </div>
     </div>
 </section>
+
+<p>Спойлеры вне блока <code>.important</code></p>
+
+<div class="spoiler closed">
+    <button class="spoiler__button">
+        <u>Решение</u>
+    </button>
+    <div class="spoiler__content">
+        <p>Результат - <strong>ошибка</strong>. Попробуйте:</p>
+        <div class="codebox">
+            <pre class="language-javascript line-numbers"><code>var a = 5
+
+(function() {
+alert(a)
+})()</code></pre>
+        </div>
+        <p>Дело в том, что после <code>var a = 5</code> нет точки с запятой. </p>
+        <p>JavaScript воспринимает этот код как если бы перевода строки не было:</p>
+        
+        <div class="codebox">
+            <pre class="language-javascript line-numbers"><code>var a = 5(function() {
+alert(a)
+})()</code></pre>
+        </div>
+        <p>То есть, он пытается вызвать <em>функцию</em> <code>5</code>, что и приводит к ошибке.</p>
+        <p>Если точку с запятой поставить, все будет хорошо:</p>
+        <div class="codebox">
+            <pre class="language-javascript line-numbers"><code>var a = 5;
+
+(function() {
+alert(a)
+})()</code></pre>
+        </div>
+        <p>Это один из наиболее частых и опасных подводных камней, приводящих к ошибкам тех, кто <em>не</em> ставит точки с запятой.</p>
+    </div>
+</div>
+<div class="spoiler closed">
+    <button class="spoiler__button">
+        <u>Еще одно решение</u>
+    </button>
+    <div class="spoiler__content">
+        <p>К одной задаче могут быть добавлены одно или несколько решений. Решения, идущие подряд, «стыкуются» без промежутков</p>
+    </div>
+</div>
 
 <p>Этих ограничений нет там, где JavaScript используется вне браузера, например на сервере.</p>
 <p><strong>Большинство возможностей JavaScript в браузере ограничено текущим окном и страницей.</strong></p>
@@ -309,17 +347,130 @@ alert(a)
             <!-- <h3 class="balance__title">Плюсы</h3> -->
             <ul class="balance__list">
                 <li><p>Полная интеграция с HTML/CSS. <code>function f (x, y, z) { return x + y + z; }</code></p></li>
-                <li><p>
-                    Простые вещи делаются просто.
-</p><div class="code-example"><div class="codebox code-example__codebox"><div class="toolbar codebox__toolbar"></div><div class="codebox__code"><pre class=" line-numbers language-javascript"><code class=" language-javascript"><span class="token keyword">function</span> <span class="token function">sayHi<span class="token punctuation">(</span></span>name<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-<span class="token keyword">var</span> phrase <span class="token operator">=</span> <span class="token string">"Привет, "</span> <span class="token operator">+</span> name<span class="token punctuation">;</span>
-<span class="token function">alert<span class="token punctuation">(</span></span>phrase<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
+                <li><p>Простые вещи делаются просто.
+                <pre class="language-javascript line-numbers">function sayHi(name) {
+  var phrase = "Привет, " + name;
+  alert(phrase);
+}
 
-<span class="token function">sayHi<span class="token punctuation">(</span></span><span class="token string">'Вася'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code><span class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></pre></div></div></div>
-                <p></p></li>
+sayHi('Вася');</pre></p></li>
                 <li><p>Поддерживается всеми распространенными браузерами и включен по умолчанию.</p></li>
             </ul>
         </div>
     </div>
 </div>
+
+<p>Вариант блока с достоинствами и недостатками</p>
+
+<div class="balance">
+    <div class="balance__content">
+        <div class="balance__pluses">
+            <h3 class="balance__title">Достоинства</h3>
+            <ul class="balance__list">
+                <li><p>Полная интеграция с HTML/CSS.</p></li>
+                <li><p>Простые вещи делаются просто.</p></li>
+                <li><p>Поддерживается всеми распространенными браузерами и включен по умолчанию.</p></li>
+            </ul>
+        </div>
+        <div class="balance__minuses">
+            <h3 class="balance__title">Недостатки</h3>
+            <ul class="balance__list">
+                <li><p>Полная интеграция с HTML/CSS.</p></li>
+                <li><p>Простые вещи делаются просто.</p></li>
+                <li><p>Поддерживается всеми распространенными браузерами и включен по умолчанию.</p></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<p><strong>Этих трех вещей одновременно нет больше ни в одной браузерной технологии.</strong> Поэтому JavaScript и является самым распространенным средством создания браузерных интерфейсов.</p>
+<p>Пример блока "balance" с узким контентом, который может вызвать ошибку</p>
+
+<div class="balance">
+    <div class="balance__content">
+        <div class="balance__pluses">
+            <h3 class="balance__title">Достоинства</h3>
+            <ul class="balance__list">
+                <li class="plus">
+                    <p>Простота&nbsp;реализации.</p>
+                </li>
+            </ul>
+        </div>
+        <div class="balance__minuses">
+            <h3 class="balance__title">Недостатки</h3>
+            <ul class="balance__list">
+                <li class="minus">
+                    <p>Задержки между событием и&nbsp;уведомлением.</p>
+                </li>
+                <li class="minus">
+                    <p>Лишний трафик и запросы на&nbsp;сервер.</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="hide-closed">
+    <a class="hide-link" href="#"><u>Показать простой вариант <code>compareNumeric</code></u></a>
+    <div class="hide-content">
+        <p>Функция должна возвращать положительное число, если <code>a &gt; b</code>, отрицательное, если наоборот, и, например, <code>0</code>, если числа равны. </p>
+        <p>Всем этим требованиям удовлетворяет функция.</p>
+        <p>А примера кода не будет.</p>
+     </div>
+ </div>
+
+ <h2><a id="тенденции-развития" href="#тенденции-развития">Тенденции развития.</a></h2>
+ <p>Перед тем, как вы планируете изучить новую технологию, полезно ознакомиться с ее развитием и перспективами. Здесь в JavaScript все более чем хорошо.</p>
+
+ <h3><a id="html-5" href="#html-5">HTML 5</a></h3>
+ <p><em>HTML 5</em> &mdash; эволюция стандарта HTML, добавляющая новые теги и, что более важно, ряд новых возможностей браузерам.</p>
+ <div class="spoiler closed">
+    <button class="spoiler__button">
+        <u>Блок со скрытым контентом в произвольном месте на странице</u>
+    </button>
+    
+    <div class="spoiler__content">
+        <p>Здесь может быть что угодно</p>
+    </div>
+</div>
+<p>Вот несколько примеров:</p>
+<ul>
+    <li>Чтение/запись файлов на диск (в специальной «песочнице», то есть не любые).</li>
+    <li>Встроенная в браузер база данных, которая позволяет хранить данные на компьютере пользователя.</li>
+    <li>Многозадачность с одновременным использованием нескольких ядер процессора.</li>
+    <li>Проигрывание видео/аудио, без Flash.</li>
+    <li>2d и 3d-рисование с аппаратной поддержкой, как в современных играх.</li>
+</ul>
+<p>Многие возможности HTML5 все еще в разработке, но браузеры постепенно начинают их поддерживать.</p>
+<div class="summary">
+    <div class="summary__content"><p>Тенденция: JavaScript становится все более и более мощным и возможности браузера растут в сторону десктопных приложений.</p></div>
+</div>
+
+<h3><a id="ecmascript" href="#ecmascript">EcmaScript</a></h3>
+<p>Сам язык JavaScript улучшается. Современный стандарт EcmaScript 5 включает в себя новые возможности для разработки.</p>
+<p>Современные браузеры улучшают свои движки, чтобы увеличить скорость исполнения JavaScript, исправляют баги и стараются следовать стандартам.</p>
+<div class="summary">
+    <div class="summary__content">
+        <p>Тенденция: JavaScript становится все быстрее и стабильнее.</p>
+    </div>
+</div>
+<p>Очень важно то, что новые стандарты HTML5 и ECMAScript сохраняют максимальную совместимость с предыдущими версиями. Это позволяет избежать неприятностей с уже существующими приложениями.</p>
+<p>Впрочем, небольшая проблема с HTML5 все же есть. Иногда браузеры стараются включить новые возможности, которые еще не полностью описаны в стандарте, но настолько интересны, что разработчики просто не могут ждать.  </p>
+<p class="main__strong">…Однако, со временем стандарт меняется и браузерам приходится подстраиваться к нему, что может привести к ошибкам в уже написанном (старом) коде. Поэтому следует дважды подумать перед тем, как применять на практике такие «супер-новые» решения.</p>
+<p>При этом все браузеры сходятся к стандарту, и различий между ними уже гораздо меньше, чем всего лишь несколько лет назад.</p>
+<div class="summary">
+    <div class="summary__content">
+        <p>Тенденция: все идет к полной совместимости со стандартом.</p>
+    </div>
+</div>
+
+<h2><a id="недостатки-javascript" href="#недостатки-javascript">Недостатки JavaScript</a></h2>
+<p>Зачастую, недостатки подходов и технологий &mdash; это обратная сторона их полезности. Стоит ли упрекать молоток в том, что он &mdash; тяжелый? Да, неудобно, зато гвозди забиваются лучше.</p>
+
+<h3>Заголовок третьего уровня</h3>
+<p>В JavaScript, однако, есть вполне объективные недоработки, связанные с тем, что язык, по выражению его автора (Brendan Eich) делался «за 10 бессонных дней и ночей». Поэтому некоторые моменты продуманы плохо, есть и откровенные ошибки (которые признает тот же Brendan). </p>
+<p>Конкретные примеры мы увидим в дальнейшем, т.к. их удобнее обсуждать в процессе освоения языка.</p>
+
+<h4>Заголовок четвертого уровня</h4>
+<p>Пока что нам важно знать, что некоторые «странности» языка не являются чем-то очень умным, а просто не были достаточно хорошо продуманы в своё время. В этом учебнике мы будем обращать особое внимание на основные недоработки и «грабли». Ничего критичного в них нет, если знаешь &mdash; не наступишь.</p>
+<p><strong>В новых версиях JavaScript (ECMAScript) эти недостатки постепенно убирают.</strong> Процесс внедрения небыстрый, в первую очередь из-за старых версий IE, но они постепенно вымирают. Современный IE в этом отношении несравнимо лучше.</p>

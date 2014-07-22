@@ -232,8 +232,8 @@ function getRandomIdentifier(prefix) {
 
         ///////////////////////
         $(document).keydown(function (e) {
-            var back = $('.book-navigation .page-previous').eq(0).attr('href');
-            var forward = $('.book-navigation .page-next').eq(0).attr('href');
+            var back = $('.prev-next .prev-next__prev .prev-next__link').eq(0).attr('href');
+            var forward = $('.prev-next .prev-next__next .prev-next__link').eq(0).attr('href');
             if (e.ctrlKey || e.metaKey) {
                 switch (e.keyCode) {
                     case 37:
