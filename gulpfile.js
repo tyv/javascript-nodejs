@@ -46,6 +46,8 @@ gulp.task('watch', ['sprite', 'stylus'], function(neverCalled) {
 
   gulp.watch("app/**/*.sprite/**", ['sprite']);
   gulp.watch("app/**/*.styl", ['stylus']);
+
+  gulp.watch(serverSources, ['link-modules']);
 });
 
 // Show errors if encountered
