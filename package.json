@@ -68,6 +68,7 @@
     "mongoose-troop": "git://github.com/iliakan/mongoose-troop",
     "nib": "^1.0.3",
     "passport": "*",
+    "path-to-regexp": "^0.2.3",
     "require-tree": "*",
     "stylus": "*",
     "svgutils": "^0.7.0",
