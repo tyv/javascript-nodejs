@@ -6,9 +6,10 @@
     "prod": "NODE_ENV=production node --harmony ./bin/www",
     "dev": "NODE_ENV=development supervisor --harmony --debug --ignore node_modules ./bin/www",
     "debug": "NODE_ENV=development supervisor --harmony --debug-brk --ignore node_modules ./bin/www",
-    "test": "NODE_ENV=test supervisor --harmony --debug --ignore node_modules ./bin/www"
+    "test": "NODE_ENV=test supervisor --harmony --debug --ignore node_modules ./bin/www",
+    "postinstall": "NODE_ENV=development node --harmony `which gulp` link-modules",
+    "fixperms": "sudo chown -R `id -u` . ~/.npm* ~/.node-gyp"
   },
-  "postinstall": "NODE_ENV=development node --harmony `which gulp` link-modules",
   "precommit": "NODE_ENV=development node --harmony `which gulp` pre-commit",
   "dependencies": {
     "MD5": "^1.2.1",
@@ -16,14 +17,11 @@
     "body-parser": "*",
     "brfs": "^1.1.2",
     "co": "*",
-    "errorhandler": "^1.1.1",
     "escape-html": "^1.0.1",
     "event-stream": "^3.1.5",
-    "fb-flo": "^0.2.1",
     "fs-extra": "^0.10.0",
     "glob": "^4.0.4",
     "gm": "^1.16.0",
-    "gulp-add-src": "^0.1.1",
     "gulp-cache": "^0.2.0",
     "gulp-concat": "^2.3.3",
     "gulp-debug": "^0.3.0",
@@ -77,15 +75,11 @@
     "thunkify": "*",
     "vinyl-fs": "^0.3.4",
     "vinyl-source-stream": "^0.1.1",
-    "watchify": "^0.10.2",
     "winston": "*"
   },
   "devDependencies": {
-    "autoprefixer-brunch": "*",
     "clarify": "*",
-    "clean-css-brunch": "*",
     "co-mocha": "*",
-    "css-brunch": "*",
     "gulp": "*",
     "gulp-autoprefixer": "0.0.8",
     "gulp-jshint": "*",
@@ -97,11 +91,9 @@
     "mocha": "*",
     "should": "*",
     "sinon": "*",
-    "stylus-brunch": "*",
     "supertest": "^0.13.0",
     "supervisor": "*",
     "trace": "*",
-    "uglify-js-brunch": "*",
     "watchify": "^0.10.2"
   },
   "engines": {
