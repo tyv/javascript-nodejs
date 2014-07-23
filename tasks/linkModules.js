@@ -1,9 +1,12 @@
 var fs = require('fs');
-var gulp = require('gulp');
 var glob = require('glob');
 var path = require('path');
 var gutil = require('gulp-util');
 
+// Ensures the existance of a symlink linkDst -> linkSrc
+// returns true if link was created
+// returns false if link exists alread (and is correct)
+// throws error if conflict (another file or link by that name)
 function ensureSymlinkSync(linkSrc, linkDst) {
   var lstat;
   try {
@@ -13,14 +16,18 @@ function ensureSymlinkSync(linkSrc, linkDst) {
 
   if (lstat) {
     if (lstat.isSymbolicLink()) {
-      fs.unlinkSync(linkDst);
+      var oldDst = fs.readlinkSync(linkDst);
+      if (oldDst != linkSrc) {
+        throw new Error("Conflict: link already exists and has another value: " + oldDst);
+      }
+      return false;
     } else {
       throw new Error("Conflict: path exist and is not a link: " + linkDst);
     }
   }
 
   fs.symlinkSync(linkSrc, linkDst);
-
+  return true;
 }
 
 module.exports = function(sources) {
@@ -36,8 +43,9 @@ module.exports = function(sources) {
       var moduleToLinkName = path.basename(moduleToLinkRelPath); // auth
       var linkSrc = path.join('..', moduleToLinkRelPath);
       var linkDst = path.join('node_modules', moduleToLinkName);
-      gutil.log(linkSrc + " -> " + linkDst);
-      ensureSymlinkSync(linkSrc, linkDst);
+      if (ensureSymlinkSync(linkSrc, linkDst)) {
+        gutil.log(linkSrc + " -> " + linkDst);
+      }
     }
   };
 

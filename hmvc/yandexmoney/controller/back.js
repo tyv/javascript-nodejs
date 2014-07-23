@@ -78,15 +78,22 @@ exports.get = function* (next) {
 
 
     // success!
-    yield* require(this.order.module).onSuccess(this.order);
+    var orderModule = require(this.order.module);
+    yield* orderModule.onSuccess(this.order);
 
 
     self.redirect(self.getOrderSuccessUrl());
 
   } catch (e) {
-
-    yield* fail(e.message);
-    return;
+    if (e instanceof URIError) {
+      yield* fail(e.message);
+      return;
+    } else if (e instanceof SyntaxError) {
+      yield* fail("некорректный ответ платёжной системы");
+      return;
+    } else {
+      throw e;
+    }
   }
 
   /* jshint -W106 */
@@ -189,7 +196,7 @@ function throwResponseError(response) {
     message = "детали ошибки не указаны";
   }
 
-  throw new Error(message);
+  throw new URIError(message);
 }
 
 function delay(ms) {

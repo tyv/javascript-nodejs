@@ -15,3 +15,11 @@ exports.yandexmoney = {
   purse: '4100155697197'
 };
 
+exports.payanyway = {
+  id: "31873866",
+  secret: "cERfervdf43lkjl3cCDweqr2SSDFVbro"
+};
+
+exports.paypal = {
+  email: "iliakan@gmail.com"
+};

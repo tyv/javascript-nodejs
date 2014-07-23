@@ -24,7 +24,15 @@ module.exports = function(app) {
   app.csrf.addIgnorePath('/yandexmoney/:any*');
   app.verboseLogger.addPath('/yandexmoney/:any*');
 
-  // stick to bottom
+  app.use(mount('/payanyway', compose([payment.middleware, require('payanyway').middleware])));
+  app.csrf.addIgnorePath('/payanyway/:any*');
+  app.verboseLogger.addPath('/payanyway/:any*');
+
+  app.use(mount('/paypal', compose([payment.middleware, require('paypal').middleware])));
+  app.csrf.addIgnorePath('/paypal/:any*');
+  app.verboseLogger.addPath('/paypal/:any*');
+
+  // stick to bottom to detect any not-yet-processed /:slug
   app.use(mount('/', require('tutorial').middleware));
 
   // by default if the router didn't find anything => it yields to next middleware

@@ -5,9 +5,11 @@ var Order = require('./order');
 var TransactionLog = require('./transactionLog');
 
 /**
- * Transaction is an actual payment for something
- * Order may exist without any transactions (pay later)
- * Transaction has it's own separate number (payment attempt)
+ * Transaction is an actual payment attempt (successful or not) for something
+ * - Order may exist without any transactions (pay later)
+ * - Transaction has it's own separate number (payment attempt)
+ * - Transaction amount can be different from order amount (partial payment)
+ * - Every transaction save generates a log record
  * @type {Schema}
  */
 var schema = new Schema({
@@ -19,7 +21,7 @@ var schema = new Schema({
     type:     Number,
     required: true
   },
-  module:   {
+  module:        {
     type:     String,
     required: true
   },
@@ -32,16 +34,17 @@ var schema = new Schema({
   },
   statusMessage: {
     type: String
-  },
-  data:          String
+  }
 });
 
 schema.plugin(autoIncrement.plugin, {model: 'Transaction', field: 'number'});
 
 schema.statics.STATUS_SUCCESS = 'success';
+schema.statics.STATUS_PENDING = 'pending';
 schema.statics.STATUS_FAIL = 'fail';
 
-schema.pre('save', function (next) {
+// autoupdate order to SUCCESS when succeeded
+schema.pre('save', function(next) {
   if (this.status == Transaction.STATUS_SUCCESS) {
     var orderId = this.order._id || this.order;
     Order.findByIdAndUpdate(orderId, {status: Transaction.STATUS_SUCCESS}, next);
@@ -50,20 +53,46 @@ schema.pre('save', function (next) {
   }
 });
 
+// autolog all changes
+schema.pre('save', function(next) {
+
+  var log = new TransactionLog({
+    transaction: this._id,
+    event:       'save',
+    data:        {
+      status:        this.status,
+      statusMessage: this.statusMessage,
+      amount:        this.amount
+    }
+  });
+
+  log.save(function(err, doc) {
+    next(err);
+  });
+});
+
 schema.methods.getStatusDescription = function() {
   if (this.status == Transaction.STATUS_SUCCESS) {
     return 'оплата прошла успешно';
+  }
+  if (this.status == Transaction.STATUS_PENDING) {
+    return 'оплата ожидается';
+  }
+
+  if (this.status == Transaction.STATUS_FAIL) {
+    var result = 'оплата не прошла';
+    if (this.statusMessage) result += ': ' + this.statusMessage;
+    return result;
   }
 
   if (!this.status) {
     return 'нет информации об оплате';
   }
 
-  var result = 'оплата не прошла';
-  if (this.statusMessage) result += ': ' + this.statusMessage;
-  return result;
+  throw new Error("неподдерживаемый статус транзакции");
 };
 
+// log anything related to the transaction
 schema.methods.log = function*(options) {
   options.transaction = this._id;
 
@@ -75,7 +104,7 @@ schema.methods.log = function*(options) {
     options.data = JSON.stringify(options.data);
   }
 
-  console.log(options);
+//  console.log(options);
 
   var log = new TransactionLog(options);
   yield log.persist();
