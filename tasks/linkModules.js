@@ -15,15 +15,16 @@ function ensureSymlinkSync(linkSrc, linkDst) {
   }
 
   if (lstat) {
-    if (lstat.isSymbolicLink()) {
-      var oldDst = fs.readlinkSync(linkDst);
-      if (oldDst != linkSrc) {
-        throw new Error("Conflict: link already exists and has another value: " + oldDst);
-      }
-      return false;
-    } else {
+    if (!lstat.isSymbolicLink()) {
       throw new Error("Conflict: path exist and is not a link: " + linkDst);
     }
+
+    var oldDst = fs.readlinkSync(linkDst);
+    if (oldDst == linkSrc) {
+      return false; // already exists
+    }
+    // kill old link!
+    fs.unlinkSync(linkDst);
   }
 
   fs.symlinkSync(linkSrc, linkDst);
