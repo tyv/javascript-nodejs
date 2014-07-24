@@ -1,7 +1,6 @@
 const config = require('config');
-const payment = require('payment');
-const Order = payment.Order;
-const Transaction = payment.Transaction;
+const Order = require('../../models/order');
+const Transaction = require('../../models/transaction');
 const log = require('js-log')();
 const request = require('koa-request');
 
@@ -103,10 +102,7 @@ exports.get = function* (next) {
 
     yield self.transaction.persist();
 
-    yield self.transaction.log({ event: 'fail', data: reason });
-
-
-    self.redirect(self.getOrderUrl());
+    self.redirectToOrder();
   }
 
 
@@ -117,10 +113,10 @@ exports.get = function* (next) {
       method: 'POST',
       form:   {
         code:          code,
-        client_id:     config.yandexmoney.clientId,
+        client_id:     config.payments.modules.yandexmoney.clientId,
         grant_type:    'authorization_code',
-        redirect_uri:  config.yandexmoney.redirectUri + '?transactionNumber=' + self.transaction.number,
-        client_secret: config.yandexmoney.clientSecret
+        redirect_uri:  config.payments.modules.yandexmoney.redirectUri + '?transactionNumber=' + self.transaction.number,
+        client_secret: config.payments.modules.yandexmoney.clientSecret
       },
       url:    'https://sp-money.yandex.ru/oauth/token'
     };
@@ -142,7 +138,7 @@ exports.get = function* (next) {
       method:  'POST',
       form:    {
         pattern_id:      'p2p',
-        to:              config.yandexmoney.purse,
+        to:              config.payments.modules.yandexmoney.purse,
         amount:          self.transaction.amount,
         comment:         'оплата по счету ' + self.transaction.number,
         message:         'оплата по счету ' + self.transaction.number,

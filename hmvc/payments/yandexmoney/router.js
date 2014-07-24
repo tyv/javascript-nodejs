@@ -1,5 +1,4 @@
 var Router = require('koa-router');
-var payment = require('payment');
 
 var router = module.exports = new Router();
 

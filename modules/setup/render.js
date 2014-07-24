@@ -31,6 +31,7 @@ module.exports = function render(app) {
     });
 
     // this.locals.debug causes jade to dump function
+    /* jshint -W087 */
     this.locals.deb = function() {
       debugger;
     };

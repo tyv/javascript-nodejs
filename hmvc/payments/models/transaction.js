@@ -97,6 +97,9 @@ schema.methods.getStatusDescription = function() {
 
 // log anything related to the transaction
 schema.methods.log = function*(options) {
+
+  console.log(options);
+
   options.transaction = this._id;
 
   // for complex objects -> prior to logging make them simple (must be jsonable)

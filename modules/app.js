@@ -5,6 +5,12 @@ const log = require('js-log')();
 const config = require('config');
 const app = koa();
 
+// trust all headers from proxy
+// X-Forwarded-Host
+// X-Forwarded-Proto
+// X-Forwarded-For -> ip
+app.proxy = true;
+
 function requireSetup(path) {
   // if debug is on => will log the middleware travel chain
   if (process.env.NODE_ENV == 'development') {

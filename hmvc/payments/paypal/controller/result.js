@@ -18,7 +18,7 @@ exports.post = function* (next) {
   }
 
   yield this.transaction.log({
-    event: 'result',
+    event: 'callback',
     data:  {url: this.request.originalUrl, body: this.request.body}
   });
 

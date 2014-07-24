@@ -1,7 +1,4 @@
-const mongoose = require('mongoose');
-const payment = require('payment');
-const Order = payment.Order;
-const Transaction = payment.Transaction;
+const Transaction = require('../../models/transaction');
 const log = require('js-log')();
 
 
@@ -14,7 +11,7 @@ exports.get = function* (next) {
     statusMessage: 'отказ от оплаты'
   });
 
-  this.redirect(this.getOrderUrl());
+  this.redirectToOrder();
 };
 
 

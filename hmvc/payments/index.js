@@ -1,5 +1,6 @@
 var mount = require('koa-mount');
 var config = require('config');
+var compose = require('koa-compose');
 
 // Interaction with payment systems only.
 
@@ -23,13 +24,8 @@ for(var name in paymentModules) {
 }
 
 // delegate all HTTP calls to payment modules
-exports.middleware = function*(next) {
+exports.middleware = compose(paymentMounts);
 
-  for (var i = 0; i < paymentMounts.length; i++) {
-    yield* paymentMounts[i].call(this, next);
-  }
-
-};
 
 exports.populateContextMiddleware = function*(next) {
   this.redirectToOrder = function(order) {

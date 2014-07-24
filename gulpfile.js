@@ -1,24 +1,25 @@
+/**
+ * NB: All tasks are initialized lazily, even plugins are required lazily,
+ * running 1 task does not require all tasks' files
+*/
+
 const gulp = require('gulp');
-const fs = require('fs');
-const fse = require('fs-extra');
-const spawn = require('child_process').spawn;
 const gp = require('gulp-load-plugins')();
-const debug = require('gulp-debug');
 const path = require('path');
-const source = require('vinyl-source-stream');
-const linkModules = require('./tasks/linkModules');
-const watchify = require('watchify');
 //const browserifyTask = require('tasks/browserify');
 
-
 const serverSources = [
-  'config/**/*.js', 'controllers/**/*.js', 'lib/**/*.js', 'renderer/**/*.js', 'routes/**/*.js',
+  'config/**/*.js', 'hmvc/**/*.js', 'modules/**/*.js', 'renderer/**/*.js', 'routes/**/*.js',
   'setup/**/*.js', 'tasks/**/*.js', '*.js'
 ];
 
-gulp.task('lint', gp.jshintCache({ src: serverSources }));
+gulp.task('lint', function() {
+  return gp.jshintCache({ src: serverSources }).apply(this, arguments);
+});
 
-gulp.task('lint-or-die', gp.jshintCache({ src: serverSources, dieOnError: true }));
+gulp.task('lint-or-die', function() {
+  return gp.jshintCache({ src: serverSources, dieOnError: true }).apply(this, arguments);
+});
 
 gulp.task('lint-watch', ['lint'], function(neverCalled) {
   gulp.watch(serverSources, ['lint']);
@@ -34,6 +35,7 @@ gulp.task('watch', ['stylus'], function(neverCalled) {
    dst: 'www/js'
    })();
    */
+  const fse = require('fs-extra');
 
   fse.ensureDirSync('www/fonts');
   gp.dirSync('app/fonts', 'www/fonts');
@@ -81,11 +83,19 @@ gulp.task('import', function(callback) {
   });
 });
 
-gulp.task('link-modules', linkModules(['modules/*', 'hmvc/*']));
+gulp.task('link-modules', function() {
+  const linkModules = require('./tasks/linkModules');
 
-gulp.task('sprite', gp.stylusSprite({
-  spritesSearchFsRoot: 'app',
-  spritesWebRoot:      '/img',
-  spritesFsDir:        'www/img',
-  styleFsDir:          'app/stylesheets/sprites'
-}));
+  return linkModules(['modules/*', 'hmvc/*']).apply(this, arguments);
+});
+
+gulp.task('sprite', function() {
+  var options = {
+    spritesSearchFsRoot: 'app',
+    spritesWebRoot:      '/img',
+    spritesFsDir:        'www/img',
+    styleFsDir:          'app/stylesheets/sprites'
+  };
+
+  return gp.stylusSprite(options).apply(this, arguments);
+});
