@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var Order = require('../../models/order');
+var Order = require('../models/order');
 var assert = require('assert');
 
 // Populates this.order with the order by "orderNumber" parameter

@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var log = require('js-log')();
-var payment = require('payment');
-var Order = payment.Order;
+var payments = require('payments');
+var Order = payments.Order;
 var methods = require('../paymentMethods').methods;
 
 log.debugOn();
@@ -13,14 +13,12 @@ exports.post = function*(next) {
   if (!method) {
     this.throw(403, "Unsupported payment method");
   }
-  var methodApi = require(method.module); // webmoney
 
   if (this.order) {
     log.debug("order exists", this.order.number);
     yield* updateOrderFromBody(this.request.body, this.order);
   } else {
-    // this order is not saved anywhere,
-    // it's only used to initially fill the form
+    // new order template
     this.order = new Order({
       amount: 1,
       module: 'getpdf',
@@ -37,7 +35,7 @@ exports.post = function*(next) {
     this.session.orders.push(this.order.number);
   }
 
-  var form = yield* methodApi.createTransactionForm(this.order);
+  var form = yield* payments.createTransactionForm(this.order, method.name);
 
   this.body = form;
 

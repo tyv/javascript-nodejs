@@ -33,10 +33,7 @@ module.exports = {
   session:     {
     keys: [secret.sessionKey]
   },
-  webmoney:    secret.webmoney,
-  yandexmoney: secret.yandexmoney,
-  payanyway:   secret.payanyway,
-  paypal:      secret.paypal,
+  payments: secret.payments,
   template:    {
     options: {
       'cache': process.env.NODE_ENV != 'development'

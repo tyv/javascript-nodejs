@@ -27,7 +27,7 @@ gulp.task('lint-watch', ['lint'], function(neverCalled) {
 //gulp.task('lint', require('./tasks/lint-full-die')(serverSources));
 
 
-gulp.task('watch', ['sprite', 'stylus'], function(neverCalled) {
+gulp.task('watch', ['stylus'], function(neverCalled) {
   /*
    browserifyTask({
    src: 'app/js/index.js',
@@ -51,7 +51,7 @@ gulp.task('watch', ['sprite', 'stylus'], function(neverCalled) {
 });
 
 // Show errors if encountered
-gulp.task('stylus', ['clean-compiled-css'], function() {
+gulp.task('stylus', ['clean-compiled-css', 'sprite'], function() {
   return gulp.src('./app/stylesheets/base.styl')
     // without plumber if stylus emits PluginError, it will disappear at the next step
     // plumber propagates it down the chain

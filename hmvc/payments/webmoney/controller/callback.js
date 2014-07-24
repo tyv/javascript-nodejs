@@ -1,8 +1,7 @@
-const payment = require('payment');
 const config = require('config');
 const mongoose = require('mongoose');
-const Order = payment.Order;
-const Transaction = payment.Transaction;
+const Order = require('../../models/order');
+const Transaction = require('../../models/transaction');
 const log = require('js-log')();
 const md5 = require('MD5');
 
@@ -35,7 +34,7 @@ exports.post = function* (next) {
 
   yield* this.loadTransaction('LMI_PAYMENT_NO', {skipOwnerCheck : true});
 
-  if (!checkSign(this.request.body)) {
+  if (!checkSignature(this.request.body)) {
     log.debug("wrong signature");
     this.throw(403, "wrong signature");
   }
@@ -63,7 +62,7 @@ exports.post = function* (next) {
 
 };
 
-function checkSign(body) {
+function checkSignature(body) {
 
   var signature = md5(body.LMI_PAYEE_PURSE + body.LMI_PAYMENT_AMOUNT + body.LMI_PAYMENT_NO +
     body.LMI_MODE + body.LMI_SYS_INVS_NO + body.LMI_SYS_TRANS_NO + body.LMI_SYS_TRANS_DATE +

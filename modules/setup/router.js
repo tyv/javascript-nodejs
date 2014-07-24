@@ -1,7 +1,6 @@
 'use strict';
 
 var mount = require('koa-mount');
-var payment = require('payment');
 var compose = require('koa-compose');
 
 module.exports = function(app) {
@@ -14,8 +13,13 @@ module.exports = function(app) {
   }
 
   // need to compose, because mount takes only 1 middleware
-  app.use(mount('/getpdf', compose([payment.middleware, require('getpdf').middleware])));
+  app.use(mount('/getpdf', require('getpdf').middleware));
 
+  app.use(mount('/payments', require('payments').middleware));
+  app.csrf.addIgnorePath('/payments/:any*');
+  app.verboseLogger.addPath('/payments/:any*');
+
+  /*
   app.use(mount('/webmoney', compose([payment.middleware, require('webmoney').middleware])));
   app.csrf.addIgnorePath('/webmoney/:any*');
   app.verboseLogger.addPath('/webmoney/:any*');
@@ -31,6 +35,7 @@ module.exports = function(app) {
   app.use(mount('/paypal', compose([payment.middleware, require('paypal').middleware])));
   app.csrf.addIgnorePath('/paypal/:any*');
   app.verboseLogger.addPath('/paypal/:any*');
+*/
 
   // stick to bottom to detect any not-yet-processed /:slug
   app.use(mount('/', require('tutorial').middleware));

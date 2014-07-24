@@ -1,14 +1,13 @@
-const payment = require('payment');
-var Order = payment.Order;
-var Transaction = payment.Transaction;
+const payments = require('payments');
+var Order = payments.Order;
+var Transaction = payments.Transaction;
 
 exports.get = function*(next) {
-
-  console.log("HERE");
 
   if (this.params.orderNumber) {
     yield* this.loadOrder();
   } else {
+
     // this order is not saved anywhere,
     // it's only used to initially fill the form
     this.order = new Order({

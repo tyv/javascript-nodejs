@@ -1,7 +1,6 @@
 exports.methods = {
-  'yandexmoney': {module: "yandexmoney", title: "Яндекс.Деньги"},
-  'webmoney':     {module: "webmoney", title: "Webmoney"},
-  'payanyway':    {module: "payanyway", title: "PayAnyWay"},
-  'interkassa':   {module: "interkassa", title: "Интеркасса"},
-  'paypal':       {module: "paypal", title: "Paypal"}
+  'yandexmoney': {name: "yandexmoney", title: "Яндекс.Деньги"},
+  'webmoney':     {name: "webmoney", title: "Webmoney"},
+  'payanyway':    {name: "payanyway", title: "PayAnyWay"},
+  'paypal':       {name: "paypal", title: "Paypal"}
 };

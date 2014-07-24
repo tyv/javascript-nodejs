@@ -40,6 +40,8 @@ if (process.env.NODE_ENV == 'development') {
 requireSetup('setup/session');
 requireSetup('setup/csrf');
 
+requireSetup('setup/payments');
+
 requireSetup('setup/render');
 requireSetup('setup/router');
 

@@ -43,6 +43,8 @@ schema.statics.STATUS_SUCCESS = 'success';
 schema.statics.STATUS_PENDING = 'pending';
 schema.statics.STATUS_FAIL = 'fail';
 
+/*
+// DEPRECATED: orderModule.onSuccess updates its status
 // autoupdate order to SUCCESS when succeeded
 schema.pre('save', function(next) {
   if (this.status == Transaction.STATUS_SUCCESS) {
@@ -52,6 +54,7 @@ schema.pre('save', function(next) {
     next();
   }
 });
+*/
 
 // autolog all changes
 schema.pre('save', function(next) {

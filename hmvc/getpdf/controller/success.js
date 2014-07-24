@@ -1,5 +1,5 @@
 exports.get = function*(next) {
-  yield* this.loadOrder();
+//  yield* payment.loadOrder(this);
 
   this.body = 'THANK YOU';
 };

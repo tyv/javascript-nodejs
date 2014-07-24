@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var Transaction = require('../../models/transaction');
+var Transaction = require('../models/transaction');
 var log = require('js-log')();
 var assert = require('assert');
 
