@@ -79,6 +79,49 @@ exports.post = function* (next) {
 
   // now we have a valid non-duplicate IPN, let's update the transaction
 
+  // log it right now to evade conflicts with duplicates
+  yield this.transaction.log("ipn", this.request.body);
 
-  this.body = '';
+  // Do not perform any processing on WPS transactions here that do not have
+  // transaction IDs, indicating they are non-payment IPNs such as those used
+  // for subscription signup requests.
+  if (!this.request.body.txn_id) {
+    this.body = '';
+    return;
+  }
+
+  // Exit when we don't get a payment status we recognize
+
+  switch(this.request.body.payment_status) {
+  case 'Failed':
+  case 'Voided':
+    yield this.transaction.persist({
+      status: Transaction.STATUS_FAIL
+    });
+    this.body = '';
+    return;
+  case 'Pending':
+    yield this.transaction.persist({
+      status: Transaction.STATUS_PENDING,
+      statusMessage: this.request.body.pending_reason
+    });
+    this.body = '';
+    return;
+  case 'Completed':
+    yield this.transaction.persist({
+      status: Transaction.STATUS_SUCCESS
+    });
+
+    yield* require(this.order.module).onSuccess(this.order);
+    this.body = '';
+    return;
+  default:
+    yield this.transaction.logRequest("ipn status ignored", this.request);
+
+    this.body = '';
+    return;
+  }
+
+
+
 };
