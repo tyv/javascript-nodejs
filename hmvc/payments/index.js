@@ -49,7 +49,11 @@ exports.createTransactionForm = function* (order, method) {
 
   yield transaction.persist();
 
-  return paymentModules[method].renderForm(transaction);
+  var form = yield* paymentModules[method].renderForm(transaction);
+
+  yield transaction.log('form', form);
+
+  return form;
 
 };
 

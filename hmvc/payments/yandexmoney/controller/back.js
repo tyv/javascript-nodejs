@@ -13,11 +13,7 @@ exports.get = function* (next) {
 
   yield* this.loadTransaction();
 
-  yield this.transaction.log({
-    event: 'back',
-    data:  {url: this.request.originalUrl, body: this.request.body}
-  });
-
+  yield this.transaction.logRequest('back', this.request);
 
   if (!this.query.code) {
     yield* fail(this.query.error_description || this.query.error);
@@ -122,11 +118,11 @@ exports.get = function* (next) {
     };
 
 
-    yield self.transaction.log({ event: 'request oauth/token', data: options });
+    yield self.transaction.log('request oauth/token', options);
 
     var response = yield request(options);
 
-    yield self.transaction.log({ event: 'response oauth/token', data: response.body });
+    yield self.transaction.log('response oauth/token', response.body);
 
     return JSON.parse(response.body);
   }
@@ -150,10 +146,10 @@ exports.get = function* (next) {
       url:     'https://money.yandex.ru/api/request-payment'
     };
 
-    yield self.transaction.log({ event: 'request api/request-payment', data: options });
+    yield self.transaction.log('request api/request-payment', options);
 
     var response = yield request(options);
-    yield self.transaction.log({ event: 'response api/request-payment', data: response.body });
+    yield self.transaction.log('response api/request-payment', response.body);
 
     return JSON.parse(response.body);
   }
@@ -170,10 +166,10 @@ exports.get = function* (next) {
       url:     'https://money.yandex.ru/api/process-payment'
     };
 
-    yield self.transaction.log({ event: 'request api/process-payment', data: options });
+    yield self.transaction.log('request api/process-payment', options);
 
     var response = yield request(options);
-    yield self.transaction.log({ event: 'response api/process-payment', data: response.body });
+    yield self.transaction.log('response api/process-payment', response.body);
 
     return JSON.parse(response.body);
   }

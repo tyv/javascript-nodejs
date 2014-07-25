@@ -15,14 +15,16 @@ exports.post = function* (next) {
     this.throw(403, "wrong signature");
   }
 
-  yield this.transaction.log({
-    event: 'callback',
-    data:  {url: this.request.originalUrl, body: this.request.body}
-  });
+  yield this.transaction.logRequest('callback', this.request);
 
+  // signature is valid, so everything MUST be fine
   if (this.transaction.amount != parseFloat(this.request.body.MNT_AMOUNT) ||
     this.request.body.MNT_ID != config.payments.modules.payanyway.id) {
-    this.throw(404, 'transaction with given params not found');
+    yield this.transaction.persist({
+      status: Transaction.STATUS_FAIL,
+      statusMessage: "данные транзакции не совпадают с базой, свяжитесь с поддержкой"
+    });
+    this.throw(404, "transaction data doesn't match the POST body");
   }
 
   yield this.transaction.persist({

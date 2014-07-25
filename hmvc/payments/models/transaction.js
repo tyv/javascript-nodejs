@@ -95,12 +95,22 @@ schema.methods.getStatusDescription = function() {
   throw new Error("неподдерживаемый статус транзакции");
 };
 
+schema.methods.logRequest = function*(event, request) {
+  yield this.log(event, {url: request.originalUrl, body: request.body});
+};
+
 // log anything related to the transaction
-schema.methods.log = function*(options) {
+schema.methods.log = function*(event, data) {
 
-  console.log(options);
+  if (typeof event != "string") {
+    throw new Error("event name must be a string");
+  }
 
-  options.transaction = this._id;
+  var options = {
+    transaction: this._id,
+    event: event,
+    data: data
+  };
 
   // for complex objects -> prior to logging make them simple (must be jsonable)
   // e.g for HTTP response (HTTP.IncomingMessage)

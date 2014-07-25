@@ -5,9 +5,13 @@ var schema = new Schema({
 
   transaction: {
     type: Schema.Types.ObjectId,
-    ref:  'Transaction'
+    ref:  'Transaction',
+    index: true
   },
-  event: String,
+  event: {
+    type: String,
+    index: true
+  },
   data: Schema.Types.Mixed,
 
   created:  {

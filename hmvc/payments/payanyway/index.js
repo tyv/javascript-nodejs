@@ -1,7 +1,3 @@
-const jade = require('jade');
-const path = require('path');
-var config = require('config');
-var payment = require('payment');
 
 var router = require('./router');
 

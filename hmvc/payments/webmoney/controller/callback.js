@@ -13,10 +13,7 @@ exports.prerequest = function* (next) {
 
   log.debug("prerequest");
 
-  yield this.transaction.log({
-    event: 'prerequest',
-    data:  {url: this.request.originalUrl, body: this.request.body}
-  });
+  yield this.transaction.logRequest('prerequest', this.request);
 
   if (this.transaction.status == Transaction.STATUS_SUCCESS ||
     this.transaction.amount != parseFloat(this.request.body.LMI_PAYMENT_AMOUNT) ||
@@ -39,14 +36,16 @@ exports.post = function* (next) {
     this.throw(403, "wrong signature");
   }
 
-  yield this.transaction.log({
-    event: 'callback',
-    data:  {url: this.request.originalUrl, body: this.request.body}
-  });
+  yield this.transaction.logRequest('callback', this.request);
 
   if (this.transaction.amount != parseFloat(this.request.body.LMI_PAYMENT_AMOUNT) ||
     this.request.body.LMI_PAYEE_PURSE != config.webmoney.purse) {
-    this.throw(404, 'transaction with given params not found');
+    // STRANGE, signature is correct
+    yield this.transaction.persist({
+      status: Transaction.STATUS_FAIL,
+      statusMessage: "данные транзакции не совпадают с базой, свяжитесь с поддержкой"
+    });
+    this.throw(404, "transaction data doesn't match the POST body");
   }
 
   if (!this.request.body.LMI_SIM_MODE || this.request.body.LMI_SIM_MODE == '0') {
