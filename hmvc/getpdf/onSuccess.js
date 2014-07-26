@@ -1,3 +1,4 @@
+const Transaction = require('payments').Transaction;
 const expiringDownload = require('expiring-download');
 
 const ExpiringDownloadLink = expiringDownload.ExpiringDownloadLink;
@@ -5,6 +6,10 @@ const nodemailer = require('nodemailer');
 const ses = require('nodemailer-ses-transport');
 
 module.exports = function* (order) {
+
+  yield order.persist({
+    status: Transaction.STATUS_SUCCESS
+  });
 
   // CREATE DOWNLOAD LINK
 

@@ -1,4 +1,4 @@
-const config = require('config');
+const webmoneyConfig = require('config').payments.modules.webmoney;
 const mongoose = require('mongoose');
 const Order = require('../../models/order');
 const Transaction = require('../../models/transaction');
@@ -17,7 +17,7 @@ exports.prerequest = function* (next) {
 
   if (this.transaction.status == Transaction.STATUS_SUCCESS ||
     this.transaction.amount != parseFloat(this.request.body.LMI_PAYMENT_AMOUNT) ||
-    this.request.body.LMI_PAYEE_PURSE != config.webmoney.purse
+    this.request.body.LMI_PAYEE_PURSE != webmoneyConfig.purse
     ) {
     log.debug("no pending transaction " + this.request.body.LMI_PAYMENT_NO);
     this.throw(404, 'unfinished transaction with given params not found');
@@ -39,7 +39,7 @@ exports.post = function* (next) {
   yield this.transaction.logRequest('callback', this.request);
 
   if (this.transaction.amount != parseFloat(this.request.body.LMI_PAYMENT_AMOUNT) ||
-    this.request.body.LMI_PAYEE_PURSE != config.webmoney.purse) {
+    this.request.body.LMI_PAYEE_PURSE != webmoneyConfig.purse) {
     // STRANGE, signature is correct
     yield this.transaction.persist({
       status: Transaction.STATUS_FAIL,
@@ -65,7 +65,7 @@ function checkSignature(body) {
 
   var signature = md5(body.LMI_PAYEE_PURSE + body.LMI_PAYMENT_AMOUNT + body.LMI_PAYMENT_NO +
     body.LMI_MODE + body.LMI_SYS_INVS_NO + body.LMI_SYS_TRANS_NO + body.LMI_SYS_TRANS_DATE +
-    config.webmoney.secretKey + body.LMI_PAYER_PURSE + body.LMI_PAYER_WM).toUpperCase();
+    webmoneyConfig.secretKey + body.LMI_PAYER_PURSE + body.LMI_PAYER_WM).toUpperCase();
 
   return signature == body.LMI_HASH;
 }

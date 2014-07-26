@@ -1,9 +1,23 @@
+style.
+  form.pay-form[is_new="0"] .pay-info {
+    display: none;
+  }
+
+  form.pay-form[is_new="1"] .pay-result {
+    display: none;
+  }
+
+
+  form.pay-form[is_new="0"].fail .pay-info {
+    display: block;
+  }
+
 script var csrf = "#{csrf}", orderNumber;
 
 div
   p Спасибо, что решили приобрести PDF-учебник!
 
-  form.pay-form
+  form.pay-form(is_new=(order.isNew ? "1" : "0"))
     input(type="text" name="orderNumber" value=(!order.isNew && order.number) placeholder="order number")
     input(type="text" name="orderTemplate" value=orderTemplate)
 
@@ -14,32 +28,41 @@ div
       div #{order.amount} р.
 
     fieldset
+
       legend  Укажите свой email (если не авторизован)
 
-      input(name="email" value=order.email placeholder="E-mail")
+      input(name="email" value=order.email placeholder="E-mail" disabled=!order.isNew)
     fieldset
       legend Оплата или результат оплаты
 
-      if order.isNew
-        include payment
-      else
-        div.pay-result Загружаем информацию...
+      div.pay-result Загружаем информацию...
+
+      //- показываем выбор оплаты только если заказ новый, иначе пока прячем и ждём, нужно ли
+      div.pay-info
+        p Выберите способ оплаты:
+          select(name="paymentMethod")
+            each paymentMethod in paymentMethods
+              option(value=paymentMethod.name) #{paymentMethod.title}
+            input(type="submit" value="Оплатить")
+
+
 
 script(src="http://code.jquery.com/jquery-2.1.1.js")
 
 script.
   var payForm = $('.pay-form');
-
   var payResult = $('.pay-result');
-
   if (payResult.length) {
     var requestPayResultStart = new Date();
     requestPayResult();
   }
-
   payForm.on('submit', onPayFormSubmit);
-
   function requestPayResult() {
+    if (new Date() - requestPayResultStart > 120e3) { // 2 mins
+      payResult.html("Таймаут ответа от платёжной системы. Попробуйте обновить эту страницу позже или обратиться в <a href=\"mailto:help@javascript.ru\">поддержку</a>.");
+      return;
+    }
+
     $.ajax({
       method: 'GET',
       url: '/getpdf/pay-result/' + payForm[0].elements.orderNumber.value,
@@ -49,21 +72,20 @@ script.
     })
     .done(function(result) {
       if (!result) {
-        if (new Date() - requestPayResultStart > 120e3) { // 2 mins
-          payResult.html("Таймаут ответа от платёжной системы. Попробуйте обновить эту страницу позже или обратиться в <a href=\"mailto:help@javascript.ru\">поддержку</a>.");
-        } else {
-          setTimeout(requestPayResult, 1000);
-        }
+        setTimeout(requestPayResult, 1000);
         return;
       }
-      payResult.html(result);
+      showPayResult(result);
     })
     .fail(function(err) {
       setTimeout(requestPayResult, 1000);
     });
-
   }
 
+  function showPayResult(result) {
+    payForm.addClass(result.status);
+    payResult.html(result.html);
+  }
 
   function onPayFormSubmit(e) {
     e.preventDefault();

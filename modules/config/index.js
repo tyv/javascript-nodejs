@@ -1,5 +1,5 @@
 if (!process.env.NODE_ENV) {
-  throw new Error("NODE_ENV environment variable is required");
+  process.env.NODE_ENV = 'development';
 }
 
 if (process.env.NODE_ENV == 'development' && process.env.DEV_TRACE) {

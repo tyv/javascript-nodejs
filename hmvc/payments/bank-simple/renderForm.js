@@ -7,9 +7,7 @@ module.exports = function* (transaction) {
   return jade.renderFile(path.join(__dirname, 'templates/form.jade'), {
     amount: transaction.amount,
     number: transaction.number,
-    currency: config.payments.currency,
-    id:     config.payments.modules.payanyway.id,
-    limitIds: process.env.NODE_ENV == 'development' ? '' : '843858,248362,822360,545234,1028,499669'
+    webmoney:  config.payments.modules.webmoney
   });
 
 };

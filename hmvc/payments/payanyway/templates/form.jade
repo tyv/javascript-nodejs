@@ -4,6 +4,7 @@ form(method="POST" action="https://www.moneta.ru/assistant.htm" accept-charset="
   input(type="hidden",name="MNT_TRANSACTION_ID",value=number)
   input(type="hidden",name="MNT_CURRENCY_CODE",value=currency)
   input(type="hidden",name="MNT_AMOUNT",value=amount)
-  input(type="hidden",name="paymentSystem.limitIds",value="843858,248362,822360,545234,1028,499669")
+  if limitIds
+    input(type="hidden",name="paymentSystem.limitIds",value=limitIds)
   input(type="submit",value="Оплатить")
 

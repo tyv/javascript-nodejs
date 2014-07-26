@@ -76,16 +76,16 @@ schema.pre('save', function(next) {
 
 schema.methods.getStatusDescription = function() {
   if (this.status == Transaction.STATUS_SUCCESS) {
-    return 'оплата прошла успешно';
+    return 'Оплата прошла успешно.';
   }
   if (this.status == Transaction.STATUS_PENDING) {
-    return 'оплата ожидается';
+    return 'Оплата ожидается, о её успешномо окончании вы будете извещены по e-mail.';
   }
 
   if (this.status == Transaction.STATUS_FAIL) {
-    var result = 'оплата не прошла';
+    var result = 'Оплата не прошла';
     if (this.statusMessage) result += ': ' + this.statusMessage;
-    return result;
+    return result + '.';
   }
 
   if (!this.status) {
