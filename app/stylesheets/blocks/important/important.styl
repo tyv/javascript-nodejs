@@ -31,8 +31,10 @@
 		a:hover u
 			text-decoration underline
 	
-	& &__header &__task-link // we really need such a strong selector
+	& &__task-link
 		@extend $plain-link
+
+	&__task-link
 		margin-right 40px
 	
 	&__task-link_empty
