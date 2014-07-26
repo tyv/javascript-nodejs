@@ -22,13 +22,13 @@ module.exports = function* (transaction) {
     lc: "RU"
   };
 
+  yield transaction.log("cart", cart);
+
   var cartFormatted = [];
   for(var key in cart) {
     cartFormatted.push(key + '=' + cart[key]);
   }
   cartFormatted = cartFormatted.join("\n");
-
-  yield transaction.log("cartFormatted", cartFormatted);
 
   var cartEncrypted = yield signCart(cartFormatted);
 

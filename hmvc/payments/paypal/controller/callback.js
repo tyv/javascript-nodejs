@@ -17,7 +17,7 @@ exports.post = function* (next) {
 
   yield* this.loadTransaction('invoice', {skipOwnerCheck: true});
 
-  yield this.transaction.logRequest('ipn-unverified', this.request);
+  yield this.transaction.logRequest('ipn-request unverified', this.request);
 
   var qs = {
     'cmd': '_notify-validate'
@@ -71,7 +71,7 @@ exports.post = function* (next) {
   }).sort({created: -1}).exec();
 
   if (previousIpn && previousIpn.data.payment_status == this.request.body.payment_status) {
-    yield this.transaction.logRequest("ipn duplicate", this.request);
+    yield this.transaction.log("ipn duplicate", this.request.body);
     // ignore duplicate
     this.body = '';
     return;
@@ -86,11 +86,10 @@ exports.post = function* (next) {
   // transaction IDs, indicating they are non-payment IPNs such as those used
   // for subscription signup requests.
   if (!this.request.body.txn_id) {
+    yield this.transaction.log("ipn without txn_id", this.request.body);
     this.body = '';
     return;
   }
-
-  // Exit when we don't get a payment status we recognize
 
   switch(this.request.body.payment_status) {
   case 'Failed':
@@ -116,7 +115,8 @@ exports.post = function* (next) {
     this.body = '';
     return;
   default:
-    yield this.transaction.logRequest("ipn status ignored", this.request);
+    // Refunded ...
+    yield this.transaction.log("ipn payment_status unknown", this.request.body);
 
     this.body = '';
     return;

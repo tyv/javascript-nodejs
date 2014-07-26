@@ -67,6 +67,8 @@
     "mongoose-auto-increment": "^3.0.8",
     "mongoose-troop": "git://github.com/iliakan/mongoose-troop",
     "nib": "^1.0.3",
+    "nodemailer": "^1.0.4",
+    "nodemailer-ses-transport": "^0.1.1",
     "passport": "*",
     "path-to-regexp": "^0.2.3",
     "require-tree": "*",
