@@ -4,8 +4,9 @@ var mongoose = require('mongoose');
 var log = require('js-log')();
 var co = require('co');
 var thunk = require('thunkify');
-var db = mongoose.connection.db;
+var glob = require('glob');
 
+var db;
 //log.debugOn();
 
 function *createEmptyDb() {
@@ -13,11 +14,12 @@ function *createEmptyDb() {
   function *open() {
 
     if (mongoose.connection.readyState == 1) { // connected
-      return;
+      return mongoose.connection.db;
     }
 
     yield thunk(mongoose.connection.on)('open');
 
+    return mongoose.connection.db;
   }
 
   function *clearDatabase() {
@@ -68,16 +70,16 @@ function *createEmptyDb() {
 
   log.debug("co");
 
-  yield open;
+  db = yield open();
   log.debug("open");
 
-  yield clearDatabase;
+  yield clearDatabase();
   log.debug("clear");
 
-  yield ensureIndexes;
+  yield ensureIndexes();
   log.debug('indexes');
 
-  yield ensureCapped;
+  yield ensureCapped();
   log.debug('capped');
 
 }
@@ -85,8 +87,7 @@ function *createEmptyDb() {
 // not using pow-mongoose-fixtures, becuae it fails with capped collections
 // it calls remove() on them => everything dies
 function *loadDb(dataFile) {
-  yield createEmptyDb;
-
+  yield* createEmptyDb();
   var modelsData = require(dataFile);
 
   yield Object.keys(modelsData).map(function(modelName) {
@@ -94,6 +95,7 @@ function *loadDb(dataFile) {
   });
 }
 
+// fixture file must make sure that the model is loaded!
 function *loadModel(name, data) {
 
   var Model = mongoose.models[name];

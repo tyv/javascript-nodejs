@@ -1,0 +1,6 @@
+p Выберите способ оплаты:
+  select(name="paymentMethod")
+    each paymentMethod in paymentMethods
+      option(value=paymentMethod.name) #{paymentMethod.title}
+    input(type="submit" value="Оплатить")
+

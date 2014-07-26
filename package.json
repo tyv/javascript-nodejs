@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "prod": "NODE_ENV=production node --harmony ./bin/www",
-    "dev": "NODE_ENV=development supervisor --harmony --debug --ignore node_modules ./bin/www",
+    "dev": "./gulp link-modules && NODE_ENV=development supervisor --harmony --debug --ignore node_modules ./bin/www",
     "debug": "NODE_ENV=development supervisor --harmony --debug-brk --ignore node_modules ./bin/www",
     "test": "NODE_ENV=test supervisor --harmony --debug --ignore node_modules ./bin/www",
     "postinstall": "NODE_ENV=development node --harmony `which gulp` link-modules",
@@ -78,7 +78,8 @@
     "thunkify": "*",
     "vinyl-fs": "^0.3.4",
     "vinyl-source-stream": "^0.1.1",
-    "winston": "*"
+    "winston": "*",
+    "yargs": "^1.2.6"
   },
   "devDependencies": {
     "clarify": "*",

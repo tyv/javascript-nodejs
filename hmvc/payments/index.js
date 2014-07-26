@@ -8,6 +8,7 @@ exports.loadOrder = require('./lib/loadOrder');
 exports.loadTransaction = require('./lib/loadTransaction');
 
 var Order = exports.Order = require('./models/order');
+var OrderTemplate = exports.OrderTemplate = require('./models/orderTemplate');
 var Transaction = exports.Transaction = require('./models/transaction');
 var TransactionLog = exports.TransactionLog = require('./models/transactionLog');
 
@@ -30,7 +31,7 @@ exports.middleware = compose(paymentMounts);
 exports.populateContextMiddleware = function*(next) {
   this.redirectToOrder = function(order) {
     order = order || this.order;
-    this.redirect('/' + order.module + '/order/' + order.number);
+    this.redirect('/' + order.module + '/orders/' + order.number);
   };
   this.loadOrder = exports.loadOrder;
   this.loadTransaction = exports.loadTransaction;
@@ -48,6 +49,8 @@ exports.createTransactionForm = function* (order, method) {
   });
 
   yield transaction.persist();
+
+  console.log(transaction);
 
   var form = yield* paymentModules[method].renderForm(transaction);
 

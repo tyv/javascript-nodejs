@@ -2,12 +2,13 @@ var Router = require('koa-router');
 
 var router = module.exports = new Router();
 
-var order = require('./controller/order');
-var pay = require('./controller/pay');
-var success = require('./controller/success');
+var orders = require('./controller/orders');
+var payResult = require('./controller/payResult');
+var checkout = require('./controller/checkout');
 
-router.get('', order.get);
-router.get('/order/:orderNumber', order.get);
+router.get('/:orderTemplate', orders.get);
+router.get('/orders/:orderNumber(\\d+)', orders.get);
 
-router.post('/pay', pay.post);
-router.get('/success/:orderNumber', success.get);
+router.get('/pay-result/:orderNumber(\\d+)', payResult.get);
+
+router.post('/checkout', checkout.post);

@@ -26,6 +26,10 @@ function requireSetup(path) {
 // usually nginx will handle this
 requireSetup('setup/static');
 
+// this middleware adds this.render method
+// it is *before error*, because errors need this.render
+requireSetup('setup/render');
+
 // errors wrap everything
 requireSetup('setup/errorHandler');
 
@@ -48,7 +52,6 @@ requireSetup('setup/csrf');
 
 requireSetup('setup/payments');
 
-requireSetup('setup/render');
 requireSetup('setup/router');
 
 if (process.env.NODE_ENV == 'test') {

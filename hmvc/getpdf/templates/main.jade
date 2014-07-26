@@ -1,32 +1,79 @@
-if message
-  div= message
+script var csrf = "#{csrf}", orderNumber;
 
 div
-  p Выберите способ оплаты:
-  form.pay-form.notready(onsubmit="alert('Минуточку, идёт загрузка...'); return false")
+  p Спасибо, что решили приобрести PDF-учебник!
+
+  form.pay-form
     input(type="text" name="orderNumber" value=(!order.isNew && order.number) placeholder="order number")
-    input(name="email" value=order.data.email placeholder="E-mail")
-    select(name="paymentMethod")
-      each paymentMethod in paymentMethods
-        option(value=paymentMethod.name) #{paymentMethod.title}
-      input(type="submit" value="Оплатить")
+    input(type="text" name="orderTemplate" value=orderTemplate)
+
+    fieldset
+      legend  Описание книги и стоимость
+      h2= order.title
+      div= order.description
+      div #{order.amount} р.
+
+    fieldset
+      legend  Укажите свой email (если не авторизован)
+
+      input(name="email" value=order.email placeholder="E-mail")
+    fieldset
+      legend Оплата или результат оплаты
+
+      if order.isNew
+        include payment
+      else
+        div.pay-result Загружаем информацию...
 
 script(src="http://code.jquery.com/jquery-2.1.1.js")
 
-script var csrf = "#{csrf}";
-
 script.
-  $('.notready').removeClass('notready').prop('onsubmit', null);
+  var payForm = $('.pay-form');
 
-  $('.pay-form')
-    .on('submit', function(e) {
+  var payResult = $('.pay-result');
+
+  if (payResult.length) {
+    var requestPayResultStart = new Date();
+    requestPayResult();
+  }
+
+  payForm.on('submit', onPayFormSubmit);
+
+  function requestPayResult() {
+    $.ajax({
+      method: 'GET',
+      url: '/getpdf/pay-result/' + payForm[0].elements.orderNumber.value,
+      data: {
+       orderNumber: payForm[0].elements.orderNumber.value
+      }
+    })
+    .done(function(result) {
+      if (!result) {
+        if (new Date() - requestPayResultStart > 120e3) { // 2 mins
+          payResult.html("Таймаут ответа от платёжной системы. Попробуйте обновить эту страницу позже или обратиться в <a href=\"mailto:help@javascript.ru\">поддержку</a>.");
+        } else {
+          setTimeout(requestPayResult, 1000);
+        }
+        return;
+      }
+      payResult.html(result);
+    })
+    .fail(function(err) {
+      setTimeout(requestPayResult, 1000);
+    });
+
+  }
+
+
+  function onPayFormSubmit(e) {
     e.preventDefault();
     $.ajax({
       method: 'POST',
-      url: '/getpdf/pay',
+      url: '/getpdf/checkout',
       data: {
         _csrf: csrf,
         orderNumber: this.elements.orderNumber.value,
+        orderTemplate: this.elements.orderTemplate.value,
         email: this.elements.email.value,
         paymentMethod: this.elements.paymentMethod.value
       }
@@ -37,5 +84,4 @@ script.
     .done(function(htmlForm) {
       $(htmlForm).submit();
     });
-
-  });
+  }

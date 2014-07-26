@@ -37,7 +37,7 @@ var schema = new Schema({
   }
 });
 
-schema.plugin(autoIncrement.plugin, {model: 'Transaction', field: 'number'});
+schema.plugin(autoIncrement.plugin, {model: 'Transaction', field: 'number', startAt: 1});
 
 schema.statics.STATUS_SUCCESS = 'success';
 schema.statics.STATUS_PENDING = 'pending';

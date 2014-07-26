@@ -1,11 +1,13 @@
 /**
  * NB: All tasks are initialized lazily, even plugins are required lazily,
  * running 1 task does not require all tasks' files
-*/
+ */
 
 const gulp = require('gulp');
 const gp = require('gulp-load-plugins')();
 const path = require('path');
+const fs = require('fs');
+const assert = require('assert');
 //const browserifyTask = require('tasks/browserify');
 
 const serverSources = [
@@ -25,7 +27,20 @@ gulp.task('lint-watch', ['lint'], function(neverCalled) {
   gulp.watch(serverSources, ['lint']);
 });
 
-//gulp.task('lint', require('./tasks/lint-full-die')(serverSources));
+// usage: gulp loaddb --db fixture/db
+gulp.task('loaddb', function(callback) {
+  var task = require('tasks/loadDb');
+
+  var args = require('yargs')
+    .usage("Path to DB is required.")
+    .demand(['db'])
+    .argv;
+
+  var dbPath = path.join(__dirname, args.db);
+  assert(fs.existsSync(dbPath));
+
+  task(dbPath)(callback);
+});
 
 
 gulp.task('watch', ['stylus'], function(neverCalled) {
@@ -37,13 +52,16 @@ gulp.task('watch', ['stylus'], function(neverCalled) {
    */
   const fse = require('fs-extra');
 
-  fse.ensureDirSync('www/fonts');
+  fse.removeSync(['www/fonts']);
+  fse.removeSync(['www/img']);
+  fse.removeSync(['www/js']);
+
+  fse.mkdirsSync('www/fonts');
+  fse.mkdirsSync('www/img');
+  fse.mkdirsSync('www/js');
+
   gp.dirSync('app/fonts', 'www/fonts');
-
-  fse.ensureDirSync('www/img');
   gp.dirSync('app/img', 'www/img');
-
-  fse.ensureDirSync('www/js');
   gp.dirSync('app/js', 'www/js');
 
   gulp.watch("app/**/*.sprites/**", ['sprite']);
@@ -88,6 +106,8 @@ gulp.task('link-modules', function() {
 
   return linkModules(['modules/*', 'hmvc/*']).apply(this, arguments);
 });
+
+
 
 gulp.task('sprite', function() {
   var options = {
