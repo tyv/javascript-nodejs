@@ -1,13 +1,16 @@
+p.
+  TODO: доделать форму оплаты, как частный случай более сложных курсов
+
 style.
 
   /* выбор оплаты - только для новых заказов или для неудавшейся оплаты */
   .pay-chooser {
     display: none;
   }
-  form.pay-form[data-new="1"] .pay-chooser {
+  form.order-form[data-new="1"] .pay-chooser {
     display: block;
   }
-  form.pay-form[data-payment-state="fail"] .pay-chooser {
+  form.order-form[data-payment-state="fail"] .pay-chooser {
     display: block;
   }
 
@@ -16,47 +19,57 @@ style.
     display: none;
   }
 
-  form.pay-form[data-new="0"]:not([data-payment-state]) .pay-loading {
+  form.order-form[data-new="0"]:not([data-payment-state]) .pay-loading {
     display: block;
   }
 
-  /* результат оплаты (должен быть над .pay-chooser) - только когда он есть */
-  .pay-result {
+  /* информация о проблеме с оплатой оплаты (над .pay-chooser) - только когда она есть */
+  .pay-fail {
     display: none;
   }
 
-  form.pay-form[data-payment-state] .pay-result {
+  form.order-form[data-payment-state="fail"] .pay-fail {
     display: block;
   }
 
+  /* результат заказа оплаченного */
+  .order-result {
+    display: none;
+  }
+  form.order-form[data-payment-state="success"] .order-result,
+  form.order-form[data-payment-state="pending"] .order-result {
+    display: block;
+  }
 
-script var csrf = "#{csrf}", orderNumber;
+script var csrf = "#{csrf}";
+script var orderNumber = #{order.isNew ? order.number : 'null'};
+script var orderTemplate = "#{orderTemplate}";
+ // TODO
 
 
 div
 
-  form.pay-form(data-new=(order.isNew ? "1" : "0"))
-    input(type="text" name="orderNumber" value=(!order.isNew && order.number) placeholder="order number")
-    input(type="text" name="orderTemplate" value=orderTemplate)
+  form.order-form(data-new=(order.isNew ? "1" : "0"))
 
     fieldset
       legend  Описание книги и стоимость
       h2= order.title
       div= order.description
-      div #{order.amount} р.
+      div #{order.amount}р.
 
     fieldset
-
       legend  Укажите свой email (если не авторизован)
 
       input(name="email" value=order.email placeholder="E-mail" disabled=!order.isNew)
+
     fieldset
       legend Оплата или результат оплаты
 
-      div.pay-result Загружаем информацию...
+      .pay-loading Загружаем информацию об оплате...
 
-      //- показываем выбор оплаты только если заказ новый, иначе пока прячем и ждём, нужно ли
-      div.pay-info
+      .pay-fail
+
+      .pay-chooser
         p Выберите способ оплаты:
           select(name="paymentMethod")
             each paymentMethod in paymentMethods
@@ -64,20 +77,89 @@ div
             input(type="submit" value="Оплатить")
 
 
+      .pay-result
+        legend Результат заказа при успешной оплате
+
+        .content
+
 
 script(src="http://code.jquery.com/jquery-2.1.1.js")
 
 script.
-  var payForm = $('.pay-form');
+  var orderForm = $('.order-form');
   var payResult = $('.pay-result');
-  if (payResult.length) {
+
+  if (orderForm.data('new') == 0) {
     var requestPayResultStart = new Date();
     requestPayResult();
   }
-  payForm.on('submit', onPayFormSubmit);
-  function requestPayResult() {
-    if (new Date() - requestPayResultStart > 120e3) { // 2 mins
-      payResult.html("Таймаут ответа от платёжной системы. Попробуйте обновить эту страницу позже или обратиться в <a href=\"mailto:help@javascript.ru\">поддержку</a>.");
+
+    orderForm.on('submit', onPayFormSubmit);
+
+    function requestPayResult() {
+      if (new Date() - requestPayResultStart > 120e3) { // 2 mins
+        orderForm.attr('data-payment-state', 'timeout');
+        payResult.html("Таймаут ответа от платёжной системы. Попробуйте обновить эту страницу позже или обратиться в <a href=\"mailto:help@javascript.ru\">поддержку</a>.");
+        return;
+      }
+
+      $.ajax({
+        method: 'GET',
+        url: '/getpdf/pay-result/' + orderForm[0].elements.orderNumber.value,
+        data: {
+         orderNumber: orderForm[0].elements.orderNumber.value
+        }
+      })
+      .done(function(result) {
+        if (!result) {
+          setTimeout(requestPayResult, 1000);
+          return;
+        }
+        showPayResult(result);
+      })
+      .fail(function(err) {
+        setTimeout(requestPayResult, 1000);
+      });
+    }
+
+    function showPayResult(result) {
+      orderForm.attr('data-payment-state', result.status);
+      switch(result.status) {
+      case 'success':
+        orderForm.find('.order-success').html(result.successHtml);
+        break;
+      case 'pending':
+        payResult.html('Оплата ожидается, о результате мы напишем по email');
+        break;
+      case 'fail':
+        $('.pay-fail').html(result.html);
+        break;
+      default:
+        throw new Error("Unknown payment status: " + result.status);
+      }
+    }
+
+    function onPayFormSubmit(e) {
+      e.preventDefault();
+      $.ajax({
+        method: 'POST',
+        url: '/getpdf/checkout',
+        data: {
+          _csrf: csrf,
+          orderNumber: this.elements.orderNumber.value,
+          orderTemplate: this.elements.orderTemplate.value,
+          email: this.elements.email.value,
+          paymentMethod: this.elements.paymentMethod.value
+        }
+      })
+      .fail(function(err) {
+        alert("Ошибка на сервере");
+      })
+      .done(function(htmlForm) {
+        $(htmlForm).submit();
+      });
+    }
+  "mailto:help@javascript.ru\">поддержку</a>.");
       return;
     }
 
@@ -101,8 +183,22 @@ script.
   }
 
   function showPayResult(result) {
-    payForm.addClass(result.status);
-    payResult.html(result.html);
+    payForm.attr('data-payment-state', result.status);
+    switch(result.status) {
+    case 'success':
+      payForm.find('.order-success').html(result.successHtml);
+      break;
+    case 'pending':
+      payResult.html('Оплата ожидается, о результате мы напишем по email');
+      break;
+    case 'fail':
+      var message = 'Оплата не прошла';
+      if (result.statusMessage) message += '<div>Ошибка: ' + result.statusMessage + '</div>';
+      payResult.html(message);
+      break;
+    default:
+      throw new Error("Unknown payment status: " + result.status);
+    }
   }
 
   function onPayFormSubmit(e) {
