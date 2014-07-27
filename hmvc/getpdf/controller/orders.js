@@ -6,11 +6,8 @@ var Transaction = payments.Transaction;
 exports.get = function*(next) {
   this.set('Cache-Control', 'no-cache, no-store, must-revalidate');
 
-  var lastTransaction;
   if (this.params.orderNumber) {
     yield* this.loadOrder();
-
-    var lastTransaction = yield Transaction.findOne({ order: this.order._id }).sort({created: -1}).exec();
   } else {
 
     var orderTemplate = yield OrderTemplate.findOne({
@@ -34,11 +31,6 @@ exports.get = function*(next) {
   }
 
   this.locals.order = this.order;
-
-  if (lastTransaction) {
-    console.log(lastTransaction.getStatusDescription);
-    this.locals.message = 'Статус последней оплаты: ' + lastTransaction.getStatusDescription();
-  }
 
   this.locals.paymentMethods = require('../paymentMethods').methods;
 

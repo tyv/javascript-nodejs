@@ -69,7 +69,9 @@ module.exports = function render(app) {
           if (!this.filename) {
             throw new Error('the "filename" option is required to use "' + purpose + '" with "relative" paths');
           }
-          templatePath = path.join(path.dirname(this.filename), templatePath) + '.jade';
+
+          // files like article.html are included in a special way (Filter)
+          templatePath = path.join(path.dirname(this.filename), templatePath) + (path.extname(templatePath) ? '' : '.jade');
           //console.log("Resolve to ", path);
           return templatePath;
         }
@@ -80,10 +82,7 @@ module.exports = function render(app) {
       var loc = Object.create(this.locals);
 
       var parseLocals = {
-        parser:   JadeParser,
-        readFile: function(file) {
-          return readFile(templateDir, file);
-        }
+        parser:   JadeParser
       };
 
       _.assign(loc, parseLocals, locals);
@@ -101,18 +100,6 @@ module.exports = function render(app) {
   });
 
 };
-
-
-function readFile(templateDir, file) {
-  if (file[0] == '.') {
-    throw new Error("readFile file must not start with . : bad file " + file);
-  }
-  var path = resolvePathUp(templateDir, file);
-  if (!path) {
-    throw new Error("Not found " + file + " (from dir " + templateDir + ")");
-  }
-  return fs.readFileSync(path);
-}
 
 function resolvePathUp(templateDir, templateName) {
 

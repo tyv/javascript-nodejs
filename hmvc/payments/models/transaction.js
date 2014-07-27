@@ -73,7 +73,7 @@ schema.pre('save', function(next) {
     next(err);
   });
 });
-
+/*
 schema.methods.getStatusDescription = function() {
   if (this.status == Transaction.STATUS_SUCCESS) {
     return 'Оплата прошла успешно.';
@@ -94,6 +94,7 @@ schema.methods.getStatusDescription = function() {
 
   throw new Error("неподдерживаемый статус транзакции");
 };
+*/
 
 schema.methods.logRequest = function*(event, request) {
   yield this.log(event, {url: request.originalUrl, body: request.body});

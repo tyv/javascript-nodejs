@@ -10,6 +10,10 @@ log.debugOn();
 
 exports.post = function* (next) {
 
+  checkSignature(this.request.body);
+  this.body = 'SUCCESS';
+  return;
+
   yield* this.loadTransaction('MNT_TRANSACTION_ID', {skipOwnerCheck : true});
 
 
@@ -48,10 +52,10 @@ function checkSignature(body) {
   var signature = body.MNT_ID + body.MNT_TRANSACTION_ID + body.MNT_AMOUNT +
     body.MNT_CURRENCY_CODE + (body.MNT_SUBSCRIBER_ID || '') + (+body.MNT_TEST_MODE ? '1' : '0') + payanywayConfig.secret;
 
-//  console.log(signature);
+  console.log(signature);
   signature = md5(signature);
 
-//  console.log(signature);
+  console.log(signature);
   return signature == body.MNT_SIGNATURE;
 }
 

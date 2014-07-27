@@ -1,23 +1,41 @@
 style.
-  form.pay-form[is_new="0"] .pay-info {
+
+  /* выбор оплаты - только для новых заказов или для неудавшейся оплаты */
+  .pay-chooser {
     display: none;
   }
-
-  form.pay-form[is_new="1"] .pay-result {
-    display: none;
+  form.pay-form[data-new="1"] .pay-chooser {
+    display: block;
   }
-
-
-  form.pay-form[is_new="0"].fail .pay-info {
+  form.pay-form[data-payment-state="fail"] .pay-chooser {
     display: block;
   }
 
+  /* индикатор загрузки - только для существующих заказов без статуса оплаты */
+  .pay-loading {
+    display: none;
+  }
+
+  form.pay-form[data-new="0"]:not([data-payment-state]) .pay-loading {
+    display: block;
+  }
+
+  /* результат оплаты (должен быть над .pay-chooser) - только когда он есть */
+  .pay-result {
+    display: none;
+  }
+
+  form.pay-form[data-payment-state] .pay-result {
+    display: block;
+  }
+
+
 script var csrf = "#{csrf}", orderNumber;
 
-div
-  p Спасибо, что решили приобрести PDF-учебник!
 
-  form.pay-form(is_new=(order.isNew ? "1" : "0"))
+div
+
+  form.pay-form(data-new=(order.isNew ? "1" : "0"))
     input(type="text" name="orderNumber" value=(!order.isNew && order.number) placeholder="order number")
     input(type="text" name="orderTemplate" value=orderTemplate)
 

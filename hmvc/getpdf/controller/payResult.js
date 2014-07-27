@@ -46,7 +46,7 @@ exports.get = function*(next) {
 
   this.body = {
     status: lastTransaction.status,
-    html:   lastTransaction.getStatusDescription()
+    statusMessage:   lastTransaction.statusMessage
   };
 
 };
