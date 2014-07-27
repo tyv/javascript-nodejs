@@ -48,6 +48,9 @@ if (process.env.NODE_ENV == 'development') {
 }
 
 requireSetup('setup/session');
+
+requireSetup('setup/passport');
+
 requireSetup('setup/csrf');
 
 requireSetup('setup/payments');

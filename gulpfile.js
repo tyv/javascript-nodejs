@@ -8,7 +8,6 @@ const gp = require('gulp-load-plugins')();
 const path = require('path');
 const fs = require('fs');
 const assert = require('assert');
-//const browserifyTask = require('tasks/browserify');
 
 const serverSources = [
   'config/**/*.js', 'hmvc/**/*.js', 'modules/**/*.js', 'renderer/**/*.js', 'routes/**/*.js',
@@ -43,13 +42,19 @@ gulp.task('loaddb', function(callback) {
 });
 
 
+gulp.task('watchify', function(neverCalled) {
+
+  const browserify = require('./tasks/browserify');
+
+  browserify({
+    src: './app/js/main.js',
+    dst: './www/js',
+    watch: true
+  });
+
+});
+
 gulp.task('watch', ['stylus'], function(neverCalled) {
-  /*
-   browserifyTask({
-   src: 'app/js/index.js',
-   dst: 'www/js'
-   })();
-   */
   const fse = require('fs-extra');
 
   fse.removeSync(['www/fonts']);

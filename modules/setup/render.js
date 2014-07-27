@@ -76,6 +76,8 @@ module.exports = function render(app) {
           return templatePath;
         }
 
+        log.debug("resolvePathUp " + templateDir + " " + templatePath);
+
         return resolvePathUp(templateDir, templatePath + '.jade');
       };
 
@@ -92,6 +94,7 @@ module.exports = function render(app) {
       if (!file) {
         throw new Error("Template file not found: " + templatePath + " (in dir " + templateDir + ") ");
       }
+      log.debug("render file " + file);
       this.body = jade.renderFile(file, loc);
     };
 
