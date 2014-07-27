@@ -23,11 +23,12 @@ function requireSetup(path) {
   require(path)(app);
 }
 
-// usually nginx will handle this
+// usually nginx will handle this before node
+// that's why we put it at the top
 requireSetup('setup/static');
 
 // this middleware adds this.render method
-// it is *before error*, because errors need this.render
+// it is *before errorHandler*, because errors need this.render
 requireSetup('setup/render');
 
 // errors wrap everything

@@ -17,6 +17,7 @@ const path = require('path');
 module.exports = function(app) {
 
   app.use(favicon());
+
   app.use(function*(next) {
     var opts = {
       root: 'www',

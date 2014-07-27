@@ -9,9 +9,9 @@ const path = require('path');
 const fs = require('fs');
 const assert = require('assert');
 
+
 const serverSources = [
-  'config/**/*.js', 'hmvc/**/*.js', 'modules/**/*.js', 'renderer/**/*.js', 'routes/**/*.js',
-  'setup/**/*.js', 'tasks/**/*.js', '*.js'
+  'hmvc/**/*.js', 'modules/**/*.js', 'tasks/**/*.js', '*.js'
 ];
 
 gulp.task('lint', function() {
@@ -41,25 +41,27 @@ gulp.task('loaddb', function(callback) {
   task(dbPath)(callback);
 });
 
+gulp.task("watch:server", function() {
 
-gulp.task('watchify', function(neverCalled) {
-
-  const browserify = require('./tasks/browserify');
-
-  browserify({
-    src: './app/js/main.js',
-    dst: './www/js',
-    watch: true
+  gp.supervisor("bin/www", {
+    args:         [],
+    watch:        ['hmvc', 'modules'],
+    pollInterval: 100,
+    extensions:   [ "js" ],
+    debug:        true,
+    harmony:      true
   });
-
 });
 
-gulp.task('watch', ['stylus'], function(neverCalled) {
+
+gulp.task("watch:app:resources", ['stylus'], function() {
+
+
   const fse = require('fs-extra');
 
-  fse.removeSync(['www/fonts']);
-  fse.removeSync(['www/img']);
-  fse.removeSync(['www/js']);
+  fse.removeSync('www/fonts');
+  fse.removeSync('www/img');
+  fse.removeSync('www/js');
 
   fse.mkdirsSync('www/fonts');
   fse.mkdirsSync('www/img');
@@ -72,8 +74,26 @@ gulp.task('watch', ['stylus'], function(neverCalled) {
   gulp.watch("app/**/*.sprites/**", ['sprite']);
   gulp.watch("app/**/*.styl", ['stylus']);
 
+});
+
+
+gulp.task("watch:app:browserify", function() {
+
+  const browserify = require('./tasks/browserify');
+
+  browserify({
+    src:   './app/js/main.js',
+    dst:   './www/js',
+    watch: true
+  });
+
+});
+
+gulp.task("watch:link-modules", function() {
   gulp.watch(serverSources, ['link-modules']);
 });
+
+gulp.task('dev', ['watch:server', 'watch:app:resources', 'watch:app:browserify']);
 
 // Show errors if encountered
 gulp.task('stylus', ['clean-compiled-css', 'sprite'], function() {
@@ -111,7 +131,6 @@ gulp.task('link-modules', function() {
 
   return linkModules(['modules/*', 'hmvc/*']).apply(this, arguments);
 });
-
 
 
 gulp.task('sprite', function() {
