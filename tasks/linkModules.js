@@ -31,11 +31,11 @@ function ensureSymlinkSync(linkSrc, linkDst) {
   return true;
 }
 
-module.exports = function(sources) {
+module.exports = function(options) {
 
-  return function() {
+  return function(callback) {
     var modules = [];
-    sources.forEach(function(pattern) {
+    options.src.forEach(function(pattern) {
       modules = modules.concat(glob.sync(pattern));
     });
 
@@ -48,6 +48,8 @@ module.exports = function(sources) {
         gutil.log(linkSrc + " -> " + linkDst);
       }
     }
+    callback();
   };
 
 };
+

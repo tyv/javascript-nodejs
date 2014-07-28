@@ -4,10 +4,9 @@
   "private": true,
   "scripts": {
     "prod": "NODE_ENV=production node --harmony ./bin/www",
-    "dev": "./gulp link-modules && NODE_ENV=development supervisor --harmony --debug --ignore node_modules ./bin/www",
+    "dev": "NODE_ENV=development supervisor --harmony --debug --ignore node_modules ./bin/www",
     "debug": "NODE_ENV=development supervisor --harmony --debug-brk --ignore node_modules ./bin/www",
     "test": "NODE_ENV=test supervisor --harmony --debug --ignore node_modules ./bin/www",
-    "postinstall": "NODE_ENV=development node --harmony `which gulp` link-modules",
     "fixperms": "sudo chown -R `id -u` . ~/.npm* ~/.node-gyp"
   },
   "precommit": "NODE_ENV=development node --harmony `which gulp` pre-commit",

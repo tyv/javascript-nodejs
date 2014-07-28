@@ -5,9 +5,15 @@ var gutil = require('gulp-util');
 var dataUtil = require('lib/dataUtil');
 var mongoose = require('config/mongoose');
 
-module.exports = function(dbPath) {
-
+module.exports = function() {
   return function(callback) {
+
+    var args = require('yargs')
+      .usage("Path to DB is required.")
+      .demand(['db'])
+      .argv;
+
+    var dbPath = path.join(process.cwd(), args.db);
 
     gutil.log("loading db " + dbPath);
 
@@ -23,5 +29,5 @@ module.exports = function(dbPath) {
     });
 
   };
-
 };
+

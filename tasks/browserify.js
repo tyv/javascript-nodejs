@@ -9,61 +9,77 @@ var assert = require('assert');
 var _ = require('lodash');
 var path = require('path');
 
+// TODO: add uglify if not development
 function makeBundler(options) {
-  // dst has same name as (single) src
 
+  // dst has same name as (single) src
   var opts = _.assign({}, options, {
-    debug: (process.env.NODE_ENV === 'development')
+    debug: (process.env.NODE_ENV === 'development'),
+    cache: {},
+    packageCache: {},
+    fullPaths: true
   });
 
   var bundler = browserify(opts);
   bundler.rebundle = function() {
-    console.log(path.basename(this._options.dst));
-    bundler.bundle()
+    this.bundle()
+      .on('error', function(e) {
+        gutil.log(e.message);
+        new Notification().notify({
+          message: e
+        });
+      })
       .pipe(source(path.basename(this._options.dst)))
       .pipe(gulp.dest(path.dirname(this._options.dst)));
   };
+  bundler.on('update', bundler.rebundle);
+  bundler.on('log', function(msg) {
+    gutil.log("browserify: " + msg);
+  });
 
- // bundler.on('update', bundler.rebundle);
+  if (options.externals) {
+    for (var i = 0; i < options.externals.length; i++) {
+      var external = options.externals[i];
+      bundler.external(external);
+    }
+  }
+
+  if (process.env.NODE_ENV == 'development') {
+    bundler = watchify(bundler);
+  }
 
   return bundler;
 }
 
 module.exports = function() {
-/*
-  var externals = ['jquery'];
 
-  var bundler = makeBundler({
-    src: './app/js/vendor.js',
-    dst: './www/js/vendor.js',
-    require: externals
-  });
+  return function(callback) {
 
-  bundler = watchify(bundler);
-  bundler.rebundle();
+    var vendor = ['jquery'];
 
-  var bundler = makeBundler({
-    src: './app/js/head.js',
-    dst: './www/js/head.js'
-  });
+    var bundler = makeBundler({
+      entries: [],
+      dst:     './www/js/vendor.js',
+      require: vendor
+    });
 
-  bundler = watchify(bundler);
-  bundler.rebundle();
+    bundler.rebundle();
 
-  */
-  var bundler = makeBundler({
-    src: './app/js/main.js',
-    dst: './www/js/main.js'
-  });
-  bundler.rebundle();
+    var bundler = makeBundler({
+      entries: './app/js/head.js',
+      dst:     './www/js/head.js'
+    });
 
-  console.log("TEST");
-/*
-  bundler.on('prebundle', function(bundle) {
-    for (var i = 0; i < externals.length; i++) {
-      var external = externals[i];
-      this.external(external);
-    }
-  });*/
+    bundler.rebundle();
 
+
+    var bundler = makeBundler({
+      entries: './app/js/main.js',
+      dst:     './www/js/main.js',
+      externals: vendor
+    });
+
+
+    bundler.rebundle();
+  };
 };

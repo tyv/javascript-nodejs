@@ -9,110 +9,80 @@ const path = require('path');
 const fs = require('fs');
 const assert = require('assert');
 
+const development = (process.env.NODE_ENV == 'development');
 
 const serverSources = [
   'hmvc/**/*.js', 'modules/**/*.js', 'tasks/**/*.js', '*.js'
 ];
 
-gulp.task('lint', function() {
-  return gp.jshintCache({ src: serverSources }).apply(this, arguments);
-});
+function lazyRequireTask(name) {
+  var args = [].slice.call(arguments, 1);
 
-gulp.task('lint-or-die', function() {
-  return gp.jshintCache({ src: serverSources, dieOnError: true }).apply(this, arguments);
-});
+  return function(callback) {
+    var task = require('./tasks/' + name).apply(this, args);
 
-gulp.task('lint-watch', ['lint'], function(neverCalled) {
-  gulp.watch(serverSources, ['lint']);
-});
+    return task(callback);
+  };
+}
+
+gulp.task('lint-once', lazyRequireTask('lintOnce', { src: serverSources }));
+
+gulp.task('lint-or-die', lazyRequireTask('lintOnce', { src: serverSources, dieOnError: true }));
+
+gulp.task('lint', ['lint-once'], lazyRequireTask('lint', {src: serverSources}));
 
 // usage: gulp loaddb --db fixture/db
-gulp.task('loaddb', function(callback) {
-  var task = require('tasks/loadDb');
+gulp.task('loaddb', lazyRequireTask('loadDb'));
 
-  var args = require('yargs')
-    .usage("Path to DB is required.")
-    .demand(['db'])
-    .argv;
+gulp.task("supervisor", ['link-modules'], lazyRequireTask('supervisor', { cmd: "bin/www", watch: ["hmvc", "modules"] }));
 
-  var dbPath = path.join(__dirname, args.db);
-  assert(fs.existsSync(dbPath));
 
-  task(dbPath)(callback);
+gulp.task('link-modules', lazyRequireTask('linkModules', { src: ['modules/*', 'hmvc/*'] }));
+
+
+gulp.task("app:sync-resources", lazyRequireTask('syncResources', {
+  'app/fonts' : 'www/fonts',
+  'app/img': 'www/img'
+}));
+
+
+gulp.task('app:sprite-once', lazyRequireTask('spriteOnce', {
+  spritesSearchFsRoot: 'app',
+  spritesWebRoot:      '/sprites',
+  spritesFsDir:        'www/sprites',
+  styleFsDir:          'app/stylesheets/sprites'
+}));
+
+gulp.task('app:sprite', ['app:sprite-once'], lazyRequireTask('sprite', { watch: "app/**/*.sprite/**"}));
+
+gulp.task('app:clean-compiled-css', function(callback) {
+  fs.unlink('./www/stylesheets/base.css', callback);
 });
-
-gulp.task("watch:server", function() {
-
-  gp.supervisor("bin/www", {
-    args:         [],
-    watch:        ['hmvc', 'modules'],
-    pollInterval: 100,
-    extensions:   [ "js" ],
-    debug:        true,
-    harmony:      true
-  });
-});
-
-
-gulp.task("watch:app:resources", ['stylus'], function() {
-
-
-  const fse = require('fs-extra');
-
-  fse.removeSync('www/fonts');
-  fse.removeSync('www/img');
-
-  fse.mkdirsSync('www/fonts');
-  fse.mkdirsSync('www/img');
-
-  gp.dirSync('app/fonts', 'www/fonts');
-  gp.dirSync('app/img', 'www/img');
-
-  gulp.watch("app/**/*.sprites/**", ['sprite']);
-  gulp.watch("app/**/*.styl", ['stylus']);
-
-});
-
-
-
-
-gulp.task("app:browserify:clean", function() {
-  const fse = require('fs-extra');
-  fse.removeSync('www/js');
-  fse.mkdirsSync('www/js');
-});
-
-
-gulp.task("watch:app:browserify", ['app:browserify:clean'], function(neverCalled) {
-
-  const browserify = require('./tasks/browserify');
-  browserify();
-
-});
-
-gulp.task("watch:link-modules", function() {
-  gulp.watch(serverSources, ['link-modules']);
-});
-
-gulp.task('dev', ['watch:server', 'watch:app:resources']);
 
 // Show errors if encountered
-gulp.task('stylus', ['clean-compiled-css', 'sprite'], function() {
-  return gulp.src('./app/stylesheets/base.styl')
-    // without plumber if stylus emits PluginError, it will disappear at the next step
-    // plumber propagates it down the chain
-    .pipe(gp.plumber({errorHandler: gp.notify.onError("<%= error.message %>")}))
-    .pipe(gp.stylus({use: [require('nib')()]}))
-    .pipe(gp.autoprefixer("last 1 version"))
-    .pipe(gulp.dest('./www/stylesheets'))
-    .pipe(gp.livereload());
-});
+gulp.task('app:compile-css-once',
+  ['app:clean-compiled-css'],
+  lazyRequireTask('compileCssOnce', {
+    src: './app/stylesheets/base.styl',
+    dst: './www/stylesheets'
+  })
+);
 
-gulp.task('clean-compiled-css', function() {
-  return gulp.src('./www/stylesheets/base.css').pipe(gp.rimraf());
-});
+gulp.task('app:compile-css', ['app:compile-css-once'], lazyRequireTask('compileCss', { watch: "app/**/*.styl"}));
 
 
+gulp.task("app:browserify:clean", lazyRequireTask('browserifyClean', { dst: './www/js'} ));
+
+
+gulp.task("app:browserify", ['app:browserify:clean'], lazyRequireTask('browserify'));
+
+
+// compile-css and sprites are independant tasks
+// run both or run *-once separately
+gulp.task('run', ['supervisor', "app:sync-resources", 'app:compile-css', 'app:sprite', 'app:browserify']);
+
+
+// TODO: refactor me out!
 gulp.task('import', function(callback) {
   const mongoose = require('config/mongoose');
   const taskImport = require('tutorial/tasks/import');
@@ -125,22 +95,4 @@ gulp.task('import', function(callback) {
     mongoose.disconnect();
     callback.apply(null, arguments);
   });
-});
-
-gulp.task('link-modules', function() {
-  const linkModules = require('./tasks/linkModules');
-
-  return linkModules(['modules/*', 'hmvc/*']).apply(this, arguments);
-});
-
-
-gulp.task('sprite', function() {
-  var options = {
-    spritesSearchFsRoot: 'app',
-    spritesWebRoot:      '/img',
-    spritesFsDir:        'www/img',
-    styleFsDir:          'app/stylesheets/sprites'
-  };
-
-  return gp.stylusSprite(options).apply(this, arguments);
 });
