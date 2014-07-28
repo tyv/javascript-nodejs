@@ -33,8 +33,9 @@ gulp.task('lint', ['lint-once'], lazyRequireTask('lint', {src: serverSources}));
 // usage: gulp loaddb --db fixture/db
 gulp.task('loaddb', lazyRequireTask('loadDb'));
 
-gulp.task("supervisor", ['link-modules'], lazyRequireTask('supervisor', { cmd: "bin/www", watch: ["hmvc", "modules"] }));
+gulp.task("supervisor", ['link-modules'], lazyRequireTask('supervisor', { cmd: "./bin/www", watch: ["hmvc", "modules"] }));
 
+gulp.task("app:livereload", lazyRequireTask("livereload", { watch: "www/**/*.*" }));
 
 gulp.task('link-modules', lazyRequireTask('linkModules', { src: ['modules/*', 'hmvc/*'] }));
 
@@ -43,7 +44,6 @@ gulp.task("app:sync-resources", lazyRequireTask('syncResources', {
   'app/fonts' : 'www/fonts',
   'app/img': 'www/img'
 }));
-
 
 gulp.task('app:sprite-once', lazyRequireTask('spriteOnce', {
   spritesSearchFsRoot: 'app',
@@ -70,6 +70,8 @@ gulp.task('app:compile-css-once',
   })
 );
 
+
+
 gulp.task('app:compile-css', ['app:compile-css-once'], lazyRequireTask('compileCss', { watch: "app/**/*.styl"}));
 
 
@@ -81,7 +83,7 @@ gulp.task("app:browserify", ['app:browserify:clean'], lazyRequireTask('browserif
 
 // compile-css and sprites are independant tasks
 // run both or run *-once separately
-gulp.task('run', ['supervisor', "app:sync-resources", 'app:compile-css', 'app:sprite', 'app:browserify']);
+gulp.task('run', ['supervisor', 'app:livereload', "app:sync-resources", 'app:compile-css', 'app:sprite', 'app:browserify']);
 
 
 // TODO: refactor me out!

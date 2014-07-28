@@ -1,16 +1,4 @@
 
-/* Показать полупрозрачный DIV, затеняющий всю страницу
- (а форма будет не в нем, а рядом с ним, чтобы не полупрозрачная) */
-function showCover() {
-  var coverDiv = document.createElement('div');
-  coverDiv.className = 'cover-div';
-  document.body.appendChild(coverDiv);
-}
-
-function hideCover() {
-  document.querySelector('.cover-div').remove();
-}
-
 // Run like this:
 // login()
 // login({whyMessage:.. followLinkMessage:..})
@@ -19,58 +7,46 @@ module.exports = function(options, callback) {
   options = options || {};
   callback = callback || function() { };
 
-  showCover();
+  var authWindow = document.createElement('div');
+  authWindow.className = "auth-form";
 
-  // TODO
-  var container = document.getElementById('prompt-form-container');
-  document.getElementById('prompt-message').innerHTML = text;
-  form.elements.text.value = '';
+  authWindow.innerHTML = '<div class="progress large"></div>';
+  document.body.append(authWindow);
 
-  function complete(value) {
-    hideCover();
-    container.style.display = 'none';
-    document.onkeydown = null;
-    callback(value);
-  }
-
-  form.onsubmit = function() {
-    var value = form.elements.text.value;
-    if (value == '') return false; // игнорировать пустой submit
-
-    complete(value);
-    return false;
-  };
-
-  form.elements.cancel.onclick = function() {
-    complete(null);
-  };
-
-  document.onkeydown = function(e) {
-    e = e || event;
-    if (e.keyCode == 27) { // escape
-      complete(null);
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', '/auth/form', true);
+  xhr.onloadend = function() {
+    if (this.status != 200 || !this.responseText) {
+      alert("Извините, ошибка на сервере");
+      return;
     }
+    authWindow.innerHTML = this.responseText;
+    addLoginFormEvents(authWindow.querySelector('.login-form'), callback);
   };
 
-  var lastElem = form.elements[form.elements.length-1];
-  var firstElem = form.elements[0];
-
-  lastElem.onkeydown = function(e) {
-    if (e.keyCode == 9 && !e.shiftKey) {
-      firstElem.focus();
-      return false;
-    }
-  };
-
-  firstElem.onkeydown = function(e) {
-    if (e.keyCode == 9 && e.shiftKey) {
-      lastElem.focus();
-      return false;
-    }
-  };
-
-
-  container.style.display = 'block';
-  form.elements.text.focus();
+  xhr.send();
 
 };
+
+function addLoginFormEvents(form, callback) {
+  form.addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    var email = form.elements.email;
+    var password = form.elements.password;
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/auth/login/local', true);
+    xhr.onloadend = function() {
+      if (!this.status || this.status >= 500 || !this.responseText) {
+        alert("Извините, ошибка на сервере");
+        return;
+      }
+
+      alert(this.responseText);
+    };
+    xhr.send(new FormData(form));
+
+  });
+
+}

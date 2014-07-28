@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const passport = require('koa-passport')
+const passport = require('koa-passport');
 const config = require('config');
 
 

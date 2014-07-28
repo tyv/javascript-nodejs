@@ -72,6 +72,7 @@
     "nodemailer": "^1.0.4",
     "nodemailer-ses-transport": "^0.1.1",
     "passport": "*",
+    "passport-local": "^1.0.0",
     "path-to-regexp": "^0.2.3",
     "prism": "0.0.1",
     "prismjs": "git://github.com/LeaVerou/prism#gh-pages",
