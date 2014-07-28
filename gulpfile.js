@@ -4,7 +4,6 @@
  */
 
 const gulp = require('gulp');
-const gp = require('gulp-load-plugins')();
 const path = require('path');
 const fs = require('fs');
 const assert = require('assert');
