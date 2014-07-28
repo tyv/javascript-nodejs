@@ -5,94 +5,65 @@ const gutil = require('gulp-util');
 const watchify = require('watchify');
 const browserify = require('browserify');
 var Notification = require('node-notifier');
+var assert = require('assert');
+var _ = require('lodash');
+var path = require('path');
 
-/*
-var w;
+function makeBundler(options) {
+  // dst has same name as (single) src
 
-function bundler(file) {
-  if (!w) {
-    w = watchify({
-      entries: [file.path], //file.contents may be used if {buffer: false} is set
-      extensions:['.jsx']
-    });
-    w.on('log', $.util.log)
-      .on('update', function() {
-        gulp.start('scripts');
-      });
-  }
-
-  var stream = w.bundle();
-  file.contents = stream;
-
-}
-
-
-module.exports = function(options) {
-
-  const bundlerFactory = options.watch ? require("watchify") : require("browserify");
-
-  var bundler;
-
-  gulp.src(options.src, {read: false})
-    .pipe(gp.plumber({errorHandler: gp.notify.onError("<%= error.message %>")}))
-    .pipe(es.map(function(file, callback) {
-      if (!bundler) {
-        gp.util.log("Starting browserify");
-        bundler = bundlerFactory({entries: [file.path]})
-        bundler
-          .on("log", gp.util.log)
-          .on("update", function() {
-            gulp.start("scripts");
-          });
-
-        bundler.transform(require("reactify"))
-        // bundler.add(es6ify.runtime)
-        var es6ify = require("es6ify")
-        es6ify.traceurOverrides = {experimental: true}
-        bundler.transform(es6ify)
-
-        if (opts.minify) {
-          bundler.transform(require("uglifyify"))
-        }
-      }
-
-      var stream = bundler.bundle()
-      file.contents = stream
-    }))
-    .pipe(gulp.dest("./dist/"))
-}
-*/
-
-
-module.exports = function(options) {
-
-  var bundler = browserify({
-    debug: options.watch,
-    entries: options.src,
-    cache: {},
-    packageCache: {},
-    fullPaths: true
+  var opts = _.assign({}, options, {
+    debug: (process.env.NODE_ENV === 'development')
   });
 
-  if (options.watch) {
-    bundler = watchify(bundler);
-  }
+  var bundler = browserify(opts);
+  bundler.rebundle = function() {
+    console.log(path.basename(this._options.dst));
+    bundler.bundle()
+      .pipe(source(path.basename(this._options.dst)))
+      .pipe(gulp.dest(path.dirname(this._options.dst)));
+  };
 
-  bundler.on('update', rebundle);
+ // bundler.on('update', bundler.rebundle);
 
-  function rebundle () {
-    return bundler.bundle()
-      // log errors if they happen
-      .on('error', function(e) {
-        gutil.log(e.message);
-        new Notification().notify({
-          message: e
-        });
-      })
-      .pipe(source('build.js'))
-      .pipe(gulp.dest(options.dst));
-  }
+  return bundler;
+}
 
-  return rebundle();
+module.exports = function() {
+/*
+  var externals = ['jquery'];
+
+  var bundler = makeBundler({
+    src: './app/js/vendor.js',
+    dst: './www/js/vendor.js',
+    require: externals
+  });
+
+  bundler = watchify(bundler);
+  bundler.rebundle();
+
+  var bundler = makeBundler({
+    src: './app/js/head.js',
+    dst: './www/js/head.js'
+  });
+
+  bundler = watchify(bundler);
+  bundler.rebundle();
+
+  */
+  var bundler = makeBundler({
+    src: './app/js/main.js',
+    dst: './www/js/main.js'
+  });
+  bundler.rebundle();
+
+  console.log("TEST");
+/*
+  bundler.on('prebundle', function(bundle) {
+    for (var i = 0; i < externals.length; i++) {
+      var external = externals[i];
+      this.external(external);
+    }
+  });*/
 
 };

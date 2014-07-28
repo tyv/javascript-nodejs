@@ -61,15 +61,12 @@ gulp.task("watch:app:resources", ['stylus'], function() {
 
   fse.removeSync('www/fonts');
   fse.removeSync('www/img');
-  fse.removeSync('www/js');
 
   fse.mkdirsSync('www/fonts');
   fse.mkdirsSync('www/img');
-  fse.mkdirsSync('www/js');
 
   gp.dirSync('app/fonts', 'www/fonts');
   gp.dirSync('app/img', 'www/img');
-  gp.dirSync('app/js', 'www/js');
 
   gulp.watch("app/**/*.sprites/**", ['sprite']);
   gulp.watch("app/**/*.styl", ['stylus']);
@@ -77,15 +74,19 @@ gulp.task("watch:app:resources", ['stylus'], function() {
 });
 
 
-gulp.task("watch:app:browserify", function() {
+
+
+gulp.task("app:browserify:clean", function() {
+  const fse = require('fs-extra');
+  fse.removeSync('www/js');
+  fse.mkdirsSync('www/js');
+});
+
+
+gulp.task("watch:app:browserify", ['app:browserify:clean'], function(neverCalled) {
 
   const browserify = require('./tasks/browserify');
-
-  browserify({
-    src:   './app/js/main.js',
-    dst:   './www/js',
-    watch: true
-  });
+  browserify();
 
 });
 
@@ -93,7 +94,7 @@ gulp.task("watch:link-modules", function() {
   gulp.watch(serverSources, ['link-modules']);
 });
 
-gulp.task('dev', ['watch:server', 'watch:app:resources', 'watch:app:browserify']);
+gulp.task('dev', ['watch:server', 'watch:app:resources']);
 
 // Show errors if encountered
 gulp.task('stylus', ['clean-compiled-css', 'sprite'], function() {

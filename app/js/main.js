@@ -1,6 +1,6 @@
 
 var hi = require('./hi');
 
-exports.sayHi = hi;
-
 hi();
+//window.$ = require('jquery');
+//require('./prism');
