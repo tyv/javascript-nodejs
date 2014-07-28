@@ -1,89 +1,85 @@
 const gp = require('gulp-load-plugins')();
 const gulp = require('gulp');
 const source = require('vinyl-source-stream');
-const es = require('event-stream');
+const gutil = require('gulp-util');
 const watchify = require('watchify');
+const browserify = require('browserify');
+var Notification = require('node-notifier');
+var assert = require('assert');
+var _ = require('lodash');
+var path = require('path');
 
-/*
-var w;
+// TODO: add uglify if not development
+function makeBundler(options) {
 
-function bundler(file) {
-  if (!w) {
-    w = watchify({
-      entries: [file.path], //file.contents may be used if {buffer: false} is set
-      extensions:['.jsx']
-    });
-    w.on('log', $.util.log)
-      .on('update', function() {
-        gulp.start('scripts');
-      });
+  // dst has same name as (single) src
+  var opts = _.assign({}, options, {
+    debug: (process.env.NODE_ENV === 'development'),
+    cache: {},
+    packageCache: {},
+    fullPaths: true
+  });
+
+  var bundler = browserify(opts);
+  bundler.rebundle = function() {
+    this.bundle()
+      .on('error', function(e) {
+        gutil.log(e.message);
+        new Notification().notify({
+          message: e
+        });
+      })
+      .pipe(source(path.basename(this._options.dst)))
+      .pipe(gulp.dest(path.dirname(this._options.dst)));
+  };
+  bundler.on('update', bundler.rebundle);
+  bundler.on('log', function(msg) {
+    gutil.log("browserify: " + msg);
+  });
+
+  if (options.externals) {
+    for (var i = 0; i < options.externals.length; i++) {
+      var external = options.externals[i];
+      bundler.external(external);
+    }
   }
 
-  var stream = w.bundle();
-  file.contents = stream;
+  if (process.env.NODE_ENV == 'development') {
+    bundler = watchify(bundler);
+  }
 
+  return bundler;
 }
 
+module.exports = function() {
 
-module.exports = function(options) {
+  return function(callback) {
 
-  const bundlerFactory = options.watch ? require("watchify") : require("browserify");
+    var vendor = ['jquery'];
 
-  var bundler;
+    var bundler = makeBundler({
+      entries: [],
+      dst:     './www/js/vendor.js',
+      require: vendor
+    });
 
-  gulp.src(options.src, {read: false})
-    .pipe(gp.plumber({errorHandler: gp.notify.onError("<%= error.message %>")}))
-    .pipe(es.map(function(file, callback) {
-      if (!bundler) {
-        gp.util.log("Starting browserify");
-        bundler = bundlerFactory({entries: [file.path]})
-        bundler
-          .on("log", gp.util.log)
-          .on("update", function() {
-            gulp.start("scripts");
-          });
+    bundler.rebundle();
 
-        bundler.transform(require("reactify"))
-        // bundler.add(es6ify.runtime)
-        var es6ify = require("es6ify")
-        es6ify.traceurOverrides = {experimental: true}
-        bundler.transform(es6ify)
+    var bundler = makeBundler({
+      entries: './app/js/head.js',
+      dst:     './www/js/head.js'
+    });
 
-        if (opts.minify) {
-          bundler.transform(require("uglifyify"))
-        }
-      }
-
-      var stream = bundler.bundle()
-      file.contents = stream
-    }))
-    .pipe(gulp.dest("./dist/"))
-}
-*/
+    bundler.rebundle();
 
 
-module.exports = function(options) {
+    var bundler = makeBundler({
+      entries: './app/js/main.js',
+      dst:     './www/js/main.js',
+      externals: vendor
+    });
 
-  return function() {
 
-    return gulp.src(options.src, {read: false})
-      .pipe(gp.plumber({errorHandler: gp.notify.onError("<%= error.message %>")}))
-      .pipe(gp.tap(function(file) {
-
-        const bundler = watchify({entries: [file.path]});
-
-        bundler
-          .on("log", gp.util.log)
-          .on("update", rebundle);
-
-        function rebundle() {
-          return bundler.bundle({debug: true})
-            .pipe(source('base.js'))
-            .pipe(gulp.dest(options.dst));
-        }
-
-        return rebundle();
-      }));
+    bundler.rebundle();
   };
-
 };

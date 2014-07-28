@@ -26,10 +26,13 @@ function getNumEnding(iNumber, aEndings)
     return sEnding;
 }
 
+// ======================
+
 function getRandomIdentifier(prefix) {
-    if (typeof prefix == 'undefined') prefix = '';
-    return prefix + Math.random().toString(36).substr(2);
+    return (prefix || '') + Math.random().toString(36).substr(2);
 }
+
+// ======================
 
 (function ($) {
     $(document).ready(function () {
@@ -85,7 +88,7 @@ function getRandomIdentifier(prefix) {
                 closeAllDropdowns();
             }
         }
-        
+
         function initDropdowns() {
             $('.dropdown:not(.dropdown_open_hover):not(.dropdown_inited) .dropdown__toggle').click(function () {
                 var root = $(this).parents('.dropdown');
@@ -118,7 +121,7 @@ function getRandomIdentifier(prefix) {
                 return false;
             });
         }
-        
+
         initDropdowns();
 
         ////////////////////////
@@ -134,6 +137,8 @@ function getRandomIdentifier(prefix) {
             return false;
         });
 
+
+        // открытие окна с соц сетью при клике
         $('.social__soc').click(function() {
             var winHeight = 400, winWidth = 500;
             var params = 'scrollbars=no,status=no,location=no,toolbar=no,'
@@ -142,8 +147,9 @@ function getRandomIdentifier(prefix) {
                          + ',top=' + (screen.availHeight / 2 - winHeight / 2);
             window.open($(this).attr('href'), 'share', params)
             return false;
-        })
+        });
 
+        // sticky-соц плашка
         ///////////////////////
         function updateSharing() {
             if ($('.social.aside.unfixed').offset().top - $(window).scrollTop() < 20) {
@@ -172,6 +178,8 @@ function getRandomIdentifier(prefix) {
             asideSocial.data('handler', true); // prevent from setting handler multiple times
         }
 
+
+        // навигация по текущему уроку, sticky
         ///////////////////////
         function fixNavigation() {
             var sidebar = $('.sidebar');
@@ -221,15 +229,15 @@ function getRandomIdentifier(prefix) {
             $(window).off('.sidebar'); // FIXME: why two times?
         }
 
+        // количество комментариев текущее
         ///////////////////////
         (function () {
             var s = document.createElement('script');
-            s.async = true;
-            s.type = 'text/javascript';
             s.src = 'http://learnjavascriptru.disqus.com/count.js';
             (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
         }());
 
+        // навигация ctrl <-   ->
         ///////////////////////
         $(document).keydown(function (e) {
             var back = $('.prev-next .prev-next__prev .prev-next__link').eq(0).attr('href');
@@ -245,7 +253,9 @@ function getRandomIdentifier(prefix) {
                 }
             }
         })
-        
+
+        // Для профиля карандашик справа от поля
+        //////////////////////////////////////////////////////
         function startInlineEdit(jQInlineEditable) {
             jQInlineEditable.addClass('profile__inline-editable_editing');
             window.getSelection().removeAllRanges();
@@ -253,7 +263,7 @@ function getRandomIdentifier(prefix) {
             // if not set at all. So text input can have no type.
             jQInlineEditable.find('input:not(input[type]), input[type="text"], input[type="email"], select, textarea').first().focus();
         }
-        
+
         function finishInlineEdit(jqInlineEditable) {
             jqInlineEditable.removeClass('profile__inline-editable_editing');
         }
@@ -288,7 +298,9 @@ function getRandomIdentifier(prefix) {
         $('.profile__upic-upload').change(function() {
             $(this).parents('.profile__upic-change').submit();
         })
-        
+
+
+        // отзывы о курсах, слайдер с бендером
         //////////////////// will it leak with turbolinks or not?
         $('.slider').each(function(){
             var slider = $(this)
@@ -314,22 +326,22 @@ function getRandomIdentifier(prefix) {
             frame1 = frames.find('.slider__frame:nth-child(1)');
             frame2 = frames.find('.slider__frame:nth-child(2)');
             frame3 = frames.find('.slider__frame:nth-child(3)');
-            
+
             frames.css({ left: '-100%' });
-            
+
             currentItem = getCurrentItem();
             frame2.append(itemsList.eq(currentItem).clone());
             itemsList.eq(currentItem).addClass('slider__item_current');
             fixButtons();
-            
+
             slider.find('.slider__next').click(function(){
                 slideTo(currentItem + 1);
             })
-            
+
             slider.find('.slider__prev').click(function(){
                 slideTo(currentItem - 1);
             })
-            
+
             function slideTo(itemIndex) {
                 var newHeight
                     , animateToPosition
@@ -347,10 +359,10 @@ function getRandomIdentifier(prefix) {
                 } else { // itemIndex == currentItem
                     return;
                 }
-                
+
                 tmpFrame.append(itemsList.eq(itemIndex).clone());
                 itemsList.eq(itemIndex).addClass('slider__item_current');
-                
+
                 // Two next animations run in parallel but not in sync,
                 // it seems it shouldn't cause any serious problems
                 frames.animate({left: animateToPosition}, animationDuration, function() {
@@ -366,7 +378,7 @@ function getRandomIdentifier(prefix) {
                 currentItem = getCurrentItem();
                 fixButtons();
             }
-            
+
             function getCurrentItem() {
                 var index = itemsList.index(items.find('.slider__item_current'));
                 if (index == -1) {
@@ -375,7 +387,7 @@ function getRandomIdentifier(prefix) {
                     return index;
                 }
             }
-            
+
             function fixButtons() {
                 slider.find('.slider__prev, .slider__next').show();
                 if (currentItem == 0) {
@@ -386,7 +398,8 @@ function getRandomIdentifier(prefix) {
                 }
             }
         });
-        
+
+        // универсальное решение для любых табов (навигационных или в блоке кода)
         // .tabs is a container for all content and controls
         // There are .tabs__tab elements inside .tabs,
         // each of them should have .tabs__switch element inside.
@@ -409,7 +422,7 @@ function getRandomIdentifier(prefix) {
             tabs.find('.tabs__switch').appendTo(switchesContainer)
             switchesList = switchesContainer.find('.tabs__switch-control');
             tabsList = tabs.find('.tabs__tab');
-            
+
             if (tabs.find('.tabs__tab_current').length) {
                 index = tabsList.index(tabs.find('.tabs__tab_current'));
                 setCurrentTabSwitch(index);
@@ -417,14 +430,14 @@ function getRandomIdentifier(prefix) {
                 tabsList.eq(0).addClass('tabs__tab_current');
                 setCurrentTabSwitch(0);
             }
-            
+
             switchesContainer.on('click', '.tabs__switch-control', function() {
                 var clickedIndex = switchesList.index($(this));
                 tabsList.removeClass('tabs__tab_current');
                 tabsList.eq(clickedIndex).addClass('tabs__tab_current');
                 setCurrentTabSwitch(clickedIndex);
             })
-            
+
             function setCurrentTabSwitch(index) {
                 var clickedItem = switchesList.eq(index);
                 tabs.find('.tabs__switch_current').removeClass('tabs__switch_current');
@@ -434,10 +447,11 @@ function getRandomIdentifier(prefix) {
                     clickedItem.parents('.tabs__switch').eq(0).addClass('tabs__switch_current');
                 }
             }
-            
+
             tabs.addClass('tabs_inited');
         });
-        
+
+        // тоже со страницы с бендером и отзывами
         // Required elements:
         // .accordion>.accordion__item>(.accordion__switch+.accordion__content)
         // .accordion__item.accordion__item_open is open by default
@@ -451,7 +465,7 @@ function getRandomIdentifier(prefix) {
                 accordion.find('.accordion__item:gt(0)').find('.accordion__content').css({height: 0});
                 accordion.find('.accordion__item').eq(0).addClass('accordion__item_open');
             }
-            
+
             accordion.on('click', '.accordion__switch', function() {
                 var currentItem = $(this)
                     , currentContent
@@ -470,20 +484,24 @@ function getRandomIdentifier(prefix) {
                     });
                 }
             })
-            
+
             accordion.addClass('accordion_inited');
         });
-        
+
+
+
+        // placeholder?
+        // если будет нужен - стилизуемый placeholder
         function initCompactLabels() {
             $('.text-compact-label').not('.text-compact-label_inited').each(function() {
                 var textCompactLabel = $(this)
                     , label = textCompactLabel.find('.text-compact-label__label')
                     , input = textCompactLabel.find('.text-compact-label__input .text-input__control');
-            
+
                 input.focus(function() {
                     label.hide();
                 })
-            
+
                 input.blur(function() {
                     if (input.val() == '') {
                         label.show();
@@ -491,21 +509,24 @@ function getRandomIdentifier(prefix) {
                         label.hide(); // if it is triggered to update dynamically added input
                     }
                 })
-            
+
                 textCompactLabel.addClass('text-compact-label_inited');
                 input.triggerHandler('blur');
             });
         };
-        
+
         initCompactLabels();
-        
+
+        // блок [hide]
+        /////////////////////////////////////////////////
         $('.hide-link').click(function(e) {
             $(this).parent().toggleClass('hide-closed hide-open');
             return false;
         });
-        
+
+        // для записи на курсы контрол для выбора количества участников с +-
         // $('.number-input').on('valuechanged', function(e, newVal, oldVal) {console.log(newVal + ', ' + oldVal)});
-        
+
         // move state into an object and pass it to handlers
         $('.number-input').each(function() {
             var numberInput = $(this);
@@ -514,14 +535,14 @@ function getRandomIdentifier(prefix) {
             var min = numberInput.attr('data-min') != "" ? +numberInput.attr('data-min') : undefined;
             var max = numberInput.attr('data-max') != "" ? +numberInput.attr('data-max') : undefined;
             var step = +numberInput.attr('data-step') || 1;
-            
+
             fixValue();
-            
+
             numberInput.on('click', '.number-input__dec', decValue)
                        .on('click', '.number-input__inc', incValue)
                        .on('keydown', '.number-input__input', processKey)
                        .on('blur', '.number-input__input', fixValue);
-                       
+
            function incValue() {
                var newValue = (value || 0) + step;
                if (isNaN(max) || newValue <= max) {
@@ -556,7 +577,7 @@ function getRandomIdentifier(prefix) {
                    updateValue(max);
                    return;
                }
-               
+
                updateValue(currentValue);
            }
 
@@ -571,7 +592,9 @@ function getRandomIdentifier(prefix) {
                }
            }
         });
-        
+
+        // выбор метода оплаты
+        ///////////////////////////////////////////////////
         // pay-method block behaviour (just demo, block not finished yet)
         $('.pay-method__radio').removeAttr('checked');
         $('.pay-method__insert').hide();
@@ -580,12 +603,14 @@ function getRandomIdentifier(prefix) {
             // root.find('.pay-method__insert').hide();
             root.find('.pay-method__insert_bank-bill').show();
         });
-        
+
         $('.pay-method__insert .form-insert__close').click(function() {
             $(this).parents('.pay-method__insert').first().hide();
             $(this).parents('.pay-method').first().find('.pay-method__radio').removeAttr('checked');
-        })
-        
+        });
+
+        // код для формы курса
+        // количество мест, email'ы участников...
         // There can be only one form, but just don't run the code if there is no form at all
         $('.request-form').each(function() {
             var participantsAmount = +$('.order-form__control_amount .number-input__input').prop('value');
@@ -600,7 +625,7 @@ function getRandomIdentifier(prefix) {
             var listTrigger = form.find('.order-form__participants-trigger');
             var particicpantsListWrap = form.find('.order-form__participants');
             var listVisible = false; // by default is hidden
-            
+
             $('.order-form__control_amount').on('valuechanged', function(e, newVal, oldVal) {
                 participantsAmount = newVal;
                 if (newVal > oldVal) {
@@ -613,10 +638,10 @@ function getRandomIdentifier(prefix) {
                 fixParticipantSwitch();
                 fixParticipants();
             });
-            
+
             form.on('input change', '.order-form__email', updateEmails)
                 .on('input change', '.order-form__email', fixParticipantSwitch);
-            
+
             selfUser.click(function(){
                 if($(this).prop('checked')) {
                     addOwner();
@@ -627,13 +652,13 @@ function getRandomIdentifier(prefix) {
                 }
                 fixParticipants();
             });
-            
+
             updatePrice();
-            
+
             // sometimes it's cached after page refresh
             selfUser.prop('checked', true).removeAttr('disabled');
             selfUserChecked = selfUser.prop('checked');
-            
+
             listTrigger.on('click', function() {
                 if (listVisible) {
                     removeList();
@@ -641,15 +666,15 @@ function getRandomIdentifier(prefix) {
                     addList();
                 }
             });
-            
+
             $('.order-form__close').on('click', removeList);
-            
+
             form.attr('novalidate', 'nodalidate');
-            
+
             // + form parts //
-            
+
             form.find('.request-form__step-contact, .request-form__step-payment, .request-form__step-confirm').hide();
-            
+
             form.find('#pay-form-contract').prop('checked', false).click(function() {
                 if($(this).prop('checked')) {
                     form.find('.pay-form__contract-info').show();
@@ -658,7 +683,7 @@ function getRandomIdentifier(prefix) {
                 }
             });
             form.find('.pay-form__contract-info').hide();
-            
+
             form.find('.order-form__submit').click(function() {
                 if (validateEmails() == false) {
                     return false
@@ -683,9 +708,9 @@ function getRandomIdentifier(prefix) {
                 $('.request-form__payment').addClass('receipts__receipt_last').removeClass('receipts__receipt_pending');
                 $('.request-form__next-confirm').addClass('complex-form__next-item_finished');
             });
-            
+
             // - form parts //
-            
+
             function fixParticipants() {
                 if (!selfUserChecked || participantsAmount > 1) {
                     particicpantsListWrap.removeClass('order-form__participants_hidden');
@@ -693,12 +718,12 @@ function getRandomIdentifier(prefix) {
                     particicpantsListWrap.addClass('order-form__participants_hidden');
                 }
             }
-            
+
             function addList() {
                 $('.order-form__participants-addresses')
                     .removeClass('order-form__participants-addresses_hidden')
                     .append('<ul class="order-form__participants-list"></ul>');
-                    
+
                 addEmail(participantsAmount);
                 if (selfUserChecked && !userIncluded) {
                     addOwner();
@@ -709,25 +734,25 @@ function getRandomIdentifier(prefix) {
                 }
                 listVisible = true;
             }
-            
+
             function removeList() {
                 $('.order-form__participants-list').remove();
                 $('.order-form__participants-addresses').addClass('order-form__participants-addresses_hidden');
                 listVisible = false;
             }
-            
+
             function addEmail(amount) {
                 amount = amount || 1; // let the function be called without argument
                 var emailsHtml = '';
                 var startIndex = form.find('.order-form__participant').length + 1;
-                
+
                 for (var i = startIndex; i < startIndex + amount; i++) {
                     emailsHtml += getEmailItem(i);
                 }
-                
+
                 form.find('.order-form__participants-list').append(emailsHtml);
                 initCompactLabels();
-                 
+
                 function getEmailItem(itemNumber) {
                     var emaiString = '<li class="order-form__participant"><label '
                                       + 'class="order-form__participant-label" for="participant-'
@@ -744,25 +769,25 @@ function getRandomIdentifier(prefix) {
                     return emaiString;
                 }
             }
-            
+
             function removeEmail(amount) {
                 amount = amount || 1; // let the function be called without argument
                 form.find('.order-form__participant').slice(amount * -1).remove();
             }
-            
+
             function updatePrice() {
                 form.find('#request-price').text(participantsAmount * price);
                 form.find('#request-usd').text(Math.ceil(participantsAmount * price / usdCourse));
             }
-            
+
             function updateEmails() {
                 var self = $(this);
                 // we could parse id, but I don't want to rely on id format in case it changes
                 var index = form.find('.order-form__email').index(this);
-                
+
                 emails[index] = self.prop('value');
             }
-            
+
             function fixParticipantSwitch() {
                 if (findGap() == -1 && !form.find('#request-participant').prop('checked')) {
                     form.find('#request-participant').attr('disabled', 'disabled');
@@ -770,14 +795,14 @@ function getRandomIdentifier(prefix) {
                     form.find('#request-participant').removeAttr('disabled');
                 }
             }
-            
+
             function fillAddresses() {
                 form.find('.order-form__email').each(function(i) {
                     // 'blur' is triggered to hide hint on filled fields. Awful, I know
                     $(this).prop('value', emails[i] || '').triggerHandler('blur');
                 });
             }
-            
+
             function findGap() {
                 for (var i = 0; i < participantsAmount; i++) {
                     if ($.trim(emails[i]) == '' || emails[i] === undefined) {
@@ -786,7 +811,7 @@ function getRandomIdentifier(prefix) {
                 }
                 return -1;
             }
-            
+
             function addOwner(completely) {
                 // if completely == false we just make the field inactive and change label
                 var gap;
@@ -803,7 +828,7 @@ function getRandomIdentifier(prefix) {
                 form.find('.order-form__email').first().attr('disabled', 'disabled');
                 form.find('.order-form__participant-label').first().text('Участник 1 (вы):');
             }
-            
+
             function removeOwner() {
                 emails.shift();
                 form.find('.order-form__email').first().removeAttr('disabled');
@@ -811,17 +836,17 @@ function getRandomIdentifier(prefix) {
                 fillAddresses();
                 userIncluded = false;
             }
-            
+
             function isEmail(string) {
                 return /^[a-zA-Z0-9.!#$%&’*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$/.test($.trim(string));
             }
-            
+
             function validateEmails() {
                 var isValid = true;
-                
+
                 form.find('.order-form__participant .text-input_invalid')
                     .removeClass('text-input_invalid');
-                
+
                 form.find('.order-form__email').each(function(i) {
                     var value = $.trim($(this).prop('value'));
                     if (value !== '' && isEmail(value) == false) {
@@ -830,16 +855,17 @@ function getRandomIdentifier(prefix) {
                                .addClass('text-input_invalid');
                     }
                 });
-                
+
                 return isValid;
             }
         });
-        
+
+        // для формы заказа учебника (открывает следующий раздел формы, временно для вёрстки)
         $('.order-book').each(function() {
             var root = $(this);
             var form = root.find('.complex-form__order-book');
             form.find('.order-book__step-confirm').hide();
-            
+
             // Demo, add logic here
             // form.find('.pay-method__radio').click(function() {
             //     root.find('.receipts__receipt_pending')
@@ -850,7 +876,8 @@ function getRandomIdentifier(prefix) {
             //     root.find('.order-book__next-contact').addClass('complex-form__next-item_finished');
             // })
         });
-        
+
+        // ссылка для оплаты не из россии
         $('.pay-hint').each(function() {
             // at first we have to move the content to the top of the DOM to display correctly
             var content = $(this).find('.pay-hint__content').addClass('pay-hint__content_detached').detach();
@@ -861,15 +888,19 @@ function getRandomIdentifier(prefix) {
             $('body').prepend(content);
             // then we use rel="modal:open" and href="#content-id" on a link
         });
-        
+
+        // для ввода телефона с кодом страны
         // don't put addFlag into global scope
+        // подключается плагин select2 (он жирный, мб убрать?)
+        // только select2 умел показать флажки стран
+        // (и можно выбирать клавиатурой вверх-вниз, как в стандартном селекте)
         $('.full-phone').each(function() {
             function addFlag(code) {
                 var flag = $(code.element).data('flag');
                 if (!code.id || flag === undefined) return code.text;
                 return '<span class="flag flag_' + flag + '"></span>' + code.text;
             }
-        
+
             $(this).find('.full-phone__codes').select2({
                 dropdownCssClass: 'select2-drop_nofilter',
                 formatResult: addFlag,
@@ -877,7 +908,11 @@ function getRandomIdentifier(prefix) {
                 escapeMarkup: function(m) { return m; }
             });
         });
-        
+
+        // постраничная навигация в результатах поиска, со скроллом
+        // есть фантомный баг в Firefox: ширина полосы для бегунка вычисляется неверно,
+        // больше чем надо, и до конца список страниц невозможно прокрутить
+        //////////////////////////////////
         $('.pager').each(function(){
             var pager = $(this);
             var pagerWidth = pager.width();
@@ -889,7 +924,7 @@ function getRandomIdentifier(prefix) {
             var pagesWidth = pageWidth * pagesNumber;
             var currentPage = pager.data('current-page') || 1;
             var scrollbar, scrollHandle, currentPageElem, currentElemOffset, url;
-            
+
             function scrollPager(event) {
                 var start = scrollHandle.data('dragStart');
                 var startPosition = scrollHandle.data('startPosition');
@@ -899,12 +934,12 @@ function getRandomIdentifier(prefix) {
                 scrollHandle.css('left', position);
                 pager.find('.pager__pages').css('left', -1 * (parseInt(scrollHandle.css('left')) * (pagesWidth / pagerWidth)));
             }
-            
+
             function disableScroll() {
                 $(document).off('mousemove', scrollPager)
                            .off('mouseup', disableScroll);
             }
-            
+
             function initPages() {
                 for (var i = 1; i < pagesNumber + 1; i++) {
                     url = urlMask.replace('{n}', i);
@@ -914,12 +949,12 @@ function getRandomIdentifier(prefix) {
                         pagesListRow.append('<td class="pager__page"><a href="'+ url +'" class="pager__page-link">' + i + '</a></td>');
                     }
                 }
-            
+
                 pagesList.find('.pager__pages').width(pagesWidth);
                 pager.empty();
                 pager.append(pagesList);
             }
-            
+
             function initScroll() {
                 if (pagesWidth > pagerWidth) {
                     pager.append($('<div class="pager__scroll"><div class="pager__scroll-handle"></div></div>'));
@@ -934,7 +969,7 @@ function getRandomIdentifier(prefix) {
                     });
                 }
             }
-            
+
             function positionCurrent() {
                 currentPageElem = pager.find('.pager__page-link_current');
                 scrollbar = pager.find('.pager__scroll');
@@ -946,7 +981,7 @@ function getRandomIdentifier(prefix) {
                     scrollHandle.css('left', -1 * currentElemOffset * pagerWidth / pagesWidth);
                 }
             }
-            
+
             function addPageByPage() {
                 var pageByPage = $('<div class="pager__pagebypage">'+
                     '<div class="pager__shortcut pager__shortcut_prev"><kbd>Ctrl + <span class="pager__arr">&larr;</span></kbd></div>' +
@@ -954,9 +989,9 @@ function getRandomIdentifier(prefix) {
                     '<div class="pager__shortcut pager__shortcut_next"><kbd>Ctrl + <span class="pager__arr">&rarr;</span></kbd></div>' +
                     '</div>');
                 var next = null, prev = null;
-                
+
                 pageByPage.find('.pager__numberofpages').text(pagesNumber + ' ' + getNumEnding(pagesNumber, ['страница', 'страницы', 'страниц']));
-                
+
                 if (currentPage == 1) {
                     $('<span class="pager__pagelink pager__pagelink_disabled">Предыдущая страница</span>')
                         .insertBefore(pageByPage.find('.pager__shortcut_prev kbd'));
@@ -965,7 +1000,7 @@ function getRandomIdentifier(prefix) {
                     $('<a href="' + prev + '" class="pager__pagelink">Предыдущая страница</a>')
                         .insertBefore(pageByPage.find('.pager__shortcut_prev kbd'));
                 }
-                
+
                 if (currentPage == pagesNumber) {
                     $('<span class="pager__pagelink pager__pagelink_disabled">Следующая страница</span>')
                         .insertBefore(pageByPage.find('.pager__shortcut_next kbd'));
@@ -974,7 +1009,7 @@ function getRandomIdentifier(prefix) {
                     $('<a href="' + next + '" class="pager__pagelink">Следующая страница</a>')
                         .insertBefore(pageByPage.find('.pager__shortcut_next kbd'));
                 }
-                
+
                 $(document).keydown(function (e) {
                     if (e.ctrlKey || e.metaKey) {
                         switch (e.keyCode) {
@@ -987,16 +1022,19 @@ function getRandomIdentifier(prefix) {
                         }
                     }
                 });
-                
+
                 pager.append(pageByPage);
             }
-            
+
             initPages();
             initScroll();
             positionCurrent();
             addPageByPage();
         });
-        
+
+
+        // страница результатов поиска по сайту
+        // sticky результат поиска сверху
         $('.search-query').each(function() {
             var queryForm = $(this);
             var mainContainer = $('.main'); // used for size and position calculations
@@ -1004,7 +1042,7 @@ function getRandomIdentifier(prefix) {
             var fixedForm = queryForm.find('.search-query__wrap_fixed');
             var fixedFormTopPadding = parseInt(fixedForm.find('.search-query__input-wrap').css('paddingTop'));
             var jqWindow = $(window);
-            
+
             function updateFixedForm() {
                 fixedForm.css({
                     'left': mainContainer.offset().left - jqWindow.scrollLeft(),
@@ -1013,15 +1051,15 @@ function getRandomIdentifier(prefix) {
                     'padding-right': mainContainer.css('paddingRight')
                 })
             }
-            
+
             function syncRegularToFixed() {
                 fixedForm.find('.search-query__input').val(regularForm.find('.search-query__input').val());
             }
-            
+
             function syncFixedToRegular() {
                 regularForm.find('.search-query__input').val(fixedForm.find('.search-query__input').val());
             }
-            
+
             if (fixedForm.length > 0) {
                 $('.main').append(fixedForm);
                 jqWindow.scroll(function() {
@@ -1046,7 +1084,10 @@ function getRandomIdentifier(prefix) {
                 });
             }
         });
-        
+
+        // блок кода с табами на разные файлы
+        // недоделан
+        ///////////////////////////////////////////////////////////////
         $('.complex-code.tabs_inited').each(function() {
             var root = $(this);
             var link = root.data('link');
@@ -1054,7 +1095,7 @@ function getRandomIdentifier(prefix) {
             for ( ; $('.' + uniqueClass).length > 0 ; ) {
                 uniqueClass = getRandomIdentifier('complex-code_');
             }
-            
+
             root.addClass(uniqueClass);
             root.find('.tabs__switches')
                    .wrap('<div class="complex-code__tools-wrap"><div class="complex-code__tools"></div></div>');
@@ -1074,14 +1115,14 @@ function getRandomIdentifier(prefix) {
             }
             initDropdowns();
         });
-        
+
         $('.complex-code.tabs_inited').first().each(function() {
             $(document).on('click.complex-code', '.complex-code__dropdown .tabs__switch-control', function() {
                 var jqComplexCodeDropdownItem = $(this);
                 var jqComplexCodeDropdown = jqComplexCodeDropdownItem.parents('.complex-code__dropdown');
                 var jqComplexCode = $('.' + jqComplexCodeDropdown.data('parent'));
                 var index = jqComplexCodeDropdown.find('.tabs__switch-control').index(jqComplexCodeDropdownItem);
-                
+
                 jqComplexCode.find('.tabs__tab').removeClass('tabs__tab_current')
                                                 .eq(index)
                                                 .addClass('tabs__tab_current');
@@ -1091,14 +1132,15 @@ function getRandomIdentifier(prefix) {
                 closeAllDropdowns();
             });
         });
-        
+
+        // подсветка текущего раздела в сайдбаре, при скролле
         // run initialization once if there is at least one block,
         // all blocks are inited at once
         $('.page-contents').first().each(function() {
             var fadeTimeout;
             var headers = $('.main > h2 > a[href^=\'#\']');
             var currentHeader, jqCurrentHeader, i;
-            
+
             $(window).off('.pageContents'); // turbolinks
             $(window).on('scroll.pageContents', function() {
                 $('.page-contents.fixed:not(.invisible):not(.page-contents_fading):not(.page-contents_faded)').each(function() {
@@ -1109,7 +1151,7 @@ function getRandomIdentifier(prefix) {
                         })
                     }, 10 * 1000);
                 });
-                
+
                 $('.page-contents.fixed.invisible.page-contents_fading, .page-contents.fixed.invisible.page-contents_faded').each(function() {
                     clearTimeout(fadeTimeout);
                     $(this).removeClass('page-contents_fading page-contents_faded').css({ 'opacity': 1 });
@@ -1133,7 +1175,7 @@ function getRandomIdentifier(prefix) {
                     }
                 }
             });
-            
+
             $('.sidebar').off('.pageContents'); // turbolinks
             $('.sidebar').on('mouseenter.pageContents mouseleave.pageContents', '.page-contents.fixed.page-contents_faded', function(e) {
                 var fixedContents = $(this);

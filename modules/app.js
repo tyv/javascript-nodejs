@@ -5,6 +5,12 @@ const log = require('js-log')();
 const config = require('config');
 const app = koa();
 
+// trust all headers from proxy
+// X-Forwarded-Host
+// X-Forwarded-Proto
+// X-Forwarded-For -> ip
+app.proxy = true;
+
 function requireSetup(path) {
   // if debug is on => will log the middleware travel chain
   if (process.env.NODE_ENV == 'development') {
@@ -17,8 +23,13 @@ function requireSetup(path) {
   require(path)(app);
 }
 
-// usually nginx will handle this
+// usually nginx will handle this before node
+// that's why we put it at the top
 requireSetup('setup/static');
+
+// this middleware adds this.render method
+// it is *before errorHandler*, because errors need this.render
+requireSetup('setup/render');
 
 // errors wrap everything
 requireSetup('setup/errorHandler');
@@ -38,9 +49,15 @@ if (process.env.NODE_ENV == 'development') {
 }
 
 requireSetup('setup/session');
+
+requireSetup('setup/formidable');
+
+requireSetup('setup/passport');
+
 requireSetup('setup/csrf');
 
-requireSetup('setup/render');
+requireSetup('setup/payments');
+
 requireSetup('setup/router');
 
 if (process.env.NODE_ENV == 'test') {

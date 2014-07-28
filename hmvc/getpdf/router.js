@@ -1,14 +1,14 @@
-var payment = require('payment');
 var Router = require('koa-router');
 
 var router = module.exports = new Router();
 
-var main = require('./controller/main');
-var pay = require('./controller/pay');
-var success = require('./controller/success');
+var orders = require('./controller/orders');
+var payResult = require('./controller/payResult');
+var checkout = require('./controller/checkout');
 
-router.get('', main.get);
-router.get('/order/:orderNumber', main.get);
+router.get('/:orderTemplate', orders.get);
+router.get('/orders/:orderNumber(\\d+)', orders.get);
 
-router.post('/pay', pay.post);
-router.get('/success/:orderNumber', success.get);
+router.get('/pay-result/:orderNumber(\\d+)', payResult.get);
+
+router.post('/checkout', checkout.post);

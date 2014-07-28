@@ -31,6 +31,7 @@ module.exports = function render(app) {
     });
 
     // this.locals.debug causes jade to dump function
+    /* jshint -W087 */
     this.locals.deb = function() {
       debugger;
     };
@@ -68,10 +69,14 @@ module.exports = function render(app) {
           if (!this.filename) {
             throw new Error('the "filename" option is required to use "' + purpose + '" with "relative" paths');
           }
-          templatePath = path.join(path.dirname(this.filename), templatePath) + '.jade';
+
+          // files like article.html are included in a special way (Filter)
+          templatePath = path.join(path.dirname(this.filename), templatePath) + (path.extname(templatePath) ? '' : '.jade');
           //console.log("Resolve to ", path);
           return templatePath;
         }
+
+        log.debug("resolvePathUp " + templateDir + " " + templatePath);
 
         return resolvePathUp(templateDir, templatePath + '.jade');
       };
@@ -79,10 +84,7 @@ module.exports = function render(app) {
       var loc = Object.create(this.locals);
 
       var parseLocals = {
-        parser:   JadeParser,
-        readFile: function(file) {
-          return readFile(templateDir, file);
-        }
+        parser:   JadeParser
       };
 
       _.assign(loc, parseLocals, locals);
@@ -92,6 +94,7 @@ module.exports = function render(app) {
       if (!file) {
         throw new Error("Template file not found: " + templatePath + " (in dir " + templateDir + ") ");
       }
+      log.debug("render file " + file);
       this.body = jade.renderFile(file, loc);
     };
 
@@ -100,18 +103,6 @@ module.exports = function render(app) {
   });
 
 };
-
-
-function readFile(templateDir, file) {
-  if (file[0] == '.') {
-    throw new Error("readFile file must not start with . : bad file " + file);
-  }
-  var path = resolvePathUp(templateDir, file);
-  if (!path) {
-    throw new Error("Not found " + file + " (from dir " + templateDir + ")");
-  }
-  return fs.readFileSync(path);
-}
 
 function resolvePathUp(templateDir, templateName) {
 

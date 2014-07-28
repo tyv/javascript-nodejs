@@ -1,72 +1,92 @@
-const gulp = require('gulp');
-const fs = require('fs');
-const fse = require('fs-extra');
-const spawn = require('child_process').spawn;
-const gp = require('gulp-load-plugins')();
-const debug = require('gulp-debug');
-const path = require('path');
-const source = require('vinyl-source-stream');
-const linkModules = require('./tasks/linkModules');
-const watchify = require('watchify');
-//const browserifyTask = require('tasks/browserify');
+/**
+ * NB: All tasks are initialized lazily, even plugins are required lazily,
+ * running 1 task does not require all tasks' files
+ */
 
+const gulp = require('gulp');
+const path = require('path');
+const fs = require('fs');
+const assert = require('assert');
+
+const development = (process.env.NODE_ENV == 'development');
 
 const serverSources = [
-  'config/**/*.js', 'controllers/**/*.js', 'lib/**/*.js', 'renderer/**/*.js', 'routes/**/*.js',
-  'setup/**/*.js', 'tasks/**/*.js', '*.js'
+  'hmvc/**/*.js', 'modules/**/*.js', 'tasks/**/*.js', '*.js'
 ];
 
-gulp.task('lint', gp.jshintCache({ src: serverSources }));
+function lazyRequireTask(name) {
+  var args = [].slice.call(arguments, 1);
 
-gulp.task('lint-or-die', gp.jshintCache({ src: serverSources, dieOnError: true }));
+  return function(callback) {
+    var task = require('./tasks/' + name).apply(this, args);
 
-gulp.task('lint-watch', ['lint'], function(neverCalled) {
-  gulp.watch(serverSources, ['lint']);
-});
+    return task(callback);
+  };
+}
 
-//gulp.task('lint', require('./tasks/lint-full-die')(serverSources));
+gulp.task('lint-once', lazyRequireTask('lintOnce', { src: serverSources }));
+
+gulp.task('lint-or-die', lazyRequireTask('lintOnce', { src: serverSources, dieOnError: true }));
+
+gulp.task('lint', ['lint-once'], lazyRequireTask('lint', {src: serverSources}));
+
+// usage: gulp loaddb --db fixture/db
+gulp.task('loaddb', lazyRequireTask('loadDb'));
+
+gulp.task("supervisor", ['link-modules'], lazyRequireTask('supervisor', { cmd: "./bin/www", watch: ["hmvc", "modules"] }));
+
+gulp.task("app:livereload", lazyRequireTask("livereload", { watch: "www/**/*.*" }));
+
+gulp.task('link-modules', lazyRequireTask('linkModules', { src: ['modules/*', 'hmvc/*'] }));
 
 
-gulp.task('watch', ['sprite', 'stylus'], function(neverCalled) {
-  /*
-   browserifyTask({
-   src: 'app/js/index.js',
-   dst: 'www/js'
-   })();
-   */
+gulp.task("app:sync-resources", lazyRequireTask('syncResources', {
+  'app/fonts' : 'www/fonts',
+  'app/img': 'www/img'
+}));
 
-  fse.ensureDirSync('www/fonts');
-  gp.dirSync('app/fonts', 'www/fonts');
+gulp.task('app:sprite-once', lazyRequireTask('spriteOnce', {
+  spritesSearchFsRoot: 'app',
+  spritesWebRoot:      '/sprites',
+  spritesFsDir:        'www/sprites',
+  styleFsDir:          'app/stylesheets/sprites'
+}));
 
-  fse.ensureDirSync('www/img');
-  gp.dirSync('app/img', 'www/img');
+gulp.task('app:sprite', ['app:sprite-once'], lazyRequireTask('sprite', { watch: "app/**/*.sprite/**"}));
 
-  fse.ensureDirSync('www/js');
-  gp.dirSync('app/js', 'www/js');
-
-  gulp.watch("app/**/*.sprite/**", ['sprite']);
-  gulp.watch("app/**/*.styl", ['stylus']);
-
-  gulp.watch(serverSources, ['link-modules']);
+gulp.task('app:clean-compiled-css', function(callback) {
+  fs.unlink('./www/stylesheets/base.css', function(err) {
+    if (err && err.code == 'ENOENT') err = null;
+    callback(err);
+  });
 });
 
 // Show errors if encountered
-gulp.task('stylus', ['clean-compiled-css'], function() {
-  return gulp.src('./app/stylesheets/base.styl')
-    // without plumber if stylus emits PluginError, it will disappear at the next step
-    // plumber propagates it down the chain
-    .pipe(gp.plumber({errorHandler: gp.notify.onError("<%= error.message %>")}))
-    .pipe(gp.stylus({use: [require('nib')()]}))
-    .pipe(gp.autoprefixer("last 1 version"))
-    .pipe(gulp.dest('./www/stylesheets'))
-    .pipe(gp.livereload());
-});
-
-gulp.task('clean-compiled-css', function() {
-  return gulp.src('./www/stylesheets/base.css').pipe(gp.rimraf());
-});
+gulp.task('app:compile-css-once',
+  ['app:clean-compiled-css'],
+  lazyRequireTask('compileCssOnce', {
+    src: './app/stylesheets/base.styl',
+    dst: './www/stylesheets'
+  })
+);
 
 
+
+gulp.task('app:compile-css', ['app:compile-css-once'], lazyRequireTask('compileCss', { watch: "app/**/*.styl"}));
+
+
+gulp.task("app:browserify:clean", lazyRequireTask('browserifyClean', { dst: './www/js'} ));
+
+
+gulp.task("app:browserify", ['app:browserify:clean'], lazyRequireTask('browserify'));
+
+
+// compile-css and sprites are independant tasks
+// run both or run *-once separately
+gulp.task('run', ['supervisor', 'app:livereload', "app:sync-resources", 'app:compile-css', 'app:sprite', 'app:browserify']);
+
+
+// TODO: refactor me out!
 gulp.task('import', function(callback) {
   const mongoose = require('config/mongoose');
   const taskImport = require('tutorial/tasks/import');
@@ -80,12 +100,3 @@ gulp.task('import', function(callback) {
     callback.apply(null, arguments);
   });
 });
-
-gulp.task('link-modules', linkModules(['modules/*', 'hmvc/*']));
-
-gulp.task('sprite', gp.stylusSprite({
-  spritesSearchFsRoot: 'app',
-  spritesWebRoot:      '/img',
-  spritesFsDir:        'www/img',
-  styleFsDir:          'app/stylesheets/sprites'
-}));

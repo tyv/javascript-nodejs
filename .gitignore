@@ -36,4 +36,6 @@ app/stylesheets/sprites/*
 bower_components/
 
 # Passwords and other secret stuff
-config/secret.js
+modules/config/secret.js
+modules/config/certs/*
+

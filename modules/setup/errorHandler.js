@@ -48,6 +48,9 @@ module.exports = function(app) {
 
       if (err.status) {
         // user-level error
+        if (process.env.NODE_ENV == 'development') {
+          console.log(err);
+        }
         this.renderError(err);
       } else {
 

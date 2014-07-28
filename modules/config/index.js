@@ -1,5 +1,5 @@
 if (!process.env.NODE_ENV) {
-  throw new Error("NODE_ENV environment variable is required");
+  process.env.NODE_ENV = 'development';
 }
 
 if (process.env.NODE_ENV == 'development' && process.env.DEV_TRACE) {
@@ -33,10 +33,7 @@ module.exports = {
   session:     {
     keys: [secret.sessionKey]
   },
-  webmoney:    secret.webmoney,
-  yandexmoney: secret.yandexmoney,
-  payanyway:   secret.payanyway,
-  paypal:      secret.paypal,
+  payments: secret.payments,
   template:    {
     options: {
       'cache': process.env.NODE_ENV != 'development'

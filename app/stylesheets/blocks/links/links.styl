@@ -22,18 +22,18 @@ $link-type
 .pseudo:hover 
 	color link_hover_color
 
-a:link 
+:link 
 	color link_color
 
-a:visited 
+:visited 
 	color link_visited_color
 
 @media (print)
 	a:visited 
 		color link_color
 
-a:link,
-a:visited 
+:link,
+:visited 
 	text-decoration none
 
 a:hover,
@@ -41,8 +41,8 @@ a:active
 	color link_hover_color
 	text-decoration underline
 
-a.anchor,
-a.pseudo 
+.anchor,
+.pseudo 
 	@extend $pseudo
 
 .link-ref 
@@ -50,83 +50,83 @@ a.pseudo
 	font-size 90%
 
 // --
-.main a[href^="mailto:"],
+.main [href^="mailto:"],
 a.mailto 
 	@extend $link-type
 	link-type 'mailto'
 
 // --
-.main a[target="_blank"],
+.main [target="_blank"],
 a.external 
 	@extend $link-type
 	link-type 'newwindow'
 
 // --
-.main a[href^='/play/'],
-.main a[href^='http://plnkr.co/'],
+.main [href^='/play/'],
+.main [href^='http://plnkr.co/'],
 a.sandbox 
 	@extend $link-type
 	link-type 'sandbox'
 
 // --
-.main a[href$=".doc"],
-.main a[href$=".docx"],
+.main [href$=".doc"],
+.main [href$=".docx"],
 a.doc 
 	@extend $link-type
 	link-type 'doc'
 
 // --
-.main a[href$=".zip"],
+.main [href$=".zip"],
 a.zip 
 	@extend $link-type
 	link-type 'zip'
 
 // --
-.main a[href$=".xls"],
-.main a[href$=".xlsx"],
+.main [href$=".xls"],
+.main [href$=".xlsx"],
 a.xls 
 	@extend $link-type
 	link-type 'xls'
 
 // --
-.main a[href$=".pdf"],
+.main [href$=".pdf"],
 a.pdf 
 	@extend $link-type
 	link-type 'pdf'
 
 // --
-.main a[href^='http://developer.mozilla.org'],
-.main a[href^='https://developer.mozilla.org'],
+.main [href^='http://developer.mozilla.org'],
+.main [href^='https://developer.mozilla.org'],
 a.mdn 
 	@extend $link-type
 	link-type 'mdn'
 
 // --
-.main a[href^='http://msdn.microsoft.com'],
-.main a[href^='https://msdn.microsoft.com'],
+.main [href^='http://msdn.microsoft.com'],
+.main [href^='https://msdn.microsoft.com'],
 a.msdn 
 	@extend $link-type
 	link-type 'msdn'
 
 // --
-.main a[href^='http://wikipedia.org'],
-.main a[href*='wikipedia.org'],
+.main [href^='http://wikipedia.org'],
+.main [href*='wikipedia.org'],
 a.wiki 
 	@extend $link-type
 	link-type 'wiki'
 
 // --
-.main a[href^='http://w3.org'],
-.main a[href^='http://dev.w3.org'],
-.main a[href^='http://www.w3.org'],
-.main a[href^='https://www.w3.org'],
-.main a[href^='https://w3.org'],
+.main [href^='http://w3.org'],
+.main [href^='http://dev.w3.org'],
+.main [href^='http://www.w3.org'],
+.main [href^='https://www.w3.org'],
+.main [href^='https://w3.org'],
 a.w3c 
 	@extend $link-type
 	link-type 'w3c'
 
 // --
-.main a[href^='http://es5.github.com'],
+.main [href^='http://es5.github.com'],
 a.ecma 
 	@extend $link-type
 	link-type 'ecma'
@@ -139,5 +139,5 @@ $plain-link
 	padding 0
 	background-image none
 
-.main a.plain 
+.main .plain 
 	@extend $plain-link

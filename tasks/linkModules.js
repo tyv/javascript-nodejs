@@ -15,26 +15,27 @@ function ensureSymlinkSync(linkSrc, linkDst) {
   }
 
   if (lstat) {
-    if (lstat.isSymbolicLink()) {
-      var oldDst = fs.readlinkSync(linkDst);
-      if (oldDst != linkSrc) {
-        throw new Error("Conflict: link already exists and has another value: " + oldDst);
-      }
-      return false;
-    } else {
+    if (!lstat.isSymbolicLink()) {
       throw new Error("Conflict: path exist and is not a link: " + linkDst);
     }
+
+    var oldDst = fs.readlinkSync(linkDst);
+    if (oldDst == linkSrc) {
+      return false; // already exists
+    }
+    // kill old link!
+    fs.unlinkSync(linkDst);
   }
 
   fs.symlinkSync(linkSrc, linkDst);
   return true;
 }
 
-module.exports = function(sources) {
+module.exports = function(options) {
 
-  return function() {
+  return function(callback) {
     var modules = [];
-    sources.forEach(function(pattern) {
+    options.src.forEach(function(pattern) {
       modules = modules.concat(glob.sync(pattern));
     });
 
@@ -47,6 +48,8 @@ module.exports = function(sources) {
         gutil.log(linkSrc + " -> " + linkDst);
       }
     }
+    callback();
   };
 
 };
+

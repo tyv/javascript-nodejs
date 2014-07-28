@@ -1,5 +1,5 @@
-/*
-var requireTree = require('require-tree');
+const router = require('./router');
 
-requireTree('./model');
-*/
+require('./lib/passport');
+
+exports.middleware = router.middleware();
