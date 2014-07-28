@@ -52,9 +52,9 @@ gulp.task('watch', ['stylus'], function(neverCalled) {
    */
   const fse = require('fs-extra');
 
-  fse.removeSync(['www/fonts']);
-  fse.removeSync(['www/img']);
-  fse.removeSync(['www/js']);
+  fse.removeSync('www/fonts');
+  fse.removeSync('www/img');
+  fse.removeSync('www/js');
 
   fse.mkdirsSync('www/fonts');
   fse.mkdirsSync('www/img');
