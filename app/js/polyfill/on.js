@@ -1,4 +1,4 @@
-require('./matches');
+require('./dom4');
 
 function findDelegateTarget(event, selector) {
   var currentNode = event.target;
@@ -18,7 +18,7 @@ function findDelegateTarget(event, selector) {
 // IE doesn't have EventTarget, corresponding methods are in Node
 var prototype = (window.EventTarget || Node).prototype;
 
-
+// currentTarget is top-level element!
 prototype.on = function(eventName, selector, handler) {
   this.addEventListener(eventName, function(event) {
     var found = findDelegateTarget(event, selector);
@@ -28,7 +28,7 @@ prototype.on = function(eventName, selector, handler) {
     // so, keep in mind:
     // --> event.currentTarget is top-level element!
 
-    event.delegateTarget = event.currentTarget; // for copat. with jQuery
+    event.delegateTarget = event.currentTarget; // for compat. with jQuery
     if (found) {
       handler.call(found, event);
     }
@@ -36,5 +36,5 @@ prototype.on = function(eventName, selector, handler) {
 };
 
 prototype.off = function() {
-  throw new Error("Not implemented (you need it? write an issue)");
+  throw new Error("Not implemented (you need it? file an issue)");
 };

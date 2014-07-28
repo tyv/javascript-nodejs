@@ -1,6 +1,9 @@
 require('./polyfill');
 
-document.on('click', 'a', function(e) {
-  alert('ok');
+var login = require('./login');
+
+document.on('click', 'a.login', function(e) {
   e.preventDefault();
+
+  login();
 });

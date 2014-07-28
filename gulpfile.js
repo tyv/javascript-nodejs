@@ -55,7 +55,10 @@ gulp.task('app:sprite-once', lazyRequireTask('spriteOnce', {
 gulp.task('app:sprite', ['app:sprite-once'], lazyRequireTask('sprite', { watch: "app/**/*.sprite/**"}));
 
 gulp.task('app:clean-compiled-css', function(callback) {
-  fs.unlink('./www/stylesheets/base.css', callback);
+  fs.unlink('./www/stylesheets/base.css', function(err) {
+    if (err && err.code == 'ENOENT') err = null;
+    callback(err);
+  });
 });
 
 // Show errors if encountered

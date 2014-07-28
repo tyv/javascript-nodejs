@@ -65,6 +65,7 @@ require('prismjs/components/prism-java.js');
 
   }
 
+  // fixme: require lodash.escape
   function esc(str) {
     return str
       .replace(/&/g, '&amp;')

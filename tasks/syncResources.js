@@ -5,10 +5,11 @@ module.exports = function(resources) {
 
   return function(callback) {
 
+
     for (var src in resources) {
       var dst = resources[src];
 
-      fse.removeSync(src);
+      fse.removeSync(dst);
 
       if (process.env.NODE_ENV == 'development') {
         fse.mkdirsSync(dst);
