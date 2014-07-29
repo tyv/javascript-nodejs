@@ -7,7 +7,7 @@ module.exports = function* (field) {
 
   if (!field) field = 'orderNumber';
 
-  var orderNumber = this.req.body && this.req.body[field] || this.params[field] || this.query[field];
+  var orderNumber = this.request.body && this.request.body[field] || this.params[field] || this.query[field];
 
   if (!orderNumber) {
     return;

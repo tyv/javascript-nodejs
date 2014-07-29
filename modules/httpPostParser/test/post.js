@@ -11,7 +11,7 @@ describe("HttpPostParser", function() {
 
     app.use(function* echoBody(next) {
       if ('/test/http-post-parser' != this.path) return yield next;
-      this.body = this.req.body;
+      this.body = this.request.body;
     });
 
     yield app.run();

@@ -45,7 +45,7 @@ Csrf.prototype.middleware = function() {
     }
 
     if (checkCsrf) {
-      this.assertCSRF(this.req.body);
+      this.assertCSRF(this.request.body);
     }
 
     yield* next;

@@ -10,7 +10,7 @@ log.debugOn();
 
 exports.post = function* (next) {
 
-  checkSignature(this.req.body);
+  checkSignature(this.request.body);
   this.body = 'SUCCESS';
   return;
 
@@ -19,7 +19,7 @@ exports.post = function* (next) {
 
   yield this.transaction.logRequest('callback unverified', this.request);
 
-  if (!checkSignature(this.req.body)) {
+  if (!checkSignature(this.request.body)) {
     log.debug("wrong signature");
     this.throw(403, "wrong signature");
   }
@@ -27,8 +27,8 @@ exports.post = function* (next) {
   yield this.transaction.logRequest('callback', this.request);
 
   // signature is valid, so everything MUST be fine
-  if (this.transaction.amount != parseFloat(this.req.body.MNT_AMOUNT) ||
-    this.req.body.MNT_ID != payanywayConfig.id) {
+  if (this.transaction.amount != parseFloat(this.request.body.MNT_AMOUNT) ||
+    this.request.body.MNT_ID != payanywayConfig.id) {
     yield this.transaction.persist({
       status: Transaction.STATUS_FAIL,
       statusMessage: "данные транзакции не совпадают с базой, свяжитесь с поддержкой"

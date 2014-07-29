@@ -9,7 +9,7 @@ var fail = require('./controller/fail');
 
 // webmoney server posts here (in background)
 router.post('/callback', function* (next) {
-  if (this.req.body.LMI_PREREQUEST == '1') {
+  if (this.request.body.LMI_PREREQUEST == '1') {
     yield* callback.prerequest.call(this, next);
   } else {
     yield* callback.post.call(this, next);
