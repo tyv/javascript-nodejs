@@ -17,7 +17,6 @@ passport.use(new LocalStrategy({
   usernameField: 'email',
   passwordField: 'password'
 }, function(email, password, done) {
-  console.log("!!!!", email, password);
 
   if (!email) return done(null, false, { message: 'Please provide email.' });
   if (!password) return done(null, false, { message: 'Please provide password.' });
