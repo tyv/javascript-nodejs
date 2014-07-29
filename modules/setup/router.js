@@ -45,7 +45,11 @@ module.exports = function(app) {
   // by default if the router didn't find anything => it yields to next middleware
   // so I throw error here manually
   app.use(function* (next) {
-    this.throw(404);
+    yield* next;
+
+    if (this.status == 404) {
+      this.throw(404); // still not found? pass to default errorHandler
+    }
   });
 
 };

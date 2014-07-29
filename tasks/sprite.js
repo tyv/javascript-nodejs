@@ -1,12 +1,9 @@
-
-const gulp = require('gulp');
+const gp = require('gulp-load-plugins')();
 
 module.exports = function(options) {
+
   return function(callback) {
-    if (process.env.NODE_ENV == 'development') {
-      gulp.watch(options.watch, ['app:sprite']);
-    } else {
-      callback();
-    }
+    return gp.stylusSprite(options).apply(this, arguments);
   };
 };
+

@@ -5,7 +5,6 @@ module.exports = function(resources) {
 
   return function(callback) {
 
-
     for (var src in resources) {
       var dst = resources[src];
 
