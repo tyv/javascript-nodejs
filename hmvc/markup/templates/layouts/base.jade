@@ -10,7 +10,7 @@ body(id='#{self.bodyId}')
         article.main
           header.main__header
             include ../blocks/breadcrumbs
-            h1.main__header-title= self.title
+            h1.main__header-title!= self.title
             span.main__header-comments
               a(href='http://learn.javascript.ru/intro#disqus_thread') Комментариев #{self.comments.length}
             include ../blocks/prev-next-top

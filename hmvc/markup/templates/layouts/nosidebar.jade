@@ -1,0 +1,16 @@
+block variables
+include ../blocks/head
+body(id='#{self.bodyId}')
+  include ../blocks/top-parts
+  .page
+    .page__inner
+      include ../blocks/navbar
+      include ../blocks/social-aside
+      .main-content
+        article.main
+          header.main__header.main__header_center
+            include ../blocks/breadcrumbs
+            h1.main__header-title!= self.title
+          block content
+      include ../blocks/page-footer
+  include ../blocks/scripts

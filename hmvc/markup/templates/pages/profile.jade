@@ -1,0 +1,15 @@
+extends ../layouts/nosidebar
+
+// - http://stackoverflow.com/questions/12646451/how-to-pass-variables-between-jade-templates
+block variables
+  - var self = {};
+  - self.bodyId = 'page';
+  - self.title = 'Кабинет пользователя <em class="main__username">Nakazator</em>';
+
+block content
+  .profile
+    .profile__upic
+      img.profile__upic-image(src="/img/userpic.png", width="150", height="150", alt="Nakazator")
+      form.profile__upic-change(enctype="multipart/form-data", method="POST", action="/profile")
+        input.profile__upic-upload#profile-new-userpic(type="file", value="", name="profile-new-userpic")
+        label.profile__upic-edit(for="profile-new-userpic", title="редактировать")
