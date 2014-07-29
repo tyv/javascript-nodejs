@@ -24,6 +24,16 @@ function lazyRequireTask(name) {
   };
 }
 
+function wrapWatch(watch, task) {
+  return function(callback) {
+    if (process.env.NODE_ENV == 'development') {
+      gulp.watch(watch, [task]);
+    } else {
+      callback();
+    }
+  };
+}
+
 gulp.task('lint-once', lazyRequireTask('lintOnce', { src: serverSources }));
 
 gulp.task('lint-or-die', lazyRequireTask('lintOnce', { src: serverSources, dieOnError: true }));
@@ -45,19 +55,24 @@ gulp.task("app:sync-resources", lazyRequireTask('syncResources', {
   'app/img': 'www/img'
 }));
 
-gulp.task("app:sync-stylesheet-images", lazyRequireTask('syncStylesheetImages', {
-  'app/fonts' : 'www/fonts',
-  'app/img': 'www/img'
+gulp.task("app:sync-css-images-once", lazyRequireTask('syncCssImages', {
+  src: 'app/stylesheets/**/*.{png,svg,gif,jpg}',
+  dst: 'www/i'
 }));
 
-gulp.task('app:sprite-once', lazyRequireTask('spriteOnce', {
+gulp.task('app:sync-css-images', ['app:sync-css-images-once'],
+  wrapWatch('app/stylesheets/**/*.{png,svg,gif,jpg}',  'app:sync-css-images-once')
+);
+
+
+gulp.task('app:sprite-once', lazyRequireTask('sprite', {
   spritesSearchFsRoot: 'app',
-  spritesWebRoot:      '/sprites',
-  spritesFsDir:        'www/sprites',
+  spritesWebRoot:      '/i',
+  spritesFsDir:        'www/i',
   styleFsDir:          'app/stylesheets/sprites'
 }));
 
-gulp.task('app:sprite', ['app:sprite-once'], lazyRequireTask('sprite', { watch: "app/**/*.sprite/**"}));
+gulp.task('app:sprite', ['app:sprite-once'], wrapWatch("app/**/*.sprite/**", 'sprite'));
 
 gulp.task('app:clean-compiled-css', function(callback) {
   fs.unlink('./www/stylesheets/base.css', function(err) {
@@ -69,7 +84,7 @@ gulp.task('app:clean-compiled-css', function(callback) {
 // Show errors if encountered
 gulp.task('app:compile-css-once',
   ['app:clean-compiled-css'],
-  lazyRequireTask('compileCssOnce', {
+  lazyRequireTask('compileCss', {
     src: './app/stylesheets/base.styl',
     dst: './www/stylesheets'
   })
@@ -77,7 +92,7 @@ gulp.task('app:compile-css-once',
 
 
 
-gulp.task('app:compile-css', ['app:compile-css-once'], lazyRequireTask('compileCss', { watch: "app/**/*.styl"}));
+gulp.task('app:compile-css', ['app:compile-css-once'], wrapWatch("app/**/*.styl", "app:compile-css-once"));
 
 
 gulp.task("app:browserify:clean", lazyRequireTask('browserifyClean', { dst: './www/js'} ));
@@ -88,7 +103,7 @@ gulp.task("app:browserify", ['app:browserify:clean'], lazyRequireTask('browserif
 
 // compile-css and sprites are independant tasks
 // run both or run *-once separately
-gulp.task('run', ['supervisor', 'app:livereload', "app:sync-resources", 'app:compile-css', 'app:sprite', 'app:browserify']);
+gulp.task('run', ['supervisor', 'app:livereload', "app:sync-resources", 'app:compile-css', 'app:sprite', 'app:browserify', 'app:sync-css-images']);
 
 
 // TODO: refactor me out!

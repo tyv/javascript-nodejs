@@ -9,7 +9,7 @@ describe("HttpPostParser", function() {
     // if app.isListening, then we can't add our middleware
     should.not.exist(app.isListening);
 
-    app.use(function*(next) {
+    app.use(function* echoBody(next) {
       if ('/test/http-post-parser' != this.path) return yield next;
       this.body = this.req.body;
     });

@@ -89,6 +89,7 @@
     "co-mocha": "*",
     "gulp": "*",
     "gulp-autoprefixer": "0.0.8",
+    "gulp-flatten": "0.0.2",
     "gulp-jshint": "*",
     "gulp-livereload": "^2.1.0",
     "gulp-mocha": "^0.5.1",
