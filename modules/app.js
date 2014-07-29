@@ -1,8 +1,10 @@
 "use strict";
 
+require('lib/debug');
 const koa = require('koa');
 const log = require('js-log')();
 const config = require('config');
+const mongoose = require('config/mongoose');
 const app = koa();
 
 // trust all headers from proxy
@@ -39,7 +41,7 @@ requireSetup('setup/errorHandler');
 requireSetup('setup/accessLogger');
 
 // before anything that may deal with body
-requireSetup('setup/bodyParser');
+requireSetup('setup/httpPostParser');
 
 // right after parsing body, make sure we logged for development
 requireSetup('setup/verboseLogger');
@@ -50,8 +52,6 @@ if (process.env.NODE_ENV == 'development') {
 
 requireSetup('setup/session');
 
-requireSetup('setup/formidable');
-
 requireSetup('setup/passport');
 
 requireSetup('setup/csrf');
@@ -60,23 +60,37 @@ requireSetup('setup/payments');
 
 requireSetup('setup/router');
 
-if (process.env.NODE_ENV == 'test') {
-  app.listen(config.port, config.host, function() {
-    console.log("App listening...");
-  });
-}
+// wait for full app load and all associated warm-ups to finish
+app.waitBoot = function* () {
+  yield function(callback) {
+    mongoose.waitConnect(callback);
+  };
+};
+
+
+// adding middlewares only possible before app.run
+app.run = function*() {
+  yield* app.waitBoot();
+
+  // every test may use app.run()
+  // app will only start the 1st time
+  if (!app.isListening) {
+    yield function(callback) {
+      app.listen(config.port, config.host, function() {
+        log.info('App listen %s:%d', config.host, config.port);
+        callback();
+      });
+    };
+    app.isListening = true;
+  }
+};
+
+// for supertest(app), it wants app.address().port
+app.address = function() {
+  return {
+    port: config.port
+  };
+};
 
 module.exports = app;
 
-if (process.env.NODE_ENV == 'development') {
-
-  global.p = function() {
-    var stack = new Error().stack.split("\n")[2].trim();
-    console.log("----> " + global.p.counter++ + " at " + stack);
-  };
-  global.p.counter = 1;
-} else {
-  global.p = function() {
-
-  };
-}

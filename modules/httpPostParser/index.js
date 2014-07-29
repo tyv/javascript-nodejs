@@ -1,6 +1,6 @@
 'use strict';
 
-const koaBodyParser = require('koa-bodyparser');
+const koaFormidable = require('koa-formidable');
 const _ = require('lodash');
 const pathToRegexp = require('path-to-regexp');
 const log = require('js-log')();
@@ -10,18 +10,18 @@ const log = require('js-log')();
  * allows to set per-path options which are used in middleware
  * usage:
  *
- * app.bodyParser = new BodyParser
+ * app.httpPostParser = new HttpPostParser
  * app.use(app.bodyParser.middleware())
  * ...
- * app.bodyParser.addPathOptions('/upload/path', {limit: 1e10});
+ * app.httpPostParser.addPathOptions('/upload/path', {bytesExpected: 1e10});
  * @constructor
  */
-function BodyParser() {
+function HttpPostParser() {
   this.pathOptions = [];
 }
 
 // options should be an object { path: string|regexp, options }
-BodyParser.prototype.addPathOptions = function(path, options) {
+HttpPostParser.prototype.addPathOptions = function(path, options) {
   if (path instanceof RegExp) {
     this.pathOptions.push({path: path, options: options});
   } else if (typeof path == 'string') {
@@ -31,13 +31,14 @@ BodyParser.prototype.addPathOptions = function(path, options) {
   }
 };
 
-BodyParser.prototype.middleware = function() {
+HttpPostParser.prototype.middleware = function() {
 
   var self = this;
-  var optionsDefault = { limit: 1e6 };
+  var optionsDefault = { bytesExpected: 1e7 };
 
   return function* (next) {
     var options = Object.create(optionsDefault);
+
     for (var i = 0; i < self.pathOptions.length; i++) {
       var path = self.pathOptions[i].path;
       log.debug("test " + this.req.url + " against " + path);
@@ -48,10 +49,27 @@ BodyParser.prototype.middleware = function() {
       }
     }
 
-    yield* koaBodyParser(options).call(this, next);
+    // if request file too big, don't start accepting it
+    // in normal situation, large uploads have the header and get stopped here
+    if (this.get('content-length')) {
+      var bytesExpected = parseInt(this.get('content-length'), 10);
+
+      if (bytesExpected > options.bytesExpected) {
+        this.status = 413;
+        this.body = 'Request entity too large: ' + bytesExpected + ' > ' + options.bytesExpected;
+        return;
+      }
+    }
+
+    // safety:
+    // even if a bad person did not supply content-length,
+    // formidable will not read more than options.bytesExpected
+
+    
+    yield* koaFormidable(options).call(this, next);
 
   };
 };
 
 
-exports.BodyParser = BodyParser;
+module.exports = HttpPostParser;

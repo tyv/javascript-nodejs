@@ -10,22 +10,22 @@ log.debugOn();
 exports.post = function*(next) {
 
   yield* this.loadOrder();
-  var method = methods[this.request.body.paymentMethod];
+  var method = methods[this.req.body.paymentMethod];
   if (!method) {
     this.throw(403, "Unsupported payment method");
   }
 
   if (this.order) {
     log.debug("order exists", this.order.number);
-    yield* updateOrderFromBody(this.request.body, this.order);
+    yield* updateOrderFromBody(this.req.body, this.order);
   } else {
     // if we don't have the order in our database, then make a new one
     // (use the incoming order post for that, but don't trust it)
 
-    console.log(this.request.body.orderTemplate);
+    console.log(this.req.body.orderTemplate);
 
     var orderTemplate = yield OrderTemplate.findOne({
-      slug: this.request.body.orderTemplate
+      slug: this.req.body.orderTemplate
     }).exec();
 
     if (!orderTemplate) {
@@ -36,10 +36,10 @@ exports.post = function*(next) {
     // create order from template, don't trust the incoming post
     this.order = Order.createFromTemplate(orderTemplate, {
       module: 'getpdf',
-      email: this.request.body.email
+      email: this.req.body.email
     });
 
-    yield* updateOrderFromBody(this.request.body, this.order);
+    yield* updateOrderFromBody(this.req.body, this.order);
 
     log.debug("order created", this.order.number);
 

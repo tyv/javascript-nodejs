@@ -16,10 +16,10 @@ exports.prerequest = function* (next) {
   yield this.transaction.logRequest('prerequest', this.request);
 
   if (this.transaction.status == Transaction.STATUS_SUCCESS ||
-    this.transaction.amount != parseFloat(this.request.body.LMI_PAYMENT_AMOUNT) ||
-    this.request.body.LMI_PAYEE_PURSE != webmoneyConfig.purse
+    this.transaction.amount != parseFloat(this.req.body.LMI_PAYMENT_AMOUNT) ||
+    this.req.body.LMI_PAYEE_PURSE != webmoneyConfig.purse
     ) {
-    log.debug("no pending transaction " + this.request.body.LMI_PAYMENT_NO);
+    log.debug("no pending transaction " + this.req.body.LMI_PAYMENT_NO);
     this.throw(404, 'unfinished transaction with given params not found');
   }
 
@@ -31,15 +31,15 @@ exports.post = function* (next) {
 
   yield* this.loadTransaction('LMI_PAYMENT_NO', {skipOwnerCheck : true});
 
-  if (!checkSignature(this.request.body)) {
+  if (!checkSignature(this.req.body)) {
     log.debug("wrong signature");
     this.throw(403, "wrong signature");
   }
 
   yield this.transaction.logRequest('callback', this.request);
 
-  if (this.transaction.amount != parseFloat(this.request.body.LMI_PAYMENT_AMOUNT) ||
-    this.request.body.LMI_PAYEE_PURSE != webmoneyConfig.purse) {
+  if (this.transaction.amount != parseFloat(this.req.body.LMI_PAYMENT_AMOUNT) ||
+    this.req.body.LMI_PAYEE_PURSE != webmoneyConfig.purse) {
     // STRANGE, signature is correct
     yield this.transaction.persist({
       status: Transaction.STATUS_FAIL,
@@ -48,7 +48,7 @@ exports.post = function* (next) {
     this.throw(404, "transaction data doesn't match the POST body");
   }
 
-  if (!this.request.body.LMI_SIM_MODE || this.request.body.LMI_SIM_MODE == '0') {
+  if (!this.req.body.LMI_SIM_MODE || this.req.body.LMI_SIM_MODE == '0') {
     this.transaction.status = Transaction.STATUS_SUCCESS;
     yield this.transaction.persist();
   }

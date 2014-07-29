@@ -3,15 +3,13 @@
 
 const log = require('js-log')();
 const config = require('config');
-const mongoose = require('config/mongoose');
+const co = require('co');
 const app = require('app');
 
-mongoose.waitConnect(function(err) {
+co(function*() {
+
+  yield* app.run();
+
+})(function(err) {
   if (err) throw err;
-
-  app.listen(config.port, config.host, function() {
-    log.info('App listen %s:%d', config.host, config.port);
-  });
-
 });
-
