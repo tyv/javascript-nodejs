@@ -31,4 +31,15 @@ describe("HttpPostParser", function() {
 
   });
 
+  it("dies when the file is too big", function(done) {
+
+    // fixme: superagent console.warns: double callback!
+    // seems like a bug in superagent: https://github.com/visionmedia/superagent/issues/351
+    supertest(app)
+      .post('/test/http-post-parser')
+      .send({big: new Array(1e7).join(' ')})
+      .expect(413, done);
+
+  });
+
 });

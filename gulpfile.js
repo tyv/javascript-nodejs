@@ -45,6 +45,11 @@ gulp.task("app:sync-resources", lazyRequireTask('syncResources', {
   'app/img': 'www/img'
 }));
 
+gulp.task("app:sync-stylesheet-images", lazyRequireTask('syncStylesheetImages', {
+  'app/fonts' : 'www/fonts',
+  'app/img': 'www/img'
+}));
+
 gulp.task('app:sprite-once', lazyRequireTask('spriteOnce', {
   spritesSearchFsRoot: 'app',
   spritesWebRoot:      '/sprites',
