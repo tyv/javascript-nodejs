@@ -1,2 +1,3 @@
 #!/bin/bash
+echo Loading the "default" site fixture.
 ./gulp loaddb --db fixture/db.js
