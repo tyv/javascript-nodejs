@@ -83,6 +83,7 @@
     "yargs": "*"
   },
   "devDependencies": {
+    "better-assert": "^1.0.1",
     "browserify": "*",
     "clarify": "*",
     "co-mocha": "*",
