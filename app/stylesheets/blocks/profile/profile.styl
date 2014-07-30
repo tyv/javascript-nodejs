@@ -17,6 +17,10 @@ $profile-tabs-rounded
 $profile-highlight-background
 	background rgba(255, 255, 255, .4)
 
+$profile-content-wrap
+	@extend $noisy-bg
+	border-radius 0 0 4px 4px
+
 .profile 
 	&__upic
 		size-of '../../img/userpic.png'
@@ -84,146 +88,117 @@ $profile-highlight-background
 	&__section-link:visited
 		color #727272
 
-// .profile__section-link:hover,
-// .profile__section-link:active {
-// 	color: $link-hover-color;
-// }
+	&__section-link:hover,
+	&__section-link:active
+		color: link_hover_color
 
-// %profile-content-wrap {
-//     @extend %noisy-bg;
-//     border-radius: 0 0 4px 4px;
-// }
+	&__items
+		@extend $profile-content-wrap
+		width 100%
+		border-collapse collapse
 
-// .profile__items {
-//     @extend %profile-content-wrap;
-// 	width: 100%;
-// 	border-collapse: collapse;
-// }
+	& &__items
+		margin 0
 
-// .profile .profile__items {
-// 	margin: 0;
-// }
+	&__item
+		border-bottom profile_item_separator
+		vertical-align top
 
-// .profile__item {
-// 	border-bottom: $profile-item-separator;
-// 	vertical-align: top;
-// }
+	&__item:last-child
+		border-bottom none
 
-// .profile__item:last-child {
-// 	border-bottom: none;
-// }
+	&__item:hover
+		@extend $profile-highlight-background
 
-// .profile__item:hover {
-// 	@extend %profile-highlight-background;
-// }
+	// It's a pain to do so, but inside ".main" we have generic tables
+	// that are styled with more specific selectors
+	// Hope It won't hurt very much
+	& &__item &__item-name
+		border 0 !important
+		padding 14px 30px 14px profile_item_padding_horiz
+		width 1%
+		white-space nowrap
+		font-weight 400
+		color color
 
-// // It's a pain to do so, but inside ".main" we have generic tables
-// // that are styled with more specific selectors
-// // Hope It won't hurt very much
-// body .profile .profile__item-name {
-// 	border: 0 !important;
-// 	padding: 14px 30px 14px $profile-item-padding-horiz;
-// 	width: 1%;
-// 	white-space: nowrap;
-// 	font-weight: 400;
-// 	color: $color;
-// }
+	&__item&__item_option &__item-name
+		vertical-align: middle
+		min-width 300px
 
-// body .profile__item_option .profile__item-name {
-//     vertical-align: middle;
-//     min-width: 300px;
-// }
+	& &__item &__item-value
+		border 0
+		padding 0 profile_item_padding_horiz 0 0
+		font-weight 700
 
-// body .profile .profile__item-value {
-// 	border: 0;
-// 	padding: 0 $profile-item-padding-horiz 0 0;
-// 	font-weight: 700;
-// }
+	& &__item:first-child &__item-name
+		padding-top 29px
 
-// .profile .profile__item:first-child .profile__item-name {
-// 	padding-top: 29px;
-// }
+	& &__item_option:first-child &__item-name
+		padding-top 14px
 
-// .profile .profile__item_option:first-child .profile__item-name {
-//     padding-top: 14px;
-// }
+	& &__item:first-child &__item-value
+		padding-top 15px
 
-// .profile .profile__item:first-child .profile__item-value {
-// 	padding-top: 15px;
-// }
+	& &__item_option:first-child &__item-value
+		padding-top 0
 
-// .profile .profile__item_option:first-child .profile__item-value {
-//     padding-top: 0;
-// }
+	& &__items &__item-value_text
+		padding-top 0
+		padding-bottom 0
 
-// .profile .profile__items .profile__item-value_text {
-// 	padding-top: 0;
-// 	padding-bottom: 0;
-// }
+	&__item-value-content
+		margin 14px 0
+		padding 0 150px 0 0
+		position relative
 
-// .profile__item-value-content {
-// 	margin: 14px 0;
-// 	padding: 0 150px 0 0;
-// 	position: relative;
-// }
+	&__invisible-mark
+		font-weight 400
+		color #888
+		font-size 12px
+		margin-left 20px
 
-// .profile__invisible-mark {
-// 	font-weight: 400;
-// 	color: #888;
-// 	font-size: 12px;
-// 	margin-left: 20px;
-// }
+	&__item-edit,
+	&__item-edit:hover
+		position absolute
+		top 4px
+		right 0
+		text-decoration none
+		display none
 
-// .profile__item-edit,
-// .profile__item-edit:hover {
-// 	position: absolute;
-// 	top: 4px;
-// 	right: 0;
-// 	text-decoration: none;
-// 	display: none;
-// }
+	& &__item &__item-edit
+		color secondary_color
+		font-weight normal
+		font-size 12px
+		line-height 1.2
+		border-bottom 1px dotted
 
-// body .profile .profile__item-edit {
-// 	color: $secondary-color;
-// 	font-weight: normal;
-// 	font-size: 12px;
-// 	line-height: 1.2;
-// 	border-bottom: 1px dotted;
-// }
+	&__item:hover &__item-edit
+		display block
 
-// .profile__item:hover .profile__item-edit {
-// 	display: block;
-// }
+	&__item-edit::before
+		@extend $profile-edit-icon
+		font-size size
+		font-weight normal
+		position absolute
+		right 100%
+		padding-right 7px
 
-// .profile__item-edit::before {
-// 	@extend %profile-edit-icon;
-// 	font-size: $size;
-// 	font-weight: normal;
-// 	position: absolute;
-// 	right: 100%;
-// 	padding-right: 7px;
-// }
+	&__inline-change
+		margin 7px 0
+		width 100%
+		display none
 
-// .profile__inline-change {
-// 	margin: 7px 0;
-// 	width: 100%;
-// 	display: none;
-// }
+	&__inline-change_pass
+		@extend $profile-highlight-background
+		margin 0 (profile_item_padding_horiz * -1)
+		padding 25px profile_item_padding_horiz
 
-// .profile__inline-change_pass {
-// 	@extend %profile-highlight-background;
-// 	margin: 0 $profile-item-padding-horiz * -1;
-// 	padding: 25px $profile-item-padding-horiz;
-// }
+	&__inline-editable_editing &__inline-change
+		display table
 
-// .profile__inline-editable_editing .profile__inline-change {
-// 	display: table;
-// }
-
-// .profile__inline-editable_editing .profile__inline-value,
-// .profile__inline-editable_editing .profile__inline-edit-trigger {
-// 	display: none;
-// }
+	&__inline-editable_editing &__inline-value,
+	&__inline-editable_editing &__inline-edit-trigger
+		display none
 
 // .profile__edit,
 // .profile__save {
