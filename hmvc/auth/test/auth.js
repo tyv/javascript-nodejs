@@ -13,9 +13,12 @@ describe('Authorization', function() {
   var agent;
   before(function * () {
     yield db.loadDb(path.join(__dirname, './fixtures/db'));
-    yield app.run();
 
-    agent = request.agent(app);
+    // app.listen() uses a random port,
+    // which superagent gets as server.address().port
+    // so that every run will get it's own port
+    var server = app.listen();
+    agent = request.agent(server);
 
   });
 

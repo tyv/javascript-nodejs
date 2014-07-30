@@ -61,34 +61,23 @@ requireSetup('setup/payments');
 requireSetup('setup/router');
 
 // wait for full app load and all associated warm-ups to finish
+// mongoose buffers queries, so for tests there's no reason to wait
+// for PROD, there is a reason: to check if DB is ok.
 app.waitBoot = function* () {
   yield function(callback) {
     mongoose.waitConnect(callback);
   };
 };
 
-
 // adding middlewares only possible before app.run
 app.run = function*() {
   yield* app.waitBoot();
 
-  // every test may use app.run()
-  // app will only start the 1st time
-  if (!app.isListening) {
-    yield function(callback) {
-      app.listen(config.port, config.host, function() {
-        log.info('App listen %s:%d', config.host, config.port);
-        callback();
-      });
-    };
-    app.isListening = true;
-  }
-};
-
-// for supertest(app), it wants app.address().port
-app.address = function() {
-  return {
-    port: config.port
+  yield function(callback) {
+    app.listen(config.port, config.host, function() {
+      log.info('App listen %s:%d', config.host, config.port);
+      callback();
+    });
   };
 };
 

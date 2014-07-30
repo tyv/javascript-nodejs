@@ -4,24 +4,23 @@ const should = require('should');
 
 describe("HttpPostParser", function() {
 
-  before(function* () {
+  var request;
 
-    // if app.isListening, then we can't add our middleware
-    should.not.exist(app.isListening);
+  before(function* () {
 
     app.use(function* echoBody(next) {
       if ('/test/http-post-parser' != this.path) return yield next;
       this.body = this.request.body;
     });
 
-    yield app.run();
+    request = supertest(app.listen());
 
   });
 
   it("parses body", function(done) {
 
     var message = { name: 'Manny', species: 'cat' };
-    supertest(app)
+    request
       .post('/test/http-post-parser')
       .send(message)
       .end(function(error, res) {
@@ -35,7 +34,7 @@ describe("HttpPostParser", function() {
 
     // fixme: superagent console.warns: double callback!
     // seems like a bug in superagent: https://github.com/visionmedia/superagent/issues/351
-    supertest(app)
+    request
       .post('/test/http-post-parser')
       .send({big: new Array(1e7).join(' ')})
       .expect(413, done);
