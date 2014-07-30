@@ -334,9 +334,11 @@ module.exports = function(options) {
 
     const data = {
       content: content,
-      parent:  parent._id,
-      slug:    taskPathName
+      parent:  parent._id
     };
+
+    data.weight = parseInt(taskPathName);
+    data.slug = taskPathName.slice(3);
 
     const options = {
       resourceFsRoot:  taskPath,

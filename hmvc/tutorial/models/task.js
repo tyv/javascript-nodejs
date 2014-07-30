@@ -32,6 +32,11 @@ var schema = new Schema({
     required: true
   },
 
+  weight: {
+    type:     Number,
+    required: true
+  },
+
   parent: {
     type:     ObjectId,
     ref:      'Article',
