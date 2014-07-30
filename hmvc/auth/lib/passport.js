@@ -18,15 +18,14 @@ passport.use(new LocalStrategy({
   passwordField: 'password'
 }, function(email, password, done) {
 
-  if (!email) return done(null, false, { message: 'Please provide email.' });
-  if (!password) return done(null, false, { message: 'Please provide password.' });
+  if (!email) return done(null, false, { message: 'Укажите email.' });
+  if (!password) return done(null, false, { message: 'Укажите пароль.' });
   User.findOne({email: email}, function(err, user) {
-    console.log(email, password, err, user);
+    //console.log(email, password, err, user);
 
     if (err) return done(err);
-    if (!user) return done(null, false, { message: 'Non-registered email.' });
-    return user.checkPassword(password)
-      ? done(null, user)
-      : done(null, false, { message: 'Incorrect password.' });
+    if (!user) return done(null, false, { message: 'Нет пользователя с таким email.' });
+    return user.checkPassword(password) ? done(null, user) :
+      done(null, false, { message: 'Пароль неверен.' });
   });
 }));

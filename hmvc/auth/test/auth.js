@@ -31,12 +31,7 @@ describe('Authorization', function() {
           email:    fixtures.User[0].email,
           password: fixtures.User[0].password
         })
-        .expect(200)
-        .end(function(err, res) {
-//          console.log(res.headers);
-          // sessionId = res.headers['set-cookie'][0];
-          done(err);
-        });
+        .expect(200, done);
     });
 
     it('should return current user info', function(done) {
@@ -51,24 +46,18 @@ describe('Authorization', function() {
 
   });
 
-  0 && describe('logout', function() {
+  describe('logout', function() {
     it('should log me out', function(done) {
-      request(app)
-        .get('/api/logout')
-        .set('Cookie', sessionId)
-        .expect(200)
-        .end(function(err, res) {
-          done(err);
-        });
+      agent
+        .post('/auth/logout')
+        .send('')
+        .expect(302, done);
     });
-    it('should return error because session is incorrected', function(done) {
-      request(app)
-        .get('/api/auth/user')
-        .set('Cookie', sessionId)
-        .expect(401)
-        .end(function(err, res) {
-          done(err);
-        });
+
+    it('should return error because session is incorrect', function(done) {
+      agent
+        .get('/auth/user')
+        .expect(403, done);
     });
   });
 });
