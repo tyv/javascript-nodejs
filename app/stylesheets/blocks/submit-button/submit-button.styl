@@ -1,0 +1,36 @@
+.submit-button
+	background linear-gradient(#579C75, #488060)
+	color #fff
+	border solid #66A983
+	border-width 3px 0 0
+	margin 10px 0
+	font 700 size font
+	line-height 30px
+	padding 0 14px 4px
+	border-radius 4px
+
+	&_small
+		line-height 24px
+		padding-bottom 3px
+
+	&:hover
+		background linear-gradient(#66B588, #51A876)
+		border-top 3px solid #76BD95
+
+	&:disabled
+		background linear-gradient(#ACACAC, #A0A0A0)
+		border-top 3px solid #B5B5B5
+
+// @if $ie9 {
+// 	.submit-button {
+// 		background: #579C75;
+// 	}
+
+// 	.submit-button:hover {
+// 		background: #5BB080;
+// 	}
+
+// 	.submit-button:disabled {
+// 		background: #A7A7A7;
+// 	}
+// }
