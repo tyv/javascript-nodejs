@@ -1,5 +1,5 @@
 .submit-button
-	background linear-gradient(#579C75, #488060)
+	background linear-gradient(to bottom, #579C75, #488060)
 	color #fff
 	border solid #66A983
 	border-width 3px 0 0
@@ -14,23 +14,20 @@
 		padding-bottom 3px
 
 	&:hover
-		background linear-gradient(#66B588, #51A876)
+		background linear-gradient(to bottom, #66B588, #51A876)
 		border-top 3px solid #76BD95
 
 	&:disabled
-		background linear-gradient(#ACACAC, #A0A0A0)
+		background linear-gradient(to bottom, #ACACAC, #A0A0A0)
 		border-top 3px solid #B5B5B5
 
-// @if $ie9 {
-// 	.submit-button {
-// 		background: #579C75;
-// 	}
+// IE fixes
+// if ie
+// 	.submit-button
+// 		background #579C75
 
-// 	.submit-button:hover {
-// 		background: #5BB080;
-// 	}
+// 		&:hover
+// 			background #5BB080
 
-// 	.submit-button:disabled {
-// 		background: #A7A7A7;
-// 	}
-// }
+// 		&:disabled
+// 			background #A7A7A7

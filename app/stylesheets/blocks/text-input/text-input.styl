@@ -1,0 +1,42 @@
+.text-input
+	display: inline-block
+
+	&__control
+		box-shadow inset 1px 1px 5px 0 #eee
+		-moz-box-sizing border-box
+		box-sizing border-box
+		line-height 16px
+		font-size 16px
+		padding 8px 4px
+		border-radius 3px
+		border 1px solid #e7e7e7
+		width 100%
+
+	&_small &__control
+		height 32px
+		padding-top 6px
+		padding-bottom 6px
+		font-size 14px
+
+	&__control:disabled
+		border-color #c6c6c6
+		background #f5f2f0
+		color #999
+
+	&__control:focus
+		border-color #8eb0d2
+		box-shadow inset 1px 1px 5px 0 #e1edf2
+
+	&__err
+		display block
+		visibility hidden
+		color #c55b4a
+		font-size 12px
+		padding 4px 0 0
+
+	&_invalid &__control
+		border-color #cc5b4d
+		box-shadow inset 1px 1px 5px 0 #f2e7e7
+
+	&_invalid &__err
+		visibility visible
