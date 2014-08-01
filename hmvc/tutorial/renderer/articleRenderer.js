@@ -1,6 +1,6 @@
-const HtmlTransformer = require('javascript-parser').HtmlTransformer;
-const ReferenceResolver = require('./referenceResolver').ReferenceResolver;
-const TaskResolver = require('./taskResolver').TaskResolver;
+const ReferenceTransformer = require('parser/referenceTransformer');
+const ImgSizeTransformer = require('parser/imgSizeTransformer');
+//const TaskResolver = require('./taskResolver').TaskResolver;
 const BodyParser = require('javascript-parser').BodyParser;
 
 /**
@@ -13,27 +13,30 @@ function ArticleRenderer() {
 
 ArticleRenderer.prototype.render = function* (article) {
 
+  var d = new Date();
   const options = {
-    resourceFsRoot:  article.getResourceFsRoot(),
-    resourceWebRoot: article.getResourceWebRoot(),
+    resourceRoot: article.getResourceWebRoot(),
     metadata:        this.metadata,
     trusted:         true
   };
 
   // shift off the title header
-  const articleNode = yield new BodyParser(article.get('content'), options).parseAndWrap();
+  const articleNode = new BodyParser(article.get('content'), options).parseAndWrap();
   articleNode.removeChild(articleNode.getChild(0));
 
-  const referenceResolver = new ReferenceResolver(articleNode);
-  yield referenceResolver.run();
+  const referenceTransformer = new ReferenceTransformer(articleNode);
+  yield referenceTransformer.run();
 
-  const taskResolver = new TaskResolver(articleNode);
-  yield taskResolver.run();
+  const imgSizeTransformer = new ImgSizeTransformer(articleNode);
+  yield imgSizeTransformer.run();
 
-  const transformer = new HtmlTransformer(articleNode, options);
-  const content = yield transformer.run();
+//  const taskResolver = new TaskResolver(articleNode);
+//  yield taskResolver.run();
+
+  const content = articleNode.toFinalHtml();
+  console.log(new Date() - d);
   return content;
 };
 
 
-exports.ArticleRenderer = ArticleRenderer;
+module.exports = ArticleRenderer;

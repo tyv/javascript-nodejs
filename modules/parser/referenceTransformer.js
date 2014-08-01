@@ -1,20 +1,19 @@
 const util = require('util');
-const TreeWalker = require('javascript-parser').TreeWalker;
+const TreeWalker = require('./treeWalker');
 const ReferenceNode = require('javascript-parser').ReferenceNode;
 const CompositeTag = require('javascript-parser').CompositeTag;
 const TextNode = require('javascript-parser').TextNode;
 const ErrorTag = require('javascript-parser').ErrorTag;
 const mongoose = require('mongoose');
-const Reference = require('../models/reference');
-const Article = require('../models/article');
-const Task = require('../models/task');
+const Reference = require('tutorial/models/reference');
+const Article = require('tutorial/models/article');
+const Task = require('tutorial/models/task');
 
-function ReferenceResolver(root) {
+function ReferenceTransformer(root) {
   this.root = root;
 }
 
-
-ReferenceResolver.prototype.run = function* () {
+ReferenceTransformer.prototype.run = function* () {
 
   var treeWalker = new TreeWalker(this.root);
 
@@ -26,7 +25,7 @@ ReferenceResolver.prototype.run = function* () {
     const referenceObj = yield self.resolve(node.ref);
 
     if (!referenceObj) {
-      return new ErrorTag('span', 'No such reference: ' + node.ref);
+      return new ErrorTag('span', 'Нет такой ссылки: ' + node.ref);
     }
 
     var newNode = new CompositeTag('a', node.getChildren(), {href: referenceObj.url});
@@ -44,7 +43,7 @@ ReferenceResolver.prototype.run = function* () {
   });
 };
 
-ReferenceResolver.prototype.resolve = function* (value) {
+ReferenceTransformer.prototype.resolve = function* (value) {
   if (value[0] == '#') {
     var ref = yield Reference.findOne({anchor: value.slice(1)}).populate('article', 'slug title').exec();
     return ref && { title: ref.article.title, url: ref.getUrl() };
@@ -59,4 +58,4 @@ ReferenceResolver.prototype.resolve = function* (value) {
   return article && {title: article.title, url: article.getUrl()};
 };
 
-exports.ReferenceResolver = ReferenceResolver;
+module.exports = ReferenceTransformer;

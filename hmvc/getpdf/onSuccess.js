@@ -1,5 +1,5 @@
 const Transaction = require('payments').Transaction;
-const expiringDownload = require('expiring-download');
+const expiringDownload = require('expiringDownload');
 
 const ExpiringDownloadLink = expiringDownload.ExpiringDownloadLink;
 const nodemailer = require('nodemailer');

@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
 const Article = require('../models/article');
-const ArticleRenderer = require('../renderer/articleRenderer').ArticleRenderer;
+const ArticleRenderer = require('../renderer/articleRenderer');
 const treeUtil = require('lib/treeUtil');
-const jade = require('jade');
 const _ = require('lodash');
 
 exports.get = function *get(next) {
@@ -40,9 +39,6 @@ exports.get = function *get(next) {
   _.assign(this.locals, locals);
 
   this.render(__dirname, "article", locals);
-
-  //yield this.render("/hmvc/tutorial/template/article", );
-
 
 };
 

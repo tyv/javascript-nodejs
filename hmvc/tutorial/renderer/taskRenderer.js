@@ -1,6 +1,6 @@
 const TreeWalker = require('javascript-parser').TreeWalker;
 const HtmlTransformer = require('javascript-parser').HtmlTransformer;
-const ReferenceResolver = require('./referenceResolver').ReferenceResolver;
+const ReferenceTransformer = require('parser/referenceTransformer').ReferenceTransformer;
 const BodyParser = require('javascript-parser').BodyParser;
 const TaskNode = require('javascript-parser').TaskNode;
 const HeaderTag = require('javascript-parser').HeaderTag;
@@ -28,8 +28,8 @@ TaskRenderer.prototype.renderContent = function* (task) {
   const taskNode = yield new BodyParser(task.content, options).parseAndWrap();
   taskNode.removeChild(taskNode.getChild(0));
 
-  const referenceResolver = new ReferenceResolver(taskNode);
-  yield referenceResolver.run();
+  const referenceTransformer = new ReferenceTransformer(taskNode);
+  yield referenceTransformer.run();
 
   const transformer = new HtmlTransformer(taskNode, options);
   const content = yield transformer.run();
@@ -49,8 +49,8 @@ TaskRenderer.prototype.renderSolution = function* (task) {
   // shift off the title header
   const solutionNode = yield new BodyParser(task.solution, options).parseAndWrap();
 
-  const referenceResolver = new ReferenceResolver(solutionNode);
-  yield referenceResolver.run();
+  const referenceTransformer = new ReferenceTransformer(solutionNode);
+  yield referenceTransformer.run();
 
   const newChildren = new CompositeTag();
 
