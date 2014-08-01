@@ -1,5 +1,6 @@
 const ReferenceTransformer = require('parser/referenceTransformer');
 const ImgSizeTransformer = require('parser/imgSizeTransformer');
+const SourceFileTransformer = require('parser/sourceFileTransformer');
 //const TaskResolver = require('./taskResolver').TaskResolver;
 const BodyParser = require('javascript-parser').BodyParser;
 
@@ -29,6 +30,9 @@ ArticleRenderer.prototype.render = function* (article) {
 
   const imgSizeTransformer = new ImgSizeTransformer(articleNode);
   yield imgSizeTransformer.run();
+
+  const sourceFileTransformer = new SourceFileTransformer(articleNode);
+  yield sourceFileTransformer.run();
 
 //  const taskResolver = new TaskResolver(articleNode);
 //  yield taskResolver.run();
