@@ -1,22 +1,20 @@
 const co = require('co');
+const util = require('util');
 const fs = require('fs');
 const fse = require('fs-extra');
 const path = require('path');
 const config = require('config');
 const log = require('js-log')();
-const mongoose = require('mongoose');
+const mongoose = require('config/mongoose');
 const Article = require('../models/article');
 const Reference = require('../models/reference');
 const Task = require('../models/task');
 const BodyParser = require('javascript-parser').BodyParser;
-const HtmlTransformer = require('javascript-parser').HtmlTransformer;
-const TreeWalker = require('javascript-parser').TreeWalker;
+const TreeWalkerSync = require('javascript-parser').TreeWalkerSync;
 const HeaderTag = require('javascript-parser').HeaderTag;
-const Imagemin = require('imagemin');
-const pngcrush = require('imagemin-pngcrush');
 const gm = require('gm');
-const svgo = require('imagemin-svgo');
 
+// TODO: separate minification to another task
 // TODO: use htmlhint/jslint for html/js examples
 
 
@@ -46,7 +44,6 @@ module.exports = function(options) {
         fs.mkdirSync(Task.resourceFsRoot);
       }
 
-
       const subPaths = fs.readdirSync(root);
 
       for (var i = 0; i < subPaths.length; i++) {
@@ -63,10 +60,6 @@ module.exports = function(options) {
 
   function stripTags(str) {
     return str.replace(/<\/?[a-z].*?>/gim, '');
-  }
-
-  function htmlTransform(roots, options) {
-    return new HtmlTransformer(roots, options).run();
   }
 
   function* importFolder(sourceFolderPath, parent) {
@@ -89,24 +82,13 @@ module.exports = function(options) {
     data.weight = parseInt(folderFileName);
     data.slug = folderFileName.slice(3);
 
-    const options = {
-      resourceFsRoot:  sourceFolderPath,
-      resourceWebRoot: Article.getResourceWebRootBySlug(data.slug),
+    var options = {
+      resourceRoot:    Article.getResourceWebRootBySlug(data.slug),
       metadata:        {},
       trusted:         true
     };
 
-    const parsed = yield new BodyParser(content, options).parse();
-
-    checkIfErrorsInParsed(parsed);
-
-    const titleHeader = parsed[0];
-    if (parsed[0].getType() != 'HeaderTag') {
-      throw new Error(contentPath + ": must start with a #Header");
-    }
-
-    data.title = stripTags(yield htmlTransform(titleHeader, options));
-
+    data.title = extractHeader(content, options);
 
     const folder = new Article(data);
     yield folder.persist();
@@ -131,10 +113,11 @@ module.exports = function(options) {
 
   // todo with incremental import: move to separate task?
   function checkIfErrorsInParsed(parsed) {
-    const walker = new TreeWalker(parsed);
+    log.debug("checking errors in parsed");
+    const walker = new TreeWalkerSync(parsed);
     const errors = [];
 
-    walker.walk(function*(node) {
+    walker.walk(function(node) {
       if (node.getType() == 'ErrorTag') {
         errors.push(node.text);
       }
@@ -142,6 +125,23 @@ module.exports = function(options) {
     if (errors.length) {
       throw new Error("Errors: " + errors.join());
     }
+  }
+
+  function extractHeader(content, options) {
+    log.debug("extracting header");
+
+    options.metadata = {};
+    const parsed = new BodyParser(content, options).parseAndWrap();
+
+    checkIfErrorsInParsed(parsed);
+    log.debug("no errors");
+
+    const titleHeader = parsed.getChild(0);
+    if (titleHeader.getType() != 'HeaderTag') {
+      throw new Error("must start with a #Header");
+    }
+
+    return stripTags(titleHeader.toHtml({contextTypography: true}));
   }
 
   function* importArticle(articlePath, parent) {
@@ -165,22 +165,14 @@ module.exports = function(options) {
     data.slug = articlePathName.slice(3);
 
     const options = {
-      resourceFsRoot:  articlePath,
-      resourceWebRoot: Article.getResourceWebRootBySlug(data.slug),
+      resourceRoot: Article.getResourceWebRootBySlug(data.slug),
       metadata:        { },
       trusted:         true
     };
 
-    const parsed = yield new BodyParser(content, options).parse();
 
-    checkIfErrorsInParsed(parsed);
+    data.title = extractHeader(content, options);
 
-    const titleHeader = parsed[0];
-    if (parsed[0].getType() != 'HeaderTag') {
-      throw new Error(contentPath + ": must start with a #Header");
-    }
-
-    data.title = stripTags(yield htmlTransform(titleHeader, options));
 
     // todo: updating:
     // first check if references are unique,
@@ -233,7 +225,7 @@ module.exports = function(options) {
 
     if (stat.isFile()) {
       if (ext == 'png' || ext == 'jpg' || ext == 'gif' || ext == 'svg') {
-        yield importImage(sourcePath, destDir);
+        yield* importImage(sourcePath, destDir);
         return;
       }
       copySync(sourcePath, destPath);
@@ -242,7 +234,7 @@ module.exports = function(options) {
       const subPathNames = fs.readdirSync(sourcePath);
       for (var i = 0; i < subPathNames.length; i++) {
         var subPath = path.join(sourcePath, subPathNames[i]);
-        yield importResource(subPath, destPath);
+        yield* importResource(subPath, destPath);
       }
 
     } else {
@@ -262,15 +254,12 @@ module.exports = function(options) {
     const dstPath = path.join(dstDir, filename);
 
     if (checkSameSizeFiles(srcPath, dstPath)) {
-      return;
+      return; // copySync does the check, but here I skip retina resize too
     }
 
     copySync(srcPath, dstPath);
-    yield minifyImage(dstPath);
-
 
     var isRetina = /@2x\.[^.]+$/.test(srcPath);
-
 
     if (isRetina) {
       var normalResolutionFilename = filename.replace(/@2x(?=\.[^.]+$)/, '');
@@ -279,7 +268,6 @@ module.exports = function(options) {
       yield function(callback) {
         gm(srcPath).resize("50%").write(normalResolutionPath, callback);
       };
-      yield minifyImage(normalResolutionPath);
     }
 
   }
@@ -290,38 +278,6 @@ module.exports = function(options) {
     }
 
     fse.copySync(srcPath, dstPath);
-
-  }
-
-  function* minifyImage(imagePath) {
-    if (!options.minify) return;
-    log.info("minifyImage", imagePath);
-
-    var plugin;
-    switch (getFileExt(imagePath)) {
-    case 'jpg':
-      plugin = Imagemin.jpegtran({ progressive: true });
-      break;
-    case 'gif':
-      plugin = Imagemin.gifsicle({ interlaced: true });
-      break;
-    case 'png':
-      plugin = pngcrush({ reduce: true });
-      break;
-    case 'svg':
-      plugin = svgo({});
-      break;
-    }
-
-    var imagemin = new Imagemin()
-      .src(imagePath)
-      .dest(imagePath)
-      .use(plugin);
-
-    yield function(callback) {
-      imagemin.optimize(callback);
-    };
-
   }
 
   function* importTask(taskPath, parent) {
@@ -341,22 +297,13 @@ module.exports = function(options) {
     data.slug = taskPathName.slice(3);
 
     const options = {
-      resourceFsRoot:  taskPath,
-      resourceWebRoot: Task.getResourceWebRootBySlug(data.slug),
+      resourceRoot: Task.getResourceWebRootBySlug(data.slug),
       metadata:        {},
       trusted:         true
     };
 
-    const parsed = yield new BodyParser(content, options).parse();
 
-    checkIfErrorsInParsed(parsed);
-
-    const titleHeader = parsed[0];
-    if (parsed[0].getType() != 'HeaderTag') {
-      throw new Error(contentPath + ": must start with a #Header");
-    }
-
-    data.title = stripTags(yield htmlTransform(titleHeader, options));
+    data.title = extractHeader(content, options);
 
     data.importance = options.metadata.importance;
 
@@ -364,8 +311,12 @@ module.exports = function(options) {
     const solution = fs.readFileSync(solutionPath, 'utf-8').trim();
     data.solution = solution;
 
+    log.debug("parsing solution");
 
-    const parsedSolution = yield new BodyParser(solution, options).parse();
+    options.metadata = {};
+    console.log(util.inspect(options, {depth: 50}));
+    const parsedSolution = new BodyParser(solution, options).parseAndWrap();
+
     checkIfErrorsInParsed(parsedSolution);
 
     const task = new Task(data);
@@ -377,7 +328,7 @@ module.exports = function(options) {
       if (subPaths[i] == 'task.md' || subPaths[i] == 'solution.md') continue;
 
       var subPath = path.join(taskPath, subPaths[i]);
-      yield importResource(subPath, task.getResourceFsRoot());
+      yield* importResource(subPath, task.getResourceFsRoot());
     }
 
   }

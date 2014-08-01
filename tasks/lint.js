@@ -1,12 +1,8 @@
-
-const gulp = require('gulp');
+const gp = require('gulp-load-plugins')();
 
 module.exports = function(options) {
+
   return function(callback) {
-    if (process.env.NODE_ENV == 'development') {
-      gulp.watch(options.src, ['lint']);
-    } else {
-      callback();
-    }
+    return gp.jshintCache(options).apply(this, arguments);
   };
 };

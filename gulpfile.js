@@ -14,11 +14,11 @@ const serverSources = [
   'hmvc/**/*.js', 'modules/**/*.js', 'tasks/**/*.js', '*.js'
 ];
 
-function lazyRequireTask(name) {
+function lazyRequireTask(path) {
   var args = [].slice.call(arguments, 1);
 
   return function(callback) {
-    var task = require('./tasks/' + name).apply(this, args);
+    var task = require(path).apply(this, args);
 
     return task(callback);
   };
@@ -34,38 +34,38 @@ function wrapWatch(watch, task) {
   };
 }
 
-gulp.task('lint-once', lazyRequireTask('lintOnce', { src: serverSources }));
+gulp.task('lint-once', lazyRequireTask('./tasks/lint', { src: serverSources }));
 
-gulp.task('lint-or-die', lazyRequireTask('lintOnce', { src: serverSources, dieOnError: true }));
+gulp.task('lint-or-die', lazyRequireTask('./tasks/lint', { src: serverSources, dieOnError: true }));
 
-gulp.task('lint', ['lint-once'], lazyRequireTask('lint', {src: serverSources}));
+gulp.task('lint', ['lint-once'], wrapWatch(serverSources, 'lint'));
 
 // usage: gulp loaddb --db fixture/db
-gulp.task('loaddb', lazyRequireTask('loadDb'));
+gulp.task('loaddb', lazyRequireTask('./tasks/loadDb'));
 
-gulp.task("supervisor", ['link-modules'], lazyRequireTask('supervisor', { cmd: "./bin/www", watch: ["hmvc", "modules"] }));
+gulp.task("supervisor", ['link-modules'], lazyRequireTask('./tasks/supervisor', { cmd: "./bin/www", watch: ["hmvc", "modules"] }));
 
-gulp.task("app:livereload", lazyRequireTask("livereload", { watch: "www/**/*.*" }));
+gulp.task("app:livereload", lazyRequireTask("./tasks/livereload", { watch: "www/**/*.*" }));
 
-gulp.task('link-modules', lazyRequireTask('linkModules', { src: ['modules/*', 'hmvc/*'] }));
+gulp.task('link-modules', lazyRequireTask('./tasks/linkModules', { src: ['modules/*', 'hmvc/*'] }));
 
 
-gulp.task("app:sync-resources", lazyRequireTask('syncResources', {
-  'app/fonts' : 'www/fonts',
-  'app/img': 'www/img'
+gulp.task("app:sync-resources", lazyRequireTask('./tasks/syncResources', {
+  'app/fonts': 'www/fonts',
+  'app/img':   'www/img'
 }));
 
-gulp.task("app:sync-css-images-once", lazyRequireTask('syncCssImages', {
+gulp.task("app:sync-css-images-once", lazyRequireTask('./tasks/syncCssImages', {
   src: 'app/stylesheets/**/*.{png,svg,gif,jpg}',
   dst: 'www/i'
 }));
 
 gulp.task('app:sync-css-images', ['app:sync-css-images-once'],
-  wrapWatch('app/stylesheets/**/*.{png,svg,gif,jpg}',  'app:sync-css-images-once')
+  wrapWatch('app/stylesheets/**/*.{png,svg,gif,jpg}', 'app:sync-css-images-once')
 );
 
 
-gulp.task('app:sprite-once', lazyRequireTask('sprite', {
+gulp.task('app:sprite-once', lazyRequireTask('./tasks/sprite', {
   spritesSearchFsRoot: 'app',
   spritesWebRoot:      '/i',
   spritesFsDir:        'www/i',
@@ -84,21 +84,24 @@ gulp.task('app:clean-compiled-css', function(callback) {
 // Show errors if encountered
 gulp.task('app:compile-css-once',
   ['app:clean-compiled-css'],
-  lazyRequireTask('compileCss', {
+  lazyRequireTask('./tasks/compileCss', {
     src: './app/stylesheets/base.styl',
     dst: './www/stylesheets'
   })
 );
 
+gulp.task('app:minify', lazyRequireTask('./tasks/minify', {
+  root: './www'
+}));
 
 
 gulp.task('app:compile-css', ['app:compile-css-once'], wrapWatch("app/**/*.styl", "app:compile-css-once"));
 
 
-gulp.task("app:browserify:clean", lazyRequireTask('browserifyClean', { dst: './www/js'} ));
+gulp.task("app:browserify:clean", lazyRequireTask('./tasks/browserifyClean', { dst: './www/js'}));
 
 
-gulp.task("app:browserify", ['app:browserify:clean'], lazyRequireTask('browserify'));
+gulp.task("app:browserify", ['app:browserify:clean'], lazyRequireTask('./tasks/browserify'));
 
 
 // compile-css and sprites are independant tasks
@@ -107,16 +110,7 @@ gulp.task('run', ['supervisor', 'app:livereload', "app:sync-resources", 'app:com
 
 
 // TODO: refactor me out!
-gulp.task('import', function(callback) {
-  const mongoose = require('config/mongoose');
-  const taskImport = require('tutorial/tasks/import');
-
-  taskImport({
-    root:        path.join(path.dirname(__dirname), 'javascript-tutorial'),
-    updateFiles: true // skip same size files
-    //minify: true // takes time(!)
-  })(function() {
-    mongoose.disconnect();
-    callback.apply(null, arguments);
-  });
-});
+gulp.task('tutorial:import', lazyRequireTask('tutorial/tasks/import', {
+  root:        path.join(process.cwd(), 'javascript-tutorial'),
+  updateFiles: true // skip same size files
+}));
