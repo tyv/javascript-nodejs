@@ -18,7 +18,7 @@ var secret = require(secretPath);
 module.exports = {
   "port":      process.env.PORT || 3000,
   "host":      process.env.HOST || '0.0.0.0',
-  "domain":   "stage.javascript.ru",
+  "siteurl":   "http://stage.javascript.ru",
   "mongoose":  {
     "uri":     "mongodb://localhost/" + (process.env.NODE_ENV == 'test' ? "js_test" : "js"),
     "options": {
@@ -34,6 +34,7 @@ module.exports = {
     keys: [secret.sessionKey]
   },
   payments: secret.payments,
+  auth: secret.auth,
   template:    {
     options: {
       'cache': process.env.NODE_ENV != 'development'

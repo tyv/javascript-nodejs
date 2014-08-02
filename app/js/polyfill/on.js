@@ -26,7 +26,8 @@ prototype.on = function(eventName, selector, handler) {
     // currentTarget is read only, I can not fix it
     // Object.create wrapper would break event.preventDefault()
     // so, keep in mind:
-    // --> event.currentTarget is top-level element!
+    // --> event.currentTarget is always the top-level (delegating) element!
+    // use "this" to get the found target
 
     event.delegateTarget = event.currentTarget; // for compat. with jQuery
     if (found) {

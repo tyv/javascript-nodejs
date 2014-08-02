@@ -68,6 +68,8 @@
     "nodemailer": "*",
     "nodemailer-ses-transport": "*",
     "passport": "*",
+    "passport-facebook": "^1.0.3",
+    "passport-google": "^0.3.0",
     "passport-local": "*",
     "path-to-regexp": "*",
     "prismjs": "git://github.com/LeaVerou/prism#gh-pages",

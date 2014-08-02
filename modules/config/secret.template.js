@@ -6,3 +6,5 @@ exports.SESSION_KEY = "KillerIsJim";
 exports.payments = {
   modules: {}
 };
+
+exports.auth = {};
