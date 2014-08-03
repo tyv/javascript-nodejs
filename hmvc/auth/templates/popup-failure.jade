@@ -1,0 +1,12 @@
+doctype html
+html
+  title Отказ в авторизации
+body
+  script.
+    if (window.opener) {
+      window.opener.focus();
+
+      window.opener.onAuthFailure();
+    }
+    window.close();
+

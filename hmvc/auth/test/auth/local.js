@@ -63,7 +63,7 @@ describe('Authorization', function() {
 
   describe("register", function() {
 
-    var userData = {email: "angelina@gmail.com", username: "Angelina Jolie", password: "angelina" };
+    var userData = {email: "angelina@gmail.com", displayName: "Angelina Jolie", password: "angelina" };
     it('should create a new user', function(done) {
       agent
         .post('/auth/register')
@@ -77,7 +77,7 @@ describe('Authorization', function() {
         .expect(200)
         .end(function(err, res) {
           res.body.email.should.be.eql(userData.email);
-          res.body.username.should.be.eql(userData.username);
+          res.body.displayName.should.be.eql(userData.displayName);
           done(err);
         });
     });

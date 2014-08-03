@@ -3,7 +3,12 @@ form.login-form
 
   .auth-error
 
-  button.facebook Facebook
+  //- button need type
+  //- if no type then button is same as submit and browser clicks it on submit
+  button(type="button" data-provider="facebook") Facebook
+  button(type="button" data-provider="yandex") Yandex
+  button(type="button" data-provider="google") Google
+  button(type="button" data-provider="github") Github
 
   div
     label Email

@@ -2,7 +2,7 @@
 exports.get = function *get (next) {
 
   this.body = {
-    username: this.req.user.username,
+    displayName: this.req.user.displayName,
     email: this.req.user.email,
     created: this.req.user.created
   };

@@ -14,7 +14,7 @@ describe('User', function() {
   it('given bad email errors on save', function*() {
     var user = new User({
       email: "BAD",
-      username: "John",
+      displayName: "John",
       password: "123"
     });
 
@@ -25,18 +25,18 @@ describe('User', function() {
 
   });
 
-  it('requires password & email & username', function*() {
+  it('requires password & email & displayName', function*() {
     [
       {
         email: "my@gmail.com",
-        username: "John"
+        displayName: "John"
       },
       {
         email: "my@gmail.com",
         password: "John"
       },
       {
-        username: "John",
+        displayName: "John",
         password: "****"
       }
     ].map(function(data) {
@@ -52,7 +52,7 @@ describe('User', function() {
 
     var user = new User({
       email: "a@b.ru",
-      username: "John",
+      displayName: "John",
       password: "pass"
     });
 
@@ -65,7 +65,7 @@ describe('User', function() {
   it('requires unique email', function* () {
 
     var data = {
-      username: "nonunique",
+      displayName: "nonunique",
       email: "nonunique@b.ru",
       password: "pass"
     };

@@ -1,6 +1,6 @@
 const router = require('./router');
 
-require('./lib/passport');
+require('./lib/setup');
 
 exports.middleware = router.middleware();
 exports.mustBeAuthenticated = require('./lib/mustBeAuthenticated');

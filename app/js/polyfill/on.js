@@ -2,15 +2,15 @@ require('./dom4');
 
 function findDelegateTarget(event, selector) {
   var currentNode = event.target;
-
   while (currentNode) {
     if (currentNode.matches(selector)) {
       return currentNode;
     }
 
-    if (currentNode != event.currentTarget) {
-      currentNode = currentNode.parentElement;
+    if (currentNode == event.currentTarget) {
+      break;
     }
+    currentNode = currentNode.parentElement;
   }
   return null;
 }

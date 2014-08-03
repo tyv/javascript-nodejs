@@ -25,7 +25,15 @@ module.exports = function(app) {
     };
 
     if (this.idempotent && path.extname(this.path) !== '') {
-      yield send(this, this.path, opts);
+      var filePath = yield send(this, this.path, opts);
+      if (filePath && path.extname(filePath) == '.js') {
+        // usually the type is calculated in mime-types/lib/index.js
+        // by exports.charset
+        // it adds utf-8 to text/*
+        // but it doesn't set right content-type for .js (application/javascript)
+        // --> that's why I do that here
+        this.response.type += '; charset=utf-8';
+      }
       return;
     }
 

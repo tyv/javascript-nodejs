@@ -30,6 +30,15 @@ module.exports = function render(app) {
       }
     });
 
+    // warning!
+    // _.assign does NOT copy defineProperty
+    Object.defineProperty(this.locals, "user", {
+      get: function() {
+        return ctx.req.user;
+      }
+    });
+
+
     // this.locals.debug causes jade to dump function
     /* jshint -W087 */
     this.locals.deb = function() {

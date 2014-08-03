@@ -1,0 +1,45 @@
+
+.humane
+.humane-libnotify
+  position   : fixed
+  transition : all .3s ease-out
+  z-index     100000
+
+.humane
+.humane-libnotify
+  font-family        Ubuntu, Arial, sans-serif
+  text-align         center
+  font-size          15px
+  top                10px
+  right              10px
+  opacity            0
+  width              150px
+  color              #fff
+  padding            10px
+  background         white
+  border-radius      5px
+  box-shadow         0 4px 4px -4px #000
+  transform          translateY(-40px)
+
+&.humane-libnotify-info
+  background         lightgreen
+
+&.humane-libnotify-success
+  background   green
+
+&.humane-libnotify-error
+  background         red
+
+.humane.humane-animate
+.humane-libnotify.humane-libnotify-animate
+  opacity            1
+  transform          translateY(0)
+  &:hover
+    opacity          0.2
+
+.humane.humane-animate
+.humane-libnotify.humane-libnotify-js-animate
+  opacity            1
+  transform          translateY(0)
+  &:hover
+    opacity          0.2

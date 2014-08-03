@@ -1,3 +1,4 @@
+var xhr = require('./xhr');
 
 // Run like this:
 // login()
@@ -12,18 +13,17 @@ module.exports = function(options, authCallback) {
   authModal.innerHTML = '<div class="progress large"></div>';
   document.body.append(authModal);
 
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', '/auth/form', true);
-  xhr.onloadend = function() {
-    if (this.status != 200 || !this.responseText) {
-      alert("Извините, ошибка на сервере");
-      return;
-    }
-    authModal.innerHTML = this.responseText;
+  var request = xhr({ url: '/auth/form' });
+  request.addEventListener('success', function(event) {
+    authModal.innerHTML = event.result;
     initAuthModal(authCallback);
-  };
+  });
 
-  xhr.send();
+  request.addEventListener('fail', function() {
+    authModal.remove();
+  });
+
+  request.send();
 
 };
 
@@ -44,39 +44,49 @@ function initAuthModal(authCallback) {
   };
 
   window.onAuthFailure = function(errorMessage) {
-    loginForm.querySelector('.auth-error').innerHTML = errorMessage;
+    loginForm.querySelector('.auth-error').innerHTML = errorMessage || "Отказ в авторизации";
   };
 
   loginForm.addEventListener('submit', function(event) {
     event.preventDefault();
 
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/auth/login/local', true);
-    xhr.onloadend = function() {
-      if (!this.status) {
-        window.onAuthFailure("Ошибка соединения с сервером");
-        return;
-      } else if (this.status >= 500 || !this.responseText) {
-        window.onAuthFailure("Ошибка на сервере, попробуйте позднее");
-        return;
-      }
+    if (!loginForm.elements.email.value || !loginForm.elements.password.value) {
+      // todo: show error
+      return;
+    }
 
-      if (this.status == 403) {
+    var request = xhr({method: 'POST', url: '/auth/login/local'});
+    request.addEventListener('success', function(event) {
+
+      if (this.status != 200) {
         window.onAuthFailure(this.responseText);
         return;
       }
 
       window.onAuthSuccess();
-    };
+    });
 
-    xhr.send(new FormData(loginForm));
+    request.send(new FormData(loginForm));
   });
 
-  loginForm.on("click", ".facebook", function(event) {
-    openAuthPopup('/auth/login/facebook');
+  loginForm.on("click", "[data-provider]", function(event) {
+    event.preventDefault();
+    openAuthPopup('/auth/login/' + this.dataset.provider);
   });
 
 }
+
+document.on('click', '[data-action-verify-email]', function(event) {
+  event.preventDefault();
+  var request = xhr({method: 'POST', url: '/auth/verify-email'});
+  request.addEventListener('success', function(event) {
+    alert("OK");
+  });
+
+  request.send(JSON.stringify({email: this.dataset.actionVerifyEmail}));
+
+});
+
 
 function openAuthPopup(url) {
   var width = 800, height = 600;
