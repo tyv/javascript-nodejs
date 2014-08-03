@@ -108,8 +108,6 @@ gulp.task("app:browserify", ['app:browserify:clean'], lazyRequireTask('./tasks/b
 // run both or run *-once separately
 gulp.task('run', ['supervisor', 'app:livereload', "app:sync-resources", 'app:compile-css', 'app:sprite', 'app:browserify', 'app:sync-css-images']);
 
-
-// TODO: refactor me out!
 gulp.task('tutorial:import', lazyRequireTask('tutorial/tasks/import', {
   root:        path.join(process.cwd(), 'javascript-tutorial'),
   updateFiles: true // skip same size files

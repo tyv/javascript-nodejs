@@ -6,23 +6,25 @@ module.exports = new LocalStrategy({
   passwordField: 'password'
 }, function(email, password, done) {
 
-  if (!email) return done(null, false, { message: 'Укажите email.' });
-  if (!password) return done(null, false, { message: 'Укажите пароль.' });
+  if (!email) return done(null, false, 'Укажите email.');
+  if (!password) return done(null, false, 'Укажите пароль.');
   User.findOne({email: email}, function(err, user) {
     //console.log(email, password, err, user);
 
     if (err) return done(err); // db error
 
     if (!user) {
-      return done(null, false, { message: 'Нет пользователя с таким email.' });
+      return done(null, false, 'Нет пользователя с таким email.');
     }
 
     if (!user.checkPassword(password)) {
-      return done(null, false, { message: 'Пароль неверен.' });
+      return done(null, false, 'Пароль неверен.');
     }
 
     if (!user.verifiedEmail) {
-      return done(null, false, { message: 'Email не подтверждён, <a href="#" data-action-verify-email="' + email + '">запросить подтверждение</a>'} );
+      return done(null, false, 'Email не подтверждён, <a href="#" data-action-verify-email="' + email + '">запросить подтверждение</a>' );
     }
+
+    done(null, user);
   });
 });

@@ -4,6 +4,16 @@
     a(href='http://javascript.ru/')
       img(src='/img/logo.png', alt='Javascript.ru')
   .user.dropdown.down-left.inherit-min-width
-    a.user__entrance(href='/user') Вход на сайт
+    if user
+      div Добро пожаловать #{user.displayName}
+    else
+      a.unready.user__entrance(href='/user') Вход на сайт
+      script.
+        initWhenReady("login");
+
+
+
+
+
 
 

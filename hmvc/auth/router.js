@@ -11,21 +11,25 @@ var router = module.exports = new Router();
 router.get('/form', form.get);
 router.get('/user', mustBeAuthenticated, user.get);
 
-router.post('/login/local',
-  passport.authenticate('local'),
-  function*(next) {
-    // only if auth succeeds, we answer...
-    this.body = {
-      displayName: this.req.user.displayName,
-      email: this.req.user.email
-    };
-  }
-);
+router.post('/login/local', function*(next) {
+  var ctx = this;
+  // only callback-form of authenticate allows to answer reason if 401
+  yield passport.authenticate('local', function*(err, user, info) {
+    if (err) throw err;
+    if (user === false) {
+      ctx.status = 401;
+      ctx.body = info;
+    } else {
+      yield ctx.login(user);
+      ctx.body = "";
+    }
+  }).call(this, next);
+});
 
 router.post('/logout', logout.post);
 
 if (process.env.NODE_ENV == 'development') {
-  router.get('/out', require('./out').get);
+  router.get('/out', require('./out').get); // GET logout for DEV
 }
 
 router.post('/register', register.post);
@@ -43,7 +47,7 @@ router.get('/callback/facebook',
 );
 
 router.get('/login/github',
-  passport.authenticate('github', { scope: ['user:email'] })
+  passport.authenticate('github', { scope: 'user:email' })
 );
 
 

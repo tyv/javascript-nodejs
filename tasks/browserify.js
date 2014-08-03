@@ -65,9 +65,18 @@ module.exports = function() {
 
     bundler.rebundle();
 
+    // head.js does not use any polyfills etc
     var bundler = makeBundler({
-      entries: './app/js/head.js',
+      entries: './app/js/head',
       dst:     './www/js/head.js'
+    });
+
+    bundler.rebundle();
+
+
+    var bundler = makeBundler({
+      entries: './app/js/navigation.js',
+      dst:     './www/js/navigation.js'
     });
 
     bundler.rebundle();
