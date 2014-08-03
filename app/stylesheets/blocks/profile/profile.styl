@@ -362,98 +362,82 @@ $profile-content-wrap
 	&__tab_current &__items-amount
 		background: secondary_color
 
-	// .profile__conversation {
-	//     @extend %profile-content-wrap;
-	// }
+	&__conversation
+		@extend $profile-content-wrap
 
-	// .profile .profile__conversation-title {
-	//     margin: 0;
-	//     padding: 24px $profile-item-padding-horiz 16px $profile-item-padding-horiz + $profile-small-upic-size + $profile-small-upic-margin;
-	//     font: 700 18px $font;
-	//     color: $color;
-	// }
+	& &__conversation-title
+		margin 0
+		padding 24px profile_item_padding_horiz 16px profile_item_padding_horiz + profile_small_upic_size + profile_small_upic_margin
+		font 700 18px font
+		color color
 
-	// .profile__conversation-title-user,
-	// .profile__message-user {
-	//     font-size: 16px;
-	//     font-weight: 700;
-	// }
+	&__conversation-title-user,
+	&__message-user
+		font-size 16px
+		font-weight 700
 
-	// .profile__message-user:link,
-	// .profile__message-user:visited {
-	//     color: $color;
-	// }
+	&__message-user:link,
+	&__message-user:visited
+		color color
 
-	// .profile__conversation-title-user:link,
-	// .profile__conversation-title-user:visited {
-	//     color: $link-color;
-	// }
+	&__conversation-title-user:link,
+	&__conversation-title-user:visited
+		color link_color
 
-	// .profile__conversation-title-user:hover,
-	// .profile__conversation-title-user:active,
-	// .profile__message-user:hover,
-	// .profile__message-user:active {
-	//     color: $link-hover-color;
-	// }
+	&__conversation-title-user:hover,
+	&__conversation-title-user:active,
+	&__message-user:hover,
+	&__message-user:active
+		color link_hover_color
 
-	// .profile__conversation-title-user:hover {
-	// 	text-decoration: underline;
-	// }
+	&__conversation-title-user:hover
+		text-decoration underline
 
-	// .profile__compose {
-	//     padding: 0 $profile-item-padding-horiz 14px;
-	//     border-bottom: $profile-item-separator;
-	// }
+	&__compose
+		padding 0 profile_item_padding_horiz 14px
+		border-bottom profile_item_separator
 
-	// .profile__compose-controls {
-	//     @extend %profile-upic-aside;
-	// }
+	&__compose-controls
+		@extend $profile-upic-aside
 
-	// .profile__compose-text {
-	//     width: 675px;
-	//     height: 150px;
-	//     display: block;
-	//     margin-bottom: 10px;
-	// }
+	&__compose-text
+		width 675px
+		height 150px
+		display block
+		margin-bottom 10px
 
-	// .profile__compose-submit {
-	//     min-width: 140px;
-	// }
+	&__compose-submit
+		min-width 140px
 
-	// .profile__conversation-message {
-	//     padding: 19px $profile-item-padding-horiz;
-	//     border-bottom: $profile-item-separator;
-	// }
+	&__conversation-message
+		padding 19px profile_item_padding_horiz
+		border-bottom profile_item_separator
 
-	// .profile__conversation-message:last-child {
-	//     padding-bottom: 35px;
-	//     border-bottom: 0;
-	// }
+	&__conversation-message:last-child
+		padding-bottom 35px
+		border-bottom 0
 
-	// .profile__conversation-message:hover {
-	//     @extend %profile-highlight-background;
-	// }
+	&__conversation-message:hover
+		@extend $profile-highlight-background
 
-	// .profile__message-body {
-	//     @extend %profile-upic-aside;
-	//     padding-right: 50px;
-	//     position: relative;
-	// }
+	&__message-body
+		@extend $profile-upic-aside
+		padding-right 50px
+		position relative
 
-	// .profile__message-time {
-	//     font-size: 11px;
-	//     color: #8e8e8e;
-	//     margin-left: 10px;
-	// }
+	&__message-time
+		font-size 11px
+		color #8e8e8e
+		margin-left 10px
 
-	// .profile__message-content {
-	//     max-width: 700px;
-	// }
+	&__message-content
+		max-width 700px
+		p:first-child //- just one common case, should be enough
+			margin-top 0
 
-	// .profile__conversation-message_gray .profile__message-user:link,
-	// .profile__conversation-message_gray .profile__message-content {
-	//     color: #727272;
-	// }
+	&__conversation-message_gray &__message-user:link,
+	&__conversation-message_gray &__message-content
+		color #727272
 
 	&__item-delete
 		position absolute
@@ -472,33 +456,27 @@ $profile-content-wrap
 	&__item-delete::before
 		@extend $font-trash
 
-// .profile__load-more {
-//     background: rgba(0, 0, 0, .02);
-//     padding: 20px $profile-item-padding-horiz;
-//     text-align: center;
-// 	text-decoration: none;
-// 	display: block;
-// }
+	&__load-more
+		background rgba(0, 0, 0, .02)
+		padding 20px profile_item_padding_horiz
+		text-align center
+		text-decoration none
+		display block
 
-// .profile__load-more:link,
-// .profile__load-more:visited {
-//     color: #727272;
-// }
+	&__load-more:link,
+	&__load-more:visited
+		color #727272
 
-// .profile__load-more:hover {
-// 	background: rgba(0, 0, 0, .04);
-// 	text-decoration: none;
-// 	color: $link-hover-color;
-// }
+	&__load-more:hover
+		background rgba(0, 0, 0, .04)
+		text-decoration none
+		color link_hover_color
 
-// .profile__load-more-text {
-//     text-decoration: none;
-//     border-bottom: 1px dashed transparent;
-// }
+	&__load-more-text
+		border-bottom 1px dashed transparent
 
-// .profile__load-more:hover .profile__load-more-text {
-//     border-bottom: 1px dashed;
-// }
+	&__load-more:hover &__load-more-text
+		border-bottom 1px dashed
 
 // .profile__options {
 //     @extend %profile-content-wrap;
