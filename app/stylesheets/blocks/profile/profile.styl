@@ -253,250 +253,224 @@ $profile-content-wrap
 	&__item-edit-cancel:hover
 		border-bottom 1px dashed
 
-// .profile__profiles {
-// 	@extend %profile-content-wrap;
-// 	padding-bottom: 50px;
-// 	min-height: 500px;
-// }
+	&__profiles
+		@extend $profile-content-wrap
+		padding-bottom 50px
+		min-height 500px
 
-// .profile .profile__header {
-// 	font: 700 18px $font;
-// 	color: #727272;
-// 	border: 0;
-// 	margin: 0;
-// 	padding: 24px $profile-item-padding-horiz 16px;
-// }
+	& &__header
+		font 700 18px font
+		color #727272
+		border 0
+		margin 0
+		padding 24px profile_item_padding_horiz 16px
 
-// .profile .profile__header_with-separator {
-//     border-bottom: $profile-item-separator;
-// }
+	& &__header_with-separator
+		border-bottom profile_item_separator
 
-// .profile .profile__linked-profiles {
-// 	padding: 0;
-// 	margin: 0;
-// }
+	& &__linked-profiles
+		padding 0
+		margin 0
 
-// .profile__linked-profile::before {
-// 	content: "";
-// 	display: none;
-// }
+	&__linked-profiles &__linked-profile::before
+		content ""
+		display none
 
-// .profile__linked-profiles .profile__linked-profile {
-// 	margin: 0;
-// 	padding: 20px $profile-item-padding-horiz;
-// 	border-top: $profile-item-separator;
-// }
-// .profile__linked-profiles .profile__linked-profile:last-child {
-// 	border-bottom: $profile-item-separator;
-// }
-// .profile__linked-profile:hover {
-// 	@extend %profile-highlight-background;
-// }
+	&__linked-profiles &__linked-profile
+		margin 0
+		padding 20px profile_item_padding_horiz
+		border-top profile_item_separator
 
-// .profile__small-upic {
-// 	vertical-align: bottom;
-// 	float: left;
-//     margin-right: $profile-small-upic-margin;
-// }
+	&__linked-profiles &__linked-profile:last-child
+		border-bottom: profile_item_separator
 
-// .profile .profile__small-upic {
-// 	margin: 0 $profile-small-upic-margin 0 0;
-// }
+	&__linked-profile:hover
+		@extend $profile-highlight-background
 
-// .profile__linked-details {
-//     @extend %profile-upic-aside;
-//     position: relative;
-// }
+	&__small-upic
+		vertical-align bottom
+		float left
+		margin-right profile_small_upic_margin
 
-// .profile__linked-user {
-// 	font-weight: 700;
-// 	font-size: 16px;
-// }
+	& &__small-upic
+		margin 0 profile_small_upic_margin 0 0
 
-// .profile__social {
-// 	padding: 19px $profile-item-padding-horiz 27px;
-// 	font-size: 0;
-// }
+	&__linked-details
+		@extend $profile-upic-aside
+		position relative
 
-// .profile__social-label {
-// 	margin-right: 20px;
-// 	font-size: $size;
-// }
+	&__linked-user
+		font-weight 700
+		font-size 16px
 
-// .profile__social-add{
-// 	margin-right: 5px;
-// }
+	&__social
+		padding 19px profile_item_padding_horiz 27px
+		font-size 0
 
-// .profile__action {
-// 	padding: 0 $profile-item-padding-horiz 10px;
-// }
+	&__social-label
+		margin-right 20px
+		font-size size
 
-// .profile__action-trigger:link,
-// .profile__action-trigger:visited,
-// .profile__action-trigger:hover,
-// .profile__action-trigger:active {
-// 	color: $secondary-color;
-// 	text-decoration: none;
-// 	line-height: 1;
-// }
+	&__social-add
+		margin-right 5px
 
-// .profile__action-trigger {
-// 	border: solid transparentize($secondary-color, 0.6);
-// 	border-width: 0 0 1px;
-// }
+	&__action
+		padding 0 profile_item_padding_horiz 10px
 
-// .profile__action-trigger_pseudo {
-// 	border-style: dashed;
-// }
+	&__action-trigger:link,
+	&__action-trigger:visited,
+	&__action-trigger:hover,
+	&__action-trigger:active
+		color secondary_color
+		text-decoration none
+		line-height 1
 
-// .profile__label-input {
-// 	display: inline-block;
-// 	margin-right: 10px;
-// }
+	&__action-trigger
+		border solid alpha(secondary_color, 0.4);
+		border-width 0 0 1px
 
-// .profile__label-input_pass-change {
-// 	width: 175px;
-// 	vertical-align: bottom;
-// 	margin-bottom: -8px;
-// }
+	&__action-trigger_pseudo
+		border-style dashed
 
-// .profile__label-input_pass-change .profile__text-field {
-// 	display: block;
-// 	width: 100%;
-// 	margin-top: 5px;
-// }
+	&__label-input
+		display inline-block
+		margin-right 10px
 
-// .profile__items-amount {
-// 	display: inline-block;
-// 	font: 9px $font;
-//     background: #727272;
-// 	line-height: 19px;
-// 	min-width: 11px;
-// 	padding: 0 4px 0 4px;
-// 	margin-left: 6px;
-// 	color: #fff;
-// 	border-radius: 10px;
-// 	text-align: center;
-// 	vertical-align: baseline;
-// }
+	&__label-input_pass-change
+		width 175px
+		vertical-align bottom
+		margin-bottom -8px
 
-// .profile__tab_current .profile__items-amount {
-//     background: $secondary-color;
-// }
+	&__label-input_pass-change &__text-field
+		display block
+		width 100%
+		margin-top 5px
 
-// .profile__conversation {
-//     @extend %profile-content-wrap;
-// }
+	&__items-amount
+		display inline-block
+		font 9px font
+		background #727272
+		line-height 19px
+		min-width 11px
+		padding 0 4px 0 4px
+		margin-left 6px
+		color #fff
+		border-radius 10px
+		text-align center
+		vertical-align baseline
 
-// .profile .profile__conversation-title {
-//     margin: 0;
-//     padding: 24px $profile-item-padding-horiz 16px $profile-item-padding-horiz + $profile-small-upic-size + $profile-small-upic-margin;
-//     font: 700 18px $font;
-//     color: $color;
-// }
+	&__tab_current &__items-amount
+		background: secondary_color
 
-// .profile__conversation-title-user,
-// .profile__message-user {
-//     font-size: 16px;
-//     font-weight: 700;
-// }
+	// .profile__conversation {
+	//     @extend %profile-content-wrap;
+	// }
 
-// .profile__message-user:link,
-// .profile__message-user:visited {
-//     color: $color;
-// }
+	// .profile .profile__conversation-title {
+	//     margin: 0;
+	//     padding: 24px $profile-item-padding-horiz 16px $profile-item-padding-horiz + $profile-small-upic-size + $profile-small-upic-margin;
+	//     font: 700 18px $font;
+	//     color: $color;
+	// }
 
-// .profile__conversation-title-user:link,
-// .profile__conversation-title-user:visited {
-//     color: $link-color;
-// }
+	// .profile__conversation-title-user,
+	// .profile__message-user {
+	//     font-size: 16px;
+	//     font-weight: 700;
+	// }
 
-// .profile__conversation-title-user:hover,
-// .profile__conversation-title-user:active,
-// .profile__message-user:hover,
-// .profile__message-user:active {
-//     color: $link-hover-color;
-// }
+	// .profile__message-user:link,
+	// .profile__message-user:visited {
+	//     color: $color;
+	// }
 
-// .profile__conversation-title-user:hover {
-// 	text-decoration: underline;
-// }
+	// .profile__conversation-title-user:link,
+	// .profile__conversation-title-user:visited {
+	//     color: $link-color;
+	// }
 
-// .profile__compose {
-//     padding: 0 $profile-item-padding-horiz 14px;
-//     border-bottom: $profile-item-separator;
-// }
+	// .profile__conversation-title-user:hover,
+	// .profile__conversation-title-user:active,
+	// .profile__message-user:hover,
+	// .profile__message-user:active {
+	//     color: $link-hover-color;
+	// }
 
-// .profile__compose-controls {
-//     @extend %profile-upic-aside;
-// }
+	// .profile__conversation-title-user:hover {
+	// 	text-decoration: underline;
+	// }
 
-// .profile__compose-text {
-//     width: 675px;
-//     height: 150px;
-//     display: block;
-//     margin-bottom: 10px;
-// }
+	// .profile__compose {
+	//     padding: 0 $profile-item-padding-horiz 14px;
+	//     border-bottom: $profile-item-separator;
+	// }
 
-// .profile__compose-submit {
-//     min-width: 140px;
-// }
+	// .profile__compose-controls {
+	//     @extend %profile-upic-aside;
+	// }
 
-// .profile__conversation-message {
-//     padding: 19px $profile-item-padding-horiz;
-//     border-bottom: $profile-item-separator;
-// }
+	// .profile__compose-text {
+	//     width: 675px;
+	//     height: 150px;
+	//     display: block;
+	//     margin-bottom: 10px;
+	// }
 
-// .profile__conversation-message:last-child {
-//     padding-bottom: 35px;
-//     border-bottom: 0;
-// }
+	// .profile__compose-submit {
+	//     min-width: 140px;
+	// }
 
-// .profile__conversation-message:hover {
-//     @extend %profile-highlight-background;
-// }
+	// .profile__conversation-message {
+	//     padding: 19px $profile-item-padding-horiz;
+	//     border-bottom: $profile-item-separator;
+	// }
 
-// .profile__message-body {
-//     @extend %profile-upic-aside;
-//     padding-right: 50px;
-//     position: relative;
-// }
+	// .profile__conversation-message:last-child {
+	//     padding-bottom: 35px;
+	//     border-bottom: 0;
+	// }
 
-// .profile__message-time {
-//     font-size: 11px;
-//     color: #8e8e8e;
-//     margin-left: 10px;
-// }
+	// .profile__conversation-message:hover {
+	//     @extend %profile-highlight-background;
+	// }
 
-// .profile__message-content {
-//     max-width: 700px;
-// }
+	// .profile__message-body {
+	//     @extend %profile-upic-aside;
+	//     padding-right: 50px;
+	//     position: relative;
+	// }
 
-// .profile__conversation-message_gray .profile__message-user:link,
-// .profile__conversation-message_gray .profile__message-content {
-//     color: #727272;
-// }
+	// .profile__message-time {
+	//     font-size: 11px;
+	//     color: #8e8e8e;
+	//     margin-left: 10px;
+	// }
 
-// .profile__item-delete {
-//     position: absolute;
-//     right: 0;
-//     top: 19px;
-//     text-decoration: none;
-//     display: none;
-// }
+	// .profile__message-content {
+	//     max-width: 700px;
+	// }
 
-// .profile__conversation-message:hover .profile__item-delete,
-// .profile__linked-profile:hover .profile__item-delete {
-//     display: block;
-// }
+	// .profile__conversation-message_gray .profile__message-user:link,
+	// .profile__conversation-message_gray .profile__message-content {
+	//     color: #727272;
+	// }
 
-// .profile__item-delete:link {
-//     color: $secondary-color;
-// }
+	&__item-delete
+		position absolute
+		right 0
+		top 19px
+		text-decoration none
+		display none
 
-// .profile__item-delete::before {
-//     @extend %font-trash;
-// }
+	&__conversation-message:hover &__item-delete,
+	&__linked-profile:hover &__item-delete
+		display block
+
+	&__item-delete:link
+		color secondary_color
+
+	&__item-delete::before
+		@extend $font-trash
 
 // .profile__load-more {
 //     background: rgba(0, 0, 0, .02);

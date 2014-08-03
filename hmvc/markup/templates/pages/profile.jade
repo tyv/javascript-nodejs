@@ -8,11 +8,7 @@ block variables
 
 block content
   .profile
-    .profile__upic
-      img.profile__upic-image(src="/img/userpic.png", width="150", height="150", alt="Nakazator")
-      form.profile__upic-change(enctype="multipart/form-data", method="POST", action="/profile")
-        input.profile__upic-upload#profile-new-userpic(type="file", value="", name="profile-new-userpic")
-        label.profile__upic-edit(for="profile-new-userpic", title="редактировать")
+    include ../blocks/profile-upic
     .profile__tabs
       .profile__tab.profile__tab_current Профиль
       .profile__tab
@@ -269,7 +265,7 @@ block content
               a.profile__item-edit.profile__inline-edit-trigger(title="редактировать", href="#") редактировать
             .profile__inline-change
               .profile__edit
-                textarea.text-input.profile__textarea(name="profile-about")
+                textarea.textarea-input.profile__textarea(name="profile-about")
                   | Беспристрастный анализ любого творческого акта показывает,
                   | что реализм просветляет самодостаточный этикет, однако само
                   | по себе состояние игры всегда амбивалентно.

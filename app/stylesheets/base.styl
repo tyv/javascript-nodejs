@@ -1,3 +1,9 @@
+// undefined variable is evaluated to true in conditionals
+// we also don't have anything like !default in SASS,
+// so we use some logic here
+
+ie = false unless ie is defined
+
 // import all from nib except
 // -flex
 // -vendor
@@ -70,7 +76,7 @@
 @require "blocks/text-input/text-input"
 // @require "blocks/text-marked/text-marked"
 @require "blocks/input-select/input-select"
-// @require "blocks/textarea-input/textarea-input"
+@require "blocks/textarea-input/textarea-input"
 // @require "blocks/modal-form/modal-form"
 // @require "blocks/social-login/social-login"
 // @require "blocks/switch-input/switch-input"
@@ -79,7 +85,7 @@
 // @require "blocks/select2/select2"
 // @require "blocks/full-phone/full-phone"
 // @require "blocks/confirm/confirm"
-// @require "blocks/social-link/social-link"
+@require "blocks/social-link/social-link"
 // @require "blocks/text-compact-label/text-compact-label"
 // @require "blocks/course-search/course-search"
 // @require "blocks/header-note/header-note"
