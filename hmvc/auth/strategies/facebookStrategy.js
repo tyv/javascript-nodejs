@@ -3,6 +3,7 @@ const FacebookStrategy = require('passport-facebook').Strategy;
 const authenticateByProfile = require('./../lib/authenticateByProfile');
 const config = require('config');
 
+// WORKS.
 module.exports = new FacebookStrategy({
     clientID:          config.auth.facebook.appId,
     clientSecret:      config.auth.facebook.appSecret,

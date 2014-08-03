@@ -74,6 +74,7 @@
     "passport-google": "^0.3.0",
     "passport-google-oauth": "^0.1.5",
     "passport-local": "*",
+    "passport-vkontakte": "^0.2.1",
     "passport-yandex": "0.0.2",
     "path-to-regexp": "*",
     "prismjs": "git://github.com/LeaVerou/prism#gh-pages",

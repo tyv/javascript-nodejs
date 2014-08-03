@@ -56,6 +56,15 @@ router.get('/callback/github',
   passport.authenticate('github', { successRedirect: '/auth/popup-success', failureRedirect: '/auth/popup-failure' })
 );
 
+router.get('/login/vkontakte',
+  passport.authenticate('vkontakte', {scope: 'email'})
+);
+
+router.get('/callback/vkontakte',
+  // http://stage.javascript.ru/auth/callback/facebook?error=access_denied&error_code=200&error_description=Permissions+error&error_reason=user_denied#_=_
+  passport.authenticate('vkontakte', { successRedirect: '/auth/popup-success', failureRedirect: '/auth/popup-failure' })
+);
+
 router.get('/login/yandex',
   passport.authenticate('yandex')
 );

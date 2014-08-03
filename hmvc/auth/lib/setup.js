@@ -21,3 +21,4 @@ passport.use(require('./../strategies/facebookStrategy'));
 passport.use(require('./../strategies/googleStrategy'));
 passport.use(require('./../strategies/yandexStrategy'));
 passport.use(require('./../strategies/githubStrategy'));
+passport.use(require('./../strategies/vkontakteStrategy'));

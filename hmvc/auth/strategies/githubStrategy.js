@@ -5,6 +5,7 @@ const config = require('config');
 const request = require('request');
 const log = require('js-log')();
 
+// WORKS.
 module.exports = new GithubStrategy({
     clientID:     config.auth.github.appId,
     clientSecret: config.auth.github.appSecret,
