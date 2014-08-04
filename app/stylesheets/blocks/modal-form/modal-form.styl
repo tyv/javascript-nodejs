@@ -1,0 +1,115 @@
+modal_form_bottom_padding = 10px
+
+$modal-form-additional-info
+	font-size 12px
+	padding 15px 30px
+	border 1px solid
+	text-align center
+
+.modal-form
+	width 380px
+	background background
+	padding-top 20px
+	padding-bottom modal_form_bottom_padding
+
+	&__line
+		padding 0 30px
+		margin-bottom 17px
+		font-size 14px
+
+	&__metainfo
+		display none
+
+	&__metainfo_visible
+		display block
+
+	&__note
+		color #656565
+
+	&__info
+		@extend $modal-form-additional-info
+		border-color #01bfff
+		background #e4f1fc
+		color #0085b2
+
+	&__error
+		@extend $modal-form-additional-info
+		border-color #e83232
+		background #ffecec
+		color #eb2f2a
+
+	&__header,
+	&__footer
+		display table
+
+	&__title,
+	&__aside,
+	&__button,
+	&__footer-link
+		display table-cell
+
+	&__aside,
+	&__footer-link
+		white-space nowrap
+
+	&__title,
+	&__button
+		width 100%
+		padding-right 10px
+
+	&__title
+		font 700 26px secondary_font
+
+	&__label
+		color $color
+
+	&__control-wrap
+		margin-top 8px
+
+	// text-input error handling?
+	&__control-wrap .field_with_errors input
+		border-color #e62e29
+		color #e62e29
+	
+	&__input
+		width 100%
+
+	&__input_invalid
+		border-color #e62e29
+		color #e62e29
+
+	//	.modal-form__control-error {
+	//		color: #eb2f2a;
+	//		font-size: 12px;
+	//		padding: 4px 3px 0;
+	//	}
+	//
+	//	.modal-form__input_invalid + .modal-form__control-error {
+	//		display: block;
+	//	}
+
+	&__submit
+		min-width 140px
+
+	&__social-login
+		text-align justify
+		background #eee
+		line-height 0
+		margin-top 30px
+		margin-bottom -1 * modal_form_bottom_padding
+		border-top 1px solid #ccc
+		padding-top 11px
+		padding-bottom 12px
+
+	&__social-login::after
+		content ''
+		display inline-block
+		width 100px
+		height 0
+
+	&__social-login-title
+		font 700 18px/normal secondary_font
+		margin-bottom 20px
+
+	&__social-login .social-login
+		margin-bottom 12px

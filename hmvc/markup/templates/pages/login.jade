@@ -1,0 +1,60 @@
+doctype html
+html
+  head
+
+    block variables
+      - var self = {};
+      - self.bodyId = 'page';
+      - self.title = 'Модальные формы логина';
+      - self.comments = {} // хм?
+      - self.comments.lenght = 5;
+
+    include ../blocks/head
+
+  body
+    .modal-form#login-form
+      form.modal-form__form(action="#")
+        .modal-form__line
+          .modal-form__header
+            h4.modal-form__title Вход в систему
+            .modal-form__header-aside
+              a(href="#register") регистрация
+        .modal-form__line.modal-form__metainfo.modal-form__metainfo_password_sent.modal-form__metainfo_visible
+          .modal-form__info
+            | Новый пароль был отправлен на ваш email
+        .modal-form__line.modal-form__metainfo.modal-form__metainfo_login-password_wrong.modal-form__metainfo_visible
+          .modal-form__error
+            | Email либо пароль введены неверно
+        .modal-form__line
+          label.modal-form__label(for="login") Имя пользователя или Email:
+          .modal-form__control-wrap
+            span.text-input.modal-form__input
+              input.text-input__control#login(name="login")
+        .modal-form__line
+          label.modal-form__label(for="password") Пароль:
+          .modal-form__control-wrap
+            span.text-input.modal-form__input
+              input.text-input__control#password(type="password", name="password")
+        .modal-form__line.modal-form__footer
+          .modal-form__button
+            button.submit-button.modal-form__submit(type="submit") Войти
+          .modal-form__footer-link
+            a(href="forgot") Забыли пароль?
+        .modal-form__line.modal-form__social-login
+          h5.modal-form__social-login-title Вход через социальные сети
+          //- explicit space
+          |  
+          a.social-login.social-login_twitter(href="#") Twitter
+          //- explicit space
+          |  
+          a.social-login.social-login_vkontakte(href="#") Вконтакте
+          //- explicit space
+          |  
+          a.social-login.social-login_facebook(href="#") Facebook
+          //- explicit space
+          |  
+          a.social-login.social-login_google(href="#") Google+
+          //- explicit space
+          |  
+          a.social-login.social-login_github(href="#") Github
+
