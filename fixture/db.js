@@ -25,7 +25,7 @@ exports.OrderTemplate = [
 ];
 
 exports.User = [{
-  email: "iliakan@gmail.com",
-  displayName: "Ilya Kantor",
+  email: "mk@javascript.ru",
+  displayName: "Tester",
   password: "123456"
 }];

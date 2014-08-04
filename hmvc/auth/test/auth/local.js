@@ -4,7 +4,7 @@ const db = require('lib/dataUtil');
 const mongoose = require('mongoose');
 const path = require('path');
 const request = require('supertest');
-const fixtures = require(path.join(__dirname, './fixtures/db'));
+const fixtures = require(path.join(__dirname, '../fixtures/db'));
 const app = require('app');
 const assert = require('better-assert');
 
@@ -12,19 +12,35 @@ describe('Authorization', function() {
 
   var agent, server;
   before(function * () {
-    yield db.loadDb(path.join(__dirname, './fixtures/db'));
+    yield db.loadDb(fixtures);
 
     // app.listen() uses a random port,
     // which superagent gets as server.address().port
     // so that every run will get it's own port
     server = app.listen();
-    agent = request.agent(server);
-
   });
 
   describe('login', function() {
 
-    it('should log me in', function(done) {
+    it('should require verified email', function(done) {
+      request(server)
+        .post('/auth/login/local')
+        .send({
+          email:    fixtures.User[2].email,
+          password: fixtures.User[2].password
+        })
+        .expect(401, done);
+    });
+  });
+
+  describe('login flow', function() {
+    var agent;
+
+    before(function() {
+      agent = request.agent(server);
+    });
+
+    it('should log in when email is verified', function(done) {
       agent
         .post('/auth/login/local')
         .send({
@@ -44,10 +60,7 @@ describe('Authorization', function() {
         });
     });
 
-  });
-
-  describe('logout', function() {
-    it('should log me out', function(done) {
+    it('should log out', function(done) {
       agent
         .post('/auth/logout')
         .send('')
@@ -57,13 +70,23 @@ describe('Authorization', function() {
     it('should return error because session is incorrect', function(done) {
       agent
         .get('/auth/user')
-        .expect(403, done);
+        .expect(401, done);
     });
   });
 
   describe("register", function() {
+    var agent;
 
-    var userData = {email: "angelina@gmail.com", displayName: "Angelina Jolie", password: "angelina" };
+    before(function() {
+      agent = request.agent(server);
+    });
+
+    var userData = {
+      email: "angelina@gmail.com",
+      displayName: "Angelina Jolie",
+      password: "angelina"
+    };
+
     it('should create a new user', function(done) {
       agent
         .post('/auth/register')
@@ -71,17 +94,18 @@ describe('Authorization', function() {
         .expect(201, done);
     });
 
-    it('should be logged in', function(done) {
+    it('should not be logged in', function(done) {
       agent
         .get('/auth/user')
-        .expect(200)
-        .end(function(err, res) {
-          res.body.email.should.be.eql(userData.email);
-          res.body.displayName.should.be.eql(userData.displayName);
-          done(err);
-        });
+        .expect(401, done);
     });
     /*
+
+     .end(function(err, res) {
+     res.body.email.should.be.eql(userData.email);
+     res.body.displayName.should.be.eql(userData.displayName);
+     done(err);
+     });
     it('should be log in the new user', function(done) {
       request(server)
         .post('/auth/login/local')

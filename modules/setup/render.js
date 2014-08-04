@@ -13,6 +13,8 @@ const assert = require('assert');
 
 //log.debugOn();
 
+// (!) this.render does not assign this.body to the result
+// that's because render can be used for different purposes, e.g to send emails
 module.exports = function render(app) {
   app.use(function *(next) {
     var ctx = this;
@@ -104,7 +106,7 @@ module.exports = function render(app) {
         throw new Error("Template file not found: " + templatePath + " (in dir " + templateDir + ") ");
       }
       log.debug("render file " + file);
-      this.body = jade.renderFile(file, loc);
+      return jade.renderFile(file, loc);
     };
 
 

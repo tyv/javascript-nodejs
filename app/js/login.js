@@ -17,6 +17,7 @@ module.exports = function(options, authCallback) {
   request.addEventListener('success', function(event) {
     authModal.innerHTML = event.result;
     initAuthModal(authCallback);
+    initRegister();
   });
 
   request.addEventListener('fail', function() {
@@ -28,6 +29,15 @@ module.exports = function(options, authCallback) {
 };
 
 function initAuthModal(authCallback) {
+  initAuthLogin(authCallback);
+  initAuthRegister();
+}
+
+function initAuthRegister() {
+  // TODO
+}
+
+function initAuthLogin(authCallback) {
 
   var authModal = document.querySelector('.auth-modal');
 

@@ -15,6 +15,7 @@ module.exports = function(app) {
   app.use(mount('/auth', require('auth').middleware));
   app.csrf.addIgnorePath('/auth/login/:any*');
 
+
   app.use(mount('/getpdf', require('getpdf').middleware));
 
   app.use(mount('/payments', require('payments').middleware));

@@ -1,14 +1,18 @@
-var passport = require('koa-passport');
 var User = require('../models/user');
+var jade = require('jade');
+var mailer = require('mailer');
+var path = require('path');
+var log = require('js-log')();
 
-// Регистрация пользователя. Создаем его в базе данных, и тут же, после сохранения, вызываем метод `req.logIn`, авторизуя пользователя
+// Регистрация пользователя.
 exports.post = function* (next) {
   var user = new User({
     email: this.request.body.email,
     displayName: this.request.body.displayName,
     password: this.request.body.password,
     verifiedEmail: false,
-    verifyEmailToken: Math.random().toString(36).slice(2)
+    verifyEmailToken: Math.random().toString(36).slice(2),
+    verifyEmailRedirect: this.request.body.verifyEmailRedirect
   });
 
   try {
@@ -21,8 +25,23 @@ exports.post = function* (next) {
     }
   }
 
-//  yield this.logIn(user);
+  var letter = this.render(__dirname, 'verify-email-mail', {link: "TEST"});
+  letter = mailer.inlineCss(letter);
+
+  var result;
+  try {
+    yield mailer.sendMail({
+      to:       user.email,
+      subject: "Подтверждение email",
+      html:    letter
+    });
+
+  } catch(e) {
+    log.error("Registration failed: " + e);
+    this.throw(500, "Ошибка отправки email");
+  }
 
   this.status = 201;
-  this.body = '';
+  this.body = 'Вы зарегистрированы. Пожалуйста, загляните в почтовый ящик, там письмо с Email-подтверждением.';
+
 };

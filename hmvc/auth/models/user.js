@@ -38,11 +38,14 @@ var UserSchema = new mongoose.Schema({
     type:    Date,
     default: Date.now
   },
-  verifiedEmail: Boolean,
-  verifyEmailToken: String,
-  verifyEmailRedirect: String,
-  passwordResetToken: String,
-  passwordResetTokenExpires: Date,
+  verifiedEmail: {
+    type: Boolean,
+    default: false
+  },
+  verifyEmailToken: String, // single token (can be resent)
+  verifyEmailRedirect: String, // where to redirect after verify
+  passwordResetToken: String, // refresh with each request
+  passwordResetTokenExpires: Date, // valid until this date
   photo:        {
     type: String
   }

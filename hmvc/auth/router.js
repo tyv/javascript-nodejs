@@ -34,66 +34,54 @@ if (process.env.NODE_ENV == 'development') {
 
 router.post('/register', register.post);
 
-// The request will be redirected to Facebook for authentication, so this
-// function will not be called.
+// The request will be redirected to Facebook for authentication
 router.get('/login/facebook',
   passport.authenticate('facebook', { display: 'popup', scope: ['email'] })
-);
-
-
-router.get('/callback/facebook',
-  // http://stage.javascript.ru/auth/callback/facebook?error=access_denied&error_code=200&error_description=Permissions+error&error_reason=user_denied#_=_
-  passport.authenticate('facebook', { successRedirect: '/auth/popup-success', failureRedirect: '/auth/popup-failure' })
 );
 
 router.get('/login/github',
   passport.authenticate('github', { scope: 'user:email' })
 );
 
-
-router.get('/callback/github',
-  // http://stage.javascript.ru/auth/callback/facebook?error=access_denied&error_code=200&error_description=Permissions+error&error_reason=user_denied#_=_
-  passport.authenticate('github', { successRedirect: '/auth/popup-success', failureRedirect: '/auth/popup-failure' })
-);
-
 router.get('/login/vkontakte',
   passport.authenticate('vkontakte', {scope: 'email'})
-);
-
-router.get('/callback/vkontakte',
-  // http://stage.javascript.ru/auth/callback/facebook?error=access_denied&error_code=200&error_description=Permissions+error&error_reason=user_denied#_=_
-  passport.authenticate('vkontakte', { successRedirect: '/auth/popup-success', failureRedirect: '/auth/popup-failure' })
 );
 
 router.get('/login/yandex',
   passport.authenticate('yandex')
 );
 
-router.get('/callback/yandex',
-  // http://stage.javascript.ru/auth/callback/facebook?error=access_denied&error_code=200&error_description=Permissions+error&error_reason=user_denied#_=_
-  passport.authenticate('yandex', { successRedirect: '/auth/popup-success', failureRedirect: '/auth/popup-failure' })
-);
-
-
-// FIXME: GOOGLE DOES NOT WORK, need fixed passport-google-oauth or kind of..
-// One additional note is that you will now be required to register your application
-// at https://console.developers.google.com and create a client ID and secret
-// (which are used in the passport module).
+// FIXME: GOOGLE DOES NOT WORK, probably need need https://github.com/sqrrrl/passport-google-plus
 router.get('/login/google',
-  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/userinfo.email'] })
+  passport.authenticate('google', { scope: 'email' })
 );
 
-// Google will redirect the user to this URL after authentication.  Finish
-// the process by verifying the assertion.  If valid, the user will be
-// logged in.  Otherwise, authentication has failed.
-router.get('/callback/google',
-  passport.authenticate('google', { successRedirect: '/auth/popup-success', failureRedirect: '/auth/popup-failure' })
-);
+// callback is same
+['facebook', 'github', 'vkontakte', 'yandex', 'google'].forEach(function(providerName) {
+  router.get('/callback/' + providerName,
+    // http://stage.javascript.ru/auth/callback/facebook?error=access_denied&error_code=200&error_description=Permissions+error&error_reason=user_denied#_=_
+    passport.authenticate(providerName, { successRedirect: '/auth/popup-success', failureRedirect: '/auth/popup-failure' })
+  );
+});
+
+
+router.get('/mail', function*(next) {
+  require('lib/mailer').sendMail({
+    from: 'iliakan@javascript.ru',
+    to: 'iliakan@gmail.com',
+    subject: 'hello',
+    text: 'hello world!'
+  }, function() {
+    console.log(arguments);
+  });
+  this.body = "test";
+});
+
 
 
 router.get('/popup-success', function*() {
-  this.render(__dirname, 'popup-success');
+  this.body = this.render(__dirname, 'popup-success');
 });
 router.get('/popup-failure', function*() {
-  this.render(__dirname, 'popup-failure');
+  this.body = this.render(__dirname, 'popup-failure');
 });

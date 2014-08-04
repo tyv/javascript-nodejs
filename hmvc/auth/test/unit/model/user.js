@@ -25,22 +25,18 @@ describe('User', function() {
 
   });
 
-  it('requires password & email & displayName', function*() {
+  // does not require password, because social login does not use it
+  it('requires email & displayName', function() {
     [
       {
-        email: "my@gmail.com",
+        email: "my@gmail.com"
+      },
+      {
         displayName: "John"
-      },
-      {
-        email: "my@gmail.com",
-        password: "John"
-      },
-      {
-        displayName: "John",
-        password: "****"
       }
     ].map(function(data) {
         var user = new User(data);
+        // cannot use yield* because inside map
         user.persist()(function(err) {
           err.name.should.equal('ValidationError');
         });

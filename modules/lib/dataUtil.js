@@ -86,9 +86,9 @@ function *createEmptyDb() {
 
 // not using pow-mongoose-fixtures, becuae it fails with capped collections
 // it calls remove() on them => everything dies
-function *loadDb(dataFile) {
+function *loadDb(data) {
   yield* createEmptyDb();
-  var modelsData = require(dataFile);
+  var modelsData = (typeof data == 'string') ? require(data) : data;
 
   yield Object.keys(modelsData).map(function(modelName) {
     return loadModel(modelName, modelsData[modelName]);

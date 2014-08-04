@@ -38,7 +38,7 @@ exports.get = function *get(next) {
   };
   _.assign(this.locals, locals);
 
-  this.render(__dirname, "article", locals);
+  this.body = this.render(__dirname, "article", locals);
 
 };
 

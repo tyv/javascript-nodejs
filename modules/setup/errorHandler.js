@@ -13,7 +13,7 @@ function renderError(error) {
   if (preferredType == 'json') {
     this.body = error;
   } else {
-    this.render("error", {error: error});
+    this.body = this.render("error", {error: error});
   }
 }
 

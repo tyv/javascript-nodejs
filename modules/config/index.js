@@ -35,6 +35,10 @@ module.exports = {
   },
   payments: secret.payments,
   auth: secret.auth,
+  mailer: {
+    from: 'JavaScript.ru <inform@javascript.ru>',
+    ses: secret.ses
+  },
   template:    {
     options: {
       'cache': process.env.NODE_ENV != 'development'

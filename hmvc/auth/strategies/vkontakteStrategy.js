@@ -11,8 +11,9 @@ module.exports = new VkontakteStrategy({
   },
   function(req, accessToken, refreshToken, oauthResponse, profile, done) {
 
+    // Vkontakte gives email in oauthResponse, not in profile (which is 1 more request)
     if (!oauthResponse.email) {
-      return done(null, false, "Просьба разрешить доступ к email для авторизации. Он будет скрыт от просмотра");
+      return done(null, false, "Для захода на сайт необходим email. Он будет скрыт от внешнего просмотра");
     }
 
     profile.emails = [{value: oauthResponse.email}];

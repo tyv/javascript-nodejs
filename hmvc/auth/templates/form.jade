@@ -13,18 +13,35 @@ form.login-form
 
   div
     label Email
-      input(name="email" type="email" required value="a@b.ru")
+      input(name="email",type="email",required,value="a@b.ru")
 
   div
     label Пароль
-      input(name="password" type="password" required value="bla")
+      input(name="password",type="password",required,value="bla")
 
   div
     input(type="submit" value="Войти")
 
 
-form.register-form(style="display:none")
+form.register-form
   h2 Регистрация
 
-  p ...
+  .auth-error
+
+  div
+    label Email (скрыт)
+      input(name="email",type="email",required,value="iliakan@gmail.com")
+
+  div
+    label Имя пользователя
+      input(name="displayName",type="text",required,value="tester")
+
+  div
+    label Пароль
+      input(name="password",type="password",required,value="bla")
+
+  div
+    input(type="submit" value="Зарегистрироваться")
+
+
 
