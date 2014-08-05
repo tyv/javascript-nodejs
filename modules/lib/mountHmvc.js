@@ -1,7 +1,9 @@
 var mount = require('koa-mount');
 var path = require('path');
 
-// same as mount(prefix, hmvcModule.middleware),
+// mountHmvc(prefix, 'modulePath')
+// is same as
+// mount(prefix, require('modulePath').middleware),
 // but also
 //   --> this.templatePaths.push(hmvcModule dirname) when entering middleware
 function mountHmvc(prefix, hmvcModulePath) {
