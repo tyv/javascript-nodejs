@@ -4,8 +4,8 @@ var path = require('path');
 // mountHmvc(prefix, 'modulePath')
 // is same as
 // mount(prefix, require('modulePath').middleware),
-// but also
-//   --> this.templatePaths.push(hmvcModule dirname) when entering middleware
+// but also does
+//   --> this.templatePaths.push(hmvcModule dirname) when entering middleware / pop on leaving
 function mountHmvc(prefix, hmvcModulePath) {
   var hmvcModule = require(hmvcModulePath);
   var hmvcModuleDir = path.dirname(require.resolve(hmvcModulePath));
