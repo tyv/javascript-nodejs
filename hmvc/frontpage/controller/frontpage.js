@@ -1,6 +1,6 @@
 
 exports.get = function *get (next) {
-  this.body = this.render(__dirname, 'index', {
+  this.body = this.render('index', {
     title: 'Hello, world'
   });
 };

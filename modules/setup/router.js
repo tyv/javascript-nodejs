@@ -2,11 +2,13 @@
 
 var mount = require('koa-mount');
 var compose = require('koa-compose');
+var mountHmvc = require('lib/mountHmvc');
 
 module.exports = function(app) {
 
 
-  app.use(mount('/', require('frontpage').middleware));
+  var f = require('frontpage');
+  app.use(mountHmvc('/', f));
 
   if (process.env.NODE_ENV == 'development') {
     app.use(mount('/markup', require('markup').middleware));
