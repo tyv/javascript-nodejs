@@ -13,7 +13,7 @@ module.exports = function(options, authCallback) {
   authModal.innerHTML = '<div class="progress large"></div>';
   document.body.append(authModal);
 
-  var request = xhr({ url: '/auth/form' });
+  var request = xhr({ url: '/auth/login-register-form' });
   request.addEventListener('success', function(event) {
     authModal.innerHTML = event.result;
     initAuthModal(authCallback);

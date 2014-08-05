@@ -72,6 +72,7 @@ module.exports = function render(app) {
       var templatePathResolved;
       for (var i = 0; i < this.templatePaths.length; i++) {
         templatePathResolved = path.join(this.templatePaths[i], templatePath);
+        if (path.extname(templatePathResolved) === '') templatePathResolved  += '.jade';
         if (fs.existsSync(templatePathResolved)) break;
       }
 

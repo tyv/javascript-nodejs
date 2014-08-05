@@ -7,20 +7,19 @@ var mountHmvc = require('lib/mountHmvc');
 module.exports = function(app) {
 
 
-  var f = require('frontpage');
-  app.use(mountHmvc('/', f));
+  app.use(mountHmvc('/', 'frontpage'));
 
   if (process.env.NODE_ENV == 'development') {
-    app.use(mount('/markup', require('markup').middleware));
+    app.use(mountHmvc('/markup', 'markup'));
   }
 
-  app.use(mount('/auth', require('auth').middleware));
+  app.use(mountHmvc('/auth', 'auth'));
   app.csrf.addIgnorePath('/auth/login/:any*');
 
 
-  app.use(mount('/getpdf', require('getpdf').middleware));
+  app.use(mountHmvc('/getpdf', 'getpdf'));
 
-  app.use(mount('/payments', require('payments').middleware));
+  app.use(mountHmvc('/payments', 'payments'));
   app.csrf.addIgnorePath('/payments/:any*');
   app.verboseLogger.addPath('/payments/:any*');
 
@@ -43,7 +42,7 @@ module.exports = function(app) {
 */
 
   // stick to bottom to detect any not-yet-processed /:slug
-  app.use(mount('/', require('tutorial').middleware));
+  app.use(mountHmvc('/', 'tutorial'));
 
   // by default if the router didn't find anything => it yields to next middleware
   // so I throw error here manually
@@ -51,7 +50,8 @@ module.exports = function(app) {
     yield* next;
 
     if (this.status == 404) {
-      this.throw(404); // still not found? pass to default errorHandler
+      // still nothing found? let default errorHandler show 404
+      this.throw(404);
     }
   });
 

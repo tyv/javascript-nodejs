@@ -21,10 +21,10 @@ JadeParserMultipleDirs.prototype.resolvePath = function(templatePath, purpose) {
   for (var i = 0; i < this.templatePaths.length; i++) {
     var root = this.templatePaths[i];
 
-    var p = path.join(root, templatePath);
-    if (path.extname(templatePath) === '') p  += '.jade';
+    var templatePathResolved = path.join(root, templatePath);
+    if (path.extname(templatePath) === '') templatePathResolved  += '.jade';
 
-    if (fs.existsSync(p)) return p;
+    if (fs.existsSync(templatePathResolved)) return templatePathResolved;
   }
 
   throw new Error('Template ' + templatePath + ' not found in ' + this.templatePaths);

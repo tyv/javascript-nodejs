@@ -1,5 +1,5 @@
 var Router = require('koa-router');
-var form = require('./controller/form');
+var loginRegisterForm = require('./controller/login-register-form');
 var user = require('./controller/user');
 var register = require('./controller/register');
 var logout = require('./controller/logout');
@@ -8,7 +8,7 @@ var passport = require('koa-passport');
 
 var router = module.exports = new Router();
 
-router.get('/form', form.get);
+router.get('/login-register-form', loginRegisterForm.get);
 router.get('/user', mustBeAuthenticated, user.get);
 
 router.post('/login/local', function*(next) {
@@ -80,8 +80,8 @@ router.get('/mail', function*(next) {
 
 
 router.get('/popup-success', function*() {
-  this.body = this.render(__dirname, 'popup-success');
+  this.body = this.render('popup-success');
 });
 router.get('/popup-failure', function*() {
-  this.body = this.render(__dirname, 'popup-failure');
+  this.body = this.render('popup-failure');
 });

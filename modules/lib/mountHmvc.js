@@ -4,12 +4,14 @@ var path = require('path');
 // same as mount(prefix, hmvcModule.middleware),
 // but also
 //   --> this.templatePaths.push(hmvcModule dirname) when entering middleware
-function mountHmvc(prefix, hmvcModule) {
+function mountHmvc(prefix, hmvcModulePath) {
+  var hmvcModule = require(hmvcModulePath);
+  var hmvcModuleDir = path.dirname(require.resolve(hmvcModulePath));
+
   return mount(prefix, function*(next) {
     var self = this;
 
-    debugger;
-    var hmvcTemplateDir = path.join(path.dirname(hmvcModule.filename), 'templates');
+    var hmvcTemplateDir = path.join(hmvcModuleDir, 'templates');
     var middleware = hmvcModule.middleware;
 
     // before entering middeware

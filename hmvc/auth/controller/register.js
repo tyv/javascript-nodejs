@@ -25,7 +25,7 @@ exports.post = function* (next) {
     }
   }
 
-  var letter = this.render(__dirname, 'verify-email-mail', {link: "TEST"});
+  var letter = this.render('verify-email-mail', {link: "TEST"});
   letter = mailer.inlineCss(letter);
 
   var result;

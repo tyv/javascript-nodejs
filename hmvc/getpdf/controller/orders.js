@@ -34,5 +34,5 @@ exports.get = function*(next) {
 
   this.locals.paymentMethods = require('../paymentMethods').methods;
 
-  this.body = this.render(__dirname, 'main');
+  this.body = this.render('main');
 };
