@@ -28,7 +28,7 @@ function mountHmvc(prefix, hmvcModulePath) {
 
     apply();
 
-    yield* middleware.call(this, function *(){
+    yield* middleware.call(this, function* (){
       // when middleware does yield next, undo changes
       undo();
       yield* next;
