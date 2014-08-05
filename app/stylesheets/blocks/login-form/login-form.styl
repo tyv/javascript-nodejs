@@ -1,39 +1,36 @@
-modal_form_bottom_padding = 10px
+login_form_bottom_padding = 10px
 
-$modal-form-additional-info
+$login-form-additional-info
 	font-size 12px
 	padding 15px 30px
 	border 1px solid
 	text-align center
 
-.modal-form
+.login-form
 	width 380px
 	background background
 	padding-top 20px
-	padding-bottom modal_form_bottom_padding
+	padding-bottom login_form_bottom_padding
 
 	&__line
 		padding 0 30px
 		margin-bottom 17px
 		font-size 14px
 
-	&__metainfo
+	&__notification
 		display none
-
-	&__metainfo_visible
-		display block
 
 	&__note
 		color #656565
 
 	&__info
-		@extend $modal-form-additional-info
+		@extend $login-form-additional-info
 		border-color #01bfff
 		background #e4f1fc
 		color #0085b2
 
 	&__error
-		@extend $modal-form-additional-info
+		@extend $login-form-additional-info
 		border-color #e83232
 		background #ffecec
 		color #eb2f2a
@@ -62,14 +59,13 @@ $modal-form-additional-info
 
 	&__label
 		color $color
-
-	&__control-wrap
-		margin-top 8px
+		display inline-block
+		margin-bottom 8px
 
 	// text-input error handling?
-	&__control-wrap .field_with_errors input
-		border-color #e62e29
-		color #e62e29
+	// &__control-wrap .field_with_errors input
+	// 	border-color #e62e29
+	// 	color #e62e29
 
 	&__input
 		width 100%
@@ -96,7 +92,7 @@ $modal-form-additional-info
 		background #eee
 		line-height 0
 		margin-top 30px
-		margin-bottom -1 * modal_form_bottom_padding
+		margin-bottom -1 * login_form_bottom_padding
 		border-top 1px solid #ccc
 		padding-top 11px
 		padding-bottom 12px

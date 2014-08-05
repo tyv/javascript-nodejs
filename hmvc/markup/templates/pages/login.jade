@@ -14,158 +14,135 @@ html
   body
     .modal
       .modal-dialog
-        .modal-form#login-form
-          form.modal-form__form(action="#")
-            .modal-form__line.modal-form__header
-              h4.modal-form__title Вход в систему
-              .modal-form__header-aside
+        .login-form
+          form.login-form__form(action="#")
+            .login-form__line.login-form__header
+              h4.login-form__title Вход в систему
+              .login-form__header-aside
                 a(href="#register") регистрация
-            .modal-form__line.modal-form__metainfo.modal-form__metainfo_password_sent.modal-form__metainfo_visible
-              .modal-form__info
+            .login-form__line.login-form__notification
+              .login-form__info
                 | Новый пароль был отправлен на ваш email
-            .modal-form__line.modal-form__metainfo.modal-form__metainfo_login-password_wrong.modal-form__metainfo_visible
-              .modal-form__error
+            .login-form__line.login-form__notification
+              .login-form__error
                 | Email либо пароль введены неверно
-            .modal-form__line
-              label.modal-form__label(for="login") Имя пользователя или Email:
-              .modal-form__control-wrap
-                span.text-input.modal-form__input
-                  input.text-input__control#login(name="login")
-            .modal-form__line
-              label.modal-form__label(for="password") Пароль:
-              .modal-form__control-wrap
-                span.text-input.modal-form__input
-                  input.text-input__control#password(type="password", name="password")
-            .modal-form__line.modal-form__footer
-              .modal-form__button
-                button.submit-button.modal-form__submit(type="submit") Войти
-              .modal-form__footer-link
+            .login-form__line
+              label.login-form__label(for="login") Имя пользователя или Email:
+              span.text-input.login-form__input
+                input.text-input__control#login(name="login")
+            .login-form__line
+              label.login-form__label(for="password") Пароль:
+              span.text-input.login-form__input
+                input.text-input__control#password(type="password", name="password")
+            .login-form__line.login-form__footer
+              .login-form__button
+                button.submit-button.login-form__submit(type="submit") Войти
+              .login-form__footer-link
                 a(href="forgot") Забыли пароль?
-            .modal-form__line.modal-form__social-login
-              h5.modal-form__social-login-title Вход через социальные сети
-              //- explicit space
-              |  
+            .login-form__line.login-form__social-login
+              h5.login-form__social-login-title Вход через социальные сети
+              =" "
               a.social-login.social-login_twitter(href="#") Twitter
-              //- explicit space
-              |  
+              =" "
               a.social-login.social-login_vkontakte(href="#") Вконтакте
-              //- explicit space
-              |  
+              =" "
               a.social-login.social-login_facebook(href="#") Facebook
-              //- explicit space
-              |  
+              =" "
               a.social-login.social-login_google(href="#") Google+
-              //- explicit space
-              |  
+              =" "
               a.social-login.social-login_github(href="#") Github
     br
     br
-    .modal-form#login-form
-      form.modal-form__form(action="#")
-        .modal-form__line.modal-form__header
-          h4.modal-form__title Вход в систему
-          .modal-form__header-aside
+    .login-form
+      form.login-form__form(action="#")
+        .login-form__line.login-form__header
+          h4.login-form__title Вход в систему
+          .login-form__header-aside
             a(href="#register") регистрация
-        .modal-form__line.modal-form__metainfo.modal-form__metainfo_password_sent.modal-form__metainfo_visible
-          .modal-form__info
+        .login-form__line.login-form__notification
+          .login-form__info
             | Новый пароль был отправлен на ваш email
-        .modal-form__line.modal-form__metainfo.modal-form__metainfo_login-password_wrong.modal-form__metainfo_visible
-          .modal-form__error
+        .login-form__line.login-form__notification
+          .login-form__error
             | Email либо пароль введены неверно
-        .modal-form__line
-          label.modal-form__label(for="login") Имя пользователя или Email:
-          .modal-form__control-wrap
-            span.text-input.modal-form__input
-              input.text-input__control#login(name="login")
-        .modal-form__line
-          label.modal-form__label(for="password") Пароль:
-          .modal-form__control-wrap
-            span.text-input.modal-form__input
-              input.text-input__control#password(type="password", name="password")
-        .modal-form__line.modal-form__footer
-          .modal-form__button
-            button.submit-button.modal-form__submit(type="submit") Войти
-          .modal-form__footer-link
+        .login-form__line
+          label.login-form__label(for="login") Имя пользователя или Email:
+          span.text-input.login-form__input
+            input.text-input__control#login(name="login")
+        .login-form__line
+          label.login-form__label(for="password") Пароль:
+          span.text-input.login-form__input
+            input.text-input__control#password(type="password", name="password")
+        .login-form__line.login-form__footer
+          .login-form__button
+            button.submit-button.login-form__submit(type="submit") Войти
+          .login-form__footer-link
             a(href="forgot") Забыли пароль?
-        .modal-form__line.modal-form__social-login
-          h5.modal-form__social-login-title Вход через социальные сети
-          //- explicit space
-          |  
+        .login-form__line.login-form__social-login
+          h5.login-form__social-login-title Вход через социальные сети
+          =" "
           a.social-login.social-login_twitter(href="#") Twitter
-          //- explicit space
-          |  
+          =" "
           a.social-login.social-login_vkontakte(href="#") Вконтакте
-          //- explicit space
-          |  
+          =" "
           a.social-login.social-login_facebook(href="#") Facebook
-          //- explicit space
-          |  
+          =" "
           a.social-login.social-login_google(href="#") Google+
-          //- explicit space
-          |  
+          =" "
           a.social-login.social-login_github(href="#") Github
     br
     br
-    .modal-form#reset-form
-      form.modal-form__form(action="#")
-        .modal-form__line.modal-form__header
-          h4.modal-form__title Восстановление пароля
-        .modal-form__line.modal-form__note
+    .login-form#reset-form
+      form.login-form__form(action="#")
+        .login-form__line.login-form__header
+          h4.login-form__title Восстановление пароля
+        .login-form__line.login-form__note
           | Укажите ваш email в форме ниже и мы вышлем на него обновленный пароль.
-        .modal-form__line
-          label.modal-form__label(for="email-reset") Email:
-          .modal-form__control-wrap
-            span.text-input.modal-form__input
-              input.text-input__control#email-reset(name="email-reset")
-        .modal-form__line.modal-form__footer
-          .modal-form__button
-            button.submit-button.modal-form__submit(type="submit") Восстановить пароль
-          .modal-form__footer-link
+        .login-form__line
+          label.login-form__label(for="email-reset") Email:
+          span.text-input.login-form__input
+            input.text-input__control#email-reset(name="email-reset")
+        .login-form__line.login-form__footer
+          .login-form__button
+            button.submit-button.login-form__submit(type="submit") Восстановить пароль
+          .login-form__footer-link
             a(href="#cancel") Отмена
     br
     br
-    .modal-form#register-form
-      form.modal-form__form(action="#")
-        .modal-form__line.modal-form__header
-          h4.modal-form__title Регистрация
-          .modal-form__header-aside
+    .login-form#register-form
+      form.login-form__form(action="#")
+        .login-form__line.login-form__header
+          h4.login-form__title Регистрация
+          .login-form__header-aside
             a(href="#register") вход
-        .modal-form__line.modal-form__metainfo
-          .modal-form__error
+        .login-form__line.login-form__notification
+          .login-form__error
             | Регистрация не прошла
-        .modal-form__line
-          label.modal-form__label(for="login") Email:
-          .modal-form__control-wrap
-            span.text-input.modal-form__input
-              input.text-input__control#email(name="email")
-        .modal-form__line
-          label.modal-form__label(for="password") Пароль:
-          .modal-form__control-wrap
-            span.text-input.modal-form__input
-              input.text-input__control#password(type="password", name="password")
-        .modal-form__line
-          label.modal-form__label(for="password2") Пароль еще раз:
-          .modal-form__control-wrap
-            span.text-input.text-input_invalid.modal-form__input
-              input.text-input__control#password(type="password", name="password")
-              span.text-input__err Пароли не совпадают
-        .modal-form__line.modal-form__footer
-          .modal-form__button
-            button.submit-button.modal-form__submit(type="submit") Зарегистрироваться
-        .modal-form__line.modal-form__social-login
-          h5.modal-form__social-login-title Вход через социальные сети
-          //- explicit space
-          |  
+        .login-form__line
+          label.login-form__label(for="login") Email:
+          span.text-input.login-form__input
+            input.text-input__control#email(name="email")
+        .login-form__line
+          label.login-form__label(for="password") Пароль:
+          span.text-input.login-form__input
+            input.text-input__control#password(type="password", name="password")
+        .login-form__line
+          label.login-form__label(for="password2") Пароль еще раз:
+          span.text-input.text-input_invalid.login-form__input
+            input.text-input__control#password(type="password", name="password")
+            span.text-input__err Пароли не совпадают
+        .login-form__line.login-form__footer
+          .login-form__button
+            button.submit-button.login-form__submit(type="submit") Зарегистрироваться
+        .login-form__line.login-form__social-login
+          h5.login-form__social-login-title Вход через социальные сети
+          =" "
           a.social-login.social-login_twitter(href="#") Twitter
-          //- explicit space
-          |  
+          =" "
           a.social-login.social-login_vkontakte(href="#") Вконтакте
-          //- explicit space
-          |  
+          =" "
           a.social-login.social-login_facebook(href="#") Facebook
-          //- explicit space
-          |  
+          =" "
           a.social-login.social-login_google(href="#") Google+
-          //- explicit space
-          |  
+          =" "
           a.social-login.social-login_github(href="#") Github
