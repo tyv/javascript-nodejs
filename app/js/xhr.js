@@ -15,20 +15,21 @@ function xhr(options) {
 
   if (!options.noGlobalEvents) {
     request.addEventListener('loadstart', function(event) {
-      var e = new CustomEvent('xhrstart');
-      e.originalEvent = event;
+      var e = wrapEvent('xhrstart', event);
+      document.dispatchEvent(e);
+    });
+    request.addEventListener('loadend', function(event) {
+      var e = wrapEvent('xhrend', event);
       document.dispatchEvent(e);
     });
     request.addEventListener('success', function(event) {
-      var e = new CustomEvent('xhrsuccess');
+      var e = wrapEvent('xhrsuccess', event);
       e.result = event.result;
-      e.originalEvent = event.originalEvent;
       document.dispatchEvent(e);
     });
     request.addEventListener('fail', function(event) {
-      var e = new CustomEvent('xhrfail');
+      var e = wrapEvent('xhrfail', event);
       e.reason = event.reason;
-      e.originalEvent = event.originalEvent;
       document.dispatchEvent(e);
     });
   }
@@ -37,19 +38,22 @@ function xhr(options) {
     request.setRequestHeader("Accept", "application/json");
   }
 
+  function wrapEvent(name, e) {
+    var event = new CustomEvent(name);
+    event.originalEvent = e;
+    return event;
+  }
 
 
   function fail(reason, originalEvent) {
-    var e = new CustomEvent("fail");
+    var e = wrapEvent("fail", originalEvent);
     e.reason = reason;
-    e.originalEvent = originalEvent;
     request.dispatchEvent(e);
   }
 
   function success(result, originalEvent) {
-    var e = new CustomEvent('success');
+    var e = wrapEvent("success", originalEvent);
     e.result = result;
-    e.originalEvent = originalEvent;
     request.dispatchEvent(e);
   }
 

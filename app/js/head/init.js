@@ -2,11 +2,16 @@
 window.initHandlers = {};
 window.initWhenReadyCalled = {};
 
-// if initWhenReady is first
+// Usage:
+//  initWhenReady('login')
+//    will trigger addInitHandler('login')
+//    and wait if it doesn't exist yet
+
+// if initWhenReady is first (from HTML)
 //  -> initWhenReadyCalled[name] = true
 //  -> then addInitHandler uses it
 
-// if addInitHandler is first
+// if addInitHandler is first (from SCRIPT)
 //  -> initHandlers[name] = handler
 //  -> then initWhenReady uses it
 function initWhenReady(name) {

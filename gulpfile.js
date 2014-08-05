@@ -72,7 +72,7 @@ gulp.task('app:sprite-once', lazyRequireTask('./tasks/sprite', {
   styleFsDir:          'app/stylesheets/sprites'
 }));
 
-gulp.task('app:sprite', ['app:sprite-once'], wrapWatch("app/**/*.sprite/**", 'sprite'));
+//gulp.task('app:sprite', ['app:sprite-once'], wrapWatch("app/**/*.sprite/**", 'sprite'));
 
 gulp.task('app:clean-compiled-css', function(callback) {
   fs.unlink('./www/stylesheets/base.css', function(err) {
@@ -83,7 +83,8 @@ gulp.task('app:clean-compiled-css', function(callback) {
 
 // Show errors if encountered
 gulp.task('app:compile-css-once',
-  ['app:clean-compiled-css'],
+  // need sprite here, because it generates sprite.styl required by other .styl's
+  ['app:clean-compiled-css', 'app:sprite-once'],
   lazyRequireTask('./tasks/compileCss', {
     src: './app/stylesheets/base.styl',
     dst: './www/stylesheets'
@@ -95,7 +96,7 @@ gulp.task('app:minify', lazyRequireTask('./tasks/minify', {
 }));
 
 
-gulp.task('app:compile-css', ['app:compile-css-once'], wrapWatch("app/**/*.styl", "app:compile-css-once"));
+gulp.task('app:compile-css', ['app:compile-css-once'], wrapWatch(["app/**/*.styl","app/**/*.sprite/**"], "app:compile-css-once"));
 
 
 gulp.task("app:browserify:clean", lazyRequireTask('./tasks/browserifyClean', { dst: './www/js'}));
@@ -106,7 +107,7 @@ gulp.task("app:browserify", ['app:browserify:clean'], lazyRequireTask('./tasks/b
 
 // compile-css and sprites are independant tasks
 // run both or run *-once separately
-gulp.task('run', ['supervisor', 'app:livereload', "app:sync-resources", 'app:compile-css', 'app:sprite', 'app:browserify', 'app:sync-css-images']);
+gulp.task('run', ['supervisor', 'app:livereload', "app:sync-resources", 'app:compile-css', 'app:browserify', 'app:sync-css-images']);
 
 gulp.task('tutorial:import', lazyRequireTask('tutorial/tasks/import', {
   root:        path.join(process.cwd(), 'javascript-tutorial'),
