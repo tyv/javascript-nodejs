@@ -21,6 +21,7 @@ function mountHmvc(prefix, hmvcModulePath) {
       self.templatePaths.push(hmvcTemplateDir);
     }
 
+    // before leaving middleware
     function undo() {
       self.templatePaths.pop();
     }
