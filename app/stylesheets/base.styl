@@ -1,3 +1,9 @@
+// undefined variable is evaluated to true in conditionals
+// we also don't have anything like !default in SASS,
+// so we use some logic here
+
+ie = false unless ie is defined
+
 // import all from nib except
 // -flex
 // -vendor
@@ -52,7 +58,7 @@
 @require "blocks/balance/balance"
 // @require "blocks/rating/rating"
 @require "blocks/comments/comments"
-// @require "blocks/submit-button/submit-button"
+@require "blocks/submit-button/submit-button"
 // @require "blocks/secondary-button/secondary-button"
 @require "blocks/page-footer/page-footer"
 @require "blocks/soc-icon/soc-icon"
@@ -69,19 +75,19 @@
 // @require "blocks/currency/currency"
 // @require "blocks/lessons/lessons"
 // @require "blocks/category-foot/category-foot"
-// @require "blocks/text-input/text-input"
+@require "blocks/text-input/text-input"
 // @require "blocks/text-marked/text-marked"
-// @require "blocks/input-select/input-select"
-// @require "blocks/textarea-input/textarea-input"
-// @require "blocks/modal-form/modal-form"
-// @require "blocks/social-login/social-login"
+@require "blocks/input-select/input-select"
+@require "blocks/textarea-input/textarea-input"
+@require "blocks/modal-form/modal-form"
+@require "blocks/social-login/social-login"
 // @require "blocks/switch-input/switch-input"
-// @require "blocks/profile/profile"
+@require "blocks/profile/profile"
 // @require "blocks/profile-insert/profile-insert"
 // @require "blocks/select2/select2"
 // @require "blocks/full-phone/full-phone"
 // @require "blocks/confirm/confirm"
-// @require "blocks/social-link/social-link"
+@require "blocks/social-link/social-link"
 // @require "blocks/text-compact-label/text-compact-label"
 // @require "blocks/course-search/course-search"
 // @require "blocks/header-note/header-note"
@@ -146,4 +152,3 @@
 
 
 // @require "jquery-modal/jquery.modal"
-

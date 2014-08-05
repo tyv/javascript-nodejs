@@ -11,17 +11,9 @@ html
         include ../blocks/social-aside
         .main-content
           article.main
-            header.main__header
+            header.main__header.main__header_center
               include ../blocks/breadcrumbs
               h1.main__header-title!= self.title
-              span.main__header-comments
-                a(href='http://learn.javascript.ru/intro#disqus_thread') Комментариев #{self.comments.length}
-              include ../blocks/prev-next-top
             block content
-            include ../blocks/article-foot
-            include ../blocks/prev-next-bottom
-            include ../blocks/corrector
-            include ../blocks/comments
-          include ../blocks/sidebar
         include ../blocks/page-footer
     include ../blocks/scripts

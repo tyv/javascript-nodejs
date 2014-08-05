@@ -1,0 +1,76 @@
+extends ../layouts/nosidebar
+
+// - http://stackoverflow.com/questions/12646451/how-to-pass-variables-between-jade-templates
+block variables
+  - var self = {};
+  - self.bodyId = 'page';
+  - self.title = 'Кабинет пользователя <em class="main__username">Nakazator</em>';
+
+block content
+  .profile
+    include ../blocks/profile-upic
+    .profile__tabs
+      .profile__tab
+        a.profile__section-link(href="#profile") Профиль
+      .profile__tab
+        a.profile__section-link(href="messages") Сообщения
+        //- explicit space
+        |  
+        span.profile__items-amount 3
+      .profile__tab
+        a.profile__section-link(href="#orders") Заказы
+      .profile__tab.profile__tab_current
+        u Сообщения
+        //- explicit space
+        |  
+        span.profile__items-amount 3
+      .profile__tab
+        a.profile__section-link(href="#notifications") Уведомления
+    .profile__conversation
+      h2.profile__conversation-title
+        | Переписка с 
+        a.profile__conversation-title-user(href="#") AnotherUserName
+      .profile__compose
+        img.profile__small-upic(src="/img/linked-userpic.gif", alt="AnotherUserName")
+        .profile__compose-controls
+          textarea.textarea-input.profile__compose-text(rows="10", cols="50", name="profile-message-text")
+          button.submit-button.profile__compose-submit Отправить
+      .profile__conversation-message
+        img.profile__small-upic(src="/img/linked-userpic.gif", alt="AnotherUserName")
+        .profile__message-body
+          a.profile__message-user(href="#") AnotherUserName
+          time.profile__message-time(datetime="2012-09-18T19:25") 18 сентября 2012 в 19:25
+          .profile__message-content
+            | Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magni inventore numquam ea eligendi fugit sed!
+            | Expedita, modi, a quas aliquam dignissimos facilis optio quidem qui mollitia error quae dolore sapiente
+            | consectetur consequatur possimus ipsa officia. Assumenda, architecto quisquam amet magnam sit corrupti
+            | aliquid culpa deserunt eius possimus provident voluptate quae!
+          a.profile__item-delete(title="удалить", href="#del")
+      .profile__conversation-message
+        img.profile__small-upic(src="/img/linked-userpic.gif", alt="AnotherUserName")
+        .profile__message-body
+          a.profile__message-user(href="#") AnotherUserName
+          time.profile__message-time(datetime="2012-09-18T19:25") 18 сентября 2012 в 19:25
+          .profile__message-content
+            | Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          a.profile__item-delete(title="удалить", href="#del")
+      .profile__conversation-message
+        img.profile__small-upic(src="/img/linked-userpic.gif", alt="AnotherUserName")
+        .profile__message-body
+          a.profile__message-user(href="#") AnotherUserName
+          time.profile__message-time(datetime="2012-09-18T19:25") 18 сентября 2012 в 19:25
+          .profile__message-content
+            p
+              | Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veritatis, veniam quidem quas eos quaerat
+              | ad nostrum voluptatum tempora quae iusto dolore voluptates totam eius natus nihil iure tenetur
+              | consequuntur repellat blanditiis delectus? Obcaecati, laboriosam, possimus eaque perspiciatis suscipit
+              | modi nam consequatur tempora quia recusandae alias amet cupiditate culpa sit similique ipsum deserunt
+              | cum inventore a asperiores odio omnis soluta quis fugiat voluptas quidem voluptatibus officiis quaerat
+              | nisi nesciunt odit explicabo incidunt magnam neque ad hic delectus.
+            p
+              | Aliquam, est, repudiandae,
+              | dolores, fuga nesciunt necessitatibus consequatur recusandae molestiae praesentium reprehenderit architecto
+              | iusto. Aliquam, dolor, recusandae ipsa mollitia magni obcaecati doloremque quas totam laborum officiis
+              | at unde non consectetur ab maxime cum corporis vitae omnis quibusdam nostrum perspiciatis accusantium
+              | dolorem voluptas assumenda minus sit explicabo quos consequuntur minima modi neque blanditiis nam illum!
+          a.profile__item-delete(title="удалить", href="#del")

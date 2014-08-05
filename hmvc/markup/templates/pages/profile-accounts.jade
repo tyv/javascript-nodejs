@@ -1,0 +1,69 @@
+extends ../layouts/nosidebar
+
+// - http://stackoverflow.com/questions/12646451/how-to-pass-variables-between-jade-templates
+block variables
+  - var self = {};
+  - self.bodyId = 'page';
+  - self.title = 'Кабинет пользователя <em class="main__username">Nakazator</em>';
+
+block content
+  .profile
+    include ../blocks/profile-upic
+    .profile__tabs
+      .profile__tab
+        a.profile__section-link(href="#profile") Профиль
+      .profile__tab.profile__tab_current Аккаунт
+      .profile__tab
+        a.profile__section-link(href="#orders") Заказы
+      .profile__tab
+        a.profile__section-link(href="#notifications") Уведомления
+    .profile__profiles
+      h2.profile__header Привязанные профили:
+      ul.profile__linked-profiles
+        li.profile__linked-profile
+          img.profile__small-upic(src="/img/linked-userpic.gif", alt="", width="48", height="48")
+          .profile__linked-details
+            a.profile__linked-user(href="vk.com/blah-blah") Алексей Борматенко
+            .profile__linked-service Vkontakte
+            a.profile__item-delete(title="Уалить", href="#del")
+        li.profile__linked-profile
+          img.profile__small-upic(src="/img/linked-userpic.gif", alt="", width="48", height="48")
+          .profile__linked-details
+            a.profile__linked-user(href="facebook.com/blah-blah") Алекс
+            .profile__linked-service Facebook
+            a.profile__item-delete(title="Уалить", href="#del")
+        li.profile__linked-profile
+          img.profile__small-upic(src="/img/linked-userpic.gif", alt="", width="48", height="48")
+          .profile__linked-details
+            a.profile__linked-user(href="twitter.com/blah-blah") Алексус
+            .profile__linked-service Twitter
+            a.profile__item-delete(title="Уалить", href="#del")
+      .profile__social
+        span.profile__social-label Добавить:
+        a.profile__social-add.social-link.social-link_vk(href="#vk") Вконтакте
+        a.profile__social-add.social-link.social-link_tw(href="#tw") Твиттер
+        a.profile__social-add.social-link.social-link_gp(href="#gp") Google+
+        a.profile__social-add.social-link.social-link_fb(href="#fb") Facebook
+        a.profile__social-add.social-link.social-link_gh(href="#gh") GitHub
+      h2.profile__header Управление аккаунтом:
+      .profile__action.profile__inline-editable
+        a.profile__action-trigger.profile__action-trigger_pseudo.profile__action-trigger_pass.profile__inline-edit-trigger(href="#") Сменить пароль
+        .profile__inline-change.profile__inline-change_pass
+          .profile__edit
+            .profile__label-input.profile__label-input_pass-change
+              label(for="profile-old-pass") Старый пароль:
+              span.text-input.profile__text-field
+                input.text-input__control#profile-old-pass(type="password", name="profile-old-pass")
+            .profile__label-input.profile__label-input_pass-change
+              label(for="profile-new-pass") Новый пароль:
+              span.text-input.profile__text-field
+                input.text-input__control#profile-new-pass(type="password", name="profile-new-pass")
+            .profile__label-input.profile__label-input_pass-change
+              label(for="profile-new-pass-again") Новый пароль еще раз:
+              span.text-input.profile__text-field
+                input.text-input__control#profile-new-pass(type="password", name="profile-new-pass-again")
+          .profile__save
+            button.submit-button.profile__submit(type="submit") Сохранить
+            a.profile__item-edit-cancel(href="") Отменить
+      .profile__action
+        a.profile__action-trigger.profile__action-trigger_remove(href="/remove") Удалить аккаунт

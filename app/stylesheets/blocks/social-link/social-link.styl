@@ -1,0 +1,103 @@
+social_link_icon_height = 28px
+social_link_icon_width = 26px
+social_link_width = 60px
+
+.social-link
+	box-shadow rgba(255, 255, 255, .1) 0 2px 0 0 inset
+	display inline-block
+	border-radius 3px
+	background #444
+	min-width social_link_width
+	font-size 12px
+	line-height social_link_icon_height - 4
+	position relative
+	padding 2px 10px 2px 35px
+	
+	&:link,
+	&:visited,
+	&:hover,
+	&:active
+		color #fff
+		text-decoration none
+	
+	&::before
+		content ""
+		position absolute
+		spriteImage $social-link-icons
+	
+	&::after
+		content ""
+		position absolute
+		top 0
+		bottom 0
+		left 26px
+		border-right 1px solid rgba(255, 255, 255, .2)
+	
+	&_vk
+		background linear-gradient(to bottom, #537da1, #486d8c)
+
+	&_vk::before
+		spriteElem $social-link-icons-vk
+		left round((social_link_icon_width - spriteWidthValue($social-link-icons-vk)) / 2)
+		top round((social_link_icon_height - spriteHeightValue($social-link-icons-vk)) / 2)
+
+	&_tw
+		background linear-gradient(to bottom, #23aacf, #21a0c3)
+
+	&_tw::before
+		spriteElem $social-link-icons-tw
+		left round((social_link_icon_width - spriteWidthValue($social-link-icons-tw)) / 2)
+		top round((social_link_icon_height - spriteHeightValue($social-link-icons-tw)) / 2)
+
+	&_gp
+		background linear-gradient(to bottom, #d44c35, #c34029)
+
+	&_gp::before
+		spriteElem $social-link-icons-gp
+		left round((social_link_icon_width - spriteWidthValue($social-link-icons-gp)) / 2)
+		top round((social_link_icon_height - spriteHeightValue($social-link-icons-gp)) / 2)
+	
+	&_fb
+		background linear-gradient(to bottom, #3f67a4, #36588c)
+
+	&_fb::before
+		spriteElem $social-link-icons-fb
+		left round((social_link_icon_width - spriteWidthValue($social-link-icons-fb)) / 2)
+		top round((social_link_icon_height - spriteHeightValue($social-link-icons-fb)) / 2)
+
+	&_gh
+		background linear-gradient(to bottom, #f9f9f9, #efefef)
+		border 1px solid #c5c5c5
+		line-height social_link_icon_height - 6 // extra 2 for borders
+		min-width social_link_width - 2
+
+	&_gh:link,
+	&_gh:visited,
+	&_gh:hover,
+	&_gh:active
+		color color
+
+	&_gh::before
+		spriteElem $social-link-icons-gh
+		left round((social_link_icon_width - spriteWidthValue($social-link-icons-gh)) / 2)
+		top round((social_link_icon_height - spriteHeightValue($social-link-icons-gh)) / 2)
+
+	&_gh::after
+		border-color #c5c5c5
+
+if ie
+	.social-link
+		&_vk
+			background #4d7597
+
+		&_tw
+			background #23aad0
+		
+		&_gp
+			background #ce442b
+		
+		&_vk
+			background #3b6199
+	    
+		&_gh
+			background #efefef
