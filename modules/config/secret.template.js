@@ -7,6 +7,17 @@ exports.payments = {
   modules: {}
 };
 
-exports.auth = {};
 
+exports.auth = {
+  facebook:  {
+  },
+  google:    {
+  },
+  github:    {
+  },
+  yandex:    {
+  },
+  vkontakte: {
+  }
+};
 exports.ses = {};
