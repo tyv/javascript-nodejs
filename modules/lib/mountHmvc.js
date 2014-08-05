@@ -34,7 +34,7 @@ function mountHmvc(prefix, hmvcModulePath) {
       yield* next;
       // ...then apply back, when control goes back after yield next
       apply();
-    }.call(this));
+    });
 
     undo();
 
