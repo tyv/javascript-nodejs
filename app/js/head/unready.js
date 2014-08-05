@@ -3,7 +3,7 @@
 document.addEventListener("click", function(e) {
   var target = event.target;
   while(target) {
-    if (~["a","button"].indexOf(target.tagName) && target.classList.contains('unready')) {
+    if (~["A","BUTTON"].indexOf(target.tagName) && target.classList.contains('unready')) {
       event.preventDefault();
       return;
     }

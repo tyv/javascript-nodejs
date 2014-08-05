@@ -17,7 +17,7 @@ module.exports = function(options, authCallback) {
   request.addEventListener('success', function(event) {
     authModal.innerHTML = event.result;
     initAuthModal(authCallback);
-    initRegister();
+    initAuthRegister();
   });
 
   request.addEventListener('fail', function() {
