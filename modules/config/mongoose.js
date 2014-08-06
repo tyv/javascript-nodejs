@@ -83,24 +83,3 @@ mongoose.waitConnect = function(callback) {
 };
 
 module.exports = mongoose;
-
-/*
-// models may want lib/mongoose that's why we require them AFTER module.exports = mongoose
-
-
-// read ALL models NOW, so that any hmvc app may require a model of another app
-requireModels();
-
-function requireModels() {
-  var root = process.cwd();
-
-  requireTree(path.join(root, 'model'));
-
-  var hmvcApps = fs.readdirSync(path.join(root, 'hmvc'));
-  hmvcApps.forEach(function(hmvcDir) {
-    var modelPath = path.join(path.join(root), 'hmvc', hmvcDir, 'model');
-    if (fs.existsSync(modelPath)) requireTree(modelPath);
-  });
-}
-
-*/

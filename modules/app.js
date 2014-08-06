@@ -58,7 +58,18 @@ requireSetup('setup/csrf');
 
 requireSetup('setup/payments');
 
-requireSetup('setup/router');
+requireSetup('setup/hmvc');
+
+// by default if the router didn't find anything => it yields to next middleware
+// so I throw error here manually
+app.use(function* (next) {
+  yield* next;
+
+  if (this.status == 404) {
+    // still nothing found? let default errorHandler show 404
+    this.throw(404);
+  }
+});
 
 // wait for full app load and all associated warm-ups to finish
 // mongoose buffers queries, so for tests there's no reason to wait

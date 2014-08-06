@@ -43,7 +43,7 @@ const schema = new Schema({
 });
 
 // all resources are here
-schema.statics.resourceFsRoot = path.join(config.publicPath, 'article');
+schema.statics.resourceFsRoot = path.join(config.publicRoot, 'article');
 
 schema.statics.getResourceFsRootBySlug = function(slug) {
   return path.join(schema.statics.resourceFsRoot, slug);

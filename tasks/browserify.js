@@ -59,7 +59,7 @@ module.exports = function() {
 
     var bundler = makeBundler({
       entries: [],
-      dst:     './www/js/vendor.js',
+      dst:     './public/js/vendor.js',
       require: vendor
     });
 
@@ -67,24 +67,24 @@ module.exports = function() {
 
     // head.js does not use any polyfills etc
     var bundler = makeBundler({
-      entries: './app/js/head',
-      dst:     './www/js/head.js'
+      entries: './frontend/js/head',
+      dst:     './public/js/head.js'
     });
 
     bundler.rebundle();
 
 
     var bundler = makeBundler({
-      entries: './app/js/navigation.js',
-      dst:     './www/js/navigation.js'
+      entries: './frontend/js/navigation.js',
+      dst:     './public/js/navigation.js'
     });
 
     bundler.rebundle();
 
 
     var bundler = makeBundler({
-      entries: './app/js/main.js',
-      dst:     './www/js/main.js',
+      entries: './frontend/js/main.js',
+      dst:     './public/js/main.js',
       externals: vendor
     });
 

@@ -53,7 +53,7 @@ module.exports = function render(app) {
     this.locals = _.assign({}, config.template.options);
     addStandardHelpers(this.locals, ctx);
 
-    this.templatePaths = [path.join(process.cwd(), 'templates')];
+    this.templatePaths = [path.join(config.projectRoot, 'templates')];
 
     // render('article', {})  -- 2 args
     // render('article')

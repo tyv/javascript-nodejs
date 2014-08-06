@@ -1,20 +1,18 @@
 var mount = require('koa-mount');
 var path = require('path');
 
-// mountHmvc(prefix, 'modulePath')
+// wrap('modulePath')
 // is same as
-// mount(prefix, require('modulePath').middleware),
+// require('modulePath').middleware,
 // but also does
 //   --> this.templatePaths.push(hmvcModule dirname) when entering middleware / pop on leaving
-function mountHmvc(prefix, hmvcModulePath) {
-  var hmvcModule = require(hmvcModulePath);
-  var hmvcModuleDir = path.dirname(require.resolve(hmvcModulePath));
+function wrapHmvcMiddleware(hmvcModulePath, hmvcMiddleware) {
+  var hmvcModuleDir = path.dirname(hmvcModulePath);
 
-  return mount(prefix, function*(next) {
+  return function*(next) {
     var self = this;
 
     var hmvcTemplateDir = path.join(hmvcModuleDir, 'templates');
-    var middleware = hmvcModule.middleware;
 
     // before entering middeware
     function apply() {
@@ -28,7 +26,7 @@ function mountHmvc(prefix, hmvcModulePath) {
 
     apply();
 
-    yield* middleware.call(this, function* (){
+    yield* hmvcMiddleware.call(this, function* (){
       // when middleware does yield next, undo changes
       undo();
       yield* next;
@@ -38,7 +36,7 @@ function mountHmvc(prefix, hmvcModulePath) {
 
     undo();
 
-  });
+  };
 }
 
-module.exports = mountHmvc;
+module.exports = wrapHmvcMiddleware;

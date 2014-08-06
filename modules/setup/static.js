@@ -4,7 +4,7 @@
 const favicon = require('koa-favicon');
 const send = require('koa-send');
 const path = require('path');
-
+const config = require('config');
 
 /**
  * koa-static is a thin wrapper around koa-send
@@ -20,7 +20,7 @@ module.exports = function(app) {
 
   app.use(function*(next) {
     var opts = {
-      root: 'www',
+      root: config.publicRoot,
       index: 'index.html'
     };
 

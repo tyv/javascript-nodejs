@@ -31,10 +31,10 @@ ImgSizeTransformer.prototype.run = function* () {
 
     if (node.attrs.width && node.attrs.height) return;
 
-    var imagePath = path.join(config.publicPath, node.attrs.src);
+    var imagePath = path.join(config.publicRoot, node.attrs.src);
 
     // path out of our root folder
-    if (imagePath.slice(0, config.publicPath.length + 1) != config.publicPath + '/') return;
+    if (imagePath.slice(0, config.publicRoot.length + 1) != config.publicRoot + '/') return;
 
     if (!/\.(png|jpg|gif|jpeg|svg)$/i.test(imagePath)) {
       return new ErrorTag("span", "Неподдерживамое расширение, должно оканчиваться на png/jpg/gif/jpeg/svg: " + node.attrs.src);

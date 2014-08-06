@@ -28,9 +28,9 @@ SourceFileTransformer.prototype.run = function* () {
 
     if (!node.src) return;
 
-    var sourcePath = path.join(config.publicPath, node.src);
+    var sourcePath = path.join(config.publicRoot, node.src);
     // path out of our root folder
-    if (sourcePath.slice(0, config.publicPath.length + 1) != config.publicPath + '/') return;
+    if (sourcePath.slice(0, config.publicRoot.length + 1) != config.publicRoot + '/') return;
 
     var content;
 

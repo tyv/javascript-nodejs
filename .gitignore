@@ -29,8 +29,8 @@ tmp/
 out/*
 
 # Generated content
-www/*
-app/stylesheets/sprites/*
+public/*
+frontend/styles/sprites/*
 
 # Bower stuff.
 bower_components/
