@@ -3,7 +3,6 @@
 //- MIT Licensed
 
 //- Settings
-- var bemto_settings_prefix = ''
 - var bemto_settings_element = '__'
 - var bemto_settings_modifier = '_'
 - var bemto_settings_default_tag = 'div'
@@ -147,7 +146,7 @@ mixin b(tag, isElement)
     if bemto_classes instanceof Array
       - bemto_classes = bemto_classes.join(' ');
     - bemto_classes = bemto_classes.split(' ');
-    - var bemto_block = bemto_classes[0].match(new RegExp('^(((?!' + bemto_settings_element + '|' + bemto_settings_modifier +').)+)'))[1]
+    - var bemto_block = bemto_classes[0].match(/^(((?!__|_).)+)/)[1]
 
     if !isElement
       - bemto_chain[bemto_chain.length] = bemto_block
@@ -162,19 +161,15 @@ mixin b(tag, isElement)
       - bemto_classes[bemto_classes.length] = current_block
 
     each klass, i in bemto_classes
-      if klass.match(new RegExp('^(?!' + bemto_settings_element + ')' + bemto_settings_modifier))
+      if klass.match(/^(?!__)_/)
         //- Expanding the modifiers
         - bemto_classes[i] = current_block + klass
-      else if klass.match(new RegExp('^' + bemto_settings_element))
+      else if klass.match(/^__/)
         //- Expanding the mixed in elements
         if bemto_chain[bemto_chain.length-2]
           - bemto_classes[i] = bemto_chain[bemto_chain.length-2] + klass
         else
           - bemto_classes[i] = bemto_chain[bemto_chain.length-1] + klass
-
-      //- Adding prefixes
-      if bemto_classes[i].match(new RegExp('^' + current_block + '($|(?=' + bemto_settings_element + '|' + bemto_settings_modifier + '))'))
-        - bemto_classes[i] = bemto_settings_prefix + bemto_classes[i]
 
     //- Write modified classes to attributes in the correct order
     - attributes.class = bemto_classes.sort().join(' ')
