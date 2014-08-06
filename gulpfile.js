@@ -65,7 +65,7 @@ gulp.task('frontend:sync-css-images', ['frontend:sync-css-images-once'],
 
 
 gulp.task('frontend:sprite-once', lazyRequireTask('./tasks/sprite', {
-  spritesSearchFsRoot: 'app',
+  spritesSearchFsRoot: 'frontend',
   spritesWebRoot:      '/i',
   spritesFsDir:        'public/i',
   styleFsDir:          'frontend/styles/sprites'
