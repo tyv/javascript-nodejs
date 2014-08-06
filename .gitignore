@@ -29,7 +29,7 @@ tmp/
 out/*
 
 # Generated content
-www/*
+public/*
 app/stylesheets/sprites/*
 
 # Bower stuff.

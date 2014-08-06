@@ -1,25 +1,32 @@
-'use strict';
-
 var mount = require('koa-mount');
-var compose = require('koa-compose');
-var mountHmvc = require('lib/mountHmvc');
+
+// same as require(path).middleware, with additional pre/post-processing
+var wrapHmvcMiddleware = require('lib/wrapHmvcMiddleware');
 
 module.exports = function(app) {
 
+  app.hmvc = {};
 
-  app.use(mountHmvc('/', 'frontpage'));
+  app.mountHmvc = function(prefix, hmvcModulePath) {
+    var hmvcModule = require(hmvcModulePath);
+    hmvcModulePath = require.resolve(hmvcModulePath);
+    app.hmvc[hmvcModulePath] = hmvcModule;
+    app.use(mount(prefix, wrapHmvcMiddleware(hmvcModulePath, hmvcModule.middleware)));
+  };
+
+  app.mountHmvc('/', 'frontpage');
 
   if (process.env.NODE_ENV == 'development') {
-    app.use(mountHmvc('/markup', 'markup'));
+    app.mountHmvc('/markup', 'markup');
   }
 
-  app.use(mountHmvc('/auth', 'auth'));
+  app.mountHmvc('/auth', 'auth');
   app.csrf.addIgnorePath('/auth/login/:any*');
 
 
-  app.use(mountHmvc('/getpdf', 'getpdf'));
+  app.mountHmvc('/getpdf', 'getpdf');
 
-  app.use(mountHmvc('/payments', 'payments'));
+  app.mountHmvc('/payments', 'payments');
   app.csrf.addIgnorePath('/payments/:any*');
   app.verboseLogger.addPath('/payments/:any*');
 
@@ -42,17 +49,7 @@ module.exports = function(app) {
 */
 
   // stick to bottom to detect any not-yet-processed /:slug
-  app.use(mountHmvc('/', 'tutorial'));
+  app.mountHmvc('/', 'tutorial');
 
-  // by default if the router didn't find anything => it yields to next middleware
-  // so I throw error here manually
-  app.use(function* (next) {
-    yield* next;
-
-    if (this.status == 404) {
-      // still nothing found? let default errorHandler show 404
-      this.throw(404);
-    }
-  });
 
 };

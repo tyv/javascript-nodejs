@@ -51,5 +51,6 @@ module.exports = {
       iterations: process.env.NODE_ENV == 'prod' ? 12000 : 1
     }
   },
-  publicPath:  path.join(process.cwd(), 'www')
+  projectRoot: process.cwd(),
+  publicPath:  path.join(process.cwd(), 'public')
 };
