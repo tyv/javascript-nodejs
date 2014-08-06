@@ -52,5 +52,5 @@ module.exports = {
     }
   },
   projectRoot: process.cwd(),
-  publicPath:  path.join(process.cwd(), 'public')
+  publicRoot:  path.join(process.cwd(), 'public')
 };

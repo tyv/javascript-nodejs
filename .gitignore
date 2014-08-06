@@ -30,7 +30,7 @@ out/*
 
 # Generated content
 public/*
-app/stylesheets/sprites/*
+frontend/styles/sprites/*
 
 # Bower stuff.
 bower_components/

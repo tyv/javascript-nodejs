@@ -55,12 +55,12 @@ gulp.task("frontend:sync-resources", lazyRequireTask('./tasks/syncResources', {
 }));
 
 gulp.task("frontend:sync-css-images-once", lazyRequireTask('./tasks/syncCssImages', {
-  src: 'frontend/stylesheets/**/*.{png,svg,gif,jpg}',
+  src: 'frontend/styles/**/*.{png,svg,gif,jpg}',
   dst: 'public/i'
 }));
 
 gulp.task('frontend:sync-css-images', ['frontend:sync-css-images-once'],
-  wrapWatch('frontend/stylesheets/**/*.{png,svg,gif,jpg}', 'frontend:sync-css-images-once')
+  wrapWatch('frontend/styles/**/*.{png,svg,gif,jpg}', 'frontend:sync-css-images-once')
 );
 
 
@@ -68,13 +68,13 @@ gulp.task('frontend:sprite-once', lazyRequireTask('./tasks/sprite', {
   spritesSearchFsRoot: 'app',
   spritesWebRoot:      '/i',
   spritesFsDir:        'public/i',
-  styleFsDir:          'frontend/stylesheets/sprites'
+  styleFsDir:          'frontend/styles/sprites'
 }));
 
 //gulp.task('frontend:sprite', ['frontend:sprite-once'], wrapWatch("frontend/**/*.sprite/**", 'sprite'));
 
 gulp.task('frontend:clean-compiled-css', function(callback) {
-  fs.unlink('./public/stylesheets/base.css', function(err) {
+  fs.unlink('./public/styles/base.css', function(err) {
     if (err && err.code == 'ENOENT') err = null;
     callback(err);
   });
@@ -85,8 +85,8 @@ gulp.task('frontend:compile-css-once',
   // need sprite here, because it generates sprite.styl required by other .styl's
   ['frontend:clean-compiled-css', 'frontend:sprite-once'],
   lazyRequireTask('./tasks/compileCss', {
-    src: './frontend/stylesheets/base.styl',
-    dst: './public/stylesheets'
+    src: './frontend/styles/base.styl',
+    dst: './public/styles'
   })
 );
 
