@@ -10,12 +10,13 @@ html
       - self.comments.lenght = 5;
 
     include ../blocks/head
+    include /bemto
 
   body
     .modal
       .modal-dialog
-        .login-form
-          form.login-form__form(action="#")
+        +b.login-form
+          +e('form').form(action="#")
             .login-form__line.login-form__header
               h4.login-form__title Вход в систему
               .login-form__header-aside
@@ -30,19 +31,20 @@ html
               label.login-form__label(for="login") Имя пользователя или Email:
               span.text-input.login-form__input
                 input.text-input__control#login(name="login")
-            .login-form__line
+            +e.line
               label.login-form__label(for="password") Пароль:
               span.text-input.login-form__input
-                input.text-input__control#password(type="password", name="password")
+              +b('span').text-input.__input
+                +e('input').control#password(type="password", name="password")
             .login-form__line.login-form__footer
               .login-form__button
                 button.submit-button.login-form__submit(type="submit") Войти
               .login-form__footer-link
                 a(href="forgot") Забыли пароль?
-            .login-form__line.login-form__social-login
-              h5.login-form__social-login-title Вход через социальные сети
+            +e.line.__social-login
+              +e('h5').social-login-title Вход через социальные сети
               =" "
-              a.social-login.social-login_twitter(href="#") Twitter
+              +b('a').social-login._twitter(href="#") Twitter
               =" "
               a.social-login.social-login_vkontakte(href="#") Вконтакте
               =" "

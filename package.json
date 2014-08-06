@@ -3,10 +3,10 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "prod": "NODE_ENV=production node --harmony ./bin/www",
-    "dev": "NODE_ENV=development supervisor --harmony --debug --ignore node_modules ./bin/www",
-    "debug": "NODE_ENV=development supervisor --harmony --debug-brk --ignore node_modules ./bin/www",
-    "test": "NODE_ENV=test supervisor --harmony --debug --ignore node_modules ./bin/www",
+    "prod": "NODE_ENV=production node --harmony ./bin/server",
+    "dev": "NODE_ENV=development supervisor --harmony --debug --ignore node_modules ./bin/server",
+    "debug": "NODE_ENV=development supervisor --harmony --debug-brk --ignore node_modules ./bin/server",
+    "test": "NODE_ENV=test supervisor --harmony --debug --ignore node_modules ./bin/server",
     "fixperms": "chown -R `id -u` . * ~/.npm ~/.node-gyp"
   },
   "precommit": "NODE_ENV=development node --harmony `which gulp` pre-commit",
