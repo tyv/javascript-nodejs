@@ -1,0 +1,121 @@
+.navbar
+	background #e9e9dd
+	border-top-left-radius 4px
+	border-top-right-radius 4px
+	font 700 15px secondary_font
+
+.navbar__sections
+	line-height 30px
+	display table
+	width 100%
+
+.navbar__sections-item
+	display table-cell
+	vertical-align top
+	text-align center
+	border-right 1px solid #384144
+	text-transform uppercase
+	white-space nowrap
+	color secondary_color
+
+.navbar__sections-item_active,
+.navbar__sections-link
+	padding 4px 15px 7px 10px
+
+.navbar__sections-item_active .navbar__sections-link
+	margin -4px -15px -7px -10px
+
+.navbar__sections-item_active .navbar__sections-link:link,
+.navbar__sections-item_active .navbar__sections-link:visited,
+.navbar__sections-item_active .navbar__sections-link:hover,
+.navbar__sections-item_active .navbar__sections-link:active,
+.navbar__sections-item.open .navbar__sections-link
+	background none
+	color secondary_color
+
+.navbar__sections-link
+	display block
+	background #22292b
+
+.navbar__sections-link
+	&:hover
+		background #373E3F
+	&:link
+	&:visited
+	&:hover
+	&:active
+		color #fff
+		text-decoration none
+	
+.navbar__icon
+	font-weight 400
+	padding-right 10px
+	line-height 0
+	color #caf3ff
+
+.navbar__sections-item_active .navbar__icon,
+.navbar__sections-item.open .navbar__icon
+	color secondary_color
+
+.navbar__sections-link::before
+	color #caf3ff
+	
+.navbar__icon_study::before
+	@extend $font-study
+	
+.navbar__icon_blogs::before
+	@extend $font-blogs
+	
+.navbar__icon_qa::before
+	@extend $font-qa
+	
+.navbar__icon_reference::before
+	@extend $font-reference
+
+.navbar__icon_events::before
+	@extend $font-events
+
+.navbar__icon_job::before
+	@extend $font-job
+	
+.navbar__icon_sandbox::before
+	@extend $font-code
+
+.navbar__icon_chat::before
+	@extend $font-chat
+
+.navbar__icon_search
+	padding-right 0
+	color #fff
+
+.navbar__icon_search::before
+	@extend $font-search
+
+.navbar__sections-item_search
+	padding 0
+	width 40px
+	text-align center
+	background #22292b
+		
+	.dropdown__toggle
+		@extend $button-reset
+		font-size 16px
+		width 40px
+		height 40px
+		display block
+			
+
+	&.open
+		background #B81800
+
+.navbar__sections-item:first-child,
+.navbar__sections-item:first-child .navbar__sections-link
+	border-top-left-radius 4px
+
+	
+.navbar__sections-item:nth-last-child(2).navbar__sections-item_active
+	border-right 1px solid transparent
+	
+.navbar__sections-item:last-child
+	border-right 0
+	border-top-right-radius 4px
