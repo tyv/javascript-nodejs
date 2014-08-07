@@ -1,5 +1,5 @@
-var xhr = require('frontend/xhr');
-var delegate = require('frontend/delegate');
+var xhr = require('client/xhr');
+var delegate = require('client/delegate');
 
 // Run like this:
 // login()

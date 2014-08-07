@@ -67,7 +67,7 @@ module.exports = function() {
 
     // head.js does not use any polyfills etc
     var bundler = makeBundler({
-      entries: './frontend/js/head',
+      entries: './client/head',
       dst:     './public/js/head.js'
     });
 
@@ -75,7 +75,7 @@ module.exports = function() {
 
 
     var bundler = makeBundler({
-      entries: './frontend/js/navigation.js',
+      entries: './client/navigation.js',
       dst:     './public/js/navigation.js'
     });
 
@@ -83,7 +83,7 @@ module.exports = function() {
 
 
     var bundler = makeBundler({
-      entries: './frontend/js/main.js',
+      entries: './client/main.js',
       dst:     './public/js/main.js',
       externals: vendor
     });

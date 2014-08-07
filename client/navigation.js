@@ -1,7 +1,7 @@
 require('./polyfill');
 require('./xhr-notify');
 
-var login = require('auth/frontend/login');
+var login = require('auth/client/login');
 
 
 window.addInitHandler("login", function() {
