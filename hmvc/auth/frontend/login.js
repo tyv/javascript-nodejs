@@ -1,4 +1,5 @@
 var xhr = require('frontend/xhr');
+var delegate = require('frontend/delegate');
 
 // Run like this:
 // login()
@@ -79,7 +80,7 @@ function initAuthLogin(authCallback) {
     request.send(new FormData(loginForm));
   });
 
-  loginForm.on("click", "[data-provider]", function(event) {
+  delegate(loginForm, "[data-provider]", "click", function(event) {
     event.preventDefault();
     openAuthPopup('/auth/login/' + this.dataset.provider);
   });

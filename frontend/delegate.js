@@ -1,4 +1,4 @@
-require('./dom4');
+require('./polyfill/dom4');
 
 function findDelegateTarget(event, selector) {
   var currentNode = event.target;
@@ -15,12 +15,13 @@ function findDelegateTarget(event, selector) {
   return null;
 }
 
-// IE doesn't have EventTarget, corresponding methods are in Node
-var prototype = (window.EventTarget || Node).prototype;
-
-// currentTarget is top-level element!
-prototype.on = function(eventName, selector, handler) {
-  this.addEventListener(eventName, function(event) {
+// delegate(table, 'th', click, handler)
+// table
+//   thead
+//     th         ^*
+//       code  <--
+function delegate(topElement, selector, eventName, handler) {
+  topElement.addEventListener(eventName, function(event) {
     var found = findDelegateTarget(event, selector);
 
     // currentTarget is read only, I can not fix it
@@ -34,8 +35,7 @@ prototype.on = function(eventName, selector, handler) {
       handler.call(found, event);
     }
   });
-};
+}
 
-prototype.off = function() {
-  throw new Error("Not implemented (you need it? file an issue)");
-};
+module.exports = delegate;
+

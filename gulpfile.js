@@ -47,20 +47,20 @@ gulp.task("supervisor", ['link-modules'], lazyRequireTask('./tasks/supervisor', 
 
 gulp.task("frontend:livereload", lazyRequireTask("./tasks/livereload", { watch: "public/**/*.*" }));
 
-gulp.task('link-modules', lazyRequireTask('./tasks/linkModules', { src: ['modules/*', 'hmvc/*'] }));
+gulp.task('link-modules', lazyRequireTask('./tasks/linkModules', { src: ['frontend', 'modules/*', 'hmvc/*'] }));
 
 gulp.task("frontend:sync-resources", lazyRequireTask('./tasks/syncResources', {
-  'frontend/fonts': 'public/fonts',
-  'frontend/img':   'public/img'
+  'assets/fonts': 'public/fonts',
+  'assets/img':   'public/img'
 }));
 
 gulp.task("frontend:sync-css-images-once", lazyRequireTask('./tasks/syncCssImages', {
-  src: 'frontend/styles/**/*.{png,svg,gif,jpg}',
+  src: 'styles/**/*.{png,svg,gif,jpg}',
   dst: 'public/i'
 }));
 
 gulp.task('frontend:sync-css-images', ['frontend:sync-css-images-once'],
-  wrapWatch('frontend/styles/**/*.{png,svg,gif,jpg}', 'frontend:sync-css-images-once')
+  wrapWatch('styles/**/*.{png,svg,gif,jpg}', 'frontend:sync-css-images-once')
 );
 
 
@@ -68,7 +68,7 @@ gulp.task('frontend:sprite-once', lazyRequireTask('./tasks/sprite', {
   spritesSearchFsRoot: 'frontend',
   spritesWebRoot:      '/i',
   spritesFsDir:        'public/i',
-  styleFsDir:          'frontend/styles/sprites'
+  styleFsDir:          'styles/sprites'
 }));
 
 //gulp.task('frontend:sprite', ['frontend:sprite-once'], wrapWatch("frontend/**/*.sprite/**", 'sprite'));
@@ -85,7 +85,7 @@ gulp.task('frontend:compile-css-once',
   // need sprite here, because it generates sprite.styl required by other .styl's
   ['frontend:clean-compiled-css', 'frontend:sprite-once'],
   lazyRequireTask('./tasks/compileCss', {
-    src: './frontend/styles/base.styl',
+    src: './styles/base.styl',
     dst: './public/styles'
   })
 );
@@ -95,7 +95,7 @@ gulp.task('frontend:minify', lazyRequireTask('./tasks/minify', {
 }));
 
 
-gulp.task('frontend:compile-css', ['frontend:compile-css-once'], wrapWatch(["frontend/**/*.styl","frontend/**/*.sprite/**"], "frontend:compile-css-once"));
+gulp.task('frontend:compile-css', ['frontend:compile-css-once'], wrapWatch(["styles/**/*.styl","styles/**/*.sprite/**"], "frontend:compile-css-once"));
 
 
 gulp.task("frontend:browserify:clean", lazyRequireTask('./tasks/browserifyClean', { dst: './public/js'}));

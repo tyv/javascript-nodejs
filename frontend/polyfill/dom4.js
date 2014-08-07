@@ -1,7 +1,6 @@
-
 function textNodeIfString(node) {
-    return typeof node === 'string' ? document.createTextNode(node) : node;
-  }
+  return typeof node === 'string' ? document.createTextNode(node) : node;
+}
 
 function mutationMacro(nodes) {
   if (nodes.length === 1) {
@@ -40,10 +39,10 @@ var methods = {
     }
   },
   replace: function() {
-      var parentNode = this.parentNode;
-      if (parentNode) {
-        parentNode.replaceChild(mutationMacro(arguments), this);
-      }
+    var parentNode = this.parentNode;
+    if (parentNode) {
+      parentNode.replaceChild(mutationMacro(arguments), this);
+    }
   },
   remove: function() {
     var parentNode = this.parentNode;
@@ -61,14 +60,14 @@ for (var methodName in methods) {
 
 try {
   new CustomEvent("IE has CustomEvent, but doesn't support constructor");
-} catch(e) {
+} catch (e) {
 
   window.CustomEvent = function(event, params) {
     var evt;
     params = params || {
-      bubbles:    false,
+      bubbles: false,
       cancelable: false,
-      detail:     undefined
+      detail: undefined
     };
     evt = document.createEvent("CustomEvent");
     evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
