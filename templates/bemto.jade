@@ -146,7 +146,9 @@ mixin b(tag, isElement)
     if bemto_classes instanceof Array
       - bemto_classes = bemto_classes.join(' ');
     - bemto_classes = bemto_classes.split(' ');
-    - var bemto_block = bemto_classes[0].match(/^(((?!__|_).)+)/)[1]
+    - var match = bemto_classes[0].match(/^(((?!__|_).)+)/)
+    - if (!match) console.log(attributes.class)
+    - var bemto_block = match[1]
 
     if !isElement
       - bemto_chain[bemto_chain.length] = bemto_block

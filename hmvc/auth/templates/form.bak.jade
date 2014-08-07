@@ -1,0 +1,56 @@
+
+
+
+
+
+
+
+
+
+form.login-form
+  h2 Вход в систему
+
+  .auth-error
+
+  //- button need type
+  //- if no type then button is same as submit and browser clicks it on submit
+  button(type="button" data-provider="facebook") Facebook
+  button(type="button" data-provider="yandex") Yandex
+  button(type="button" data-provider="google") Google
+  button(type="button" data-provider="github") Github
+  button(type="button" data-provider="vkontakte") Vkontakte
+
+  div
+    label Email
+      input(name="email",type="email",required,value="a@b.ru")
+
+  div
+    label Пароль
+      input(name="password",type="password",required,value="bla")
+
+  div
+    input(type="submit" value="Войти")
+
+
+form.register-form
+  h2 Регистрация
+
+  .auth-error
+
+  div
+    label Email (скрыт)
+      input(name="email",type="email",required,value="iliakan@gmail.com")
+
+  div
+    label Имя пользователя
+      input(name="displayName",type="text",required,value="tester")
+
+  div
+    label Пароль
+      input(name="password",type="password",required,value="bla")
+
+  div
+    input(type="submit" value="Зарегистрироваться")
+
+
+

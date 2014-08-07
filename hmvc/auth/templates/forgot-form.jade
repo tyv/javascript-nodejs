@@ -1,0 +1,19 @@
+include /bemto
+
++b.login-form(data-form="forgot")
+  +e('form').form(action="#")
+    +e.line.__header
+      +e('h4').title Восстановление пароля
+    +e.line.__note
+      | Укажите ваш email в форме ниже, и мы вышлем на него обновлённый пароль.
+    +e.line.__notification(data-notification)
+    +e.line
+      +e('label').label(for="forgot-email") Email:
+      +b('span').text-input.__input
+        +e('input').control#forgot-email(name="email")
+    +e.line.__footer
+      +e.button
+        +b('button').submit-button.__submit(type="submit") Восстановить пароль
+      +e.footer-link
+        a(href="#cancel") Отмена
+

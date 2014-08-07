@@ -106,7 +106,9 @@ gulp.task("frontend:browserify", ['frontend:browserify:clean'], lazyRequireTask(
 
 // compile-css and sprites are independant tasks
 // run both or run *-once separately
-gulp.task('run', ['supervisor', 'frontend:livereload', "frontend:sync-resources", 'frontend:compile-css', 'frontend:browserify', 'frontend:sync-css-images']);
+gulp.task('run', [
+  'supervisor', 'frontend:livereload',
+  "frontend:sync-resources", 'frontend:compile-css', 'frontend:browserify', 'frontend:sync-css-images']);
 
 gulp.task('tutorial:import', lazyRequireTask('tutorial/tasks/import', {
   root:        path.join(config.projectRoot, 'javascript-tutorial'),
