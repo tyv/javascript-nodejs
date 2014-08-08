@@ -1,0 +1,20 @@
+.loader
+	size-of 'loader.gif'
+	background url('/i/loader.gif') 50% 50% no-repeat
+	visibility hidden
+
+	&_active
+		visibility visible
+
+	&_small
+		size-of 'loader_small.gif'
+		background url('/i/loader_small.gif') 50% 50% no-repeat
+
+	&_rounded
+		border 1px solid #E9E9E9
+		padding 5px 10px
+		border-radius ((image-height('loader.gif') + 10) / 2)
+
+	&_small&_rounded
+		padding 3px 6px
+		border-radius ((image-height('loader_small.gif') + 6) / 2)

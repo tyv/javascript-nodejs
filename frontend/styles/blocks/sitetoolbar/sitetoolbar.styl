@@ -1,27 +1,31 @@
 navbar_gray = #8B8987
-.navbar
+.sitetoolbar
 	box-shadow 0 2px 4px -2px rgba(0, 0, 0, .5)
 	position relative
-	height 60px
-	display table
-	width 100%
-	font-size 16px
-	line-height 20px
+
+	&__content
+		display table
+		width 100%
+		font-size 16px
+		border-collapse collapse
 
 	&__logo-wrap,
 	&__sections,
 	&__user-wrap,
+	&__login-wrap,
 	&__search-wrap
 		display table-cell
 		vertical-align top
 		text-align left
+		white-space nowrap
+		line-height 26px
 
 	&__logo-wrap
 		width 182px
 
-	&__user-wrap
+	&__user-wrap,
+	&__login-wrap
 		width .1%
-		white-space nowrap
 		padding-right 17px
 
 	&__search-wrap
@@ -37,7 +41,7 @@ navbar_gray = #8B8987
 		margin 0
 
 	&__sections
-		padding 20px 0
+		padding 17px 0
 	
 	&__section
 		display inline-block
@@ -49,23 +53,31 @@ navbar_gray = #8B8987
 
 	&__link
 		color navbar_gray
+		display inline-block
 
 	&__link:hover
 		text-decoration none
 
-	&__user
+	&__user,
+	&__login
 		@extend $button-reset
 		font 16px font
 		color navbar_gray
-		margin 20px 0
+		margin 17px 0
 		vertical-align bottom
 		line-height inherit
+
+	&__login-loader
+		display inline-block
+		margin-top ((60 - image-height('../loader/loader_small.gif')) / 2) + 2px
+		margin-right 8px
+		vertical-align top
 
 	&__user::before
 		content ""
 		display inline-block
-		background url('/i/navbar__user.png') 0 0 no-repeat
-		size-of 'navbar__user.png'
+		background url('/i/sitetoolbar__user.png') 0 0 no-repeat
+		size-of 'sitetoolbar__user.png'
 		margin -1px 0 0
 		vertical-align middle
 		padding 0 10px 0 0
@@ -76,7 +88,16 @@ navbar_gray = #8B8987
 		padding-left 7px
 		color #C4C2C0
 		font-size 14px
+		vertical-align bottom
+		position relative
+		top 2px
 
 	&__search
 		@extend $button-reset
-		margin 18px 0 19px
+		margin 17px 0
+
+	&__loader
+		background-color #fff
+		position absolute
+		left 50%
+		margin -12px 0 0 -32px
