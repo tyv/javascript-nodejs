@@ -7,7 +7,6 @@ const gulp = require('gulp');
 const path = require('path');
 const fs = require('fs');
 const assert = require('assert');
-const config = require('config');
 const development = (process.env.NODE_ENV == 'development');
 
 const jsSources = [
@@ -43,7 +42,11 @@ gulp.task('lint', ['lint-once'], wrapWatch(jsSources, 'lint'));
 // usage: gulp loaddb --db fixture/db
 gulp.task('loaddb', lazyRequireTask('./tasks/loadDb'));
 
-gulp.task("supervisor", ['link-modules'], lazyRequireTask('./tasks/supervisor', { cmd: "./bin/server", watch: ["hmvc", "modules"] }));
+gulp.task("nodemon", ['link-modules'], lazyRequireTask('./tasks/nodemon', {
+  script: "./bin/server",
+  ignore: '**/client/', // ignore hmvc apps client code
+  watch:  ["hmvc", "modules"]
+}));
 
 gulp.task("client:livereload", lazyRequireTask("./tasks/livereload", { watch: "public/**/*.*" }));
 
@@ -95,7 +98,7 @@ gulp.task('client:minify', lazyRequireTask('./tasks/minify', {
 }));
 
 
-gulp.task('client:compile-css', ['client:compile-css-once'], wrapWatch(["styles/**/*.styl","styles/**/*.sprite/**"], "client:compile-css-once"));
+gulp.task('client:compile-css', ['client:compile-css-once'], wrapWatch(["styles/**/*.styl", "styles/**/*.sprite/**"], "client:compile-css-once"));
 
 
 gulp.task("client:browserify:clean", lazyRequireTask('./tasks/browserifyClean', { dst: './public/js'}));
@@ -107,10 +110,10 @@ gulp.task("client:browserify", ['client:browserify:clean'], lazyRequireTask('./t
 // compile-css and sprites are independant tasks
 // run both or run *-once separately
 gulp.task('run', [
-  'supervisor', 'client:livereload',
+  'nodemon', 'client:livereload',
   "client:sync-resources", 'client:compile-css', 'client:browserify', 'client:sync-css-images']);
 
 gulp.task('tutorial:import', lazyRequireTask('tutorial/tasks/import', {
-  root:        path.join(config.projectRoot, 'javascript-tutorial'),
+  root:        'javascript-tutorial',
   updateFiles: true // skip same size files
 }));

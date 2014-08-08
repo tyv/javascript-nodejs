@@ -1,5 +1,6 @@
 var xhr = require('client/xhr');
 var delegate = require('client/delegate');
+var Modal = require('client/modal');
 
 // Run like this:
 // login()
@@ -8,12 +9,11 @@ var delegate = require('client/delegate');
 module.exports = function(options, authCallback) {
   options = options || {};
 
-  var authModal = document.createElement('div');
-  authModal.className = "auth-modal";
+  var modal = new Modal();
 
-  authModal.innerHTML = '<div class="progress large"></div>';
-  document.body.append(authModal);
-
+  modal.setContent('<div class="progress large"></div>');
+  modal.show();
+/*
   var request = xhr({ url: '/auth/login-register-form' });
   request.addEventListener('success',   function(event) {
     authModal.innerHTML = event.result;
@@ -26,7 +26,7 @@ module.exports = function(options, authCallback) {
   });
 
   request.send();
-
+*/
 };
 
 function initAuthModal(authCallback) {
@@ -87,6 +87,7 @@ function initAuthLogin(authCallback) {
 
 }
 
+/*
 document.on('click', '[data-action-verify-email]', function(event) {
   event.preventDefault();
   var request = xhr({method: 'POST', url: '/auth/verify-email'});
@@ -97,6 +98,7 @@ document.on('click', '[data-action-verify-email]', function(event) {
   request.send(JSON.stringify({email: this.dataset.actionVerifyEmail}));
 
 });
+*/
 
 
 function openAuthPopup(url) {

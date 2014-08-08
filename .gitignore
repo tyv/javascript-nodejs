@@ -30,7 +30,7 @@ out/*
 
 # Generated content
 public/*
-client/styles/sprites/*
+styles/sprites/*
 
 # Bower stuff.
 bower_components/
