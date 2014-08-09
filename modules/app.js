@@ -50,13 +50,15 @@ if (process.env.NODE_ENV == 'development') {
 //  app.verboseLogger.addPath('/:any*');
 }
 
+requireSetup('setup/conditional');
+
 requireSetup('setup/session');
 
 requireSetup('setup/passport');
 
 requireSetup('setup/csrf');
 
-requireSetup('setup/payments');
+requireSetup('setup/paymentsMethods');
 
 requireSetup('setup/hmvc');
 
@@ -85,11 +87,10 @@ app.run = function*() {
   yield* app.waitBoot();
 
   yield function(callback) {
-    app.listen(config.port, config.host, function() {
-      log.info('App listen %s:%d', config.host, config.port);
-      callback();
-    });
+    app.listen(config.port, config.host, callback);
   };
+
+  log.info('App listen %s:%d', config.host, config.port);
 };
 
 module.exports = app;

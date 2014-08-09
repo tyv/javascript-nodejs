@@ -27,7 +27,7 @@ module.exports = new GithubStrategy({
       if (error || response.statusCode != 200) {
         log.error(error.message);
         log.error(body);
-        done(null, false, "Ошибка связи с сервером github");
+        done(null, false, {message: "Ошибка связи с сервером github."});
         return;
       }
 
@@ -38,7 +38,7 @@ module.exports = new GithubStrategy({
       });
 
       if (!emails.length) {
-        return done(null, false, "Почта на github должна быть подтверждена");
+        return done(null, false, {message: "Почта на github должна быть подтверждена."});
       }
 
       profile.emails = [

@@ -7,7 +7,6 @@ const gulp = require('gulp');
 const path = require('path');
 const fs = require('fs');
 const assert = require('assert');
-const config = require('config');
 const development = (process.env.NODE_ENV == 'development');
 
 const jsSources = [
@@ -43,37 +42,41 @@ gulp.task('lint', ['lint-once'], wrapWatch(jsSources, 'lint'));
 // usage: gulp loaddb --db fixture/db
 gulp.task('loaddb', lazyRequireTask('./tasks/loadDb'));
 
-gulp.task("supervisor", ['link-modules'], lazyRequireTask('./tasks/supervisor', { cmd: "./bin/server", watch: ["hmvc", "modules"] }));
-
-gulp.task("frontend:livereload", lazyRequireTask("./tasks/livereload", { watch: "public/**/*.*" }));
-
-gulp.task('link-modules', lazyRequireTask('./tasks/linkModules', { src: ['modules/*', 'hmvc/*'] }));
-
-gulp.task("frontend:sync-resources", lazyRequireTask('./tasks/syncResources', {
-  'frontend/fonts': 'public/fonts',
-  'frontend/img':   'public/img'
+gulp.task("nodemon", ['link-modules'], lazyRequireTask('./tasks/nodemon', {
+  script: "./bin/server",
+  ignore: '**/client/', // ignore hmvc apps client code
+  watch:  ["hmvc", "modules"]
 }));
 
-gulp.task("frontend:sync-css-images-once", lazyRequireTask('./tasks/syncCssImages', {
-  src: 'frontend/styles/**/*.{png,svg,gif,jpg}',
+gulp.task("client:livereload", lazyRequireTask("./tasks/livereload", { watch: "public/**/*.*" }));
+
+gulp.task('link-modules', lazyRequireTask('./tasks/linkModules', { src: ['client', 'modules/*', 'hmvc/*'] }));
+
+gulp.task("client:sync-resources", lazyRequireTask('./tasks/syncResources', {
+  'assets/fonts': 'public/fonts',
+  'assets/img':   'public/img'
+}));
+
+gulp.task("client:sync-css-images-once", lazyRequireTask('./tasks/syncCssImages', {
+  src: 'styles/**/*.{png,svg,gif,jpg}',
   dst: 'public/i'
 }));
 
-gulp.task('frontend:sync-css-images', ['frontend:sync-css-images-once'],
-  wrapWatch('frontend/styles/**/*.{png,svg,gif,jpg}', 'frontend:sync-css-images-once')
+gulp.task('client:sync-css-images', ['client:sync-css-images-once'],
+  wrapWatch('styles/**/*.{png,svg,gif,jpg}', 'client:sync-css-images-once')
 );
 
 
-gulp.task('frontend:sprite-once', lazyRequireTask('./tasks/sprite', {
-  spritesSearchFsRoot: 'frontend',
+gulp.task('client:sprite-once', lazyRequireTask('./tasks/sprite', {
+  spritesSearchFsRoot: 'client',
   spritesWebRoot:      '/i',
   spritesFsDir:        'public/i',
-  styleFsDir:          'frontend/styles/sprites'
+  styleFsDir:          'styles/sprites'
 }));
 
-//gulp.task('frontend:sprite', ['frontend:sprite-once'], wrapWatch("frontend/**/*.sprite/**", 'sprite'));
+//gulp.task('client:sprite', ['client:sprite-once'], wrapWatch("client/**/*.sprite/**", 'sprite'));
 
-gulp.task('frontend:clean-compiled-css', function(callback) {
+gulp.task('client:clean-compiled-css', function(callback) {
   fs.unlink('./public/styles/base.css', function(err) {
     if (err && err.code == 'ENOENT') err = null;
     callback(err);
@@ -81,34 +84,36 @@ gulp.task('frontend:clean-compiled-css', function(callback) {
 });
 
 // Show errors if encountered
-gulp.task('frontend:compile-css-once',
+gulp.task('client:compile-css-once',
   // need sprite here, because it generates sprite.styl required by other .styl's
-  ['frontend:clean-compiled-css', 'frontend:sprite-once'],
+  ['client:clean-compiled-css', 'client:sprite-once'],
   lazyRequireTask('./tasks/compileCss', {
-    src: './frontend/styles/base.styl',
+    src: './styles/base.styl',
     dst: './public/styles'
   })
 );
 
-gulp.task('frontend:minify', lazyRequireTask('./tasks/minify', {
+gulp.task('client:minify', lazyRequireTask('./tasks/minify', {
   root: './public'
 }));
 
 
-gulp.task('frontend:compile-css', ['frontend:compile-css-once'], wrapWatch(["frontend/**/*.styl","frontend/**/*.sprite/**"], "frontend:compile-css-once"));
+gulp.task('client:compile-css', ['client:compile-css-once'], wrapWatch(["styles/**/*.styl", "styles/**/*.sprite/**"], "client:compile-css-once"));
 
 
-gulp.task("frontend:browserify:clean", lazyRequireTask('./tasks/browserifyClean', { dst: './public/js'}));
+gulp.task("client:browserify:clean", lazyRequireTask('./tasks/browserifyClean', { dst: './public/js'}));
 
 
-gulp.task("frontend:browserify", ['frontend:browserify:clean'], lazyRequireTask('./tasks/browserify'));
+gulp.task("client:browserify", ['client:browserify:clean'], lazyRequireTask('./tasks/browserify'));
 
 
 // compile-css and sprites are independant tasks
 // run both or run *-once separately
-gulp.task('run', ['supervisor', 'frontend:livereload', "frontend:sync-resources", 'frontend:compile-css', 'frontend:browserify', 'frontend:sync-css-images']);
+gulp.task('run', [
+  'nodemon', 'client:livereload',
+  "client:sync-resources", 'client:compile-css', 'client:browserify', 'client:sync-css-images']);
 
 gulp.task('tutorial:import', lazyRequireTask('tutorial/tasks/import', {
-  root:        path.join(config.projectRoot, 'javascript-tutorial'),
+  root:        'javascript-tutorial',
   updateFiles: true // skip same size files
 }));

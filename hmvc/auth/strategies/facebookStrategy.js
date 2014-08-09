@@ -25,7 +25,7 @@ module.exports = new FacebookStrategy({
     // if not, someone may login with facebook using unverified email,
     // impersonating another user, and we'll let him in :/
     if (!profile._json.verified) {
-      return done(null, false, "Почта на facebook должна быть подтверждена");
+      return done(null, false, {message: "Почта на facebook должна быть подтверждена"});
     }
 
     authenticateByProfile(profile, done);

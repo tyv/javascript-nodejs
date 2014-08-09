@@ -1,0 +1,34 @@
+include /bemto
+
++b.login-form
+  +e('form').form(action="#")(data-form="login")
+    +e.line.__header
+      +e('h4').title Вход в систему
+      +e.header-aside
+        a(href="#register-form") регистрация
+    +e.line.__notification(data-notification)
+    +e.line
+      +e('label').label(for="login-login") Имя пользователя или Email:
+      +b('span').text-input.__input
+        +e('input').control#login-login(name="login")
+    +e.line
+      +e('label').label(for="login-password") Пароль:
+      +b('span').text-input.__input
+        +e('input').control#login-password(type="password", name="password")
+    +e.line.__footer
+      +e.button
+        +b('button').submit-button.__submit(type="submit") Войти
+      +e.footer-link
+        a(href="#forgot-form") Забыли пароль?
+    +e.line.__social-login
+      +e('h5').social-login-title Вход через социальные сети
+      =" "
+      +b('a').social-login._yandex(href="#" data-provider="yanex") Yandex
+      =" "
+      +b('a').social-login._vkontakte(href="#" data-provider="vkontakte") Вконтакте
+      =" "
+      +b('a').social-login._facebook(href="#" data-provider="facebook") Facebook
+      =" "
+      +b('a').social-login._google(href="#" data-provider="google") Google+
+      =" "
+      +b('a').social-login._github(href="#" data-provider="github") Github

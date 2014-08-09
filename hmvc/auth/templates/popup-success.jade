@@ -3,9 +3,9 @@ html
   title Успешная авторизация
 body
   script.
-    if (window.opener) {
+    if (window.opener && window.opener.authModal) {
       window.opener.focus();
 
-      window.opener.onAuthSuccess();
+      window.opener.authModal.onAuthSuccess();
     }
     window.close();

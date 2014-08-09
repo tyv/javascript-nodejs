@@ -11,7 +11,7 @@ module.exports = function(app) {
     }),
     key: 'sid'
   }));
-  app.keys = config.session.keys;  // needed for cookie-signing
 
+  app.keys = config.session.keys;  // needed for cookie-signing
 
 };

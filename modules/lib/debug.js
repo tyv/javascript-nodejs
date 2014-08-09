@@ -1,7 +1,5 @@
-
-
 /*
- some crap to log & isolate steps for stackless errors
+ crap code to log & isolate steps for stackless errors when node-inspector dies
  p() will print next number
  */
 if (process.env.NODE_ENV == 'development') {

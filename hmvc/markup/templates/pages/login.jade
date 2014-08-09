@@ -17,17 +17,17 @@ html
       .modal-dialog
         +b.login-form
           +e('form').form(action="#")
-            .login-form__line.login-form__header
-              h4.login-form__title Вход в систему
-              .login-form__header-aside
+            +e.line.__header
+              +e('h4').title Вход в систему
+              +e.header-aside
                 a(href="#register") регистрация
-            .login-form__line.login-form__notification
-              .login-form__info
+            +e.line.__notification
+              +e.info
                 | Новый пароль был отправлен на ваш email
-            .login-form__line.login-form__notification
+            +e.line.__notification
               .login-form__error
                 | Email либо пароль введены неверно
-            .login-form__line
+            +e.line
               label.login-form__label(for="login") Имя пользователя или Email:
               span.text-input.login-form__input
                 input.text-input__control#login(name="login")
@@ -55,6 +55,7 @@ html
               a.social-login.social-login_github(href="#") Github
     br
     br
+
     .login-form
       form.login-form__form(action="#")
         .login-form__line.login-form__header

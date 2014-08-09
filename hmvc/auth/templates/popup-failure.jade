@@ -3,10 +3,10 @@ html
   title Отказ в авторизации
 body
   script.
-    if (window.opener) {
+    if (window.opener && window.opener.authModal) {
       window.opener.focus();
 
-      window.opener.onAuthFailure();
+      window.opener.authModal.onAuthFailure();
     }
     window.close();
 
