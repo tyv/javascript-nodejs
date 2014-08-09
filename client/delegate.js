@@ -1,3 +1,5 @@
+'use strict';
+
 require('./polyfill/dom4');
 
 function findDelegateTarget(event, selector) {
@@ -21,6 +23,8 @@ function findDelegateTarget(event, selector) {
 //     th         ^*
 //       code  <--
 function delegate(topElement, selector, eventName, handler) {
+  /* jshint -W040 */
+  var self = this;
   topElement.addEventListener(eventName, function(event) {
     var found = findDelegateTarget(event, selector);
 
@@ -30,10 +34,12 @@ function delegate(topElement, selector, eventName, handler) {
     // --> event.currentTarget is always the top-level (delegating) element!
     // use "this" to get the found target
 
-    event.delegateTarget = this; // use instead of this in object methods
+    event.delegateTarget = found; // use instead of "this" in object methods
 
     if (found) {
-      handler.call(found, event);
+      // if in context of object, use object as this,
+      // otherwise pass event
+      handler.call(self || this, event);
     }
   });
 }

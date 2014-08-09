@@ -5,4 +5,6 @@ exports.get = function *get (next) {
     register: this.render('register-form'),
     forgot:   this.render('forgot-form')
   };
+
+  this.expires = 600;
 };

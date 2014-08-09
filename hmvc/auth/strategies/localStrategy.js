@@ -1,30 +1,41 @@
 const User = require('../models/user');
 const LocalStrategy = require('passport-local').Strategy;
+const co = require('co');
 
+// done(null, user)
+// OR
+// done(null, false, { message: <error message> })  <- 3rd arg format is from built-in messages of strategies
 module.exports = new LocalStrategy({
-  usernameField: 'email',
+  usernameField: 'login',
   passwordField: 'password'
-}, function(email, password, done) {
+}, function(login, password, done) {
 
-  if (!email) return done(null, false, 'Укажите email.');
-  if (!password) return done(null, false, 'Укажите пароль.');
-  User.findOne({email: email}, function(err, user) {
-    //console.log(email, password, err, user);
+  if (!login) return done(null, false, {message: 'Укажите имя пользователя или email.'});
+  if (!password) return done(null, false, {message: 'Укажите пароль.'});
 
-    if (err) return done(err); // db error
+  co(function*() {
+
+    var user = yield User.findOne({email: login}).exec();
+    if (!user) {
+      user = yield User.findOne({displayName: login}).exec();
+    }
 
     if (!user) {
-      return done(null, false, 'Нет пользователя с таким email.');
+
+      return done(null, false, {message: 'Нет такого пользователя.'});
     }
 
     if (!user.checkPassword(password)) {
-      return done(null, false, 'Пароль неверен.');
+      return done(null, false, {message: 'Пароль неверен.'});
     }
 
     if (!user.verifiedEmail) {
-      return done(null, false, 'Email не подтверждён, можно <a href="#" data-action-verify-email="' + email + '">запросить подтверждение</a>' );
+      return done(null, false, {message: 'Email не подтверждён, можно <a href="#" data-action-verify-email="' + user._id + '">запросить подтверждение</a>'});
     }
 
     done(null, user);
+  })(function(err) {
+    if (err) done(err);
   });
+
 });

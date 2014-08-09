@@ -1,7 +1,7 @@
 include /bemto
 
-+b.login-form(data-form="login")
-  +e('form').form(action="#")
++b.login-form
+  +e('form').form(action="#")(data-form="login")
     +e.line.__header
       +e('h4').title Вход в систему
       +e.header-aside

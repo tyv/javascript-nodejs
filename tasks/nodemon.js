@@ -1,15 +1,12 @@
 const gp = require('gulp-load-plugins')();
+const _ = require('lodash');
 
 module.exports = function(options) {
 
-  var opts = {
+  var opts = _.assign({
     ext:    "js",
     nodeArgs: ['--debug', '--harmony']
-  };
-
-  for (var key in options) {
-    opts[key] = options[key];
-  }
+  }, options);
 
   return function(callback) {
     gp.nodemon(opts);
