@@ -1,0 +1,9 @@
+include /bemto
+
++b.login-form
+  +e('form').form(action="#" data-form="register")
+    +e.line.__header
+      +e('h4').title Спасибо за регистрацию
+    +e.line.__notification(data-notification)
+    +e.line
+      | Вам придёт email со ссылкой на подтверждение email, в течение 15 сек можно перезапросить его.

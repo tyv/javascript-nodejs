@@ -1,7 +1,7 @@
 include /bemto
 
-+b.login-form(data-form="register")
-  +e('form').form(action="#")
++b.login-form
+  +e('form').form(action="#" data-form="register")
     +e.line.__header
       +e('h4').title Регистрация
       +e.header-aside
@@ -10,18 +10,22 @@ include /bemto
     +e.line
       +e('label').label(for="register-email") Email:
       +b('span').text-input.__input
-        +e('input').control#register-email(name="email")
+        +e('input').control#register-email(name="email" type="email" required autofocus)
+    +e.line
+      +e('label').label(for="register-displayName") Имя пользователя:
+      +b('span').text-input.__input
+        +e('input').control#register-displayName(name="displayName" required)
     +e.line
       +e('label').label(for="register-password") Пароль:
       +b('span').text-input.__input
-        +e('input').control#register-password(type="password", name="password")
+        +e('input').control#register-password(type="password" name="password" required)
     +e.line.__footer
       +e.button
         +e('button').submit.submit-button(type="submit") Зарегистрироваться
     +e.line.__social-login
       +e('h5').social-login-title Вход через социальные сети
       =" "
-      +b('a').social-login._yandex(href="#" data-provider="yanex") Yandex
+      +b('a').social-login._yandex(href="#" data-provider="yandex") Yandex
       =" "
       +b('a').social-login._vkontakte(href="#" data-provider="vkontakte") Вконтакте
       =" "

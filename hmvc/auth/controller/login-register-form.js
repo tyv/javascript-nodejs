@@ -1,4 +1,5 @@
 
+// DEPRECATED NOT USED
 exports.get = function *get (next) {
   this.body = {
     login:    this.render('login-form'),

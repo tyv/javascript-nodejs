@@ -9,7 +9,7 @@
     else
       a.unready.user__entrance(href='/user') Вход на сайт
       script.
-        initWhenReady("login");
+        require('client/head').init.whenReady("login");
 
 
 

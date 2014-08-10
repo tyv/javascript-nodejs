@@ -30,6 +30,7 @@ exports.post = function* (next) {
 
   var result;
   try {
+
     yield mailer.sendMail({
       to:       user.email,
       subject: "Подтверждение email",

@@ -34,7 +34,6 @@ function addStandardHelpers(locals, ctx) {
     }
   });
 
-
   // this.locals.debug causes jade to dump function
   /* jshint -W087 */
   locals.deb = function() {

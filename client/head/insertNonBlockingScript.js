@@ -7,4 +7,5 @@ module.exports = function(src) {
   script.src = src;
   script.async = false; // maintain the execution order
   document.head.appendChild(script);
+  return script; // for onload handlers
 };

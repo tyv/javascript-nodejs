@@ -1,45 +1,29 @@
 var xhr = require('client/xhr');
 var delegate = require('client/delegate');
-var Modal = require('client/modal');
-var inherits = require('inherits');
-var _ = require('lodash');
+var Modal = require('client/head').Modal;
+
+var loginForm = require('../templates/login-form.jade');
+var registerForm = require('../templates/register-form.jade');
+var registerThanksForm = require('../templates/register-thanks-form.jade');
+var forgotForm = require('../templates/forgot-form.jade');
+
 
 // Run like this:
 // login({whyMessage:.. followLinkMessage:..})
 // login({whyMessage:.. followLinkMessage:.., callback: ...)
-module.exports = function(options) {
-  window.authModal = new AuthModal(options);
-};
+
 
 function AuthModal(options) {
   Modal.apply(this, arguments);
 
   this.options = options || {};
+  this.setContent(loginForm());
 
-  this.setContent('<div class="progress large"></div>');
-
-  this.load();
   this.initEventHandlers();
 }
-inherits(AuthModal, Modal);
+AuthModal.prototype = Object.create(Modal.prototype);
 
 AuthModal.prototype.delegate = delegate;
-
-AuthModal.prototype.load = function() {
-  var self = this;
-  var request = xhr({ url: '/auth/login-register-form' });
-
-  request.addEventListener('success', function(event) {
-    self.template = event.result;
-    self.setContent(self.template.login);
-  });
-
-  request.addEventListener('fail', function() {
-    self.remove();
-  });
-
-  request.send();
-};
 
 AuthModal.prototype.clearFormErrors = function() {
 
@@ -64,17 +48,17 @@ AuthModal.prototype.initEventHandlers = function() {
 
   this.delegate(this.elem, '[href="#register-form"]', 'click', function(e) {
     e.preventDefault();
-    this.setContent(this.template.register);
+    this.setContent(registerForm());
   });
 
   this.delegate(this.elem, '[href="#login-form"]', 'click', function(e) {
     e.preventDefault();
-    this.setContent(this.template.login);
+    this.setContent(loginForm());
   });
 
   this.delegate(this.elem, '[href="#forgot-form"]', 'click', function(e) {
     e.preventDefault();
-    this.setContent(this.template.forgot);
+    this.setContent(forgotForm());
   });
 
 
@@ -84,13 +68,54 @@ AuthModal.prototype.initEventHandlers = function() {
   });
 
 
+  this.delegate(this.elem, '[data-form="register"]', 'submit', function(event) {
+    event.preventDefault();
+    this.submitRegisterForm(event.target);
+  });
+
   this.delegate(this.elem, "[data-provider]", "click", function(event) {
     event.preventDefault();
-    debugger;
     this.openAuthPopup('/auth/login/' + event.delegateTarget.dataset.provider);
   });
 
 
+};
+
+AuthModal.prototype.submitRegisterForm = function(form) {
+
+  this.clearFormErrors();
+
+  var hasErrors = false;
+  if (!form.elements.email.value) {
+    hasErrors = true;
+    this.showInputError(form.elements.email, 'Введите, пожалуста, email.');
+  }
+
+  if (!form.elements.displayName.value) {
+    hasErrors = true;
+    this.showInputError(form.elements.displayName, 'Введите, пожалуста, имя пользователя.');
+  }
+
+  if (!form.elements.password.value) {
+    hasErrors = true;
+    this.showInputError(form.elements.password, 'Введите, пожалуста, пароль.');
+  }
+
+  if (hasErrors) return;
+
+  var request = xhr({method: 'POST', url: '/auth/register'});
+
+  request.addEventListener('success', function(event) {
+
+    if (this.status != 200) {
+      window.authModal.onAuthFailure(event.result.message);
+      return;
+    }
+
+    window.authModal.onAuthSuccess();
+  });
+
+  request.send(new FormData(form));
 };
 
 
@@ -129,7 +154,6 @@ AuthModal.prototype.submitLoginForm = function(form) {
 
   var request = xhr({method: 'POST', url: '/auth/login/local'});
 
-  var self = this;
   request.addEventListener('success', function(event) {
 
     if (this.status != 200) {
@@ -166,15 +190,17 @@ AuthModal.prototype.onAuthFailure = function(errorMessage) {
 };
 
 /*
- document.on('click', '[data-action-verify-email]', function(event) {
- event.preventDefault();
- var request = xhr({method: 'POST', url: '/auth/verify-email'});
- request.addEventListener('success', function(event) {
- alert("OK");
- });
+document.on('click', '[data-action-verify-email]', function(event) {
+event.preventDefault();
+var request = xhr({method: 'POST', url: '/auth/verify-email'});
+request.addEventListener('success', function(event) {
+alert("OK");
+});
 
- request.send(JSON.stringify({email: this.dataset.actionVerifyEmail}));
+request.send(JSON.stringify({email: this.dataset.actionVerifyEmail}));
 
- });
- */
+});
+*/
 
+
+module.exports = AuthModal;

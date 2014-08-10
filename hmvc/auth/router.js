@@ -8,7 +8,7 @@ var passport = require('koa-passport');
 
 var router = module.exports = new Router();
 
-router.get('/login-register-form', loginRegisterForm.get);
+//router.get('/login-register-form', loginRegisterForm.get);
 router.get('/user', mustBeAuthenticated, user.get);
 
 router.post('/login/local', function*(next) {

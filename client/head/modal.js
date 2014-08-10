@@ -1,18 +1,16 @@
 function Modal() {
-  var elem = this.elem = document.createElement('div');
+  document.body.insertAdjacentHTML('beforeEnd', '<div class="modal"><div class="modal-dialog"></div></div>');
 
-  elem.className = 'modal';
-  this.contentElem = document.createElement('div');
-  this.contentElem.className = 'modal-dialog';
-  elem.appendChild(this.contentElem);
+  this.elem = document.body.lastChild;
+  this.contentElem = this.elem.lastChild;
 
   this.onClick = this.onClick.bind(this);
   this.onDocumentKeyDown = this.onDocumentKeyDown.bind(this);
 
-  document.body.appendChild(elem);
-  elem.addEventListener("click", this.onClick);
+  this.elem.addEventListener("click", this.onClick);
   document.addEventListener("keydown", this.onDocumentKeyDown);
 }
+
 
 Modal.prototype.onClick = function(event) {
   if (event.target == this.elem) { // click on the outer element, outside of the window
@@ -29,10 +27,12 @@ Modal.prototype.onDocumentKeyDown = function(event) {
 
 Modal.prototype.setContent = function(html) {
   this.contentElem.innerHTML = html;
+  var autofocus = this.contentElem.querySelector('[autofocus]');
+  if (autofocus) autofocus.focus();
 };
 
 Modal.prototype.remove = function() {
-  this.elem.remove();
+  document.body.removeChild(this.elem);
   document.removeEventListener("keydown", this.onDocumentKeyDown);
 };
 
