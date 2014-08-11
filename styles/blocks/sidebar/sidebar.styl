@@ -1,87 +1,50 @@
 .sidebar
-	box-shadow inset 10px 0 10px -10px #ddd
-	display table-cell
-	vertical-align top
 	width sidebar_width
-	min-width sidebar_width
-	padding: 0 sidebar_padding_right 35px sidebar_padding_left;
-	background url('/img/sidebar-bg.png') #F1F1F1
+	background #F5F2F0
+	position fixed
+	top 60px
+	bottom 0
+	left 0
+	z-index 9999
+	overflow auto
 
-// 	.sidebar__section {
-// 		margin: 25px 0 35px;
-// 	}
+	&__inner
+		margin 23px 30px 30px
+
+	&__section
+		border-bottom 1px solid #d5d2d0
+		margin 16px 0
+		padding 0 0 16px
+
+	&__section:last-child
+		border 0
+
+	&__section-title
+		color #C4C2C0
+		font-weight 400
+
+	&__link
+		color #7E7E7E
+
+	&__link:hover
+		text-decoration none
+
+	&__navigation-link
+		margin 12px 0
+
+	&__share
+		display inline-block
+		margin-right 10px
+		font-size 18px
+
+	&__share&__share_tw::after
+		@extend $font-twitter
+
+	&__share&__share_fb::after
+		@extend $font-facebook
+
+	&__share&__share_gp::after
+		@extend $font-google
 	
-// 	.sidebar__list ul {
-// 		margin: 8px 0 0 10px;
-// 	}
-
-// 	.sidebar__list-item {
-// 		margin: 0 0 6px;
-// 		list-style: none;
-// 		text-overflow: ellipsis;
-// 		overflow: hidden;
-// 		line-height: normal;
-		
-// 		> .menu {
-// 			margin: 10px 0 0 10px;
-// 		}
-// 	}
-
-// 	.sidebar__title {
-// 		display: block;
-// 		text-decoration: none;
-// 		margin: 25px 0 12px;
-// 		padding: 0 0 12px;
-// 		font-size: 16px;
-// 		font-weight: 700;
-// 		color: #666;
-// 		border-bottom: 1px solid #ccc;
-// 	}
-	
-// 	.sidebar__title_small {
-// 		font-size: 12px;
-// 		padding: 0 0 8px;
-// 	}
-
-// 	.sidebar__complex-title {
-// 		margin: 35px 0 10px;
-// 	}
-
-// 	.sidebar__subtitle {
-// 		font-size: 12px;
-// 		font-weight: 400;
-// 	}
-
-// 	.sidebar__subtitle + .sidebar__title {
-// 		margin: -3px 0 10px;
-// 	}
-
-// 	a {
-// 		font-size: 13px;
-// 		color: $link-color;
-// 	}
-
-// 	a:hover {
-// 		color: $link-hover-color;
-// 	}
-
-// 	.sidebar__list-item.active > a {
-// 		color: #B20000;
-// 		font-weight: 700;
-// 	}
-
-// 	.keep-visible.cloned {
-// 		width: $sidebar-width;
-// 	}
-
-// 	.fixed {
-// 		position: fixed;
-// 		top: 10px;
-// 		margin: 0;
-// 		width: $sidebar-width;
-// 		.sidebar__title,
-// 		.sidebar__complex-title {
-// 			margin-top: 0;
-// 		}
-// 	}
-// }
+	&__share&__share_vk::after
+		@extend $font-vkontakte

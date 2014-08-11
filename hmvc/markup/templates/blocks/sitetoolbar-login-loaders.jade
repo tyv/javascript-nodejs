@@ -20,36 +20,6 @@ include /bemto
         =' '
         +e('li').section
           +e('a').link(href="/tests") Тестирование
-    +e.user-wrap
-      //- делаем пользователя кнопкой, так как она только раскрывает меню
-      //- и никуда не ведет. Если предполагается функциональность ссылки
-      //- потребуются минимальные доработки
-      +e('button').user
-        | Nakazator
-    +e.search-wrap
-      +e('button').search
-        +e('img').search-icon(src="/img/search-icon.png", width="22", height="23", alt="поиск", title="поиск")
-
-+b.sitetoolbar
-  +e.content
-    +e.logo-wrap
-      +e('a').link._logo(href="/")
-        +e('img').logo(src="/i/sitetoolbar__logo.png", height="34", width="121")
-    +e('nav').sections
-      +e('ul').sections-list
-        +e('li').section._current
-          //- элемент с модификатором _current может содержать как ссылку,
-          //- так и простой текст, выглядеть будет одинаково
-          | Учебник
-        =' '
-        +e('li').section
-          +e('a').link(href="/courses") Курсы
-        =' '
-        +e('li').section
-          +e('a').link(href="/spec") Стандарт ES5
-        =' '
-        +e('li').section
-          +e('a').link(href="/tests") Тестирование
     +e.login-wrap
       +b.loader._small._active.sitetoolbar__login-loader
       //- делаем логин кнопкой, так как она только раскрывает форму
