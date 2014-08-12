@@ -13,8 +13,8 @@
 
 	&__section
 		border-bottom 1px solid #d5d2d0
-		margin 16px 0
-		padding 0 0 16px
+		margin 18px 0
+		padding 0 2px 17px
 
 	&__section:last-child
 		border 0
@@ -22,29 +22,31 @@
 	&__section-title
 		color #C4C2C0
 		font-weight 400
+		margin 10px 0
 
 	&__link
 		color #7E7E7E
+
+	&__link&__link_arrow
+		display block
+		position relative
+		padding-right 15px
+
+	&__link&__link_arrow::after
+		@extend $font-angle-right
+		font-size 22px
+		position absolute
+		right 0
+
+	&__link&__link_arrow:focus
+		outline 0
 
 	&__link:hover
 		text-decoration none
 
 	&__navigation-link
-		margin 12px 0
+		margin 9px 0
+		line-height 1.27 // чтобы соответствовать макету
 
 	&__share
-		display inline-block
-		margin-right 10px
-		font-size 18px
-
-	&__share&__share_tw::after
-		@extend $font-twitter
-
-	&__share&__share_fb::after
-		@extend $font-facebook
-
-	&__share&__share_gp::after
-		@extend $font-google
-	
-	&__share&__share_vk::after
-		@extend $font-vkontakte
+		margin 8px 20px 0 0

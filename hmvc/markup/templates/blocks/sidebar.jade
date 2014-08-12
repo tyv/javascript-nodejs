@@ -1,7 +1,7 @@
 +b.sidebar.page__sidebar
   +e.inner
     +e.section
-      +e('a').link(href="#") Полное содержание
+      +e('a').link._arrow(href="#") Полное содержание
     +e.section
       +e('h4').section-title Разделы курса Базовый JS:
       +e('nav').navigation
@@ -25,8 +25,8 @@
           +e('li').navigation-link
             +e('a').link(href="#") Разные темы
     +e.section
-      +e.section-title Поделиться:
-      +e('a').share._tw.__link(href="#")
-      +e('a').share._fb.__link(href="#")
-      +e('a').share._gp.__link(href="#")
-      +e('a').share._vk.__link(href="#")
+      +e.section-title Поделиться
+      +b('a').share._tw.sidebar__share(href="https://twitter.com/share?url=http://design.javascript.ru/intro")
+      +b('a').share._fb.sidebar__share(href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=http://design.javascript.ru/intro")
+      +b('a').share._gp.sidebar__share(href="https://plus.google.com/share?url=http://design.javascript.ru/intro")
+      +b('a').share._vk.sidebar__share(href="http://vkontakte.ru/share.php?url=http://design.javascript.ru/intro")
