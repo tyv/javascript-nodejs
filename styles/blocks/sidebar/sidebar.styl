@@ -6,10 +6,34 @@
 	bottom 0
 	left 0
 	z-index 9999
-	overflow auto
 
 	&__inner
+		position absolute
+		top 0
+		right 0
+		bottom 0
+		left 0
+		overflow auto
+
+	&__content
 		margin 23px 30px 30px
+
+	&__toggle
+		@extend $button-reset
+
+	& &__toggle
+		position absolute
+		top 23px
+		left 100%
+		margin-left 30px
+		width 25px
+		height 25px
+		cursor pointer
+
+	&__toggle::before
+		@extend $font-menu
+		font-size 22px
+		color #7E7E7E
 
 	&__section
 		border-bottom 1px solid #d5d2d0
