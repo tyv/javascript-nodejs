@@ -12,7 +12,7 @@ exports.get = function* (next) {
   var user = yield User.findOne({
     passwordResetToken:        passwordResetToken,
     passwordResetTokenExpires: {
-      $lt: new Date()
+      $gt: new Date()
     }
   }).exec();
 
@@ -33,7 +33,7 @@ exports.post = function* (next) {
   var user = yield User.findOne({
     passwordResetToken:        passwordResetToken,
     passwordResetTokenExpires: {
-      $lt: new Date()
+      $gt: new Date()
     }
   }).exec();
 

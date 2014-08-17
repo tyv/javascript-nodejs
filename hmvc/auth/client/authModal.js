@@ -250,27 +250,6 @@ AuthModal.prototype.submitForgotForm = function(form) {
 
     if (this.status == 200) {
       self.showFormMessage(event.result, 'info');
-
-      var submitButton = self.elem.querySelector('[type="submit"]');
-      var i = 60;
-
-      var saveHTML;
-
-      /* jshint -W082 */
-      function showWait() {
-        if (i == 60) {
-          saveHTML = submitButton.innerHTML;
-        }
-        submitButton.innerHTML = i--;
-        if (i) {
-          setTimeout(showWait, 1000);
-        } else {
-          submitButton.innerHTML = saveHTML;
-        }
-      }
-      // run after progress finished
-      setTimeout(showWait, 50);
-
     } else {
       self.showFormMessage(event.result, 'error');
     }
