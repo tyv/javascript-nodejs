@@ -89,12 +89,10 @@ AuthModal.prototype.request = function(options) {
   return request;
 };
 
+
 AuthModal.prototype.startRequest = function() {
-  var overlay = document.createElement('div');
-  overlay.style.cssText = 'position:fixed;left:0;right:0;top:0;bottom:0;z-index:100000';
-  // append not to this.elem, but to document.body,
-  // because if a visitor clicks outside of authModal, it should not close, but wait
-  document.body.append(overlay);
+  this.showOverlay();
+  var self = this;
 
   var submitButton = this.elem.querySelector('[type="submit"]');
 
@@ -104,7 +102,7 @@ AuthModal.prototype.startRequest = function() {
   }
 
   return function onEnd() {
-    overlay.remove();
+    self.hideOverlay();
     if(spinner) spinner.stop();
   };
 
@@ -139,6 +137,16 @@ AuthModal.prototype.initEventHandlers = function() {
     this.submitRegisterForm(event.target);
   });
 
+  this.delegate('[data-form="forgot"]', 'submit', function(event) {
+    event.preventDefault();
+    this.submitForgotForm(event.target);
+  });
+
+  this.delegate('[data-form="register-thanks"]', 'submit', function(event) {
+    event.preventDefault();
+    this.remove();
+  });
+
   this.delegate("[data-provider]", "click", function(event) {
     event.preventDefault();
     this.openAuthPopup('/auth/login/' + event.delegateTarget.dataset.provider);
@@ -157,7 +165,7 @@ AuthModal.prototype.initEventHandlers = function() {
     request.addEventListener('success', function(event) {
 
       if (this.status == 200) {
-        self.showFormMessage("Письмо отправлено заново.", 'info');
+        self.showFormMessage("Письмо-подтверждение отправлено.", 'info');
       } else {
         self.showFormMessage(event.result, 'error');
       }
@@ -212,6 +220,60 @@ AuthModal.prototype.submitRegisterForm = function(form) {
     }
 
     self.showFormMessage("Неизвестный статус ответа сервера", 'error');
+  });
+
+  var payload = new FormData(form);
+  payload.append("successRedirect", this.options.successRedirect);
+  request.send(payload);
+};
+
+
+AuthModal.prototype.submitForgotForm = function(form) {
+
+  this.clearFormMessages();
+
+  var hasErrors = false;
+  if (!form.elements.email.value) {
+    hasErrors = true;
+    this.showInputError(form.elements.email, 'Введите, пожалуста, email.');
+  }
+
+  if (hasErrors) return;
+
+  var request = this.request({
+    method: 'POST',
+    url: '/auth/forgot'
+  });
+
+  var self = this;
+  request.addEventListener('success', function(event) {
+
+    if (this.status == 200) {
+      self.showFormMessage(event.result, 'info');
+
+      var submitButton = self.elem.querySelector('[type="submit"]');
+      var i = 60;
+
+      var saveHTML;
+
+      /* jshint -W082 */
+      function showWait() {
+        if (i == 60) {
+          saveHTML = submitButton.innerHTML;
+        }
+        submitButton.innerHTML = i--;
+        if (i) {
+          setTimeout(showWait, 1000);
+        } else {
+          submitButton.innerHTML = saveHTML;
+        }
+      }
+      // run after progress finished
+      setTimeout(showWait, 50);
+
+    } else {
+      self.showFormMessage(event.result, 'error');
+    }
   });
 
   var payload = new FormData(form);

@@ -8,13 +8,13 @@ var config = require('config');
 // Регистрация пользователя.
 exports.post = function* (next) {
 
-  var verifyEmailToken = Math.random().toString(36).slice(2);
+  var verifyEmailToken = Math.random().toString(36).slice(2, 10);
   var user = new User({
     email: this.request.body.email,
     displayName: this.request.body.displayName,
     password: this.request.body.password,
     verifiedEmail: false,
-    verifyEmailTokens: [verifyEmailToken],
+    verifyEmailToken: verifyEmailToken,
     verifyEmailRedirect: this.request.body.successRedirect
   });
 
@@ -27,7 +27,7 @@ exports.post = function* (next) {
       if (existingUser.verifiedEmail) {
         this.body = 'Этот email уже используется.';
       } else {
-        this.body = 'Такой пользователь зарегистрирован, но его Email не подтверждён, можно <a href="#" data-action-verify-email="' + existingUser.email + '">запросить подтверждение</a>.';
+        this.body = 'Такой пользователь зарегистрирован, но его Email не подтверждён, можно <a href="#" data-action-verify-email="' + existingUser.email + '">запросить подтверждение заново</a>.';
       }
       return;
     }

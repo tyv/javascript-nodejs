@@ -25,15 +25,10 @@ exports.post = function* (next) {
     this.throw(403, 'Ваш Email уже подтверждён.');
   }
 
-
-  var verifyEmailToken = Math.random().toString(36).slice(2);
-  user.verifyEmailTokens.push(verifyEmailToken);
-  yield user.persist();
-
   try {
-    yield* sendVerifyEmail(user.email, verifyEmailToken, this);
+    yield* sendVerifyEmail(user.email, user.verifyEmailToken, this);
   } catch(e) {
-    log.error("Registration failed: " + e);
+    log.error("Reverify failed: " + e);
     this.throw(500, "На сервере ошибка отправки email.");
   }
 

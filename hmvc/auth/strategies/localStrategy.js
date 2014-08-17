@@ -29,7 +29,7 @@ module.exports = new LocalStrategy({
     }
 
     if (!user.verifiedEmail) {
-      return done(null, false, {message: 'Ваш email не подтверждён, можно <a href="#" data-action-verify-email="' + user.email + '">запросить подтверждение</a>'});
+      return done(null, false, {message: 'Ваш email не подтверждён, проверьте почту. Также можно <a href="#" data-action-verify-email="' + user.email + '">запросить подтверждение заново</a>.'});
     }
 
     done(null, user);

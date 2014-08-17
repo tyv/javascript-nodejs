@@ -42,13 +42,17 @@ var UserSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
-  verifyEmailTokens: { // multiple tokens (may be many verify attempts)
-    type: [String],
+  verifyEmailToken: { // single impossible-to-guess token (resend if many verify attempts)
+    type: String,
     index: true
   },
   verifyEmailRedirect: String, // where to redirect after verify
-  passwordResetToken: String, // refresh with each request
+  passwordResetToken: {
+    type: String,
+    index: true
+  }, // refresh with each request
   passwordResetTokenExpires: Date, // valid until this date
+  passwordResetRedirect: String, // where to redirect after recover
   photo:        {
     type: String
   }

@@ -3,17 +3,17 @@ include /bem
 +b.login-form
   +e('form').form(action="#" data-form="forgot")
     +e.line.__header
-      +e('h4').title Восстановление пароля
-    +e.line.__note
-      | Укажите ваш email в форме ниже, и мы вышлем на него обновлённый пароль.
+      +e('h4').title Восстановление доступа
     +e.line.__notification(data-notification)
+    +e.line.__note
+      | Укажите ваш email в форме ниже, и мы вышлем на него письмо для восстановления доступа.
     +e.line
       +e('label').label(for="forgot-email") Email:
       +b('span').text-input.__input
         +e('input').control#forgot-email(name="email" autofocus)
     +e.line.__footer
       +e.button
-        +b('button').submit-button.__submit(type="submit") Восстановить пароль
+        +b('button').submit-button.__submit(type="submit") Восстановить доступ
       +e.footer-link
         a(href="#" data-switch="login-form") Отмена
 

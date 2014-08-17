@@ -24,6 +24,8 @@ module.exports = function(app) {
   app.csrf.addIgnorePath('/auth/login/:any*');
   app.csrf.addIgnorePath('/auth/register');
   app.csrf.addIgnorePath('/auth/reverify');
+  app.csrf.addIgnorePath('/auth/forgot');
+  app.csrf.addIgnorePath('/auth/forgot-recover');
 
 
   app.mountHmvc('/getpdf', 'getpdf');

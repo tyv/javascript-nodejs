@@ -8,7 +8,7 @@ var config = require('config');
 exports.get = function* (next) {
 
   var user = yield User.findOne({
-    verifyEmailTokens: this.params.verifyEmailToken,
+    verifyEmailToken: this.params.verifyEmailToken,
     verifiedEmail: false
   }).exec();
 
@@ -20,7 +20,7 @@ exports.get = function* (next) {
   delete user.verifyEmailRedirect;
 
   user.verifiedEmail = true;
-  user.verifyEmailTokens = [];
+  delete user.verifyEmailTokens;
 
   yield user.persist();
   yield this.login(user);

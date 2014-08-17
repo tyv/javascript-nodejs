@@ -1,0 +1,19 @@
+doctype html
+html
+  title Восстановление доступа
+
+body
+
+  h1 Введите, пожалуйста, новый пароль
+
+  form(action="/auth/forgot-recover" method="POST")
+    div #{error}
+
+    input(type="hidden" value=passwordResetToken)
+    input(type="password" name="password" autofocus required)
+
+    button(type="submit") Готово
+
+
+
+

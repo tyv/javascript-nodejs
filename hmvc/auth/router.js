@@ -3,6 +3,8 @@ var user = require('./controller/user');
 var register = require('./controller/register');
 var verify = require('./controller/verify');
 var reverify = require('./controller/reverify');
+var forgot = require('./controller/forgot');
+var forgotRecover = require('./controller/forgotRecover');
 var logout = require('./controller/logout');
 var mustBeAuthenticated = require('./lib/mustBeAuthenticated');
 var passport = require('koa-passport');
@@ -34,7 +36,11 @@ if (process.env.NODE_ENV == 'development') {
 }
 
 router.post('/register', register.post);
+router.post('/forgot', forgot.post);
+
 router.get('/verify/:verifyEmailToken', verify.get);
+router.get('/forgot-recover/:passwordResetToken', forgotRecover.get);
+router.post('/forgot-recover', forgotRecover.post);
 
 router.post('/reverify', reverify.post);
 
