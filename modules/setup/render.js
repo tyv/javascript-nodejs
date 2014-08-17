@@ -40,6 +40,9 @@ function addStandardHelpers(locals, ctx) {
     debugger;
   };
 
+  locals.bem = require('bem-jade')();
+
+//  locals.debug = true;
 }
 
 

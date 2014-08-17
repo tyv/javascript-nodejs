@@ -1,6 +1,6 @@
 var mount = require('koa-mount');
 
-// same as require(path).middleware, with additional pre/post-processing
+// wrapHmvcMiddleware(path) is same as require(path).middleware, with additional pre/post-processing
 var wrapHmvcMiddleware = require('lib/wrapHmvcMiddleware');
 
 module.exports = function(app) {
@@ -22,6 +22,8 @@ module.exports = function(app) {
 
   app.mountHmvc('/auth', 'auth');
   app.csrf.addIgnorePath('/auth/login/:any*');
+  app.csrf.addIgnorePath('/auth/register');
+  app.csrf.addIgnorePath('/auth/reverify');
 
 
   app.mountHmvc('/getpdf', 'getpdf');

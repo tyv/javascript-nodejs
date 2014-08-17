@@ -10,12 +10,12 @@ html
       - self.comments.lenght = 5;
 
     include ../blocks/head
-    include /bemto
+    include /bem
 
   body
     .modal
       .modal-dialog
-        +b.login-form
+        +b.LF
           +e('form').form(action="#")
             +e.line.__header
               +e('h4').title Вход в систему
@@ -25,21 +25,21 @@ html
               +e.info
                 | Новый пароль был отправлен на ваш email
             +e.line.__notification
-              .login-form__error
+              .LF__error
                 | Email либо пароль введены неверно
             +e.line
-              label.login-form__label(for="login") Имя пользователя или Email:
-              span.text-input.login-form__input
+              label.LF__label(for="login") Имя пользователя или Email:
+              span.text-input.LF__input
                 input.text-input__control#login(name="login")
             +e.line
-              label.login-form__label(for="password") Пароль:
-              span.text-input.login-form__input
+              label.LF__label(for="password") Пароль:
+              span.text-input.LF__input
               +b('span').text-input.__input
                 +e('input').control#password(type="password", name="password")
-            .login-form__line.login-form__footer
-              .login-form__button
-                button.submit-button.login-form__submit(type="submit") Войти
-              .login-form__footer-link
+            .LF__line.LF__footer
+              .LF__button
+                button.submit-button.LF__submit(type="submit") Войти
+              .LF__footer-link
                 a(href="forgot") Забыли пароль?
             +e.line.__social-login
               +e('h5').social-login-title Вход через социальные сети
@@ -56,33 +56,33 @@ html
     br
     br
 
-    .login-form
-      form.login-form__form(action="#")
-        .login-form__line.login-form__header
-          h4.login-form__title Вход в систему
-          .login-form__header-aside
+    .LF
+      form.LF__form(action="#")
+        .LF__line.LF__header
+          h4.LF__title Вход в систему
+          .LF__header-aside
             a(href="#register") регистрация
-        .login-form__line.login-form__notification
-          .login-form__info
+        .LF__line.LF__notification
+          .LF__info
             | Новый пароль был отправлен на ваш email
-        .login-form__line.login-form__notification
-          .login-form__error
+        .LF__line.LF__notification
+          .LF__error
             | Email либо пароль введены неверно
-        .login-form__line
-          label.login-form__label(for="login") Имя пользователя или Email:
-          span.text-input.login-form__input
+        .LF__line
+          label.LF__label(for="login") Имя пользователя или Email:
+          span.text-input.LF__input
             input.text-input__control#login(name="login")
-        .login-form__line
-          label.login-form__label(for="password") Пароль:
-          span.text-input.login-form__input
+        .LF__line
+          label.LF__label(for="password") Пароль:
+          span.text-input.LF__input
             input.text-input__control#password(type="password", name="password")
-        .login-form__line.login-form__footer
-          .login-form__button
-            button.submit-button.login-form__submit(type="submit") Войти
-          .login-form__footer-link
+        .LF__line.LF__footer
+          .LF__button
+            button.submit-button.LF__submit(type="submit") Войти
+          .LF__footer-link
             a(href="forgot") Забыли пароль?
-        .login-form__line.login-form__social-login
-          h5.login-form__social-login-title Вход через социальные сети
+        .LF__line.LF__social-login
+          h5.LF__social-login-title Вход через социальные сети
           =" "
           a.social-login.social-login_twitter(href="#") Twitter
           =" "
@@ -95,50 +95,50 @@ html
           a.social-login.social-login_github(href="#") Github
     br
     br
-    .login-form#reset-form
-      form.login-form__form(action="#")
-        .login-form__line.login-form__header
-          h4.login-form__title Восстановление пароля
-        .login-form__line.login-form__note
+    .LF#reset-form
+      form.LF__form(action="#")
+        .LF__line.LF__header
+          h4.LF__title Восстановление пароля
+        .LF__line.LF__note
           | Укажите ваш email в форме ниже и мы вышлем на него обновленный пароль.
-        .login-form__line
-          label.login-form__label(for="email-reset") Email:
-          span.text-input.login-form__input
+        .LF__line
+          label.LF__label(for="email-reset") Email:
+          span.text-input.LF__input
             input.text-input__control#email-reset(name="email-reset")
-        .login-form__line.login-form__footer
-          .login-form__button
-            button.submit-button.login-form__submit(type="submit") Восстановить пароль
-          .login-form__footer-link
+        .LF__line.LF__footer
+          .LF__button
+            button.submit-button.LF__submit(type="submit") Восстановить пароль
+          .LF__footer-link
             a(href="#cancel") Отмена
     br
     br
-    .login-form#register-form
-      form.login-form__form(action="#")
-        .login-form__line.login-form__header
-          h4.login-form__title Регистрация
-          .login-form__header-aside
+    .LF#register-form
+      form.LF__form(action="#")
+        .LF__line.LF__header
+          h4.LF__title Регистрация
+          .LF__header-aside
             a(href="#register") вход
-        .login-form__line.login-form__notification
-          .login-form__error
+        .LF__line.LF__notification
+          .LF__error
             | Регистрация не прошла
-        .login-form__line
-          label.login-form__label(for="login") Email:
-          span.text-input.login-form__input
+        .LF__line
+          label.LF__label(for="login") Email:
+          span.text-input.LF__input
             input.text-input__control#email(name="email")
-        .login-form__line
-          label.login-form__label(for="password") Пароль:
-          span.text-input.login-form__input
+        .LF__line
+          label.LF__label(for="password") Пароль:
+          span.text-input.LF__input
             input.text-input__control#password(type="password", name="password")
-        .login-form__line
-          label.login-form__label(for="password2") Пароль еще раз:
-          span.text-input.text-input_invalid.login-form__input
+        .LF__line
+          label.LF__label(for="password2") Пароль еще раз:
+          span.text-input.text-input_invalid.LF__input
             input.text-input__control#password(type="password", name="password")
             span.text-input__err Пароли не совпадают
-        .login-form__line.login-form__footer
-          .login-form__button
-            button.submit-button.login-form__submit(type="submit") Зарегистрироваться
-        .login-form__line.login-form__social-login
-          h5.login-form__social-login-title Вход через социальные сети
+        .LF__line.LF__footer
+          .LF__button
+            button.submit-button.LF__submit(type="submit") Зарегистрироваться
+        .LF__line.LF__social-login
+          h5.LF__social-login-title Вход через социальные сети
           =" "
           a.social-login.social-login_twitter(href="#") Twitter
           =" "

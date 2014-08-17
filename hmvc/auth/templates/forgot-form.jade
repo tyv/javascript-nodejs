@@ -1,4 +1,4 @@
-include /bemto
+include /bem
 
 +b.login-form
   +e('form').form(action="#" data-form="forgot")
@@ -15,5 +15,5 @@ include /bemto
       +e.button
         +b('button').submit-button.__submit(type="submit") Восстановить пароль
       +e.footer-link
-        a(href="#login-form") Отмена
+        a(href="#" data-switch="login-form") Отмена
 

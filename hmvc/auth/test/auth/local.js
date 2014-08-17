@@ -26,7 +26,7 @@ describe('Authorization', function() {
       request(server)
         .post('/auth/login/local')
         .send({
-          email:    fixtures.User[2].email,
+          login:    fixtures.User[2].email,
           password: fixtures.User[2].password
         })
         .expect(401, done);
@@ -44,7 +44,7 @@ describe('Authorization', function() {
       agent
         .post('/auth/login/local')
         .send({
-          email:    fixtures.User[0].email,
+          login:    fixtures.User[0].email,
           password: fixtures.User[0].password
         })
         .expect(200, done);

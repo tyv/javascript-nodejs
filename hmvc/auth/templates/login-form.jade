@@ -1,25 +1,25 @@
-include /bemto
+include /bem
 
-+b.login-form
-  +e('form').form(action="#" data-form="login")
++b.login-form(data-form="login")
+  +e('form').form(action="#")
     +e.line.__header
       +e('h4').title Вход в систему
       +e.header-aside
-        a(href="#register-form") регистрация
+        a(href="#" data-switch="register-form") регистрация
     +e.line.__notification(data-notification)
     +e.line
-      +e('label').label(for="login-login") Имя пользователя или Email:
+      +e('label').label(for="login") Имя пользователя или Email:
       +b('span').text-input.__input
-        +e('input').control#login-login(name="login" required autofocus)
+        +e('input').control#login(name="login")
     +e.line
-      +e('label').label(for="login-password") Пароль:
+      +e('label').label(for="password") Пароль:
       +b('span').text-input.__input
-        +e('input').control#login-password(type="password" required name="password")
+        +e('input').control#password(type="password", name="password")
     +e.line.__footer
       +e.button
         +b('button').submit-button.__submit(type="submit") Войти
       +e.footer-link
-        a(href="#forgot-form") Забыли пароль?
+        a(href="#" data-switch="forgot-form") Забыли пароль?
     +e.line.__social-login
       +e('h5').social-login-title Вход через социальные сети
       =" "
@@ -32,3 +32,4 @@ include /bemto
       +b('a').social-login._google(href="#" data-provider="google") Google+
       =" "
       +b('a').social-login._github(href="#" data-provider="github") Github
+

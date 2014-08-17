@@ -1,11 +1,11 @@
-include /bemto
+include /bem
 
 +b.login-form
   +e('form').form(action="#" data-form="register")
     +e.line.__header
       +e('h4').title Регистрация
       +e.header-aside
-        a(href="#login-form") вход
+        a(href="#" data-switch="login-form") вход
     +e.line.__notification(data-notification)
     +e.line
       +e('label').label(for="register-email") Email:

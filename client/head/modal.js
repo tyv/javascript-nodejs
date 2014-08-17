@@ -25,8 +25,13 @@ Modal.prototype.onDocumentKeyDown = function(event) {
   }
 };
 
-Modal.prototype.setContent = function(html) {
-  this.contentElem.innerHTML = html;
+Modal.prototype.setContent = function(htmlOrNode) {
+  if (typeof htmlOrNode == 'string') {
+    this.contentElem.innerHTML = htmlOrNode;
+  } else {
+    this.contentElem.innerHTML = '';
+    this.contentElem.appendChild(htmlOrNode);
+  }
   var autofocus = this.contentElem.querySelector('[autofocus]');
   if (autofocus) autofocus.focus();
 };

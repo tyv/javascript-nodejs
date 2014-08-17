@@ -22,9 +22,8 @@ function findDelegateTarget(event, selector) {
 //   thead
 //     th         ^*
 //       code  <--
-function delegate(topElement, selector, eventName, handler) {
+function delegate(topElement, selector, eventName, handler, context) {
   /* jshint -W040 */
-  var self = this;
   topElement.addEventListener(eventName, function(event) {
     var found = findDelegateTarget(event, selector);
 
@@ -38,11 +37,16 @@ function delegate(topElement, selector, eventName, handler) {
 
     if (found) {
       // if in context of object, use object as this,
-      // otherwise pass event
-      handler.call(self || this, event);
+      handler.call(context || this, event);
     }
   });
 }
+
+delegate.delegateMixin = function(obj) {
+  obj.delegate = function(selector, eventName, handler) {
+    delegate(this.elem, selector, eventName, handler, this);
+  };
+};
 
 module.exports = delegate;
 

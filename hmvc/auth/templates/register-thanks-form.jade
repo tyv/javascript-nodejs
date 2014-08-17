@@ -1,9 +1,17 @@
-include /bemto
+include /bem
 
 +b.login-form
-  +e('form').form(action="#" data-form="register")
+  +e('form').form(action="#" data-form="register-thanks")
     +e.line.__header
-      +e('h4').title Спасибо за регистрацию
+      +e('h4').title Завершение регистрации
     +e.line.__notification(data-notification)
     +e.line
-      | Вам придёт email со ссылкой на подтверждение email, в течение 15 сек можно перезапросить его.
+      p Сейчас вам придёт email с адреса <code>inform@javascript.ru</code> со ссылкой-подтверждением.
+      p
+      | Если письмо не пришло в течение минуты, можно
+      =' '
+      a(href='#' data-action-verify-email=email) запросить письмо-подтверждение ещё раз
+      | .
+    +e.line.__footer
+      +e.button
+        +b('button').submit-button.__submit(type="submit") Ок

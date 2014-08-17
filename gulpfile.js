@@ -48,7 +48,7 @@ gulp.task("nodemon", ['link-modules'], lazyRequireTask('./tasks/nodemon', {
   watch:  ["hmvc", "modules"]
 }));
 
-gulp.task("client:livereload", lazyRequireTask("./tasks/livereload", { watch: "public/**/*.*" }));
+gulp.task("client:livereload", lazyRequireTask("./tasks/livereload", { watch: "public/{i,img,js,sprites,styles}/*.*" }));
 
 gulp.task('link-modules', lazyRequireTask('./tasks/linkModules', { src: ['client', 'modules/*', 'hmvc/*'] }));
 

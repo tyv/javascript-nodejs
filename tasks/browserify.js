@@ -53,6 +53,7 @@ function makeBundler(options) {
         });
       })
       .pipe(source(path.basename(this._options.dst)))
+      .pipe(gp.if(process.env.NODE_ENV == 'production', gp.streamify(gp.uglify())))
       .pipe(gulp.dest(path.dirname(this._options.dst)));
   };
   bundler.on('update', bundler.rebundle);

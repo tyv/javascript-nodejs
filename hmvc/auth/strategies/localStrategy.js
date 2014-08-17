@@ -21,7 +21,6 @@ module.exports = new LocalStrategy({
     }
 
     if (!user) {
-
       return done(null, false, {message: 'Нет такого пользователя.'});
     }
 
@@ -30,7 +29,7 @@ module.exports = new LocalStrategy({
     }
 
     if (!user.verifiedEmail) {
-      return done(null, false, {message: 'Email не подтверждён, можно <a href="#" data-action-verify-email="' + user._id + '">запросить подтверждение</a>'});
+      return done(null, false, {message: 'Ваш email не подтверждён, можно <a href="#" data-action-verify-email="' + user.email + '">запросить подтверждение</a>'});
     }
 
     done(null, user);

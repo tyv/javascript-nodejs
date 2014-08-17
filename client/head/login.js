@@ -1,6 +1,7 @@
 var init = require('./init');
 var insertNonBlockingScript = require('./insertNonBlockingScript');
 var Modal = require('./modal');
+var Spinner = require('client/spinner');
 
 init.addHandler("login", function() {
 
@@ -15,7 +16,9 @@ init.addHandler("login", function() {
 
 function login(options) {
   var modal = new Modal();
-  modal.setContent('<progress></progress>');
+  var spinner = new Spinner();
+  modal.setContent(spinner.elem);
+  spinner.start();
   var script = insertNonBlockingScript('/js/auth/authModal.js');
   script.onload = function() {
     modal.remove();

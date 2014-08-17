@@ -36,7 +36,12 @@ module.exports = {
   payments: secret.payments,
   auth: secret.auth,
   mailer: {
-    from: 'JavaScript.ru <inform@javascript.ru>',
+    senders: {
+      default: {
+        email:     'JavaScript.ru <inform@javascript.ru>',
+        signature: "<p>Yours, robot</p>"
+      }
+    },
     ses: secret.ses
   },
   template:    {
