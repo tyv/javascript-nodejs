@@ -99,7 +99,7 @@ AuthModal.prototype.startRequest = function() {
   var submitButton = this.elem.querySelector('[type="submit"]');
 
   if (submitButton) {
-    var spinner = new Spinner({ elem: submitButton });
+    var spinner = new Spinner({ elem: submitButton, size: 'small' });
     spinner.start();
   }
 
@@ -157,7 +157,7 @@ AuthModal.prototype.initEventHandlers = function() {
     request.addEventListener('success', function(event) {
 
       if (this.status == 200) {
-        self.showFormMessage("Письмо отправлено.", 'info');
+        self.showFormMessage("Письмо отправлено заново.", 'info');
       } else {
         self.showFormMessage(event.result, 'error');
       }

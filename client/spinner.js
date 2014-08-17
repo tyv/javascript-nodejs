@@ -4,6 +4,12 @@
 function Spinner(options) {
   options = options || {};
   this.elem = options.elem;
+  this.size = options.size || 'medium';
+
+  if (this.size != 'medium' && this.size != 'small') {
+    throw new Error("Unsupported size: " + this.size);
+  }
+
   if (!this.elem) {
     this.elem = document.createElement('div');
   }
@@ -11,7 +17,7 @@ function Spinner(options) {
 
 Spinner.prototype.start = function() {
   this.savedHTML = this.elem.innerHTML;
-  this.elem.innerHTML = '<div class="small-spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>';
+  this.elem.innerHTML = '<div class="spinner spinner__' + this.size+ '"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>';
 };
 
 Spinner.prototype.stop = function() {

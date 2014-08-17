@@ -4,13 +4,13 @@
   text-align: center;
 }
 
-.spinner.spinner__small > div {
+.spinner__small > div {
   width: 12px;
   height: 12px;
   margin: 0 1px;
 }
 
-.spinner.spinner__medium > div {
+.spinner__medium > div {
   width: 18px;
   height: 18px;
   margin: 0 2px;
@@ -28,12 +28,12 @@
   animation-fill-mode: both;
 }
 
-.small-spinner .bounce1 {
+.spinner .bounce1 {
   -webkit-animation-delay: -0.32s;
   animation-delay: -0.32s;
 }
 
-.small-spinner .bounce2 {
+.spinner .bounce2 {
   -webkit-animation-delay: -0.16s;
   animation-delay: -0.16s;
 }
@@ -47,8 +47,9 @@
   0%, 80%, 100% {
     transform: scale(0.0);
     -webkit-transform: scale(0.0);
-  } 40% {
-transform: scale(1.0);
--webkit-transform: scale(1.0);
-}
+  }
+  40% {
+    transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+  }
 }
