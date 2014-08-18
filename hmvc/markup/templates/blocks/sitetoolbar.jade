@@ -3,6 +3,9 @@
     +e.logo-wrap
       +e('a').link._logo(href="/")
         +e('img').logo(src="/i/sitetoolbar__logo.png", height="34", width="121")
+    +e.nav-toggle-wrap
+      //- FIXME: onclick - демо, убрать
+      +e('button').nav-toggle(onclick="document.getElementsByClassName('sitetoolbar')[0].classList.toggle('sitetoolbar_menu_open')")
     +e('nav').sections
       +e('ul').sections-list
         +e('li').section._current
@@ -22,8 +25,30 @@
       //- делаем пользователя кнопкой, так как она только раскрывает меню
       //- и никуда не ведет. Если предполагается функциональность ссылки
       //- потребуются минимальные доработки
-      +e('button').user
-        | Nakazator
+      +e('button').user(title="Very very long nickname with spaces")
+        +e('span').user-text
+          | Very very long nickname with spaces
     +e.search-wrap
       +e('button').search
         +e('img').search-icon(src="/img/search-icon.png", width="22", height="23", alt="поиск", title="поиск")
+  +e.tablet-menu
+    +e.tablet-menu-line
+      +e.tablet-menu-header
+        +e.tablet-menu-title Навигация по сайту:
+      +e.tablet-menu-content
+        //- TODO: use bemto syntax when https://github.com/kizu/bemto/issues/35 is fixed
+        select.sitetoolbar__tablet-menu-nav.input-select
+          option Учебник
+          option Курсы
+          option Стандарт ES5
+          option Тестирование
+      +e.tablet-menu-aside
+        +e('a').tablet-menu-link(href="#full-content") Полное содержание
+    +e.tablet-menu-line
+      +e.tablet-menu-header
+        +e.tablet-menu-title Поделиться
+      +e.tablet-menu-content
+        +b('a').share._tw.sitetoolbar__tablet-menu-share(href="https://twitter.com/share?url=http://design.javascript.ru/intro")
+        +b('a').share._fb.sitetoolbar__tablet-menu-share(href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=http://design.javascript.ru/intro")
+        +b('a').share._gp.sitetoolbar__tablet-menu-share(href="https://plus.google.com/share?url=http://design.javascript.ru/intro")
+        +b('a').share._vk.sitetoolbar__tablet-menu-share(href="http://vkontakte.ru/share.php?url=http://design.javascript.ru/intro")

@@ -1,7 +1,9 @@
-navbar_gray = #8B8987
+sitetoolbar_color = #8B8987
+sitetoolbar_secondary_bg = #F5F2F0
+
 
 .sitetoolbar
-	box-shadow 0 2px 4px -2px rgba(0, 0, 0, .5)
+	box-shadow 0 2px 3px -2px rgba(0, 0, 0, .3)
 	position relative
 	z-index 1
 	background #fff
@@ -23,8 +25,11 @@ navbar_gray = #8B8987
 		white-space nowrap
 		line-height 26px
 
+	&__nav-toggle-wrap
+		display none
+
 	&__logo-wrap
-		width 182px
+		padding-right 30px
 
 	&__user-wrap,
 	&__login-wrap
@@ -38,7 +43,6 @@ navbar_gray = #8B8987
 	&__logo,
 	&__link_logo
 		margin 9px 0 0 30px
-		display block
 
 	&__link_logo &__logo
 		margin 0
@@ -55,7 +59,7 @@ navbar_gray = #8B8987
 		color secondary_color
 
 	&__link
-		color navbar_gray
+		color sitetoolbar_color
 		display inline-block
 
 	&__link:hover
@@ -65,7 +69,7 @@ navbar_gray = #8B8987
 	&__login
 		@extend $button-reset
 		font 16px font
-		color navbar_gray
+		color sitetoolbar_color
 		margin 17px 0
 		vertical-align bottom
 		line-height inherit
@@ -84,7 +88,6 @@ navbar_gray = #8B8987
 		margin -1px 0 0
 		vertical-align middle
 		padding 0 10px 0 0
-		right 100%
 
 	&__user::after
 		@extend $font-open
@@ -95,6 +98,16 @@ navbar_gray = #8B8987
 		position relative
 		top 2px
 
+	&__user
+		white-space nowrap
+
+	&__user-text
+		display inline-block
+		max-width 200px
+		overflow hidden
+		text-overflow ellipsis
+		vertical-align bottom
+
 	&__search
 		@extend $button-reset
 		margin 17px 0
@@ -104,3 +117,92 @@ navbar_gray = #8B8987
 		position absolute
 		left 50%
 		margin -12px 0 0 -32px
+
+	&__tablet-menu
+		background sitetoolbar_secondary_bg
+		display none
+		position absolute
+		width 100%
+		box-shadow 0 2px 3px -2px rgba(0, 0, 0, .3)
+
+	&_menu_open &__tablet-menu
+		display block
+
+	&__tablet-menu-line
+		display table
+		width 100%
+		border-top 1px solid #e7e5e3
+
+	&__tablet-menu-title,
+	&__tablet-menu-content,
+	&__tablet-menu-aside
+		display table-cell
+		height 60px
+		vertical-align middle
+
+	&__tablet-menu-header
+		color sitetoolbar_color
+		white-space nowrap
+		padding 0 10px 0 20px
+
+	&__tablet-menu-title
+		min-width 155px
+
+	&__tablet-menu-content
+		width 100%
+		padding 0 20px 0 10px
+
+	&__tablet-menu-aside
+		white-space nowrap
+		padding 0 20px 0 0
+
+	&__tablet-menu-nav
+		width 100%
+
+	&__tablet-menu-link:visited
+		color link_color
+
+	&__tablet-menu-link:hover
+		text-decoration none
+		color link_hover_color
+
+	&__tablet-menu-share
+		margin 5px 20px 0 0
+		
+
+	@media tablet
+		&__logo-wrap
+			width 0
+			padding 0
+
+		&__link_logo,
+		&__logo
+			position absolute
+			left 50%
+			margin-left round(image-width('sitetoolbar__logo.png') / -2)
+
+		&__user-text
+			max-width 130px
+
+		&__nav-toggle-wrap
+			display table-cell
+
+		&__sections-list
+			display none
+
+		&__search-wrap
+			padding-right 20px
+
+		&__nav-toggle
+			@extend $button-reset
+			height 60px
+			width 60px
+			text-align center
+
+		&__nav-toggle::before
+			@extend $font-menu
+			font-size 22px
+			color #7e7e7e
+
+		&_menu_open &__nav-toggle
+			background sitetoolbar_secondary_bg
