@@ -1,4 +1,3 @@
-
 var xhr = require('client/xhr');
 require('client/xhr-notify');
 
@@ -51,20 +50,20 @@ AuthModal.prototype = Object.create(Modal.prototype);
 delegate.delegateMixin(AuthModal.prototype);
 
 AuthModal.prototype.successRedirect = function() {
-    if (window.location.href == this.options.successRedirect) {
-      window.location.reload();
-    } else {
-      window.location.href = this.options.successRedirect;
-    }
+  if (window.location.href == this.options.successRedirect) {
+    window.location.reload();
+  } else {
+    window.location.href = this.options.successRedirect;
+  }
 };
 
 AuthModal.prototype.clearFormMessages = function() {
-/*
+  /*
    remove error for this notation:
-  span.text-input.text-input_invalid.login-form__input
-    input.text-input__control#password(type="password", name="password")
-    span.text-inpuxt__err Пароли не совпадают
-*/
+   span.text-input.text-input_invalid.login-form__input
+   input.text-input__control#password(type="password", name="password")
+   span.text-inpuxt__err Пароли не совпадают
+   */
   [].forEach.call(this.elem.querySelectorAll('.text-input_invalid'), function(elem) {
     elem.classList.remove('text-input_invalid');
   });
@@ -80,17 +79,15 @@ AuthModal.prototype.clearFormMessages = function() {
 AuthModal.prototype.request = function(options) {
   var request = xhr(options);
 
-
   request.addEventListener('loadstart', function() {
-    var onEnd = this.startRequest();
+    var onEnd = this.startRequestIndication();
     request.addEventListener('loadend', onEnd);
   }.bind(this));
 
   return request;
 };
 
-
-AuthModal.prototype.startRequest = function() {
+AuthModal.prototype.startRequestIndication = function() {
   this.showOverlay();
   var self = this;
 
@@ -103,7 +100,7 @@ AuthModal.prototype.startRequest = function() {
 
   return function onEnd() {
     self.hideOverlay();
-    if(spinner) spinner.stop();
+    if (spinner) spinner.stop();
   };
 
 };
@@ -165,7 +162,7 @@ AuthModal.prototype.initEventHandlers = function() {
     request.addEventListener('success', function(event) {
 
       if (this.status == 200) {
-        self.showFormMessage("Письмо-подтверждение отправлено.", 'info');
+        self.showFormMessage("Письмо-подтверждение отправлено.", 'success');
       } else {
         self.showFormMessage(event.result, 'error');
       }
@@ -203,14 +200,20 @@ AuthModal.prototype.submitRegisterForm = function(form) {
 
   var request = this.request({
     method: 'POST',
-    url: '/auth/register'
+    url:    '/auth/register'
   });
 
   var self = this;
   request.addEventListener('success', function(event) {
 
     if (this.status == 201) {
-      self.setContent(jadeRender(registerThanksForm, {email: form.elements.email.value}));
+      this.setContent(jadeRender(loginForm));
+      self.showFormMessage(
+          "Сейчас вам придёт email с адреса <code>inform@javascript.ru</code> " +
+          "со ссылкой-подтверждением. Если письмо не пришло в течение минуты, можно " +
+          "<a href='#' data-action-verify-email='" + form.elements.email.value + "'>перезапросить подтверждение</a>",
+        'success'
+      );
       return;
     }
 
@@ -242,14 +245,15 @@ AuthModal.prototype.submitForgotForm = function(form) {
 
   var request = this.request({
     method: 'POST',
-    url: '/auth/forgot'
+    url:    '/auth/forgot'
   });
 
   var self = this;
   request.addEventListener('success', function(event) {
 
     if (this.status == 200) {
-      self.showFormMessage(event.result, 'info');
+      this.setContent(jadeRender(loginForm));
+      self.showFormMessage(event.result, 'success');
     } else {
       self.showFormMessage(event.result, 'error');
     }
@@ -270,12 +274,14 @@ AuthModal.prototype.showInputError = function(input, error) {
 };
 
 AuthModal.prototype.showFormMessage = function(message, type) {
-  if (type != 'info' && type != 'error') {
+  if (['info', 'error', 'warning', 'success'].indexOf(type) == -1) {
     throw new Error("Unsupported type: " + type);
   }
+
   var container = document.createElement('div');
   container.className = 'login-form__' + type;
   container.innerHTML = message;
+
   this.elem.querySelector('[data-notification]').innerHTML = '';
   this.elem.querySelector('[data-notification]').appendChild(container);
 };
@@ -297,7 +303,10 @@ AuthModal.prototype.submitLoginForm = function(form) {
 
   if (hasErrors) return;
 
-  var request = this.request({method: 'POST', url: '/auth/login/local'});
+  var request = this.request({
+    method: 'POST',
+    url:    '/auth/login/local'
+  });
 
   request.addEventListener('success', function(event) {
 

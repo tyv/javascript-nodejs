@@ -8,6 +8,8 @@ var config = require('config');
 // Регистрация пользователя.
 exports.post = function* (next) {
 
+//  yield function(callback) {};
+
   var verifyEmailToken = Math.random().toString(36).slice(2, 10);
   var user = new User({
     email: this.request.body.email,
