@@ -10,12 +10,14 @@ var Notification = require('node-notifier');
 var assert = require('assert');
 var _ = require('lodash');
 var path = require('path');
+var co = require('co');
+var thunkify = require('thunkify');
+
+//var requireify = require('requireify');
+// should expose all modules to require, but missed part of them. buggy!
+
 var browserifyJade = require('browserify-jade');
 
-//var requireify = require('requireify'); // should expose all modules to require, but missed part of them. buggy!
-
-
-// TODO: add uglify if not development
 function makeBundler(options) {
 
   // dst has same name as (single) src
@@ -44,7 +46,7 @@ function makeBundler(options) {
     parser:        require('lib/jadeParserMultipleDirs')
   }));
 
-  bundler.rebundle = function() {
+  bundler.rebundle = function(callback) {
     this.bundle()
       .on('error', function(e) {
         gutil.log(e.message);
@@ -54,7 +56,10 @@ function makeBundler(options) {
       })
       .pipe(source(path.basename(this._options.dst)))
       .pipe(gp.if(process.env.NODE_ENV == 'production', gp.streamify(gp.uglify())))
-      .pipe(gulp.dest(path.dirname(this._options.dst)));
+      .pipe(gulp.dest(path.dirname(this._options.dst)))
+      .on('end', function() {
+        callback();
+      });
   };
   bundler.on('update', bundler.rebundle);
   bundler.on('log', function(msg) {
@@ -68,46 +73,71 @@ function makeBundler(options) {
     }
   }
 
+  /*
+  // watchify is buggy, see
+   https://github.com/substack/watchify/issues/72
+   https://github.com/substack/watchify/issues/77
+   until fixed, can't use
   if (process.env.NODE_ENV == 'development') {
     bundler = watchify(bundler);
   }
+  */
 
   return bundler;
+}
+
+
+function bundleVendor(callback) {
+  // Not needed yet
+  var vendor = ['jquery'];
+
+  var bundler = makeBundler({
+    entries: [],
+    dst:     './public/js/vendor.js',
+    require: vendor
+  });
+
+  bundler.rebundle(callback);
+}
+
+function bundleHead(callback) {
+
+  // head.js does not use any polyfills etc
+  var bundler = makeBundler({
+    dst:     './public/js/head.js',
+    // require['client/head'] did't work some time, because it put 'client/head' path, not full path into cache, and then require from another bundle looks for full path
+    require: ['client/head'],
+    externals: ['auth/client/authModal']
+  });
+  // expose does not work with watchify
+  // https://github.com/substack/watchify/issues/72#issuecomment-50747549
+  bundler.rebundle(callback);
+
+}
+
+function bundleAuth(callback) {
+
+  var bundler = makeBundler({
+//      entries:   'auth/client/authModal',
+    dst:       './public/js/auth/authModal.js',
+    externals: ['client/head'],
+    require: ['auth/client/authModal']
+  });
+
+  bundler.rebundle(callback);
 }
 
 module.exports = function() {
 
   return function(callback) {
 
-    var vendor = ['jquery'];
+    co(function*() {
 
-    var bundler = makeBundler({
-      entries: [],
-      dst:     './public/js/vendor.js',
-      require: vendor
-    });
-    bundler.rebundle();
+      yield thunkify(bundleHead)();
+      yield thunkify(bundleAuth)();
 
-    // head.js does not use any polyfills etc
-    var bundler = makeBundler({
-      dst:     './public/js/head.js',
-      // require['client/head'] did't work some time, because it put 'client/head' path, not full path into cache, and then require from another bundle looks for full path
-      require: ['client/head'],
-      externals: ['auth/client/authModal']
-    });
-    // expose does not work with watchify
-    // https://github.com/substack/watchify/issues/72#issuecomment-50747549
-    bundler.rebundle();
+    })(callback);
 
-
-    var bundler = makeBundler({
-//      entries:   'auth/client/authModal',
-      dst:       './public/js/auth/authModal.js',
-      externals: ['client/head'],
-      require: ['auth/client/authModal']
-    });
-
-    bundler.rebundle();
 //
 //    /*
 //     var bundler = makeBundler({

@@ -12,7 +12,7 @@ const _ = require('lodash');
 const assert = require('assert');
 const JadeParserMultipleDirs = require('lib/jadeParserMultipleDirs');
 
-log.debugOn();
+//log.debugOn();
 
 function addStandardHelpers(locals, ctx) {
   locals.moment = moment;

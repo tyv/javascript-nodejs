@@ -28,7 +28,7 @@ function wrapWatch(watch, task) {
     if (process.env.NODE_ENV == 'development') {
       gulp.watch(watch, [task]);
     } else {
-      callback();
+      gulp.start(task, callback);
     }
   };
 }
@@ -104,7 +104,10 @@ gulp.task('client:compile-css', ['client:compile-css-once'], wrapWatch(["styles/
 gulp.task("client:browserify:clean", lazyRequireTask('./tasks/browserifyClean', { dst: './public/js'}));
 
 
-gulp.task("client:browserify", ['client:browserify:clean'], lazyRequireTask('./tasks/browserify'));
+//gulp.task("client:browserify", ['client:browserify:clean'], lazyRequireTask('./tasks/browserify'));
+gulp.task("client:browserify-once", ['client:browserify:clean'], lazyRequireTask('./tasks/browserify'));
+gulp.task("client:browserify", wrapWatch(['client/**', 'hmvc/**/client/**'], "client:browserify-once"));
+
 
 
 // compile-css and sprites are independant tasks
