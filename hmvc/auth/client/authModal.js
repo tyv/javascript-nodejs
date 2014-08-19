@@ -7,7 +7,6 @@ var Spinner = require('client/spinner');
 
 var loginForm = require('../templates/login-form.jade');
 var registerForm = require('../templates/register-form.jade');
-var registerThanksForm = require('../templates/register-thanks-form.jade');
 var forgotForm = require('../templates/forgot-form.jade');
 
 var jadeRender = require('client/jadeRender');
@@ -139,16 +138,10 @@ AuthModal.prototype.initEventHandlers = function() {
     this.submitForgotForm(event.target);
   });
 
-  this.delegate('[data-form="register-thanks"]', 'submit', function(event) {
-    event.preventDefault();
-    this.remove();
-  });
-
   this.delegate("[data-provider]", "click", function(event) {
     event.preventDefault();
     this.openAuthPopup('/auth/login/' + event.delegateTarget.dataset.provider);
   });
-
 
   this.delegate('[data-action-verify-email]', 'click', function(event) {
     event.preventDefault();
@@ -207,11 +200,11 @@ AuthModal.prototype.submitRegisterForm = function(form) {
   request.addEventListener('success', function(event) {
 
     if (this.status == 201) {
-      this.setContent(jadeRender(loginForm));
+      self.setContent(jadeRender(loginForm));
       self.showFormMessage(
           "Сейчас вам придёт email с адреса <code>inform@javascript.ru</code> " +
           "со ссылкой-подтверждением. Если письмо не пришло в течение минуты, можно " +
-          "<a href='#' data-action-verify-email='" + form.elements.email.value + "'>перезапросить подтверждение</a>",
+          "<a href='#' data-action-verify-email='" + form.elements.email.value + "'>перезапросить подтверждение</a>.",
         'success'
       );
       return;
@@ -252,7 +245,7 @@ AuthModal.prototype.submitForgotForm = function(form) {
   request.addEventListener('success', function(event) {
 
     if (this.status == 200) {
-      this.setContent(jadeRender(loginForm));
+      self.setContent(jadeRender(loginForm));
       self.showFormMessage(event.result, 'success');
     } else {
       self.showFormMessage(event.result, 'error');
