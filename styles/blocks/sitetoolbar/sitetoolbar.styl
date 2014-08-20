@@ -38,7 +38,7 @@ sitetoolbar_secondary_bg = #F5F2F0
 
 	&__search-wrap
 		width .1%
-		padding-right 49px
+		padding-right 19px
 
 	&__logo,
 	&__link_logo
@@ -70,9 +70,9 @@ sitetoolbar_secondary_bg = #F5F2F0
 		@extend $button-reset
 		font 16px font
 		color sitetoolbar_color
-		margin 17px 0
 		vertical-align bottom
 		line-height inherit
+		height 60px
 
 	&__login-loader
 		display inline-block
@@ -111,6 +111,9 @@ sitetoolbar_secondary_bg = #F5F2F0
 	&__search
 		@extend $button-reset
 		margin 17px 0
+		height 60px
+		width 60px
+		margin 0
 
 	&__loader
 		background-color #fff
@@ -118,24 +121,29 @@ sitetoolbar_secondary_bg = #F5F2F0
 		left 50%
 		margin -12px 0 0 -32px
 
-	&__tablet-menu
+	&__tablet-menu,
+	&__tablet-search
 		background sitetoolbar_secondary_bg
 		display none
 		position absolute
 		width 100%
 		box-shadow 0 2px 3px -2px rgba(0, 0, 0, .3)
 
-	&_menu_open &__tablet-menu
+	&_menu_open &__tablet-menu,
+	&_search_open &__tablet-search
 		display block
 
-	&__tablet-menu-line
+	&__tablet-menu-line,
+	&__tablet-search-content
 		display table
 		width 100%
 		border-top 1px solid #e7e5e3
 
 	&__tablet-menu-title,
 	&__tablet-menu-content,
-	&__tablet-menu-aside
+	&__tablet-menu-aside,
+	&__tablet-search-query-wrap,
+	&__tablet-search-submit-wrap
 		display table-cell
 		height 60px
 		vertical-align middle
@@ -168,7 +176,21 @@ sitetoolbar_secondary_bg = #F5F2F0
 
 	&__tablet-menu-share
 		margin 5px 20px 0 0
-		
+
+	&__tablet-search-query-wrap
+		padding 0 0 0 20px
+		width 100%
+
+	&__tablet-search-query
+		width 100%
+
+	&__tablet-search-submit-wrap
+		padding 0 20px 0 10px
+
+	& &__tablet-search-submit
+		padding-top 1px
+		padding-bottom 4px
+		margin 0
 
 	@media tablet
 		&__logo-wrap
@@ -190,9 +212,6 @@ sitetoolbar_secondary_bg = #F5F2F0
 		&__sections-list
 			display none
 
-		&__search-wrap
-			padding-right 20px
-
 		&__nav-toggle
 			@extend $button-reset
 			height 60px
@@ -204,5 +223,14 @@ sitetoolbar_secondary_bg = #F5F2F0
 			font-size 22px
 			color #7e7e7e
 
-		&_menu_open &__nav-toggle
+		&__search-wrap
+			padding-right 0
+
+		&__search
+			height 60px
+			width 60px
+			margin 0
+
+		&_menu_open &__nav-toggle,
+		&_search_open &__search
 			background sitetoolbar_secondary_bg
