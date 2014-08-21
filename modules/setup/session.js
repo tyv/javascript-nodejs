@@ -6,10 +6,10 @@ const config = require('config');
 module.exports = function(app) {
 
   app.use(session({
+    key: 'sid',
     store: mongooseStore.create({
       model: 'Session'
-    }),
-    key: 'sid'
+    })
   }));
 
   app.keys = config.session.keys;  // needed for cookie-signing

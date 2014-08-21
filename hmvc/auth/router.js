@@ -8,8 +8,6 @@ var forgotRecover = require('./controller/forgotRecover');
 var logout = require('./controller/logout');
 var mustBeAuthenticated = require('./lib/mustBeAuthenticated');
 var passport = require('koa-passport');
-var querystring = require('querystring');
-
 
 var router = module.exports = new Router();
 
@@ -78,27 +76,11 @@ router.get('/login/google',
 ['facebook', 'github', 'vkontakte', 'yandex', 'google'].forEach(function(providerName) {
   // http://stage.javascript.ru/auth/callback/facebook?error=access_denied&error_code=200&error_description=Permissions+error&error_reason=user_denied#_=_
 
-  router.get('/callback/' + providerName, function*(next) {
-      var self = this;
-
-
-      yield passport.authenticate(providerName, function*(err, user, info) {
-        // cannot use self.throw(err) here, because we're in async passport.js flow
-        // throw would kill the process
-        if (err) {
-          self.renderError(err);
-          return;
-        }
-        if (user) {
-          self.redirect('/auth/popup-success');
-          return;
-        }
-
-        self.redirect('/auth/popup-failure?' + (info.message ? querystring.escape(info.message) : ''));
-
-      }).call(this, next);
-
-    }
+  router.get('/callback/' + providerName, passport.authenticate(providerName, {
+      failureMessage:  true,
+      successRedirect: '/auth/popup-success',
+      failureRedirect: '/auth/popup-failure'
+    })
   );
 });
 
@@ -127,5 +109,8 @@ router.get('/popup-success', function*() {
   this.body = this.render('popup-success');
 });
 router.get('/popup-failure', function*() {
-  this.body = this.render('popup-failure');
+  var reason = this.session.messages ? this.session.messages[0] : '';
+  delete this.session.messages;
+
+  this.body = this.render('popup-failure', { reason: reason });
 });

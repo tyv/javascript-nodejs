@@ -19,7 +19,7 @@ function addStandardHelpers(locals, ctx) {
 
   locals.parser = JadeParserMultipleDirs;
 
-  // csrf only generated on request (leads to session generation)
+  // csrf only generated on request
   Object.defineProperty(locals, "csrf", {
     get: function() {
       var csrf = ctx.csrf;
@@ -27,6 +27,11 @@ function addStandardHelpers(locals, ctx) {
       return csrf;
     }
   });
+
+  // we don't use defer in sessions
+  // (simpler, need to call yield this.session)
+  // (anon users may stop on varnish anyway)
+  locals.session = ctx.session;
 
   Object.defineProperty(locals, "user", {
     get: function() {
@@ -53,13 +58,16 @@ module.exports = function render(app) {
     var ctx = this;
 
     this.locals = _.assign({}, config.template.options);
-    addStandardHelpers(this.locals, ctx);
 
     this.templatePaths = [path.join(config.projectRoot, 'templates')];
 
     // render('article', {})  -- 2 args
     // render('article')
     this.render = function(templatePath, locals) {
+
+      // add helpers at render time, not when middleware is used time
+      // probably we will have more stuff initialized here
+      addStandardHelpers(this.locals, this);
 
       log.debug("Lookup " + templatePath + " in " + this.templatePaths);
 

@@ -74,18 +74,23 @@ Result example:
 module.exports = new GithubStrategy({
     clientID:     config.auth.github.appId,
     clientSecret: config.auth.github.appSecret,
-    callbackURL:  config.siteurl + "/auth/callback/github"
+    callbackURL:  config.siteurl + "/auth/callback/github",
+    passReqToCallback: true
   },
-  function(accessToken, refreshToken, profile, done) {
+  function(req, accessToken, refreshToken, profile, done) {
 
-    /*
-    if (!profile.displayName) {
-      profile.displayName = profile._json.login;
-    }*/
+
+    if (!profile.displayName) { // if no "name" field in response, use login
+    //  profile.displayName = profile._json.login;
+    }
 
     // may be default avatar, can't be sure
     /* jshint -W106 */
-    profile.photos = [ profile._json.avatar_url ];
+    profile.photos = [
+      {
+        value: profile._json.avatar_url
+      }
+    ];
 
     var options = {
       headers: {

@@ -8,31 +8,31 @@ const config = require('config');
 // should not require G+
 
 /* Result example:
-var result = {
-  "kind":        "plus#person",
-  "etag":        "\"pNz5TVTpPz2Rn5Xw8UrubkkbOJ0/79ehDjWVUdPtREa5lO-8QSWwSUQ\"",
-  "emails":      [
-    {
-      "value": "julia.b.kantor@gmail.com",
-      "type":  "account"
-    }
-  ],
-  "objectType":  "person",
-  "id":          "104971107141139955646",
-  "displayName": "Юлия Кантор",
-  "name":        {
-    "familyName": "Кантор",
-    "givenName":  "Юлия"
-  },
-  "image":       {
-    "url":       "https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=50",
-    "isDefault": true
-  },
-  "isPlusUser":  false,
-  "language":    "ru",
-  "verified":    false
-}
-*/
+ var result = {
+ "kind":        "plus#person",
+ "etag":        "\"pNz5TVTpPz2Rn5Xw8UrubkkbOJ0/79ehDjWVUdPtREa5lO-8QSWwSUQ\"",
+ "emails":      [
+ {
+ "value": "julia.b.kantor@gmail.com",
+ "type":  "account"
+ }
+ ],
+ "objectType":  "person",
+ "id":          "104971107141139955646",
+ "displayName": "Юлия Кантор",
+ "name":        {
+ "familyName": "Кантор",
+ "givenName":  "Юлия"
+ },
+ "image":       {
+ "url":       "https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=50",
+ "isDefault": true
+ },
+ "isPlusUser":  false,
+ "language":    "ru",
+ "verified":    false
+ }
+ */
 
 /*
 
@@ -53,6 +53,14 @@ module.exports = new GoogleStrategy({
     passReqToCallback: true
   },
   function(req, token, tokenSecret, profile, done) {
+
+    profile.photos = [
+      {
+        value: profile._json.image.url,
+        type:  profile._json.image.isDefault ? 'default' : 'photo'
+      }
+    ];
+
     authenticateByProfile(profile, done);
   }
 );

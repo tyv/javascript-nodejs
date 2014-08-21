@@ -63,6 +63,14 @@ module.exports = function(profile, done) {
 
     mergeProfile(user, profile);
 
+    try {
+      yield function(callback) { user.validate(callback); };
+    } catch (e) {
+      // there's a required field
+      // maybe, when the user was on the remote social login screen, he disallowed something?
+      return done(null, false, "Недостаточно данных для регистрации, разрешите их передачу, пожалуйста.");
+    }
+
     yield user.persist();
 
     return user;

@@ -66,9 +66,10 @@ module.exports = new FacebookStrategy({
     }, function(error, response, body) {
       if (!error && response.statusCode == 200) {
         /* jshint -W106 */
-        if (!body.data.is_silhouette) {
-          profile.photos = [body.data.url];
-        }
+        profile.photos = [{
+          value: body.data.url,
+          type: body.data.is_silhouette ? 'default' : 'photo'
+        }];
 
       }
       authenticateByProfile(profile, done);

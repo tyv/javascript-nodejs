@@ -1,14 +1,15 @@
-//- popup-failure?REASON (urlencoded)
 doctype html
 html
   title Отказ в авторизации
 body
+  script var reason = !{JSON.stringify(reason)}
+
   script.
     if (window.opener && window.opener.authModal) {
       window.opener.focus();
 
       // I hope that decodeURIComponent is the strict inverse of querystring.stringify
-      window.opener.authModal.onAuthFailure(decodeURIComponent(location.search.slice(1)));
+      window.opener.authModal.onAuthFailure(reason);
     }
     window.close();
 
