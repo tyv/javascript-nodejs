@@ -28,7 +28,7 @@ function addStandardHelpers(locals, ctx) {
     }
   });
 
-  // we don't use defer in sessions
+  // we don't use defer in sessions, so can assign it
   // (simpler, need to call yield this.session)
   // (anon users may stop on varnish anyway)
   locals.session = ctx.session;

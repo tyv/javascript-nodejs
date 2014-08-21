@@ -4,7 +4,8 @@ const co = require('co');
 const log = require('js-log')();
 
 function mergeProfile(user, profile) {
-  if (!user.photo && profile.photos && profile.photos.length) {
+  if (!user.photo && profile.photos && profile.photos.length && profile.photos[0].type != 'default') {
+    // assign an avatar unless it's default
     user.photo = profile.photos[0].value;
   }
 
