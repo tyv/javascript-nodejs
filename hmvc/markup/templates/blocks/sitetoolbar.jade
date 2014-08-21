@@ -25,7 +25,7 @@
       //- делаем пользователя кнопкой, так как она только раскрывает меню
       //- и никуда не ведет. Если предполагается функциональность ссылки
       //- потребуются минимальные доработки
-      +e('button').user(title="Very very long nickname with spaces")
+      +e('button').user(title="Very very long nickname with spaces", onclick="document.getElementsByClassName('sitetoolbar')[0].classList.toggle('sitetoolbar_user_open')")
         +e('span').user-text
           | Very very long nickname with spaces
     +e.search-wrap
@@ -43,7 +43,7 @@
           option Стандарт ES5
           option Тестирование
       +e.tablet-menu-aside
-        +e('a').tablet-menu-link(href="#full-content") Полное содержание
+        +e('a').secondary-link(href="#full-content") Полное содержание
     +e.tablet-menu-line
       +e.tablet-menu-header
         +e.tablet-menu-title Поделиться
@@ -61,3 +61,15 @@
         //- очень не нравится текст "Отправить", в разговоре так никто не скажет. Предлагаю "Найти"
         +b('button').submit-button._small.sitetoolbar__tablet-search-submit
           | Отправить
+  +e.tablet-usermenu
+    +e('ul').tablet-usermenu-items
+      +e('li').tablet-usermenu-item
+        +e('a').secondary-link.__tablet-usermenu-link(href="#profile") Профиль
+      +e('li').tablet-usermenu-item
+        +e('a').secondary-link.__tablet-usermenu-link(href="#settings") Настройки аккаунта
+      +e('li').tablet-usermenu-item
+        +e('a').secondary-link.__tablet-usermenu-link(href="#orders") Заказы
+      +e('li').tablet-usermenu-item
+        +e('a').secondary-link.__tablet-usermenu-link(href="#favorites") Избранное
+      +e('li').tablet-usermenu-item
+        +e('a').secondary-link.__tablet-usermenu-link(href="#logout") Выйти

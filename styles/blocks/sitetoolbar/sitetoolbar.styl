@@ -1,6 +1,6 @@
 sitetoolbar_color = #8B8987
 sitetoolbar_secondary_bg = #F5F2F0
-
+sitetoolbar_secondary_link = #498CBE
 
 .sitetoolbar
 	box-shadow 0 2px 3px -2px rgba(0, 0, 0, .3)
@@ -34,7 +34,7 @@ sitetoolbar_secondary_bg = #F5F2F0
 	&__user-wrap,
 	&__login-wrap
 		width .1%
-		padding-right 17px
+		// padding-right 17px
 
 	&__search-wrap
 		width .1%
@@ -73,6 +73,7 @@ sitetoolbar_secondary_bg = #F5F2F0
 		vertical-align bottom
 		line-height inherit
 		height 60px
+		padding 0 17px
 
 	&__login-loader
 		display inline-block
@@ -122,16 +123,13 @@ sitetoolbar_secondary_bg = #F5F2F0
 		margin -12px 0 0 -32px
 
 	&__tablet-menu,
-	&__tablet-search
+	&__tablet-search,
+	&__tablet-usermenu
 		background sitetoolbar_secondary_bg
 		display none
 		position absolute
 		width 100%
 		box-shadow 0 2px 3px -2px rgba(0, 0, 0, .3)
-
-	&_menu_open &__tablet-menu,
-	&_search_open &__tablet-search
-		display block
 
 	&__tablet-menu-line,
 	&__tablet-search-content
@@ -167,15 +165,26 @@ sitetoolbar_secondary_bg = #F5F2F0
 	&__tablet-menu-nav
 		width 100%
 
-	&__tablet-menu-link:visited
-		color link_color
+	&__secondary-link:link,
+	&__secondary-link:visited
+		color sitetoolbar_secondary_link
 
-	&__tablet-menu-link:hover
+	&__secondary-link:hover
 		text-decoration none
 		color link_hover_color
 
 	&__tablet-menu-share
 		margin 5px 20px 0 0
+
+	&__tablet-usermenu-item
+		line-height 60px
+		border-top 1px solid #e7e5e3
+
+	&__tablet-usermenu-link
+		display block
+		padding 0 20px
+		text-align center
+		font-size 16px
 
 	&__tablet-search-query-wrap
 		padding 0 0 0 20px
@@ -231,6 +240,22 @@ sitetoolbar_secondary_bg = #F5F2F0
 			width 60px
 			margin 0
 
+		&_menu_open &__tablet-menu,
+		&_search_open &__tablet-search,
+		&_user_open &__tablet-usermenu
+			display block
+
 		&_menu_open &__nav-toggle,
-		&_search_open &__search
+		&_search_open &__search,
+		&_user_open &__user
 			background sitetoolbar_secondary_bg
+
+	// подвинем логотип при очень узком окне, чтобы никуда не накладывался
+	@media (max-width: 690px)
+		&__link_logo,
+		&__logo
+			left 90px
+			margin-left 0
+
+		&__link_logo &__logo
+			left 0
