@@ -4,9 +4,9 @@ const config = require('config');
 const log = require('js-log')();
 const escapeHtml = require('escape-html');
 
-function renderError(error) {
+function renderUserError(error) {
   /*jshint -W040 */
-  this.status = error.status;
+  this.status = error.status || 500;
 
   var preferredType = this.accepts('html', 'json');
 
@@ -28,45 +28,51 @@ function renderDevError(error) {
   } else {
     var stack = (error.stack || '')
       .split('\n').slice(1)
-      .map(function(v){ return '<li>' + escapeHtml(v).replace(/  /g, ' &nbsp;') + '</li>'; }).join('');
+      .map(function(v) {
+        return '<li>' + escapeHtml(v).replace(/  /g, ' &nbsp;') + '</li>';
+      }).join('');
 
     this.type = 'text/html; charset=utf-8';
-    this.body = "<html><body><h1>" + error.message + "</h1><ul>"+stack+ "</ul></body></html>";
+    this.body = "<html><body><h1>" + error.message + "</h1><ul>" + stack + "</ul></body></html>";
   }
 
+}
+
+function renderError(err) {
+  /*jshint -W040 */
+
+  if (err.status) {
+    // user-level error
+    if (process.env.NODE_ENV == 'development') {
+      console.log(err);
+    }
+    renderUserError.call(this, err);
+  } else {
+
+    // if error is "call stack too long", then log.error(err) is not verbose
+    // so I cast it to string
+    log.error(err.toString());
+    log.error(err.stack);
+
+    this.set('X-Content-Type-Options', 'nosniff');
+
+    if (process.env.NODE_ENV == 'development') {
+      renderDevError.call(this, err);
+    } else {
+      renderUserError.call(this, {status: 500, message: "Ошибка на стороне сервера"});
+    }
+  }
 }
 
 module.exports = function(app) {
 
   app.use(function*(next) {
     this.renderError = renderError;
-    this.renderDevError = renderDevError;
 
     try {
       yield* next;
     } catch (err) {
-
-      if (err.status) {
-        // user-level error
-        if (process.env.NODE_ENV == 'development') {
-          console.log(err);
-        }
-        this.renderError(err);
-      } else {
-
-        // if error is "call stack too long", then log.error(err) is not verbose
-        // so I cast it to string
-        log.error(err.toString());
-        log.error(err.stack);
-
-        this.set('X-Content-Type-Options', 'nosniff');
-
-        if (process.env.NODE_ENV == 'development') {
-          this.renderDevError(err);
-        } else {
-          this.renderError({status: 500, message: "Internal Error"});
-        }
-      }
+      this.renderError(err);
     }
 
   });

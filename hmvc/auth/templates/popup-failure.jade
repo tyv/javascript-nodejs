@@ -1,3 +1,4 @@
+//- popup-failure?REASON (urlencoded)
 doctype html
 html
   title Отказ в авторизации
@@ -6,7 +7,8 @@ body
     if (window.opener && window.opener.authModal) {
       window.opener.focus();
 
-      window.opener.authModal.onAuthFailure();
+      // I hope that decodeURIComponent is the strict inverse of querystring.stringify
+      window.opener.authModal.onAuthFailure(decodeURIComponent(location.search.slice(1)));
     }
     window.close();
 

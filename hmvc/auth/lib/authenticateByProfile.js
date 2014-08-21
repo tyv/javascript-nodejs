@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const config = require('config');
 const co = require('co');
+const log = require('js-log')();
 
 function mergeProfile(user, profile) {
   if (!user.photo && profile.photos && profile.photos.length) {
@@ -29,7 +30,7 @@ function mergeProfile(user, profile) {
 
   if (i == user.providers.length) {
     user.providers.push({
-      nameId: makeProviderId(profile),
+      nameId:  makeProviderId(profile),
       profile: profile
     });
   }
@@ -43,6 +44,8 @@ function makeProviderId(profile) {
 
 module.exports = function(profile, done) {
   // profile = the data returned by the facebook graph api
+
+  log.debug(profile);
 
   co(function*() {
     var providerNameId = makeProviderId(profile);
@@ -59,8 +62,11 @@ module.exports = function(profile, done) {
     }
 
     mergeProfile(user, profile);
+
     yield user.persist();
+
     return user;
+
   })(done);
 
 };

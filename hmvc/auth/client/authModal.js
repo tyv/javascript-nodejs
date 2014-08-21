@@ -315,10 +315,13 @@ AuthModal.prototype.submitLoginForm = function(form) {
 };
 
 AuthModal.prototype.openAuthPopup = function(url) {
+  if (this.authPopup && !this.authPopup.closed) {
+    this.authPopup.close(); // close old popup if any
+  }
   var width = 800, height = 600;
   var top = (window.outerHeight - height) / 2;
   var left = (window.outerWidth - width) / 2;
-  window.open(url, 'auth_popup', 'width=' + width + ',height=' + height + ',scrollbars=0,top=' + top + ',left=' + left);
+  this.authPopup = window.open(url, 'auth_popup_' + Math.random(), 'width=' + width + ',height=' + height + ',scrollbars=0,top=' + top + ',left=' + left);
 };
 
 /*
