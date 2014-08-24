@@ -24,6 +24,9 @@ include /bemto
         +e('li').section
           +e('a').link(href="/tests") Тестирование
     +e.login-wrap
+      //- необходимо будет добавлять класс sitetoolbar__login-loader_active чтобы показать анимацию
+      //- в обычном состоянии блок присутствует, но скрыт, резервирует место, чтобы избежать
+      //- "скачков" в момент показа
       +b.loader._small.sitetoolbar__login-loader
         +e.dot._1
         +e.dot._2

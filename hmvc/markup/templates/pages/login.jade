@@ -25,127 +25,151 @@ html
               +e.info
                 | Новый пароль был отправлен на ваш email
             +e.line.__notification
-              .login-form__error
+              +e.error
                 | Email либо пароль введены неверно
             +e.line
-              label.login-form__label(for="login") Имя пользователя или Email:
-              span.text-input.login-form__input
-                input.text-input__control#login(name="login")
+              +e('label').label(for="login") Имя пользователя или Email:
+              +b('span').text-input.__input
+                +e('input').control#login(name="login")
             +e.line
-              label.login-form__label(for="password") Пароль:
-              span.text-input.login-form__input
+              +e('label').label(for="password") Пароль:
               +b('span').text-input.__input
                 +e('input').control#password(type="password", name="password")
-            .login-form__line.login-form__footer
-              .login-form__button
-                button.submit-button.login-form__submit(type="submit") Войти
-              .login-form__footer-link
+            +e.line.__footer
+              +e.button
+                //- FIXME: onclick для демо и удобной отладки верстки. Убрать.
+                +b('button').submit-button.__submit(type="submit", onclick="this.classList.toggle('submit-button_progress'); return false;")
+                  //- элемент text нужен только если нужна возможность скрывать текст,
+                  //- например чтобы на его месте показать индикатор
+                  +e('span').text Войти
+                  +b('span').loader._small.__loader
+                    +e('span').dot._1
+                    +e('span').dot._2
+                    +e('span').dot._3
+              +e.footer-link
                 a(href="forgot") Забыли пароль?
             +e.line.__social-login
               +e('h5').social-login-title Вход через социальные сети
               =" "
               +b('a').social-login._twitter(href="#") Twitter
               =" "
-              a.social-login.social-login_vkontakte(href="#") Вконтакте
+              +b('a').social-login._vkontakte(href="#") Вконтакте
               =" "
-              a.social-login.social-login_facebook(href="#") Facebook
+              +b('a').social-login._facebook(href="#") Facebook
               =" "
-              a.social-login.social-login_google(href="#") Google+
+              +b('a').social-login._google(href="#") Google+
               =" "
-              a.social-login.social-login_github(href="#") Github
+              +b('a').social-login._github(href="#") Github
     br
     br
 
-    .login-form
-      form.login-form__form(action="#")
-        .login-form__line.login-form__header
-          h4.login-form__title Вход в систему
-          .login-form__header-aside
+    +b.login-form
+      +e('form').form(action="#")
+        +e.line.__header
+          +e('h4').title Вход в систему
+          +e.header-aside
             a(href="#register") регистрация
-        .login-form__line.login-form__notification
-          .login-form__info
+        +e.line.__notification
+          +e.info
             | Новый пароль был отправлен на ваш email
-        .login-form__line.login-form__notification
-          .login-form__error
+        +e.line.__notification
+          +e.error
             | Email либо пароль введены неверно
-        .login-form__line
-          label.login-form__label(for="login") Имя пользователя или Email:
-          span.text-input.login-form__input
-            input.text-input__control#login(name="login")
-        .login-form__line
-          label.login-form__label(for="password") Пароль:
-          span.text-input.login-form__input
-            input.text-input__control#password(type="password", name="password")
-        .login-form__line.login-form__footer
-          .login-form__button
-            button.submit-button.login-form__submit(type="submit") Войти
-          .login-form__footer-link
+        +e.line
+          +e('label').label(for="login") Имя пользователя или Email:
+          +b('span').text-input.__input
+            +e('input').control#login(name="login")
+        +e.line
+          +e('label').label(for="password") Пароль:
+          +b('span').text-input.__input
+            +e('input').control#password(type="password", name="password")
+        +e.line.__footer
+          +e.button
+            +b('button').submit-button.__submit(type="submit", onclick="this.classList.toggle('submit-button_progress'); return false;")
+              +e('span').text Войти
+              +b('span').loader._small.__loader
+                +e('span').dot._1
+                +e('span').dot._2
+                +e('span').dot._3
+          +e.footer-link
             a(href="forgot") Забыли пароль?
-        .login-form__line.login-form__social-login
-          h5.login-form__social-login-title Вход через социальные сети
+        +e.line.__social-login
+          +e('h5').social-login-title Вход через социальные сети
           =" "
-          a.social-login.social-login_twitter(href="#") Twitter
+          +b('a').social-login._twitter(href="#") Twitter
           =" "
-          a.social-login.social-login_vkontakte(href="#") Вконтакте
+          +b('a').social-login._vkontakte(href="#") Вконтакте
           =" "
-          a.social-login.social-login_facebook(href="#") Facebook
+          +b('a').social-login._facebook(href="#") Facebook
           =" "
-          a.social-login.social-login_google(href="#") Google+
+          +b('a').social-login._google(href="#") Google+
           =" "
-          a.social-login.social-login_github(href="#") Github
+          +b('a').social-login._github(href="#") Github
     br
     br
-    .login-form#reset-form
-      form.login-form__form(action="#")
-        .login-form__line.login-form__header
-          h4.login-form__title Восстановление пароля
-        .login-form__line.login-form__note
+    +b.login-form#reset-form
+      +e('form').form(action="#")
+        +e.line.__header
+          +e('h4').title Восстановление пароля
+        +e.line.__note
           | Укажите ваш email в форме ниже и мы вышлем на него обновленный пароль.
-        .login-form__line
-          label.login-form__label(for="email-reset") Email:
-          span.text-input.login-form__input
-            input.text-input__control#email-reset(name="email-reset")
-        .login-form__line.login-form__footer
-          .login-form__button
-            button.submit-button.login-form__submit(type="submit") Восстановить пароль
-          .login-form__footer-link
+        +e.line
+          +e('label').label(for="email-reset") Email:
+          +b('span').text-input.__input
+            +e('input').control#email-reset(name="email-reset")
+        +e.line.__footer
+          +e.button
+            +b('button').submit-button.__submit(type="submit", onclick="this.classList.toggle('submit-button_progress'); return false;")
+              +e('span').text Восстановить пароль
+              +b('span').loader._small.__loader
+                +e('span').dot._1
+                +e('span').dot._2
+                +e('span').dot._3
+          +e.footer-link
             a(href="#cancel") Отмена
     br
     br
-    .login-form#register-form
-      form.login-form__form(action="#")
-        .login-form__line.login-form__header
-          h4.login-form__title Регистрация
-          .login-form__header-aside
+    +b.login-form#register-form
+      +e('form').form(action="#")
+        +e.line.__header
+          +e('h4').title Регистрация
+          +e.header-aside
             a(href="#register") вход
-        .login-form__line.login-form__notification
-          .login-form__error
+        +e.line.__notification
+          +e.error
             | Регистрация не прошла
-        .login-form__line
-          label.login-form__label(for="login") Email:
-          span.text-input.login-form__input
-            input.text-input__control#email(name="email")
-        .login-form__line
-          label.login-form__label(for="password") Пароль:
-          span.text-input.login-form__input
-            input.text-input__control#password(type="password", name="password")
-        .login-form__line
-          label.login-form__label(for="password2") Пароль еще раз:
-          span.text-input.text-input_invalid.login-form__input
-            input.text-input__control#password(type="password", name="password")
-            span.text-input__err Пароли не совпадают
-        .login-form__line.login-form__footer
-          .login-form__button
-            button.submit-button.login-form__submit(type="submit") Зарегистрироваться
-        .login-form__line.login-form__social-login
-          h5.login-form__social-login-title Вход через социальные сети
+        +e.line
+          +e('label').label(for="login") Email:
+          +b('span').text-input.__input
+            +e('input').control#email(name="email")
+        +e.line
+          +e('label').label(for="password") Пароль:
+          +b('span').text-input.__input
+            +e('input').control#password(type="password", name="password")
+        +e.line
+          +e('label').label(for="password2") Пароль еще раз:
+          +b('span').text-input._invalid.__input
+            +e('input').control#password(type="password", name="password")
+            +e('span').err Пароли не совпадают
+        +e.line.__footer
+          +e.button
+            +b('button').submit-button.__submit(type="submit", onclick="this.classList.toggle('submit-button_progress'); return false;")
+              +e('span').text Зарегистрироваться
+              +b('span').loader._small.__loader
+                +e('span').dot._1
+                +e('span').dot._2
+                +e('span').dot._3
+        +e.line.__social-login
+          +e('h5').social-login-title Вход через социальные сети
           =" "
-          a.social-login.social-login_twitter(href="#") Twitter
+          +b('a').social-login._twitter(href="#") Twitter
           =" "
-          a.social-login.social-login_vkontakte(href="#") Вконтакте
+          +b('a').social-login._vkontakte(href="#") Вконтакте
           =" "
-          a.social-login.social-login_facebook(href="#") Facebook
+          +b('a').social-login._facebook(href="#") Facebook
           =" "
-          a.social-login.social-login_google(href="#") Google+
+          +b('a').social-login._google(href="#") Google+
           =" "
-          a.social-login.social-login_github(href="#") Github
+          +b('a').social-login._github(href="#") Github
+    br
+    br

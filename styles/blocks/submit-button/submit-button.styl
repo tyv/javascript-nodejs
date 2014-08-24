@@ -21,6 +21,22 @@
 		background linear-gradient(to bottom, #ACACAC, #A0A0A0)
 		border-top 3px solid #B5B5B5
 
+	&__loader
+		display none
+		vertical-align middle
+
+	&__loader .loader__dot
+		background-color #fff
+
+	&_progress &__loader
+		display inline-block
+
+	// такой способ скрытия — чтобы не менялась ширина кнопки
+	&_progress &__text
+		overflow hidden
+		height 0
+		display block
+
 // IE fixes
 if ie
 	.submit-button
