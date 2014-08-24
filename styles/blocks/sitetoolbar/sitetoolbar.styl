@@ -49,10 +49,16 @@ sitetoolbar_secondary_link = #498CBE
 
 	&__sections
 		padding 17px 0
-	
+
+	&__sections-list
+		white-space normal
+		height 30px
+		overflow hidden
+
 	&__section
 		display inline-block
 		margin-right 20px
+		white-space nowrap
 
 	&__section_current,
 	&__section_current &__link
@@ -70,16 +76,19 @@ sitetoolbar_secondary_link = #498CBE
 		@extend $button-reset
 		font 16px font
 		color sitetoolbar_color
-		vertical-align bottom
 		line-height inherit
 		height 60px
 		padding 0 17px
 
 	&__login-loader
 		display inline-block
-		margin-top ((60 - image-height('../loader/loader_small.gif')) / 2) + 2px
-		margin-right 8px
+		margin 27px 0
 		vertical-align top
+		visibility hidden
+		// margin-top ((60 - image-height('../loader/loader_small.gif')) / 2) + 2px
+
+	&__login-loader_active
+		visibility visible
 
 	&__user::before
 		content ""
@@ -117,10 +126,13 @@ sitetoolbar_secondary_link = #498CBE
 		margin 0
 
 	&__loader
-		background-color #fff
 		position absolute
 		left 50%
-		margin -12px 0 0 -32px
+		margin -11px 0 0 -30px
+		background #fff
+		border-radius 12px
+		border 1px solid #e7e5e3
+		padding 4px 2px
 
 	&__tablet-menu,
 	&__tablet-search,
@@ -210,7 +222,11 @@ sitetoolbar_secondary_link = #498CBE
 		&__logo
 			position absolute
 			left 50%
-			margin-left round(image-width('sitetoolbar__logo.png') / -2)
+			margin-left round(image-width('sitetoolbar__logo.png') / 2) * -1
+
+		// подвинем ближе к кнопке логина, чтобы при узком окне не накладывался на логотип
+		&__login-loader
+			margin-right -15px
 
 		&__user-text
 			max-width 130px
@@ -251,6 +267,7 @@ sitetoolbar_secondary_link = #498CBE
 			background sitetoolbar_secondary_bg
 
 	// подвинем логотип при очень узком окне, чтобы никуда не накладывался
+	// эконосмим несколько пикселей ширины
 	@media (max-width: 690px)
 		&__link_logo,
 		&__logo
