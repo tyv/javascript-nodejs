@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 var OrderTemplate = require('payments').OrderTemplate;
-var User = require('auth/models/user');
+var User = require('users').User;
 
 exports.OrderTemplate = [
   {
@@ -27,5 +27,6 @@ exports.OrderTemplate = [
 exports.User = [{
   email: "mk@javascript.ru",
   displayName: "Tester",
-  password: "123456"
+  password: "123456",
+  verifiedEmail: true
 }];

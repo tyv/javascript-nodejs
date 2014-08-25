@@ -20,6 +20,8 @@ module.exports = function(app) {
     app.mountHmvc('/markup', 'markup');
   }
 
+  app.mountHmvc('/users', 'users');
+
   app.mountHmvc('/auth', 'auth');
   app.csrf.addIgnorePath('/auth/login/:any*');
   app.csrf.addIgnorePath('/auth/register');
@@ -29,6 +31,8 @@ module.exports = function(app) {
 
 
   app.mountHmvc('/getpdf', 'getpdf');
+
+  app.mountHmvc('/profile', 'profile');
 
   app.mountHmvc('/payments', 'payments');
   app.csrf.addIgnorePath('/payments/:any*');

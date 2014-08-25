@@ -28,7 +28,8 @@ function wrapWatch(watch, task) {
     if (process.env.NODE_ENV == 'development') {
       gulp.watch(watch, [task]);
     } else {
-      gulp.start(task, callback);
+      callback(); // @see usage examples, wrapWatch only triggers watch, should depend on ['task']
+      // gulp.start(task, callback);
     }
   };
 }
@@ -106,7 +107,7 @@ gulp.task("client:browserify:clean", lazyRequireTask('./tasks/browserifyClean', 
 
 //gulp.task("client:browserify", ['client:browserify:clean'], lazyRequireTask('./tasks/browserify'));
 gulp.task("client:browserify-once", ['client:browserify:clean'], lazyRequireTask('./tasks/browserify'));
-gulp.task("client:browserify", wrapWatch(['client/**', 'hmvc/**/client/**'], "client:browserify-once"));
+gulp.task("client:browserify", ['client:browserify-once'], wrapWatch(['client/**', 'hmvc/**/client/**'], "client:browserify-once"));
 
 
 

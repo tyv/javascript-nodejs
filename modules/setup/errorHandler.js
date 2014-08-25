@@ -64,10 +64,25 @@ function renderError(err) {
   }
 }
 
+function renderValidationError(error) {
+  /*jshint -W040 */
+  this.status = 400;
+  var errors = {};
+
+  for (var field in error.errors) {
+    errors[field] = error.errors[field].message;
+  }
+
+  this.body = {
+    errors: errors
+  };
+}
+
 module.exports = function(app) {
 
   app.use(function*(next) {
     this.renderError = renderError;
+    this.renderValidationError = renderValidationError;
 
     try {
       yield* next;

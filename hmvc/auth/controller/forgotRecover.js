@@ -1,4 +1,4 @@
-var User = require('../models/user');
+var User = require('users').User;
 var jade = require('jade');
 var path = require('path');
 var log = require('js-log')();

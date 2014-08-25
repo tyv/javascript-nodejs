@@ -4,12 +4,14 @@ html
 body
   script var reason = !{JSON.stringify(reason)}
 
+  //- window.authProvider for login is AuthModal,
+  //- for managing providers AuthProvidersManager
   script.
-    if (window.opener && window.opener.authModal) {
+    if (window.opener && window.opener[window.name]) {
       window.opener.focus();
 
       // I hope that decodeURIComponent is the strict inverse of querystring.stringify
-      window.opener.authModal.onAuthFailure(reason);
+      window.opener[window.name].onAuthFailure(reason);
     }
     window.close();
 

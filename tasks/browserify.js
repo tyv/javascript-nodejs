@@ -7,11 +7,13 @@ const watchify = require('watchify');
 const browserify = require('browserify');
 var config = require('config');
 var Notification = require('node-notifier');
-var assert = require('assert');
+var log = require('js-log')();
 var _ = require('lodash');
 var path = require('path');
 var co = require('co');
 var thunkify = require('thunkify');
+
+//log.debugOn();
 
 //var requireify = require('requireify');
 // should expose all modules to require, but missed part of them. buggy!
@@ -47,20 +49,28 @@ function makeBundler(options) {
   }));
 
   bundler.rebundle = function(callback) {
+    log.debug("browserify start: " + bundler._options.dst);
     this.bundle()
       .on('error', function(e) {
         gutil.log(e.message);
         new Notification().notify({
           message: e
         });
+        callback(); // let gulp know that we finished, otherwise it won't rerun us
       })
       .pipe(source(path.basename(this._options.dst)))
       .pipe(gp.if(process.env.NODE_ENV == 'production', gp.streamify(gp.uglify())))
       .pipe(gulp.dest(path.dirname(this._options.dst)))
       .on('end', function() {
+        gutil.log("browserify done: " + bundler._options.dst);
         callback();
       });
   };
+
+  bundler.on('file', function(file, id) {
+    log.debug(file, ':', id);
+  });
+
   bundler.on('update', bundler.rebundle);
   bundler.on('log', function(msg) {
     gutil.log("browserify: " + msg);
@@ -107,7 +117,7 @@ function bundleHead(callback) {
     dst:     './public/js/head.js',
     // require['client/head'] did't work some time, because it put 'client/head' path, not full path into cache, and then require from another bundle looks for full path
     require: ['client/head'],
-    externals: ['auth/client/authModal']
+    externals: ['auth/client'] // head needs authModal
   });
   // expose does not work with watchify
   // https://github.com/substack/watchify/issues/72#issuecomment-50747549
@@ -115,13 +125,12 @@ function bundleHead(callback) {
 
 }
 
-function bundleAuth(callback) {
+function bundleHmvc(hmvcName, callback) {
 
   var bundler = makeBundler({
-//      entries:   'auth/client/authModal',
-    dst:       './public/js/auth/authModal.js',
-    externals: ['client/head'],
-    require: ['auth/client/authModal']
+    dst:       './public/js/' + hmvcName + '.js',
+    externals: ['client/head'], // already loaded, has Modal and other basic stuff
+    require: [hmvcName + '/client']
   });
 
   bundler.rebundle(callback);
@@ -134,7 +143,8 @@ module.exports = function() {
     co(function*() {
 
       yield thunkify(bundleHead)();
-      yield thunkify(bundleAuth)();
+      yield thunkify(bundleHmvc)('auth');
+      yield thunkify(bundleHmvc)('profile');
 
     })(callback);
 

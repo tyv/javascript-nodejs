@@ -1,7 +1,8 @@
-const User = require('../models/user');
+const User = require('users').User;
 const config = require('config');
 const co = require('co');
 const log = require('js-log')();
+const _ = require('lodash');
 
 function mergeProfile(user, profile) {
   if (!user.photo && profile.photos && profile.photos.length && profile.photos[0].type != 'default') {
@@ -21,20 +22,21 @@ function mergeProfile(user, profile) {
     user.gender = profile.gender;
   }
 
+  // remove previous profile from the same provider, replace by the new one
+  var nameId = makeProviderId(profile);
   for (var i = 0; i < user.providers.length; i++) {
     var provider = user.providers[i];
-    if (provider.nameId == makeProviderId(profile)) {
-      user.providers[i].profile = profile;
-      break;
+    if (provider.nameId == nameId) {
+      provider.remove();
+      i--;
     }
   }
 
-  if (i == user.providers.length) {
-    user.providers.push({
-      nameId:  makeProviderId(profile),
-      profile: profile
-    });
-  }
+  user.providers.push({
+    name: profile.provider,
+    nameId:  makeProviderId(profile),
+    profile: profile
+  });
 
   user.verifiedEmail = true;
 }
@@ -43,7 +45,7 @@ function makeProviderId(profile) {
   return profile.provider + ":" + profile.id;
 }
 
-module.exports = function(profile, done) {
+module.exports = function(connectWithUser, profile, done) {
   // profile = the data returned by the facebook graph api
 
   log.debug(profile);
@@ -51,14 +53,49 @@ module.exports = function(profile, done) {
   co(function*() {
     var providerNameId = makeProviderId(profile);
 
-    var user = yield User.findOne({"providers.id": providerNameId}).exec();
+    var user;
 
-    if (!user) {
-      // if we have user with same email, assume it's exactly the same person as the new man
-      user = yield User.findOne({email: profile.emails[0].value}).exec();
+    if (connectWithUser) {
+      // merge auth result with the user profile if it is not bound anywhere yet
+
+      // look for another user already using this profile
+      var alreadyConnectedUser = yield User.findOne({
+        "providers.nameId": providerNameId,
+        _id: { $ne: connectWithUser._id }
+      }).exec();
+
+      if (alreadyConnectedUser) {
+        // if old user is in read-only,
+        // I can't just reattach the profile to the new user and keep logging in w/ it
+        if (alreadyConnectedUser.readOnly) {
+          return done(null, false, "Вход по этому профилю не разрешён, извините.");
+        }
+
+        // before this social login was used by alreadyConnectedUser
+        // now we clean the connection to make a new one
+        for (var i = 0; i < alreadyConnectedUser.providers.length; i++) {
+          var provider = alreadyConnectedUser.providers[i];
+          if (provider.nameId == providerNameId) {
+            provider.remove();
+            i--;
+          }
+        }
+        yield alreadyConnectedUser.persist();
+      }
+
+      user = connectWithUser;
+
+    } else {
+      user = yield User.findOne({"providers.nameId": providerNameId}).exec();
 
       if (!user) {
-        user = new User();
+        // if we have user with same email, assume it's exactly the same person as the new man
+        user = yield User.findOne({email: profile.emails[0].value}).exec();
+
+        if (!user) {
+          // auto-register
+          user = new User();
+        }
       }
     }
 
@@ -69,7 +106,7 @@ module.exports = function(profile, done) {
     } catch (e) {
       // there's a required field
       // maybe, when the user was on the remote social login screen, he disallowed something?
-      return done(null, false, "Недостаточно данных для регистрации, разрешите их передачу, пожалуйста.");
+      return done(null, false, "Недостаточно данных, разрешите их передачу, пожалуйста.");
     }
 
     yield user.persist();

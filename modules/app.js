@@ -29,6 +29,8 @@ function requireSetup(path) {
 // that's why we put it at the top
 requireSetup('setup/static');
 
+requireSetup('setup/time');
+
 // this middleware adds this.render method
 // it is *before errorHandler*, because errors need this.render
 requireSetup('setup/render');

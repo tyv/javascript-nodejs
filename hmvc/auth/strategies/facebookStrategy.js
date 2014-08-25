@@ -1,4 +1,4 @@
-const User = require('../models/user');
+var User = require('users').User;
 const FacebookStrategy = require('passport-facebook').Strategy;
 const authenticateByProfile = require('./../lib/authenticateByProfile');
 const config = require('config');
@@ -34,8 +34,8 @@ const request = require('request');
 */
 
 module.exports = new FacebookStrategy({
-    clientID:          config.auth.facebook.appId,
-    clientSecret:      config.auth.facebook.appSecret,
+    clientID:          config.authProviders.facebook.appId,
+    clientSecret:      config.authProviders.facebook.appSecret,
     callbackURL:       config.siteurl + "/auth/callback/facebook",
     // fields are described here:
     // https://developers.facebook.com/docs/graph-api/reference/v2.1/user
@@ -53,9 +53,7 @@ module.exports = new FacebookStrategy({
     // refreshToken:
     // undefined
 
-    // we really want verified emails from facebook
-    // if not, someone may login with facebook using unverified email,
-    // impersonating another user, and we'll let him in :/
+    // I guess, facebook won't allow to use an email w/o verification, but still///
     if (!profile._json.verified) {
       return done(null, false, {message: "Почта на facebook должна быть подтверждена"});
     }
@@ -72,7 +70,7 @@ module.exports = new FacebookStrategy({
         }];
 
       }
-      authenticateByProfile(profile, done);
+      authenticateByProfile(req.user, profile, done);
     });
 
 //    http://graph.facebook.com/v2.1/765813916814019/picture?redirect=0&width=1000&height=1000

@@ -1,5 +1,4 @@
 var xhr = require('client/xhr');
-require('client/xhr-notify');
 
 var delegate = require('client/delegate');
 var Modal = require('client/head').Modal;
@@ -9,7 +8,7 @@ var loginForm = require('../templates/login-form.jade');
 var registerForm = require('../templates/register-form.jade');
 var forgotForm = require('../templates/forgot-form.jade');
 
-var jadeRender = require('client/jadeRender');
+var clientRender = require('client/clientRender');
 
 /**
  * Options:
@@ -34,9 +33,8 @@ function AuthModal(options) {
     };
   }
 
-
   this.options = options;
-  this.setContent(jadeRender(loginForm));
+  this.setContent(clientRender(loginForm));
 
   if (options.message) {
     this.showFormMessage(options.message, 'info');
@@ -108,17 +106,17 @@ AuthModal.prototype.initEventHandlers = function() {
 
   this.delegate('[data-switch="register-form"]', 'click', function(e) {
     e.preventDefault();
-    this.setContent(jadeRender(registerForm));
+    this.setContent(clientRender(registerForm));
   });
 
   this.delegate('[data-switch="login-form"]', 'click', function(e) {
     e.preventDefault();
-    this.setContent(jadeRender(loginForm));
+    this.setContent(clientRender(loginForm));
   });
 
   this.delegate('[data-switch="forgot-form"]', 'click', function(e) {
     e.preventDefault();
-    this.setContent(jadeRender(forgotForm));
+    this.setContent(clientRender(forgotForm));
   });
 
 
@@ -193,14 +191,15 @@ AuthModal.prototype.submitRegisterForm = function(form) {
 
   var request = this.request({
     method: 'POST',
-    url:    '/auth/register'
+    url:    '/auth/register',
+    successStatuses: [201, 400]
   });
 
   var self = this;
   request.addEventListener('success', function(event) {
 
     if (this.status == 201) {
-      self.setContent(jadeRender(loginForm));
+      self.setContent(clientRender(loginForm));
       self.showFormMessage(
           "Сейчас вам придёт email с адреса <code>inform@javascript.ru</code> " +
           "со ссылкой-подтверждением. Если письмо не пришло в течение минуты, можно " +
@@ -210,8 +209,10 @@ AuthModal.prototype.submitRegisterForm = function(form) {
       return;
     }
 
-    if (this.status == 409) {
-      self.showFormMessage(event.result, 'error');
+    if (this.status == 400) {
+      for (var field in event.result.errors) {
+        self.showInputError(form.elements[field], event.result.errors[field]);
+      }
       return;
     }
 
@@ -245,7 +246,7 @@ AuthModal.prototype.submitForgotForm = function(form) {
   request.addEventListener('success', function(event) {
 
     if (this.status == 200) {
-      self.setContent(jadeRender(loginForm));
+      self.setContent(clientRender(loginForm));
       self.showFormMessage(event.result, 'success');
     } else {
       self.showFormMessage(event.result, 'error');
@@ -270,6 +271,7 @@ AuthModal.prototype.showFormMessage = function(message, type) {
   if (['info', 'error', 'warning', 'success'].indexOf(type) == -1) {
     throw new Error("Unsupported type: " + type);
   }
+
 
   var container = document.createElement('div');
   container.className = 'login-form__' + type;
@@ -301,14 +303,15 @@ AuthModal.prototype.submitLoginForm = function(form) {
     url:    '/auth/login/local'
   });
 
+  var self = this;
   request.addEventListener('success', function(event) {
 
     if (this.status != 200) {
-      window.authModal.onAuthFailure(event.result.message);
+      self.onAuthFailure(event.result.message);
       return;
     }
 
-    window.authModal.onAuthSuccess();
+    self.onAuthSuccess();
   });
 
   request.send(new FormData(form));
@@ -321,7 +324,8 @@ AuthModal.prototype.openAuthPopup = function(url) {
   var width = 800, height = 600;
   var top = (window.outerHeight - height) / 2;
   var left = (window.outerWidth - width) / 2;
-  this.authPopup = window.open(url, 'auth_popup_' + Math.random(), 'width=' + width + ',height=' + height + ',scrollbars=0,top=' + top + ',left=' + left);
+  window.authModal = this;
+  this.authPopup = window.open(url, 'authModal', 'width=' + width + ',height=' + height + ',scrollbars=0,top=' + top + ',left=' + left);
 };
 
 /*

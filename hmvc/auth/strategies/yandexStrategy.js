@@ -1,4 +1,4 @@
-const User = require('../models/user');
+var User = require('users').User;
 const YandexStrategy = require('passport-yandex').Strategy;
 const authenticateByProfile = require('../lib/authenticateByProfile');
 const config = require('config');
@@ -30,13 +30,13 @@ const config = require('config');
 */
 
 module.exports = new YandexStrategy({
-    clientID:          config.auth.yandex.appId,
-    clientSecret:      config.auth.yandex.appSecret,
+    clientID:          config.authProviders.yandex.appId,
+    clientSecret:      config.authProviders.yandex.appSecret,
     callbackURL:       config.siteurl + "/auth/callback/yandex",
     passReqToCallback: true
   },
   function(req, accessToken, refreshToken, profile, done) {
-    authenticateByProfile(profile, done);
+    authenticateByProfile(req.user, profile, done);
   }
 );
 

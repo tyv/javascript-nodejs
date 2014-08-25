@@ -1,4 +1,4 @@
-var User = require('../models/user');
+var User = require('users').User;
 var jade = require('jade');
 var sendVerifyEmail  = require('../lib/sendVerifyEmail');
 var path = require('path');
@@ -23,15 +23,10 @@ exports.post = function* (next) {
   try {
     yield user.persist();
   } catch(e) {
-    if (e.name == 'MongoError' && e.code == 11000) {
-      this.status = 409;
-      var existingUser = yield User.findOne({email: this.request.body.email}).exec();
-      if (existingUser.verifiedEmail) {
-        this.body = 'Этот email уже используется.';
-      } else {
-        this.body = 'Такой пользователь зарегистрирован, но его Email не подтверждён, можно <a href="#" data-action-verify-email="' + existingUser.email + '">запросить подтверждение заново</a>.';
-      }
-      return;
+    if (e.name == 'ValidationError') {
+      return this.renderValidationError(e);
+    } else {
+      this.throw(e);
     }
   }
 

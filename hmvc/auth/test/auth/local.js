@@ -50,16 +50,6 @@ describe('Authorization', function() {
         .expect(200, done);
     });
 
-    it('should return current user info', function(done) {
-      agent
-        .get('/auth/user')
-        .expect(200)
-        .end(function(err, res) {
-          res.body.email.should.be.eql(fixtures.User[0].email);
-          done(err);
-        });
-    });
-
     it('should log out', function(done) {
       agent
         .post('/auth/logout')
@@ -69,7 +59,8 @@ describe('Authorization', function() {
 
     it('should return error because session is incorrect', function(done) {
       agent
-        .get('/auth/user')
+        .post('/auth/logout')
+        .send('')
         .expect(401, done);
     });
   });
@@ -96,7 +87,8 @@ describe('Authorization', function() {
 
     it('should not be logged in', function(done) {
       agent
-        .get('/auth/user')
+        .post('/auth/logout')
+        .send('')
         .expect(401, done);
     });
     /*
@@ -118,7 +110,12 @@ describe('Authorization', function() {
       request(server)
         .post('/auth/register')
         .send(userData)
-        .expect(409, done);
+        .end(function(err, res) {
+          if (err) return done(err);
+          res.status.should.be.eql(400);
+          res.body.errors.email.should.exist;
+          done();
+        });
     });
 
   });

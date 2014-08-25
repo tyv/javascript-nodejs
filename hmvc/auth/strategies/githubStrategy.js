@@ -1,4 +1,4 @@
-const User = require('../models/user');
+var User = require('users').User;
 const GithubStrategy = require('passport-github').Strategy;
 const authenticateByProfile = require('./../lib/authenticateByProfile');
 const config = require('config');
@@ -72,8 +72,8 @@ Result example:
 */
 
 module.exports = new GithubStrategy({
-    clientID:     config.auth.github.appId,
-    clientSecret: config.auth.github.appSecret,
+    clientID:     config.authProviders.github.appId,
+    clientSecret: config.authProviders.github.appSecret,
     callbackURL:  config.siteurl + "/auth/callback/github",
     passReqToCallback: true
   },
@@ -128,7 +128,7 @@ module.exports = new GithubStrategy({
         {value: emails[0].email }
       ];
 
-      authenticateByProfile(profile, done);
+      authenticateByProfile(req.user, profile, done);
     });
 
 

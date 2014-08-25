@@ -1,4 +1,4 @@
-const User = require('../models/user');
+var User = require('users').User;
 const VkontakteStrategy = require('passport-vkontakte').Strategy;
 const authenticateByProfile = require('../lib/authenticateByProfile');
 const config = require('config');
@@ -16,8 +16,8 @@ result:
 */
 
 module.exports = new VkontakteStrategy({
-    clientID:          config.auth.vkontakte.appId,
-    clientSecret:      config.auth.vkontakte.appSecret,
+    clientID:          config.authProviders.vkontakte.appId,
+    clientSecret:      config.authProviders.vkontakte.appSecret,
     callbackURL:       config.siteurl + "/auth/callback/vkontakte",
     passReqToCallback: true
   },
@@ -35,7 +35,7 @@ module.exports = new VkontakteStrategy({
 
     console.log(profile);
 
-    authenticateByProfile(profile, done);
+    authenticateByProfile(req.user, profile, done);
   }
 );
 

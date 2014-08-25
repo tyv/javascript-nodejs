@@ -52,4 +52,4 @@ Csrf.prototype.middleware = function() {
   };
 };
 
-exports.Csrf = Csrf;
+module.exports = Csrf;

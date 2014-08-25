@@ -1,8 +1,9 @@
 var Router = require('koa-router');
-var user = require('./controller/user');
+var config = require('config');
 var register = require('./controller/register');
 var verify = require('./controller/verify');
 var reverify = require('./controller/reverify');
+var disconnect = require('./controller/disconnect');
 var forgot = require('./controller/forgot');
 var forgotRecover = require('./controller/forgotRecover');
 var logout = require('./controller/logout');
@@ -11,11 +12,11 @@ var passport = require('koa-passport');
 
 var router = module.exports = new Router();
 
-router.get('/user', mustBeAuthenticated, user.get);
 
 router.post('/login/local', function*(next) {
   var ctx = this;
-  // only callback-form of authenticate allows to answer reason if 401
+
+  // only callback-form of authenticate allows to assign ctx.body=info if 401
   yield passport.authenticate('local', function*(err, user, info) {
     if (err) throw err;
     if (user === false) {
@@ -28,7 +29,7 @@ router.post('/login/local', function*(next) {
   }).call(this, next);
 });
 
-router.post('/logout', logout.post);
+router.post('/logout', mustBeAuthenticated, logout.post);
 
 if (process.env.NODE_ENV == 'development') {
   router.get('/out', require('./out').get); // GET logout for DEV
@@ -43,46 +44,26 @@ router.post('/forgot-recover', forgotRecover.post);
 
 router.post('/reverify', reverify.post);
 
-// The request will be redirected to Facebook for authentication
-router.get('/login/facebook',
-  passport.authenticate('facebook', { display: 'popup', scope: ['email'] })
-);
+for (var providerName in config.authProviders) {
+  var provider = config.authProviders[providerName];
 
-router.get('/login/github',
-  passport.authenticate('github', { scope: 'user:email' })
-);
+  // login
+  router.get('/login/' + providerName, passport.authenticate(providerName, provider.passportOptions));
 
-router.get('/login/vkontakte',
-  passport.authenticate('vkontakte', {scope: 'email'})
-);
+  // connect with existing profile
+  router.get('/connect/' + providerName, mustBeAuthenticated, passport.authorize(providerName, provider.passportOptions));
 
-router.get('/login/yandex',
-  passport.authenticate('yandex')
-);
-
-router.get('/login/google',
-  passport.authenticate('google', {
-    scope: [
-      // https://www.googleapis.com/auth/plus.login - request access to circles (not needed)
-
-      // 'https://www.googleapis.com/auth/plus.profile.emails.read' - also works
-      'profile',
-      'email'
-    ]
-  })
-);
-
-// callback is same
-['facebook', 'github', 'vkontakte', 'yandex', 'google'].forEach(function(providerName) {
   // http://stage.javascript.ru/auth/callback/facebook?error=access_denied&error_code=200&error_description=Permissions+error&error_reason=user_denied#_=_
-
   router.get('/callback/' + providerName, passport.authenticate(providerName, {
       failureMessage:  true,
       successRedirect: '/auth/popup-success',
       failureRedirect: '/auth/popup-failure'
     })
   );
-});
+}
+
+// disconnect with existing profile
+router.post('/disconnect/:providerName', mustBeAuthenticated, disconnect.post);
 
 /*
  router.get('/mail', function*(next) {

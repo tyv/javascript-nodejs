@@ -1,4 +1,4 @@
-var User = require('../models/user');
+var User = require('users').User;
 var jade = require('jade');
 var sendForgotEmail  = require('../lib/sendForgotEmail');
 var path = require('path');

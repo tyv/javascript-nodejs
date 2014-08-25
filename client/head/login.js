@@ -19,11 +19,11 @@ function login(options) {
   var spinner = new Spinner();
   modal.setContent(spinner.elem);
   spinner.start();
-  var script = insertNonBlockingScript('/js/auth/authModal.js');
+  var script = insertNonBlockingScript('/js/auth.js');
   script.onload = function() {
     modal.remove();
-    var AuthModal = require('auth/client/authModal');
-    window.authModal = new AuthModal();
+    var AuthModal = require('auth/client').AuthModal;
+    new AuthModal();
   };
 }
 

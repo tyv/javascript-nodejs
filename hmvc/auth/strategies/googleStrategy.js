@@ -1,4 +1,4 @@
-const User = require('../models/user');
+var User = require('users').User;
 const GoogleStrategy = require('passport-google-oauth').Strategy;
 const authenticateByProfile = require('./../lib/authenticateByProfile');
 const config = require('config');
@@ -47,21 +47,14 @@ const config = require('config');
  */
 
 module.exports = new GoogleStrategy({
-    clientID:          config.auth.google.appId,
-    clientSecret:      config.auth.google.appSecret,
+    clientID:          config.authProviders.google.appId,
+    clientSecret:      config.authProviders.google.appSecret,
     callbackURL:       config.siteurl + "/auth/callback/google",
     passReqToCallback: true
   },
   function(req, token, tokenSecret, profile, done) {
 
-    profile.photos = [
-      {
-        value: profile._json.image.url,
-        type:  profile._json.image.isDefault ? 'default' : 'photo'
-      }
-    ];
-
-    authenticateByProfile(profile, done);
+    authenticateByProfile(req.user, profile, done);
   }
 );
 

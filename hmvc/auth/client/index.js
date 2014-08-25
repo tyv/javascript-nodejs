@@ -1,0 +1,1 @@
+exports.AuthModal = require('./authModal');

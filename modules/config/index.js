@@ -35,7 +35,7 @@ module.exports = {
     keys: [secret.sessionKey]
   },
   payments: secret.payments,
-  auth: secret.auth,
+  authProviders: secret.authProviders,
   mailer: {
     senders: {
       default: {

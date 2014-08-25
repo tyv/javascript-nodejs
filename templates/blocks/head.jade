@@ -7,9 +7,5 @@ html
 
   script(src="/js/head.js")
 
-  script.
-    //insertNonBlockingScript('/js/navigation.js')
-
-  //- link(href='../app/assets/styles/base.css' rel='stylesheet')
-  //if lte IE 9
-    //- link(href='../app/assets/styles/base.ie.css' rel='stylesheet')
+  if user
+    script var csrf = !{JSON.stringify(csrf)};
