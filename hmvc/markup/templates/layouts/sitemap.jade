@@ -1,0 +1,15 @@
+doctype html
+include /bem
+html
+  head
+    block variables
+    include ../blocks/head
+  body(id='#{self.bodyId}')
+    include ../blocks/sitetoolbar
+    .page.page_sitemap
+      include ../blocks/sidebar
+      .page__inner
+        article.main
+          block content
+      include ../blocks/page-footer
+    include ../blocks/scripts

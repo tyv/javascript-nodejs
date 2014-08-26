@@ -1,9 +1,320 @@
-extends ../layouts/base
+extends ../layouts/sitemap
 
-//- include /bem
+block variables
+  - var self = {};
+  - self.bodyId = 'page';
+  - self.title = 'Карта сайта';
+  - self.comments = {} // хм?
+  - self.comments.lenght = 5;
 
 block content
-	.sitemap
-		//- использовать блок columns?
-		.sitemap__col
-			.sitemap__col-title
+  +b.sitemap-filter
+    +e.header
+      +e.title Фильтр по заголовку
+      +e.option
+        +e('input').option-control#show-tasks(type="checkbox")
+        +e('label').option-label(for="show-tasks") Показать задачи
+    +b('span').text-input.__input
+      +e('input').control(type="text", autofocus)
+
+  +b.sitemap.columns.columns_3
+    //- использовать блок columns?
+    +e.section.columns__col
+      +e('h2').col-title Базовый JavaScript
+      +e('ul').items
+        +e('li').item
+          +e('a').link(href="#001") Общая информация
+          +e('ul').sub-items
+            +e('li').sub-item
+              +e('a').link(href="#002") Введение в JavaScript
+            +e('li').sub-item
+              +e('a').link(href="#003") Альтернативные браузерные технологии
+            +e('li').sub-item
+              +e('a').link(href="#004") Книги по JS, HTML/CSS и не только
+            +e('li').sub-item
+              +e('a').link(href="#005") Справочники
+            +e('li').sub-item
+              +e('a').link(href="#006") Редакторы для кода
+            +e('li').sub-item
+              +e('a').link(href="#007") SublimeText: шпаргалка
+            +e('li').sub-item
+              +e('a').link(href="#008") Книги по JS, HTML/CSS и не только
+            +e('li').sub-item
+              +e('a').link(href="#009") Установка браузеров, JS-консоль
+            +e('li').sub-item
+              +e('a').link(href="#010") Тестирование в старых браузерах
+            +e('li').sub-item
+              +e('a').link(href="#011") Привет, мир!
+              +e('ul').sub-sub-items
+                +e('li').sub-sub-item
+                  +e('a').link(href="#012") Alert
+                  =" "
+                  //- note может использоваться для любой дополняющей или поясняющей информации
+                  +e('span').note 5
+        +e('li').item
+          +e('a').link(href="#013") Основы JavaScript
+          +e('ul').sub-items
+            +e('li').sub-item
+              +e('a').link(href="#014") Структура кода
+            +e('li').sub-item
+              +e('a').link(href="#015") Переменные
+              +e('ul').sub-sub-items
+                +e('li').sub-sub-item
+                  +e('a').link(href="#016") Работа с переменными
+                  =" "
+                  +e('span').note 2
+            +e('li').sub-item
+              +e('a').link(href="#017") Имена переменных
+              +e('ul').sub-sub-items
+                +e('li').sub-sub-item
+                  +e('a').link(href="#018") Объявление переменных
+                  =" "
+                  +e('span').note 3
+            +e('li').sub-item
+              +e('a').link(href="#019") Введение в типы данных
+            +e('li').sub-item
+              +e('a').link(href="#020") Основные операторы
+              +e('ul').sub-sub-items
+                +e('li').sub-sub-item
+                  +e('a').link(href="#021") Инкремент и декремент, примеры
+                  =" "
+                  +e('span').note 5
+                +e('li').sub-sub-item
+                  +e('a').link(href="#022") Результат присваивания
+                  =" "
+                  +e('span').note 3
+            +e('li').sub-item
+              +e('a').link(href="#023") Операторы сравнения и логические значения
+            +e('li').sub-item
+              +e('a').link(href="#024") Побитовые операторы
+              +e('ul').sub-sub-items
+                +e('li').sub-sub-item
+                  +e('a').link(href="#025") Побитовый оператор и значение
+                  =" "
+                  +e('span').note 5
+                +e('li').sub-sub-item
+                  +e('a').link(href="#026") Проверка, целое ли число
+                  =" "
+                  +e('span').note 3
+                +e('li').sub-sub-item
+                  +e('a').link(href="#027") Симметричны ли операции ^, |, &amp;?
+                  =" "
+                  +e('span').note 5
+                +e('li').sub-sub-item
+                  +e('a').link(href="#028") Почему результат разный?
+                  =" "
+                  +e('span').note 5
+            +e('li').sub-item
+              +e('a').link(href="#029") Взаимодействие с пользователем: alert, prompt, confirm
+              +e('ul').sub-sub-items
+                +e('li').sub-sub-item
+                  +e('a').link(href="#030") Простая страница
+                  =" "
+                  +e('span').note 4
+            +e('li').sub-item
+              +e('a').link(href="#031") Условные операторы: if, '?'
+              +e('ul').sub-sub-items
+                +e('li').sub-sub-item
+                  +e('a').link(href="#032") if(строка с нулем)
+                  =" "
+                  +e('span').note 5
+
+    +e.section.columns__col
+      +e('h2').col-title Документ, События, Интерфейсы
+      +e('ul').items
+        +e('li').item
+          +e('a').link(href="#001") Общая информация
+          +e('ul').sub-items
+            +e('li').sub-item
+              +e('a').link(href="#002") Введение в JavaScript
+            +e('li').sub-item
+              +e('a').link(href="#003") Альтернативные браузерные технологии
+            +e('li').sub-item
+              +e('a').link(href="#004") Книги по JS, HTML/CSS и не только
+            +e('li').sub-item
+              +e('a').link(href="#005") Справочники
+            +e('li').sub-item
+              +e('a').link(href="#006") Редакторы для кода
+            +e('li').sub-item
+              +e('a').link(href="#007") SublimeText: шпаргалка
+            +e('li').sub-item
+              +e('a').link(href="#008") Книги по JS, HTML/CSS и не только
+            +e('li').sub-item
+              +e('a').link(href="#009") Установка браузеров, JS-консоль
+            +e('li').sub-item
+              +e('a').link(href="#010") Тестирование в старых браузерах
+            +e('li').sub-item
+              +e('a').link(href="#011") Привет, мир!
+              +e('ul').sub-sub-items
+                +e('li').sub-sub-item
+                  +e('a').link(href="#012") Alert
+                  =" "
+                  //- note может использоваться для любой дополняющей или поясняющей информации
+                  +e('span').note 5
+        +e('li').item
+          +e('a').link(href="#013") Основы JavaScript
+          +e('ul').sub-items
+            +e('li').sub-item
+              +e('a').link(href="#014") Структура кода
+            +e('li').sub-item
+              +e('a').link(href="#015") Переменные
+              +e('ul').sub-sub-items
+                +e('li').sub-sub-item
+                  +e('a').link(href="#016") Работа с переменными
+                  =" "
+                  +e('span').note 2
+            +e('li').sub-item
+              +e('a').link(href="#017") Имена переменных
+              +e('ul').sub-sub-items
+                +e('li').sub-sub-item
+                  +e('a').link(href="#018") Объявление переменных
+                  =" "
+                  +e('span').note 3
+            +e('li').sub-item
+              +e('a').link(href="#019") Введение в типы данных
+            +e('li').sub-item
+              +e('a').link(href="#020") Основные операторы
+              +e('ul').sub-sub-items
+                +e('li').sub-sub-item
+                  +e('a').link(href="#021") Инкремент и декремент, примеры
+                  =" "
+                  +e('span').note 5
+                +e('li').sub-sub-item
+                  +e('a').link(href="#022") Результат присваивания
+                  =" "
+                  +e('span').note 3
+            +e('li').sub-item
+              +e('a').link(href="#023") Операторы сравнения и логические значения
+            +e('li').sub-item
+              +e('a').link(href="#024") Побитовые операторы
+              +e('ul').sub-sub-items
+                +e('li').sub-sub-item
+                  +e('a').link(href="#025") Побитовый оператор и значение
+                  =" "
+                  +e('span').note 5
+                +e('li').sub-sub-item
+                  +e('a').link(href="#026") Проверка, целое ли число
+                  =" "
+                  +e('span').note 3
+                +e('li').sub-sub-item
+                  +e('a').link(href="#027") Симметричны ли операции ^, |, &amp;?
+                  =" "
+                  +e('span').note 5
+                +e('li').sub-sub-item
+                  +e('a').link(href="#028") Почему результат разный?
+                  =" "
+                  +e('span').note 5
+            +e('li').sub-item
+              +e('a').link(href="#029") Взаимодействие с пользователем: alert, prompt, confirm
+              +e('ul').sub-sub-items
+                +e('li').sub-sub-item
+                  +e('a').link(href="#030") Простая страница
+                  =" "
+                  +e('span').note 4
+            +e('li').sub-item
+              +e('a').link(href="#031") Условные операторы: if, '?'
+              +e('ul').sub-sub-items
+                +e('li').sub-sub-item
+                  +e('a').link(href="#032") if(строка с нулем)
+                  =" "
+                  +e('span').note 5
+
+    +e.section.columns__col
+      +e('h2').col-title Дополнительные курсы
+      +e('ul').items
+        +e('li').item
+          +e('a').link(href="#001") Общая информация
+          +e('ul').sub-items
+            +e('li').sub-item
+              +e('a').link(href="#002") Введение в JavaScript
+            +e('li').sub-item
+              +e('a').link(href="#003") Альтернативные браузерные технологии
+            +e('li').sub-item
+              +e('a').link(href="#004") Книги по JS, HTML/CSS и не только
+            +e('li').sub-item
+              +e('a').link(href="#005") Справочники
+            +e('li').sub-item
+              +e('a').link(href="#006") Редакторы для кода
+            +e('li').sub-item
+              +e('a').link(href="#007") SublimeText: шпаргалка
+            +e('li').sub-item
+              +e('a').link(href="#008") Книги по JS, HTML/CSS и не только
+            +e('li').sub-item
+              +e('a').link(href="#009") Установка браузеров, JS-консоль
+            +e('li').sub-item
+              +e('a').link(href="#010") Тестирование в старых браузерах
+            +e('li').sub-item
+              +e('a').link(href="#011") Привет, мир!
+              +e('ul').sub-sub-items
+                +e('li').sub-sub-item
+                  +e('a').link(href="#012") Alert
+                  =" "
+                  //- note может использоваться для любой дополняющей или поясняющей информации
+                  +e('span').note 5
+        +e('li').item
+          +e('a').link(href="#013") Основы JavaScript
+          +e('ul').sub-items
+            +e('li').sub-item
+              +e('a').link(href="#014") Структура кода
+            +e('li').sub-item
+              +e('a').link(href="#015") Переменные
+              +e('ul').sub-sub-items
+                +e('li').sub-sub-item
+                  +e('a').link(href="#016") Работа с переменными
+                  =" "
+                  +e('span').note 2
+            +e('li').sub-item
+              +e('a').link(href="#017") Имена переменных
+              +e('ul').sub-sub-items
+                +e('li').sub-sub-item
+                  +e('a').link(href="#018") Объявление переменных
+                  =" "
+                  +e('span').note 3
+            +e('li').sub-item
+              +e('a').link(href="#019") Введение в типы данных
+            +e('li').sub-item
+              +e('a').link(href="#020") Основные операторы
+              +e('ul').sub-sub-items
+                +e('li').sub-sub-item
+                  +e('a').link(href="#021") Инкремент и декремент, примеры
+                  =" "
+                  +e('span').note 5
+                +e('li').sub-sub-item
+                  +e('a').link(href="#022") Результат присваивания
+                  =" "
+                  +e('span').note 3
+            +e('li').sub-item
+              +e('a').link(href="#023") Операторы сравнения и логические значения
+            +e('li').sub-item
+              +e('a').link(href="#024") Побитовые операторы
+              +e('ul').sub-sub-items
+                +e('li').sub-sub-item
+                  +e('a').link(href="#025") Побитовый оператор и значение
+                  =" "
+                  +e('span').note 5
+                +e('li').sub-sub-item
+                  +e('a').link(href="#026") Проверка, целое ли число
+                  =" "
+                  +e('span').note 3
+                +e('li').sub-sub-item
+                  +e('a').link(href="#027") Симметричны ли операции ^, |, &amp;?
+                  =" "
+                  +e('span').note 5
+                +e('li').sub-sub-item
+                  +e('a').link(href="#028") Почему результат разный?
+                  =" "
+                  +e('span').note 5
+            +e('li').sub-item
+              +e('a').link(href="#029") Взаимодействие с пользователем: alert, prompt, confirm
+              +e('ul').sub-sub-items
+                +e('li').sub-sub-item
+                  +e('a').link(href="#030") Простая страница
+                  =" "
+                  +e('span').note 4
+            +e('li').sub-item
+              +e('a').link(href="#031") Условные операторы: if, '?'
+              +e('ul').sub-sub-items
+                +e('li').sub-sub-item
+                  +e('a').link(href="#032") if(строка с нулем)
+                  =" "
+                  +e('span').note 5
