@@ -1,0 +1,19 @@
+.share
+	display inline-block
+	font-size 22px
+	color #7E7E7E
+
+	&:hover
+		text-decoration none
+
+	&_tw::after
+		@extend $font-twitter
+
+	&_fb::after
+		@extend $font-facebook
+
+	&_gp::after
+		@extend $font-google
+	
+	&_vk::after
+		@extend $font-vkontakte

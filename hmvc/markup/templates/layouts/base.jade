@@ -1,27 +1,26 @@
 doctype html
+include /bemto
 html
   head
     block variables
     include ../blocks/head
   body(id='#{self.bodyId}')
-    include ../blocks/top-parts
-    .page
+    //- include ../blocks/sitetoolbar
+    include ../blocks/sitetoolbar-login-loaders
+    .page.page_sidebar_on
+      include ../blocks/sidebar
       .page__inner
-        include ../blocks/navbar
-        include ../blocks/social-aside
-        .main-content
-          article.main
-            header.main__header
-              include ../blocks/breadcrumbs
-              h1.main__header-title!= self.title
-              span.main__header-comments
-                a(href='http://learn.javascript.ru/intro#disqus_thread') Комментариев #{self.comments.length}
-              include ../blocks/prev-next-top
-            block content
-            include ../blocks/article-foot
-            include ../blocks/prev-next-bottom
-            include ../blocks/corrector
-            include ../blocks/comments
-          include ../blocks/sidebar
-        include ../blocks/page-footer
+        article.main
+          header.main__header
+            include ../blocks/breadcrumbs
+            h1.main__header-title!= self.title
+            //- span.main__header-comments
+            //-   a(href='http://learn.javascript.ru/intro#disqus_thread') Комментариев #{self.comments.length}
+            //- include ../blocks/prev-next-top
+          block content
+          include ../blocks/article-foot
+          include ../blocks/prev-next-bottom
+          include ../blocks/corrector
+          include ../blocks/comments
+      include ../blocks/page-footer
     include ../blocks/scripts

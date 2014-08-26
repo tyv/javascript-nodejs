@@ -1,0 +1,278 @@
+sitetoolbar_color = #8B8987
+sitetoolbar_secondary_bg = #F5F2F0
+sitetoolbar_secondary_link = #498CBE
+
+.sitetoolbar
+	box-shadow 0 2px 3px -2px rgba(0, 0, 0, .3)
+	position relative
+	z-index 1
+	background #fff
+
+	&__content
+		display table
+		width 100%
+		font-size 16px
+		border-collapse collapse
+
+	&__logo-wrap,
+	&__sections,
+	&__user-wrap,
+	&__login-wrap,
+	&__search-wrap
+		display table-cell
+		vertical-align top
+		text-align left
+		white-space nowrap
+		line-height 26px
+
+	&__nav-toggle-wrap
+		display none
+
+	&__logo-wrap
+		padding-right 30px
+
+	&__user-wrap,
+	&__login-wrap
+		width .1%
+		// padding-right 17px
+
+	&__search-wrap
+		width .1%
+		padding-right 19px
+
+	&__logo,
+	&__link_logo
+		margin 9px 0 0 30px
+
+	&__link_logo &__logo
+		margin 0
+
+	&__sections
+		padding 17px 0
+
+	&__sections-list
+		white-space normal
+		height 30px
+		overflow hidden
+
+	&__section
+		display inline-block
+		margin-right 20px
+		white-space nowrap
+
+	&__section_current,
+	&__section_current &__link
+		color secondary_color
+
+	&__link
+		color sitetoolbar_color
+		display inline-block
+
+	&__link:hover
+		text-decoration none
+
+	&__user,
+	&__login
+		@extend $button-reset
+		font 16px font
+		color sitetoolbar_color
+		line-height inherit
+		height 60px
+		padding 0 17px
+
+	&__login-loader
+		display inline-block
+		margin 27px 0
+		vertical-align top
+		visibility hidden
+		// margin-top ((60 - image-height('../loader/loader_small.gif')) / 2) + 2px
+
+	&__login-loader_active
+		visibility visible
+
+	&__user::before
+		content ""
+		display inline-block
+		background url('/i/sitetoolbar__user.png') 0 0 no-repeat
+		size-of 'sitetoolbar__user.png'
+		margin -1px 0 0
+		vertical-align middle
+		padding 0 10px 0 0
+
+	&__user::after
+		@extend $font-open
+		padding-left 7px
+		color #C4C2C0
+		font-size 14px
+		vertical-align bottom
+		position relative
+		top 2px
+
+	&__user
+		white-space nowrap
+
+	&__user-text
+		display inline-block
+		max-width 200px
+		overflow hidden
+		text-overflow ellipsis
+		vertical-align bottom
+
+	&__search
+		@extend $button-reset
+		margin 17px 0
+		height 60px
+		width 60px
+		margin 0
+
+	&__loader
+		position absolute
+		left 50%
+		margin -11px 0 0 -30px
+		background #fff
+		border-radius 12px
+		border 1px solid #e7e5e3
+		padding 4px 2px
+
+	&__tablet-menu,
+	&__tablet-search,
+	&__tablet-usermenu
+		background sitetoolbar_secondary_bg
+		display none
+		position absolute
+		width 100%
+		box-shadow 0 2px 3px -2px rgba(0, 0, 0, .3)
+
+	&__tablet-menu-line,
+	&__tablet-search-content
+		display table
+		width 100%
+		border-top 1px solid #e7e5e3
+
+	&__tablet-menu-title,
+	&__tablet-menu-content,
+	&__tablet-menu-aside,
+	&__tablet-search-query-wrap,
+	&__tablet-search-submit-wrap
+		display table-cell
+		height 60px
+		vertical-align middle
+
+	&__tablet-menu-header
+		color sitetoolbar_color
+		white-space nowrap
+		padding 0 10px 0 20px
+
+	&__tablet-menu-title
+		min-width 155px
+
+	&__tablet-menu-content
+		width 100%
+		padding 0 20px 0 10px
+
+	&__tablet-menu-aside
+		white-space nowrap
+		padding 0 20px 0 0
+
+	&__tablet-menu-nav
+		width 100%
+
+	&__secondary-link:link,
+	&__secondary-link:visited
+		color sitetoolbar_secondary_link
+
+	&__secondary-link:hover
+		text-decoration none
+		color link_hover_color
+
+	&__tablet-menu-share
+		margin 5px 20px 0 0
+
+	&__tablet-usermenu-item
+		line-height 60px
+		border-top 1px solid #e7e5e3
+
+	&__tablet-usermenu-link
+		display block
+		padding 0 20px
+		text-align center
+		font-size 16px
+
+	&__tablet-search-query-wrap
+		padding 0 0 0 20px
+		width 100%
+
+	&__tablet-search-query
+		width 100%
+
+	&__tablet-search-submit-wrap
+		padding 0 20px 0 10px
+
+	& &__tablet-search-submit
+		padding-top 1px
+		padding-bottom 4px
+		margin 0
+
+	@media tablet
+		&__logo-wrap
+			width 0
+			padding 0
+
+		&__link_logo,
+		&__logo
+			position absolute
+			left 50%
+			margin-left round(image-width('sitetoolbar__logo.png') / 2) * -1
+
+		// подвинем ближе к кнопке логина, чтобы при узком окне не накладывался на логотип
+		&__login-loader
+			margin-right -15px
+
+		&__user-text
+			max-width 130px
+
+		&__nav-toggle-wrap
+			display table-cell
+
+		&__sections-list
+			display none
+
+		&__nav-toggle
+			@extend $button-reset
+			height 60px
+			width 60px
+			text-align center
+
+		&__nav-toggle::before
+			@extend $font-menu
+			font-size 22px
+			color #7e7e7e
+
+		&__search-wrap
+			padding-right 0
+
+		&__search
+			height 60px
+			width 60px
+			margin 0
+
+		&_menu_open &__tablet-menu,
+		&_search_open &__tablet-search,
+		&_user_open &__tablet-usermenu
+			display block
+
+		&_menu_open &__nav-toggle,
+		&_search_open &__search,
+		&_user_open &__user
+			background sitetoolbar_secondary_bg
+
+	// подвинем логотип при очень узком окне, чтобы никуда не накладывался
+	// эконосмим несколько пикселей ширины
+	@media (max-width: 690px)
+		&__link_logo,
+		&__logo
+			left 90px
+			margin-left 0
+
+		&__link_logo &__logo
+			left 0
