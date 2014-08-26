@@ -19,8 +19,10 @@ html
             //- include ../blocks/prev-next-top
           block content
           include ../blocks/article-foot
-          include ../blocks/prev-next-bottom
+          //- include ../blocks/prev-next-bottom
           include ../blocks/corrector
           include ../blocks/comments
       include ../blocks/page-footer
+      a.page__prev(href="#prev", title="назад")
+      a.page__next(href="#next", title="вперед")
     include ../blocks/scripts

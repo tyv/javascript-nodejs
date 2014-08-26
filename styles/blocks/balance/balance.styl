@@ -1,7 +1,7 @@
 
 .balance
 	position relative
-	margin 38px -1*content_horizontal_padding
+	margin 38px 0
 
 	&__content
 		display: table;
@@ -49,9 +49,6 @@
 			@extend $font-cons;
 			color #B20000
 
-	&_single
-		margin 20px -1*content_horizontal_padding 30px
-
 	&_single &__content
 		width 100%
 
@@ -74,52 +71,3 @@
 
 	&_single::before
 		display none
-
-	@media (min-width: media_step_1)
-		margin: 38px -1*(content_horizontal_padding + 10px)
-
-		&__pluses
-			padding 20px 35px 20px (content_horizontal_padding + 10px)
-
-		&__minuses
-			padding 20px (content_horizontal_padding + 10px) 20px 35px
-
-		&_single
-			margin 20px -1*(content_horizontal_padding + 10px) 30px
-
-		&_single &__pluses,
-		&_single &__minuses
-				padding 20px (content_horizontal_padding + 10px)
-
-	@media (min-width: media_step_2)
-		margin 38px -1*(content_horizontal_padding + 20px)
-
-		&__pluses
-			padding 20px 35px 20px (content_horizontal_padding + 20px)
-
-		&__minuses
-			padding 20px (content_horizontal_padding + 20px) 20px 35px
-
-		&_single
-			margin 20px -1*(content_horizontal_padding + 20px) 30px
-			
-		&_single &__pluses,
-		&_single &__minuses
-			padding: 20px (content_horizontal_padding + 20px)
-
-
-	@media (min-width: media_step_3)
-		margin 38px -1*(content_horizontal_padding + 30px)
-
-		&__pluses
-			padding 20px 35px 20px (content_horizontal_padding + 30px)
-
-		&__minuses
-			padding 20px (content_horizontal_padding + 30px) 20px 35px
-
-		&_single
-			margin 20px -1*(content_horizontal_padding + 30px) 30px
-			
-		&_single &__pluses,
-		&_single &__minuses
-			padding: 20px (content_horizontal_padding + 30px)
