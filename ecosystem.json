@@ -23,7 +23,7 @@
       "ref":         "origin/master",
       "repo":        "https://github.com/iliakan/javascript-nodejs",
       "path":        "/js/javascript-nodejs",
-      "post-deploy": "npm install"
+      "post-deploy": "npm install && npm up"
     }
   }
 }
