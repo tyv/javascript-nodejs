@@ -29,7 +29,15 @@ function requireSetup(path) {
 // that's why we put it at the top
 requireSetup('setup/static');
 
-requireSetup('setup/time');
+/*
+app.id = Math.random();
+app.use(function*(next) {
+  console.log(app.id);
+  yield next;
+});
+*/
+
+//requireSetup('setup/time');
 
 // this middleware adds this.render method
 // it is *before errorHandler*, because errors need this.render
@@ -84,16 +92,37 @@ app.waitBoot = function* () {
   };
 };
 
-// adding middlewares only possible before app.run
-app.run = function*() {
+// adding middlewares only possible *before* app.run
+// (before server.listen)
+// assigns server instance (meaning only 1 app can be run)
+//
+// app.listen can also be called from tests directly (and synchronously), without waitBoot (many times w/ random port)
+// it's ok for tests, db requests are buffered, no need to waitBoot
+
+app.waitBootAndListen = function*() {
   yield* app.waitBoot();
 
   yield function(callback) {
-    app.listen(config.port, config.host, callback);
+    app.server = app.listen(config.port, config.host, callback);
   };
 
   log.info('App listen %s:%d', config.host, config.port);
 };
 
+app.close = function*() {
+  log.info("Closing app server...");
+  yield function(callback) {
+    app.server.close(callback);
+  };
+
+  log.info("App connections are closed");
+
+  yield function(callback) {
+    mongoose.disconnect(callback);
+  };
+  log.info("App stopped");
+};
+
 module.exports = app;
+
 
