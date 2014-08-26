@@ -4,11 +4,12 @@
 exports.SESSION_KEY = "KillerIsJim";
 
 exports.payments = {
+  currency: 'RUB',
   modules: {}
 };
 
 
-exports.auth = {
+exports.authProviders = {
   facebook:  {
     appId:     '*',
     appSecret: '*'
