@@ -1,9 +1,74 @@
 .lessons-list
 	@extend $noisy-bg
 	table-layout fixed
+	border-radius 4px
 
-	&__row
-		background none
+	& &__line
+		background none !important // sorry for that
+		border 0
 
-	&__lesson
+	& &__line:not(:first-child):not(:last-child)
+		border solid #dcd6c8
+		border-width 1px 0
+
+	& &__lesson
 		vertical-align top
+		padding 0
+
+	&__lesson:not(:empty):hover
+		background: rgba(255, 255, 255, .4);
+
+	&__lesson:not(:first-child):not(:last-child)
+		border solid #dcd6c8
+		border-width 0 1px
+
+	&__lesson-content
+		position relative
+		min-height 72px
+		padding 14px 0 14px 70px
+		margin-right 10px
+		overflow hidden
+		text-overflow ellipsis
+
+	&__link
+		font 16px/15px secondary_font
+		color #000
+
+	&__link:focus
+		outline 0
+
+	&__number
+		position absolute
+		top 10px
+		left 8px
+		background #ba1800
+		color #fff
+		padding 5px
+		height 45px
+		width 45px
+		text-align center
+		border-radius 50%
+		font-size 12px
+
+	&__number-val
+		display block
+		font-size 22px
+		font-weight 700
+		margin-top 3px
+
+	@media tablet
+		&,
+		& &__line,
+		& tbody
+		& &__lesson
+			display block
+			border 0 !important // очень мешают стили для таблиц по умолчанию
+
+		& &__lesson
+			border-top 1px solid #dcd6c8 !important
+
+		&__line:first-child &__lesson:first-child
+			border 0 !important
+
+		& &__lesson:empty
+			display none
