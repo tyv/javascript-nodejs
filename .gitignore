@@ -35,9 +35,5 @@ styles/sprites/*
 # Bower stuff.
 bower_components/
 
-# Passwords and other secret stuff
-modules/config/secret.js
-modules/config/certs/*
-
 # for tutorial import
 javascript-tutorial

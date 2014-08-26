@@ -4,6 +4,7 @@ if (!process.env.NODE_ENV) {
 
 if (process.env.NODE_ENV == 'development' && process.env.DEV_TRACE) {
   // @see https://github.com/AndreasMadsen/trace
+  // does not really help, but maybe sometimes...
   require('trace'); // active long stack trace
   require('clarify'); // Exclude node internal calls from the stack
 }
@@ -12,8 +13,14 @@ if (process.env.NODE_ENV == 'development' && process.env.DEV_TRACE) {
 var path = require('path');
 var fs = require('fs');
 
-var secretPath = fs.existsSync(path.join(__dirname, 'secret.js')) ? './secret' : './secret.template';
-var secret = require(secretPath);
+var secretDir = path.join(process.cwd(), '../secret');
+
+var secret;
+if (fs.existsSync(path.join(secretDir, 'secret.js'))) {
+  secret = require(path.join(secretDir, 'secret'));
+} else {
+  secret = require('./secret.template');
+}
 
 module.exports = {
   "port":      process.env.PORT || 3000,
@@ -47,7 +54,7 @@ module.exports = {
   },
   template:    {
     options: {
-      'cache': process.env.NODE_ENV != 'development'
+      cache: process.env.NODE_ENV != 'development'
     }
   },
   crypto:      {

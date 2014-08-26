@@ -1,0 +1,29 @@
+{
+  "apps":   [
+    {
+      "name":            "Javascript.ru",
+      "script":          "bin/server",
+      "node_args":       "--harmony",
+      "instances":       "max",
+      "exec_mode":       "cluster_mode",
+      "env":             {
+      },
+      "env_development": {
+        "NODE_ENV": "development"
+      },
+      "env_production": {
+        "NODE_ENV": "production"
+      }
+    }
+  ],
+  "deploy": {
+    "dev": {
+      "user":        "root",
+      "host":        "misc.javascript.ru",
+      "ref":         "origin/master",
+      "repo":        "https://github.com/iliakan/javascript-nodejs",
+      "path":        "/js/javascript-nodejs",
+      "post-deploy": "npm install"
+    }
+  }
+}
