@@ -1,5 +1,3 @@
-include /bem
-
 +b.sitetoolbar
   +e.content
     +e.logo-wrap
@@ -34,7 +32,7 @@ include /bem
       //- делаем логин кнопкой, так как она только раскрывает форму
       //- и никуда не ведет. Если предполагается функциональность ссылки
       //- потребуются минимальные доработки
-      +e('button').login(onclick="document.getElementsByClassName('sitetoolbar__login-loader')[0].classList.toggle('sitetoolbar__login-loader_active')")
+      +e('button').login(onclick="document.getElementsByClassName('sitetoolbar__login-loader')[0].classList.toggle('loader_active'); document.getElementsByClassName('sitetoolbar__loader')[0].classList.toggle('loader_active')")
         | Вход / Регистрация
     +e.search-wrap
       +e('button').search(onclick="document.getElementsByClassName('sitetoolbar')[0].classList.toggle('sitetoolbar_search_open')")

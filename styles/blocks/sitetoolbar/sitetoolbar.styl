@@ -4,9 +4,15 @@ sitetoolbar_secondary_link = #498CBE
 
 .sitetoolbar
 	box-shadow 0 2px 3px -2px rgba(0, 0, 0, .3)
-	position relative
+	position fixed
+	width 100%
 	z-index 1
 	background #fff
+	top 0
+	transition top .5s
+
+	&_scrolled-out
+		top -60px
 
 	&__content
 		display table
@@ -48,7 +54,8 @@ sitetoolbar_secondary_link = #498CBE
 		margin 0
 
 	&__sections
-		padding 17px 0
+		padding 15px 0
+		height 30px
 
 	&__sections-list
 		white-space normal
@@ -82,10 +89,8 @@ sitetoolbar_secondary_link = #498CBE
 
 	&__login-loader
 		display inline-block
-		margin 27px 0
+		margin 25px 0
 		vertical-align top
-		visibility hidden
-		// margin-top ((60 - image-height('../loader/loader_small.gif')) / 2) + 2px
 
 	&__login-loader_active
 		visibility visible
@@ -133,6 +138,12 @@ sitetoolbar_secondary_link = #498CBE
 		border-radius 12px
 		border 1px solid #e7e5e3
 		padding 4px 2px
+
+	&__nav-toggle:focus,
+	&__user:focus,
+	&__login:focus,
+	&__search:focus
+		outline 0
 
 	&__tablet-menu,
 	&__tablet-search,
@@ -233,6 +244,14 @@ sitetoolbar_secondary_link = #498CBE
 
 		&__nav-toggle-wrap
 			display table-cell
+
+		// TODO: попытаться переделать аккуратнее, ячейчка __logo-wrap
+		// не во всех браузерах скрывается полностью, остается место сбоку
+		// от кнопки, ставим ее как надо принудительно
+		&__nav-toggle,
+		&__nav-toggle:active
+			position absolute
+			left 0
 
 		&__sections-list
 			display none

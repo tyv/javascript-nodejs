@@ -10,11 +10,14 @@
 
 	&__sidebar
 		margin-left sidebar_width * -1
-		transition margin-left .5s
+		transition margin-left .5s, top .5s
 
 	// для отображения/скрытия сайдбара переключаем класс .page_sidebar_on у блока .page
 	&_sidebar_on &__sidebar
 		margin-left 0
+
+	&_scrolled-out &__sidebar
+		top 0
 
 	&_sitemap
 		padding 0 60px
