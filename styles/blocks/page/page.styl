@@ -5,7 +5,7 @@
 	padding 0 60px
 	transition padding .5s
 
-	body &_sidebar_on // повышаем специфичность, чтобы перекрыть media-правила
+	&_sidebar_on
 		padding-left sidebar_width + 30px
 
 	&__sidebar
@@ -18,6 +18,11 @@
 
 	&_sitemap
 		padding 0 60px
+
+	// используется при переключении видимости панели навигации
+	&__inner
+		margin-top 80px
+		transition margin-top .5s
 
 	&__prev,
 	&__next
@@ -57,5 +62,13 @@
 		@extend $font-angle-right
 
 	@media tablet
-		body &_sidebar_on // повышаем специфичность, чтобы перекрыть media-правила
-			padding-left 200px // TODO: уточнить, как располагать контент при разной ширине окна и разных media
+		&,
+		&_sidebar_on // повышаем специфичность, чтобы перекрыть media-правила
+			padding 0
+
+		&__inner
+			margin-top 100px
+
+		&__prev,
+		&__next
+			display none
