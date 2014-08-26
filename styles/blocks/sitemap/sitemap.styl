@@ -56,3 +56,18 @@
 	&__note
 		font-size 85%
 		color #656565
+
+	@media tablet
+		&__section:not(:first-child)
+			margin-top 30px
+			
+		& &__section.columns__col // усиливаем селектор классом columns__col из-за псевдокласса в блоке columns
+			display block
+			width auto
+
+		& &__col-title
+			margin-bottom 15px
+
+		& &__items,
+		& &__item
+			margin-top 15px
