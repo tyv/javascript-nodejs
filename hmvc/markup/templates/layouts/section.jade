@@ -16,6 +16,5 @@ html
             h1.main__header-title!= self.title
           block content
       include ../blocks/page-footer
-      a.page__prev(href="#prev", title="назад")
-      a.page__next(href="#next", title="вперед")
+      include ../blocks/prev-next
     include ../blocks/scripts

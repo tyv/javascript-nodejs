@@ -13,7 +13,7 @@ html
       .page__inner
         article.main
           header.main__header
-            
+
             include ../blocks/breadcrumbs
             h1.main__header-title!= self.title
             //- span.main__header-comments
@@ -25,6 +25,5 @@ html
           include ../blocks/corrector
           include ../blocks/comments
       include ../blocks/page-footer
-      a.page__prev(href="#prev", title="назад")
-      a.page__next(href="#next", title="вперед")
+      include ../blocks/prev-next
     include ../blocks/scripts

@@ -91,7 +91,7 @@ $login-form-additional-info
 
 	&__submit
 		min-width 140px
-        outline none
+		outline none
 
 	&__social-login
 		text-align justify
@@ -116,7 +116,15 @@ $login-form-additional-info
 	&__social-login .social-login
 		margin-bottom 12px
 
-.login-form p {
-  margin 10px 0
-}
+	&__close,
+	&__close:active
+		position absolute
+		top -15px
+		right -15px
+
+	&__close:focus
+		outline none
+
+	& p
+		margin 10px 0
 

@@ -21,41 +21,57 @@
 		margin-top 80px
 		transition margin-top .5s
 
-	&__prev,
-	&__next
+	&__nav
 		position fixed
-		top 50%
-		margin-top -50px
-		width 30px
-		padding 5px
-		line-height 90px
-		font-size 36px
-		text-align center
-		border-radius 10px
+		top 60px
+		bottom 0
+		width 90px
 
-	& &__prev,
-	& &__next
+	& &__nav
 		color #7d7d7d;
 
-	&__prev:hover,
-	&__next:hover
-		background rgba(0, 0, 0, .2)
+	&__nav:hover
+		background rgba(216, 216, 216, .15)
 		text-decoration none
 
-	&__prev
-		left 30px
-		transition left .5s
+	&__nav_prev
+		left 0
+		transition left .5s, top .5s
 
-	&__prev::before
+	&__nav-text
+		font-size 16px
+		position absolute
+		top 50%
+		margin-top -28px
+		width 80px
+		padding 5px
+		text-align center
+		white-space nowrap
+
+	&__nav-text-shortcut
+		visibility hidden
+		color #8B8987
+
+	&__nav:hover &__nav-text-shortcut
+		visibility visible
+
+	&__nav-text::before
+		display block
+		margin-bottom 20px
+		font-size 36px
+		color #7d7d7d
+
+	&__nav_prev &__nav-text::before
 		@extend $font-angle-left
 
-	&_sidebar_on &__prev
-		left 280px
+	&_sidebar_on &__nav_prev
+		left 250px
 
-	&__next
-		right 30px
+	&__nav_next
+		right 0
+		transition top .5s
 
-	&__next::before
+	&__nav_next &__nav-text::before
 		@extend $font-angle-right
 
 	@media tablet
@@ -63,9 +79,11 @@
 		&_sidebar_on // повышаем специфичность, чтобы перекрыть media-правила
 			padding 0
 
+		& &__sidebar
+			margin-left sidebar_width * -1
+
 		&__inner
 			margin-top 100px
 
-		&__prev,
-		&__next
+		&__nav
 			display none
