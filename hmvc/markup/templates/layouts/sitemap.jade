@@ -6,12 +6,17 @@ html
     include ../blocks/head
   body(id='#{self.bodyId}')
     include ../blocks/sitetoolbar
+    //- include ../blocks/sitetoolbar-login-loaders
     .page
       include ../blocks/sidebar
       .page__inner
         article.main
           block content
       include ../blocks/page-footer
-      a.page__prev(href="#prev", title="назад")
-      a.page__next(href="#next", title="вперед")
+      a.page__nav.page__nav_prev(href="#prev", title="назад")
+        span.page__nav-text
+          span.page__nav-text-shortcut Ctrl + &larr;
+      a.page__nav.page__nav_next(href="#next", title="вперед")
+        span.page__nav-text
+          span.page__nav-text-shortcut Ctrl + &rarr;
     include ../blocks/scripts

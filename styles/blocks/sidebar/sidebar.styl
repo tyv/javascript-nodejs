@@ -26,12 +26,16 @@
 
 	& &__toggle
 		position absolute
-		top 23px
+		top 12px
 		left 100%
-		margin-left 30px
-		width 25px
-		height 25px
+		margin-left 20px
+		width 45px
+		height 45px
+		border-radius 50%
 		cursor pointer
+
+	&__toggle:hover
+		background #e6e6e6
 
 	&__toggle::before
 		@extend $font-menu
@@ -79,4 +83,5 @@
 		margin 8px 20px 0 0
 
 	@media tablet
-		display none
+		&__toggle
+			display none

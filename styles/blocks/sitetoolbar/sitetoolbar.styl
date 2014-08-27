@@ -34,6 +34,7 @@ sitetoolbar_secondary_link = #498CBE
 	&__logo-wrap
 		padding-right 30px
 
+	&__logo-wrap,
 	&__user-wrap,
 	&__login-wrap
 		width .1%
@@ -51,7 +52,7 @@ sitetoolbar_secondary_link = #498CBE
 		margin 0
 
 	&__sections
-		padding 15px 0
+		padding 17px 0 0
 		height 30px
 
 	&__sections-list
@@ -220,6 +221,14 @@ sitetoolbar_secondary_link = #498CBE
 		padding-top 1px
 		padding-bottom 4px
 		margin 0
+
+	@media (max-width: 970px)
+		&__user::before
+			padding 0
+
+		&__user::after,
+		&__user-text
+			display none
 
 	@media tablet
 		&__logo-wrap
