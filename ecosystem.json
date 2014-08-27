@@ -7,11 +7,13 @@
       "instances":       "max",
       "exec_mode":       "cluster_mode",
       "env":             {
+        "HOST": "127.0.0.1",
+        "PORT": "3333"
       },
       "env_development": {
         "NODE_ENV": "development"
       },
-      "env_production": {
+      "env_production":  {
         "NODE_ENV": "production"
       }
     }
@@ -20,10 +22,10 @@
     "dev": {
       "user":        "root",
       "host":        "misc.javascript.ru",
-      "ref":         "origin/master",
+      "ref":         "origin/production",
       "repo":        "https://github.com/iliakan/javascript-nodejs",
       "path":        "/js/javascript-nodejs",
-      "post-deploy": "npm install && npm up && pm2 startOrRestart ecosystem.json --env dev"
+      "post-deploy": "pm2 startOrRestart ecosystem.json --env dev"
     }
   }
 }
