@@ -25,7 +25,7 @@
       "ref":         "origin/production",
       "repo":        "https://github.com/iliakan/javascript-nodejs",
       "path":        "/js/javascript-nodejs",
-      "post-deploy": "pm2 startOrRestart ecosystem.json --env dev"
+      "post-deploy": "./gulp build && pm2 startOrRestart ecosystem.json --env dev"
     }
   }
 }
