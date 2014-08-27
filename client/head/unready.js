@@ -1,6 +1,6 @@
 
 // cancel clicks on <a class="unready"> and <button class="unready">
-document.addEventListener("click", function(e) {
+document.addEventListener("click", function(event) {
   var target = event.target;
   while(target) {
     if (~["A","BUTTON"].indexOf(target.tagName) && target.classList.contains('unready')) {
