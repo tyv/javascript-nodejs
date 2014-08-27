@@ -19,9 +19,6 @@
 .nvmrc
 Thumbs.db
 
-# NPM packages folder.
-node_modules/
-
 # TMP folder (anything)
 tmp/
 
