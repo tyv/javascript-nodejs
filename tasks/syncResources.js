@@ -10,7 +10,7 @@ module.exports = function(resources) {
 
       fse.removeSync(dst);
 
-      if (process.env.NODE_ENV == 'development') {
+      if (process.env.WATCH) {
         fse.mkdirsSync(dst);
         gp.dirSync(src, dst);
       } else {
@@ -18,6 +18,6 @@ module.exports = function(resources) {
       }
     }
 
-    if (process.env.NODE_ENV != 'development') callback();
+    if (!process.env.WATCH) callback();
   };
 };
