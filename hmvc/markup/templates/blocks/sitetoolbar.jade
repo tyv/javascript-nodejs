@@ -5,6 +5,7 @@
         +e('img').logo(src="/i/sitetoolbar__logo.png", height="34", width="121")
     +e.nav-toggle-wrap
       //- FIXME: onclick - демо, убрать
+      // при начале скролла тут же исчезает, для этого body += .scrolled-out
       +e('button').nav-toggle(onclick="document.getElementsByClassName('sitetoolbar')[0].classList.toggle('sitetoolbar_menu_open')")
     +e('nav').sections
       +e('ul').sections-list
@@ -37,7 +38,7 @@
         +e.tablet-menu-title Навигация по сайту:
       +e.tablet-menu-content
         //- TODO: use bemto syntax when https://github.com/kizu/bemto/issues/35 is fixed
-        select.sitetoolbar__tablet-menu-nav.input-select
+        +e("select").tablet-menu-nav.input-select
           option Учебник
           option Курсы
           option Стандарт ES5
@@ -60,7 +61,7 @@
       +e.tablet-search-submit-wrap
         //- очень не нравится текст "Отправить", в разговоре так никто не скажет. Предлагаю "Найти"
         +b('button').submit-button._small.sitetoolbar__tablet-search-submit
-          | Отправить
+          | Найти
   +e.tablet-usermenu
     +e('ul').tablet-usermenu-items
       +e('li').tablet-usermenu-item

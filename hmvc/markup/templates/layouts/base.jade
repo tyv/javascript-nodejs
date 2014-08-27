@@ -4,14 +4,16 @@ html
   head
     block variables
     include ../blocks/head
-  body(id='#{self.bodyId}')
+  body
     //- include ../blocks/sitetoolbar
     include ../blocks/sitetoolbar-login-loaders
     .page.page_sidebar_on
-      include ../blocks/sidebar
+      if true
+        include ../blocks/sidebar
       .page__inner
         article.main
           header.main__header
+            
             include ../blocks/breadcrumbs
             h1.main__header-title!= self.title
             //- span.main__header-comments
