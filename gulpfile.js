@@ -7,7 +7,6 @@ const gulp = require('gulp');
 const path = require('path');
 const fs = require('fs');
 const assert = require('assert');
-const development = (process.env.NODE_ENV == 'development');
 
 const jsSources = [
   'hmvc/**/*.js', 'modules/**/*.js', 'tasks/**/*.js', '*.js'
@@ -25,7 +24,7 @@ function lazyRequireTask(path) {
 
 function wrapWatch(watch, task) {
   return function(callback) {
-    if (process.env.NODE_ENV == 'development') {
+    if (process.env.WATCH) {
       gulp.watch(watch, [task]);
     } else {
       callback(); // @see usage examples, wrapWatch only triggers watch, should depend on ['task']
@@ -43,7 +42,7 @@ gulp.task('lint', ['lint-once'], wrapWatch(jsSources, 'lint'));
 // usage: gulp loaddb --db fixture/db
 gulp.task('loaddb', lazyRequireTask('./tasks/loadDb'));
 
-gulp.task("nodemon", ['link-modules'], lazyRequireTask('./tasks/nodemon', {
+gulp.task("nodemon", lazyRequireTask('./tasks/nodemon', {
   script: "./bin/server",
   ignore: '**/client/', // ignore hmvc apps client code
   watch:  ["hmvc", "modules"]
@@ -106,16 +105,14 @@ gulp.task("client:browserify:clean", lazyRequireTask('./tasks/browserifyClean', 
 
 
 //gulp.task("client:browserify", ['client:browserify:clean'], lazyRequireTask('./tasks/browserify'));
-gulp.task("client:browserify-once", ['client:browserify:clean'], lazyRequireTask('./tasks/browserify'));
+gulp.task("client:browserify-once", ['link-modules', 'client:browserify:clean'], lazyRequireTask('./tasks/browserify'));
 gulp.task("client:browserify", ['client:browserify-once'], wrapWatch(['client/**', 'hmvc/**/client/**'], "client:browserify-once"));
 
-
+gulp.task('build', ['link-modules', "client:sync-resources", 'client:compile-css', 'client:browserify', 'client:sync-css-images']);
 
 // compile-css and sprites are independant tasks
 // run both or run *-once separately
-gulp.task('run', [
-  'nodemon', 'client:livereload',
-  "client:sync-resources", 'client:compile-css', 'client:browserify', 'client:sync-css-images']);
+gulp.task('dev', ['nodemon', 'client:livereload', 'build']);
 
 gulp.task('tutorial:import', lazyRequireTask('tutorial/tasks/import', {
   root:        'javascript-tutorial',

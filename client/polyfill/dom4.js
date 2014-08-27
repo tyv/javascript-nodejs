@@ -16,7 +16,7 @@ function mutationMacro(nodes) {
 }
 
 var methods = {
-  matches: Element.prototype.matchesSelector || Element.prototype.msMatchesSelector,
+  matches: Element.prototype.matchesSelector || Element.prototype.mozMatchesSelector || Element.prototype.msMatchesSelector,
   prepend: function() {
     var node = mutationMacro(arguments);
     this.insertBefore(node, this.firstChild);

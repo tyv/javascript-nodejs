@@ -1,2 +1,2 @@
 #!/bin/bash
-./gulp run
+WATCH=1 ./gulp dev
