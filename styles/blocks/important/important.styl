@@ -1,8 +1,9 @@
 // $important-icon: sprite-map("important-icons/*.png");
 
 .important
-	margin 18px 0
+	margin 30px 0
 	border 3px solid #F5F2F0
+	border-radius 6px
 	
 	&__header
 		margin 0
@@ -14,11 +15,10 @@
 		font-size: 17px;
 	
 	&__type::before
-		content ""
-		spriteImage $important-ok
 		position absolute
 		margin-left -30px
-		margin-top 1px
+		margin-top 2px
+		font-size 20px
 
 	&__title
 		display inline
@@ -72,16 +72,20 @@
 			color #747361
 
 	&_warn &__type::before
-		spriteElem $important-warning
+		@extend $font-warning
+		color #ffa94d
 
 	&_smart &__type::before
-		spriteElem $important-info
+		@extend $font-info
+		color #0083b3
 
 	&_ponder &__type::before
-		spriteElem $important-question
+		@extend $font-help
+		color #ba6eff
 
 	&_ok &__type::before
-		spriteElem $important-ok
+		@extend $font-ok
+		color #83b100
 	
 	@media print
 		page-break-inside avoid
