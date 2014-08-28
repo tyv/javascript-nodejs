@@ -5,7 +5,7 @@ var Spinner = require('client/spinner');
 
 init.addHandler("login", function() {
 
-  var button = document.querySelector('.login');
+  var button = document.querySelector('.sitetoolbar__login');
   button.onclick = function(e) {
     e.preventDefault();
     login();

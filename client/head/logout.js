@@ -2,7 +2,7 @@ var init = require('./init');
 
 init.addHandler("logout", function() {
 
-  var button = document.querySelector('.logout');
+  var button = document.querySelector('.sitetoolbar__logout');
   button.onclick = function(e) {
     e.preventDefault();
     logout();
