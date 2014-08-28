@@ -1,16 +1,7 @@
 extends /layouts/base
 
+block sidebar
+  include sidebar
+
 block content
-  article.main
-    header.main__header.main__header_center
-      include /blocks/breadcrumbs
-      h1.main__header-title!= title
-      span.main__header-comments
-        a(href='http://learn.javascript.ru/intro#disqus_thread')
-      include /blocks/tutorial/top-navigation
-    != content
-    include /blocks/tutorial/footer
-    include /blocks/tutorial/bottom-navigation
-    .corrector Нашли опечатку на сайте? Что-то кажется странным? Выделите соответствующий текст и нажмите Ctrl+Enter
-  .sidebar
-     | TODO: SIDEBAR
+  != content
