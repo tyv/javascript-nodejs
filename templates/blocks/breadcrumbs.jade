@@ -1,9 +1,4 @@
-ol.breadcrumbs
-  li.breadcrumbs__item
-    a(href='/') Главная
-  li.breadcrumbs__item
-    a(href='/tutorial') Учебник
-  li.breadcrumbs__item
-    a(href='/getting-started') Общая информация
-  li.breadcrumbs__item
-    | Введение в JavaScript
++b("ol").breadcrumbs
+  each crumb in breadcrumbs
+    +e("li").item
+      +a("link")(href=item.link) #{item.text}

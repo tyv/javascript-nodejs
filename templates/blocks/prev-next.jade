@@ -1,0 +1,9 @@
+if prevNext.prev
+  a.page__nav.page__nav_prev(href=prevNext.prev.link, title="назад")
+    span.page__nav-text
+      span.page__nav-text-shortcut Ctrl + &larr;
+
+if prevNext.next
+  a.page__nav.page__nav_next(href=prevNext.next.link, title="вперед")
+    span.page__nav-text
+      span.page__nav-text-shortcut Ctrl + &rarr;

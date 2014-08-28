@@ -6,7 +6,8 @@
     +e.nav-toggle-wrap
       //- FIXME: onclick - демо, убрать
       // при начале скролла тут же исчезает, для этого body += .scrolled-out
-      +e('button').nav-toggle(onclick="document.getElementsByClassName('sitetoolbar')[0].classList.toggle('sitetoolbar_menu_open')")
+      | blablabla
+      +e('button').nav-toggle
     +e('nav').sections
       +e('ul').sections-list
         +e('li').section._current
@@ -22,19 +23,10 @@
         =' '
         +e('li').section
           +e('a').link(href="/tests") Тестирование
-    +e.login-wrap
-      //- необходимо будет добавлять класс sitetoolbar__login-spinner_active чтобы показать анимацию
-      //- в обычном состоянии блок присутствует, но скрыт, резервирует место, чтобы избежать
-      //- "скачков" в момент показа
-      +b('span').spinner._small.sitetoolbar__login-spinner
-        +e('span').dot._1
-        +e('span').dot._2
-        +e('span').dot._3
-      //- делаем логин кнопкой, так как она только раскрывает форму
-      //- и никуда не ведет. Если предполагается функциональность ссылки
-      //- потребуются минимальные доработки
-      +e('button').login(onclick="document.getElementsByClassName('sitetoolbar__login-spinner')[0].classList.toggle('spinner_active'); document.getElementsByClassName('sitetoolbar__spinner')[0].classList.toggle('spinner_active')")
-        | Вход / Регистрация
+    if user
+      include ./user
+    else
+      include ./guest
     +e.search-wrap
       +e('button').search(onclick="document.getElementsByClassName('sitetoolbar')[0].classList.toggle('sitetoolbar_search_open')")
         +e('img').search-icon(src="/img/search-icon.png", width="22", height="23", alt="поиск", title="поиск")
@@ -44,7 +36,7 @@
         +e.tablet-menu-title Навигация по сайту:
       +e.tablet-menu-content
         //- TODO: use bemto syntax when https://github.com/kizu/bemto/issues/35 is fixed
-        select.sitetoolbar__tablet-menu-nav.input-select
+        +e("select").tablet-menu-nav.input-select
           option Учебник
           option Курсы
           option Стандарт ES5
@@ -67,7 +59,7 @@
       +e.tablet-search-submit-wrap
         //- очень не нравится текст "Отправить", в разговоре так никто не скажет. Предлагаю "Найти"
         +b('button').submit-button._small.sitetoolbar__tablet-search-submit
-          | Отправить
+          | Найти
   +e.tablet-usermenu
     +e('ul').tablet-usermenu-items
       +e('li').tablet-usermenu-item
@@ -80,7 +72,3 @@
         +e('a').secondary-link.__tablet-usermenu-link(href="#favorites") Избранное
       +e('li').tablet-usermenu-item
         +e('a').secondary-link.__tablet-usermenu-link(href="#logout") Выйти
-  +b('span').spinner._medium.sitetoolbar__spinner
-    +e('span').dot._1
-    +e('span').dot._2
-    +e('span').dot._3

@@ -1,0 +1,7 @@
++e.user-wrap
+  //- делаем пользователя кнопкой, так как она только раскрывает меню
+  //- и никуда не ведет. Если предполагается функциональность ссылки
+  //- потребуются минимальные доработки
+  +e('button').user(title=user.displayName)
+    +e('span').user-text.logout Что при клике? Logout?
+    script require('client/head').init.whenReady("logout");
