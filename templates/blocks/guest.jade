@@ -2,6 +2,10 @@
   //- делаем логин кнопкой, так как она только раскрывает форму
   //- и никуда не ведет. Если предполагается функциональность ссылки
   //- потребуются минимальные доработки
+  +b('span').spinner._small._active.__login-spinner
+        +e('span').dot._1
+        +e('span').dot._2
+        +e('span').dot._3
   +e('button').login.unready
     | Вход / Регистрация
     script require('client/head').init.whenReady("login");

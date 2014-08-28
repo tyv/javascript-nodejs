@@ -11,6 +11,7 @@ init.addHandler("login", function() {
     login();
   };
   button.classList.remove('unready');
+  document.querySelector('.sitetoolbar__login-spinner').classList.remove('spinner_active');
 
 });
 
