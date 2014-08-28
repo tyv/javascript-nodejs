@@ -17,7 +17,8 @@ include /bem
         +e('input').control#password(type="password", name="password")
     +e.line.__footer
       +e.button
-        +b('button').submit-button.__submit(type="submit") Войти
+        +b('button').submit-button.__submit(type="submit")
+          +e('span').text Войти
       +e.footer-link
         a(href="#" data-switch="forgot-form") Забыли пароль?
     +e.line.__social-login
