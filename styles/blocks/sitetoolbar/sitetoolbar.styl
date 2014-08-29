@@ -84,10 +84,12 @@ sitetoolbar_secondary_link = #498CBE
 		padding 0 17px
 
 	&__login-spinner
-		display inline-block
 		margin 25px 0 0
 		vertical-align top
 		width auto
+
+	&__login-wrap_unready &__login-spinner
+		visibility visible
 
 	&__user::before
 		content ""
