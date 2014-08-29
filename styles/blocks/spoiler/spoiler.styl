@@ -24,6 +24,10 @@
 	&__button::after
 		margin-left 1ex
 		@extend $font-close
+		display inline-block
+		vertical-align middle
+		min-width 9px
+		min-height 18px
 
 	&.closed &__button::after
 		@extend $font-open

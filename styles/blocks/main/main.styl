@@ -43,31 +43,6 @@ $main-loud
 		font-weight inherit
 		color secondary_color
 
-	&__header-date,
-	&__header-comments a
-		color #666
-
-	&__header-comments a
-		text-decoration underline
-
-	&__header-comments:hover
-		color link_hover_color
-
-	&__header-date
-		margin-right 23px
-
-	&__header-date::before,
-	&__header-comments::before
-		color secondary_color
-
-	&__header-date::before
-		@extend $font-time
-		margin-right 3px
-
-	&__header-comments::before
-		@extend $font-comment
-		margin-right 3px
-
 	&__header-nav
 		float right
 
@@ -194,7 +169,7 @@ $main-loud
 		margin 1px 0
 
 	p
-		margin round(lineheight*.65) 0
+		margin 22px 0
 
 	// Is it really used?
 	dl
@@ -204,7 +179,7 @@ $main-loud
 		font-weight 700
 
 	dd
-		margin 0 0 round(lineheight*.8) 40px
+		margin 0 0 15px 40px
 
 	figure,
 	img
@@ -253,6 +228,10 @@ $main-loud
 
 	&__footer-star::before
 		@extend $font-star
+		display inline-block
+		vertical-align middle
+		min-width 17px
+		min-height 19px
 
 	@media tablet
 		padding 0 45px 35px
