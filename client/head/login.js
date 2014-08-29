@@ -10,7 +10,6 @@ init.addHandler("login", function() {
     e.preventDefault();
     login();
   };
-  button.classList.remove('unready');
 
 });
 

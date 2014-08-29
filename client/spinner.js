@@ -5,6 +5,11 @@ function Spinner(options) {
   options = options || {};
   this.elem = options.elem;
   this.size = options.size || 'medium';
+  // any class to add to spinner (make spinner special here)
+  this.class = options.class ? (' ' + options.class) : '';
+
+  // any class to add to element (to hide it's content for instance)
+  this.elemClass = options.elemClass;
 
   if (this.size != 'medium' && this.size != 'small') {
     throw new Error("Unsupported size: " + this.size);
@@ -16,12 +21,19 @@ function Spinner(options) {
 }
 
 Spinner.prototype.start = function() {
-  this.savedHTML = this.elem.innerHTML;
-  this.elem.innerHTML = '<div class="spinner spinner__' + this.size+ '"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>';
+  if (this.elemClass) {
+    this.elem.classList.toggle(this.elemClass);
+  }
+
+  this.elem.insertAdjacentHTML('beforeend', '<span class="spinner spinner_active spinner_' + this.size + this.class + '"><span class="spinner__dot spinner__dot_1"></span><span class="spinner__dot spinner__dot_2"></span><span class="spinner__dot spinner__dot_3"></span></span>');
 };
 
 Spinner.prototype.stop = function() {
-  this.elem.innerHTML = this.savedHTML;
+  this.elem.removeChild(this.elem.querySelector('.spinner'));
+
+  if (this.elemClass) {
+    this.elem.classList.toggle(this.elemClass);
+  }
 };
 
 module.exports = Spinner;
