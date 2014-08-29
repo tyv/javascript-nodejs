@@ -4,14 +4,16 @@ html
   head
     block variables
     include ../blocks/head
-  body(id='#{self.bodyId}')
+  body
     //- include ../blocks/sitetoolbar
     include ../blocks/sitetoolbar-login-loaders
     .page.page_sidebar_on
-      include ../blocks/sidebar
+      if true
+        include ../blocks/sidebar
       .page__inner
         article.main
           header.main__header
+
             include ../blocks/breadcrumbs
             h1.main__header-title!= self.title
             //- span.main__header-comments
@@ -21,8 +23,9 @@ html
           include ../blocks/article-foot
           //- include ../blocks/prev-next-bottom
           include ../blocks/corrector
-          include ../blocks/comments
+          if true
+            include ../blocks/comments
       include ../blocks/page-footer
-      a.page__prev(href="#prev", title="назад")
-      a.page__next(href="#next", title="вперед")
+      if true
+        include ../blocks/prev-next
     include ../blocks/scripts

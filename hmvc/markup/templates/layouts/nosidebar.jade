@@ -1,15 +1,12 @@
 doctype html
-include /bemto
+include /bem
 html
   head
     block variables
     include ../blocks/head
-  body(id='#{self.bodyId}')
-    include ../blocks/top-parts
+  body
     .page
       .page__inner
-        include ../blocks/navbar
-        include ../blocks/social-aside
         .main-content
           article.main
             header.main__header.main__header_center

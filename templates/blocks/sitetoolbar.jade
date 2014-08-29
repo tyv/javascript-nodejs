@@ -6,7 +6,8 @@
     +e.nav-toggle-wrap
       //- FIXME: onclick - демо, убрать
       // при начале скролла тут же исчезает, для этого body += .scrolled-out
-      +e('button').nav-toggle(onclick="document.getElementsByClassName('sitetoolbar')[0].classList.toggle('sitetoolbar_menu_open')")
+      | blablabla
+      +e('button').nav-toggle
     +e('nav').sections
       +e('ul').sections-list
         +e('li').section._current
@@ -22,13 +23,10 @@
         =' '
         +e('li').section
           +e('a').link(href="/tests") Тестирование
-    +e.user-wrap
-      //- делаем пользователя кнопкой, так как она только раскрывает меню
-      //- и никуда не ведет. Если предполагается функциональность ссылки
-      //- потребуются минимальные доработки
-      +e('button').user(title="Very very long nickname with spaces", onclick="document.getElementsByClassName('sitetoolbar')[0].classList.toggle('sitetoolbar_user_open')")
-        +e('span').user-text
-          | Very very long nickname with spaces
+    if user
+      include ./user
+    else
+      include ./guest
     +e.search-wrap
       +e('button').search(onclick="document.getElementsByClassName('sitetoolbar')[0].classList.toggle('sitetoolbar_search_open')")
         +e('img').search-icon(src="/img/search-icon.png", width="22", height="23", alt="поиск", title="поиск")
@@ -37,6 +35,7 @@
       +e.tablet-menu-header
         +e.tablet-menu-title Навигация по сайту:
       +e.tablet-menu-content
+        //- TODO: use bemto syntax when https://github.com/kizu/bemto/issues/35 is fixed
         +e('select').tablet-menu-nav.input-select
           +e('option') Учебник
           +e('option') Курсы
@@ -58,6 +57,7 @@
         +b.text-input.sitetoolbar__tablet-search-query
           +e('input').control(type="search")
       +e.tablet-search-submit-wrap
+        //- очень не нравится текст "Отправить", в разговоре так никто не скажет. Предлагаю "Найти"
         +b('button').submit-button._small.sitetoolbar__tablet-search-submit
           | Найти
   +e.tablet-usermenu

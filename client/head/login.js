@@ -5,12 +5,11 @@ var Spinner = require('client/spinner');
 
 init.addHandler("login", function() {
 
-  var link = document.querySelector('a.user__entrance');
-  link.onclick = function(e) {
+  var button = document.querySelector('.sitetoolbar__login');
+  button.onclick = function(e) {
     e.preventDefault();
     login();
   };
-  link.classList.remove('unready');
 
 });
 

@@ -2,6 +2,13 @@
 	display inline-block
 	font-size 22px
 	color #7E7E7E
+	vertical-align middle
+
+	&::after
+		display inline-block
+		vertical-align bottom
+		min-height 20px
+		min-width 20px
 
 	&:hover
 		text-decoration none
@@ -11,9 +18,11 @@
 
 	&_fb::after
 		@extend $font-facebook
+		min-width 12px
 
 	&_gp::after
 		@extend $font-google
 	
 	&_vk::after
 		@extend $font-vkontakte
+		min-width 27px

@@ -91,7 +91,12 @@ AuthModal.prototype.startRequestIndication = function() {
   var submitButton = this.elem.querySelector('[type="submit"]');
 
   if (submitButton) {
-    var spinner = new Spinner({ elem: submitButton, size: 'small' });
+    var spinner = new Spinner({
+      elem:      submitButton,
+      size:      'small',
+      class:     'submit-button__spinner',
+      elemClass: 'submit-button_progress'
+    });
     spinner.start();
   }
 
@@ -190,8 +195,8 @@ AuthModal.prototype.submitRegisterForm = function(form) {
   if (hasErrors) return;
 
   var request = this.request({
-    method: 'POST',
-    url:    '/auth/register',
+    method:          'POST',
+    url:             '/auth/register',
     successStatuses: [201, 400]
   });
 

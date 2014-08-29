@@ -5,6 +5,7 @@
         +e('img').logo(src="/i/sitetoolbar__logo.png", height="34", width="121")
     +e.nav-toggle-wrap
       //- FIXME: onclick - демо, убрать
+      // при начале скролла тут же исчезает, для этого body += .scrolled-out
       +e('button').nav-toggle(onclick="document.getElementsByClassName('sitetoolbar')[0].classList.toggle('sitetoolbar_menu_open')")
     +e('nav').sections
       +e('ul').sections-list
@@ -22,17 +23,17 @@
         +e('li').section
           +e('a').link(href="/tests") Тестирование
     +e.login-wrap
-      //- необходимо будет добавлять класс sitetoolbar__login-loader_active чтобы показать анимацию
+      //- необходимо будет добавлять класс sitetoolbar__login-spinner_active чтобы показать анимацию
       //- в обычном состоянии блок присутствует, но скрыт, резервирует место, чтобы избежать
       //- "скачков" в момент показа
-      +b.loader._small.sitetoolbar__login-loader
-        +e.dot._1
-        +e.dot._2
-        +e.dot._3
+      +b('span').spinner._small.sitetoolbar__login-spinner
+        +e('span').dot._1
+        +e('span').dot._2
+        +e('span').dot._3
       //- делаем логин кнопкой, так как она только раскрывает форму
       //- и никуда не ведет. Если предполагается функциональность ссылки
       //- потребуются минимальные доработки
-      +e('button').login(onclick="document.getElementsByClassName('sitetoolbar__login-loader')[0].classList.toggle('loader_active'); document.getElementsByClassName('sitetoolbar__loader')[0].classList.toggle('loader_active')")
+      +e('button').login(onclick="document.getElementsByClassName('sitetoolbar__login-spinner')[0].classList.toggle('spinner_active'); document.getElementsByClassName('sitetoolbar__spinner')[0].classList.toggle('spinner_active')")
         | Вход / Регистрация
     +e.search-wrap
       +e('button').search(onclick="document.getElementsByClassName('sitetoolbar')[0].classList.toggle('sitetoolbar_search_open')")
@@ -42,12 +43,11 @@
       +e.tablet-menu-header
         +e.tablet-menu-title Навигация по сайту:
       +e.tablet-menu-content
-        //- TODO: use bemto syntax when https://github.com/kizu/bemto/issues/35 is fixed
-        select.sitetoolbar__tablet-menu-nav.input-select
-          option Учебник
-          option Курсы
-          option Стандарт ES5
-          option Тестирование
+        +e('select').tablet-menu-nav.input-select
+          +e('option') Учебник
+          +e('option') Курсы
+          +e('option') Стандарт ES5
+          +e('option') Тестирование
       +e.tablet-menu-aside
         +e('a').secondary-link(href="#full-content") Полное содержание
     +e.tablet-menu-line
@@ -64,9 +64,8 @@
         +b.text-input.sitetoolbar__tablet-search-query
           +e('input').control(type="search")
       +e.tablet-search-submit-wrap
-        //- очень не нравится текст "Отправить", в разговоре так никто не скажет. Предлагаю "Найти"
         +b('button').submit-button._small.sitetoolbar__tablet-search-submit
-          | Отправить
+          | Найти
   +e.tablet-usermenu
     +e('ul').tablet-usermenu-items
       +e('li').tablet-usermenu-item
@@ -79,7 +78,7 @@
         +e('a').secondary-link.__tablet-usermenu-link(href="#favorites") Избранное
       +e('li').tablet-usermenu-item
         +e('a').secondary-link.__tablet-usermenu-link(href="#logout") Выйти
-  +b.loader.sitetoolbar__loader
-    +e.dot._1
-    +e.dot._2
-    +e.dot._3
+  +b('span').spinner._medium.sitetoolbar__spinner
+    +e('span').dot._1
+    +e('span').dot._2
+    +e('span').dot._3

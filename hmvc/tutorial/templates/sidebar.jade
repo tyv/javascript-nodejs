@@ -1,0 +1,20 @@
+- var sidebar = { sections: [] }
++e.section
+  +e('a').link._arrow(href="#" data-action="sidebar-map") Полное содержание
+
+each section in sidebar.sections
+  +e.section
+    if section.title
+      +e('h4').section-title #{section.title}
+      +e('nav').navigation
+        +e('ul').navigation-links
+          each link in section.links
+            +e('li').navigation-link
+              +e('a').link(href=link.url) !{link.html}
+
++e.section
+  +e.section-title Поделиться
+  +b('a').share._tw.sidebar__share(href="https://twitter.com/share?url=http://design.javascript.ru/intro")
+  +b('a').share._fb.sidebar__share(href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=http://design.javascript.ru/intro")
+  +b('a').share._gp.sidebar__share(href="https://plus.google.com/share?url=http://design.javascript.ru/intro")
+  +b('a').share._vk.sidebar__share(href="http://vkontakte.ru/share.php?url=http://design.javascript.ru/intro")

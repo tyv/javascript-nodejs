@@ -6,7 +6,10 @@
 	font-style normal
 
 $font-icon
-	font-family 'FontIcons'
+	&
+		font-family 'FontIcons'
+	.no-font &
+		visibility hidden
 
 $font-close
 	@extend $font-icon

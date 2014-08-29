@@ -1,9 +1,11 @@
+// if class ends with _unready then we consider element unusable (yet)
+
 
 // cancel clicks on <a class="unready"> and <button class="unready">
 document.addEventListener("click", function(event) {
   var target = event.target;
-  while(target) {
-    if (~["A","BUTTON"].indexOf(target.tagName) && target.classList.contains('unready')) {
+  while (target) {
+    if (target.className.match(/_unready\b/)) {
       event.preventDefault();
       return;
     }
@@ -13,7 +15,7 @@ document.addEventListener("click", function(event) {
 
 // cancel submits of <form class="unready">
 document.addEventListener("submit", function(e) {
-  if (e.target.classList.contains('unready')) {
+  if (e.target.className.match(/_unready\b/)) {
     event.preventDefault();
   }
 });

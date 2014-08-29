@@ -19,10 +19,19 @@ var UserSchema = new mongoose.Schema({
   displayName:               {
     type:     String,
     validate: [
-      function(value) {
-        return this.deleted ? true : (value.length > 0);
+      {
+        validator: function(value) {
+          return this.deleted ? true : (value.length > 0);
+        },
+        msg:       "Имя пользователя должно быть непустым."
       },
-      "Имя пользователя должно быть непустым."
+      {
+        validator: function(value) {
+          if (!value) return true;
+          return value.length <= 256;
+        },
+        msg:       "Имя пользователя должно быть не длиннее 256 символов."
+      }
     ]
   },
   email:                     {

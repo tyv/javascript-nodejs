@@ -23,6 +23,7 @@ module.exports = function(app) {
   app.mountHmvc('/users', 'users');
 
   app.mountHmvc('/auth', 'auth');
+  // no csrf check for guest endpoints (no generation of csrf for anon)
   app.csrf.addIgnorePath('/auth/login/:any*');
   app.csrf.addIgnorePath('/auth/register');
   app.csrf.addIgnorePath('/auth/reverify');

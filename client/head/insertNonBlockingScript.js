@@ -9,3 +9,4 @@ module.exports = function(src) {
   document.head.appendChild(script);
   return script; // for onload handlers
 };
+
