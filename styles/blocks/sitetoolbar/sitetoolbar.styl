@@ -83,14 +83,6 @@ sitetoolbar_secondary_link = #498CBE
 		height 60px
 		padding 0 17px
 
-	&__login-spinner
-		margin 25px 0 0
-		vertical-align top
-		width auto
-
-	&__login-wrap_unready &__login-spinner
-		visibility visible
-
 	&__user::before
 		content ""
 		display inline-block
@@ -137,7 +129,6 @@ sitetoolbar_secondary_link = #498CBE
 		border 1px solid #e7e5e3
 		padding 2px
 
-	&__login-spinner .spinner__dot,
 	&__spinner .spinner__dot
 		background #d7d7d7
 
@@ -244,10 +235,6 @@ sitetoolbar_secondary_link = #498CBE
 			position absolute
 			left 50%
 			margin-left round(image-width('sitetoolbar__logo.png') / 2) * -1
-
-		// подвинем ближе к кнопке логина, чтобы при узком окне не накладывался на логотип
-		&__login-spinner
-			margin-right -15px
 
 		&__user-text
 			max-width 130px
