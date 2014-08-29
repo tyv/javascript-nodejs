@@ -1,8 +1,33 @@
 .sitemap
-	width 100%
+	&__filter
+		margin 25px 0 28px
+
+	&__header
+		display table
+		width 100%
+		color #7E7E7E
+
+	&__title,
+	&__option
+		display table-cell
+		white-space nowrap
+
+	&__title
+		width 100%
+
+	//- избавляемся от некликабельной области между флажком и подписью
+	&__option-control
+		margin-right 0
+
+	&__option-label
+		padding-left 11px
+
+	&__input
+		width 100%
+		margin-top 12px
 
 	& &__col-title
-		font-size 18px
+		font 18px secondary_font
 		line-height 1.3
 		margin 0 0 27px 0
 		padding 0
@@ -70,4 +95,19 @@
 
 		& &__items,
 		& &__item
+			margin-top 15px
+
+	@media (max-width: 1050px)
+		// с точки зрения организации кода размещать эти стили в файле sitemap.styl
+		// неправильно, но по сути дублировать их в файле page.styl чревато
+		// вероятной рассинхронизацией при поддержке
+		.page_sidebar_on &__section.columns__col
+			display block
+			width auto
+
+		.page_sidebar_on &__col-title
+			margin-bottom 15px
+
+		.page_sidebar_on &__items,
+		.page_sidebar_on &__item
 			margin-top 15px

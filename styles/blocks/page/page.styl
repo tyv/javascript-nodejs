@@ -21,6 +21,21 @@
 		margin-top 80px
 		transition margin-top .5s
 
+	&__sitemap
+		position fixed
+		background rgba(255, 255, 255, .95)
+		top 60px
+		right 115px
+		bottom 0
+		left 115px
+		z-index 99
+		transition top .5s, right .5s, left .5s
+		padding 0 5px
+		overflow auto
+
+	&_sidebar_on &__sitemap
+		left 365px
+
 	&__nav
 		position fixed
 		top 60px
@@ -82,7 +97,7 @@
 
 	@media tablet
 		&,
-		&_sidebar_on // повышаем специфичность, чтобы перекрыть media-правила
+		&_sidebar_on
 			padding 0
 
 		& &__sidebar
@@ -91,5 +106,10 @@
 		&__inner
 			margin-top 100px
 
+		& &__sitemap
+			left 40px
+			right 40px
+
 		&__nav
 			display none
+
