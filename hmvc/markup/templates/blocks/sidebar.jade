@@ -1,10 +1,16 @@
 +b.sidebar.page__sidebar
+  script.
+    function toggleSidebar() {
+      document.getElementsByClassName('page')[0].classList.toggle('page_sidebar_on')
+    }
   //- FIXME: инлайновый скрипт — демо и используется для более удобной отладки
-  +e('button').toggle(onclick="document.getElementsByClassName('page')[0].classList.toggle('page_sidebar_on')")
+  +e('button').toggle(onclick="toggleSidebar()")
   +e.inner
     +e.content
       +e.section
-        +e('a').link._arrow(href="#") Полное содержание
+        //- демо для переключения .scrolled-out на ссылке «Полное содержание» исключительно для отладки.
+        //- TODO: Убрать по завершении отладки
+        +e('a').link._arrow(href="#", onclick="document.getElementsByTagName('body')[0].classList.toggle('scrolled-out'); return false;") Полное содержание
       +e.section
         +e('h4').section-title Разделы курса Базовый JS:
         +e('nav').navigation

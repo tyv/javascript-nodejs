@@ -3,23 +3,26 @@
 	z-index: 0
 	// padding 0 200px
 	padding 0 60px
-	transition padding .5s
+	transition padding .2s
 
-	&_sidebar_on
-		padding-left sidebar_width + 60px
+	// &_sidebar_on
+	// 	padding-left sidebar_width + 60px
 
 	&__sidebar
-		margin-left sidebar_width * -1
-		transition margin-left .5s, top .5s
+		transform translateX(-100%)
+		transition transform .2s, top .2s
 
 	// для отображения/скрытия сайдбара переключаем класс .page_sidebar_on у блока .page
 	&_sidebar_on &__sidebar
-		margin-left 0
+		transform translateX(0)
 
 	// используется при переключении видимости панели навигации
 	&__inner
 		margin-top 80px
-		transition margin-top .5s
+		transition margin-top .2s, transform .2s //!!!
+
+	&_sidebar_on &__inner
+		transform translateX(125px)
 
 	&__sitemap
 		position fixed
@@ -29,7 +32,7 @@
 		bottom 0
 		left 115px
 		z-index 99
-		transition top .5s, right .5s, left .5s
+		transition top .2s, right .2s, left .2s
 		padding 0 5px
 		overflow auto
 
@@ -44,6 +47,7 @@
 
 	& &__nav
 		color #7d7d7d;
+		transition left .2s, top .2s
 
 	&__nav:hover
 		background rgba(216, 216, 216, .15)
@@ -51,7 +55,6 @@
 
 	&__nav_prev
 		left 0
-		transition left .5s, top .5s
 
 	&__nav-text
 		font-size 16px
@@ -90,7 +93,6 @@
 
 	&__nav_next
 		right 0
-		transition top .5s
 
 	&__nav_next &__nav-text::before
 		@extend $font-angle-right
@@ -101,7 +103,7 @@
 			padding 0
 
 		& &__sidebar
-			margin-left sidebar_width * -1
+			display none
 
 		&__inner
 			margin-top 100px
