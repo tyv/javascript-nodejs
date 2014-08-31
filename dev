@@ -1,2 +1,2 @@
 #!/bin/bash
-WATCH=1 ./gulp dev
+NODE_ENV=development WATCH=1 ./gulp dev

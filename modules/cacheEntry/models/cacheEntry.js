@@ -69,7 +69,7 @@ schema.statics.getOrGenerate = function* (doc, generator) {
   var result;
 
   // disable cache for development
-  if (false && process.env.NODE_ENV != 'development') {
+  if (process.env.NODE_ENV == 'development') {
     return yield generator();
   }
 

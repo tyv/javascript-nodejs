@@ -1,2 +1,4 @@
 #!/bin/bash
-NODE_ENV=production node --harmony `which gulp` run
+NODE_ENV=production node --harmony `which gulp` build
+NODE_ENV=production node --harmony ./bin/server
+

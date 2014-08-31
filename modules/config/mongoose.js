@@ -13,7 +13,7 @@ var fs = require('fs');
 var log = require('js-log')();
 var autoIncrement = require('mongoose-auto-increment');
 
-mongoose.set('debug', true);
+//mongoose.set('debug', true);
 
 var config = require('config');
 var _ = require('lodash');

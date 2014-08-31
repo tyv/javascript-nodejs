@@ -26,7 +26,7 @@ const gm = require('gm');
  * @returns {Function}
  */
 module.exports = function(options) {
-  const root =  path.join(config.projectRoot, options.root);
+  const root = path.join(config.projectRoot, options.root);
 
   return function(callback) {
 
