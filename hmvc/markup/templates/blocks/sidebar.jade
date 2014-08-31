@@ -1,7 +1,19 @@
 +b.sidebar.page__sidebar
   script.
     function toggleSidebar() {
-      document.getElementsByClassName('page')[0].classList.toggle('page_sidebar_on')
+      var animatedElem = document.getElementsByClassName('main')[0];
+      var pageElem = document.getElementsByClassName('page')[0];
+      
+      document.getElementsByClassName('main')[0].addEventListener('webkitTransitionEnd', handleAnimationEnd, false);
+      document.getElementsByClassName('main')[0].addEventListener('transitionend', handleAnimationEnd, false);
+      document.getElementsByClassName('main')[0].addEventListener('oTransitionEnd', handleAnimationEnd, false);
+
+      document.getElementsByClassName('page')[0].classList.remove('animation-finished');
+      document.getElementsByClassName('page')[0].classList.toggle('page_sidebar_on');
+
+      function handleAnimationEnd() {
+        document.getElementsByClassName('page')[0].classList.add('animation-finished');
+      }
     }
   //- FIXME: инлайновый скрипт — демо и используется для более удобной отладки
   +e('button').toggle(onclick="toggleSidebar()")

@@ -1,12 +1,12 @@
 .page
 	position: relative
 	z-index: 0
-	// padding 0 200px
-	padding 0 60px
+	padding 0
 	transition padding .2s
 
-	// &_sidebar_on
-	// 	padding-left sidebar_width + 60px
+	// DEBUG
+	&_sidebar_on.animation-finished
+		padding-left sidebar_width
 
 	&__sidebar
 		transform translateX(-100%)
@@ -16,13 +16,20 @@
 	&_sidebar_on &__sidebar
 		transform translateX(0)
 
+	&_sidebar_on .main
+		transform translateX(245px) scaleX(.7)
+
+	/.main,
+	/.animation-finished .main
+		transform-origin 0 0
+		transform translateX(0) scaleX(1)
+		transition transform .2s
+
 	// используется при переключении видимости панели навигации
 	&__inner
-		margin-top 80px
-		transition margin-top .2s, transform .2s //!!!
-
-	&_sidebar_on &__inner
-		transform translateX(125px)
+		margin 50px 0 0
+		padding 0 120px
+		transition margin-top .2s
 
 	&__sitemap
 		position fixed
