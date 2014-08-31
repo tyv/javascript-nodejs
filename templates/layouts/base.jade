@@ -6,7 +6,7 @@ html
   body
     include ../blocks/sitetoolbar
     .page.page_sidebar_on
-      if sidebar || true
+      if sidebar
         +b.sidebar.page__sidebar
           +e('button').toggle(onclick="document.querySelector('.page').classList.toggle('page_sidebar_on')")
           +e.inner

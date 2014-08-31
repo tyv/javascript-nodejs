@@ -35,10 +35,6 @@ ArticleRenderer.prototype.render = function* (article) {
   const sourceFileTransformer = new SourceFileTransformer(articleNode);
   yield sourceFileTransformer.run();
 
-//  const taskResolver = new TaskResolver(articleNode);
-//  yield taskResolver.run();
-
-
   const content = articleNode.toFinalHtml();
   log.debug(new Date() - d);
   return content;

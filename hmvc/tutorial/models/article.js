@@ -81,15 +81,23 @@ schema.statics.findTree = function* () {
   var articlesById = {};
   for (var i=0; i<articles.length; i++) {
     var article = articles[i];
+    article._id = article._id.toString();
     articlesById[article._id] = article;
   }
 
   var root = [];
 
-
   addChildren();
 
-  return {children: root, byId: articlesById};
+  addPrevNext();
+
+  return {
+    children: root,
+    byId: function(id) {
+      if (!id) return undefined;
+      return articlesById[id.toString()];
+    }
+  };
 
   // ---
 
@@ -107,29 +115,40 @@ schema.statics.findTree = function* () {
     }
 
   }
-/*
-  function sortChildren() {
 
-    for (var _id in articlesById) {
-      var article = articlesById[_id];
-      if (article.children) {
-        article.children.sort(compare);
+  function addPrevNext() {
+
+    var prev;
+    var next;
+
+    addPrev(root);
+    addNext();
+
+    function addPrev(children) {
+      for (var i = 0; i < children.length; i++) {
+        var child = children[i];
+        if (prev) child.prev = prev;
+        prev = child._id;
+        if (child.children) {
+          addPrev(child.children);
+        }
+      }
+    }
+
+    function addNext() {
+      for (var _id in articlesById) {
+        var article = articlesById[_id];
+        if (article.prev) {
+          articlesById[article.prev].next = _id;
+        }
       }
     }
   }
-*/
 
 };
 
-/*
- schema.methods.getNext = function() {
- this.findOne({parent: this.parent, weight: {$gt: this.weight} }).
- };
- */
-
 schema.pre('remove', function(next) {
-  // require it here to be sure that Reference model actually exists
-  // ?
+  // require it here to be sure that Reference model actually exists ?
   Reference.remove({article: this._id}, next);
 });
 
