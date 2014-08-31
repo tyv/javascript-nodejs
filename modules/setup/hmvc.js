@@ -18,6 +18,7 @@ module.exports = function(app) {
 
   if (process.env.NODE_ENV == 'development') {
     app.mountHmvc('/markup', 'markup');
+    app.mountHmvc('/dev', 'dev');
   }
 
   app.mountHmvc('/users', 'users');
