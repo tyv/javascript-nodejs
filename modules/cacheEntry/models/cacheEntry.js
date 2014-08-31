@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const ObjectId = mongoose.Schema.Types.ObjectId;
 
-const GENERATING_TIME_LIMIT_DEFAULT = 3e3; // 10 sec
+// by default a generator may took that long maximally
+const GENERATING_TIME_LIMIT_DEFAULT = 3e3;
 
 const schema = new Schema({
   key: {
@@ -11,7 +11,10 @@ const schema = new Schema({
     unique:   true
   },
 
-  tags: [String],
+  tags: {
+    type:  [String],
+    index: true
+  },
 
   value: {
     type:     {},
@@ -27,12 +30,12 @@ const schema = new Schema({
   },
 
   generatingStartTimestamp: Date,
-  generatingTimeLimit: Number,
+  generatingTimeLimit:      Number,
 
   // when to expire?
   // no expireAt means it won't expire
   // mongo autoclears the documents every minute
-  expireAt:                   {
+  expireAt:                 {
     type: Date
   }
 
@@ -103,12 +106,12 @@ schema.statics.getOrGenerate = function* (doc, generator) {
       // $set every field of the document (to fully replace, not update)
       // setting to undefined doesn't work here (mongoose bug?)
       {
-        key: doc.key,
-        tags: doc.tags || [],
-        value: value,
-        expireAt: doc.expireAt || null,
+        key:                      doc.key,
+        tags:                     doc.tags || [],
+        value:                    value,
+        expireAt:                 doc.expireAt || null,
         generatingStartTimestamp: null,
-        generatingTimeLimit: null
+        generatingTimeLimit:      null
       },
       // don't generate a new document, return the old one
       { new: false, upsert: false }
@@ -158,12 +161,12 @@ schema.statics.set = function* (doc) {
   return yield this.findOneAndUpdate(
     { key: doc.key },
     {
-      key: doc.key,
-      tags: doc.tags || [],
-      value: doc.value,
-      expireAt: doc.expireAt || null,
+      key:                      doc.key,
+      tags:                     doc.tags || [],
+      value:                    doc.value,
+      expireAt:                 doc.expireAt || null,
       generatingStartTimestamp: null,
-      generatingTimeLimit: null
+      generatingTimeLimit:      null
     },
     {new: false, upsert: true}
   ).exec();
