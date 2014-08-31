@@ -3,7 +3,16 @@ const ImgSizeTransformer = require('parser/imgSizeTransformer');
 const SourceFileTransformer = require('parser/sourceFileTransformer');
 //const TaskResolver = require('./taskResolver').TaskResolver;
 const BodyParser = require('javascript-parser').BodyParser;
-var log = require('js-log')();
+const log = require('js-log')();
+const _ = require('lodash');
+
+// Порядок библиотек на странице
+// - встроенный CSS
+// - библиотеки CSS
+// - [head] (css, important short js w/o libs, js waits libs on DocumentContentLoaded)
+// ...
+// - встроенный JS
+// - библиотеки JS
 
 /**
  * Can render many articles, keeping metadata
@@ -14,9 +23,15 @@ function ArticleRenderer() {
 }
 
 // gets <head> content from metadata.libs & metadata.head
-ArticleRenderer.prototype.formatHead = function() {
+ArticleRenderer.prototype.getHead = function() {
+  return [].concat(this._libsToJsCss( this._unmapLibsNames(this.metadata.libs) ).css, this.metadata.head)
+    .filter(Boolean).join("\n");
+};
 
-
+// js at bottom
+ArticleRenderer.prototype.getFoot = function() {
+  return this._libsToJsCss( this._unmapLibsNames(this.metadata.libs) ).js
+    .filter(Boolean).join("\n");
 };
 
 // Все библиотеки должны быть уникальны
@@ -47,32 +62,30 @@ ArticleRenderer.prototype._unmapLibsNames = function(libs) {
 };
 
 
-// CSS важнее, ставим его наверх
-// для оптимального порядка загрузки и выполнения скриптов
-// (обычно скрипт ждет CSS, чтобы выполниться)
-ArticleRenderer.prototype._libsToCss = function(libs) {
+ArticleRenderer.prototype._libsToJsCss = function(libs) {
+  var js = [];
+  var css = [];
 
+  _.uniq(libs).forEach(function(lib) {
+    if (!~lib.indexOf('://')) {
+      lib = 'http://js.cx/libs/' + lib;
+    }
 
+    if (lib.slice(-3) == '.js') {
+      js.push('<script src="' + lib + '"></script>');
+    } else if (lib.slice(-4) == '.css') {
+      css.push("<link rel='stylesheet' href='" + lib + "'>");
+    } else {
+      js.push("<script> alert('Unknown extension for: '" + lib + "');</script>");
+    }
+  });
+
+  return {
+    js: js,
+    css: css
+  };
 };
-    def libs_to_css_js(libs)
 
-      js = []
-      css = []
-      libs.uniq.each do |lib|
-        lib = File.join("http://js.cx/libs", lib) unless lib['://']
-        if lib[-3..-1] == '.js'
-          js << "<script src='#{lib}'></script>"
-        elsif lib[-4..-1] == '.css'
-          css << "<link rel='stylesheet' href='#{lib}'>"
-        else
-          js << "<script> alert('Unknown extension for: #{lib}');</script>"
-        end
-      end
-
-      return css, js
-
-    end
-  end
 
 ArticleRenderer.prototype.render = function* (article) {
 

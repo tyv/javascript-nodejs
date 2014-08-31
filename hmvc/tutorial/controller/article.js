@@ -82,7 +82,8 @@ function* renderArticle(slug) {
   rendered.body = yield renderer.render(article);
 
   rendered.headers = renderer.metadata.headers;
-//  rendered.libs =
+  rendered.head = renderer.getHead();
+  rendered.foot = renderer.getFoot();
 
   rendered.modified = article.modified;
   rendered.title = article.title;
