@@ -24,6 +24,13 @@ html
           if comments
             include ../blocks/comments
       //- include ../blocks/page-footer
-      if prevNext
-        include ../blocks/prev-next
+      if prev
+        a.page__nav.page__nav_prev(href=prev.url, title="назад")
+          span.page__nav-text
+            span.page__nav-text-shortcut Ctrl + &larr;
+      if next
+        a.page__nav.page__nav_next(href=next.url, title="вперед")
+          span.page__nav-text
+            span.page__nav-text-shortcut Ctrl + &rarr;
+
       //- include ../blocks/scripts

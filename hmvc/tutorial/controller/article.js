@@ -26,10 +26,6 @@ exports.get = function *get(next) {
     next:     renderedArticle.next
   };
 
-  var sidebar = {
-    sections: []
-  };
-
   var section;
   if (renderedArticle.isFolder) {
 
@@ -37,7 +33,6 @@ exports.get = function *get(next) {
       title: 'Смежные разделы',
       links: renderedArticle.siblings
     };
-    sidebar.sections.push(section);
 
   } else {
     section = {
@@ -46,7 +41,7 @@ exports.get = function *get(next) {
     section.links = renderedArticle.metadata.headers
       .filter(function(header) {
         // [level, titleHtml, anchor]
-        return header.level == 1;
+        return header.level == 2;
       }).map(function(header) {
         return {
           title: header.title,
@@ -56,9 +51,13 @@ exports.get = function *get(next) {
 
   }
 
+  locals.sidebar = {
+    sections: [section]
+  };
+
   _.assign(this.locals, locals);
 
-  return this.render("article", locals);
+  this.body = this.render("article", locals);
 
 };
 
@@ -82,7 +81,8 @@ function* renderArticle(slug) {
   const renderer = new ArticleRenderer();
   rendered.body = yield renderer.render(article);
 
-  rendered.metadata = renderer.metadata;
+  rendered.headers = renderer.metadata.headers;
+//  rendered.libs =
 
   rendered.modified = article.modified;
   rendered.title = article.title;
@@ -92,9 +92,10 @@ function* renderArticle(slug) {
   const articleInTree = tree.byId(article._id);
 
   var prev = tree.byId(articleInTree.prev);
+
   if (prev) {
     rendered.prev = {
-      url:   prev.getUrl(),
+      url:   Article.getUrlBySlug(prev.slug),
       title: prev.title
     };
   }
@@ -102,7 +103,7 @@ function* renderArticle(slug) {
   var next = tree.byId(articleInTree.next);
   if (next) {
     rendered.next = {
-      url:   next.getUrl(),
+      url:   Article.getUrlBySlug(next.slug),
       title: next.title
     };
   }
@@ -112,16 +113,16 @@ function* renderArticle(slug) {
   while (a) {
     path.push({
       title: a.title,
-      url:   a.getUrl()
+      url:   Article.getUrlBySlug(a.slug)
     });
     a = a.parent;
   }
   rendered.path = path.reverse();
 
-  rendered.siblings = articleInTree.parent.children.map(function(child) {
+  rendered.siblings = tree.byId(articleInTree.parent).children.map(function(child) {
     return {
       title: child.title,
-      url:   child.getUrl()
+      url:   Article.getUrlBySlug(child.slug)
     };
   });
 

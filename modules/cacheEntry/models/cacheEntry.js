@@ -69,9 +69,11 @@ schema.statics.getOrGenerate = function* (doc, generator) {
   var result;
 
   // disable cache for development
-  if (process.env.NODE_ENV != 'development') {
-    result = yield CacheEntry.findOne({key: doc.key}).exec();
+  if (false && process.env.NODE_ENV != 'development') {
+    return yield generator();
   }
+
+  result = yield CacheEntry.findOne({key: doc.key}).exec();
 
   var generatingStartTimestamp;
 
@@ -96,7 +98,7 @@ schema.statics.getOrGenerate = function* (doc, generator) {
     //  -> we started to generate
     //  -> set or remove is called for the key
     //  -> we finished generating
-    // we consider set/remove here to be more important because this decision is taken LATER then generation
+    // we consider set/remove here to be more important because this decision is taken LATER than the generation
     // maybe something important has changed
     // so we restart generation
     var old = yield this.findOneAndUpdate(
@@ -136,7 +138,8 @@ schema.statics.getOrGenerate = function* (doc, generator) {
   // now check if we're waiting for too long
   var timeLimit = result.generatingTimeLimit || GENERATING_TIME_LIMIT_DEFAULT;
 
-  if (Date.now() > generatingStartTimestamp + timeLimit) {
+//  console.log("Compare", +Date.now(), +generatingStartTimestamp + timeLimit, Date.now() > generatingStartTimestamp + timeLimit);
+  if (Date.now() > +generatingStartTimestamp + timeLimit) {
     // too long wait, consider the value absent
     // delete this very record: not just any of this key, but actually the outdated one
     // (maybe someone else has done that already)
