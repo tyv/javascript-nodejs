@@ -4,14 +4,29 @@ html
   head
     block variables
     include ../blocks/head
-  body(id='#{self.bodyId}')
-    include ../blocks/sitetoolbar
-    //- include ../blocks/sitetoolbar-login-loaders
-    .page
-      include ../blocks/sidebar
+  body
+    //- include ../blocks/sitetoolbar
+    include ../blocks/sitetoolbar-login-loaders
+    .page.page_sidebar_on
+      if true
+        include ../blocks/sidebar
       .page__inner
         article.main
+          //- блок map должен подгружаться динамически
+          //- подключен для демонстрации и отладки
+          //- сделан в виде страницы а не блока чтобы был доступен
+          //- по собственному url (/markup/pages/map)
+          include ../pages/map
+          header.main__header
+
+            include ../blocks/breadcrumbs
+            h1.main__header-title!= self.title
           block content
+          include ../blocks/article-foot
+          include ../blocks/corrector
+          if true
+            include ../blocks/comments
       include ../blocks/page-footer
-      include ../blocks/prev-next
+      if true
+        include ../blocks/prev-next
     include ../blocks/scripts

@@ -4,7 +4,9 @@
   +e.inner
     +e.content
       +e.section
-        +e('a').link._arrow(href="#") Полное содержание
+        //- переключение панели навигации, только для удобства отладки и демо
+        //- FIXME: убрать
+        +e('a').link._arrow(href="#", onclick="document.getElementsByTagName('body')[0].classList.toggle('scrolled-out'); return false;") Полное содержание
       +e.section
         +e('h4').section-title Разделы курса Базовый JS:
         +e('nav').navigation
