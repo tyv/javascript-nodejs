@@ -20,7 +20,9 @@ exports.get = function *get(next) {
 
   var locals = {
     title:    renderedArticle.title,
-    content:  renderedArticle.body,
+    body:  renderedArticle.body,
+    head:     renderedArticle.head,
+    foot:     renderedArticle.foot,
     modified: renderedArticle.modified,
     prev:     renderedArticle.prev,
     next:     renderedArticle.next
@@ -38,7 +40,8 @@ exports.get = function *get(next) {
     section = {
       title: 'Навигация по уроку'
     };
-    section.links = renderedArticle.metadata.headers
+
+    section.links = renderedArticle.headers
       .filter(function(header) {
         // [level, titleHtml, anchor]
         return header.level == 2;
