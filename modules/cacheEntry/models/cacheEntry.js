@@ -94,13 +94,13 @@ schema.statics.getOrGenerate = function* (doc, generator) {
 
     var value = yield generator();
 
-    // the case
+    // in the case
     //  -> we started to generate
-    //  -> set or remove is called for the key
+    //  -> set or remove is called for the key (!)
     //  -> we finished generating
     // we consider set/remove here to be more important because this decision is taken LATER than the generation
     // maybe something important has changed
-    // so we restart generation
+    // so we ditch the generated value and retry
     var old = yield this.findOneAndUpdate(
       // replace the very exact record we've made
       // it's possible that someone called set(doc, value) and replaced it while we were generating

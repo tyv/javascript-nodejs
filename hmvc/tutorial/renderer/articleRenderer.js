@@ -1,8 +1,4 @@
-const ReferenceTransformer = require('parser/referenceTransformer');
-const ImgSizeTransformer = require('parser/imgSizeTransformer');
-const SourceFileTransformer = require('parser/sourceFileTransformer');
-//const TaskResolver = require('./taskResolver').TaskResolver;
-const BodyParser = require('javascript-parser').BodyParser;
+const parseAndTransform = require('./parseAndTransform');
 const log = require('js-log')();
 const _ = require('lodash');
 
@@ -88,30 +84,14 @@ ArticleRenderer.prototype._libsToJsCss = function(libs) {
 
 
 ArticleRenderer.prototype.render = function* (article) {
-
-  var d = new Date();
   const options = {
     resourceRoot: article.getResourceWebRoot(),
     metadata:        this.metadata,
-    trusted:         true
+    trusted:         true,
+    removeFirstHeader: true
   };
 
-  // shift off the title header
-  const articleNode = new BodyParser(article.get('content'), options).parseAndWrap();
-  articleNode.removeChild(articleNode.getChild(0));
-
-  const referenceTransformer = new ReferenceTransformer(articleNode);
-  yield referenceTransformer.run();
-
-  const imgSizeTransformer = new ImgSizeTransformer(articleNode);
-  yield imgSizeTransformer.run();
-
-  const sourceFileTransformer = new SourceFileTransformer(articleNode);
-  yield sourceFileTransformer.run();
-
-  const content = articleNode.toFinalHtml();
-  log.debug(new Date() - d);
-  return content;
+  return (yield parseAndTransform(article.content, options)).toFinalHtml();
 };
 
 

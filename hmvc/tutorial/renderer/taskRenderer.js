@@ -1,10 +1,5 @@
-const TreeWalker = require('javascript-parser').TreeWalker;
-const HtmlTransformer = require('javascript-parser').HtmlTransformer;
-const ReferenceTransformer = require('parser/referenceTransformer').ReferenceTransformer;
-const BodyParser = require('javascript-parser').BodyParser;
-const TaskNode = require('javascript-parser').TaskNode;
 const HeaderTag = require('javascript-parser').HeaderTag;
-const TextNode = require('javascript-parser').TextNode;
+const parseAndTransform = require('./parseAndTransform');
 const CompositeTag = require('javascript-parser').CompositeTag;
 
 /**
@@ -21,19 +16,11 @@ TaskRenderer.prototype.renderContent = function* (task) {
     resourceFsRoot:  task.getResourceFsRoot(),
     resourceWebRoot: task.getResourceWebRoot(),
     metadata:        this.metadata,
-    trusted:         true
+    trusted:         true,
+    removeFirstHeader: true
   };
 
-  // shift off the title header
-  const taskNode = yield new BodyParser(task.content, options).parseAndWrap();
-  taskNode.removeChild(taskNode.getChild(0));
-
-  const referenceTransformer = new ReferenceTransformer(taskNode);
-  yield referenceTransformer.run();
-
-  const transformer = new HtmlTransformer(taskNode, options);
-  const content = yield transformer.run();
-  return content;
+  return (yield parseAndTransform(task.content, options)).toFinalHtml();
 };
 
 
@@ -46,15 +33,9 @@ TaskRenderer.prototype.renderSolution = function* (task) {
     trusted:         true
   };
 
-  // shift off the title header
-  const solutionNode = yield new BodyParser(task.solution, options).parseAndWrap();
+  const node = yield parseAndTransform(task.solution, options);
 
-  const referenceTransformer = new ReferenceTransformer(solutionNode);
-  yield referenceTransformer.run();
-
-  const newChildren = new CompositeTag();
-
-  var children = solutionNode.getChildren();
+  var children = node.getChildren();
 
   const solutionParts = [];
   if (children[0] instanceof HeaderTag) {
@@ -63,7 +44,7 @@ TaskRenderer.prototype.renderSolution = function* (task) {
     for (var i = 0; i < children.length; i++) {
       var child = children[i];
       if (child instanceof HeaderTag) {
-        currentPart = { title: yield new HtmlTransformer(child, options).run(), content: [] };
+        currentPart = { title: child.toFinalHtml(), content: [] };
         solutionParts.push(currentPart);
         continue;
       }
@@ -76,7 +57,7 @@ TaskRenderer.prototype.renderSolution = function* (task) {
 
   for (var i = 0; i < solutionParts.length; i++) {
     var part = solutionParts[i];
-    part.content = yield new HtmlTransformer(part.content, options).run();
+    part.content = new CompositeTag(null, part.content).toFinalHtml();
   }
 
   return solutionParts;
