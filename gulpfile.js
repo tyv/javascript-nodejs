@@ -118,7 +118,7 @@ gulp.task('build', ['link-modules', "client:sync-resources", 'client:build-md5-l
 // run both or run *-once separately
 gulp.task('dev', ['nodemon', 'client:livereload', 'build']);
 
-gulp.task('tutorial:import', lazyRequireTask('tutorial/tasks/import', {
+gulp.task('tutorial:import', ['link-modules'], lazyRequireTask('tutorial/tasks/import', {
   root:        'javascript-tutorial',
   updateFiles: true // skip same size files
 }));
