@@ -14,7 +14,16 @@ const JadeParserMultipleDirs = require('lib/jadeParserMultipleDirs');
 
 // public.md5.json is regenerated and THEN node is restarted on redeploy
 // so it loads a new version.
-var publicMd5 = require(path.join(config.projectRoot, 'public.md5.json'));
+var publicMd5;
+
+function getPublicMd5(publicPath) {
+  if (!publicMd5) {
+    // don't include at module top, let the generating task to finish
+    publicMd5 = require(path.join(config.projectRoot, 'public.md5.json'));
+  }
+  var busterPath = publicPath.slice(1);
+  return publicMd5[busterPath];
+}
 
 function addStandardHelpers(locals, ctx) {
   locals.moment = moment;
@@ -53,8 +62,7 @@ function addStandardHelpers(locals, ctx) {
     if (publicPath[0] != '/') {
       throw new Error("addFileMd5 needs an /absolute/path");
     }
-    var busterPath = publicPath.slice(1);
-    var md5 = publicMd5[busterPath];
+    var md5 = getPublicMd5(publicPath);
     if (!md5) {
       throw new Error("No md5 for " + publicPath);
     }
