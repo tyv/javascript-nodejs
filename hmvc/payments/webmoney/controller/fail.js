@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const Transaction = require('../../models/transaction');
-const log = require('js-log')();
 
 exports.post = function* (next) {
 

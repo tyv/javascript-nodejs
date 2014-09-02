@@ -7,13 +7,11 @@ const watchify = require('watchify');
 const browserify = require('browserify');
 var config = require('config');
 var Notification = require('node-notifier');
-var log = require('js-log')();
+var log = require('log')();
 var _ = require('lodash');
 var path = require('path');
 var co = require('co');
 var thunkify = require('thunkify');
-
-//log.debugOn();
 
 //var requireify = require('requireify');
 // should expose all modules to require, but missed part of them. buggy!

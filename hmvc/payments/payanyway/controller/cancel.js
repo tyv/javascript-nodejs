@@ -1,6 +1,4 @@
 const Transaction = require('../../models/transaction');
-const log = require('js-log')();
-
 
 exports.get = function* (next) {
 

@@ -26,6 +26,8 @@ module.exports = function(app) {
 
     if (this.idempotent && path.extname(this.path) !== '') {
       var filePath = yield send(this, this.path, opts);
+
+      /* not needed any more?
       if (filePath && path.extname(filePath) == '.js') {
         // usually the type is calculated in mime-types/lib/index.js
         // by exports.charset
@@ -34,6 +36,7 @@ module.exports = function(app) {
         // --> that's why I do that here
         this.response.type += '; charset=utf-8';
       }
+      */
       return;
     }
 

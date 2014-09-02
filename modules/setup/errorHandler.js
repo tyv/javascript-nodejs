@@ -1,7 +1,6 @@
 'use strict';
 
 const config = require('config');
-const log = require('js-log')();
 const escapeHtml = require('escape-html');
 
 function renderUserError(error) {
@@ -44,15 +43,15 @@ function renderError(err) {
   if (err.status) {
     // user-level error
     if (process.env.NODE_ENV == 'development') {
-      console.log(err);
+      this.log.error(err.status, err.message);
     }
     renderUserError.call(this, err);
   } else {
 
     // if error is "call stack too long", then log.error(err) is not verbose
     // so I cast it to string
-    log.error(err.toString());
-    log.error(err.stack);
+    this.log.error(err.toString());
+    this.log.error(err.stack);
 
     this.set('X-Content-Type-Options', 'nosniff');
 

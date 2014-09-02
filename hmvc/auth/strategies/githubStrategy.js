@@ -3,9 +3,6 @@ const GithubStrategy = require('passport-github').Strategy;
 const authenticateByProfile = require('./../lib/authenticateByProfile');
 const config = require('config');
 const request = require('request');
-const log = require('js-log')();
-
-log.debugOn();
 
 /*
 Minimal result example:
@@ -101,21 +98,16 @@ module.exports = new GithubStrategy({
       url:     'https://api.github.com/user/emails'
     };
 
-
-    log.debug(profile);
-
     // get emails using oauth token
     request(options, function(error, response, body) {
       if (error || response.statusCode != 200) {
-        log.error(error.message);
-        log.error(body);
+        req.log.error(error, body);
         done(null, false, {message: "Ошибка связи с сервером github."});
         return;
       }
 
 //      [ { email: 'iliakan@gmail.com', primary: true, verified: true } ],
 
-      log.debug(body);
       var emails = body.filter(function(email) {
         return email.verified;
       });

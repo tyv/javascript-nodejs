@@ -11,7 +11,9 @@ module.exports = function(options) {
       .pipe(gp.plumber({errorHandler: gp.notify.onError("<%= error.message %>")}))
       .pipe(gp.stylus({use: [require('nib')()]}))
       .pipe(gp.autoprefixer("last 1 version"))
+      .pipe(gp.if(process.env.NODE_ENV == 'production', gp.minifyCss()))
       .pipe(gulp.dest(options.dst));
+
   };
 
 

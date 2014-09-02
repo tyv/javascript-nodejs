@@ -2,16 +2,13 @@ const webmoneyConfig = require('config').payments.modules.webmoney;
 const mongoose = require('mongoose');
 const Order = require('../../models/order');
 const Transaction = require('../../models/transaction');
-const log = require('js-log')();
 const md5 = require('MD5');
-
-log.debugOn();
 
 // ONLY ACCESSED from WEBMONEY SERVER
 exports.prerequest = function* (next) {
   yield* this.loadTransaction('LMI_PAYMENT_NO', {skipOwnerCheck : true});
 
-  log.debug("prerequest");
+  this.log.debug("prerequest");
 
   yield this.transaction.logRequest('prerequest', this.request);
 
@@ -19,7 +16,7 @@ exports.prerequest = function* (next) {
     this.transaction.amount != parseFloat(this.request.body.LMI_PAYMENT_AMOUNT) ||
     this.request.body.LMI_PAYEE_PURSE != webmoneyConfig.purse
     ) {
-    log.debug("no pending transaction " + this.request.body.LMI_PAYMENT_NO);
+    this.log.debug("no pending transaction " + this.request.body.LMI_PAYMENT_NO);
     this.throw(404, 'unfinished transaction with given params not found');
   }
 
@@ -32,7 +29,7 @@ exports.post = function* (next) {
   yield* this.loadTransaction('LMI_PAYMENT_NO', {skipOwnerCheck : true});
 
   if (!checkSignature(this.request.body)) {
-    log.debug("wrong signature");
+    this.log.debug("wrong signature");
     this.throw(403, "wrong signature");
   }
 
@@ -54,7 +51,7 @@ exports.post = function* (next) {
   }
 
   var order = this.transaction.order;
-  log.debug("will call order onSuccess module=" + order.module);
+  this.log.debug("will call order onSuccess module=" + order.module);
   yield* require(order.module).onSuccess(order);
 
   this.body = 'OK';

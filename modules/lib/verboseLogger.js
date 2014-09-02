@@ -1,5 +1,4 @@
 const pathToRegexp = require('path-to-regexp');
-const log = require('js-log')();
 
 function VerboseLogger() {
   this.logPaths = [];
@@ -25,22 +24,23 @@ VerboseLogger.prototype.middleware = function() {
     var shouldLog = false;
     for (var i = 0; i < self.logPaths.length; i++) {
       var path = self.logPaths[i];
-      log.debug("test " + this.req.url + " against " + path);
+      this.log.debug("test " + this.req.url + " against " + path);
       if (path.test(this.req.url)) {
-        log.debug("match found, will log all");
+        this.log.debug("match found, will log all");
         shouldLog = true;
         break;
       }
     }
 
     if (shouldLog) {
-      self.log(this);
+      this.log({reqVerbose: this.req});
     }
 
     yield* next;
   };
 };
 
+/*
 VerboseLogger.prototype.log = function(context) {
 
   for (var name in context.req.headers) {
@@ -52,5 +52,6 @@ VerboseLogger.prototype.log = function(context) {
   }
 
 };
+*/
 
 exports.VerboseLogger = VerboseLogger;

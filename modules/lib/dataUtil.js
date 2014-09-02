@@ -1,13 +1,12 @@
 "use strict";
 
 var mongoose = require('mongoose');
-var log = require('js-log')();
+var log = require('log')();
 var co = require('co');
 var thunk = require('thunkify');
 var glob = require('glob');
 
 var db;
-//log.debugOn();
 
 function *createEmptyDb() {
 

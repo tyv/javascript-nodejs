@@ -6,16 +6,24 @@ const User = require('users').User;
 // auto logs in X-Test-User-Id when testing
 module.exports = function(app) {
 
+
+  app.use(function* cleanEmptySessionPassport(next) {
+    yield next;
+    if (Object.keys(this.session.passport).length === 0) {
+      delete this.session.passport;
+    }
+  });
+
   app.use(passport.initialize());
   app.use(passport.session());
 
   if (process.env.NODE_ENV == 'test') {
-    app.use(testLogin);
+    app.use(testAutoLogin);
   }
 
 };
 
-function* testLogin(next) {
+function* testAutoLogin(next) {
   var userId = this.get('X-Test-User-Id');
   if (!userId) {
     yield next;

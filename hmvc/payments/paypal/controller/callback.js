@@ -3,14 +3,11 @@ const paypalConfig = config.payments.modules.paypal;
 const Order = require('../../models/order');
 const Transaction = require('../../models/transaction');
 const TransactionLog = require('../../models/transactionLog');
-const log = require('js-log')();
 const request = require('koa-request');
 
 // docs:
 //
 // https://developer.paypal.com/webapps/developer/docs/classic/ipn/integration-guide/IPNIntro/
-
-log.debugOn();
 
 /* jshint -W106 */
 exports.post = function* (next) {
