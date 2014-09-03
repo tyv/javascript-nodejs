@@ -98,6 +98,7 @@ util.inherits(RequestCaptureStream, Stream);
 
 
 RequestCaptureStream.prototype.write = function write(record) {
+//  console.log(record);
   var reqId = record.reqId || PROCESS_UUID;
   var ring;
   var self = this;
@@ -209,30 +210,4 @@ var SERIALIZERS = {
 
 ///--- Exports
 
-module.exports = {
-  RequestCaptureStream: RequestCaptureStream,
-  serializers: SERIALIZERS,
-
-  createLogger: function createLogger(name) {
-    return (bunyan.createLogger({
-      name: name,
-      serializers: SERIALIZERS,
-      streams: [
-        {
-          level: 'warn',
-          stream: process.stderr
-        },
-        {
-          level: 'debug',
-          type: 'raw',
-          stream: new RequestCaptureStream({
-            maxRecords: 1000,
-            maxRequestIds: 1000,
-            stream: process.stderr
-          })
-        }
-      ]
-    }));
-  }
-};
-
+module.exports = RequestCaptureStream;

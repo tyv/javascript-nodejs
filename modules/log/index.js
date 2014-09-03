@@ -1,16 +1,18 @@
 var bunyan = require('bunyan');
-var RequestCaptureStream = require('requestCaptureStream').RequestCaptureStream;
+var RequestCaptureStream = require('requestCaptureStream');
 var reqSerializer = require('./reqSerializer');
 var reqVerboseSerializer = require('./reqVerboseSerializer');
 var resSerializer = require('./resSerializer');
 var errSerializer = require('./errSerializer');
+var httpErrorSerializer = require('./httpErrorSerializer');
 var path = require('path');
 
 var serializers = {
   reqVerbose: reqVerboseSerializer,
   req:        reqSerializer,
   res:        resSerializer,
-  err:        errSerializer
+  err:        errSerializer,
+  httpError:  httpErrorSerializer
 };
 
 // we may want development logging in test mode
@@ -47,14 +49,20 @@ module.exports = function(name, options) {
     ];
     break;
   case 'production':
-    // gather all data for req_id, but log only if warn happens
+    // normally I see only info, but look in error in case of problems
     streams = [
       {
-        level:  'warn',
+        level:  'info',
+        stream: process.stdout
+      },
+      {
+        level:  'info',
         stream: process.stderr
       }
     ];
 
+    // gather all data for req_id, but log only if warn happens
+    // ...and dump to stderr (in addition to
     if (options.bufferLowLevel) {
       streams.push({
         level:  'debug',
@@ -73,7 +81,7 @@ module.exports = function(name, options) {
   return bunyan.createLogger({
     name:        name,
     streams:     streams,
-    serializers: serializers,
+    serializers: serializers
   });
 };
 

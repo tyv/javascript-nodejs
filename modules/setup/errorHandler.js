@@ -42,9 +42,9 @@ function renderError(err) {
 
   if (err.status) {
     // user-level error
-    if (process.env.NODE_ENV == 'development') {
-      this.log.error(err.status, err.message);
-    }
+
+    // this.log.error({httpError: err});
+
     renderUserError.call(this, err);
   } else {
 
