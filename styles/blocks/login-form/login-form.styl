@@ -1,5 +1,3 @@
-login_form_bottom_padding = 10px
-
 $login-form-additional-info
 	font-size 14px
 	padding 11px 15px
@@ -10,7 +8,6 @@ $login-form-additional-info
 	width 410px
 	background background
 	padding-top 20px
-	padding-bottom login_form_bottom_padding
 
 	&__line
 		padding 0 30px
@@ -66,65 +63,57 @@ $login-form-additional-info
 	&__label
 		color color
 
-	// text-input error handling?
-	// &__control-wrap .field_with_errors input
-	// 	border-color #e62e29
-	// 	color #e62e29
-
 	&__input
 		width 100%
 		margin-top 10px
 
 	// резервируем место для ссылки «Забыли?» поверх инпута
-	&__input_with-link .text-input__control
+	&__input_with-aside .text-input__control
 		padding-right 85px
 
 	&__input_invalid
 		border-color #e62e29
 		color #e62e29
 
-	&__forgot-link
+	&__link,
+	&__link:visited
+		color alternate_link_color
+
+	&__button-link
+		@extend $link-button
+
+	&__forgot,
+	&__forgot:active
 		position absolute
 		bottom 0
 		right 40px
 		line-height 34px
 
-	//	.modal-form__control-error {
-	//		color: #eb2f2a;
-	//		font-size: 12px;
-	//		padding: 4px 3px 0;
-	//	}
-	//
-	//	.modal-form__input_invalid + .modal-form__control-error {
-	//		display: block;
-	//	}
+	&__footer
+		margin-top 25px
+
+	&__separator
+		color #999
+		margin 0 1ex
 
 	&__submit
 		min-width 110px
 		outline none
+		margin 0
 
-	&__social-login
-		text-align justify
+	&__social-logins
 		background #eee
 		line-height 0
 		margin-top 30px
-		margin-bottom -1 * login_form_bottom_padding
-		border-top 1px solid #ccc
-		padding-top 11px
-		padding-bottom 12px
+		padding-top 16px
+		padding-bottom 35px
 
-	&__social-login::after
-		content ''
-		display inline-block
-		width 100px
-		height 0
-
-	&__social-login-title
+	&__social-logins-title
 		font 700 18px/normal secondary_font
-		margin-bottom 20px
+		margin-bottom 15px
 
-	&__social-login .social-login
-		margin-bottom 12px
+	&__social-login
+		margin 0 6px 10px 0
 
 	&__close,
 	&__close:active

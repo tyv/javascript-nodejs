@@ -1,88 +1,53 @@
-// $social-login-icons: sprite-map('social-login-icons/*.png');
-social_login_icon_width = 36px
-social_login_icon_height = 32px
-
 .social-login
-	box-shadow #bbb 0 1px 2px, #fff 0 1px 2px -1px inset
+	@extend $link-button
 	display inline-block
-	border-radius 3px
-	text-decoration none
-	position relative
-	padding 2px 15px 2px 55px
-	min-width 75px
-	border 1px solid
-	font bold 12px/28px 'Helvetica Neue', Helvetica, Arial, sans-serif
-	text-shadow rgba(0, 0, 0, .4) 0 1px 0
+	text-align left
+	border-radius 4px
+	min-width 134px
+	font-size 16px
+	line-height 30px
+	padding 1px 5px 2px 0
+	color #fff
 
-	&:link,
-	&:visited,
-	&:hover,
-	&:active
-		color #fff
+	&:hover
+		text-decoration none
 
 	&::before
-		content ""
-		position absolute
-		top 3px
-		left 5px
-		spriteImage $social-login-icons
-
-	&::after
-		content ""
-		position absolute
-		top 0
-		left social_login_icon_width
-		width 2px
-		height 100%
-		background url('/i/social-login-separator.png') 0 0 no-repeat
-		opacity .3
-
-	&_twitter
-		background #52BBE4
-		background linear-gradient(to bottom, #60c5e8, #4bb5e2)
-		border-color #448ca6
-
-	&_twitter::before
-		spriteElem $social-login-icons-twitter
-		top round(social_login_icon_height / 2 - spriteHeightValue($social-login-icons-twitter) / 2)
-		left round(social_login_icon_width / 2 - spriteWidthValue($social-login-icons-twitter) / 2)
+		display inline-block
+		min-width 30px
+		padding 0 5px
+		text-align center
+		font-size 20px
 
 	&_facebook
-		background: #3c5a9c;
-		background linear-gradient(to bottom, #4364a6, #344f8e)
-		border-color #344f89
+		background: #4e7ac2
 
 	&_facebook::before
-		spriteElem $social-login-icons-facebook
-		top round(social_login_icon_height / 2 - spriteHeightValue($social-login-icons-facebook) / 2)
-		left round(social_login_icon_width / 2 - spriteWidthValue($social-login-icons-facebook) / 2)
+		@extend $font-facebook
 
 	&_vkontakte
-		background #396b96
-		background linear-gradient(to bottom, #3c6f9a, #2f5880)
-		border-color #284969
+		background #4e7ac2
 
 	&_vkontakte::before
-		spriteElem $social-login-icons-vkontakte
-		top round(social_login_icon_height / 2 - spriteHeightValue($social-login-icons-vkontakte) / 2)
-		left round(social_login_icon_width / 2 - spriteWidthValue($social-login-icons-vkontakte) / 2)
+		@extend $font-vkontakte
+		font-size 18px
 
 	&_google
-		background #c53d2d
-		background linear-gradient(to bottom, #cc4533, #be3628)
-		border-color #972f22
+		background #444547
 
 	&_google::before
-		spriteElem $social-login-icons-google
-		top round(social_login_icon_height / 2 - spriteHeightValue($social-login-icons-google) / 2)
-		left round(social_login_icon_width / 2 - spriteWidthValue($social-login-icons-google) / 2)
+		@extend $font-google
 
 	&_github
-		background #ababab
-		background linear-gradient(to bottom, #b5b5b5, #a1a1a1)
-		border-color #959595
+		background #b3b3b3
 
 	&_github::before
-		spriteElem $social-login-icons-github
-		top round(social_login_icon_height / 2 - spriteHeightValue($social-login-icons-github) / 2)
-		left round(social_login_icon_width / 2 - spriteWidthValue($social-login-icons-github) / 2)
+		@extend $font-github
+
+	&_yandex
+		background #eeb94d
+
+	&_yandex::before
+		@extend $font-yandex
+		font-size 18px
+		color #d8232a
