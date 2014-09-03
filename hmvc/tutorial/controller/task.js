@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Task = require('../models/task');
-const TaskRenderer = require('../renderer/taskRenderer').TaskRenderer;
+const TaskRenderer = require('../renderer/taskRenderer');
 
 exports.get = function *get(next) {
   const task = yield Task.findOne({
@@ -14,7 +14,7 @@ exports.get = function *get(next) {
 
   const renderer = new TaskRenderer();
   // todo: implement this
-  this.body = yield renderer.render(task);
+  this.body = yield renderer.renderContent(task);
 
 };
 

@@ -58,23 +58,13 @@ module.exports = function(app) {
       // set the color of the status code;
       var s = status / 100 | 0;
 
-      // get the human readable response length
-      var length;
-      if (~[204, 205, 304].indexOf(status)) {
-        length = 0;
-      } else if (null === len) {
-        length = 0;
-      } else {
-        length = len;
-      }
-
       ctx.log[err ? 'error' : 'info']({
         event:    "request-end",
         method:   ctx.method,
         url:      req.originalUrl,
         status:   status,
         timeDuration: Date.now() - start,
-        length:   length
+        length:   len
       }, "<-- %s %s", ctx.method, ctx.originalUrl);
     }
 

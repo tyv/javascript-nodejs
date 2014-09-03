@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const Article = require('../models/article');
 const ArticleRenderer = require('../renderer/articleRenderer');
-const treeUtil = require('lib/treeUtil');
 const _ = require('lodash');
 const CacheEntry = require('cacheEntry');
 
@@ -18,14 +17,17 @@ exports.get = function *get(next) {
     return;
   }
 
+  console.log(renderedArticle.breadcrumbs);
+
   var locals = {
-    title:    renderedArticle.title,
-    body:  renderedArticle.body,
-    head:     renderedArticle.head,
-    foot:     renderedArticle.foot,
-    modified: renderedArticle.modified,
-    prev:     renderedArticle.prev,
-    next:     renderedArticle.next
+    title:      renderedArticle.title,
+    body:       renderedArticle.body,
+    head:       renderedArticle.head,
+    foot:       renderedArticle.foot,
+    modified:   renderedArticle.modified,
+    prev:       renderedArticle.prev,
+    next:       renderedArticle.next,
+    breadcrumbs: renderedArticle.breadcrumbs
   };
 
   var section;
@@ -113,15 +115,18 @@ function* renderArticle(slug) {
   }
 
   var path = [];
-  var a = articleInTree;
-  while (a) {
+  var parent = articleInTree.parent;
+  while (parent) {
+    var a = tree.byId(parent);
     path.push({
       title: a.title,
       url:   Article.getUrlBySlug(a.slug)
     });
-    a = a.parent;
+    parent = a.parent;
   }
-  rendered.path = path.reverse();
+  path = path.reverse();
+
+  rendered.breadcrumbs = path;
 
   rendered.siblings = tree.byId(articleInTree.parent).children.map(function(child) {
     return {

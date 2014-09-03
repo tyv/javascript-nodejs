@@ -20,7 +20,8 @@ TaskRenderer.prototype.renderContent = function* (task) {
     removeFirstHeader: true
   };
 
-  return (yield parseAndTransform(task.content, options)).toFinalHtml();
+  const node = yield parseAndTransform(task.content, options);
+  return node.toFinalHtml();
 };
 
 
@@ -64,4 +65,4 @@ TaskRenderer.prototype.renderSolution = function* (task) {
 };
 
 
-exports.TaskRenderer = TaskRenderer;
+module.exports = TaskRenderer;

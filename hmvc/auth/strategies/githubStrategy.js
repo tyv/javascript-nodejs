@@ -120,7 +120,7 @@ module.exports = new GithubStrategy({
         {value: emails[0].email }
       ];
 
-      authenticateByProfile(req.user, profile, done);
+      authenticateByProfile(req, profile, done);
     });
 
 

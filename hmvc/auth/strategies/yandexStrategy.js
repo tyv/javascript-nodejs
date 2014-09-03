@@ -36,7 +36,7 @@ module.exports = new YandexStrategy({
     passReqToCallback: true
   },
   function(req, accessToken, refreshToken, profile, done) {
-    authenticateByProfile(req.user, profile, done);
+    authenticateByProfile(req, profile, done);
   }
 );
 

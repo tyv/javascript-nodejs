@@ -143,6 +143,7 @@ module.exports = function() {
       yield thunkify(bundleHead)();
       yield thunkify(bundleHmvc)('auth');
       yield thunkify(bundleHmvc)('profile');
+      yield thunkify(bundleHmvc)('tutorial');
 
     })(callback);
 

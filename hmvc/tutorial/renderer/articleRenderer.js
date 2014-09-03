@@ -90,7 +90,8 @@ ArticleRenderer.prototype.render = function* (article) {
     removeFirstHeader: true
   };
 
-  return (yield parseAndTransform(article.content, options)).toFinalHtml();
+  var node = yield parseAndTransform(article.content, options);
+  return node.toFinalHtml();
 };
 
 

@@ -2,6 +2,7 @@ const User = require('users').User;
 const config = require('config');
 const co = require('co');
 const _ = require('lodash');
+const log = require('log')();
 
 function mergeProfile(user, profile) {
   if (!user.photo && profile.photos && profile.photos.length && profile.photos[0].type != 'default') {
@@ -44,10 +45,12 @@ function makeProviderId(profile) {
   return profile.provider + ":" + profile.id;
 }
 
-module.exports = function(req, userToConnect, profile, done) {
+module.exports = function(req, profile, done) {
   // profile = the data returned by the facebook graph api
 
   req.log.debug({profile: profile}, "profile");
+
+  var userToConnect = req.user;
 
   co(function*() {
     var providerNameId = makeProviderId(profile);
