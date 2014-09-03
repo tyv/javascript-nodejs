@@ -12,7 +12,9 @@ var uuid = require('node-uuid');
 ///--- Globals
 
 var sprintf = util.format;
-var DEFAULT_REQ_ID = uuid.v4();
+
+// every node.js run, in every process this uuid will be different
+var PROCESS_UUID = uuid.v4();
 
 ///--- Helpers
 
@@ -22,7 +24,7 @@ function appendStream(streams, s) {
 
   if (s instanceof Stream) {
     streams.push({
-      raw:    false,
+      raw: false,
       stream: s
     });
   } else {
@@ -96,7 +98,7 @@ util.inherits(RequestCaptureStream, Stream);
 
 
 RequestCaptureStream.prototype.write = function write(record) {
-  var reqId = record.reqId || DEFAULT_REQ_ID;
+  var reqId = record.reqId || PROCESS_UUID;
   var ring;
   var self = this;
 
@@ -118,41 +120,32 @@ RequestCaptureStream.prototype.write = function write(record) {
   assert.ok(ring, 'no ring found');
 
   if (record.level >= this.level) {
-    // group together reqId and (if dumpDefault is set) default records
-    // in the time order
-    var recordsToDump = [];
-
     var i, r, ser;
     for (i = 0; i < ring.records.length; i++) {
       r = ring.records[i];
-      recordsToDump.push(r);
-    }
-    ring.records.length = 0;
-
-    if (this.dumpDefault) {
-      var defaultRing = self.requestMap.get(DEFAULT_REQ_ID);
-      for (i = 0; i < defaultRing.records.length; i++) {
-        r = defaultRing.records[i];
-        recordsToDump.push(r);
-      }
-      defaultRing.records.length = 0;
-    }
-
-    recordsToDump.sort(function(a, b) {
-      return a.time - b.time
-    });
-
-    for (i = 0; i < recordsToDump.length; i++) {
-      r = recordsToDump[i];
       if (this.haveNonRawStreams) {
         ser = JSON.stringify(r,
           bunyan.safeCycles()) + '\n';
       }
-      self.streams.forEach(function(s) {
+      self.streams.forEach(function (s) {
         s.stream.write(s.raw ? r : ser);
       });
     }
-
+    ring.records.length = 0;
+    if (this.dumpDefault) {
+      var defaultRing = self.requestMap.get(PROCESS_UUID);
+      for (i = 0; i < defaultRing.records.length; i++) {
+        r = defaultRing.records[i];
+        if (this.haveNonRawStreams) {
+          ser = JSON.stringify(r,
+            bunyan.safeCycles()) + '\n';
+        }
+        self.streams.forEach(function (s) {
+          s.stream.write(s.raw ? r : ser);
+        });
+      }
+      defaultRing.records.length = 0;
+    }
   } else {
     ring.write(record);
   }
@@ -185,10 +178,10 @@ function clientReq(req) {
   }
 
   return ({
-    method:  req ? req.method : false,
-    url:     req ? req.path : false,
+    method: req ? req.method : false,
+    url: req ? req.path : false,
     address: host,
-    port:    req ? req.port : false,
+    port: req ? req.port : false,
     headers: req ? req.headers : false
   });
 }
@@ -200,15 +193,15 @@ function clientRes(res) {
 
   return ({
     statusCode: res.statusCode,
-    headers:    res.headers
+    headers: res.headers
   });
 }
 
 
 var SERIALIZERS = {
-  err:        bunyan.stdSerializers.err,
-  req:        bunyan.stdSerializers.req,
-  res:        bunyan.stdSerializers.res,
+  err: bunyan.stdSerializers.err,
+  req: bunyan.stdSerializers.req,
+  res: bunyan.stdSerializers.res,
   client_req: clientReq,
   client_res: clientRes
 };
@@ -218,24 +211,24 @@ var SERIALIZERS = {
 
 module.exports = {
   RequestCaptureStream: RequestCaptureStream,
-  serializers:          SERIALIZERS,
+  serializers: SERIALIZERS,
 
   createLogger: function createLogger(name) {
     return (bunyan.createLogger({
-      name:        name,
+      name: name,
       serializers: SERIALIZERS,
-      streams:     [
+      streams: [
         {
-          level:  'warn',
+          level: 'warn',
           stream: process.stderr
         },
         {
-          level:  'debug',
-          type:   'raw',
+          level: 'debug',
+          type: 'raw',
           stream: new RequestCaptureStream({
-            maxRecords:    1000,
+            maxRecords: 1000,
             maxRequestIds: 1000,
-            stream:        process.stderr
+            stream: process.stderr
           })
         }
       ]

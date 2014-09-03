@@ -2,7 +2,7 @@
 
 require('lib/debug');
 
-const log = require('log')('app', {bufferLowLevel : true});
+const log = require('log')('app', {bufferLowLevel: true});
 
 process.on('uncaughtException', function(err) {
   // let bunyan handle the error
@@ -43,12 +43,12 @@ requireSetup('setup/requestLog');
 requireSetup('setup/static');
 
 /*
-app.id = Math.random();
-app.use(function*(next) {
-  console.log(app.id);
-  yield next;
-});
-*/
+ app.id = Math.random();
+ app.use(function*(next) {
+ console.log(app.id);
+ yield next;
+ });
+ */
 
 //requireSetup('setup/time');
 

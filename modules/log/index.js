@@ -62,7 +62,8 @@ module.exports = function(name, options) {
         stream: new RequestCaptureStream({
           maxRecords:    150,
           maxRequestIds: 2000,
-          dumpDefault:   true,
+          dumpDefault:   true, // if error happens also dump all records, not bound to a request
+          // default records dumped AFTER request
           stream:        process.stderr
         })
       });
@@ -72,7 +73,7 @@ module.exports = function(name, options) {
   return bunyan.createLogger({
     name:        name,
     streams:     streams,
-    serializers: serializers
+    serializers: serializers,
   });
 };
 
