@@ -1,7 +1,6 @@
 var User = require('users').User;
 var jade = require('jade');
 var path = require('path');
-var log = require('js-log')();
 var config = require('config');
 var sendVerifyEmail  = require('../lib/sendVerifyEmail');
 
@@ -28,7 +27,7 @@ exports.post = function* (next) {
   try {
     yield* sendVerifyEmail(user.email, user.verifyEmailToken, this);
   } catch(e) {
-    log.error("Reverify failed: " + e);
+    this.log.error({err: e}, "Reverify failed");
     this.throw(500, "На сервере ошибка отправки email.");
   }
 

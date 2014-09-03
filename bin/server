@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-const log = require('js-log')();
 const config = require('config');
 const co = require('co');
 const app = require('app');

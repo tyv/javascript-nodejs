@@ -4,7 +4,6 @@ const fs = require('fs');
 const fse = require('fs-extra');
 const path = require('path');
 const config = require('config');
-const log = require('js-log')();
 const mongoose = require('config/mongoose');
 const Article = require('../models/article');
 const Reference = require('../models/reference');
@@ -16,6 +15,7 @@ const gm = require('gm');
 
 // TODO: separate minification to another task
 // TODO: use htmlhint/jslint for html/js examples
+
 
 
 /**

@@ -1,5 +1,4 @@
 const parseAndTransform = require('./parseAndTransform');
-const log = require('js-log')();
 const _ = require('lodash');
 
 // Порядок библиотек на странице

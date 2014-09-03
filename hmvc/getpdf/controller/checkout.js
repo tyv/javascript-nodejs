@@ -1,11 +1,8 @@
 var mongoose = require('mongoose');
-var log = require('js-log')();
 var payments = require('payments');
 var Order = payments.Order;
 var OrderTemplate = payments.OrderTemplate;
 var methods = require('../paymentMethods').methods;
-
-log.debugOn();
 
 exports.post = function*(next) {
 
@@ -16,7 +13,7 @@ exports.post = function*(next) {
   }
 
   if (this.order) {
-    log.debug("order exists", this.order.number);
+    this.log.debug("order exists", this.order.number);
     yield* updateOrderFromBody(this.request.body, this.order);
   } else {
     // if we don't have the order in our database, then make a new one
@@ -41,7 +38,7 @@ exports.post = function*(next) {
 
     yield* updateOrderFromBody(this.request.body, this.order);
 
-    log.debug("order created", this.order.number);
+    this.log.debug("order created", this.order.number);
 
     if (!this.session.orders) {
       this.session.orders = [];

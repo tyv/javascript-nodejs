@@ -10,7 +10,7 @@
 var mongoose = require('mongoose');
 var path = require('path');
 var fs = require('fs');
-var log = require('js-log')();
+var log = require('log')();
 var autoIncrement = require('mongoose-auto-increment');
 
 //mongoose.set('debug', true);

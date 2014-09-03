@@ -3,7 +3,6 @@
 const koaFormidable = require('koa-formidable');
 const _ = require('lodash');
 const pathToRegexp = require('path-to-regexp');
-const log = require('js-log')();
 
 /**
  * Wrapper around koa-bodyparser
@@ -41,9 +40,9 @@ HttpPostParser.prototype.middleware = function() {
 
     for (var i = 0; i < self.pathOptions.length; i++) {
       var path = self.pathOptions[i].path;
-      log.debug("test " + this.req.url + " against " + path);
+      this.log.debug("test " + this.req.url + " against " + path);
       if (path.test(this.req.url)) {
-        log.debug("found options", self.pathOptions[i].options);
+        this.log.debug("found options", self.pathOptions[i].options);
         _.assign(options, self.pathOptions[i].options);
         break;
       }
@@ -65,7 +64,7 @@ HttpPostParser.prototype.middleware = function() {
     // even if a bad person did not supply content-length,
     // formidable will not read more than options.bytesExpected
 
-    
+
     yield* koaFormidable(options).call(this, next);
 
   };

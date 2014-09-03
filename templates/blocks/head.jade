@@ -6,7 +6,7 @@ link(href=addFileMd5('/styles/base.css'),rel='stylesheet')
 script(src=addFileMd5("/js/head.js"))
 
 if user
-  script var csrf = !{JSON.stringify(csrf)};
+ script var csrf = !{csrf.token};
 
 //- head из конкретной статьи
 !=head

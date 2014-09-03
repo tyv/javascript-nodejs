@@ -2,7 +2,6 @@ const passport = require('koa-passport');
 const User = require('users').User;
 const config = require('config');
 const co = require('co');
-const log = require('js-log')();
 
 // setup auth strategy
 passport.serializeUser(function(user, done) {
