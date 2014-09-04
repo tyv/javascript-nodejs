@@ -34,6 +34,7 @@
     "gulp-ignore": "*",
     "gulp-jshint-cache": "*",
     "gulp-load-plugins": "*",
+    "gulp-minify-css": "^0.3.8",
     "gulp-newer": "*",
     "gulp-nodemon": "*",
     "gulp-notify": "*",
