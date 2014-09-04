@@ -11,10 +11,6 @@ var ProviderSchema = new mongoose.Schema({
   profile: {} // updates just fine if I replace it with a new value, w/o going inside
 });
 
-// todo: если посетитель удалён, то у него может не быть email!
-// обновить валидацию https://github.com/leepowellcouk/mongoose-validator
-// http://stackoverflow.com/questions/13982159/validating-password-confirm-password-with-mongoose-schema
-// http://mongoosejs.com/docs/api.html#schematype_SchemaType-validate (async validation for email)
 var UserSchema = new mongoose.Schema({
   displayName:               {
     type:     String,
@@ -36,7 +32,7 @@ var UserSchema = new mongoose.Schema({
   },
   email:                     {
     type: String,
-
+    // если посетитель удалён, то у него нет email!
     validate: [
       {
         validator: function checkNonEmpty(value) {
@@ -67,8 +63,10 @@ var UserSchema = new mongoose.Schema({
       }
     ],
 
-    unique: true,
-    index:  true
+
+    // sparse (don't index users without email)
+    // dangerous: in queries that use email this index will make mongodb to ignore users w/o email
+    index:  { unique: true, sparse: true }
   },
   passwordHash:              {
     type: String // user may have no password if used facebook to login/register

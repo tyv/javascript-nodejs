@@ -9,6 +9,9 @@
 *~
 *.sass-cache
 
+# temporary archives
+*.zip
+
 # OS or Editor folders
 .DS_Store
 .idea
@@ -18,6 +21,12 @@
 .tmproj
 .nvmrc
 Thumbs.db
+
+# generated content
+public.md5.json
+
+# NPM packages folder.
+node_modules/
 
 # TMP folder (anything)
 tmp/

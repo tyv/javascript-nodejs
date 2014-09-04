@@ -1,74 +1,46 @@
 .lessons-list
-	@extend $noisy-bg
-	table-layout fixed
-	border-radius 4px
+	@extend $clearfix
+	margin 22px 0
+	overflow hidden
 
-	& &__line
-		background none !important // sorry for that
-		border 0
-
-	& &__line:not(:first-child):not(:last-child)
-		border solid #dcd6c8
-		border-width 1px 0
-
-	& &__lesson
-		vertical-align top
+	ol&__lessons // усиливаем селекторы тегом
+		list-style none
 		padding 0
+		counter-reset lesson
+		margin -1px 0 0 -1px
 
-	&__lesson:not(:empty):hover
-		background: rgba(255, 255, 255, .4);
+	& li&__lesson
+		margin 0
 
-	&__lesson:not(:first-child):not(:last-child)
-		border solid #dcd6c8
-		border-width 0 1px
-
-	&__lesson-content
+	&__lesson
+		font 700 16px/22px secondary_font
 		position relative
-		min-height 72px
-		padding 14px 0 14px 70px
-		margin-right 10px
-		overflow hidden
-		text-overflow ellipsis
+		float left
+		width 175px
+		height 70px
+		border solid #ccc
+		border-width 1px 0 0 1px
+		background #f7f6ea
+		padding 10px 20px 10px 40px
+
+	&__lesson::before
+		content counter(lesson) '.'
+		counter-increment lesson
+		color #959595
+		position absolute
+		right 204px
+
+	&__lesson::after
+		content ""
+		position absolute
+		top 100%
+		left -1px
+		width 100%
+		height 100%
+		border solid #ccc
+		border-width 1px 0 0 1px
+		background #f7f6ea
+		z-index -1
 
 	&__link
-		font 16px/15px secondary_font
-		color #000
-
-	&__link:focus
-		outline 0
-
-	&__number
-		position absolute
-		top 10px
-		left 8px
-		background #ba1800
-		color #fff
-		padding 5px
-		height 45px
-		width 45px
-		text-align center
-		border-radius 50%
-		font-size 12px
-
-	&__number-val
-		display block
-		font-size 22px
-		font-weight 700
-		margin-top 3px
-
-	@media tablet
-		&,
-		& &__line,
-		& tbody
-		& &__lesson
-			display block
-			border 0 !important // очень мешают стили для таблиц по умолчанию
-
-		& &__lesson
-			border-top 1px solid #dcd6c8 !important
-
-		&__line:first-child &__lesson:first-child
-			border 0 !important
-
-		& &__lesson:empty
-			display none
+		color alternate_link_color

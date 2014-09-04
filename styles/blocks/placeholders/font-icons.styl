@@ -5,10 +5,16 @@
 	font-weight normal
 	font-style normal
 
+// изначально на элементе body установлен класс .no-icons
+// при этом все элементы, содержащие иконки из иконочного шрифта,
+// скрыты. После окончательной загрузки шрифта класс снимается.
+// Необходимо, чтобы избежать показа нечитаемых
+// символов из незагруженного шрифта
+
 $font-icon
 	&
 		font-family 'FontIcons'
-	.no-font &
+	.no-icons &
 		visibility hidden
 
 $font-close
@@ -163,10 +169,6 @@ $font-trash
 	@extend $font-icon
 	content '\e804'
 
-$font-sitemap
-	@extend $font-icon
-	content '\e806'
-
 $font-menu
 	@extend $font-icon
 	content '\e80c'
@@ -186,3 +188,11 @@ $font-google
 $font-vkontakte
 	@extend $font-icon
 	content '\e80b'
+
+$font-github
+	@extend $font-icon
+	content '\e80f'
+
+$font-yandex
+	@extend $font-icon
+	content '\e806'

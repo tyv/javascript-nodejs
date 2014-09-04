@@ -78,7 +78,7 @@ gulp.task('client:sprite-once', lazyRequireTask('./tasks/sprite', {
 
 gulp.task('client:clean-compiled-css', function(callback) {
   fs.unlink('./public/styles/base.css', function(err) {
-    if (err && err.code == 'ENOENT') err = null;
+    if (err && err.code == 'ENOENT') return callback();
     callback(err);
   });
 });
@@ -108,13 +108,17 @@ gulp.task("client:browserify:clean", lazyRequireTask('./tasks/browserifyClean', 
 gulp.task("client:browserify-once", ['link-modules', 'client:browserify:clean'], lazyRequireTask('./tasks/browserify'));
 gulp.task("client:browserify", ['client:browserify-once'], wrapWatch(['client/**', 'hmvc/**/client/**'], "client:browserify-once"));
 
-gulp.task('build', ['link-modules', "client:sync-resources", 'client:compile-css', 'client:browserify', 'client:sync-css-images']);
+// public.md5.json will
+gulp.task("client:build-md5-list", ['client:compile-css', 'client:browserify'],
+  lazyRequireTask('./tasks/buildMd5List', { cwd: 'public', src: './{fonts,js,sprites,styles}/**', dst: './public.md5.json' }));
+
+gulp.task('build', ['link-modules', "client:sync-resources", 'client:build-md5-list', 'client:compile-css', 'client:browserify', 'client:sync-css-images']);
 
 // compile-css and sprites are independant tasks
 // run both or run *-once separately
 gulp.task('dev', ['nodemon', 'client:livereload', 'build']);
 
-gulp.task('tutorial:import', lazyRequireTask('tutorial/tasks/import', {
+gulp.task('tutorial:import', ['link-modules'], lazyRequireTask('tutorial/tasks/import', {
   root:        'javascript-tutorial',
   updateFiles: true // skip same size files
 }));

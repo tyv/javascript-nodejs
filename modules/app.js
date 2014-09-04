@@ -1,11 +1,21 @@
 "use strict";
 
 require('lib/debug');
+
+const log = require('log')('app', {bufferLowLevel: true});
+
+process.on('uncaughtException', function(err) {
+  // let bunyan handle the error
+  log.error(err);
+  process.exit(255);
+});
+
 const koa = require('koa');
-const log = require('js-log')();
 const config = require('config');
 const mongoose = require('config/mongoose');
 const app = koa();
+
+app.log = log;
 
 // trust all headers from proxy
 // X-Forwarded-Host
@@ -25,17 +35,20 @@ function requireSetup(path) {
   require(path)(app);
 }
 
-// usually nginx will handle this before node
+requireSetup('setup/requestId');
+requireSetup('setup/requestLog');
+
+// usually nginx(or varnish) will handle this before node
 // that's why we put it at the top
 requireSetup('setup/static');
 
 /*
-app.id = Math.random();
-app.use(function*(next) {
-  console.log(app.id);
-  yield next;
-});
-*/
+ app.id = Math.random();
+ app.use(function*(next) {
+ console.log(app.id);
+ yield next;
+ });
+ */
 
 //requireSetup('setup/time');
 
@@ -122,6 +135,7 @@ app.close = function*() {
   };
   log.info("App stopped");
 };
+
 
 module.exports = app;
 

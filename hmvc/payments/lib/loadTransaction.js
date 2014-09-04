@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 var Transaction = require('../models/transaction');
-var log = require('js-log')();
 var assert = require('assert');
 
 // Populates this.transaction with the transaction by "transactionNumber" parameter
@@ -11,7 +10,7 @@ module.exports = function* (field, options) {
 
   var transactionNumber = this.request.body && this.request.body[field] || this.params[field] || this.query[field];
 
-  log.debug('tx number: ' + transactionNumber);
+  this.log.debug('tx number: ' + transactionNumber);
   if (!transactionNumber) {
     return;
   }

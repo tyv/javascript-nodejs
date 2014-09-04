@@ -1,100 +1,22 @@
-//- не морочим голову и используем таблицу, потому что иначе мы все равно эмулируем ее
-//- с помощью других тегов и css.
-+b('table').lessons-list
-  +e('tr').line
-    +e('td').lesson
-      +e.lesson-content
-        +e('a').link(href="#", title="Введение")
-          +e('span').number
-            | Урок
-            =" "
-            +e('span').number-val 1
-          =" "
-          | Введение
-        +e('span').mark
-    +e('td').lesson
-      +e.lesson-content
-        +e('a').link(href="#", title="Верстка графических компонент")
-          +e('span').number
-            | Урок
-            =" "
-            +e('span').number-val 2
-          =" "
-          | Верстка графических компонент
-        +e('span').mark
-    +e('td').lesson
-      +e.lesson-content
-        +e('a').link(href="#", title="Процедурное и объектное программирование")
-          +e('span').number
-            | Урок
-            =" "
-            +e('span').number-val 3
-          =" "
-          | Процедурное и&nbsp;объектное программирование
-        +e('span').mark
-    +e('td').lesson
-      +e.lesson-content
-        +e('a').link(href="#", title="Внутренний и внешний интерфейс")
-          +e('span').number
-            | Урок
-            =" "
-            +e('span').number-val 4
-          =" "
-          | Внутренний и&nbsp;внешний интерфейс
-        +e('span').mark
-  +e('tr').line
-    +e('td').lesson
-      +e.lesson-content
-        +e('a').link(href="#", title="Соглашения в коде виджета")
-          +e('span').number
-            | Урок
-            =" "
-            +e('span').number-val 5
-          =" "
-          | Соглашения в&nbsp;коде виджета
-        +e('span').mark
-    +e('td').lesson
-      +e.lesson-content
-        +e('a').link(href="#", title="Свои события, подписка - уведомление")
-          +e('span').number
-            | Урок
-            =" "
-            +e('span').number-val 6
-          =" "
-          | Свои события, подписка&nbsp;- уведомление
-        +e('span').mark
-    +e('td').lesson
-      +e.lesson-content
-        +e('a').link(href="#", title="Практика, практика, практика!")
-          +e('span').number
-            | Урок
-            =" "
-            +e('span').number-val 7
-          =" "
-          | Практика, практика, практика!
-        +e('span').mark
-    +e('td').lesson
-      +e.lesson-content
-        +e('a').link(href="#", title="Шаблонизация в JavaScript")
-          +e('span').number
-            | Урок
-            =" "
-            +e('span').number-val 8
-          =" "
-          | Шаблонизация в&nbsp;JavaScript
-        +e('span').mark
-  +e('tr').line
-    +e('td').lesson
-      +e.lesson-content
-        +e('a').link(href="#", title="Еще практика!")
-          +e('span').number
-            | Урок
-            =" "
-            +e('span').number-val 9
-          =" "
-          | Еще практика!
-        +e('span').mark
-    //- необходимо дополнять строку до конца пустыми ячейками :(
-    +e('td').lesson
-    +e('td').lesson
-    +e('td').lesson
++b.lessons-list
+  +e('ol').lessons
+    +e('li').lesson
+      +e('a').link(href="#intro") Введение
+    +e('li').lesson
+      +e('a').link(href="#graphical") Верстка графических компонент
+    +e('li').lesson
+      +e('a').link(href="#paradigms") Процедурное и&nbsp;объектное программирование
+    +e('li').lesson
+      +e('a').link(href="#interface") Внутренний и&nbsp;внешний интерфейс
+    +e('li').lesson
+      +e('a').link(href="#agreements") Соглашения в&nbsp;коде виджета
+    +e('li').lesson
+      +e('a').link(href="#moveevents") События движения: "mouseover/out/move/leave/enter"
+    +e('li').lesson
+      +e('a').link(href="#userinteraction") Взаимодействие с&nbsp;пользователем: alert, prompt, confirm
+    +e('li').lesson
+      +e('a').link(href="#multiinsert") Мультивставка: insertAdjacentHTML и&nbsp;DocumentFragment
+    +e('li').lesson
+      +e('a').link(href="#templates") Шаблонизация в&nbsp;JavaScript
+    +e('li').lesson
+      +e('a').link(href="#events") Свои события, подписка&nbsp;- уведомление

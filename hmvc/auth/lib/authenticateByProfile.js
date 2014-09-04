@@ -1,8 +1,8 @@
 const User = require('users').User;
 const config = require('config');
 const co = require('co');
-const log = require('js-log')();
 const _ = require('lodash');
+const log = require('log')();
 
 function mergeProfile(user, profile) {
   if (!user.photo && profile.photos && profile.photos.length && profile.photos[0].type != 'default') {
@@ -45,23 +45,25 @@ function makeProviderId(profile) {
   return profile.provider + ":" + profile.id;
 }
 
-module.exports = function(connectWithUser, profile, done) {
+module.exports = function(req, profile, done) {
   // profile = the data returned by the facebook graph api
 
-  log.debug(profile);
+  req.log.debug({profile: profile}, "profile");
+
+  var userToConnect = req.user;
 
   co(function*() {
     var providerNameId = makeProviderId(profile);
 
     var user;
 
-    if (connectWithUser) {
+    if (userToConnect) {
       // merge auth result with the user profile if it is not bound anywhere yet
 
       // look for another user already using this profile
       var alreadyConnectedUser = yield User.findOne({
         "providers.nameId": providerNameId,
-        _id: { $ne: connectWithUser._id }
+        _id: { $ne: userToConnect._id }
       }).exec();
 
       if (alreadyConnectedUser) {
@@ -83,7 +85,7 @@ module.exports = function(connectWithUser, profile, done) {
         yield alreadyConnectedUser.persist();
       }
 
-      user = connectWithUser;
+      user = userToConnect;
 
     } else {
       user = yield User.findOne({"providers.nameId": providerNameId}).exec();

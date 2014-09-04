@@ -4,4 +4,7 @@ block sidebar
   include sidebar
 
 block content
-  != content
+  != body
+
+  script(src=addFileMd5("/js/tutorial.js"))
+  script require('tutorial/client').init();

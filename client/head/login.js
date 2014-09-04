@@ -13,7 +13,7 @@ init.addHandler("login", function() {
 
 });
 
-function login(options) {
+function login() {
   var modal = new Modal();
   var spinner = new Spinner();
   modal.setContent(spinner.elem);

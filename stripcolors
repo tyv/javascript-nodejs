@@ -1,0 +1,12 @@
+#!/usr/bin/perl
+
+# Usage: 
+# NODE_ENV=development WATCH=1 ./gulp dev | perl -pe 's/\e\[?.*?[\@-~]//g' >log
+use strict;
+use warnings;
+
+while (<>) {
+  s/\e\[?.*?[\@-~]//g; # Strip ANSI escape codes
+  print;
+}
+

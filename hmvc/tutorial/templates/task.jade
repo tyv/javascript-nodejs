@@ -1,0 +1,67 @@
+
+extends ../layouts/task
+
+block content
+  +b.task
+    +e.header
+      +e('h1').title !{title}
+      +e.info
+        +e('span').number
+          | Задание
+          =" "
+          b #215
+        =" "
+        +e('span').importance
+          | Важность
+          =" "
+          b 5
+    +e.content
+      p Для страницы:
+      pre.language-javascript.line-numbers
+        | &lt;!DOCTYPE HTML&gt;
+        | &lt;html&gt;
+        | &lt;head&gt;
+        | &lt;meta charset="UTF-8"&gt;
+        | &lt;title&gt;Задача 215&lt;/title&gt;
+        | &lt;/head&gt;
+        | &lt;body&gt;
+        | &lt;div&gt;Пользователи&lt;/div&gt;
+        | &lt;ul id="user-list"&gt;
+        | &lt;li&gt;Маша&lt;/li&gt;
+        | &lt;li&gt;Вовочка&lt;/li&gt;
+        | &lt;/ul&gt;
+        |
+        | &lt;!-- Комментарий --&gt;
+        |
+        | &lt;script&gt;
+        | // ... ваш код
+        | &lt;/script&gt;
+        | &lt;/body&gt;
+        | &lt;/html&gt;
+      ul
+        li
+          | Напишите код, который получает элемент
+          =" "
+          code HEAD
+          | .
+        li
+          | Напишите код, который получит
+          =" "
+          code UL
+          | .
+        li
+          | Напишите код, который получит второй
+          =" "
+          code LI
+          | .
+          =" "
+          | Будет ли ваш код работать в IE8-, если комментарий переместить
+          =" "
+          em между
+          =" "
+          | элементами
+          =" "
+          code LI
+          | .
+      p
+        a.sandbox(href="/play/task-215") Открыть исходный документ

@@ -7,15 +7,12 @@ body
 
 //- просто так удобнее, пусть будет
 .scrolled-out .sitetoolbar
-	top -60px
+	transform translateY(-100%)
 
-.scrolled-out .page__sidebar
-.scrolled-out .page__nav
+.scrolled-out .page__sidebar,
+.scrolled-out .page__nav,
+.scrolled-out .page__sitemap
 	top 0
 
 .scrolled-out .page__inner
 	margin-top 0
-
-@media tablet
-	.scrolled-out .page__inner
-		margin-top 40px

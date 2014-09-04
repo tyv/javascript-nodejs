@@ -2,7 +2,6 @@ var User = require('users').User;
 var jade = require('jade');
 var sendVerifyEmail  = require('../lib/sendVerifyEmail');
 var path = require('path');
-var log = require('js-log')();
 var config = require('config');
 
 // Регистрация пользователя.
@@ -33,7 +32,7 @@ exports.post = function* (next) {
   try {
     yield* sendVerifyEmail(user.email, verifyEmailToken, this);
   } catch(e) {
-    log.error("Registration failed: " + e);
+    this.log.error({err: e}, "Registration failed" );
     this.throw(500, "На сервере ошибка отправки email.");
   }
 

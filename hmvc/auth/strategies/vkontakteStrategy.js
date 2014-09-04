@@ -35,7 +35,7 @@ module.exports = new VkontakteStrategy({
 
     console.log(profile);
 
-    authenticateByProfile(req.user, profile, done);
+    authenticateByProfile(req, profile, done);
   }
 );
 

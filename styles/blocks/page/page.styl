@@ -1,25 +1,40 @@
 .page
 	position: relative
 	z-index: 0
-	// padding 0 200px
-	padding 0 60px
-	transition padding .5s
+	padding 0
+	transition padding animation_duration
 
 	&_sidebar_on
-		padding-left sidebar_width + 60px
+		padding-left sidebar_width
 
 	&__sidebar
-		margin-left sidebar_width * -1
-		transition margin-left .5s, top .5s
+		transform translateX(-100%)
+		transition transform animation_duration, top animation_duration
 
 	// для отображения/скрытия сайдбара переключаем класс .page_sidebar_on у блока .page
 	&_sidebar_on &__sidebar
-		margin-left 0
+		transform translateX(0)
 
 	// используется при переключении видимости панели навигации
 	&__inner
-		margin-top 80px
-		transition margin-top .5s
+		margin 50px 0 0
+		padding 0 120px
+		transition margin-top animation_duration
+
+	&__sitemap
+		position fixed
+		background rgba(255, 255, 255, .95)
+		top 60px
+		right 115px
+		bottom 0
+		left 115px
+		z-index 99
+		transition top animation_duration, right animation_duration, left animation_duration
+		padding 0 5px
+		overflow auto
+
+	&_sidebar_on &__sitemap
+		left 365px
 
 	&__nav
 		position fixed
@@ -36,7 +51,7 @@
 
 	&__nav_prev
 		left 0
-		transition left .5s, top .5s
+		transition transform animation_duration, top animation_duration
 
 	&__nav-text
 		font-size 16px
@@ -71,25 +86,31 @@
 		@extend $font-angle-left
 
 	&_sidebar_on &__nav_prev
-		left 250px
+		transform translateX(sidebar_width)
 
 	&__nav_next
 		right 0
-		transition top .5s
+		transition top animation_duration
 
 	&__nav_next &__nav-text::before
 		@extend $font-angle-right
 
 	@media tablet
 		&,
-		&_sidebar_on // повышаем специфичность, чтобы перекрыть media-правила
+		&_sidebar_on
 			padding 0
 
 		& &__sidebar
-			margin-left sidebar_width * -1
+			display none
 
 		&__inner
-			margin-top 100px
+			margin-top 60px
+			padding 0 40px
+
+		& &__sitemap
+			left 40px
+			right 40px
 
 		&__nav
 			display none
+

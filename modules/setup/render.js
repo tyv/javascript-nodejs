@@ -6,13 +6,24 @@ const util = require('util');
 const path = require('path');
 const config = require('config');
 const fs = require('fs');
-const log = require('js-log')();
+//const log = require('log')();
 const jade = require('jade');
 const _ = require('lodash');
 const assert = require('assert');
 const JadeParserMultipleDirs = require('lib/jadeParserMultipleDirs');
 
-//log.debugOn();
+// public.md5.json is regenerated and THEN node is restarted on redeploy
+// so it loads a new version.
+var publicMd5;
+
+function getPublicMd5(publicPath) {
+  if (!publicMd5) {
+    // don't include at module top, let the generating task to finish
+    publicMd5 = require(path.join(config.projectRoot, 'public.md5.json'));
+  }
+  var busterPath = publicPath.slice(1);
+  return publicMd5[busterPath];
+}
 
 function addStandardHelpers(locals, ctx) {
   locals.moment = moment;
@@ -20,11 +31,25 @@ function addStandardHelpers(locals, ctx) {
   locals.parser = JadeParserMultipleDirs;
 
   // csrf only generated on request
+  // use:
+  //   script var csrf = !{JSON.stringify(csrf.token)}
+  // when I use a variable in jade, it's code analyzer (addWith, "with" module)
+  // detects the variable and uses it in the wrapping function, effectively triggering it's evaluation
+  // so I assign getter not to "csrf", but to "csrf.token", which will only be asked by "csrf.token", not a wrapper
   Object.defineProperty(locals, "csrf", {
-    get: function() {
-      var csrf = ctx.csrf;
-      assert(csrf);
-      return csrf;
+    token: {
+      get: function() {
+        if (!ctx.req.user) {
+          // csrf generates session.secret
+          // we don't create session for anonymouse users (varnish cache)
+          // so we don't want csrf token for them
+          // (it's not needed for anonymous guys anyway)
+          throw new Error("Shouldn't ask for CSRF token when anonymouse user (it will require to make a session)");
+        }
+        var csrf = ctx.csrf;
+        assert(csrf);
+        return csrf;
+      }
     }
   });
 
@@ -46,6 +71,17 @@ function addStandardHelpers(locals, ctx) {
   };
 
   locals.bem = require('bem-jade')();
+
+  locals.addFileMd5 = function(publicPath) {
+    if (publicPath[0] != '/') {
+      throw new Error("addFileMd5 needs an /absolute/path");
+    }
+    var md5 = getPublicMd5(publicPath);
+    if (!md5) {
+      throw new Error("No md5 for " + publicPath);
+    }
+    return publicPath + '?r=' + md5;
+  };
 
 //  locals.debug = true;
 }
@@ -69,7 +105,7 @@ module.exports = function render(app) {
       // probably we will have more stuff initialized here
       addStandardHelpers(this.locals, this);
 
-      log.debug("Lookup " + templatePath + " in " + this.templatePaths);
+      this.log.debug("Lookup " + templatePath + " in " + this.templatePaths);
 
       // warning!
       // _.assign does NOT copy defineProperty
@@ -90,7 +126,7 @@ module.exports = function render(app) {
         throw new Error("Template file not found: " + templatePath + " (in dirs " + this.templatePaths + ") ");
       }
 
-      log.debug("render file " + templatePathResolved);
+      this.log.debug("render file " + templatePathResolved);
       return jade.renderFile(templatePathResolved, loc);
     };
 

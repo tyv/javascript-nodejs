@@ -70,7 +70,7 @@ module.exports = new FacebookStrategy({
         }];
 
       }
-      authenticateByProfile(req.user, profile, done);
+      authenticateByProfile(req, profile, done);
     });
 
 //    http://graph.facebook.com/v2.1/765813916814019/picture?redirect=0&width=1000&height=1000

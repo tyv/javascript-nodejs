@@ -1,10 +1,7 @@
 const config = require('config');
 const Order = require('../../models/order');
 const Transaction = require('../../models/transaction');
-const log = require('js-log')();
 const request = require('koa-request');
-
-log.debugOn();
 
 /* jshint -W106 */
 exports.get = function* (next) {

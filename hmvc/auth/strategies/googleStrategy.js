@@ -54,7 +54,7 @@ module.exports = new GoogleStrategy({
   },
   function(req, token, tokenSecret, profile, done) {
 
-    authenticateByProfile(req.user, profile, done);
+    authenticateByProfile(req, profile, done);
   }
 );
 

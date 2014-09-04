@@ -3,10 +3,7 @@ const config = require('config');
 const payanywayConfig = config.payments.modules.payanyway;
 const Order = require('../../models/order');
 const Transaction = require('../../models/transaction');
-const log = require('js-log')();
 const md5 = require('MD5');
-
-log.debugOn();
 
 exports.post = function* (next) {
 
@@ -20,7 +17,7 @@ exports.post = function* (next) {
   yield this.transaction.logRequest('callback unverified', this.request);
 
   if (!checkSignature(this.request.body)) {
-    log.debug("wrong signature");
+    this.log.debug("wrong signature");
     this.throw(403, "wrong signature");
   }
 
@@ -41,7 +38,7 @@ exports.post = function* (next) {
   });
 
   var order = this.order;
-  log.debug("will call order onSuccess module=" + order.module);
+  this.log.debug("will call order onSuccess module=" + order.module);
   yield* require(order.module).onSuccess(order);
 
   this.body = 'SUCCESS';

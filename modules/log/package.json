@@ -1,0 +1,19 @@
+{
+  "name": "log",
+  "version": "0.4.1",
+  "description": "Configurable as winston, tunable as debug()",
+  "main": "index.js",
+  "dependencies": {
+    "winston": "*"
+  },
+  "browser": "./browser.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iliakan/log.git"
+  },
+  "author": "Ilya Kantor",
+  "license": "CC-BY 3.0"
+}

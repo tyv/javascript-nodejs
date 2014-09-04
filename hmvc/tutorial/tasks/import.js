@@ -4,7 +4,6 @@ const fs = require('fs');
 const fse = require('fs-extra');
 const path = require('path');
 const config = require('config');
-const log = require('js-log')();
 const mongoose = require('config/mongoose');
 const Article = require('../models/article');
 const Reference = require('../models/reference');
@@ -18,6 +17,7 @@ const gm = require('gm');
 // TODO: use htmlhint/jslint for html/js examples
 
 
+
 /**
  *
  * @param options
@@ -26,7 +26,7 @@ const gm = require('gm');
  * @returns {Function}
  */
 module.exports = function(options) {
-  const root =  path.join(config.projectRoot, options.root);
+  const root = path.join(config.projectRoot, options.root);
 
   return function(callback) {
 
