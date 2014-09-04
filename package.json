@@ -107,7 +107,6 @@
     "uglifyify": "^2.5.0",
     "vinyl-fs": "*",
     "vinyl-source-stream": "*",
-    "winston": "*",
     "yargs": "*"
   },
   "devDependencies": {

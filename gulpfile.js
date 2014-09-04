@@ -78,7 +78,7 @@ gulp.task('client:sprite-once', lazyRequireTask('./tasks/sprite', {
 
 gulp.task('client:clean-compiled-css', function(callback) {
   fs.unlink('./public/styles/base.css', function(err) {
-    if (err && err.code == 'ENOENT') err = null;
+    if (err && err.code == 'ENOENT') return callback();
     callback(err);
   });
 });

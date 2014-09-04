@@ -63,8 +63,10 @@ var UserSchema = new mongoose.Schema({
       }
     ],
 
-    unique: true,
-    index:  true
+
+    // sparse (don't index users without email)
+    // dangerous: in queries that use email this index will make mongodb to ignore users w/o email
+    index:  { unique: true, sparse: true }
   },
   passwordHash:              {
     type: String // user may have no password if used facebook to login/register
