@@ -10,6 +10,8 @@ if (process.env.NODE_ENV == 'development' && process.env.DEV_TRACE) {
 //  require('clarify'); // Exclude node internal calls from the stack
 }
 
+require('map-set-for-each');
+
 var path = require('path');
 var fs = require('fs');
 
