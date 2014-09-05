@@ -10,7 +10,7 @@ $main-loud
 	@extend $center
 	padding 0 0 35px
 	max-width max_width
-	
+
 	&::before
 		content ""
 		display table // убираем margin collapse
@@ -24,7 +24,7 @@ $main-loud
 
 	&__header_center
 		border 0
-		
+
 	&__header_center &__header-title,
 	&__header_center .breadcrumbs
 		text-align center
@@ -214,10 +214,6 @@ $main-loud
 	figure img
 		margin 0
 
-	// широкие изображения не должны создавать горизонтальный скролл
-	img
-		max-width 100%
-
 	&__loud
 		@extend $main-loud
 
@@ -243,7 +239,7 @@ $main-loud
 	&__footer-author a
 		color #444
 		font 13px Arial, Helvetica, sans-serif
-			
+
 	&__footer-date
 		margin-right 15px
 
