@@ -42,7 +42,7 @@ function showHideSiteToolbar() {
   var scrollDirection = scrollTop > lastPageYOffset ? 'down' : 'up';
   var scrollDiff = Math.abs(scrollTop - lastPageYOffset);
 
-  console.log("scrollDiff", scrollDiff);
+//  console.log("scrollDiff", scrollDiff);
 
   // если прокрутили мало - ничего не делаем, но и точку отсчёта не меняем
   if (tolerance[scrollDirection] > scrollDiff) return;
@@ -56,7 +56,7 @@ function showHideSiteToolbar() {
 
   if (ignoreJump) return;
 
-  console.log(scrollDirection, scrollDiff, tolerance[scrollDirection]);
+//  console.log(scrollDirection, scrollDiff, tolerance[scrollDirection]);
 
 
   if (scrollTop === 0 || scrollDirection == 'up') {

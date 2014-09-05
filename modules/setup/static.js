@@ -45,7 +45,7 @@ module.exports = function(app) {
 
 var opts = {
   // no root, because I resolve the path manually
-  maxAge:   '1y',
+  maxAge:   process.env.NODE_ENV == 'production' ? '10d' : 0,
   dotfiles: 'deny'
 };
 

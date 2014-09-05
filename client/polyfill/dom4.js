@@ -76,3 +76,4 @@ try {
 
   CustomEvent.prototype = Object.create(window.Event.prototype);
 }
+
