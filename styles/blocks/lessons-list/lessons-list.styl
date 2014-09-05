@@ -64,6 +64,13 @@
 		.page_sidebar_on &__lesson
 			width 100%
 
+	// на такой ширине и уже сайдбар всегда скрыт
+	@media tablet
+		.page_sidebar_on &__lesson,
+		&__lesson:nth-child(n)
+			width 50%
+
 	@media (max-width: 710px)
+		.page_sidebar_on &__lesson,
 		&__lesson:nth-child(n)
 			width 100%

@@ -9,6 +9,8 @@ html
     include ../blocks/sitetoolbar-login-loaders
     .page.page_sidebar_on
       if true
+        include ../blocks/prev-next
+      if true
         include ../blocks/sidebar
       .page__inner
         article.main
@@ -26,6 +28,4 @@ html
           if true
             include ../blocks/comments
       include ../blocks/page-footer
-      if true
-        include ../blocks/prev-next
     include ../blocks/scripts

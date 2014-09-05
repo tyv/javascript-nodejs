@@ -1,0 +1,123 @@
+.complex-code
+	border 3px solid #f5f2f0
+
+	&__tools
+		display table
+		margin -3px -3px 0
+		background #f5f2f0
+		font-size 13px
+
+	&__switches-wrap,
+	&__all,
+	&__open-wrap
+		width 100%
+		display table-cell
+		vertical-align top
+
+	&__all
+		white-space nowrap
+
+	&__switches
+		height 65px
+		margin-bottom -10px
+		overflow hidden
+
+	&__switch
+		color #6198d2
+		background #f5f2f0
+		text-align center
+		padding 15px
+		line-height 25px
+		white-space nowrap
+		float left
+		cursor pointer
+		margin-bottom 15px
+
+	&__switch:hover,
+	&__open:hover,
+	&__all-toggle:hover,
+	&__all-item:hover,
+	&__all-item_current
+		background #f2ede9
+
+	&__switch_current,
+	&__switch_current:hover,
+	& &__all_open,
+	& &__all_open &__all-toggle
+		background #e0dbd7
+		color #fff
+		position: relative
+
+	&__switch_current
+		cursor default
+
+	&__switch_current::after
+		content ""
+		position absolute
+		top 100%
+		left 50%
+		margin-left -7px
+		border-top 8px solid #e0dbd7
+		border-right 7px solid transparent
+		border-left 7px solid transparent
+
+	&__all-toggle
+		color #999
+		padding 15px
+		line-height 25px
+		cursor pointer
+
+	&__all-toggle::after
+		@extend $font-open
+		margin-left 1ex
+
+	// extra strong selector
+	/body & &__open
+		@extend $plain-link
+		display block
+		padding 15px
+		width 25px
+		height 25px
+		text-align center
+		color #999
+
+	&__open,
+	&__open:hover
+		text-decoration none
+
+	&__open::before
+		@extend $font-external
+		font-size 18px
+
+	&__contents
+		margin 15px
+
+	&__dropdown
+		background #fff
+		font-size 13px
+		border solid #e0dbd7
+		border-width 0 1px 1px
+		box-sizing border-box
+		box-shadow 1px 1px 2px rgba(0, 0, 0, .1)
+		position absolute
+		z-index 99
+		display none
+
+	&__all_open &__dropdown
+		display block
+
+	&__all-item
+		border 1px solic #cfc
+		cursor pointer
+		color #6198d2
+		padding 5px 20px
+
+	&__all-item_current
+		color #999
+		cursor default
+
+	&__section
+		display none
+
+	&__section_current
+		display block

@@ -5,7 +5,6 @@
 	top 60px
 	bottom 0
 	left 0
-	z-index 9999
 
 	&__inner
 		position absolute
@@ -18,13 +17,8 @@
 	&__content
 		margin 23px 30px 30px
 
-	&__toggle
-		@extend $button-reset
-
-	&__toggle:focus
-		outline 0
-
 	& &__toggle
+		@extend $button-reset
 		position absolute
 		top 12px
 		left 100%
@@ -33,6 +27,9 @@
 		height 45px
 		border-radius 50%
 		cursor pointer
+
+	&__toggle:focus
+		outline 0
 
 	&__toggle:hover
 		background #e6e6e6
