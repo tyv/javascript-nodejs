@@ -2,6 +2,8 @@
 	@extend $clearfix
 	margin 22px 0
 	overflow hidden
+	background #f7f6ea
+	border-radius 3px
 
 	ol&__lessons // усиливаем селекторы тегом
 		list-style none
@@ -16,19 +18,26 @@
 		font 700 16px/22px secondary_font
 		position relative
 		float left
-		width 175px
-		height 70px
+		width 33%
+		height 90px
 		border solid #ccc
 		border-width 1px 0 0 1px
-		background #f7f6ea
 		padding 10px 20px 10px 40px
+		box-sizing border-box
+
+	&__lesson:nth-child(3n-1)
+		width 34%
 
 	&__lesson::before
 		content counter(lesson) '.'
 		counter-increment lesson
 		color #959595
 		position absolute
-		right 204px
+		left 10px
+		top 10px
+		min-width 22px
+		min-height 22px
+		text-align right
 
 	&__lesson::after
 		content ""
@@ -39,8 +48,29 @@
 		height 100%
 		border solid #ccc
 		border-width 1px 0 0 1px
-		background #f7f6ea
-		z-index -1
 
 	&__link
 		color alternate_link_color
+
+	@media (max-width: 1195px)
+		.page_sidebar_on &__lesson
+			width 50%
+
+	@media (max-width: 945px)
+		&__lesson:nth-child(n)
+			width 50%
+
+	@media (max-width: 960px)
+		.page_sidebar_on &__lesson
+			width 100%
+
+	// на такой ширине и уже сайдбар всегда скрыт
+	@media tablet
+		.page_sidebar_on &__lesson,
+		&__lesson:nth-child(n)
+			width 50%
+
+	@media (max-width: 710px)
+		.page_sidebar_on &__lesson,
+		&__lesson:nth-child(n)
+			width 100%

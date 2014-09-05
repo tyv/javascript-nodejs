@@ -82,6 +82,7 @@
     "mongoose-auto-increment": "*",
     "mongoose-troop": "git://github.com/iliakan/mongoose-troop",
     "mongoose-unique-validator": "git://github.com/iliakan/mongoose-unique-validator",
+    "mz": "^1.0.1",
     "nib": "*",
     "node-uuid": "^1.4.1",
     "nodemailer": "*",

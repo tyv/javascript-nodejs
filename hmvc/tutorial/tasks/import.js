@@ -12,6 +12,7 @@ const BodyParser = require('javascript-parser').BodyParser;
 const TreeWalkerSync = require('javascript-parser').TreeWalkerSync;
 const HeaderTag = require('javascript-parser').HeaderTag;
 const gm = require('gm');
+const log = require('log')();
 
 // TODO: separate minification to another task
 // TODO: use htmlhint/jslint for html/js examples

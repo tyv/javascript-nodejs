@@ -4,6 +4,7 @@ const path = require('path');
 const config = require('config');
 const url = require('url');
 const mime = require('mime-types');
+const fs = require('mz/fs');
 
 /**
  * koa-static is a thin wrapper around koa-send
@@ -36,23 +37,74 @@ module.exports = function(app) {
     // but normally it's 200
     this.res.statusCode = 200;
 
-    var opts = {
-      root:     config.publicRoot,
-      index:    'index.html',
-      maxAge:   '1y',
-      dotfiles: 'deny'
-    };
-
-    // use mime-types module instead of send built-in mime
-    // (which doesn't show encoding on application/javascript)
-    function onHeaders(res, filePath, stat) {
-      res.setHeader('Content-Type', mime.contentType(path.basename(filePath)));
-    }
-
-    send(this.req, url.parse(this.req.url).pathname, opts)
-      .on('headers', onHeaders)
-      .pipe(this.res);
+    yield staticMiddleware.call(this, next);
 
   });
 
 };
+
+var opts = {
+  // no root, because I resolve the path manually
+  maxAge:   '1y',
+  dotfiles: 'deny'
+};
+
+
+function decode(filepath){
+  try {
+    return decodeURIComponent(filepath);
+  } catch (err) {
+    return null;
+  }
+}
+
+function resolvePath(filepath) {
+
+  // decode the path
+  filepath = decode(filepath);
+
+  if (filepath === null) return false;
+
+  // null byte(s)
+  if (~filepath.indexOf('\0')) return false;
+
+  var root = path.normalize(config.publicRoot);
+  // join / normalize from optional root dir
+  filepath = path.normalize(path.join(config.publicRoot, filepath));
+
+  // malicious path
+  if (filepath != root && filepath.substr(0, root.length + 1) !== root + path.sep) {
+    return false;
+  }
+
+  return filepath;
+}
+
+function* staticMiddleware(next) {
+
+  var filepath = resolvePath(url.parse(this.req.url).pathname);
+  if (!filepath) {
+    this.throw(404);
+  }
+
+  var ext = path.extname(filepath).slice(1);
+
+  if (~['jpg', 'png', 'gif'].indexOf(ext) && this.cookies.get('hires')) {
+    var try2x = filepath.slice(0, -ext.length-1) + '@2x.' + ext;
+    if (yield fs.exists(try2x)) {
+      filepath = try2x;
+    }
+  }
+
+
+  // use mime-types module instead of send built-in mime
+  // (which doesn't show encoding on application/javascript)
+  function onHeaders(res, filePath, stat) {
+    res.setHeader('Content-Type', mime.contentType(path.basename(filePath)));
+  }
+
+  send(this.req, filepath, opts)
+    .on('headers', onHeaders)
+    .pipe(this.res);
+
+}
