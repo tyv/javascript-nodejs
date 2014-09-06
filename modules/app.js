@@ -1,9 +1,8 @@
 "use strict";
 
-require('lib/debug');
+const config = require('config');
 
 const log = require('log')('app', {bufferLowLevel: true});
-
 process.on('uncaughtException', function(err) {
   // let bunyan handle the error
   log.error(err);
@@ -11,7 +10,6 @@ process.on('uncaughtException', function(err) {
 });
 
 const koa = require('koa');
-const config = require('config');
 const mongoose = require('config/mongoose');
 const app = koa();
 
