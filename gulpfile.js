@@ -7,6 +7,21 @@ const gulp = require('gulp');
 const path = require('path');
 const fs = require('fs');
 const assert = require('assert');
+const log = require('log')();
+
+var proto = require('events').EventEmitter.prototype;
+var emit = proto.emit;
+proto.emit = function(type) {
+  if (type == 'error') console.log(this);
+  emit.apply(this, arguments);
+};
+
+process.on('uncaughtException', function(err) {
+  // let bunyan handle the error
+  log.error(err);
+  process.exit(255);
+});
+
 
 const jsSources = [
   'hmvc/**/*.js', 'modules/**/*.js', 'tasks/**/*.js', '*.js'
@@ -103,19 +118,19 @@ gulp.task('client:compile-css', ['client:compile-css-once'], wrapWatch(["styles/
 
 gulp.task("client:browserify:clean", lazyRequireTask('./tasks/browserifyClean', { dst: './public/js'}));
 
-
-//gulp.task("client:browserify", ['client:browserify:clean'], lazyRequireTask('./tasks/browserify'));
 gulp.task("client:browserify-once", ['link-modules', 'client:browserify:clean'], lazyRequireTask('./tasks/browserify'));
 gulp.task("client:browserify", ['client:browserify-once'], wrapWatch(['client/**', 'hmvc/**/client/**'], "client:browserify-once"));
 
-// public.md5.json will
-gulp.task("client:build-md5-list", ['client:compile-css', 'client:browserify'],
-  lazyRequireTask('./tasks/buildMd5List', { cwd: 'public', src: './{fonts,js,sprites,styles}/**', dst: './public.md5.json' }));
+// no watch here, because dev env doesn't use expires
+gulp.task("client:build-md5-list-once",
+  lazyRequireTask('./tasks/buildMd5List', { cwd: 'public', src: './{fonts,js,sprites,styles}/**/*.*', dst: './public.md5.json' }));
 
-gulp.task('build', ['link-modules', "client:sync-resources", 'client:build-md5-list', 'client:compile-css', 'client:browserify', 'client:sync-css-images']);
+gulp.task("client:build-md5-list", ['client:build-md5-list-once'],
+  wrapWatch(['public/{fonts,js,sprites,styles}/**'], 'client:build-md5-list-once')); // watch dirs only, not just files (to see new files)
 
-// compile-css and sprites are independant tasks
-// run both or run *-once separately
+
+gulp.task('build', ['link-modules', "client:sync-resources", /*'client:build-md5-list',*/ 'client:compile-css', 'client:browserify', 'client:sync-css-images']);
+
 gulp.task('dev', ['nodemon', 'client:livereload', 'build']);
 
 gulp.task('tutorial:import', ['link-modules'], lazyRequireTask('tutorial/tasks/import', {

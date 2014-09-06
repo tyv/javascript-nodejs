@@ -3,7 +3,8 @@ include ../bem
 html
   head
     include ../blocks/head
-  body
+  body.no-icons
+    script require('client/head').fontTest();
     include ../blocks/sitetoolbar
     .page.page_sidebar_on
       if sidebar
