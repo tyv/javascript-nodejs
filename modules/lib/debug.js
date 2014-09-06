@@ -9,8 +9,26 @@ if (process.env.NODE_ENV == 'development') {
     console.log("----> " + global.p.counter++ + " at " + stack);
   };
   global.p.counter = 1;
+
+
+
+
 } else {
   global.p = function() {
 
   };
+}
+
+/**
+ * When a code dies with a strange event error w/o trace
+ * Here I try to see what actually died
+ */
+if (process.env.DUMP_EVENT_ERRORS) {
+  var proto = require('events').EventEmitter.prototype;
+  var emit = proto.emit;
+  proto.emit = function(type) {
+    if (type == 'error') console.log(this, arguments);
+    emit.apply(this, arguments);
+  };
+
 }

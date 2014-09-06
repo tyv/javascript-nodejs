@@ -7,18 +7,10 @@ const gulp = require('gulp');
 const path = require('path');
 const fs = require('fs');
 const assert = require('assert');
-const log = require('log')();
-
-var proto = require('events').EventEmitter.prototype;
-var emit = proto.emit;
-proto.emit = function(type) {
-  if (type == 'error') console.log(this);
-  emit.apply(this, arguments);
-};
 
 process.on('uncaughtException', function(err) {
-  // let bunyan handle the error
-  log.error(err);
+  // not bunyan, because 'log' module may be not linked yet
+  console.log(err);
   process.exit(255);
 });
 

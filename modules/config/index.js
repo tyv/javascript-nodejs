@@ -1,7 +1,7 @@
 if (!process.env.NODE_ENV) {
   process.env.NODE_ENV = 'development';
 }
-Error.stackTraceLimit = Infinity;
+Error.stackTraceLimit = 1000;
 
 if (process.env.NODE_ENV == 'development' && process.env.DEV_TRACE) {
   // @see https://github.com/AndreasMadsen/trace
@@ -9,6 +9,9 @@ if (process.env.NODE_ENV == 'development' && process.env.DEV_TRACE) {
   require('trace'); // active long stack trace
 //  require('clarify'); // Exclude node internal calls from the stack
 }
+
+require('lib/debug');
+
 
 var path = require('path');
 var fs = require('fs');
