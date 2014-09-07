@@ -36,7 +36,6 @@ out/*
 
 # Generated content
 public/*
-styles/sprites/*
 
 # Bower stuff.
 bower_components/

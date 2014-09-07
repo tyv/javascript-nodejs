@@ -72,15 +72,15 @@ function addStandardHelpers(locals, ctx) {
 
   locals.bem = require('bem-jade')();
 
-  locals.addFileMd5 = function(publicPath) {
+  locals.addAssetVersion = function(publicPath) {
     if (publicPath[0] != '/') {
-      throw new Error("addFileMd5 needs an /absolute/path");
+      throw new Error("addAssetVersion needs an /absolute/path");
     }
     var md5 = getPublicMd5(publicPath);
     if (!md5) {
       throw new Error("No md5 for " + publicPath);
     }
-    return publicPath + '?r=' + md5;
+    return publicPath.replace('.', '.v' + md5 + '.');
   };
 
 //  locals.debug = true;

@@ -31,10 +31,7 @@ gulp.on('task_start', function(msg) {
 
 gulp.on('task_stop', function(msg) {
   gulp.executing.splice(gulp.executing.indexOf(msg.task), 1);
-  gulp.hasOnce = gulp.executing.filter(function(name) {
-    return name.match(/-once$/);
-  }).length > 0;
-  console.log(gulp.executing, gulp.hasOnce);
+  console.log(gulp.executing.join(','));
 });
 
 
@@ -47,7 +44,6 @@ function lazyRequireTask(path) {
 
   return function(callback) {
     var task = require(path).apply(this, args);
-
     return task(callback);
   };
 }
@@ -55,21 +51,11 @@ function lazyRequireTask(path) {
 function wrapWatch(watch, task) {
   return function(callback) {
     if (process.env.WATCH) {
-      gulp.watch(watch, function(cb) {
-        if (gulp.hasOnce) {
-          var wait = function() {
-            if (gulp.hasOnce) return;
-            gulp.removeListener('task_stop', wait);
-            gulp.start(task);
-          };
-          gulp.on('task_stop', wait);
-        } else {
-          gulp.start(task);
-        }
-      });
+      setTimeout(function() {
+        gulp.watch(watch, [task]);
+      }, 1000); // don't start watching too fast (node.js bug, see https://github.com/joyent/node/issues/8326)
     } else {
       callback(); // @see usage examples, wrapWatch only triggers watch, should depend on ['task']
-      // gulp.start(task, callback);
     }
   };
 }
@@ -78,7 +64,7 @@ gulp.task('lint-once', lazyRequireTask('./tasks/lint', { src: jsSources }));
 
 gulp.task('lint-or-die', lazyRequireTask('./tasks/lint', { src: jsSources, dieOnError: true }));
 
-gulp.task('lint', ['lint-once'], wrapWatch(jsSources, 'lint'));
+gulp.task('lint', wrapWatch(jsSources, 'lint-once'));
 
 // usage: gulp loaddb --db fixture/db
 gulp.task('loaddb', lazyRequireTask('./tasks/loadDb'));
@@ -89,21 +75,25 @@ gulp.task("nodemon", lazyRequireTask('./tasks/nodemon', {
   watch:  ["hmvc", "modules"]
 }));
 
-gulp.task("client:livereload", lazyRequireTask("./tasks/livereload", { watch: "public/{i,img,js,styles}/*.*" }));
+gulp.task("client:livereload", lazyRequireTask("./tasks/livereload", { watch: "public/{i,img,js,styles}/**/*.*" }));
 
 gulp.task('link-modules', lazyRequireTask('./tasks/linkModules', { src: ['client', 'modules/*', 'hmvc/*'] }));
 
-gulp.task("client:sync-resources", lazyRequireTask('./tasks/syncResources', {
+gulp.task("client:sync-resources-once", lazyRequireTask('./tasks/syncResources', {
   'assets/fonts': 'public/fonts',
   'assets/img':   'public/img'
 }));
+
+gulp.task("client:sync-resources",
+  wrapWatch('assets/{fonts,img}/**', 'client:sync-resources-once')
+);
 
 gulp.task("client:sync-css-images-once", lazyRequireTask('./tasks/syncCssImages', {
   src: 'styles/**/*.{png,svg,gif,jpg}',
   dst: 'public/i'
 }));
 
-gulp.task('client:sync-css-images', ['client:sync-css-images-once'],
+gulp.task('client:sync-css-images',
   wrapWatch('styles/**/*.{png,svg,gif,jpg}', 'client:sync-css-images-once')
 );
 
@@ -127,29 +117,31 @@ gulp.task('client:minify', lazyRequireTask('./tasks/minify', {
   root: './public'
 }));
 
-
-gulp.task('client:compile-css', ['client:compile-css-once'], wrapWatch(["styles/**/*.styl"], "client:compile-css-once"));
+gulp.task('client:compile-css', wrapWatch(["styles/**/*.styl"], "client:compile-css-once"));
 
 
 gulp.task("client:browserify:clean", lazyRequireTask('./tasks/browserifyClean', { dst: './public/js'}));
 
-gulp.task("client:browserify-once", ['link-modules', 'client:browserify:clean'], lazyRequireTask('./tasks/browserify'));
-gulp.task("client:browserify", ['client:browserify-once'], wrapWatch(['client/**', 'hmvc/**/client/**'], "client:browserify-once"));
+gulp.task("client:browserify-once", ['client:browserify:clean'], lazyRequireTask('./tasks/browserify'));
+gulp.task("client:browserify", wrapWatch(['client/**', 'hmvc/**/client/**'], "client:browserify-once"));
 
 // we depend on compile-css, because if build-md5-list-once works in parallel with client:compile-css,
 // then compile-css recreates files and build-md5-list-once misses them or errors when they are suddenly removed
 gulp.task("client:build-md5-list-once",
   lazyRequireTask('./tasks/buildMd5List', { cwd: 'public', src: './{fonts,js,styles}/**/*.*', dst: './public.md5.json' }));
 
-gulp.task("client:build-md5-list", ['client:build-md5-list-once'],
-  wrapWatch(['public/**'], 'client:build-md5-list-once')); // watch dirs only, not just files (to see new files)
+gulp.task("client:build-md5-list",
+  wrapWatch(['public/{fonts,js,styles}/**'], 'client:build-md5-list-once')); // watch dirs only, not just files (to see new files)
 
 
 gulp.task('build', function(callback) {
-  runSequence('link-modules', "client:sync-resources", 'client:compile-css', 'client:browserify', 'client:sync-css-images', 'client:build-md5-list', callback);
+  runSequence('link-modules', "client:sync-resources-once", 'client:compile-css-once', 'client:browserify-once', 'client:sync-css-images-once', 'client:build-md5-list-once', callback);
 });
 
-gulp.task('dev', ['nodemon', 'client:livereload', 'build']);
+gulp.task('dev', function(callback) {
+  runSequence('build', ["client:sync-resources", 'client:compile-css', 'client:browserify', 'client:sync-css-images', 'client:build-md5-list', 'nodemon', 'client:livereload'], callback);
+//  runSequence('build', ['nodemon', 'client:livereload', 'client:build-md5-list'], callback);
+});
 
 gulp.task('tutorial:import', ['link-modules'], lazyRequireTask('tutorial/tasks/import', {
   root:        'javascript-tutorial',

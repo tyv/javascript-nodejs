@@ -1,5 +1,7 @@
+const fs = require('fs');
 const fse = require('fs-extra');
 const gp = require('gulp-load-plugins')();
+const glob = require('glob');
 
 module.exports = function(resources) {
 
@@ -8,16 +10,31 @@ module.exports = function(resources) {
     for (var src in resources) {
       var dst = resources[src];
 
-      fse.removeSync(dst);
+      var files = glob.sync(src + '/**');
+      for (var i = 0; i < files.length; i++) {
+        var srcPath = files[i];
 
-      if (process.env.WATCH) {
-        fse.mkdirsSync(dst);
-        gp.dirSync(src, dst);
-      } else {
-        fse.copySync(src, dst);
+        var dstPath = srcPath.replace(src, dst);
+        var srcStat = fs.statSync(srcPath);
+
+        if (srcStat.isDirectory()) {
+          fse.ensureDirSync(dstPath);
+          continue;
+        }
+
+        var dstMtime = 0;
+        try {
+          dstMtime = fs.statSync(dstPath).mtime;
+        } catch(e) {}
+
+        if (srcStat.mtime > dstMtime) {
+          fse.copySync(srcPath, dstPath);
+        }
+
       }
     }
 
-    if (!process.env.WATCH) callback();
+    callback();
+
   };
 };

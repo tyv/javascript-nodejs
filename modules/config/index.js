@@ -12,7 +12,6 @@ if (process.env.NODE_ENV == 'development' && process.env.DEV_TRACE) {
 
 require('lib/debug');
 
-
 var path = require('path');
 var fs = require('fs');
 

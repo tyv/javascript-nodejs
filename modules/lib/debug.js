@@ -23,12 +23,15 @@ if (process.env.NODE_ENV == 'development') {
  * When a code dies with a strange event error w/o trace
  * Here I try to see what actually died
  */
-if (process.env.DUMP_EVENT_ERRORS) {
+if (process.env.DEBUG_ERROR) {
   var proto = require('events').EventEmitter.prototype;
   var emit = proto.emit;
-  proto.emit = function(type) {
-    if (type == 'error') console.log(this, arguments);
-    emit.apply(this, arguments);
+  proto.emit = function(type, err) {
+    if (type == 'error') {
+      console.log(this.test, this.constructor.name, err.message, err.stack);
+      process.exit(1);
+    }
+    else emit.apply(this, arguments);
   };
 
 }
