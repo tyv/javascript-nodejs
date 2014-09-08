@@ -6,7 +6,7 @@ const util = require('util');
 const path = require('path');
 const config = require('config');
 const fs = require('fs');
-//const log = require('log')();
+const log = require('log')();
 const jade = require('jade');
 const _ = require('lodash');
 const assert = require('assert');
@@ -76,11 +76,12 @@ function addStandardHelpers(locals, ctx) {
     if (publicPath[0] != '/') {
       throw new Error("addAssetVersion needs an /absolute/path");
     }
-    var md5 = getPublicVersion(publicPath);
-    if (!md5) {
-      throw new Error("No md5 for " + publicPath);
+    var version = getPublicVersion(publicPath);
+    if (!version) {
+      version = Math.random().toString();
+      log.error("No version for " + publicPath);
     }
-    return publicPath.replace('.', '.v' + md5 + '.');
+    return publicPath.replace('.', '.v' + version + '.');
   };
 
 //  locals.debug = true;
