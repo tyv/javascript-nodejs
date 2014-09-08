@@ -99,7 +99,7 @@ $main-loud
 	// TODO: h1 вне блока .main__header ??! Проверить, встречается ли
 	h1
 		margin-bottom .5em
-	    /* FIXME пока некрасиво с этим: page-break-before: always; */
+		/* FIXME пока некрасиво с этим: page-break-before: always; */
 
 	h2
 		margin 36px 0 22px
@@ -107,18 +107,6 @@ $main-loud
 		line-height 150%
 		font-family font
 		position relative
-
-	h2 a:hover
-		color #6E6E6E
-
-	h2 a:hover::before
-		content '#'
-		color #C4C2C0
-		font-size 70%
-		font-weight 400
-		position absolute
-		right 100%
-		padding-right 15px
 
 	h3,
 	h4
@@ -135,20 +123,18 @@ $main-loud
 	// исключения, полные отступы смотрятся неряшливо
 	h2 + h3,
 	h3 + h4
-		margin-top -15px
+		margin-top -8px
 
-	h2 a,
-	h3 a,
-	h4 a
+	h1,
+	h2,
+	h3,
+	h4
 		position relative
+		transition unquote('color') animation_duration
 
-	h1 a,
 	h1 code,
-	h2 a,
 	h2 code,
-	h3 a,
 	h3 code,
-	h4 a,
 	h4 code
 		font inherit
 		color inherit
@@ -166,10 +152,38 @@ $main-loud
 		float right
 		color gray
 
-	h2 a[href^='#']:focus,
-	h3 a[href^='#']:focus,
-	h4 a[href^='#']:focus
-		outline none
+	&__anchor
+		position absolute
+		top 0
+		right 100%
+		width 30px
+		text-align left
+		outline 0
+		font-size 90%
+		line-height inherit
+		font-weight 400
+		opacity 0
+		transition opacity animation_duration
+
+	&__anchor,
+	&__anchor:hover
+		color #D8D8D8
+		text-decoration none
+
+	&__anchor::before
+		@extend $font-link
+
+	h1:hover,
+	h2:hover,
+	h3:hover,
+	h4:hover
+		color #6e6e6e
+
+	& h1:hover &__anchor,
+	& h2:hover &__anchor,
+	& h3:hover &__anchor,
+	& h4:hover &__anchor
+		opacity 1
 
 	code
 		color code_color
