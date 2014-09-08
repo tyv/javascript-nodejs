@@ -31,6 +31,8 @@ var taskQueue = [];
 var taskRunning = '';
 
 function log() {
+  return;
+
   var args = [].slice.call(arguments);
   args.unshift(Date.now() % 1e6);
 
@@ -42,7 +44,12 @@ function pushTaskQueue(task) {
     log("queue: already exists", task);
     return;
   }
-
+  /* (maybe the task should be moved into the end of the queue? couldn't find any practical difference)
+   if (~taskQueue.indexOf(task)) {
+   log("queue: already exists, removing", task);
+   taskQueue.splice(taskQueue.indexOf(task), 1);
+   }
+   */
   taskQueue.push(task);
   log("push", taskQueue);
 
@@ -52,18 +59,16 @@ function pushTaskQueue(task) {
 }
 
 function runNext() {
-//  setTimeout(function() {
-    if (!taskQueue.length) return;
+  if (!taskQueue.length) return;
 
-    taskRunning = taskQueue.shift();
-    log("runNext start", taskRunning, "queue", taskQueue);
+  taskRunning = taskQueue.shift();
+  log("runNext start", taskRunning, "queue", taskQueue);
 
-    runSequence(taskRunning, function(err) {
-      log("runNext finish", taskRunning);
-      taskRunning = '';
-      runNext();
-    });
-//  }, 0);
+  runSequence(taskRunning, function(err) {
+    log("runNext finish", taskRunning);
+    taskRunning = '';
+    runNext();
+  });
 }
 
 function getFlagNames(flags) {
@@ -83,6 +88,7 @@ function onFsEvents(filePath, flags, id) {
   log(relFilePath, getFlagNames(flags));
 
   // rerun tasks only in the case of these events
+  // WE DO NOT KNOW FOR SURE WHAT HAS HAPPENED WITH THE FILE
   // not sure what actually happened, because fsevents adds all flags to the event
   // e.g if I create -> remove -> create the same file,
   // fsevents will finally contain both ItemCreated and ItemRemoved flags
@@ -92,10 +98,9 @@ function onFsEvents(filePath, flags, id) {
     flags & FsEventsFlags.ItemModified
     )) return;
 
-  // also NB:
-  // FSevents come after latency, fsevents/src/thread.cc:
+  // FS EVENTS COME AFTER LATENCY, fsevents/src/thread.cc:
   // FSEventStreamCreate(NULL, &HandleStreamEvents, &context, fse->paths, kFSEventStreamEventIdSinceNow, (CFAbsoluteTime) 0.1, kFSEventStreamCreateFlagNone | kFSEventStreamCreateFlagWatchRoot | kFSEventStreamCreateFlagFileEvents | kFSEventStreamCreateFlagUseCFTypes);
-  // (the latency is 0.1)
+  // (the DEFAULT LATENCY IS 0.1)
   // so it may be worthwhile to wait 0.1 after the task, to make sure everything's finished
 
   function watch(patterns, task) {
@@ -115,20 +120,23 @@ function onFsEvents(filePath, flags, id) {
     pushTaskQueue(task);
   }
 
-  watch('assets/{fonts,img}/**', 'client:sync-resources-once');
-  watch('styles/**/*.{png,svg,gif,jpg}', 'client:sync-css-images-once');
-  watch("styles/**/*.styl", 'client:compile-css-once');
-  watch(['client/**', 'hmvc/**/client/**'], "client:browserify-once");
-  watch('public/{fonts,js,styles}/**', 'client:build-md5-list-once');
+  this.taskMapping.forEach(function(mapping) {
+    watch(mapping.watch, mapping.task);
+  });
+
 }
 
 module.exports = function(options) {
 
-  var watcher = fsevents(options.root);
+  return function(callback) {
+    var watcher = fsevents(options.root);
 
-  watcher.root = options.root;
-  watcher.on('fsevent', onFsEvents);
+    watcher.root = options.root;
+    watcher.taskMapping = options.taskMapping;
 
-  watcher.start();
-  return watcher;
+    watcher.on('fsevent', onFsEvents);
+
+    watcher.start();
+  };
+
 };

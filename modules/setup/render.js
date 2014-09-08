@@ -12,17 +12,17 @@ const _ = require('lodash');
 const assert = require('assert');
 const JadeParserMultipleDirs = require('lib/jadeParserMultipleDirs');
 
-// public.md5.json is regenerated and THEN node is restarted on redeploy
+// public.versions.json is regenerated and THEN node is restarted on redeploy
 // so it loads a new version.
-var publicMd5;
+var publicVersions;
 
-function getPublicMd5(publicPath) {
-  if (!publicMd5) {
+function getPublicVersion(publicPath) {
+  if (!publicVersions) {
     // don't include at module top, let the generating task to finish
-    publicMd5 = require(path.join(config.projectRoot, 'public.md5.json'));
+    publicVersions = require(path.join(config.projectRoot, 'public.versions.json'));
   }
   var busterPath = publicPath.slice(1);
-  return publicMd5[busterPath];
+  return publicVersions[busterPath];
 }
 
 function addStandardHelpers(locals, ctx) {
@@ -76,7 +76,7 @@ function addStandardHelpers(locals, ctx) {
     if (publicPath[0] != '/') {
       throw new Error("addAssetVersion needs an /absolute/path");
     }
-    var md5 = getPublicMd5(publicPath);
+    var md5 = getPublicVersion(publicPath);
     if (!md5) {
       throw new Error("No md5 for " + publicPath);
     }

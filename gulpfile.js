@@ -8,7 +8,6 @@ const path = require('path');
 const fs = require('fs');
 const assert = require('assert');
 const runSequence = require('run-sequence');
-const gulpWatcher = require('./tasks/gulpWatcher');
 
 //Error.stackTraceLimit = Infinity;
 //require('trace');
@@ -20,25 +19,12 @@ process.on('uncaughtException', function(err) {
   process.exit(255);
 });
 
-gulp.executing = [];
-
-gulp.on('task_start', function(msg) {
-  gulp.executing.push(msg.task);
-});
-
-gulp.on('task_stop', function(msg) {
-  gulp.executing.splice(gulp.executing.indexOf(msg.task), 1);
- // console.log(gulp.executing.join(','));
-});
-
-
 const jsSources = [
   'hmvc/**/*.js', 'modules/**/*.js', 'tasks/**/*.js', '*.js'
 ];
 
 function lazyRequireTask(path) {
   var args = [].slice.call(arguments, 1);
-
   return function(callback) {
     var task = require(path).apply(this, args);
     return task(callback);
@@ -62,18 +48,39 @@ gulp.task("client:livereload", lazyRequireTask("./tasks/livereload", { watch: "p
 
 gulp.task('link-modules', lazyRequireTask('./tasks/linkModules', { src: ['client', 'modules/*', 'hmvc/*'] }));
 
-gulp.task('watch', function(callback) {
-  gulpWatcher({ root: __dirname });
-});
+gulp.task('watch', lazyRequireTask('./tasks/watch', {
+  root:        __dirname,
+  taskMapping: [
+    {
+      watch: 'assets/{fonts,img}/**',
+      task:  'client:sync-resources'
+    },
+    {
+      watch: 'styles/**/*.{png,svg,gif,jpg}',
+      task:  'client:sync-css-images'
+    },
+    {
+      watch: "styles/**/*.styl",
+      task:  'client:compile-css'
+    },
+    {
+      watch: ['client/**', 'hmvc/**/client/**'],
+      task:  "client:browserify"
+    },
+    {
+      watch: 'public/{fonts,js,styles}/**',
+      task:  'client:build-public-versions'
+    }
+  ]
+}));
 
-
-gulp.task("client:sync-resources-once", lazyRequireTask('./tasks/syncResources', {
+gulp.task("client:sync-resources", lazyRequireTask('./tasks/syncResources', {
   'assets/fonts': 'public/fonts',
   'assets/img':   'public/img'
 }));
 
 
-gulp.task("client:sync-css-images-once", lazyRequireTask('./tasks/syncCssImages', {
+gulp.task("client:sync-css-images", lazyRequireTask('./tasks/syncCssImages', {
   src: 'styles/**/*.{png,svg,gif,jpg}',
   dst: 'public/i'
 }));
@@ -86,7 +93,7 @@ gulp.task('client:clean-compiled-css', function(callback) {
 });
 
 // Show errors if encountered
-gulp.task('client:compile-css-once',
+gulp.task('client:compile-css',
   ['client:clean-compiled-css'],
   lazyRequireTask('./tasks/compileCss', {
     src: './styles/base.styl',
@@ -100,15 +107,15 @@ gulp.task('client:minify', lazyRequireTask('./tasks/minify', {
 
 gulp.task("client:browserify:clean", lazyRequireTask('./tasks/browserifyClean', { dst: './public/js'}));
 
-gulp.task("client:browserify-once", ['client:browserify:clean'], lazyRequireTask('./tasks/browserify'));
+gulp.task("client:browserify", ['client:browserify:clean'], lazyRequireTask('./tasks/browserify'));
 
-// we depend on compile-css, because if build-md5-list-once works in parallel with client:compile-css,
-// then compile-css recreates files and build-md5-list-once misses them or errors when they are suddenly removed
-gulp.task("client:build-md5-list-once",
-  lazyRequireTask('./tasks/buildMd5List', { cwd: 'public', src: './{fonts,js,styles}/**/*.*', dst: './public.md5.json' }));
+// we depend on compile-css, because if build-md5-list works in parallel with client:compile-css,
+// then compile-css recreates files and build-md5-list misses them or errors when they are suddenly removed
+gulp.task("client:build-public-versions",
+  lazyRequireTask('./tasks/buildPublicVersions', { cwd: 'public', src: './{fonts,js,styles}/**/*.*', dst: './public.versions.json' }));
 
 gulp.task('build', function(callback) {
-  runSequence('link-modules', "client:sync-resources-once", 'client:compile-css-once', 'client:browserify-once', 'client:sync-css-images-once', 'client:build-md5-list-once', callback);
+  runSequence('link-modules', "client:sync-resources", 'client:compile-css', 'client:browserify', 'client:sync-css-images', 'client:build-public-versions', callback);
 });
 
 gulp.task('dev', function(callback) {

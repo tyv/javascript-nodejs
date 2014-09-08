@@ -17,37 +17,10 @@ function mutationMacro(nodes) {
 
 var methods = {
   matches: Element.prototype.matchesSelector || Element.prototype.mozMatchesSelector || Element.prototype.msMatchesSelector,
-  prepend: function() {
-    var node = mutationMacro(arguments);
-    this.insertBefore(node, this.firstChild);
-  },
-  append: function() {
-    this.appendChild(mutationMacro(arguments));
-  },
-  before: function() {
-    var parentNode = this.parentNode;
-    if (parentNode) {
-      parentNode.insertBefore(mutationMacro(arguments), this);
-    }
-  },
-  after: function() {
-    var parentNode = this.parentNode,
-        nextSibling = this.nextSibling,
-        node = mutationMacro(arguments);
-    if (parentNode) {
-      parentNode.insertBefore(node, nextSibling);
-    }
-  },
-  replace: function() {
-    var parentNode = this.parentNode;
-    if (parentNode) {
-      parentNode.replaceChild(mutationMacro(arguments), this);
-    }
-  },
   remove: function() {
     var parentNode = this.parentNode;
     if (parentNode) {
-      parentNode.removeChild(this);
+      return parentNode.removeChild(this);
     }
   }
 };

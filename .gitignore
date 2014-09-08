@@ -23,7 +23,7 @@
 Thumbs.db
 
 # generated content
-public.md5.json
+public.versions.json
 
 # NPM packages folder.
 node_modules/
