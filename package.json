@@ -52,7 +52,7 @@
     "inherits":                  "*",
     "jade":                      "*",
     "jadeify":                   "*",
-    "javascript-parser":         "*",
+    "javascript-parser":         "git://github.com/iliakan/javascript-parser.git",
     "jquery":                    "*",
     "juice2":                    "*",
     "koa":                       "*",
