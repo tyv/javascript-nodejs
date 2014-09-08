@@ -4,7 +4,13 @@ var fs = require('fs'),
     nodes = require('stylus').nodes,
     utils = require('stylus').utils;
 
-module.exports = function() {
+module.exports = function(options) {
+
+  var getVersion = options.getVersion || function(file) {
+    var buf = fs.readFileSync(file);
+    return crypto.createHash('md5').update(buf).digest('hex').substring(0, 8);
+  };
+
   return function(style) {
     var paths = style.options.paths || [];
 
@@ -19,13 +25,7 @@ module.exports = function() {
         throw new Error('File ' + literal + ' not be found');
       }
 
-      var version;
-      if (process.env.NODE_ENV == 'development') {
-        version = fs.statSync(file).mtime.getTime();
-      } else {
-        var buf = fs.readFileSync(file);
-        version = crypto.createHash('md5').update(buf).digest('hex').substring(0, 8);
-      }
+      var version = getVersion(file);
 
       var ext = path.extname(url.val);
       var filepath = url.val.slice(0, url.val.length - ext.length);
