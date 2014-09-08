@@ -7,7 +7,7 @@ module.exports = function(options) {
 
   function getAssetVersion(file) {
     if (process.env.NODE_ENV == 'development') {
-      return fs.statSync(file).mtime.getTime().replace(/0+$/, '').slice(-8);
+      return fs.statSync(file).mtime.getTime().toString().replace(/0+$/, '').slice(-8);
     } else {
       var buf = fs.readFileSync(file);
       return crypto.createHash('md5').update(buf).digest('hex').substring(0, 8);
