@@ -2,6 +2,7 @@ const fs = require('fs');
 const fse = require('fs-extra');
 const gp = require('gulp-load-plugins')();
 const glob = require('glob');
+const path = require('path');
 
 module.exports = function(resources) {
 
@@ -14,7 +15,9 @@ module.exports = function(resources) {
       for (var i = 0; i < files.length; i++) {
         var srcPath = files[i];
 
+//        console.log(srcPath);
         var dstPath = srcPath.replace(src, dst);
+
         var srcStat = fs.statSync(srcPath);
 
         if (srcStat.isDirectory()) {
