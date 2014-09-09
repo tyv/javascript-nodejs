@@ -1,31 +1,36 @@
 doctype html
 include /bem
+
 html
   head
     block variables
     include ../blocks/head
   body
-    //- include ../blocks/sitetoolbar
-    include ../blocks/sitetoolbar-login-loaders
-    .page.page_sidebar_on
-      if true
+    if self.sitetoolbar
+      //- include ../blocks/sitetoolbar
+      include ../blocks/sitetoolbar-login-loaders
+    .page
+      if self.prevNext
         include ../blocks/prev-next
-      if true
+      if self.sidebar
         include ../blocks/sidebar
       .page__inner
         article.main
-          header.main__header
-
-            include ../blocks/breadcrumbs
-            h1.main__header-title!= self.title
-            //- span.main__header-comments
-            //-   a(href='http://learn.javascript.ru/intro#disqus_thread') Комментариев #{self.comments.length}
-            //- include ../blocks/prev-next-top
+          if self.sitemap
+            //- блок map должен подгружаться динамически
+            //- подключен для демонстрации и отладки
+            //- сделан в виде страницы а не блока чтобы был доступен
+            //- по собственному url (/markup/pages/map)
+            include ../pages/map
+          //- отключается только на странице задачи, по возможности отрефакторить
+          if self.header
+            header.main__header(class= self.centeredHeader == true ? "main__header_center" : undefined)
+              include ../blocks/breadcrumbs
+              h1.main__header-title!= self.title
           block content
-          include ../blocks/article-foot
-          //- include ../blocks/prev-next-bottom
-          include ../blocks/corrector
-          if true
+          if self.articleFoot
+            include ../blocks/article-foot
+            include ../blocks/corrector
             include ../blocks/comments
       include ../blocks/page-footer
     include ../blocks/scripts

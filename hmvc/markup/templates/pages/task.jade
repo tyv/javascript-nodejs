@@ -1,8 +1,18 @@
-extends ../layouts/task
+extends ../layouts/base
 
 // - http://stackoverflow.com/questions/12646451/how-to-pass-variables-between-jade-templates
 block variables
   - var self = {};
+
+  //- layout
+  - self.sitetoolbar = true
+  - self.prevNext = true
+  - self.sidebar = true
+  - self.articleFoot = false
+  - self.centeredHeader = true
+  - self.sitemap = false
+  - self.header = false
+
   - self.title = 'DOM children';
 
 block content

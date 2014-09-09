@@ -1,12 +1,19 @@
-extends ../layouts/section
+extends ../layouts/base
 
 // - http://stackoverflow.com/questions/12646451/how-to-pass-variables-between-jade-templates
 block variables
   - var self = {};
-  - self.bodyId = 'page';
+
+  //- layout
+  - self.sitetoolbar = true
+  - self.prevNext = true
+  - self.sidebar = true
+  - self.articleFoot = false
+  - self.centeredHeader = true
+  - self.sitemap = false
+  - self.header = true
+
   - self.title = 'Основы Javascript';
-  - self.comments = {} // хм?
-  - self.comments.lenght = 5;
 
 block content
   include ../blocks/section-intro
