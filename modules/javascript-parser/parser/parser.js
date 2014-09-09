@@ -9,7 +9,7 @@ function Parser(options) {
   options = options || {};
   this.validateOptions(options);
   this.options = options;
-  this.resourceRoot = options.resourceRoot;
+  this.resourceWebRoot = options.resourceWebRoot;
   this.trusted = options.trusted;
 }
 

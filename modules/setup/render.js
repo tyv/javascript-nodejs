@@ -72,16 +72,16 @@ function addStandardHelpers(locals, ctx) {
 
   locals.bem = require('bem-jade')();
 
-  locals.addAssetVersion = function(publicPath) {
+  locals.asset = function(publicPath) {
     if (publicPath[0] != '/') {
-      throw new Error("addAssetVersion needs an /absolute/path");
+      throw new Error("asset needs an /absolute/path");
     }
     var version = getPublicVersion(publicPath);
     if (!version) {
       version = Math.random().toString();
       log.error("No version for " + publicPath);
     }
-    return publicPath.replace('.', '.v' + version + '.');
+    return config.staticurl + publicPath.replace('.', '.v' + version + '.');
   };
 
 //  locals.debug = true;

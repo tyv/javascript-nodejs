@@ -52,7 +52,7 @@ gulp.task('watch', lazyRequireTask('./tasks/watch', {
   root:        __dirname,
   taskMapping: [
     {
-      watch: 'assets/{fonts,img}/**',
+      watch: 'assets/**',
       task:  'client:sync-resources'
     },
     {
@@ -75,8 +75,7 @@ gulp.task('watch', lazyRequireTask('./tasks/watch', {
 }));
 
 gulp.task("client:sync-resources", lazyRequireTask('./tasks/syncResources', {
-  'assets/fonts': 'public/fonts',
-  'assets/img':   'public/img'
+  assets: 'public'
 }));
 
 

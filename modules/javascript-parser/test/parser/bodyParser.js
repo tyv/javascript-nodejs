@@ -12,7 +12,7 @@ function toStructure(nodes) {
 describe("BodyParser", function() {
 
   var options = {
-    resourceRoot: '/document',
+    resourceWebRoot: '/document',
     trusted:         true,
     metadata:        { }
   };

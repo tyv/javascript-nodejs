@@ -7,7 +7,7 @@ text = text.substr(14);
 text = "```js\nx```";
 
 console.log(text);
-var options = { resourceRoot: '/task/hello-alert',
+var options = { resourceWebRoot: '/task/hello-alert',
   metadata:                   {},
   trusted:                    true };
 

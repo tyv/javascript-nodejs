@@ -84,7 +84,7 @@ ArticleRenderer.prototype._libsToJsCss = function(libs) {
 
 ArticleRenderer.prototype.render = function* (article) {
   const options = {
-    resourceRoot: article.getResourceWebRoot(),
+    resourceWebRoot: article.getResourceWebRoot(),
     metadata:        this.metadata,
     trusted:         true,
     removeFirstHeader: true

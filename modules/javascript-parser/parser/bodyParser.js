@@ -24,6 +24,7 @@ var TreeWalkerSync = require('../transformer/treeWalkerSync');
 var HREF_PROTOCOL_REG = require('../consts').HREF_PROTOCOL_REG;
 var makeAnchor = require('../util/makeAnchor');
 var TextNode = require('../node/textNode');
+var ParseError = require('./parseError');
 
 /**
  * BodyParser creates node objects from general text.
@@ -152,9 +153,15 @@ BodyParser.prototype.parseNodes = function() {
     throw new Error("Unknown token: " + JSON.stringify(token));
   }
 
-  var node = this[methodName](token);
-
-  return node;
+  try {
+    return this[methodName](token);
+  } catch(e) {
+    if (e instanceof ParseError) {
+      return new ErrorTag(e.tag, e.message);
+    } else {
+      throw e;
+    }
+  }
 };
 
 /**
@@ -186,19 +193,19 @@ BodyParser.prototype.parseHeader = function(token) {
   // во-первых, 3 должно быть достаточно
   // во-вторых, при экспорте h3 становится h5
   if (level > 3) {
-    return new ErrorTag('div', "Заголовок " + token.title + " слишком глубоко вложен (более чем 3 уровня)");
+    throw new ParseError('div', "Заголовок " + token.title + " слишком глубоко вложен (более чем 3 уровня)");
   }
 
   var headers = this.options.metadata.headers;
 
   if (headers.length === 0 && level != 1) {
-    return new ErrorTag('div', "Первый заголовок должен иметь уровень 1, а не " + level);
+    throw new ParseError('div', "Первый заголовок должен иметь уровень 1, а не " + level);
   }
 
   if (headers.length > 0) {
     var prevLevel = headers[headers.length - 1].level;
     if (level > prevLevel + 1) {
-      return new ErrorTag('div', "Некорректная вложенность заголовков (уровень " + level + " после " + prevLevel + ")");
+      throw new ParseError('div', "Некорректная вложенность заголовков (уровень " + level + " после " + prevLevel + ")");
     }
   }
 
@@ -207,7 +214,7 @@ BodyParser.prototype.parseHeader = function(token) {
   // так что это ошибка
   if (token.anchor) {
     if (this.options.metadata.refs.has(token.anchor)) {
-      return new ErrorTag('div', '[#' + token.anchor + '] уже существует');
+      throw new ParseError('div', '[#' + token.anchor + '] уже существует');
     }
   }
 
@@ -220,7 +227,7 @@ BodyParser.prototype.parseHeader = function(token) {
     // если якорь использовался ранее, обычно к нему прибавляется номер,
     // но если он явно [#назначен] в заголовке - не имею права его менять, жёсткая ошибка
     if (token.anchor) {
-      return new ErrorTag('div', '[#' + token.anchor + '] используется в другом заголовке');
+      throw new ParseError('div', '[#' + token.anchor + '] используется в другом заголовке');
     }
     // иначе просто добавляю -2, -3 ...
     headersAnchorMap.set(anchor, headersAnchorMap.has(anchor) + 1);
@@ -269,7 +276,7 @@ BodyParser.prototype.parseLink = function(token) {
   // external link goes "as is"
   if (protocol) {
     if (!this.trusted && !~["http", "ftp", "https", "mailto"].indexOf(protocol.toLowerCase())) {
-      return new ErrorTag("span", "Protocol " + protocol + " is not allowed");
+      throw new ParseError("span", "Protocol " + protocol + " is not allowed");
     }
 
     return new CompositeTag("a", titleParsed, {href: href});
@@ -288,7 +295,7 @@ BodyParser.prototype.parseLink = function(token) {
   }
 
   // relative link
-  return new ErrorTag("span", "относительные ссылки могут быть легко ломаться, используйте #метки или абсолютные URL вместо " + href);
+  throw new ParseError("span", "относительные ссылки могут быть легко ломаться, используйте #метки или абсолютные URL вместо " + href);
 };
 
 /*
@@ -306,7 +313,7 @@ BodyParser.prototype.parseLink = function(token) {
  // external link goes "as is"
  if (protocol) {
  if (!this.trusted && !~["http", "ftp", "https", "mailto"].indexOf(protocol.toLowerCase())) {
- return new ErrorTag("span", "Протокол " + protocol + " не разрешён");
+ throw new ParseError("span", "Протокол " + protocol + " не разрешён");
  }
 
  return new CompositeTag("a", titleParsed, {href: href});
@@ -321,7 +328,7 @@ BodyParser.prototype.parseLink = function(token) {
  var resolver = new SrcResolver(href, this.options);
  return new CompositeTag("a", titleParsed, {href: resolver.getWebPath()});
  } else {
- return new ErrorTag("span", "относительная ссылка в материале без точного URL: " + href);
+ throw new ParseError("span", "относительная ссылка в материале без точного URL: " + href);
  }
  };
  */

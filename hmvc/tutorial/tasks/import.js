@@ -84,7 +84,7 @@ module.exports = function(options) {
     data.slug = folderFileName.slice(3);
 
     var options = {
-      resourceRoot:    Article.getResourceWebRootBySlug(data.slug),
+      resourceWebRoot:    Article.getResourceWebRootBySlug(data.slug),
       metadata:        {},
       trusted:         true
     };
@@ -166,7 +166,7 @@ module.exports = function(options) {
     data.slug = articlePathName.slice(3);
 
     const options = {
-      resourceRoot: Article.getResourceWebRootBySlug(data.slug),
+      resourceWebRoot: Article.getResourceWebRootBySlug(data.slug),
       metadata:        { },
       trusted:         true
     };
@@ -298,7 +298,7 @@ module.exports = function(options) {
     data.slug = taskPathName.slice(3);
 
     const options = {
-      resourceRoot: Task.getResourceWebRootBySlug(data.slug),
+      resourceWebRoot: Task.getResourceWebRootBySlug(data.slug),
       metadata:        {},
       trusted:         true
     };

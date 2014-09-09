@@ -17,6 +17,7 @@ var EscapedTag = require('../node/escapedTag');
 var ErrorTag = require('../node/errorTag');
 var VerbatimText = require('../node/verbatimText');
 var TextNode = require('../node/textNode');
+var ParseError = require('./parseError');
 
 /**
  * Parser creates node objects from general text.
@@ -70,7 +71,16 @@ BbtagParser.prototype.parse = function() {
     throw new Error("Unknown bbtag: " + this.name);
   }
 
-  return method.call(this);
+
+  try {
+    return method.call(this);
+  } catch(e) {
+    if (e instanceof ParseError) {
+      return new ErrorTag(e.tag, e.message);
+    } else {
+      throw e;
+    }
+  }
 
 };
 
@@ -86,7 +96,7 @@ BbtagParser.prototype.parseDemo = function() {
 
   var attrs = {};
   if (this.params.src) {
-    attrs.href = this.normalizeSrc(this.params.src) + '/';
+    attrs.href = this.params.src + '/';
     attrs.target = '_blank';
     return new TagNode('a', 'Демо в новом окне', attrs);
   }
@@ -95,11 +105,16 @@ BbtagParser.prototype.parseDemo = function() {
 };
 
 BbtagParser.prototype.normalizeSrc = function(src) {
-  if (src[0] == '/') return src;
+  if (src[0] == '/') { // absolute url means we need to access current host (maybe web service on it?)
+    return src;
+  }
 
-  if (~src.indexOf('://')) return src;
+  if (~src.indexOf('://')) {
+    return src;
+  }
 
-  return this.resourceRoot + '/' + src;
+  // relative url w/o domain means we want static host
+  return this.resourceWebRoot + '/' + src;
 };
 
 
@@ -136,8 +151,13 @@ BbtagParser.prototype.parseImportance = function() {
 };
 
 BbtagParser.prototype.parseEdit = function() {
-  if (!this.params.src) {
-    return this.paramRequiredError('span', 'src');
+  var src = this.params.src;
+  if (!src) {
+    this.paramRequiredError('div', 'src');
+  }
+
+  if (src[0] == '/' || ~src.indexOf('://')) {
+    throw new ParseError("src must be relative, protocol not allowed");
   }
 
   var body = this.body;
@@ -151,7 +171,7 @@ BbtagParser.prototype.parseEdit = function() {
 
   var attrs = {
     "class": "edit",
-    href:    "/play" + this.normalizeSrc(this.params.src)
+    href:    "/play/" + src
   };
 
   return new TagNode('a', body, attrs);
@@ -194,7 +214,13 @@ BbtagParser.prototype.parseBlock = function() {
 
 
 BbtagParser.prototype.parseSource = function() {
-  var src = this.params.src ? this.normalizeSrc(this.params.src) : '';
+  var src = this.params.src;
+  if (src) {
+    if (src[0] == '/' || ~src.indexOf('://')) {
+      throw new ParseError("src must be relative, protocol not allowed");
+    }
+  }
+
   return new SourceTag(this.name, this.body, src, this.params);
 };
 
@@ -208,8 +234,14 @@ BbtagParser.prototype.parseSummary = function() {
 };
 
 BbtagParser.prototype.parseIframe = function() {
-  if (!this.params.src) {
-    return this.paramRequiredError('div', 'src');
+  var src = this.params.src;
+
+  if (!src) {
+    this.paramRequiredError('div', 'src');
+  }
+
+  if (~src.indexOf('://')) {
+    throw new ParseError("protocol not allowed");
   }
 
   var attrs = {
@@ -221,7 +253,7 @@ BbtagParser.prototype.parseIframe = function() {
     attrs['data-demo-height'] = this.params.height;
   }
 
-  attrs.src = this.normalizeSrc(this.params.src) + '/index.html';
+  attrs.src = this.normalizeSrc(src) + '/';
   if (this.params.play) {
     attrs['data-play'] = "1";
   }
@@ -284,7 +316,7 @@ BbtagParser.prototype.parseCompare = function() {
     } else if (item[0] == '-') {
       cons.appendChild(new CompositeTag('li', content, {'class': 'minus'}));
     } else {
-      return new ErrorTag('div', 'compare items should start with either + or -');
+      throw new ParseError('div', 'compare items should start with either + or -');
     }
   }
 
@@ -321,26 +353,32 @@ BbtagParser.prototype.parseOnline = function() {
 };
 
 BbtagParser.prototype.paramRequiredError = function(errorTag, paramName) {
-  return new ErrorTag(errorTag, this.name + ": attribute required " + paramName);
+  throw new ParseError(errorTag, this.name + ": attribute required " + paramName);
 };
 
 BbtagParser.prototype.parseImg = function() {
-
   if (!this.params.src) {
-    return this.paramRequiredError('div', 'src');
+    this.paramRequiredError('div', 'src');
   }
 
   var attrs = this.trusted ? _.clone(this.params) : _.pick(this.params, ['src', 'width', 'height']);
 
-  attrs.src = this.normalizeSrc(attrs.src);
+  if (!~attrs.src.indexOf('://') && attrs.src[0] != '/') {
+    attrs.src = this.resourceWebRoot + '/' + attrs.src;
+  }
 
   return new ImgTag(attrs, this.token.isFigure);
 };
 
 
 BbtagParser.prototype.parseExample = function() {
-  if (!this.params.src) {
-    return this.paramRequiredError('div', 'src');
+  var src = this.params.src;
+  if (!src) {
+    this.paramRequiredError('div', 'src');
+  }
+
+  if (src[0] == '/' || ~src.indexOf('://')) {
+    throw new ParseError("src must be relative, protocol not allowed");
   }
 
   var attrs = {
@@ -350,9 +388,9 @@ BbtagParser.prototype.parseExample = function() {
 
   attrs['data-demo-height'] = this.params.height || 350;
 
-  attrs['data-src'] = this.normalizeSrc(this.params.src);
+  attrs['data-src'] = this.normalizeSrc(src);
 
-  attrs.src = "/example" + attrs['data-src'];
+  attrs.src = "/example/" + src + '/';
 
   if (this.params.zip) {
     attrs['data-zip'] = "1";

@@ -8,7 +8,7 @@ describe("BodyParser", function() {
 
 
   var options = {
-    resourceRoot: '/document',
+    resourceWebRoot: '/document',
     metadata:        {}
   };
 
