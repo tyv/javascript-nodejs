@@ -1,5 +1,6 @@
 
 function iframeResize(ifrElem, callback) {
+  if (!callback) callback = function(){};
 
   // throw right now if cross-domain
   try {

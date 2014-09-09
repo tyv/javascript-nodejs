@@ -37,7 +37,7 @@ SourceFileTransformer.prototype.run = function* () {
     try {
       content = yield fsReadFile(sourcePath, 'utf-8');
     } catch (e) {
-      throw new Error("Не могу прочитать файл: " + node.src +
+      return new ErrorTag('div', "Не могу прочитать файл: " + node.src +
           (process.env.NODE_ENV == 'development' ? " [" + sourcePath + "]" : "")
       );
     }

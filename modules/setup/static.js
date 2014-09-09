@@ -82,7 +82,8 @@ function resolvePath(filepath) {
 
 function* staticMiddleware(next) {
 
-  var filepath = resolvePath(url.parse(this.req.url).pathname);
+  var urlParsed = url.parse(this.req.url);
+  var filepath = resolvePath(urlParsed.pathname);
   if (!filepath) {
     this.throw(404);
   }
@@ -98,6 +99,11 @@ function* staticMiddleware(next) {
   // (which doesn't show encoding on application/javascript)
   function onHeaders(res, filepath, stat) {
     res.setHeader('Content-Type', mime.contentType(path.basename(filepath)));
+
+    // static fonts need this
+    if ((urlParsed.protocol + '://' + urlParsed.host) == config.staticurl) {
+      res.setHeader('Access-Control-Allow-Origin', '*');
+    }
   }
 
   send(this.req, filepath, opts)

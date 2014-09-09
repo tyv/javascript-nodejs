@@ -1,5 +1,6 @@
 const parseAndTransform = require('./parseAndTransform');
 const _ = require('lodash');
+const config = require('config');
 
 // Порядок библиотек на странице
 // - встроенный CSS
@@ -84,7 +85,8 @@ ArticleRenderer.prototype._libsToJsCss = function(libs) {
 
 ArticleRenderer.prototype.render = function* (article) {
   const options = {
-    resourceRoot: article.getResourceWebRoot(),
+    staticHost: config.staticHost,
+    resourceWebRoot: article.getResourceWebRoot(),
     metadata:        this.metadata,
     trusted:         true,
     removeFirstHeader: true
