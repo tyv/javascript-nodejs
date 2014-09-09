@@ -3,32 +3,43 @@ include /bem
 
 html
   head
+    //- по умолчанию все отключено, в шаблоне в секции переменных
+    //- мы сразу видим набор реально используемых фрагментов
+    - layout = {}
+    - layout.sitetoolbar = false
+    - layout.prevNext = false
+    - layout.sidebar = false
+    - layout.articleFoot = false
+    - layout.centeredHeader = false
+    - layout.sitemap = false
+    - layout.header = false
+
     block variables
     include ../blocks/head
   body
-    if self.sitetoolbar
+    if layout.sitetoolbar
       //- include ../blocks/sitetoolbar
       include ../blocks/sitetoolbar-login-loaders
     .page
-      if self.prevNext
+      if layout.prevNext
         include ../blocks/prev-next
-      if self.sidebar
+      if layout.sidebar
         include ../blocks/sidebar
       .page__inner
         article.main
-          if self.sitemap
+          if layout.sitemap
             //- блок map должен подгружаться динамически
             //- подключен для демонстрации и отладки
             //- сделан в виде страницы а не блока чтобы был доступен
             //- по собственному url (/markup/pages/map)
             include ../pages/map
           //- отключается только на странице задачи, по возможности отрефакторить
-          if self.header
-            header.main__header(class= self.centeredHeader == true ? "main__header_center" : undefined)
+          if layout.header
+            header.main__header(class= layout.centeredHeader == true ? "main__header_center" : undefined)
               include ../blocks/breadcrumbs
               h1.main__header-title!= self.title
           block content
-          if self.articleFoot
+          if layout.articleFoot
             include ../blocks/article-foot
             include ../blocks/corrector
             include ../blocks/comments

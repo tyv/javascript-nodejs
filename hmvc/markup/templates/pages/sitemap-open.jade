@@ -3,18 +3,15 @@ extends ../layouts/base
 // - http://stackoverflow.com/questions/12646451/how-to-pass-variables-between-jade-templates
 block variables
   - var self = {};
+  - self.title = 'Учебник — Javascript.ru';
 
   //- layout
-  - self.sitetoolbar = true
-  - self.prevNext = true
-  - self.sidebar = true
-  - self.articleFoot = false
-  - self.centeredHeader = false
-  - self.sitemap = false
-  - self.header = false
-  - self.header = true
-
-  - self.title = 'Учебник — Javascript.ru';
+  - layout.sitetoolbar = true
+  - layout.prevNext = true
+  - layout.sidebar = true
+  - layout.header = true
+  - layout.articleFoot = true
+  - layout.sitemap = true
 
 block content
   include ./article.html
