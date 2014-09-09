@@ -50,7 +50,7 @@ schema.statics.getResourceFsRootBySlug = function(slug) {
 };
 
 schema.statics.getResourceWebRootBySlug = function(slug) {
-  return config.staticurl + '/article/' + slug;
+  return '/article/' + slug;
 };
 
 schema.statics.getUrlBySlug = function(slug) {

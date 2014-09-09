@@ -36,7 +36,7 @@ const request = require('request');
 module.exports = new FacebookStrategy({
     clientID:          config.authProviders.facebook.appId,
     clientSecret:      config.authProviders.facebook.appSecret,
-    callbackURL:       config.siteurl + "/auth/callback/facebook",
+    callbackURL:       config.siteHost + "/auth/callback/facebook",
     // fields are described here:
     // https://developers.facebook.com/docs/graph-api/reference/v2.1/user
     profileURL:        'https://graph.facebook.com/me?fields=id,about,email,gender,link,locale,timezone,verified,name,last_name,first_name,middle_name',

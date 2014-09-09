@@ -1,0 +1,62 @@
+var async = require('async');
+var request = require('request');
+var fs = require('fs');
+
+var MOCHA_JS = 'http://cdnjs.cloudflare.com/ajax/libs/mocha/1.13.0/mocha.js';
+var MOCHA_CSS = 'http://cdnjs.cloudflare.com/ajax/libs/mocha/1.13.0/mocha.css';
+var SINON_JS = 'http://sinonjs.org/releases/sinon-1.9.0.js';
+var SHOULD_JS = 'https://raw.github.com/visionmedia/should.js/master/should.js';
+
+var result = [];
+
+async.waterfall([
+  function(callback) {
+    request(MOCHA_JS, callback);
+  },
+  function(res, body, callback) {
+    console.log('got mocha.js');
+    result.push(body);
+    result.push("mocha.setup('bdd');");
+    request(MOCHA_CSS, callback);
+  },
+  function(res, body, callback) {
+    console.log('got mocha.css');
+    result.push("!function(code) { \n\
+      var style = document.createElement('style'); \n\
+      if (style.styleSheet) { // IE  \n\
+        style.styleSheet.cssText = code; \n\
+      } else { // Other browsers \n\
+        style.innerHTML = code; \n\
+      } \n\
+      document.getElementsByTagName('head')[0].appendChild(style); \n\
+    }(" + JSON.stringify(body) + ");\n");
+
+    request(SINON_JS, callback);
+  },
+
+  function(res, body, callback) {
+    console.log('got sinon.js');
+    result.push(body);
+    
+    request(SHOULD_JS, callback);
+  },
+  function(res, body, callback) {
+    console.log('got should.js');
+    result.push(body);
+
+    result.push("!function() { \n\
+      function onload() { \n\
+        if (!document.getElementById('mocha')) document.body.id = 'mocha'; \n\
+        mocha.run(); \n\
+      } \n\
+      if (window.addEventListener) window.addEventListener('load', onload, false) \n\
+      else window.attachEvent('onload', onload); \n\
+    }();")
+
+    callback();
+  },
+], function(err) {
+  if (err) throw err;
+  result = result.join("\n\n");
+  fs.writeFileSync('./wrap.js', result);
+});

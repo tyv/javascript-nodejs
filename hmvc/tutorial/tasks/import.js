@@ -84,6 +84,7 @@ module.exports = function(options) {
     data.slug = folderFileName.slice(3);
 
     var options = {
+      staticHost: config.staticHost,
       resourceWebRoot:    Article.getResourceWebRootBySlug(data.slug),
       metadata:        {},
       trusted:         true
@@ -166,6 +167,7 @@ module.exports = function(options) {
     data.slug = articlePathName.slice(3);
 
     const options = {
+      staticHost: config.staticHost,
       resourceWebRoot: Article.getResourceWebRootBySlug(data.slug),
       metadata:        { },
       trusted:         true
@@ -298,6 +300,7 @@ module.exports = function(options) {
     data.slug = taskPathName.slice(3);
 
     const options = {
+      staticHost: config.staticHost,
       resourceWebRoot: Task.getResourceWebRootBySlug(data.slug),
       metadata:        {},
       trusted:         true

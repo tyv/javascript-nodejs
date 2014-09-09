@@ -81,7 +81,7 @@ function addStandardHelpers(locals, ctx) {
       version = Math.random().toString();
       log.error("No version for " + publicPath);
     }
-    return config.staticurl + publicPath.replace('.', '.v' + version + '.');
+    return config.staticHost + publicPath.replace('.', '.v' + version + '.');
   };
 
 //  locals.debug = true;

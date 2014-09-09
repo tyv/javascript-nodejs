@@ -27,9 +27,9 @@ if (fs.existsSync(path.join(secretDir, 'secret.js'))) {
 module.exports = {
   "port":      process.env.PORT || 3000,
   "host":      process.env.HOST || '0.0.0.0',
-  "siteurl":   "http://stage.javascript.ru",
-  "staticurl": "http://js.cx",
-//  "siteurl":   "http://127.0.0.1:3000",
+  "siteHost":   "http://stage.javascript.ru",
+  "staticHost": "http://js.cx",
+//  "siteHost":   "http://127.0.0.1:3000",
   "mongoose":  {
     "uri":     "mongodb://localhost/" + (process.env.NODE_ENV == 'test' ? "js_test" : "js"),
     "options": {

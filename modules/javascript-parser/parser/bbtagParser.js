@@ -114,7 +114,7 @@ BbtagParser.prototype.normalizeSrc = function(src) {
   }
 
   // relative url w/o domain means we want static host
-  return this.resourceWebRoot + '/' + src;
+  return this.staticHost + this.resourceWebRoot + '/' + src;
 };
 
 
@@ -219,6 +219,7 @@ BbtagParser.prototype.parseSource = function() {
     if (src[0] == '/' || ~src.indexOf('://')) {
       throw new ParseError("src must be relative, protocol not allowed");
     }
+    src = this.resourceWebRoot + '/' + src;
   }
 
   return new SourceTag(this.name, this.body, src, this.params);
@@ -364,7 +365,7 @@ BbtagParser.prototype.parseImg = function() {
   var attrs = this.trusted ? _.clone(this.params) : _.pick(this.params, ['src', 'width', 'height']);
 
   if (!~attrs.src.indexOf('://') && attrs.src[0] != '/') {
-    attrs.src = this.resourceWebRoot + '/' + attrs.src;
+    attrs.src = this.staticHost + this.resourceWebRoot + '/' + attrs.src;
   }
 
   return new ImgTag(attrs, this.token.isFigure);

@@ -10,6 +10,7 @@ function Parser(options) {
   this.validateOptions(options);
   this.options = options;
   this.resourceWebRoot = options.resourceWebRoot;
+  this.staticHost = options.staticHost;
   this.trusted = options.trusted;
 }
 
