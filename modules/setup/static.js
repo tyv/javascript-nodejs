@@ -91,7 +91,7 @@ function* staticMiddleware(next) {
   // strip version
   filepath = stripVersion(filepath);
 
-  if (this.cookies.get('hires')) {
+  if (this.cookies.get('pixelRatio')) {
     filepath = yield try2xImage(filepath);
   }
 

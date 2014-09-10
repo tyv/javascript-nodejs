@@ -6,8 +6,10 @@ Error.stackTraceLimit = 1000;
 if (process.env.NODE_ENV == 'development' && process.env.DEV_TRACE) {
   // @see https://github.com/AndreasMadsen/trace
   // does not work now (buggy?)
+
+  Error.stackTraceLimit = Infinity;
   require('trace'); // active long stack trace
-//  require('clarify'); // Exclude node internal calls from the stack
+  //require('clarify'); // Exclude node internal calls from the stack
 }
 
 require('lib/debug');
