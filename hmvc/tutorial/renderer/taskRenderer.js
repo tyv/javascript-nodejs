@@ -1,6 +1,7 @@
 const HeaderTag = require('javascript-parser').HeaderTag;
 const parseAndTransform = require('./parseAndTransform');
 const CompositeTag = require('javascript-parser').CompositeTag;
+const config = require('config');
 
 /**
  * Can render many articles, keeping metadata
@@ -15,6 +16,7 @@ TaskRenderer.prototype.renderContent = function* (task) {
   const options = {
     resourceFsRoot:  task.getResourceFsRoot(),
     resourceWebRoot: task.getResourceWebRoot(),
+    staticHost: config.staticHost,
     metadata:        this.metadata,
     trusted:         true,
     removeFirstHeader: true
@@ -30,6 +32,7 @@ TaskRenderer.prototype.renderSolution = function* (task) {
   const options = {
     resourceFsRoot:  task.getResourceFsRoot(),
     resourceWebRoot: task.getResourceWebRoot(),
+    staticHost: config.staticHost,
     metadata:        this.metadata,
     trusted:         true
   };

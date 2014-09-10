@@ -82,29 +82,49 @@ function resolvePath(filepath) {
 
 function* staticMiddleware(next) {
 
-  var filepath = resolvePath(url.parse(this.req.url).pathname);
+  var urlParsed = url.parse(this.req.url);
+  var filepath = resolvePath(urlParsed.pathname);
   if (!filepath) {
     this.throw(404);
   }
 
-  var ext = path.extname(filepath).slice(1);
+  // strip version
+  filepath = stripVersion(filepath);
 
-  if (~['jpg', 'png', 'gif'].indexOf(ext) && this.cookies.get('hires')) {
-    var try2x = filepath.slice(0, -ext.length-1) + '@2x.' + ext;
-    if (yield fs.exists(try2x)) {
-      filepath = try2x;
-    }
+  if (this.cookies.get('hires')) {
+    filepath = yield try2xImage(filepath);
   }
-
 
   // use mime-types module instead of send built-in mime
   // (which doesn't show encoding on application/javascript)
-  function onHeaders(res, filePath, stat) {
-    res.setHeader('Content-Type', mime.contentType(path.basename(filePath)));
+  function onHeaders(res, filepath, stat) {
+    res.setHeader('Content-Type', mime.contentType(path.basename(filepath)));
+
+    // static fonts need this
+    if ((urlParsed.protocol + '://' + urlParsed.host) == config.staticurl) {
+      res.setHeader('Access-Control-Allow-Origin', '*');
+    }
   }
 
   send(this.req, filepath, opts)
     .on('headers', onHeaders)
     .pipe(this.res);
 
+}
+
+function stripVersion(filepath) {
+  return filepath.replace(/\.v.*?\./, '.');
+}
+
+function* try2xImage(filepath) {
+  var ext = path.extname(filepath).slice(1);
+
+  if (~['jpg', 'png', 'gif'].indexOf(ext)) {
+    var try2x = filepath.slice(0, -ext.length-1) + '@2x.' + ext;
+    if (yield fs.exists(try2x)) {
+      filepath = try2x;
+    }
+  }
+
+  return filepath;
 }

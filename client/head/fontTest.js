@@ -11,6 +11,7 @@
  Можно убрать класс .no-icons и показать иконки.
  */
 
+
 module.exports = function() {
   var elem = document.createElement('span');
   document.body.appendChild(elem);

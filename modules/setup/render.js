@@ -6,23 +6,23 @@ const util = require('util');
 const path = require('path');
 const config = require('config');
 const fs = require('fs');
-//const log = require('log')();
+const log = require('log')();
 const jade = require('jade');
 const _ = require('lodash');
 const assert = require('assert');
 const JadeParserMultipleDirs = require('lib/jadeParserMultipleDirs');
 
-// public.md5.json is regenerated and THEN node is restarted on redeploy
+// public.versions.json is regenerated and THEN node is restarted on redeploy
 // so it loads a new version.
-var publicMd5;
+var publicVersions;
 
-function getPublicMd5(publicPath) {
-  if (!publicMd5) {
+function getPublicVersion(publicPath) {
+  if (!publicVersions) {
     // don't include at module top, let the generating task to finish
-    publicMd5 = require(path.join(config.projectRoot, 'public.md5.json'));
+    publicVersions = require(path.join(config.projectRoot, 'public.versions.json'));
   }
   var busterPath = publicPath.slice(1);
-  return publicMd5[busterPath];
+  return publicVersions[busterPath];
 }
 
 function addStandardHelpers(locals, ctx) {
@@ -72,15 +72,16 @@ function addStandardHelpers(locals, ctx) {
 
   locals.bem = require('bem-jade')();
 
-  locals.addFileMd5 = function(publicPath) {
+  locals.asset = function(publicPath) {
     if (publicPath[0] != '/') {
-      throw new Error("addFileMd5 needs an /absolute/path");
+      throw new Error("asset needs an /absolute/path");
     }
-    var md5 = getPublicMd5(publicPath);
-    if (!md5) {
-      throw new Error("No md5 for " + publicPath);
+    var version = getPublicVersion(publicPath);
+    if (!version) {
+      version = Math.random().toString();
+      log.error("No version for " + publicPath);
     }
-    return publicPath + '?r=' + md5;
+    return config.staticHost + publicPath.replace('.', '.v' + version + '.');
   };
 
 //  locals.debug = true;

@@ -71,7 +71,7 @@ Result example:
 module.exports = new GithubStrategy({
     clientID:     config.authProviders.github.appId,
     clientSecret: config.authProviders.github.appSecret,
-    callbackURL:  config.siteurl + "/auth/callback/github",
+    callbackURL:  config.siteHost + "/auth/callback/github",
     passReqToCallback: true
   },
   function(req, accessToken, refreshToken, profile, done) {

@@ -1,10 +1,12 @@
-extends ../layouts/nosidebar
+extends ../layouts/base
 
 // - http://stackoverflow.com/questions/12646451/how-to-pass-variables-between-jade-templates
 block variables
   - var self = {};
-  - self.bodyId = 'page';
   - self.title = 'Кабинет пользователя <em class="main__username">Nakazator</em>';
+
+  //- layout
+  - layout.header = true
 
 block content
   .profile

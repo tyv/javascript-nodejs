@@ -1,0 +1,34 @@
+<%- sinon_js %>
+
+<%- chai_js %>
+var assert = chai.assert;
+
+<%- mocha_js %>
+mocha.setup('bdd');
+
+// inline mocha CSS into JS
+!function(code) { 
+  var style = document.createElement('style'); 
+  if (style.styleSheet) { // IE  
+    style.styleSheet.cssText = code; 
+  } else { // Other browsers 
+    style.innerHTML = code; 
+  } 
+  document.getElementsByTagName('head')[0].appendChild(style); 
+}(<%- JSON.stringify(mocha_css) -%>);
+
+// run tests onload, hide the part of an error stack which goes into mocha
+!function() { 
+  function onload() { 
+    if (!document.getElementById('mocha')) document.body.id = 'mocha'; 
+    mocha.run(function() { 
+      var errors = document.querySelectorAll('#mocha .error'); 
+      for(var i=0; i<errors.length; i++) { 
+        errors[i].innerHTML = errors[i].innerHTML.replace(/\n\s+at Test.Runnable.run[\s\S]*/, ''); 
+      } 
+    }); 
+  } 
+  if (window.addEventListener) window.addEventListener('load', onload, false) 
+  else window.attachEvent('onload', onload); 
+}();
+

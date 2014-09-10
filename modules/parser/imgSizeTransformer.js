@@ -15,7 +15,8 @@ var fsStat = thunkify(fs.stat);
 var fsReadFile = thunkify(fs.readFile);
 var gm = require('gm');
 var imageSize = thunkify(require('image-size'));
-const config = require('config');
+var config = require('config');
+var url = require('url');
 
 function ImgSizeTransformer(node) {
   this.node = node;
@@ -31,7 +32,11 @@ ImgSizeTransformer.prototype.run = function* () {
 
     if (node.attrs.width && node.attrs.height) return;
 
-    var imagePath = path.join(config.publicRoot, node.attrs.src);
+    var srcPath = url.parse(node.attrs.src);
+    srcPath.protocol = srcPath.slashes = srcPath.host = srcPath.hostname = null;
+    srcPath = url.format(srcPath);
+
+    var imagePath = path.join(config.publicRoot, srcPath);
 
     // path out of our root folder
     if (imagePath.slice(0, config.publicRoot.length + 1) != config.publicRoot + '/') return;
