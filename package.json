@@ -109,6 +109,7 @@
     "vinyl": "*",
     "vinyl-fs": "*",
     "vinyl-source-stream": "*",
+    "sanitize-html": "*",
     "yargs": "*"
   },
   "devDependencies": {
