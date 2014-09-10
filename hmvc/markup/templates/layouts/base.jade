@@ -3,9 +3,10 @@ include /bem
 
 html
   head
+    - var self = {}
     //- по умолчанию все отключено, в шаблоне в секции переменных
     //- мы сразу видим набор реально используемых фрагментов
-    - layout = {}
+    - var layout = {}
     - layout.sitetoolbar = false
     - layout.prevNext = false
     - layout.sidebar = false
