@@ -42,7 +42,7 @@ ImgSizeTransformer.prototype.run = function* () {
     if (imagePath.slice(0, config.publicRoot.length + 1) != config.publicRoot + '/') return;
 
     if (!/\.(png|jpg|gif|jpeg|svg)$/i.test(imagePath)) {
-      return new ErrorTag("span", "Неподдерживамое расширение, должно оканчиваться на png/jpg/gif/jpeg/svg: " + node.attrs.src);
+      return new ErrorTag("div", "Неподдерживамое расширение, должно оканчиваться на png/jpg/gif/jpeg/svg: " + node.attrs.src);
     }
 
     var stat;
@@ -50,13 +50,13 @@ ImgSizeTransformer.prototype.run = function* () {
     try {
       stat = yield fsStat(imagePath);
     } catch (e) {
-      throw new Error("Нет такого файла: " + node.attrs.src +
+      return new ErrorTag("div", "Нет такого файла: " + node.attrs.src +
           (process.env.NODE_ENV == 'development' ? " [" + imagePath + "]" : "")
       );
     }
 
     if (!stat.isFile()) {
-      throw new Error("Не файл: " + node.attrs.src);
+      return new ErrorTag("div", "Не файл: " + node.attrs.src);
     }
 
     var size;
