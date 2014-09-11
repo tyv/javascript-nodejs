@@ -2,9 +2,6 @@ var Node = require('./node');
 var TextNode = require('./textNode');
 var TagNode = require('./tagNode');
 var inherits = require('inherits');
-var NO_WRAP_TAGS_SET = require('../consts').NO_WRAP_TAGS_SET;
-var wrapTagAround = require('../util/wrapTagAround');
-var contextTypography = require('../typography/contextTypography');
 
 //log.debugOn();
 
@@ -125,56 +122,5 @@ CompositeTag.prototype.toStructure = function(options) {
   }, this);
   return structure;
 };
-
-CompositeTag.prototype.toHtml = function(options) {
-  var labels = {};
-  var html = '';
-  for (var i = 0; i < this._children.length; i++) {
-    var child = this._children[i];
-    if (child.getType() == 'TextNode') {
-      html += child.toHtml(options);
-    } else {
-      var childHtml = child.toHtml(options);
-      var label = this.makeLabel();
-      labels[label] = childHtml;
-      if (NO_WRAP_TAGS_SET[child.tag]) {
-        childHtml = "<div>LABEL:" + label + "</div>";
-      } else {
-        childHtml = "<span>LABEL:" + label + "</span>";
-      }
-      html += childHtml;
-    }
-  }
-
-  html = this.formatHtml(html);
-  html = this.replaceLabels(html, labels);
-
-  if (this.tag) {
-    html = wrapTagAround(this.tag, this.attrs, html);
-  }
-
-  return html;
-};
-
-// context typography can be applied only once!
-CompositeTag.prototype.toFinalHtml = function(options) {
-  return contextTypography(this.toHtml(options));
-};
-
-CompositeTag.prototype.makeLabel = function() {
-  return Math.random().toString(36).slice(2);
-};
-
-CompositeTag.prototype.replaceLabels = function(html, labels) {
-  var pattern = /<span>LABEL:(\w+)<\/span>|<div>LABEL:(\w+)<\/div>/g;
-
-  return html.replace(pattern, function(match, p1, p2) {
-    var label = p1 || p2;
-    var content = labels[label];
-    delete labels[label];
-    return content;
-  });
-};
-
 
 module.exports = CompositeTag;

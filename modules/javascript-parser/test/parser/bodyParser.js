@@ -12,6 +12,7 @@ function toStructure(nodes) {
 describe("BodyParser", function() {
 
   var options = {
+    staticHost: 'http://js.cx',
     resourceWebRoot: '/document',
     trusted:         true,
     metadata:        { }
@@ -47,7 +48,7 @@ describe("BodyParser", function() {
         { type:  'ImgTag',
           text:  '',
           tag:   'img',
-          attrs: { src: '/document/html6.jpg' } },
+          attrs: { src: 'http://js.cx/document/html6.jpg' } },
         { type: 'TextNode', text: ' test' }
       ]);
     });
@@ -81,21 +82,15 @@ describe("BodyParser", function() {
       ]);
     });
 
-    it("# Header *italic*", function() {
+    it("# Header *italic* `code`", function() {
       var parser = new BodyParser(this.test.title, options);
       var result = parser.parse();
 
       toStructure(result).should.be.eql([
-        { type:     'HeaderTag',
-          tag:      null,
-          children: [
-            { type: 'TextNode', text: 'Header ' },
-            { type:     'CompositeTag',
-              tag:      'em',
-              children: [
-                { type: 'TextNode', text: 'italic' }
-              ] }
-          ] }
+        {
+          type: 'HeaderTag',
+          text: 'Header *italic* <code>code</code>'
+        }
       ]);
     });
 
@@ -104,11 +99,9 @@ describe("BodyParser", function() {
       var result = parser.parse();
 
       toStructure(result).should.be.eql([
-        { type:     'HeaderTag',
-          tag:      null,
-          children: [
-            { type: 'TextNode', text: 'Header' }
-          ] },
+        { type: 'HeaderTag',
+          text: "Header"
+        },
         { type: 'TextNode', text: '\n\n Content' }
       ]);
     });

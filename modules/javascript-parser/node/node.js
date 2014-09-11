@@ -28,10 +28,6 @@ Node.prototype.toString = function() {
   return JSON.stringify(this.toStructure());
 };
 
-Node.prototype.toHtml = function(options) {
-  throw new Error("Basic node should not be instantiated and used");
-};
-
 Node.prototype.isTrusted = function() {
   return this.trusted !== undefined ? this.trusted :
     this.parent ? this.parent.isTrusted() : undefined;

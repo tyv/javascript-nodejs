@@ -25,6 +25,7 @@ var HREF_PROTOCOL_REG = require('../consts').HREF_PROTOCOL_REG;
 var makeAnchor = require('../util/makeAnchor');
 var TextNode = require('../node/textNode');
 var ParseError = require('./parseError');
+var contextTypography = require('../typography/contextTypography');
 
 /**
  * BodyParser creates node objects from general text.
@@ -36,7 +37,7 @@ var ParseError = require('./parseError');
  * Parser builds a tree structure, parsing all text and if needed, transforming it on the fly,
  * so that a traversal may reach all descendants.
  *
- * The final node.toHtml call MAY generate more text, but MAY NOT generate more nodes in the process.
+ * The html transformer MAY generate more text, but MAY NOT generate more nodes in the process.
  *
  * @constructor
  */
@@ -172,21 +173,10 @@ BodyParser.prototype.parseNodes = function() {
  * @returns {*}
  */
 BodyParser.prototype.parseHeader = function(token) {
-  var p = new BodyParser(token.title, this.options);
-  var titleNode = p.parseAndWrap();
+  // only code is allowed in headers, not links, not italic...
+  var titleHtml = contextTypography(token.title.replace(/`(.*?)`/gim, '<code>$1</code>'), { noParagraphs: true });
 
   var level = token.level;
-
-  // There should be no ()[#references] or other external nodes inside header text,
-  // because we may need to extract title/navigation from the content
-  // and we'd like to do that without having to use DB for refs
-  // ...anyway, reference inside a header has *no use*
-  var checkWalker = new TreeWalkerSync(titleNode);
-  checkWalker.walk(function(node) {
-    if (node.isExternal()) {
-      return new TextNode(''); // kill external nodes!
-    }
-  }.bind(this));
 
   // ---- Проверить уровень ----
   // Уровень ограничен 3, так как
@@ -219,7 +209,7 @@ BodyParser.prototype.parseHeader = function(token) {
   }
 
   // Проверить якорь, при необходимости добавить anchor-1, anchor-2
-  var anchor = token.anchor || makeAnchor(token.title);
+  var anchor = token.anchor || makeAnchor(titleHtml);
 
   var headersAnchorMap = this.options.metadata.headersAnchorMap;
 
@@ -236,9 +226,6 @@ BodyParser.prototype.parseHeader = function(token) {
     headersAnchorMap.set(anchor, 1);
   }
 
-  // получим HTML заголовка для метаданных
-  var titleHtml = titleNode.toHtml({contextTypography: true}).trim();
-
   // ------- Ошибок точно нет, можно запоминать заголовок и reference ------
 
   headers.push({ level: level, title: titleHtml, anchor: anchor});
@@ -250,7 +237,7 @@ BodyParser.prototype.parseHeader = function(token) {
 
   // в заголовок отдаём не уже полученный HTML, а titleNode,
   // чтобы внешний анализатор мог поискать в них ошибки
-  return new HeaderTag(level, anchor, titleNode.getChildren());
+  return new HeaderTag(level, anchor, titleHtml);
 };
 
 

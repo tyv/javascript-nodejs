@@ -98,6 +98,7 @@
     "path-to-regexp": "*",
     "prismjs": "git://github.com/LeaVerou/prism#gh-pages",
     "request": "*",
+    "sanitize-html": "^1.3.0",
     "send": "*",
     "stylus": "*",
     "svgutils": "*",
@@ -109,7 +110,6 @@
     "vinyl": "*",
     "vinyl-fs": "*",
     "vinyl-source-stream": "*",
-    "sanitize-html": "*",
     "yargs": "*"
   },
   "devDependencies": {
@@ -133,7 +133,7 @@
     "node-notifier": "*",
     "nodemailer-stub-transport": "*",
     "run-sequence": "*",
-    "should": "*",
+    "should": "^4.0.4",
     "sinon": "*",
     "superagent": "*",
     "supertest": "*",
