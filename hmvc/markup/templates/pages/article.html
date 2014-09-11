@@ -326,26 +326,6 @@ sayHi('Вася');</pre>
 
 <p>Выделенный блок c ответом</p>
 
-<div class="important important_ok">
-  <div class="important__header">
-    <span class="important__type">Задание</span>
-    <a target="_blank" href="/task/vyzov-na-meste" class="important__task-link important__task-link_empty"></a>
-    <span title="Насколько эта задача важна для освоения материала, от 1 до 5"
-          class="important__importance">Важность: 4</span>
-  </div>
-  <div class="important__content">
-    <p>Когда создавался язык JavaScript, у него изначально было другое название: «LiveScript». Но тогда был очень
-      популярен язык Java, и маркетологи решили, что схожее название сделает новый язык более популярным.</p>
-
-    <p>Планировалось, что JavaScript будет эдаким «младшим братом» Java. Однако, история распорядилась по-своему,
-      JavaScript сильно вырос, и сейчас это совершенно независимый язык, со своей спецификацией, которая называется <a
-          href="http://en.wikipedia.org/wiki/ECMAScript">ECMAScript</a>, и к Java не имеет никакого отношения.</p>
-
-    <p>У него много особенностей, которые усложняют освоение, но по ходу учебника мы с ними разберемся <a
-        href="http://plnkr.co/edit/mafDHHQUVJy7jdhlSMTB?p=preview">в песочнице</a>.</p>
-  </div>
-</div>
-
 <p>Чтобы читать и выполнять текст на JavaScript, нужна специальная программа &mdash; <a
     href="http://ru.wikipedia.org/wiki/%D0%98%D0%BD%D1%82%D0%B5%D1%80%D0%BF%D1%80%D0%B5%D1%82%D0%B0%D1%82%D0%BE%D1%80">интерпретатор</a>.
   Процесс выполнения скрипта называют <em>«интерпретацией»</em>.</p>
@@ -364,6 +344,53 @@ sayHi('Вася');</pre>
 
     <p>Сейчас разница гораздо меньше. Современные интерпретаторы перед выполнением преобразуют JavaScript в машинный код
       (или близко к нему), чтобы выполнялся он быстрее. То есть, по сути, компилируют, а затем запускают. </p>
+    <div class="spoiler closed">
+      <button class="spoiler__button">
+        <u>Решение</u>
+      </button>
+      <div class="spoiler__content">
+        <p>Результат - <strong>ошибка</strong>. Попробуйте:</p>
+
+        <div class="codebox">
+                    <pre class="language-javascript line-numbers"><code>var a = 5
+
+(function() {
+  alert(a)
+})()</code></pre>
+        </div>
+        <p>Дело в том, что после <code>var a = 5</code> нет точки с запятой. </p>
+
+        <p>JavaScript воспринимает этот код как если бы перевода строки не было:</p>
+
+        <div class="codebox">
+          <pre class="language-javascript line-numbers"><code>var a = 5(function() {
+alert(a)
+})()</code></pre>
+        </div>
+        <p>То есть, он пытается вызвать <em>функцию</em> <code>5</code>, что и приводит к ошибке.</p>
+
+        <p>Если точку с запятой поставить, все будет хорошо:</p>
+
+        <div class="codebox">
+          <pre class="language-javascript line-numbers"><code>var a = 5;
+
+(function() {
+  alert(a)
+})()</code></pre>
+        </div>
+        <p>Это один из наиболее частых и опасных подводных камней, приводящих к ошибкам тех, кто <em>не</em> ставит
+          точки с запятой.</p>
+      </div>
+    </div>
+    <div class="spoiler closed">
+      <button class="spoiler__button">
+        <u>Еще одно решение</u>
+      </button>
+      <div class="spoiler__content">
+        <p>К одной задаче могут быть добавлены одно или несколько решений. Решения, идущие подряд, «стыкуются» без
+          промежутков</p>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -374,8 +401,8 @@ sayHi('Вася');</pre>
   и на сервере, и даже в стиральной машинке, если в ней установлен соответствующий интерпретатор.</p>
 
 <h2><a class="main__anchor" id="что-умеет-javascript" href="#что-умеет-javascript">Что умеет JavaScript?</a></h2>
-<h3><a class="main__anchor" id="что-умеет-javascript" href="#что-умеет-javascript">Подзаголовок</a></h3>
-<h4><a class="main__anchor" id="что-умеет-javascript" href="#что-умеет-javascript">Подподзаголовок</a></h4>
+<h3><a class="main__anchor" id="что-умеет-javascript2" href="#что-умеет-javascript2">Подзаголовок</a></h3>
+<h4><a class="main__anchor" id="что-умеет-javascript3" href="#что-умеет-javascript3">Подподзаголовок</a></h4>
 
 <p>Современный JavaScript &mdash; это «безопасный» язык программирования общего назначения. Он не предоставляет
   низкоуровневых средств работы с памятью, процессором, так как изначально был ориентирован на браузеры, в которых это
@@ -398,79 +425,6 @@ sayHi('Вася');</pre>
 <p>Это сделано для безопасности пользователей, чтобы злоумышленник не мог с помощью JavaScript получить личные данные
   или как-то навредить компьютеру пользователя. В браузере Firefox существует способ «подписи» скриптов с целью обхода
   части ограничений, но он нестандартный и не кросс-браузерный.</p>
-
-<section class="important important_ok">
-  <header class="important__header">
-    <span class="important__type">Задание:</span>
-
-    <h3 class="important__title"><a class="important__task-link" href="/task/vyzov-na-meste" target="_blank"><u>Вызов
-      «на месте»</u></a></h3>
-        <span class="important__importance"
-              title="Насколько эта задача важна для освоения материала, от 1 до 5">Важность: 4</span>
-  </header>
-  <div class="important__content">
-    <p>Каков будет результат выполнения кода? Почему?</p>
-
-    <div class="codebox">
-            <pre class="language-javascript line-numbers"><code>var a = 5
-
-              (function() {
-              alert(a)
-              })()</code></pre>
-    </div>
-
-    <p>P.S. <em>Подумайте хорошо! Здесь все ошибаются!</em><br>
-      P.P.S. <em>Внимание, здесь подводный камень! Ок, вы предупреждены.</em></p>
-
-    <div class="spoiler closed">
-      <button class="spoiler__button">
-        <u>Решение</u>
-      </button>
-      <div class="spoiler__content">
-        <p>Результат - <strong>ошибка</strong>. Попробуйте:</p>
-
-        <div class="codebox">
-                    <pre class="language-javascript line-numbers"><code>var a = 5
-
-                      (function() {
-                      alert(a)
-                      })()</code></pre>
-        </div>
-        <p>Дело в том, что после <code>var a = 5</code> нет точки с запятой. </p>
-
-        <p>JavaScript воспринимает этот код как если бы перевода строки не было:</p>
-
-        <div class="codebox">
-                    <pre class="language-javascript line-numbers"><code>var a = 5(function() {
-                      alert(a)
-                      })()</code></pre>
-        </div>
-        <p>То есть, он пытается вызвать <em>функцию</em> <code>5</code>, что и приводит к ошибке.</p>
-
-        <p>Если точку с запятой поставить, все будет хорошо:</p>
-
-        <div class="codebox">
-                    <pre class="language-javascript line-numbers"><code>var a = 5;
-
-                      (function() {
-                      alert(a)
-                      })()</code></pre>
-        </div>
-        <p>Это один из наиболее частых и опасных подводных камней, приводящих к ошибкам тех, кто <em>не</em> ставит
-          точки с запятой.</p>
-      </div>
-    </div>
-    <div class="spoiler closed">
-      <button class="spoiler__button">
-        <u>Еще одно решение</u>
-      </button>
-      <div class="spoiler__content">
-        <p>К одной задаче могут быть добавлены одно или несколько решений. Решения, идущие подряд, «стыкуются» без
-          промежутков</p>
-      </div>
-    </div>
-  </div>
-</section>
 
 <p>Спойлеры вне блока <code>.important</code></p>
 
@@ -529,7 +483,7 @@ sayHi('Вася');</pre>
 <div class="image" style="width: 556px;">
 <!-- padding-top = height/width*100% -->
 <div class="image__ratio" style="padding-top: 51.98%"></div>
-<img class="image__image" src="http://learn.javascript.ru/files/tutorial/intro/jslimit.jpg">
+<img class="image__image" src="http://learn.javascript.ru/files/tutorial/intro/jslimit.jpg" alt="">
 </div>
 </figure>
 
@@ -564,14 +518,13 @@ sayHi('Вася');</pre>
       <!-- <h3 class="balance__title">Плюсы</h3> -->
       <ul class="balance__list">
         <li><p>Полная интеграция с HTML/CSS. <code>function f (x, y, z) { return x + y + z; }</code></p></li>
-        <li><p>Простые вещи делаются просто.
+        <li><p>Простые вещи делаются просто.</p>
                 <pre class="language-javascript line-numbers">function sayHi(name) {
   var phrase = "Привет, " + name;
   alert(phrase);
 }
 
-sayHi('Вася');</pre>
-          </p></li>
+sayHi('Вася');</pre></li>
         <li><p>Поддерживается всеми распространенными браузерами и включен по умолчанию.</p></li>
       </ul>
     </div>

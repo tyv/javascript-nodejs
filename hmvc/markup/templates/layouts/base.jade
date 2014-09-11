@@ -3,9 +3,10 @@ include /bem
 
 html
   head
+    - var self = {}
     //- по умолчанию все отключено, в шаблоне в секции переменных
     //- мы сразу видим набор реально используемых фрагментов
-    - layout = {}
+    - var layout = {}
     - layout.sitetoolbar = false
     - layout.prevNext = false
     - layout.sidebar = false
@@ -18,11 +19,11 @@ html
     include ../blocks/head
   body
     if layout.sitetoolbar
-      //- include ../blocks/sitetoolbar
-      include ../blocks/sitetoolbar-login-loaders
+      include ../blocks/sitetoolbar
+      //- include ../blocks/sitetoolbar-login-loaders
     .page
       if layout.prevNext
-        include ../blocks/prev-next
+        include ../blocks/page-nav
       if layout.sidebar
         include ../blocks/sidebar
       .page__inner

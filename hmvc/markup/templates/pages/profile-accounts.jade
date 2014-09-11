@@ -2,9 +2,8 @@ extends ../layouts/base
 
 // - http://stackoverflow.com/questions/12646451/how-to-pass-variables-between-jade-templates
 block variables
-  - var self = {};
   - self.title = 'Кабинет пользователя <em class="main__username">Nakazator</em>';
-  
+
   //- layout
   - layout.header = true
 
@@ -42,11 +41,11 @@ block content
             a.profile__item-delete(title="Уалить", href="#del")
       .profile__social
         span.profile__social-label Добавить:
-        a.profile__social-add.social-link.social-link_vk(href="#vk") Вконтакте
-        a.profile__social-add.social-link.social-link_tw(href="#tw") Твиттер
-        a.profile__social-add.social-link.social-link_gp(href="#gp") Google+
-        a.profile__social-add.social-link.social-link_fb(href="#fb") Facebook
-        a.profile__social-add.social-link.social-link_gh(href="#gh") GitHub
+        //- a.profile__social-add.social-link.social-link_vk(href="#vk") Вконтакте
+        //- a.profile__social-add.social-link.social-link_tw(href="#tw") Твиттер
+        //- a.profile__social-add.social-link.social-link_gp(href="#gp") Google+
+        //- a.profile__social-add.social-link.social-link_fb(href="#fb") Facebook
+        //- a.profile__social-add.social-link.social-link_gh(href="#gh") GitHub
       h2.profile__header Управление аккаунтом:
       .profile__action.profile__inline-editable
         a.profile__action-trigger.profile__action-trigger_pseudo.profile__action-trigger_pass.profile__inline-edit-trigger(href="#") Сменить пароль

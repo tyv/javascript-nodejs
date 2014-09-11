@@ -7,7 +7,7 @@ $main-loud
 	margin 1em 0
 
 .main
-	@extend $center
+	margin auto
 	padding 0 0 35px
 	max-width max_width
 
@@ -219,12 +219,9 @@ $main-loud
 	dd
 		margin 0 0 15px 40px
 
-	figure,
-	img
+	figure
+		@extend $clearfix
 		margin 30px 0
-
-	figure img
-		margin 0
 
 	&__loud
 		@extend $main-loud
