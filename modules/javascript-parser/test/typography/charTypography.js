@@ -7,9 +7,4 @@ describe("charTypography", function() {
     charTypography(data).should.eql("My © — 1 ± → b ← 2 …");
   });
 
-  it("replaces smiles", function() {
-    var data = 'Works :)) Needspacebefore:) :)Punctafter :()';
-    charTypography(data).should.match(/^Works <img src=".*?" alt="Smile">\) Needspacebefore:\) :\)Punctafter <img src=".*?" alt="Sad Smile">\)$/);
-  });
-
 });
