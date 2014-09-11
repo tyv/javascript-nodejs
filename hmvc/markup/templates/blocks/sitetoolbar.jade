@@ -27,6 +27,7 @@
       //- и никуда не ведет. Если предполагается функциональность ссылки
       //- потребуются минимальные доработки
       +e('button').user(title="Very very long nickname with spaces", onclick="document.getElementsByClassName('sitetoolbar')[0].classList.toggle('sitetoolbar_user_open')")
+        +e('img').userpic(src="/img/markup/sitetoolbar-userpic.png", alt="Very very long nickname with spaces", width="36", height="36")
         +e('span').user-text
           | Very very long nickname with spaces
     +e.search-wrap
