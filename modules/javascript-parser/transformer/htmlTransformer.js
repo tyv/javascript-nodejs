@@ -130,9 +130,21 @@ HtmlTransformer.prototype.transformHeaderTag = function(node) {
 };
 
 HtmlTransformer.prototype.transformImgTag = function(node) {
-  var html = this.transformTagNode(node);
+  var html;
+
   if (node.isFigure) {
-    html = '<figure>' + html + '</figure>';
+
+    if (node.attrs.width && node.attrs.height) {
+      html = '<figure><div class="image" style="width: '+node.attrs.width+'px;">' +
+        '<div class="image__ratio" style="padding-top: ' + (node.attrs.height/node.attrs.width*100) + '%"></div>' +
+        '<img class="image__image" src="' + node.attrs.src + '" alt="">' +
+        '</div></figure>';
+    } else {
+      html = '<figure>' + this.transformTagNode(node) + '</figure>';
+    }
+
+  } else {
+    html = this.transformTagNode(node);
   }
 
   return html;

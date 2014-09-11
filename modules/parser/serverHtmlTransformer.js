@@ -113,6 +113,7 @@ ServerHtmlTransformer.prototype.transformImgTag = function*(node) {
 
   if (node.attrs.width && node.attrs.height) return;
 
+  // remove host
   var srcPath = url.parse(node.attrs.src);
   srcPath.protocol = srcPath.slashes = srcPath.host = srcPath.hostname = null;
   srcPath = url.format(srcPath);
