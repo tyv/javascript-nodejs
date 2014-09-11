@@ -5,7 +5,7 @@
         +e('img').logo(src="/i/sitetoolbar__logo.png", height="34", width="121")
     +e.nav-toggle-wrap
       //- FIXME: onclick - демо, убрать
-      // при начале скролла тут же исчезает, для этого body += .scrolled-out
+      //- при начале скролла тут же исчезает, для этого body += .scrolled-out
       +e('button').nav-toggle(onclick="document.getElementsByClassName('sitetoolbar')[0].classList.toggle('sitetoolbar_menu_open')")
     +e('nav').sections
       +e('ul').sections-list
@@ -32,7 +32,6 @@
           | Very very long nickname with spaces
     +e.search-wrap
       +e('button').search(onclick="document.getElementsByClassName('sitetoolbar')[0].classList.toggle('sitetoolbar_search_open')")
-        +e('img').search-icon(src="/img/search-icon.png", width="22", height="23", alt="поиск", title="поиск")
   +e.tablet-menu
     +e.tablet-menu-line
       +e.tablet-menu-header
