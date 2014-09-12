@@ -17,8 +17,6 @@ exports.get = function *get(next) {
     return;
   }
 
-  console.log(renderedArticle.breadcrumbs);
-
   var locals = {
     title:      renderedArticle.title,
     body:       renderedArticle.body,
@@ -86,7 +84,8 @@ function* renderArticle(slug) {
   const renderer = new ArticleRenderer();
   rendered.body = yield renderer.render(article);
 
-  rendered.headers = renderer.metadata.headers;
+  rendered.headers = renderer.headers;
+
   rendered.head = renderer.getHead();
   rendered.foot = renderer.getFoot();
 

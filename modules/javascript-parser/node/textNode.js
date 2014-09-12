@@ -17,8 +17,4 @@ TextNode.prototype.toStructure = function(options) {
   return structure;
 };
 
-TextNode.prototype.toHtml = function() {
-  return this.text;
-};
-
 module.exports = TextNode;

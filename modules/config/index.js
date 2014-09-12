@@ -6,8 +6,10 @@ Error.stackTraceLimit = 1000;
 if (process.env.NODE_ENV == 'development' && process.env.DEV_TRACE) {
   // @see https://github.com/AndreasMadsen/trace
   // does not work now (buggy?)
+
+  Error.stackTraceLimit = Infinity;
   require('trace'); // active long stack trace
-//  require('clarify'); // Exclude node internal calls from the stack
+  //require('clarify'); // Exclude node internal calls from the stack
 }
 
 require('lib/debug');
@@ -27,8 +29,8 @@ if (fs.existsSync(path.join(secretDir, 'secret.js'))) {
 module.exports = {
   "port":      process.env.PORT || 3000,
   "host":      process.env.HOST || '0.0.0.0',
-  "siteHost":   "http://stage.javascript.ru",
-  "staticHost": "http://js.cx",
+  "siteHost":   process.env.SITE_HOST || "http://stage.javascript.ru",
+  "staticHost": process.env.STATIC_HOST || "http://js.cx",
 //  "siteHost":   "http://127.0.0.1:3000",
   "mongoose":  {
     "uri":     "mongodb://localhost/" + (process.env.NODE_ENV == 'test' ? "js_test" : "js"),

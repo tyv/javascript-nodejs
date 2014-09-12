@@ -1,4 +1,5 @@
 var BodyParser = require('../../parser/bodyParser');
+var HtmlTransformer = require('../../transformer/htmlTransformer');
 var path = require('path');
 var should = require('should');
 var util = require('util');
@@ -8,6 +9,7 @@ describe("BodyParser", function() {
 
 
   var options = {
+    staticHost: 'http://js.cx',
     resourceWebRoot: '/document',
     metadata:        {}
   };
@@ -17,7 +19,8 @@ describe("BodyParser", function() {
     options.metadata = {};
     var parser = new BodyParser(html, options);
     var result = parser.parseAndWrap();
-    var htmlResult = result.toHtml();
+    var transformer = new HtmlTransformer();
+    var htmlResult = transformer.transform(result);
     return htmlResult;
   }
 
@@ -118,25 +121,25 @@ describe("BodyParser", function() {
 
       it("wraps <img> in figure if it occupies a separate line", function () {
         (format("<img src=\"html6.jpg\" width=1 height=2>")).should.be.eql(
-          "<figure><img src=\"/document/html6.jpg\" width=\"1\" height=\"2\"></figure>"
+          "<figure><img src=\"http://js.cx/document/html6.jpg\" width=\"1\" height=\"2\"></figure>"
         );
       });
 
       it("wraps <img> without size if absent", function () {
         (format("<img src=\"html6.jpg\">")).should.be.eql(
-          "<figure><img src=\"/document/html6.jpg\"></figure>"
+          "<figure><img src=\"http://js.cx/document/html6.jpg\"></figure>"
         );
       });
 
       it("doesn't wrap <img> in <figure> if not on line start", function () {
         (format("   \t<img src=\"html6.jpg\">")).should.be.eql(
-          "   \t<img src=\"/document/html6.jpg\">"
+          "   \t<img src=\"http://js.cx/document/html6.jpg\">"
         );
       });
 
       it("doesn't wrap <img> in <figure> if line has something non-spacey after <img>", function () {
         (format("<img src=\"html6.jpg\"> bla")).should.be.eql(
-          "<img src=\"/document/html6.jpg\"> bla"
+          "<img src=\"http://js.cx/document/html6.jpg\"> bla"
         );
       });
 
@@ -200,7 +203,7 @@ describe("BodyParser", function() {
 
       it("creates ref metadata", function() {
         var result = format('# Header [#anchor]');
-        result.should.be.eql('<h1><a name="anchor" href="#anchor">Header</a></h1>');
+        result.should.be.eql('<h1>Header</h1>');
         options.metadata.refs.toArray().should.be.eql(["anchor"]);
       });
 

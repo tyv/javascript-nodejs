@@ -2,8 +2,9 @@ var TagNode = require('../../node/tagNode');
 var HeaderTag = require('../../node/headerTag');
 var CompositeTag = require('../../node/compositeTag');
 var TextNode = require('../../node/textNode');
+var HtmlTransformer = require('../../transformer/htmlTransformer');
 
-describe("toHtml", function() {
+describe("HtmlTransformer", function() {
 
   var options = {
     trusted: true,
@@ -25,11 +26,11 @@ describe("toHtml", function() {
     return node;
   }
 
-  describe("toHtml", function() {
+  describe("HtmlTransformer", function() {
 
     it("can transform text", function () {
       var input = new TextNode("text");
-      input.toHtml().should.be.eql("text");
+      new HtmlTransformer().transform(input).should.be.eql("text");
     });
 
     it("can transform nested", function () {
@@ -37,30 +38,13 @@ describe("toHtml", function() {
         node("Item")
       ], {'class': 'link', title: '"in quotes"'});
       input.trusted = true;
-      input.toHtml().should.be.eql('<a class="link" title="&quot;in quotes&quot;">Item</a>');
+      new HtmlTransformer().transform(input).should.be.eql('<a class="link" title="&quot;in quotes&quot;">Item</a>');
     });
 
     it("can transform header", function () {
-      var input = new HeaderTag(1, "header-italic", [
-        new TextNode('Header '),
-        new CompositeTag('em', [
-          new TextNode('italic')
-        ])
-      ]);
+      var input = new HeaderTag(1, "header-italic", "text");
       input.trusted = true;
-      input.toHtml().should.be.eql('<h1><a name="header-italic" href="#header-italic">Header <em>italic</em></a></h1>');
-    });
-
-    it("can transform header with anchor", function () {
-      var input = new HeaderTag(1, "anchor", [
-        new TextNode('Header '),
-        new CompositeTag('em', [
-          new TextNode('italic')
-        ])
-      ]);
-      input.trusted = true;
-
-      input.toHtml().should.be.eql('<h1><a name="anchor" href="#anchor">Header <em>italic</em></a></h1>');
+      new HtmlTransformer().transform(input).should.be.eql('<h1>text</h1>');
     });
 
     it("can transform more nested", function () {
@@ -76,7 +60,7 @@ describe("toHtml", function() {
       ]);
       input.trusted = true;
 
-      input.toHtml().should.be.eql('<div class="container"><ul><li>Item 1</li><li>Item <em class="nice">italic</em></li></ul></div>');
+      new HtmlTransformer().transform(input).should.be.eql('<div class="container"><ul><li>Item 1</li><li>Item <em class="nice">italic</em></li></ul></div>');
     });
 
 

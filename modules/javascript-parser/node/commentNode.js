@@ -10,8 +10,4 @@ CommentNode.prototype.getType = function() {
   return "CommentNode";
 };
 
-CommentNode.prototype.toHtml = function(options) {
-  return  "<!--" + this.text + "-->";
-};
-
 module.exports = CommentNode;

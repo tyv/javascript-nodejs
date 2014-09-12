@@ -13,7 +13,8 @@ exports.get = function *get(next) {
   }
 
   const renderer = new TaskRenderer();
-  // todo: implement this
+
+  
   this.body = yield renderer.renderContent(task);
 
 };

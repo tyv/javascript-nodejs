@@ -11,15 +11,4 @@ ImgTag.prototype.getType = function() {
   return "ImgTag";
 };
 
-ImgTag.prototype.toHtml = function(options) {
-
-  var html = TagNode.prototype.toHtml.call(this, options);
-  if (this.isFigure) {
-    html = '<figure>' + html + '</figure>';
-  }
-
-  return html;
-
-};
-
 module.exports = ImgTag;
