@@ -14,6 +14,8 @@ html
     - layout.centeredHeader = false
     - layout.sitemap = false
     - layout.header = false
+    - layout.notificationPopup = false
+    - layout.notificationStripe = false
 
     block variables
     include ../blocks/head
@@ -21,6 +23,8 @@ html
     if layout.sitetoolbar
       include ../blocks/sitetoolbar
       //- include ../blocks/sitetoolbar-login-loaders
+    if layout.notificationPopup
+      include ../blocks/notification-popup
     .page
       if layout.prevNext
         include ../blocks/page-nav
