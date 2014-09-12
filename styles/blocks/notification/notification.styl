@@ -1,0 +1,40 @@
+.notification
+	position relative
+
+	&__content
+		margin 22px
+		color color
+		font 400 size/16px font
+
+	&_popup,
+	&_message
+		border 1px solid
+		border-radius 4px
+
+	&_popup
+		border 1px solid
+		box-shadow 0 3px 3px rgba(0, 0, 0, .25)
+		position fixed
+		top 70px
+		left 50%
+		transform translateX(-50%)
+
+	&_stripe
+		padding 1px
+		margin -1px
+
+	&_error
+		background #F2DEDE
+		border-color #E7C9C9
+
+	&_warning
+		background #FCF8E1
+		border-color #ECE6C4
+
+	&_info
+		background #D9EDF8
+		border-color #C8E0ED
+
+	&_success
+		background #DFF0D6
+		border-color #D1E7C6
