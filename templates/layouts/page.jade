@@ -1,0 +1,18 @@
+doctype html
+include ../bem
+html
+  head
+    include ../blocks/head
+  body.no-icons
+    script require('client/head').fontTest();
+    include ../blocks/sitetoolbar
+    .page.page_sidebar_on
+      .page__inner
+        article.main
+          block main
+      if sidebar
+        +b.sidebar.page__sidebar
+          +e('button').toggle(onclick="document.querySelector('.page').classList.toggle('page_sidebar_on')")
+          +e.inner
+            +e.content
+              block sidebar
