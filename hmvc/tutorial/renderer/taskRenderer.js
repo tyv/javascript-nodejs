@@ -22,7 +22,7 @@ TaskRenderer.prototype.renderContent = function* (task) {
     trusted:           true
   };
 
-  const node = new BodyParser(task.solution, options).parseAndWrap();
+  const node = new BodyParser(task.content, options).parseAndWrap();
 
   node.removeChild(node.getChild(0));
 
@@ -72,6 +72,7 @@ TaskRenderer.prototype.renderSolution = function* (task) {
     child.trusted = node.trusted;
     part.content = yield transformer.transform(child, true);
   }
+
 
   return solutionParts;
 };

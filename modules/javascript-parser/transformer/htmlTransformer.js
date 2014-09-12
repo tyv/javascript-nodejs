@@ -8,7 +8,7 @@ var stripIndents = require('../util/source/stripIndents');
 var extractHighlight = require('../util/source/extractHighlight');
 
 function HtmlTransformer(options) {
-  this.options = options;
+  this.options = options || {};
 }
 
 HtmlTransformer.prototype.transform = function(node, isFinal) {

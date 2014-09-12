@@ -110,7 +110,9 @@ ArticleRenderer.prototype.render = function* (article) {
 
   }, this);
 
-  const transformer = new ServerHtmlTransformer();
+  const transformer = new ServerHtmlTransformer({
+    linkHeaderTag: true
+  });
 
   return yield transformer.transform(node, true);
 };

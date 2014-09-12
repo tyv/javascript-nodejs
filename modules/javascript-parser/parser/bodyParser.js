@@ -20,7 +20,6 @@ var ErrorTag = require('../node/errorTag');
 var CommentNode = require('../node/commentNode');
 var HeaderTag = require('../node/headerTag');
 var VerbatimText = require('../node/verbatimText');
-var TreeWalkerSync = require('../transformer/treeWalkerSync');
 var HREF_PROTOCOL_REG = require('../consts').HREF_PROTOCOL_REG;
 var makeAnchor = require('../util/makeAnchor');
 var TextNode = require('../node/textNode');

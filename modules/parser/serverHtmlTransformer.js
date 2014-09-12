@@ -190,12 +190,15 @@ ServerHtmlTransformer.prototype.transformSourceTag = function* (node) {
 };
 
 ServerHtmlTransformer.prototype.transformHeaderTag = function(node) {
-
   var headerContent = this.transformVerbatimText(node);
 
-  return '<h' + node.level + '><a class="main__anchor" name="' + node.anchor + '" href="#' + node.anchor + '">' +
-    headerContent +
-    '</a></h' + node.level + '>';
+  if (this.linkHeaderTag) {
+    return '<h' + node.level + '><a class="main__anchor" name="' + node.anchor + '" href="#' + node.anchor + '">' +
+      headerContent +
+      '</a></h' + node.level + '>';
+  } else {
+    return '<h' + node.level + '>' + headerContent + '</h' + node.level + '>';
+  }
 
 };
 

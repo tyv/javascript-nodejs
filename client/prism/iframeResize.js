@@ -2,17 +2,23 @@
 function iframeResize(ifrElem, callback) {
   if (!callback) callback = function(){};
 
+  var timeoutTimer = setTimeout(function() {
+    callback(new Error("timeout"));
+  }, 500);
+
+  function done(err) {
+    clearTimeout(timeoutTimer);
+    callback(err);
+  }
+
   // throw right now if cross-domain
   try {
     /* jshint -W030 */
     (ifrElem.contentDocument || ifrElem.contentWindow.document).body;
   } catch(e) {
-    iframeResizeCrossDomain(ifrElem, callback);
+    iframeResizeCrossDomain(ifrElem, done);
   }
 
-  setTimeout(function() {
-    callback(new Error("timeout"));
-  }, 500);
 
   // HINT: I shoulnd't move iframe in DOM, because it will reload it's contents when appended/inserted anywhere!
   // so I create a clone and work on it
@@ -32,7 +38,7 @@ function iframeResize(ifrElem, callback) {
       ifrElem.style.display = 'block';
       ifrElem.style.height = height + 10 + 'px';
       cloneIframe.remove();
-      callback();
+      done();
     };
 
     document.body.appendChild(cloneIframe);
@@ -45,7 +51,7 @@ function iframeResize(ifrElem, callback) {
   var doc = ifrElem.contentDocument || ifrElem.contentWindow.document;
   var height = doc.documentElement.scrollHeight || doc.body.scrollHeight;
   ifrElem.style.height = height + 10 + 'px';
-  callback();
+  done();
 }
 
 function iframeResizeCrossDomain(ifrElem, callback) {

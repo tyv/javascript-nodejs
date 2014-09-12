@@ -1,117 +1,113 @@
-link-type(type)
-	padding-right image-width('link-types/' + type + '.png') + 3
-	background-image url('/img/link-types/' + type + '.png')
-
-$pseudo 
+$pseudo
 	text-decoration none
 	border-bottom 1px dashed transparent
-	&:hover 
+	&:hover
 		border-bottom 1px dashed
 		text-decoration none
 
-$link-type 
+$link-type
 	background-position 100% 60%
 	background-repeat no-repeat
-	
+
 // .pseudo is for any tag but link that should look like pseudo-link
-.pseudo 
+.pseudo
 	@extend $pseudo
 	cursor pointer
 	color link_color
 
-.pseudo:hover 
+.pseudo:hover
 	color link_hover_color
 
-:link 
+:link
 	color link_color
 
-:visited 
+:visited
 	color link_visited_color
 
 @media (print)
-	a:visited 
+	a:visited
 		color link_color
 
 :link,
-:visited 
+:visited
 	text-decoration none
 
 a:hover,
-a:active 
+a:active
 	color link_hover_color
 	text-decoration underline
 
 .anchor,
-.pseudo 
+.pseudo
 	@extend $pseudo
 
-.link-ref 
+.link-ref
 	vertical-align super
 	font-size 90%
 
 // --
 .main [href^="mailto:"],
-a.mailto 
+a.mailto
 	@extend $link-type
 	link-type 'mailto'
 
 // --
 .main [target="_blank"],
-a.external 
+a.external
 	@extend $link-type
 	link-type 'newwindow'
 
 // --
 .main [href^='/play/'],
 .main [href^='http://plnkr.co/'],
-a.sandbox 
+a.sandbox
 	@extend $link-type
 	link-type 'sandbox'
 
 // --
 .main [href$=".doc"],
 .main [href$=".docx"],
-a.doc 
+a.doc
 	@extend $link-type
 	link-type 'doc'
 
 // --
 .main [href$=".zip"],
-a.zip 
+a.zip
 	@extend $link-type
 	link-type 'zip'
 
 // --
 .main [href$=".xls"],
 .main [href$=".xlsx"],
-a.xls 
+a.xls
 	@extend $link-type
 	link-type 'xls'
 
 // --
 .main [href$=".pdf"],
-a.pdf 
+a.pdf
 	@extend $link-type
 	link-type 'pdf'
 
 // --
 .main [href^='http://developer.mozilla.org'],
 .main [href^='https://developer.mozilla.org'],
-a.mdn 
+a.mdn
 	@extend $link-type
 	link-type 'mdn'
 
 // --
 .main [href^='http://msdn.microsoft.com'],
 .main [href^='https://msdn.microsoft.com'],
-a.msdn 
+a.msdn
 	@extend $link-type
 	link-type 'msdn'
 
 // --
 .main [href^='http://wikipedia.org'],
 .main [href*='wikipedia.org'],
-a.wiki 
+a.wiki
 	@extend $link-type
 	link-type 'wiki'
 
@@ -121,13 +117,13 @@ a.wiki
 .main [href^='http://www.w3.org'],
 .main [href^='https://www.w3.org'],
 .main [href^='https://w3.org'],
-a.w3c 
+a.w3c
 	@extend $link-type
 	link-type 'w3c'
 
 // --
 .main [href^='http://es5.github.com'],
-a.ecma 
+a.ecma
 	@extend $link-type
 	link-type 'ecma'
 // --
@@ -139,5 +135,5 @@ $plain-link
 	padding 0
 	background-image none
 
-.main .plain 
+.main .plain
 	@extend $plain-link
