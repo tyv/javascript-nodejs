@@ -19,12 +19,12 @@ html
 
     block variables
     include ../blocks/head
-  body
+  body.notification_on
+    if layout.notificationPopup
+      include ../blocks/notification-popup
     if layout.sitetoolbar
       include ../blocks/sitetoolbar
       //- include ../blocks/sitetoolbar-login-loaders
-    if layout.notificationPopup
-      include ../blocks/notification-popup
     .page
       if layout.prevNext
         include ../blocks/page-nav
