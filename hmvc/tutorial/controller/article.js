@@ -25,7 +25,8 @@ exports.get = function *get(next) {
     modified:   renderedArticle.modified,
     prev:       renderedArticle.prev,
     next:       renderedArticle.next,
-    breadcrumbs: renderedArticle.breadcrumbs
+    breadcrumbs: renderedArticle.breadcrumbs,
+    sitetoolbar: true
   };
 
   var section;

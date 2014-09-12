@@ -5,7 +5,8 @@ html
     include ../blocks/head
   body.no-icons
     script require('client/head').fontTest();
-    include ../blocks/sitetoolbar
+    if sitetoolbar
+      include ../blocks/sitetoolbar
     .page.page_sidebar_on
       .page__inner
         article.main

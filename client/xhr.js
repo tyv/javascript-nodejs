@@ -1,4 +1,4 @@
-require('./polyfill/dom4');
+require('./polyfill');
 require('./xhr-notify');
 
 module.exports = xhr;
