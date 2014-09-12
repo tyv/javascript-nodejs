@@ -15,10 +15,11 @@ block main
         +e.answer
           if (task.solution instanceof Array)
             each step, i in task.solution
-              +e('button').step-show(type="button", onclick="showStep(this)") Шаг #{i+1}
-              +e.answer-content
-                +e('h4').step-title !{step.title}
-                != step.content
+              +e.step
+                +e('button').step-show(type="button", onclick="showStep(this)") Шаг #{i+1}
+                +e.answer-content
+                  +e('h4').step-title !{step.title}
+                  != step.content
           else
             +e.answer-content
             != step.content
