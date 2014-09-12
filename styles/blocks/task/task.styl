@@ -1,0 +1,56 @@
+.task
+	margin 30px 0
+
+	&__back,
+	&__number,
+	&__importance
+		font-size size
+
+	&__back
+		u
+			text-decoration none
+
+	&__back:hover
+		text-decoration none
+		u
+			text-decoration underline
+
+	&__back::before
+		content "← "
+
+	&__header
+		display table
+		width 100%
+		margin 20px 0 16px
+
+	&__title-wrap,
+	&__header-aside
+		display table-cell
+		vertical-align baseline
+
+	&__title-wrap
+		border-top 1px solid #eee
+
+	&__header-aside
+		width 1%
+		text-align right
+		white-space nowrap
+		color #656565
+		padding-left 35px
+
+	&__number,
+	&__importance
+		margin-left 19px
+
+	& &__title
+		margin 17px 0 0
+
+	&__content,
+	&__content p,
+	&__content ul,
+	&__content ol,
+	&__content figure,
+	&__content .code-example
+	&__content .codebox,
+	&__content .complex-code
+		margin 16px 0
