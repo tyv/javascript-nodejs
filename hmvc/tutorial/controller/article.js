@@ -58,7 +58,8 @@ exports.get = function *get(next) {
     sections: [section]
   };
 
-  _.assign(this.locals, locals);
+  // we don't need it, but didn't test
+//  _.assign(this.locals, locals);
 
   this.body = this.render("article", locals);
 

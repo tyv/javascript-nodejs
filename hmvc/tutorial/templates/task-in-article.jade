@@ -1,0 +1,21 @@
++e.task
+  +e.task-header
+    +e.task-title-wrap
+      +e('h3').task-title Задача #{i + 1}
+    +e.task-header-aside
+      +e('a').open-link(href=task.url, target="_blank")
+      +e('span').importance(title="Насколько эта задача важна для освоения материала, от 1 до 5") важность: #{task.importance}
+      +e('button').solution(type="button") решение
+  +e.content
+    +e.answer
+      if (task.solution.length)
+        each step, i in task.solution
+          +e('button').step-show(type="button", onclick="showStep(this)") Шаг #{i+1}
+          +e.answer-content
+            +e('h4').step-title #{step.title}
+            != step.content
+      else
+        +e.answer-content
+        != step.content
+      +b('button').close-button.__answer-close(type="button", title="закрыть")
+    != task.content

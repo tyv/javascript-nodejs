@@ -49,26 +49,28 @@ TaskRenderer.prototype.renderSolution = function* (task) {
   const transformer = new ServerHtmlTransformer();
 
   const solutionParts = [];
-  if (children[0] instanceof HeaderTag) {
-    // split into parts
-    var currentPart;
-    for (var i = 0; i < children.length; i++) {
-      var child = children[i];
-      if (child instanceof HeaderTag) {
-        currentPart = { title: yield transformer.transform(child, true), content: [] };
-        solutionParts.push(currentPart);
-        continue;
-      }
+  if (!(children[0] instanceof HeaderTag)) {
+    return transformer.transform(node, true);
+  }
 
-      currentPart.content.push(child);
+  // split into parts
+  var currentPart;
+  for (var i = 0; i < children.length; i++) {
+    var child = children[i];
+    if (child instanceof HeaderTag) {
+      currentPart = { title: yield transformer.transform(child, true), content: [] };
+      solutionParts.push(currentPart);
+      continue;
     }
-  } else {
-    solutionParts.push({title: "", content: children});
+
+    currentPart.content.push(child);
   }
 
   for (var i = 0; i < solutionParts.length; i++) {
     var part = solutionParts[i];
-    part.content = transformer.transform(new CompositeTag(null, part.content), true);
+    var child = new CompositeTag(null, part.content);
+    child.trusted = node.trusted;
+    part.content = yield transformer.transform(child, true);
   }
 
   return solutionParts;
