@@ -97,6 +97,19 @@ ArticleRenderer.prototype.render = function* (article) {
 
   node.removeChild(node.getChild(0));
 
+  this.headers = [];
+
+  node.getChildren().forEach(function(child) {
+    if (child.getType() != 'HeaderTag') return;
+
+    this.headers.push({
+      level: child.level,
+      anchor: child.anchor,
+      title: child.text
+    });
+
+  }, this);
+
   const transformer = new ServerHtmlTransformer();
 
   return yield transformer.transform(node, true);

@@ -1,67 +1,25 @@
 
-extends ../layouts/task
+extends /layouts/page
 
-block content
-  +b.task
-    +e.header
-      +e('h1').title !{title}
-      +e.info
-        +e('span').number
-          | Задание
-          =" "
-          b #215
-        =" "
-        +e('span').importance
-          | Важность
-          =" "
-          b 5
+block main
+  +e.task
+    +e.task-header
+      +e.task-title-wrap
+        +e('h3').task-title #{task.title}
+      +e.task-header-aside
+        +e('a').open-link(href=task.url, target="_blank")
+        +e('span').importance(title="Насколько эта задача важна для освоения материала, от 1 до 5") важность: #{task.importance}
+        +e('button').solution(type="button") решение
     +e.content
-      p Для страницы:
-      pre.language-javascript.line-numbers
-        | &lt;!DOCTYPE HTML&gt;
-        | &lt;html&gt;
-        | &lt;head&gt;
-        | &lt;meta charset="UTF-8"&gt;
-        | &lt;title&gt;Задача 215&lt;/title&gt;
-        | &lt;/head&gt;
-        | &lt;body&gt;
-        | &lt;div&gt;Пользователи&lt;/div&gt;
-        | &lt;ul id="user-list"&gt;
-        | &lt;li&gt;Маша&lt;/li&gt;
-        | &lt;li&gt;Вовочка&lt;/li&gt;
-        | &lt;/ul&gt;
-        |
-        | &lt;!-- Комментарий --&gt;
-        |
-        | &lt;script&gt;
-        | // ... ваш код
-        | &lt;/script&gt;
-        | &lt;/body&gt;
-        | &lt;/html&gt;
-      ul
-        li
-          | Напишите код, который получает элемент
-          =" "
-          code HEAD
-          | .
-        li
-          | Напишите код, который получит
-          =" "
-          code UL
-          | .
-        li
-          | Напишите код, который получит второй
-          =" "
-          code LI
-          | .
-          =" "
-          | Будет ли ваш код работать в IE8-, если комментарий переместить
-          =" "
-          em между
-          =" "
-          | элементами
-          =" "
-          code LI
-          | .
-      p
-        a.sandbox(href="/play/task-215") Открыть исходный документ
+      +e.answer
+        if (task.solution.length)
+          each step, i in task.solution
+            +e('button').step-show(type="button", onclick="showStep(this)") Шаг #{i+1}
+            +e.answer-content
+              +e('h4').step-title #{step.title}
+              != step.content
+        else
+          +e.answer-content
+          != step.content
+        +b('button').close-button.__answer-close(type="button", title="закрыть")
+      != task.content

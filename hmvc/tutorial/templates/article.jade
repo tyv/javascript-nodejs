@@ -1,10 +1,15 @@
-extends /layouts/base
+extends /layouts/main
 
 block sidebar
   include sidebar
 
 block content
   != body
+
+  if tasks
+    +e('h2').title Задачи
+    each task, i in tasks
+      include task-in-article
 
   script(src=asset("/js/tutorial.js"))
   script require('tutorial/client').init();
