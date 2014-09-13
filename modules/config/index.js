@@ -1,14 +1,29 @@
 if (!process.env.NODE_ENV) {
   process.env.NODE_ENV = 'development';
 }
+
 Error.stackTraceLimit = 1000;
 
 if (process.env.NODE_ENV == 'development' && process.env.DEV_TRACE) {
   // @see https://github.com/AndreasMadsen/trace
   // does not work now (buggy?)
 
-  Error.stackTraceLimit = Infinity;
   require('trace'); // active long stack trace
+  //require('clarify');
+
+  var csvPath = require('path').resolve(__dirname, 'worker-benchmark.csv');
+  var out = require('fs').createWriteStream(csvPath);
+
+  setInterval(function() {
+    var time = Date.now();
+    var memo = process.memoryUsage();
+    out.write(
+      time + ',' +
+      memo.rss + ', ' +
+      memo.heapTotal + ', ' +
+      memo.heapUsed + '\n'
+    );
+  }, 200);
   //require('clarify'); // Exclude node internal calls from the stack
 }
 
@@ -16,21 +31,26 @@ require('lib/debug');
 
 var path = require('path');
 var fs = require('fs');
+var _ = require('lodash');
 
 var secretDir = path.join(process.cwd(), '../secret');
 
+module.exports = {
+  "port": process.env.PORT || 3000,
+  "host": process.env.HOST || '0.0.0.0',
+  "siteHost": process.env.SITE_HOST || "",
+  "staticHost": process.env.STATIC_HOST || ""
+};
+
+
 var secret;
 if (fs.existsSync(path.join(secretDir, 'secret.js'))) {
-  secret = require(path.join(secretDir, 'secret'));
+  secret = require(path.join(secretDir, 'secret'))(module.exports);
 } else {
   secret = require('./secret.template');
 }
 
-module.exports = {
-  "port":      process.env.PORT || 3000,
-  "host":      process.env.HOST || '0.0.0.0',
-  "siteHost":   process.env.SITE_HOST || "",
-  "staticHost": process.env.STATIC_HOST || "",
+_.assign(module.exports, {
 //  "siteHost":   "http://127.0.0.1:3000",
   "mongoose":  {
     "uri":     "mongodb://localhost/" + (process.env.NODE_ENV == 'test' ? "js_test" : "js"),
@@ -71,4 +91,4 @@ module.exports = {
   },
   projectRoot: process.cwd(),
   publicRoot:  path.join(process.cwd(), 'public')
-};
+});

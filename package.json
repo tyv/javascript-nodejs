@@ -98,7 +98,7 @@
     "path-to-regexp": "*",
     "prismjs": "git://github.com/LeaVerou/prism#gh-pages",
     "request": "*",
-    "sanitize-html": "^1.3.0",
+    "sanitize-html": "*",
     "send": "*",
     "stylus": "*",
     "svgutils": "*",
