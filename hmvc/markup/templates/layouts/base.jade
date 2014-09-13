@@ -14,10 +14,15 @@ html
     - layout.centeredHeader = false
     - layout.sitemap = false
     - layout.header = false
+    - layout.notificationPopup = false
+    - layout.notificationStripe = false
+    - layout.bodyClass = ""
 
     block variables
     include ../blocks/head
-  body
+  body(class= layout.bodyClass != "" ? layout.bodyClass : undefined)
+    if layout.notificationPopup
+      include ../blocks/notification-popup
     if layout.sitetoolbar
       include ../blocks/sitetoolbar
       //- include ../blocks/sitetoolbar-login-loaders

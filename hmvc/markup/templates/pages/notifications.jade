@@ -2,7 +2,7 @@ extends ../layouts/base
 
 //- http://stackoverflow.com/questions/12646451/how-to-pass-variables-between-jade-templates
 block variables
-  - self.title = 'Пример задач в уроке — Javascript.ru';
+  - self.title = 'Виды уведомлений';
 
   //- layout
   - layout.sitetoolbar = true
@@ -10,10 +10,12 @@ block variables
   - layout.sidebar = true
   - layout.articleFoot = true
   - layout.header = true
+  - layout.notificationPopup = true
+  - layout.notificationStripe = true
+  - layout.bodyClass = "notification_on"
 
 block content
-  +b.notification._popup._success
-    +e.content lorem ipsum
+  include ../blocks/notification-message
   h2 
     a.main__anchor#positivism(href="#positivism")
       | Онтологический позитивизм в XXI веке

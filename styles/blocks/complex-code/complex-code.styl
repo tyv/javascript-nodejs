@@ -1,3 +1,6 @@
+// Чтобы показать кнопки прокрутки обертке блока .complex-code
+// добавляется класс .complex-code_scroll
+
 .complex-code
 	border 3px solid #f5f2f0
 
@@ -8,25 +11,53 @@
 		font-size 13px
 
 	&__switches-wrap,
-	&__all,
-	&__open-wrap
-		width 100%
+	&__buttons
 		display table-cell
+		white-space nowrap
 		vertical-align top
 
-	&__all
-		white-space nowrap
+	&__scroll-wrap
+		width 0
+		display none
+
+	&_scroll &__scroll-wrap
+		display table-cell
+
+	&__buttons
+		background #f0edeb
+
+	&__scroll-button
+		@extend $button-reset
+		width 17px
+		padding 0 1px
+		background #d8d8d8
+		height 49px
+		color #fff
+		line-height 49px
+		font-size 18px
+
+	&__scroll-button_left::before
+		@extend $font-angle-left
+
+	&__scroll-button_right::before
+		@extend $font-angle-right
+
+	&__switches-wrap
+		width 100%
 
 	&__switches
-		height 65px
+		height 59px
 		margin-bottom -10px
 		overflow hidden
 
+	&__switches-items // будет использоваться для прокрутки
+		position relative
+
 	&__switch
-		color #6198d2
+		color #656565
 		background #f5f2f0
 		text-align center
-		padding 15px
+		padding  12px 15px
 		line-height 25px
 		white-space nowrap
 		float left
@@ -34,17 +65,12 @@
 		margin-bottom 15px
 
 	&__switch:hover,
-	&__open:hover,
-	&__all-toggle:hover,
-	&__all-item:hover,
-	&__all-item_current
-		background #f2ede9
+	&__button:hover
+		background #e6e6e6
 
 	&__switch_current,
-	&__switch_current:hover,
-	& &__all_open,
-	& &__all_open &__all-toggle
-		background #e0dbd7
+	&__switch_current:hover
+		background #C4C2C0
 		color #fff
 		position: relative
 
@@ -57,37 +83,31 @@
 		top 100%
 		left 50%
 		margin-left -7px
-		border-top 8px solid #e0dbd7
+		border-top 8px solid #C4C2C0
 		border-right 7px solid transparent
 		border-left 7px solid transparent
 
-	&__all-toggle
-		color #999
-		padding 15px
-		line-height 25px
-		cursor pointer
-
-	&__all-toggle::after
-		@extend $font-open
-		margin-left 1ex
-
 	// extra strong selector
-	/body & &__open
+	/body & &__button
 		@extend $plain-link
-		display block
-		padding 15px
+		display inline-block
+		font-size 18px
+		padding 12px
 		width 25px
 		height 25px
 		text-align center
 		color #999
+		outline 0
 
-	&__open,
-	&__open:hover
+	&__button,
+	&__button:hover
 		text-decoration none
 
-	&__open::before
+	&__button_open::before
 		@extend $font-external
-		font-size 18px
+
+	&__button_download::before
+		@extend $font-download
 
 	&__contents
 		margin 15px
@@ -103,19 +123,6 @@
 		z-index 99
 		display none
 		min-width 111px
-
-	&__all_open &__dropdown
-		display block
-
-	&__all-item
-		border 1px solic #cfc
-		cursor pointer
-		color #6198d2
-		padding 5px 20px
-
-	&__all-item_current
-		color #999
-		cursor default
 
 	&__section
 		display none
