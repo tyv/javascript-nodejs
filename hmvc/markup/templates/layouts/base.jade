@@ -16,10 +16,11 @@ html
     - layout.header = false
     - layout.notificationPopup = false
     - layout.notificationStripe = false
+    - layout.bodyClass = ""
 
     block variables
     include ../blocks/head
-  body.notification_on
+  body(class= layout.bodyClass != "" ? layout.bodyClass : undefined)
     if layout.notificationPopup
       include ../blocks/notification-popup
     if layout.sitetoolbar
