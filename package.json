@@ -25,7 +25,6 @@
     "escape-html": "*",
     "event-stream": "*",
     "fs-extra": "*",
-    "fsevents": "*",
     "glob": "*",
     "glob-stream": "*",
     "gm": "*",
@@ -140,6 +139,9 @@
     "supertest": "*",
     "trace": "*",
     "watchify": "*"
+  },
+  "optionalDependencies": {
+    "fsevents": "*"
   },
   "engines": {
     "node": ">=0.11.13"
