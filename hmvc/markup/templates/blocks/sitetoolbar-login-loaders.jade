@@ -1,8 +1,10 @@
 +b.sitetoolbar
+  if layout.notificationStripe
+    include ../blocks/notification-stripe
   +e.content
     +e.logo-wrap
       +e('a').link._logo(href="/")
-        +e('img').logo(src="/i/sitetoolbar__logo.png", height="34", width="121")
+        +e('img').logo(src="/i/sitetoolbar__logo.svg", height="35", width="121", alt="javascript.ru")
     +e.nav-toggle-wrap
       //- FIXME: onclick - демо, убрать
       // при начале скролла тут же исчезает, для этого body += .scrolled-out
@@ -30,7 +32,6 @@
         | Вход / Регистрация
     +e.search-wrap
       +e('button').search(onclick="document.getElementsByClassName('sitetoolbar')[0].classList.toggle('sitetoolbar_search_open')")
-        +e('img').search-icon(src="/img/search-icon.png", width="22", height="23", alt="поиск", title="поиск")
   +e.tablet-menu
     +e.tablet-menu-line
       +e.tablet-menu-header

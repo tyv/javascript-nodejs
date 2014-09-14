@@ -13,8 +13,19 @@ exports.get = function *get(next) {
   }
 
   const renderer = new TaskRenderer();
-  // todo: implement this
+
+
   this.body = yield renderer.renderContent(task);
+
+  this.locals.task = {
+    url: task.getUrl(),
+    title: task.title,
+    importance: task.importance,
+    content: yield renderer.renderContent(task),
+    solution: yield renderer.renderSolution(task)
+  };
+
+  this.body = this.render("task");
 
 };
 

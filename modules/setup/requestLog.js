@@ -6,7 +6,7 @@ module.exports = function(app) {
     this.log = app.log.child({
       reqId: this.reqId
     });
-    this.req.log = this.log; // passport.js strategy passes req around
+    this.request.log = this.log; // passport.js strategy passes req around
 
     yield next;
   });

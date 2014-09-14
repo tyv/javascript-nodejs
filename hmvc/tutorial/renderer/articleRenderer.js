@@ -1,6 +1,7 @@
-const parseAndTransform = require('./parseAndTransform');
 const _ = require('lodash');
 const config = require('config');
+const BodyParser = require('javascript-parser').BodyParser;
+const ServerHtmlTransformer = require('parser/serverHtmlTransformer');
 
 // Порядок библиотек на странице
 // - встроенный CSS
@@ -20,13 +21,13 @@ function ArticleRenderer() {
 
 // gets <head> content from metadata.libs & metadata.head
 ArticleRenderer.prototype.getHead = function() {
-  return [].concat(this._libsToJsCss( this._unmapLibsNames(this.metadata.libs.toArray()) ).css, this.metadata.head)
+  return [].concat(this._libsToJsCss(this._unmapLibsNames(this.metadata.libs.toArray())).css, this.metadata.head)
     .filter(Boolean).join("\n");
 };
 
 // js at bottom
 ArticleRenderer.prototype.getFoot = function() {
-  return this._libsToJsCss( this._unmapLibsNames(this.metadata.libs.toArray()) ).js
+  return this._libsToJsCss(this._unmapLibsNames(this.metadata.libs.toArray())).js
     .filter(Boolean).join("\n");
 };
 
@@ -77,7 +78,7 @@ ArticleRenderer.prototype._libsToJsCss = function(libs) {
   });
 
   return {
-    js: js,
+    js:  js,
     css: css
   };
 };
@@ -85,15 +86,35 @@ ArticleRenderer.prototype._libsToJsCss = function(libs) {
 
 ArticleRenderer.prototype.render = function* (article) {
   const options = {
-    staticHost: config.staticHost,
+    staticHost:      config.staticHost,
     resourceWebRoot: article.getResourceWebRoot(),
     metadata:        this.metadata,
-    trusted:         true,
-    removeFirstHeader: true
+    trusted:         true
   };
 
-  var node = yield parseAndTransform(article.content, options);
-  return node.toFinalHtml();
+  // shift off the title header
+  const node = new BodyParser(article.content, options).parseAndWrap();
+
+  node.removeChild(node.getChild(0));
+
+  this.headers = [];
+
+  node.getChildren().forEach(function(child) {
+    if (child.getType() != 'HeaderTag') return;
+
+    this.headers.push({
+      level: child.level,
+      anchor: child.anchor,
+      title: child.text
+    });
+
+  }, this);
+
+  const transformer = new ServerHtmlTransformer({
+    linkHeaderTag: true
+  });
+
+  return yield transformer.transform(node, true);
 };
 
 

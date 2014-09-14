@@ -83,6 +83,8 @@ function getFlagNames(flags) {
 
 
 function onFsEvents(filePath, flags, id) {
+  if (~filePath.indexOf('___jb_')) return; // ignore JetBrains Webstorm tmp files
+
   var relFilePath = filePath.slice(this.root.length + 1);
 
   log(relFilePath, getFlagNames(flags));
@@ -103,12 +105,16 @@ function onFsEvents(filePath, flags, id) {
   // (the DEFAULT LATENCY IS 0.1)
   // so it may be worthwhile to wait 0.1 after the task, to make sure everything's finished
 
-  function watch(patterns, task) {
-    if (!Array.isArray(patterns)) patterns = [patterns];
+  function watch(mapping, task) {
+    // mapping.watch mapping.ignore mapping.task
+    var patternsWatch = Array.isArray(mapping.watch) ? mapping.watch : [mapping.watch];
+    var patternsIgnore = !mapping.ignore ? [] :
+      Array.isArray(mapping.ignore) ? mapping.ignore : [mapping.ignore];
 
-    var found = false;
-    for (var i = 0; i < patterns.length; i++) {
-      var pattern = patterns[i];
+    // matches any watch => found=true
+    var found = false, i, pattern;
+    for (i = 0; i < patternsWatch.length; i++) {
+      pattern = patternsWatch[i];
       if (minimatch(relFilePath, pattern)) {
         found = true;
         break;
@@ -117,15 +123,30 @@ function onFsEvents(filePath, flags, id) {
 
     if (!found) return;
 
-    pushTaskQueue(task);
+    // matches any ignore => found=false
+    for (i = 0; i < patternsIgnore.length; i++) {
+      pattern = patternsIgnore[i];
+
+      if (minimatch(relFilePath, pattern)) {
+        found = false;
+        break;
+      }
+    }
+
+    if (!found) return;
+
+    if (mapping.task == 'client:browserify') {
+      console.log("Match ", relFilePath);
+    }
+
+    pushTaskQueue(mapping.task);
   }
 
-  this.taskMapping.forEach(function(mapping) {
-    watch(mapping.watch, mapping.task);
-  });
-
+  this.taskMapping.forEach(watch);
 }
 
+// options.root - where to start watching
+// options.taskMapping - regexp -> task mappings
 module.exports = function(options) {
 
   return function(callback) {

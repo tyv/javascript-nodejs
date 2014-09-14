@@ -1,7 +1,6 @@
 'use strict';
 
 const moment = require('moment');
-const Parser = require('jade').Parser;
 const util = require('util');
 const path = require('path');
 const config = require('config');
@@ -36,7 +35,7 @@ function addStandardHelpers(locals, ctx) {
   // when I use a variable in jade, it's code analyzer (addWith, "with" module)
   // detects the variable and uses it in the wrapping function, effectively triggering it's evaluation
   // so I assign getter not to "csrf", but to "csrf.token", which will only be asked by "csrf.token", not a wrapper
-  Object.defineProperty(locals, "csrf", {
+  locals.csrf = {
     token: {
       get: function() {
         if (!ctx.req.user) {
@@ -51,7 +50,7 @@ function addStandardHelpers(locals, ctx) {
         return csrf;
       }
     }
-  });
+  };
 
   // we don't use defer in sessions, so can assign it
   // (simpler, need to call yield this.session)

@@ -1,8 +1,14 @@
 .close-button
 	@extend $button-reset
-	size-of('close-button.png')
-	background asset('close-button.png')
+	font-size 24px
+	line-height 32px
 	cursor pointer
-	overflow hidden
-	white-space nowrap
-	text-indent 200%
+	text-align center
+	color #fff
+	background #999
+	border-radius 50%
+	width 32px
+	height 32px
+
+	&::before
+		@extend $font-close-cross

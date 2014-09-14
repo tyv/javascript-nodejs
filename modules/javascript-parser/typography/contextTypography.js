@@ -67,8 +67,8 @@ function makeParagraphs(html) {
 //}
 //
 
-function contextTypography(html) {
-
+function contextTypography(html, options) {
+  options = options || {};
   var noTypographyReg = new RegExp('<(' + VERBATIM_TAGS.join('|') + '|code)' + ATTRS_REG.source + '>[\\s\\S]*?</\\1>', 'gim');
 
   var labels = [];
@@ -82,7 +82,10 @@ function contextTypography(html) {
 
   html = replaceQuotesWithLaquo(html);
 //  html = wrapImgs(html);
-  html = makeParagraphs(html);
+
+  if (!options.noParagraphs) {
+    html = makeParagraphs(html);
+  }
 
   var i = 0;
   html = html.replace(new RegExp('<(div|span)>'+label+'</\\1>', 'gm'), function() {

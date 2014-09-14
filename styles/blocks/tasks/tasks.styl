@@ -1,0 +1,144 @@
+.tasks
+	margin-bottom 60px
+
+	& &__title
+		font-size 28px
+		margin-bottom 19px
+
+	&__title::before
+		@extend $font-ok
+		display inline-block
+		width 35px
+		color #80BD57
+
+	&__task
+		border-top 1px solid #eee
+		margin 19px 0
+
+	&__task-header
+		display table
+		width 100%
+		white-space nowrap
+		margin 19px 0 12px
+
+	&__task-title-wrap,
+	&__task-header-aside
+		display table-cell
+		vertical-align baseline
+
+	&__task-header-aside
+		width 100%
+		padding-left 18px
+
+	& &__task-title
+		margin 0
+
+	& &__open-link
+		@extend $plain-link
+		text-decoration none
+		margin-right 16px
+		outline 0
+
+	&__open-link::before
+		@extend $font-external
+		font-size 16px
+		display inline-block
+		min-width 16px
+		vertical-align bottom
+
+	&__importance
+		color #999
+		margin-right 30px
+
+	&__solution
+		@extend $link-button
+
+	&__task_answer_open &__solution
+		position relative
+		background #568DCA
+		color #fff
+		text-decoration none
+		line-height 18px
+		padding 4px 15px
+		margin -4px -15px
+		border-radius 12px
+
+	&__task_answer_open &__solution::after
+		content ""
+		position absolute
+		border-bottom 14px solid #F7F6EA
+		border-right 9px solid transparent
+		border-left 9px solid transparent
+		width 0
+		height 0
+		top 100%
+		left 50%
+		margin 5px 0 0 -7px
+
+	&__content,
+	&__content p,
+	&__content ul,
+	&__content ol,
+	&__content figure,
+	&__content .code-example
+	&__content .codebox,
+	&__content .complex-code
+		margin 14px 0
+
+	&__content
+		margin-bottom 21px
+		line-height 140%
+
+	&__answer
+		border 3px solid #F7F6EA
+		margin: 20px 0 14px
+		position relative
+		display none
+
+	&__answer-content
+		margin 25px 30px
+
+	&__answer-close,
+	&__answer-close:active
+		position absolute
+		top -17px
+		right -17px
+
+	&__task_answer_open &__answer
+		display block
+
+	&__step-show
+		@extend $button-reset
+		background #F7F6EA
+		display block
+		width 100%
+		height 55px
+		text-align left
+		padding 0 30px
+		font 700 114% font
+		color inherit
+		position relative
+
+	&__step-show::before
+		content ""
+		position absolute
+		top 0
+		left -3px
+		right -3px
+		border-top 1px solid #edece2
+
+	&__step:first-child &__step-show::before,
+	&__step_open + &__step &__step-show::before
+		display none
+
+	&__step &__answer-content
+		display none
+
+	&__step_open &__answer-content
+		display block
+
+	&__step_open &__step-show
+		display none
+
+	& &__step-title
+		margin 25px 0 14px

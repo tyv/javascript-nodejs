@@ -10,13 +10,28 @@ var Notification = require('node-notifier');
 var log = require('log')();
 var _ = require('lodash');
 var path = require('path');
+var through2 = require('through2');
 var co = require('co');
 var thunkify = require('thunkify');
+var crypto = require('crypto');
 
 //var requireify = require('requireify');
 // should expose all modules to require, but missed part of them. buggy!
 
 var browserifyJade = require('browserify-jade');
+
+function updateBrowserifyVersion(path, version) {
+  var versions;
+
+  try {
+    versions = require('client/versions.json');
+  } catch(e) {
+    versions = {};
+  }
+
+  versions[path] = version;
+  fs.writeFileSync('./client/versions.json', JSON.stringify(versions));
+}
 
 function makeBundler(options) {
 
@@ -27,8 +42,8 @@ function makeBundler(options) {
     packageCache: {},
     fullPaths:    true,
     // uncompressed prelude (bundle-top) for debugging
-    preludePath: require.resolve('browser-pack/prelude'),
-    prelude: fs.readFileSync(require.resolve('browser-pack/prelude'), 'utf-8')
+    preludePath:  require.resolve('browser-pack/prelude'),
+    prelude:      fs.readFileSync(require.resolve('browser-pack/prelude'), 'utf-8')
   });
 
   var bundler = browserify(opts);
@@ -46,6 +61,7 @@ function makeBundler(options) {
     parser:        require('lib/jadeParserMultipleDirs')
   }));
 
+
   bundler.rebundle = function(callback) {
     log.debug("browserify start: " + bundler._options.dst);
     this.bundle()
@@ -58,12 +74,24 @@ function makeBundler(options) {
       })
       .pipe(source(path.basename(this._options.dst)))
       .pipe(gp.if(process.env.NODE_ENV == 'production', gp.streamify(gp.uglify())))
+      .pipe(gp.streamify(through2.obj(function collectJsVersions(file, enc, cb) {
+
+        var d = new Date();
+        var md5 = crypto.createHash('md5').update(file.contents).digest('hex').slice(-6);
+
+        updateBrowserifyVersion('/js/' + path.basename(bundler._options.dst), md5);
+
+        this.push(file);
+        cb();
+
+      })))
       .pipe(gulp.dest(path.dirname(this._options.dst)))
       .on('end', function() {
         gutil.log("browserify done: " + bundler._options.dst);
         callback();
       });
   };
+
 
   bundler.on('file', function(file, id) {
     log.debug(file, ':', id);
@@ -82,14 +110,14 @@ function makeBundler(options) {
   }
 
   /*
-  // watchify is buggy, see
+   // watchify is buggy, see
    https://github.com/substack/watchify/issues/72
    https://github.com/substack/watchify/issues/77
    until fixed, can't use
-  if (process.env.NODE_ENV == 'development') {
-    bundler = watchify(bundler);
-  }
-  */
+   if (process.env.NODE_ENV == 'development') {
+   bundler = watchify(bundler);
+   }
+   */
 
   return bundler;
 }
@@ -112,15 +140,25 @@ function bundleHead(callback) {
 
   // head.js does not use any polyfills etc
   var bundler = makeBundler({
-    dst:     './public/js/head.js',
+    dst:       './public/js/head.js',
     // require['client/head'] did't work some time, because it put 'client/head' path, not full path into cache, and then require from another bundle looks for full path
-    require: ['client/head'],
+    require:   ['client/head'],
     externals: ['auth/client'] // head needs authModal
   });
   // expose does not work with watchify
   // https://github.com/substack/watchify/issues/72#issuecomment-50747549
   bundler.rebundle(callback);
+}
 
+function bundleFooter(callback) {
+  var bundler = makeBundler({
+    dst:       './public/js/footer.js',
+    require:   ['client/footer'],
+    externals: ['client/head'] // already loaded
+  });
+  // expose does not work with watchify
+  // https://github.com/substack/watchify/issues/72#issuecomment-50747549
+  bundler.rebundle(callback);
 }
 
 function bundleHmvc(hmvcName, callback) {
@@ -128,7 +166,7 @@ function bundleHmvc(hmvcName, callback) {
   var bundler = makeBundler({
     dst:       './public/js/' + hmvcName + '.js',
     externals: ['client/head'], // already loaded, has Modal and other basic stuff
-    require: [hmvcName + '/client']
+    require:   [hmvcName + '/client']
   });
 
   bundler.rebundle(callback);
@@ -138,12 +176,14 @@ module.exports = function() {
 
   return function(callback) {
 
+
     co(function*() {
 
-      yield thunkify(bundleHead)();
       yield thunkify(bundleHmvc)('auth');
       yield thunkify(bundleHmvc)('profile');
       yield thunkify(bundleHmvc)('tutorial');
+      yield thunkify(bundleFooter)();
+      yield thunkify(bundleHead)();
 
     })(callback);
 

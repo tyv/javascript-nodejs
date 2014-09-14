@@ -21,6 +21,7 @@
     "browserify-jade": "*",
     "bunyan": "*",
     "co": "*",
+    "crc": "^3.0.0",
     "escape-html": "*",
     "event-stream": "*",
     "fs-extra": "*",
@@ -98,6 +99,7 @@
     "path-to-regexp": "*",
     "prismjs": "git://github.com/LeaVerou/prism#gh-pages",
     "request": "*",
+    "sanitize-html": "*",
     "send": "*",
     "stylus": "*",
     "svgutils": "*",
@@ -109,7 +111,6 @@
     "vinyl": "*",
     "vinyl-fs": "*",
     "vinyl-source-stream": "*",
-    "sanitize-html": "*",
     "yargs": "*"
   },
   "devDependencies": {
@@ -133,7 +134,7 @@
     "node-notifier": "*",
     "nodemailer-stub-transport": "*",
     "run-sequence": "*",
-    "should": "*",
+    "should": "^4.0.4",
     "sinon": "*",
     "superagent": "*",
     "supertest": "*",

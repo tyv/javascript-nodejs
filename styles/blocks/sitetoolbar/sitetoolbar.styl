@@ -84,15 +84,6 @@ sitetoolbar_secondary_link = #498CBE
 		height 60px
 		padding 0 17px
 
-	&__user::before
-		content ""
-		display inline-block
-		background url('/i/sitetoolbar__user.png') 0 0 no-repeat
-		size-of 'sitetoolbar__user.png'
-		margin -1px 0 0
-		vertical-align middle
-		padding 0 10px 0 0
-
 	&__user::after
 		@extend $font-open
 		padding-left 7px
@@ -106,6 +97,14 @@ sitetoolbar_secondary_link = #498CBE
 
 	&__user
 		white-space nowrap
+		padding-left 47px
+		position relative
+
+	&__userpic
+		position absolute
+		left 0
+		top 50%
+		margin-top -19px
 
 	&__user-text
 		display inline-block
@@ -120,6 +119,11 @@ sitetoolbar_secondary_link = #498CBE
 		height 60px
 		width 60px
 		margin 0
+
+	&__search::before
+		@extend $font-search
+		font-size 23px
+		color #8b8987
 
 	&__spinner
 		position absolute
@@ -235,7 +239,11 @@ sitetoolbar_secondary_link = #498CBE
 		&__logo
 			position absolute
 			left 50%
-			margin-left round(image-width('sitetoolbar__logo.png') / 2) * -1
+			margin-left -61px // ширина / -2
+
+		&__userpic
+			left 50%
+			margin-left -18px
 
 		&__user-text
 			max-width 130px

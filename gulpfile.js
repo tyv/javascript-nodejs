@@ -44,7 +44,11 @@ gulp.task("nodemon", lazyRequireTask('./tasks/nodemon', {
   watch:  ["hmvc", "modules"]
 }));
 
-gulp.task("client:livereload", lazyRequireTask("./tasks/livereload", { watch: "public/{i,img,js,styles}/**/*.*" }));
+gulp.task("client:livereload", lazyRequireTask("./tasks/livereload", {
+  // watch files *.*, not directories, no need to reload for new/removed files,
+  // we're only interested in changes
+  watch: "public/{i,img,js,styles}/**/*.*"
+}));
 
 gulp.task('link-modules', lazyRequireTask('./tasks/linkModules', { src: ['client', 'modules/*', 'hmvc/*'] }));
 
@@ -65,6 +69,7 @@ gulp.task('watch', lazyRequireTask('./tasks/watch', {
     },
     {
       watch: ['client/**', 'hmvc/**/client/**'],
+      ignore: 'client/versions.json',
       task:  "client:browserify"
     },
     {
@@ -104,7 +109,9 @@ gulp.task('client:minify', lazyRequireTask('./tasks/minify', {
   root: './public'
 }));
 
-gulp.task("client:browserify:clean", lazyRequireTask('./tasks/browserifyClean', { dst: './public/js'}));
+gulp.task("client:browserify:clean", lazyRequireTask('./tasks/browserifyClean', {
+  dst: './public/js'
+}));
 
 gulp.task("client:browserify", ['client:browserify:clean'], lazyRequireTask('./tasks/browserify'));
 
@@ -118,7 +125,6 @@ gulp.task('build', function(callback) {
 });
 
 gulp.task('dev', function(callback) {
-//  runSequence('build', ["client:sync-resources", 'client:compile-css', 'client:browserify', 'client:sync-css-images', 'client:build-md5-list', 'nodemon', 'client:livereload'], callback);
   runSequence('build', ['nodemon', 'client:livereload', 'watch'], callback);
 });
 

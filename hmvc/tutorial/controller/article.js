@@ -17,8 +17,6 @@ exports.get = function *get(next) {
     return;
   }
 
-  console.log(renderedArticle.breadcrumbs);
-
   var locals = {
     title:      renderedArticle.title,
     body:       renderedArticle.body,
@@ -27,7 +25,8 @@ exports.get = function *get(next) {
     modified:   renderedArticle.modified,
     prev:       renderedArticle.prev,
     next:       renderedArticle.next,
-    breadcrumbs: renderedArticle.breadcrumbs
+    breadcrumbs: renderedArticle.breadcrumbs,
+    sitetoolbar: true
   };
 
   var section;
@@ -60,7 +59,8 @@ exports.get = function *get(next) {
     sections: [section]
   };
 
-  _.assign(this.locals, locals);
+  // we don't need it, but didn't test
+//  _.assign(this.locals, locals);
 
   this.body = this.render("article", locals);
 
@@ -86,7 +86,8 @@ function* renderArticle(slug) {
   const renderer = new ArticleRenderer();
   rendered.body = yield renderer.render(article);
 
-  rendered.headers = renderer.metadata.headers;
+  rendered.headers = renderer.headers;
+
   rendered.head = renderer.getHead();
   rendered.foot = renderer.getFoot();
 
