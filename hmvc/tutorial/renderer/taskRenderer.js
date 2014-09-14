@@ -15,9 +15,6 @@ function TaskRenderer() {
 TaskRenderer.prototype.renderContent = function* (task) {
 
   const options = {
-    resourceFsRoot:    task.getResourceFsRoot(),
-    resourceWebRoot:   task.getResourceWebRoot(),
-    staticHost:        config.staticHost,
     metadata:          this.metadata,
     trusted:           true
   };
@@ -26,7 +23,10 @@ TaskRenderer.prototype.renderContent = function* (task) {
 
   node.removeChild(node.getChild(0));
 
-  const transformer = new ServerHtmlTransformer();
+  const transformer = new ServerHtmlTransformer({
+    resourceWebRoot:   task.getResourceWebRoot(),
+    staticHost:        config.staticHost
+  });
 
   return yield transformer.transform(node, true);
 };
@@ -35,9 +35,6 @@ TaskRenderer.prototype.renderContent = function* (task) {
 TaskRenderer.prototype.renderSolution = function* (task) {
 
   const options = {
-    resourceFsRoot:  task.getResourceFsRoot(),
-    resourceWebRoot: task.getResourceWebRoot(),
-    staticHost:      config.staticHost,
     metadata:        this.metadata,
     trusted:         true
   };
@@ -46,7 +43,10 @@ TaskRenderer.prototype.renderSolution = function* (task) {
 
   var children = node.getChildren();
 
-  const transformer = new ServerHtmlTransformer();
+  const transformer = new ServerHtmlTransformer({
+    resourceWebRoot:   task.getResourceWebRoot(),
+    staticHost:        config.staticHost
+  });
 
   const solutionParts = [];
   if (!(children[0] instanceof HeaderTag)) {

@@ -15,13 +15,8 @@ SourceTag.prototype.getType = function() {
   return "SourceTag";
 };
 
-SourceTag.prototype.isExternal = function() {
-  return this.src && !this.isLoaded;
-};
-
 SourceTag.prototype.setTextFromSrc = function(text) {
   this.text = text;
-  this.isLoaded = true;
 };
 
 module.exports = SourceTag;

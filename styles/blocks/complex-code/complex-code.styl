@@ -3,6 +3,7 @@
 
 .complex-code
 	border 3px solid #f5f2f0
+	margin 22px 0
 
 	&__tools
 		display table
@@ -49,9 +50,10 @@
 		height 59px
 		margin-bottom -10px
 		overflow hidden
+		position relative
 
 	&__switches-items // будет использоваться для прокрутки
-		position relative
+		position absolute
 
 	&__switch
 		color #656565
@@ -60,9 +62,10 @@
 		padding  12px 15px
 		line-height 25px
 		white-space nowrap
-		float left
 		cursor pointer
 		margin-bottom 15px
+		display inline-block
+		vertical-align bottom
 
 	&__switch:hover,
 	&__button:hover
@@ -109,7 +112,7 @@
 	&__button_download::before
 		@extend $font-download
 
-	&__contents
+	&__content
 		margin 15px
 
 	&__dropdown
