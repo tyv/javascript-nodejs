@@ -21,10 +21,11 @@
   "deploy": {
     "dev": {
       "user":        "root",
-      "host":        "misc.javascript.ru",
+      "host":        "stage",
       "ref":         "origin/production",
       "repo":        "https://github.com/iliakan/javascript-nodejs",
       "path":        "/js/javascript-nodejs",
+      "pre-deploy":  "cd /root/javascript-nodejs; bash ./update_prod.sh",
       "post-deploy": "pm2 startOrRestart ecosystem.json --env dev"
     }
   }
