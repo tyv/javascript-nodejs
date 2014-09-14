@@ -1,7 +1,3 @@
-link-type(type)
-	padding-right image-width('link-types/' + type + '.png') + 3
-	background-image url('/img/link-types/' + type + '.png')
-
 $pseudo
 	text-decoration none
 	border-bottom 1px dashed transparent
@@ -10,8 +6,15 @@ $pseudo
 		text-decoration none
 
 $link-type
-	background-position 100% 60%
-	background-repeat no-repeat
+	position fixed
+
+	&::before
+		color #fff
+		background #5C626A
+		padding 0 9px
+		border-radius 2px
+		font 10px/19px font
+		letter-spacing .1ex
 
 // .pseudo is for any tag but link that should look like pseudo-link
 .pseudo
@@ -50,86 +53,83 @@ a:active
 	font-size 90%
 
 // --
-.main [href^="mailto:"],
-a.mailto
+.link__type[data-url^="mailto:"]
 	@extend $link-type
-	link-type 'mailto'
+	&::before
+		@extend $font-mail
+		font-size 12px // слишком мелкая иконка
 
 // --
-.main [target="_blank"],
-a.external
+.link__type[data-url^='/play/'],
+.link__type[data-url^='http://plnkr.co/']
 	@extend $link-type
-	link-type 'newwindow'
+	&::before
+		@extend $font-edit
+		font-size 12px // слишком мелкая иконка
 
 // --
-.main [href^='/play/'],
-.main [href^='http://plnkr.co/'],
-a.sandbox
+.link__type[data-url$=".doc"],
+.link__type[data-url$=".docx"]
 	@extend $link-type
-	link-type 'sandbox'
+	&::before
+		content 'DOC'
 
 // --
-.main [href$=".doc"],
-.main [href$=".docx"],
-a.doc
+.link__type[data-url$=".zip"]
 	@extend $link-type
-	link-type 'doc'
+	&::before
+		content 'ZIP'
 
 // --
-.main [href$=".zip"],
-a.zip
+.link__type[data-url$=".xls"],
+.link__type[data-url$=".xlsx"]
 	@extend $link-type
-	link-type 'zip'
+	&::before
+		content 'XLS'
 
 // --
-.main [href$=".xls"],
-.main [href$=".xlsx"],
-a.xls
+.link__type[data-url$=".pdf"]
 	@extend $link-type
-	link-type 'xls'
+	&::before
+		content 'PDF'
 
 // --
-.main [href$=".pdf"],
-a.pdf
+.link__type[data-url^='http://developer.mozilla.org'],
+.link__type[data-url^='https://developer.mozilla.org']
 	@extend $link-type
-	link-type 'pdf'
+	&::before
+		content 'MDN'
 
 // --
-.main [href^='http://developer.mozilla.org'],
-.main [href^='https://developer.mozilla.org'],
-a.mdn
+.link__type[data-url^='http://msdn.microsoft.com'],
+.link__type[data-url^='https://msdn.microsoft.com']
 	@extend $link-type
-	link-type 'mdn'
+	&::before
+		content 'MSDN'
 
 // --
-.main [href^='http://msdn.microsoft.com'],
-.main [href^='https://msdn.microsoft.com'],
-a.msdn
+.link__type[data-url^='http://wikipedia.org'],
+.link__type[data-url*='wikipedia.org']
 	@extend $link-type
-	link-type 'msdn'
+	&::before
+		content 'WIKI'
 
 // --
-.main [href^='http://wikipedia.org'],
-.main [href*='wikipedia.org'],
-a.wiki
+.link__type[data-url^='http://w3.org'],
+.link__type[data-url^='http://dev.w3.org'],
+.link__type[data-url^='http://www.w3.org'],
+.link__type[data-url^='https://www.w3.org'],
+.link__type[data-url^='https://w3.org']
 	@extend $link-type
-	link-type 'wiki'
+	&::before
+		content 'W3C'
 
 // --
-.main [href^='http://w3.org'],
-.main [href^='http://dev.w3.org'],
-.main [href^='http://www.w3.org'],
-.main [href^='https://www.w3.org'],
-.main [href^='https://w3.org'],
-a.w3c
+.link__type[data-url^='http://es5.github.com']
 	@extend $link-type
-	link-type 'w3c'
+	&::before
+		content 'ECMA'
 
-// --
-.main [href^='http://es5.github.com'],
-a.ecma
-	@extend $link-type
-	link-type 'ecma'
 // --
 
 // placeholder selector, can't be moved to the top

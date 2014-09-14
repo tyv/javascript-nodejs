@@ -21,6 +21,7 @@
     "browserify-jade": "*",
     "bunyan": "*",
     "co": "*",
+    "crc": "^3.0.0",
     "escape-html": "*",
     "event-stream": "*",
     "fs-extra": "*",

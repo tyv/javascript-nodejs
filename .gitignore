@@ -24,6 +24,7 @@ Thumbs.db
 
 # generated content
 public.versions.json
+client/versions.json
 
 # NPM packages folder.
 node_modules/
