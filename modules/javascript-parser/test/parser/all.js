@@ -121,25 +121,25 @@ describe("BodyParser", function() {
 
       it("wraps <img> in figure if it occupies a separate line", function () {
         (format("<img src=\"html6.jpg\" width=1 height=2>")).should.be.eql(
-          "<figure><img src=\"http://js.cx/document/html6.jpg\" width=\"1\" height=\"2\"></figure>"
+          '<figure><div class="image" style="width: 1px;"><div class="image__ratio" style="padding-top: 200%"></div><img class="image__image" src="html6.jpg" alt=""></div></figure>'
         );
       });
 
       it("wraps <img> without size if absent", function () {
         (format("<img src=\"html6.jpg\">")).should.be.eql(
-          "<figure><img src=\"http://js.cx/document/html6.jpg\"></figure>"
+          "<figure><img src=\"html6.jpg\"></figure>"
         );
       });
 
       it("doesn't wrap <img> in <figure> if not on line start", function () {
         (format("   \t<img src=\"html6.jpg\">")).should.be.eql(
-          "   \t<img src=\"http://js.cx/document/html6.jpg\">"
+          "   \t<img src=\"html6.jpg\">"
         );
       });
 
       it("doesn't wrap <img> in <figure> if line has something non-spacey after <img>", function () {
         (format("<img src=\"html6.jpg\"> bla")).should.be.eql(
-          "<img src=\"http://js.cx/document/html6.jpg\"> bla"
+          "<img src=\"html6.jpg\"> bla"
         );
       });
 

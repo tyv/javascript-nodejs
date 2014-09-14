@@ -13,13 +13,12 @@ co(function*() {
 });
 
 process.on('message', function(msg) {
-  if (msg == 'shutdown') {
-    // Your process is going to be reloaded
-    // You have to close all database/socket.io/* connections
+  if (msg == 'shutdown') { // PM2 sends this on graceful reload
+    // The process is going to be reloaded
+    // Have to close all database/socket.io/* connections
 
     co(function*() {
       yield app.close();
-
     })(function(err) {
       if (err) {
         console.error(err);

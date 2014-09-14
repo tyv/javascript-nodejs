@@ -86,8 +86,6 @@ ArticleRenderer.prototype._libsToJsCss = function(libs) {
 
 ArticleRenderer.prototype.render = function* (article) {
   const options = {
-    staticHost:      config.staticHost,
-    resourceWebRoot: article.getResourceWebRoot(),
     metadata:        this.metadata,
     trusted:         true
   };
@@ -111,6 +109,8 @@ ArticleRenderer.prototype.render = function* (article) {
   }, this);
 
   const transformer = new ServerHtmlTransformer({
+    staticHost:      config.staticHost,
+    resourceWebRoot: article.getResourceWebRoot(),
     linkHeaderTag: true
   });
 

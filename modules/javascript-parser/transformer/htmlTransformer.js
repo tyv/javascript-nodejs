@@ -31,6 +31,10 @@ HtmlTransformer.prototype.finalize = function(html) {
 };
 
 HtmlTransformer.prototype.formatHtml = function(html, trusted) {
+  if (trusted === undefined) {
+    throw new Error("formatHtml needs to know trusted");
+  }
+
   html = charTypography(html);
 
   if (!trusted) {
@@ -183,11 +187,18 @@ HtmlTransformer.prototype.transformReferenceNode = function(node) {
 };
 
 // on this stage the tag either contains this.src OR the resolved text
+HtmlTransformer.prototype.transformExampleTag = function(node) {
+  var text = 'Пример ' + node.src;
+
+  return this.wrapTagAround('div', {}, text);
+};
+
+// on this stage the tag either contains this.src OR the resolved text
 HtmlTransformer.prototype.transformSourceTag = function(node) {
 
   node.ensureKnowTrusted();
 
-  var text = node.isExternal() ? ('Содержимое файла ' + node.src) : node.text;
+  var text = node.src ? ('Содержимое файла ' + node.src) : node.text;
 
   var prismLanguageMap = {
     html:   'markup',
@@ -244,13 +255,35 @@ HtmlTransformer.prototype.transformSourceTag = function(node) {
 };
 
 HtmlTransformer.prototype.transformTagNode = function(node) {
-  var html = this.formatHtml(node.text);
+  var html = this.formatHtml(node.text, node.isTrusted());
   html = this.wrapTagAround(node.tag, node.attrs, html);
   return html;
 };
 
 HtmlTransformer.prototype.transformTextNode = function(node) {
   return node.text;
+};
+
+HtmlTransformer.prototype.transformEditTag = function(node) {
+
+  var text = node.text;
+  if (!text) {
+    if (node.attrs.task) {
+      text = 'Открыть исходный документ';
+    } else {
+      text = 'Открыть в песочнице';
+    }
+  }
+
+  var html = this.formatHtml(text, node.isTrusted());
+
+  var attrs = {
+    "class": "edit",
+    href:    "/play/" + node.attrs.src
+  };
+
+  return this.wrapTagAround('a', attrs, html);
+
 };
 
 HtmlTransformer.prototype.transformVerbatimText = function(node) {

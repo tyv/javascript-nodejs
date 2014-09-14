@@ -48,7 +48,7 @@ describe("BodyParser", function() {
         { type:  'ImgTag',
           text:  '',
           tag:   'img',
-          attrs: { src: 'http://js.cx/document/html6.jpg' } },
+          attrs: { src: 'html6.jpg' } },
         { type: 'TextNode', text: ' test' }
       ]);
     });

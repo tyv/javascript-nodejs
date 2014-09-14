@@ -1,4 +1,5 @@
 var HtmlTransformer = require('javascript-parser').HtmlTransformer;
+var ParseError = require('javascript-parser').ParseError;
 var inherits = require('inherits');
 const Reference = require('tutorial/models/reference');
 const Article = require('tutorial/models/article');
@@ -16,6 +17,8 @@ var imageSize = thunkify(require('image-size'));
 
 function ServerHtmlTransformer(options) {
   HtmlTransformer.apply(this, arguments);
+  this.resourceWebRoot = options.resourceWebRoot;
+  this.staticHost = options.staticHost;
 }
 
 inherits(ServerHtmlTransformer, HtmlTransformer);
@@ -29,11 +32,20 @@ ServerHtmlTransformer.prototype.transform = function*(node, isFinal) {
   }
 
   var html;
-  if (method.constructor.name == 'GeneratorFunction') {
-    html = yield method.call(this, node);
-  } else {
-    html = method.call(this, node);
+  try {
+    if (method.constructor.name == 'GeneratorFunction') {
+      html = yield method.call(this, node);
+    } else {
+      html = method.call(this, node);
+    }
+  } catch(e) {
+    if (e instanceof ParseError) {
+      html = this.transformErrorTag(new ErrorTag(e.tag, e.message));
+    } else {
+      throw e;
+    }
   }
+
 
   if (isFinal) {
     html = this.finalize(html);
@@ -93,7 +105,7 @@ ServerHtmlTransformer.prototype.transformReferenceNode = function*(node) {
   const referenceObj = yield resolveReference(node.ref);
 
   if (!referenceObj) {
-    return this.transformErrorTag(new ErrorTag('span', 'Нет такой ссылки: ' + node.ref));
+    throw new ParseError('span', 'Нет такой ссылки: ' + node.ref);
   }
 
   var newNode = new CompositeTag('a', node.getChildren(), {href: referenceObj.url});
@@ -111,74 +123,122 @@ ServerHtmlTransformer.prototype.transformReferenceNode = function*(node) {
 
 ServerHtmlTransformer.prototype.transformImgTag = function*(node) {
 
-  if (node.attrs.width && node.attrs.height) return;
-
-  // remove host
-  var srcPath = url.parse(node.attrs.src);
-  srcPath.protocol = srcPath.slashes = srcPath.host = srcPath.hostname = null;
-  srcPath = url.format(srcPath);
-
-  var imagePath = path.join(config.publicRoot, srcPath);
-
-  // path out of our root folder
-  if (imagePath.slice(0, config.publicRoot.length + 1) != config.publicRoot + '/') return;
-
-  if (!/\.(png|jpg|gif|jpeg|svg)$/i.test(imagePath)) {
-    return this.transformErrorTag(new ErrorTag("div", "Неподдерживамое расширение, должно оканчиваться на png/jpg/gif/jpeg/svg: " + node.attrs.src));
+  if (!/\.(png|jpg|gif|jpeg|svg)$/i.test(node.attrs.src)) {
+    throw new ParseError("div", "Неподдерживамое расширение, должно оканчиваться на png/jpg/gif/jpeg/svg: " + node.attrs.src);
   }
+
+  if (~node.attrs.src.indexOf('://')) {
+    return HtmlTransformer.prototype.transformImgTag.call(this, node);
+  }
+
+  var src = node.attrs.src[0] == '/' ? node.attrs.src : path.join(this.resourceWebRoot, node.attrs.src);
+
+  var imagePath = this._srcUnderRoot(config.publicRoot, src);
 
   var stat;
 
   try {
     stat = yield fs.stat(imagePath);
   } catch (e) {
-    return this.transformErrorTag(new ErrorTag("div", "Нет такого файла: " + node.attrs.src +
+    throw new ParseError("div", "Нет такого файла: " + node.attrs.src +
         (process.env.NODE_ENV == 'development' ? " [" + imagePath + "]" : "")
-    ));
+    );
   }
 
   if (!stat.isFile()) {
-    return this.transformErrorTag(new ErrorTag("div", "Не файл: " + node.attrs.src));
+    throw new ParseError("div", "Не файл: " + node.attrs.src);
   }
 
-  var size;
-  try {
-    if (/\.svg$/i.test(this.src)) {
-      var size = yield function(callback) {
-        // GraphicsMagick fails with `gm identify my.svg`
-        gm(imagePath).options({imageMagick: true}).identify('{"width":%w,"height":%h}', callback);
-      };
+  if (!node.attrs.width || !node.attrs.height) {
 
-      size = JSON.parse(size); // warning: no error processing
-    } else {
-      size = yield imageSize(imagePath);
+    var size;
+
+    try {
+      if (/\.svg$/i.test(this.src)) {
+        var size = yield function(callback) {
+          // GraphicsMagick fails with `gm identify my.svg`
+          gm(imagePath).options({imageMagick: true}).identify('{"width":%w,"height":%h}', callback);
+        };
+
+        size = JSON.parse(size); // warning: no error processing
+      } else {
+        size = yield imageSize(imagePath);
+      }
+
+    } catch (e) {
+      throw new ParseError('div', e.message);
     }
 
-  } catch (e) {
-    return this.transformErrorTag(new ErrorTag('div', e.message));
+    node.attrs.width = size.width;
+    node.attrs.height = size.height;
   }
 
-  node.attrs.width = size.width;
-  node.attrs.height = size.height;
+  node.attrs.src = this.staticHost + src;
 
   return HtmlTransformer.prototype.transformImgTag.call(this, node);
+};
+
+ServerHtmlTransformer.prototype.transformExampleTag = function(node) {
+
+
+
+
+};
+
+/*
+
+      options = {
+          'class' => 'result__iframe',
+          'data-trusted' => @trusted ? '1' : '0'
+      }
+
+      if @params['height']
+        options['data-demo-height'] = @params['height']
+      else
+        options['data-demo-height'] = '350'
+      end
+
+      #options['src'] = prefix_relative_src(@params['src']) + "/"
+
+      begin
+        plunk_id = read_plunk_id(@params['src'])
+        options['data-play'] = plunk_id
+      rescue => e
+        return Node::ErrorTag.new(:div, "#{@bbtag}: нет такой песочницы #{@params['src']}")
+      end
+
+      options['src'] = "http://embed.plnkr.co/#{plunk_id}/preview"
+
+      options['data-zip'] = "1" if @params['zip']
+
+      Node::Tag.new(:iframe, "", options)
+
+    end
+*/
+
+ServerHtmlTransformer.prototype._srcUnderRoot = function(root, src) {
+  src = path.join(root, src);
+
+  console.log("--->", src, root);
+  if (src.slice(0, root.length + 1) != root + '/' ) {
+    throw new ParseError("div", "src goes outside of root: " + src);
+  }
+
+  return src;
 };
 
 ServerHtmlTransformer.prototype.transformSourceTag = function* (node) {
 
   if (node.src) {
-
-    var sourcePath = path.join(config.publicRoot, node.src);
-    // path out of our root folder
-    if (sourcePath.slice(0, config.publicRoot.length + 1) != config.publicRoot + '/') return;
+    var sourcePath = this._srcUnderRoot(config.publicRoot, path.join(this.resourceWebRoot, node.src));
 
     var content;
 
     try {
       content = yield fs.readFile(sourcePath, 'utf-8');
     } catch (e) {
-      return this.transform(new ErrorTag('div', "Не могу прочитать файл: " + node.src +
-          (process.env.NODE_ENV == 'development' ? " [" + sourcePath + "]" : ""))
+      throw new ParseError('div', "Не могу прочитать файл: " + node.src +
+          (process.env.NODE_ENV == 'development' ? " [" + sourcePath + "]" : "")
       );
     }
 

@@ -9,11 +9,12 @@ var inherits = require('inherits');
 var _ = require('lodash');
 var SourceTag = require('../node/sourceTag');
 var TagNode = require('../node/tagNode');
+var EditTag = require('../node/editTag');
 var CutNode = require('../node/cutNode');
 var ImgTag = require('../node/imgTag');
 var KeyTag = require('../node/keyTag');
 var CompositeTag = require('../node/compositeTag');
-var EscapedTag = require('../node/escapedTag');
+var ExampleTag = require('../node/exampleTag');
 var ErrorTag = require('../node/errorTag');
 var VerbatimText = require('../node/verbatimText');
 var TextNode = require('../node/textNode');
@@ -71,7 +72,6 @@ BbtagParser.prototype.parse = function() {
     throw new Error("Unknown bbtag: " + this.name);
   }
 
-
   try {
     return method.call(this);
   } catch(e) {
@@ -102,19 +102,6 @@ BbtagParser.prototype.parseDemo = function() {
   }
 
   return new TagNode('button', "Запустить демо", {"onclick": 'runDemo(this)'});
-};
-
-BbtagParser.prototype.normalizeSrc = function(src) {
-  if (src[0] == '/') { // absolute url means we need to access current host (maybe web service on it?)
-    return src;
-  }
-
-  if (~src.indexOf('://')) {
-    return src;
-  }
-
-  // relative url w/o domain means we want static host
-  return this.staticHost + this.resourceWebRoot + '/' + src;
 };
 
 
@@ -160,21 +147,7 @@ BbtagParser.prototype.parseEdit = function() {
     throw new ParseError("src must be relative, protocol not allowed");
   }
 
-  var body = this.body;
-  if (!body) {
-    if (this.params.task) {
-      body = 'Открыть исходный документ';
-    } else {
-      body = 'Открыть в песочнице';
-    }
-  }
-
-  var attrs = {
-    "class": "edit",
-    href:    "/play/" + src
-  };
-
-  return new TagNode('a', body, attrs);
+  return new EditTag(this.body, {src: this.params.src});
 };
 
 BbtagParser.prototype.parseCut = function() {
@@ -219,7 +192,6 @@ BbtagParser.prototype.parseSource = function() {
     if (src[0] == '/' || ~src.indexOf('://')) {
       throw new ParseError("src must be relative, protocol not allowed");
     }
-    src = this.resourceWebRoot + '/' + src;
   }
 
   return new SourceTag(this.name, this.body, src, this.params);
@@ -241,7 +213,7 @@ BbtagParser.prototype.parseIframe = function() {
     this.paramRequiredError('div', 'src');
   }
 
-  if (~src.indexOf('://')) {
+  if (~src.indexOf('://') && !this.trusted) {
     throw new ParseError("protocol not allowed");
   }
 
@@ -254,7 +226,16 @@ BbtagParser.prototype.parseIframe = function() {
     attrs['data-demo-height'] = this.params.height;
   }
 
-  attrs.src = this.normalizeSrc(src) + '/';
+  // relative url w/o domain means we want static host
+  //    [iframe src="dir"]
+  // otherwise we want a dynamic service e.g
+  //    [iframe src="/ajax/service"]
+  if (src[0] != '/' && !~src.indexOf('://')) {
+    src = this.staticHost + this.resourceWebRoot + '/' + src;
+  }
+
+  attrs.src = src + '/';
+
   if (this.params.play) {
     attrs['data-play'] = "1";
   }
@@ -364,10 +345,6 @@ BbtagParser.prototype.parseImg = function() {
 
   var attrs = this.trusted ? _.clone(this.params) : _.pick(this.params, ['src', 'width', 'height']);
 
-  if (!~attrs.src.indexOf('://') && attrs.src[0] != '/') {
-    attrs.src = this.staticHost + this.resourceWebRoot + '/' + attrs.src;
-  }
-
   return new ImgTag(attrs, this.token.isFigure);
 };
 
@@ -382,21 +359,6 @@ BbtagParser.prototype.parseExample = function() {
     throw new ParseError("src must be relative, protocol not allowed");
   }
 
-  var attrs = {
-    'class':        'result__iframe',
-    'data-trusted': this.trusted ? '1' : '0'
-  };
-
-  attrs['data-demo-height'] = this.params.height || 350;
-
-  attrs['data-src'] = this.normalizeSrc(src);
-
-  attrs.src = "/example/" + src + '/';
-
-  if (this.params.zip) {
-    attrs['data-zip'] = "1";
-  }
-
-  return new TagNode("iframe", "", attrs);
+  return new ExampleTag(this.name, src, this.params);
 };
 
