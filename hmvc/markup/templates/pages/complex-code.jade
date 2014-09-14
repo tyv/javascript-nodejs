@@ -2,12 +2,15 @@ extends ../layouts/base
 
 // - http://stackoverflow.com/questions/12646451/how-to-pass-variables-between-jade-templates
 block variables
+  - self.bodyId = 'page';
+  - self.title = 'Учебник — Javascript.ru';
+  - self.comments = {} // хм?
+  - self.comments.lenght = 5;
+  
   //- layout
   - layout.sitetoolbar = true
   - layout.prevNext = true
   - layout.sidebar = true
 
-  - self.title = "DOM Children"
-
 block content
-  include ../blocks/tasks
+  include ../blocks/complex-code
