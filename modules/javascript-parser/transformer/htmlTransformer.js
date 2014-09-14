@@ -188,7 +188,7 @@ HtmlTransformer.prototype.transformReferenceNode = function(node) {
 
 // on this stage the tag either contains this.src OR the resolved text
 HtmlTransformer.prototype.transformExampleTag = function(node) {
-  var text = 'Пример ' + node.src;
+  var text = 'Пример ' + node.attrs.src;
 
   return this.wrapTagAround('div', {}, text);
 };

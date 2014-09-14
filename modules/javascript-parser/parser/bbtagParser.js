@@ -359,6 +359,6 @@ BbtagParser.prototype.parseExample = function() {
     throw new ParseError("src must be relative, protocol not allowed");
   }
 
-  return new ExampleTag(this.name, src, this.params);
+  return new ExampleTag(this.params);
 };
 

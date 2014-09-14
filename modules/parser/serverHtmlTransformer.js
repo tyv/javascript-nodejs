@@ -11,6 +11,8 @@ const url = require('url');
 const path = require('path');
 const config = require('config');
 const fs = require('mz/fs');
+var jade = require('jade');
+var bem = require('bem-jade');
 var gm = require('gm');
 var thunkify = require('thunkify');
 var imageSize = thunkify(require('image-size'));
@@ -178,10 +180,73 @@ ServerHtmlTransformer.prototype.transformImgTag = function*(node) {
   return HtmlTransformer.prototype.transformImgTag.call(this, node);
 };
 
-ServerHtmlTransformer.prototype.transformExampleTag = function(node) {
+function* readPlunkId(dirPath) {
 
+  var plnkrPath = path.join(dirPath, '.plnkr');
 
+  var info;
+  try {
 
+    info = JSON.parse(yield fs.readFile(plnkrPath));
+
+  } catch(e) {
+    if (e instanceof SyntaxError) {
+      throw new ParseError('div', 'incorrect .plnkr');
+    } else {
+      throw new ParseError('div', "can't read .plnkr from " + dirPath);
+    }
+  }
+
+  return info.plunk;
+}
+
+ServerHtmlTransformer.prototype.transformExampleTag = function* (node) {
+  var src = node.attrs.src;
+
+  src = path.join(this.resourceWebRoot, node.attrs.src);
+  src = this._srcUnderRoot(config.publicRoot, src);
+
+  // check to see if it's an example, not any folder
+  yield readPlunkId(src);
+
+  var files = yield fs.readdir(src);
+  files = files.filter(function(fileName) { return fileName[0] != '.'; });
+
+  files.sort(function(nameA, nameB) {
+
+    var extA = path.extname(nameA);
+    var extB = path.extname(nameB);
+
+    function compare(ext) {
+      if (extA == ext && extB == ext) {
+        return nameA > nameB ? -1 : 1;
+      }
+
+      if (extA == ext) return -1;
+      if (extB == ext) return 1;
+    }
+
+    // html always first, then js, then css, then generic comparison
+    return compare('.html') || compare('.js') || compare('.css') || (nameA > nameB ? 1 : -1);
+  });
+
+  var tabs = [];
+  for (var i = 0; i < files.length; i++) {
+    var name = files[i];
+
+    tabs.push({
+      title: name,
+      content: yield fs.readFile(path.join(src, name), 'utf-8')
+    });
+  }
+
+  // TODO: render nicely
+  console.log(tabs);
+
+  return jade.renderFile(require.resolve('./templates/example.jade'), {
+    bem: bem(),
+    tabs: tabs
+  });
 
 };
 
@@ -219,7 +284,6 @@ ServerHtmlTransformer.prototype.transformExampleTag = function(node) {
 ServerHtmlTransformer.prototype._srcUnderRoot = function(root, src) {
   src = path.join(root, src);
 
-  console.log("--->", src, root);
   if (src.slice(0, root.length + 1) != root + '/' ) {
     throw new ParseError("div", "src goes outside of root: " + src);
   }
