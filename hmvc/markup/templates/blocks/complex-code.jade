@@ -21,7 +21,8 @@
     +e.section._current
       //- при использовании +e('iframe').result(src="#") получаем тег img,
       //- видимо, принудительно, при использовании атрибута src.
-      +e('iframe').result(style="height: 200px", src="http://lipsum.com/")
+      //- +e('iframe').result(src="http://lipsum.com/")
+      iframe.complex-code__result(src="http://lipsum.com/")
     +e.section
       pre
         | function sayHi(name) {
