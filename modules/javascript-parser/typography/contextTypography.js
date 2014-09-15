@@ -86,8 +86,6 @@ function contextTypography(html, options) {
     return labels[i++];
   });
 
-  console.log("TYPO: ",html);
-
   return html;
 }
 
