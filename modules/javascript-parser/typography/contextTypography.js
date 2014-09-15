@@ -61,11 +61,6 @@ function makeParagraphs(html) {
 // $chunk = preg_replace('!<br />(\s*@@block)!', '$1', $chunk); // remove <br /> before future blocks
   return html.replace(/\s+$/, '');
 }
-//
-//function wrapImgs(html) {
-//  return html.replace(/^(\s*|<p>\s*)(<img[^>]*\/?>)(?=\s*($|<\/p))/gim, "$1<figure>$2</figure>");
-//}
-//
 
 function contextTypography(html, options) {
   options = options || {};
@@ -81,7 +76,6 @@ function contextTypography(html, options) {
   });
 
   html = replaceQuotesWithLaquo(html);
-//  html = wrapImgs(html);
 
   if (!options.noParagraphs) {
     html = makeParagraphs(html);
