@@ -6,7 +6,6 @@ const User = require('users').User;
 // auto logs in X-Test-User-Id when testing
 module.exports = function(app) {
 
-
   app.use(function* cleanEmptySessionPassport(next) {
     yield next;
     if (Object.keys(this.session.passport).length === 0) {
