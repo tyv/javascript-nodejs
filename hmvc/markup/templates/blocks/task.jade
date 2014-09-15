@@ -1,59 +1,37 @@
 +b.task
-  +e('a').back(href="#lesson")
-    u Вернуться к уроку
+  //- скрипт-демо показа решений
+  script.
+    function parentByClass(currentElem, cls) {
+      var el = currentElem.parentNode;
+      while (!el.classList.contains(cls) && el !== null) {
+        el = el.parentNode;
+      }
+      return el;
+    }
+    function toggleSolution(elem) {
+      parentByClass(elem, 'task').classList.toggle('task__answer_open');
+    }
+    function showStep(elem) {
+      parentByClass(elem, 'task').classList.toggle('task__step_open');
+    }
+  //- конец демо
   +e.header
     +e.title-wrap
-      +e('h2').title!= self.title
+      +e('h3').title Использование prompt и alert
     +e.header-aside
-      +e('span').number
-        | Задание
-        =" "
-        b #215
-      =" "
-      +e('span').importance
-        | Важность:
-        =" "
-        b 5
+      +e('a').open-link(href="#task1", target="_blank")
+      +e('span').importance(title="Насколько эта задача важна для освоения материала, от 1 до 5") важность: 4
+      +e('button').solution(type="button", onclick="toggleSolution(this)") решение
   +e.content
-    p
-      | Для страницы:
-    pre.language-javascript.line-numbers
-      | &lt;ul&gt;
-      |   &lt;li&gt;1&lt;/li&gt;
-      |   &lt;li&gt;2&lt;/li&gt;
-      |   &lt;li&gt;5&lt;/li&gt;
-      | &lt;/ul&gt;
-      | &lt;script&gt;
-      |   var ul = document.body.children[0];
-      |   var li5 = ul.children[2];
-      |   function insertBefore(elem, html) {
-      |     /* Ваш код */
-      |   }
-      |   insertBefore(li5, '&lt;li&gt;3&lt;/li&gt;&lt;li&gt;4&lt;/li&gt;');
-      | &lt;/script&gt;
-    ul
-      li
-        | напишите код, который получит элемент
-        =" "
-        code HEAD
-        | .
-      li
-        | напишите код, который получит
-        =" "
-        code UL
-        | .
-      li
-        | напишите код, который получит второй
-        =" "
-        code LI
-        | .
-        | Будет ли ваш код работать в IE 8-, если комментарий переместить
-        =" "
-        i между
-        =" "
-        | элементами
-        =" "
-        code LI
-        | ?
-    p
-      a.external(href="/task-215") Открыть исходный документ
+    +e.answer
+      +e.answer-content
+        p
+          | Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi sequi officiis modi,
+          | eum nisi quas! Aspernatur ea repellendus ipsam cumque cupiditate voluptates soluta,
+          | itaque explicabo voluptatibus! Vitae quas fugit culpa.
+      +b('button').close-button.__answer-close(type="button", title="закрыть", onclick="toggleSolution(this)")
+    p 
+      | Создайте страницу, которая спрашивает имя и выводит его.<br>
+      | Работать должно так:
+      =" "
+      a(href="/tutorial/intro/basic.html") /tutorial/intro/basic.html
