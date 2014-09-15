@@ -242,21 +242,19 @@ ServerHtmlTransformer.prototype.transformExampleTag = function* (node) {
 
     tabs.push({
       title: name,
-      selected: (name == node.attrs.selected),
       content: yield fs.readFile(path.join(srcPath, name), 'utf-8')
     });
-  }
-
-  if (!node.attrs.selected) {
-    tabs[0].selected = true;
   }
 
   // TODO: render nicely
 //  console.log(tabs);
 
+  var height = parseInt(node.attrs.height);
+
   var rendered = jade.renderFile(require.resolve('./templates/example.jade'), {
     bem: bem(),
     tabs: tabs,
+    height: height && (node.isTrusted() ? height : Math.max(height, 800)),
     src: src + '/'
   });
 
