@@ -19,6 +19,10 @@
       +e('a').button._open(target="_blank", href="/play/file")
   +e.content
     +e.section._current
+      //- при использовании +e('iframe').result(src="#") получаем тег img,
+      //- видимо, принудительно, при использовании атрибута src.
+      iframe.complex-code__result(style="height: 200px", src="http://lipsum.com/")
+    +e.section
       pre
         | function sayHi(name) {
         |   var phrase = "Привет, " + name;
@@ -29,11 +33,6 @@
         | }
         | HelloWorld('World');
         | sayHi('Вася');
-    +e.section
-      p
-        | Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam quas ipsa illo officiis minima.
-        | Quod voluptatibus est blanditiis omnis aliquam officia, harum nemo deleniti quos, ab nesciunt
-        | beatae, delectus ea?
     +e.section
       p
         | Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam quas ipsa illo officiis minima.
