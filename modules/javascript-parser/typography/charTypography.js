@@ -48,6 +48,14 @@ function processLoneLt(text) {
 }
 
 function charTypography(html) {
+  var label = Math.random().toString();
+
+  var replacements = [];
+  html = html.replace(/<no-typography>[\s\S]*?<\/no-typogrpahy>/gim, function(match) {
+    replacements.push(match);
+    return label;
+  });
+
   html = processPlusmin(html);
   html = processArrows(html);
   html = processLoneLt(html);
@@ -55,6 +63,11 @@ function charTypography(html) {
   html = processHellip(html);
   html = processDash(html);
   html = processEmdash(html);
+
+  html = html.replace(new RegExp(label, 'gim'), function() {
+    return replacements.shift();
+  });
+
   return html;
 }
 

@@ -229,25 +229,37 @@ ServerHtmlTransformer.prototype.transformExampleTag = function* (node) {
     // html always first, then js, then css, then generic comparison
     return compare('.html') || compare('.js') || compare('.css') || (nameA > nameB ? 1 : -1);
   });
-
+/*
+  var tabs = [{
+    title: 'Результат',
+    selected: !node.attrs.selected, // if nothing is selected, select this
+    content:
+  }];*/
   var tabs = [];
+
   for (var i = 0; i < files.length; i++) {
     var name = files[i];
 
     tabs.push({
       title: name,
+      selected: (name == node.attrs.selected),
       content: yield fs.readFile(path.join(src, name), 'utf-8')
     });
   }
 
-  // TODO: render nicely
-  console.log(tabs);
+  if (!node.attrs.selected) {
+    tabs[0].selected = true;
+  }
 
-  return jade.renderFile(require.resolve('./templates/example.jade'), {
+  // TODO: render nicely
+//  console.log(tabs);
+
+  var rendered = jade.renderFile(require.resolve('./templates/example.jade'), {
     bem: bem(),
     tabs: tabs
   });
 
+  return rendered;
 };
 
 /*

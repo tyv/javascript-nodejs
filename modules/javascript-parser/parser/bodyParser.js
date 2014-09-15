@@ -25,6 +25,7 @@ var makeAnchor = require('../util/makeAnchor');
 var TextNode = require('../node/textNode');
 var ParseError = require('./parseError');
 var contextTypography = require('../typography/contextTypography');
+var charTypography = require('../typography/charTypography');
 
 /**
  * BodyParser creates node objects from general text.
@@ -173,7 +174,9 @@ BodyParser.prototype.parseNodes = function() {
  */
 BodyParser.prototype.parseHeader = function(token) {
   // only code is allowed in headers, not links, not italic...
-  var titleHtml = contextTypography(token.title.replace(/`(.*?)`/gim, '<code>$1</code>'), { noParagraphs: true });
+  var titleHtml = contextTypography(charTypography(token.title.replace(/`(.*?)`/gim, '<code>$1</code>')), { noParagraphs: true });
+
+  console.log(titleHtml);
 
   var level = token.level;
 

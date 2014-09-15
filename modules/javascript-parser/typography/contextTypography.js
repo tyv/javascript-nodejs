@@ -69,15 +69,15 @@ function makeParagraphs(html) {
 
 function contextTypography(html, options) {
   options = options || {};
-  var noTypographyReg = new RegExp('<(' + VERBATIM_TAGS.join('|') + '|code)' + ATTRS_REG.source + '>[\\s\\S]*?</\\1>', 'gim');
+
+  var noTypographyReg = new RegExp('<(' + VERBATIM_TAGS.join('|') + '|code|no-typography)' + ATTRS_REG.source + '>([\\s\\S]*?)</\\1>', 'gim');
 
   var labels = [];
   var label = ('' + Math.random()).slice(2);
 
-  html = html.replace(noTypographyReg, function(match, p1) {
-    labels.push(match);
-    return p1 == 'code' ? '<span>' + label + '</span>' :
-      '<div>' + label + '</div>';
+  html = html.replace(noTypographyReg, function(match, tag, attrs, body) {
+    labels.push(tag == 'no-typography' ? body : match);
+    return tag == 'code' ? ('<span>' + label + '</span>') : ('<div>' + label + '</div>');
   });
 
   html = replaceQuotesWithLaquo(html);
@@ -91,6 +91,8 @@ function contextTypography(html, options) {
   html = html.replace(new RegExp('<(div|span)>'+label+'</\\1>', 'gm'), function() {
     return labels[i++];
   });
+
+  console.log("TYPO: ",html);
 
   return html;
 }

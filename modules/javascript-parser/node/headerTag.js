@@ -1,4 +1,4 @@
-var TextNode = require('./textNode');
+var VerbatimText = require('./verbatimText');
 var inherits = require('inherits');
 
 /**
@@ -19,12 +19,12 @@ function HeaderTag(level, anchor, text) {
     throw new Error("Anchor must not be empty!");
   }
 
-  TextNode.call(this, text);
+  VerbatimText.call(this, text);
 
   this.level = level;
   this.anchor = anchor;
 }
-inherits(HeaderTag, TextNode);
+inherits(HeaderTag, VerbatimText);
 
 HeaderTag.prototype.getType = function() {
   return 'HeaderTag';
