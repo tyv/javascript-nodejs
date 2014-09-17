@@ -201,15 +201,15 @@ function* readPlunkId(dirPath) {
 }
 
 ServerHtmlTransformer.prototype.transformExampleTag = function* (node) {
-  var src = node.attrs.src;
 
-  src = path.join(this.resourceWebRoot, node.attrs.src);
-  src = this._srcUnderRoot(config.publicRoot, src);
+  var src = path.join(this.resourceWebRoot, node.attrs.src);
+
+  var srcPath = this._srcUnderRoot(config.publicRoot, src);
 
   // check to see if it's an example, not any folder
-  yield readPlunkId(src);
+  yield readPlunkId(srcPath);
 
-  var files = yield fs.readdir(src);
+  var files = yield fs.readdir(srcPath);
   files = files.filter(function(fileName) { return fileName[0] != '.'; });
 
   files.sort(function(nameA, nameB) {
@@ -219,7 +219,7 @@ ServerHtmlTransformer.prototype.transformExampleTag = function* (node) {
 
     function compare(ext) {
       if (extA == ext && extB == ext) {
-        return nameA > nameB ? -1 : 1;
+        return nameA > nameB ? 1 : -1;
       }
 
       if (extA == ext) return -1;
@@ -242,24 +242,23 @@ ServerHtmlTransformer.prototype.transformExampleTag = function* (node) {
 
     tabs.push({
       title: name,
-      selected: (name == node.attrs.selected),
-      content: yield fs.readFile(path.join(src, name), 'utf-8')
+      content: yield fs.readFile(path.join(srcPath, name), 'utf-8')
     });
-  }
-
-  if (!node.attrs.selected) {
-    tabs[0].selected = true;
   }
 
   // TODO: render nicely
 //  console.log(tabs);
 
+  var height = parseInt(node.attrs.height);
+
   var rendered = jade.renderFile(require.resolve('./templates/example.jade'), {
     bem: bem(),
-    tabs: tabs
+    tabs: tabs,
+    height: height && (node.isTrusted() ? height : Math.max(height, 800)),
+    src: src + '/'
   });
 
-  return rendered;
+  return this.wrapTagAround('no-typography', {}, rendered);
 };
 
 /*

@@ -1,4 +1,3 @@
-var mount = require('koa-mount');
 var path = require('path');
 
 // wrap('modulePath')

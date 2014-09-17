@@ -1,24 +1,26 @@
 include ./bem
 
-no-typography
-  +b.complex-code._scroll.no-typography
-    +e.tools
-      +e.scroll-wrap
-        +e('button').scroll-button._left(title="&larr;")
-      +e.switches-wrap
-        +e.switches
-          +e.switches-items
-            each tab in tabs
-              +e(class="switch#{tab.selected ? ' _current' : ''}") #{tab.title}
-      +e.scroll-wrap
-        +e('button').scroll-button._right(title="&rarr;")
-      +e.buttons
-        if zip
-          +e('a').button._download(target="_blank", href=zip.url)
-        if play
-          +e('a').button._open(target="_blank", href=play.url)
-    +e.content
-      each tab in tabs
-        +e(class="section #{tab.selected ? '_current' : ''}")
-          pre
-            = tab.content
++b.complex-code._scroll
+  +e.tools
+    +e.scroll-wrap
+      +e('button').scroll-button._left(title="&larr;")
+    +e.switches-wrap
+      +e.switches
+        +e.switches-items
+          +e.switch._current Результат
+          each tab in tabs
+            +e.switch #{tab.title}
+    +e.scroll-wrap
+      +e('button').scroll-button._right(title="&rarr;")
+    +e.buttons
+      if zip
+        +e('a').button._download(target="_blank", href=zip.url)
+      if play
+        +e('a').button._open(target="_blank", href=play.url)
+  +e.content
+    +e.section._current
+      +e('iframe').result(src=src)
+    each tab in tabs
+      +e.section
+        pre
+          = tab.content
