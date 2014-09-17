@@ -2,47 +2,9 @@
   if layout.notificationStripe
     include ../blocks/notification-stripe
   +e.content
-    //- FIXME: демо для анимации логотипа, убрать
-    script.
-      document.addEventListener("DOMContentLoaded", function() {
-        //- предзагрузка логотипа, инициализация
-        (function () {
-          var logo = document.getElementsByClassName('sitetoolbar__logo')[0];
-          var preloadedLogo = document.createElement('img');
-
-          preloadedLogo.addEventListener('load', function() {
-              logo.addEventListener('mouseover', animate, false);
-            }, false);
-
-          preloadedLogo.src = '/i/sitetoolbar__logo_animated.svg';
-        })();
-
-        // создавать элемент а не вставлять заранее созданный, чтобы
-        // анимация начиналась с первого кадра
-        function animate(e) {
-            var animatedLogo = document.createElement('img');
-            var parent = this.parentNode;
-            animatedLogo.src = '/i/sitetoolbar__logo_animated.svg';
-            animatedLogo.className = 'sitetoolbar__logo';
-            animatedLogo.addEventListener('mouseout', freeze, false);
-            parent.removeChild(this);
-            parent.appendChild(animatedLogo);
-        }
-
-        function freeze(e) {
-          var staticLogo = document.createElement('img');
-          var parent = this.parentNode;
-          staticLogo.src = '/i/sitetoolbar__logo.svg';
-          staticLogo.className = 'sitetoolbar__logo';
-          staticLogo.addEventListener('mouseover', animate, false);
-          parent.removeChild(this);
-          parent.appendChild(staticLogo);
-        }
-      });
-
     +e.logo-wrap
       +e('a').link._logo(href="/")
-        +e('img').logo(src="/i/sitetoolbar__logo.svg", alt="javascript.ru")
+        +e('embed').logo(src="/i/sitetoolbar__logo.svg")
     +e.nav-toggle-wrap
       //- FIXME: onclick - демо, убрать
       //- при начале скролла тут же исчезает, для этого body += .scrolled-out
