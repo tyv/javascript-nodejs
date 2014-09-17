@@ -6,6 +6,7 @@ var path = require('path');
 // but also does
 //   --> this.templatePaths.push(hmvcModule dirname) when entering middleware / pop on leaving
 function wrapHmvcMiddleware(hmvcModulePath, hmvcMiddleware) {
+
   var hmvcModuleDir = path.dirname(hmvcModulePath);
 
   return function*(next) {
