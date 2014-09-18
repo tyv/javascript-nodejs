@@ -1,5 +1,7 @@
 // Чтобы показать кнопки прокрутки обертке блока .complex-code
 // добавляется класс .complex-code_scroll
+//- задание высоты блока:
+//- https://github.com/iliakan/javascript-nodejs/issues/43
 
 .complex-code
 	border 3px solid #f5f2f0
@@ -36,6 +38,14 @@
 		color #fff
 		line-height 49px
 		font-size 18px
+
+	&__scroll-button:hover
+		background #e1d8cd
+
+	&__scroll-button[disabled]
+		background #d8d8d8
+		color #ebebeb
+		cursor default
 
 	&__scroll-button_left::before
 		@extend $font-angle-left
@@ -113,7 +123,19 @@
 		@extend $font-download
 
 	&__content
+		overflow auto
+
+	&__content-inner
 		margin 15px
+		height calc(100% - 30px)
+
+	&__content-inner p,
+	&__content-inner ul,
+	&__content-inner ol,
+	&__content-inner figure,
+	&__content-inner .code-example
+	&__content-inner .codebox
+		margin 15px 0
 
 	&__dropdown
 		background #fff
@@ -132,3 +154,10 @@
 
 	&__section_current
 		display block
+		height 100%
+
+	&__result
+		border 0
+		width 100%
+		display block
+		height 100%

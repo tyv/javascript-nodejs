@@ -4,10 +4,10 @@
   +e.content
     +e.logo-wrap
       +e('a').link._logo(href="/")
-        +e('img').logo(src="/i/sitetoolbar__logo.svg", height="35", width="121", alt="javascript.ru")
+        +e('embed').logo(src="/i/sitetoolbar__logo.svg")
     +e.nav-toggle-wrap
       //- FIXME: onclick - демо, убрать
-      // при начале скролла тут же исчезает, для этого body += .scrolled-out
+      //- при начале скролла тут же исчезает, для этого body += .scrolled-out
       +e('button').nav-toggle(onclick="document.getElementsByClassName('sitetoolbar')[0].classList.toggle('sitetoolbar_menu_open')")
     +e('nav').sections
       +e('ul').sections-list

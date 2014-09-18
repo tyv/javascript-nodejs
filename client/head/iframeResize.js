@@ -1,14 +1,21 @@
 
 function iframeResize(ifrElem, callback) {
-  if (!callback) callback = function(){};
 
   var timeoutTimer = setTimeout(function() {
+    // default height
+    ifrElem.style.height = '';
     callback(new Error("timeout"));
   }, 500);
 
-  function done(err) {
+  function done(err, height) {
     clearTimeout(timeoutTimer);
-    callback(err);
+
+    if (err) {
+      // default height
+      ifrElem.style.height = '';
+    }
+
+    callback(err, height);
   }
 
   // throw right now if cross-domain
@@ -36,9 +43,8 @@ function iframeResize(ifrElem, callback) {
       var doc = this.contentDocument || this.contentWindow.document;
       var height = doc.documentElement.scrollHeight || doc.body.scrollHeight;
       ifrElem.style.display = 'block';
-      ifrElem.style.height = height + 10 + 'px';
       cloneIframe.remove();
-      done();
+      done(null, height + 10);
     };
 
     document.body.appendChild(cloneIframe);
@@ -50,15 +56,19 @@ function iframeResize(ifrElem, callback) {
 
   var doc = ifrElem.contentDocument || ifrElem.contentWindow.document;
   var height = doc.documentElement.scrollHeight || doc.body.scrollHeight;
-  ifrElem.style.height = height + 10 + 'px';
-  done();
+  done(null, height + 10);
 }
 
 function iframeResizeCrossDomain(ifrElem, callback) {
   throw new Error("Not implemented yet");
 }
 
-module.exports = iframeResize;
+module.exports = function(iframe, callback) {
+  // delay to let the code inside the iframe finish
+  setTimeout(function() {
+    iframeResize(iframe, callback);
+  }, 0);
+};
 
 /*
 window.onmessage = function(e) {

@@ -67,7 +67,7 @@
     "koa-mount": "*",
     "koa-passport": "*",
     "koa-request": "*",
-    "koa-router": "*",
+    "koa-router": "3.3.1",
     "koa-send": "*",
     "koa-session-mongoose": "*",
     "koa-views": "*",

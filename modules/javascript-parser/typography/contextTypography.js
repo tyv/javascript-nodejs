@@ -61,27 +61,21 @@ function makeParagraphs(html) {
 // $chunk = preg_replace('!<br />(\s*@@block)!', '$1', $chunk); // remove <br /> before future blocks
   return html.replace(/\s+$/, '');
 }
-//
-//function wrapImgs(html) {
-//  return html.replace(/^(\s*|<p>\s*)(<img[^>]*\/?>)(?=\s*($|<\/p))/gim, "$1<figure>$2</figure>");
-//}
-//
 
 function contextTypography(html, options) {
   options = options || {};
-  var noTypographyReg = new RegExp('<(' + VERBATIM_TAGS.join('|') + '|code)' + ATTRS_REG.source + '>[\\s\\S]*?</\\1>', 'gim');
+
+  var noTypographyReg = new RegExp('<(' + VERBATIM_TAGS.join('|') + '|code|no-typography)' + ATTRS_REG.source + '>([\\s\\S]*?)</\\1>', 'gim');
 
   var labels = [];
   var label = ('' + Math.random()).slice(2);
 
-  html = html.replace(noTypographyReg, function(match, p1) {
-    labels.push(match);
-    return p1 == 'code' ? '<span>' + label + '</span>' :
-      '<div>' + label + '</div>';
+  html = html.replace(noTypographyReg, function(match, tag, attrs, body) {
+    labels.push(tag == 'no-typography' ? body : match);
+    return tag == 'code' ? ('<span>' + label + '</span>') : ('<div>' + label + '</div>');
   });
 
   html = replaceQuotesWithLaquo(html);
-//  html = wrapImgs(html);
 
   if (!options.noParagraphs) {
     html = makeParagraphs(html);

@@ -12,6 +12,5 @@ VerbatimText.prototype.getType = function() {
   return "VerbatimText";
 };
 
-
 module.exports = VerbatimText;
 
