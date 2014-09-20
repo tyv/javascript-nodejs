@@ -3,17 +3,11 @@ function iframeResize(ifrElem, callback) {
 
   var timeoutTimer = setTimeout(function() {
     // default height
-    ifrElem.style.height = '';
     callback(new Error("timeout"));
   }, 500);
 
   function done(err, height) {
     clearTimeout(timeoutTimer);
-
-    if (err) {
-      // default height
-      ifrElem.style.height = '';
-    }
 
     callback(err, height);
   }
@@ -56,6 +50,8 @@ function iframeResize(ifrElem, callback) {
 
   var doc = ifrElem.contentDocument || ifrElem.contentWindow.document;
   var height = doc.documentElement.scrollHeight || doc.body.scrollHeight;
+
+  ifrElem.style.height = '';
   done(null, height + 10);
 }
 
@@ -63,12 +59,15 @@ function iframeResizeCrossDomain(ifrElem, callback) {
   throw new Error("Not implemented yet");
 }
 
-module.exports = function(iframe, callback) {
+function iframeResizeAsync(iframe, callback) {
   // delay to let the code inside the iframe finish
   setTimeout(function() {
     iframeResize(iframe, callback);
   }, 0);
-};
+}
+
+module.exports = iframeResizeAsync;
+
 
 /*
 window.onmessage = function(e) {

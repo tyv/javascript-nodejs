@@ -94,7 +94,7 @@ function makeBundler(options) {
 
 
   bundler.on('file', function(file, id) {
-    log.debug(file, ':', id);
+    log.trace(file, ':', id);
   });
 
   bundler.on('update', bundler.rebundle);
