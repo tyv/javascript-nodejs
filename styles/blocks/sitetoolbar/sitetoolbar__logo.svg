@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg width="252px" height="82px" viewBox="0 0 252 82" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
-    <!-- Generator: Sketch 3.0.4 (8053) - http://www.bohemiancoding.com/sketch -->
+    <!-- Logo with animation
+    * We use SMIL, not CSS translate, because SMIL looks smoother.
+
+    * SMIL works on mouseover/mouseout. We need the animation to start onmouseout the whole picture and end when mouseover.
+
+    * I can't use the root document element.mouseover, because mouseover/out bubbles up, so that moving the pointer
+      around the document subelements causes the animation to restart.
+      To fix that I added an <rect id="overlay"> below, which is invisible, but covers the whole element and gets all pointer events
+      Then I use it for animation.
+
+    * For SMIL to work, the SVG is not <img>, but <embed> (can also be object/iframe)
+
+    * For <a><embed></a>, the embed is not clickable, so we move the <a> here, into the SVG
+    -->
     <title>JavaScript.ru</title>
     <style>
         a {
