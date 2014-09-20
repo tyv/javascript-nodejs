@@ -1,5 +1,5 @@
 var iframeResize = require('./iframeResize');
-var closest = require('client/dom/closest');
+var findClosest = require('client/dom/findClosest');
 var throttle = require('lib/throttle');
 // track resized iframes in window.onresize
 var onResize = [];
@@ -30,7 +30,7 @@ exports.complexCode = function(iframe) {
       if (err) console.error(err);
       // 30 px is the margin around the iframe
       console.log(height);
-      if (height) closest(iframe, '[data-complex-code-content]').style.height = +height + 30 + 'px';
+      if (height) findClosest(iframe, '[data-complex-code-content]').style.height = +height + 30 + 'px';
     });
   }
 
