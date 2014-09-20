@@ -1,4 +1,4 @@
-var closest = require('client/dom/closest');
+var findClosest = require('client/dom/findClosest');
 
 module.exports = function() {
 
@@ -12,7 +12,7 @@ module.exports = function() {
   }
 
   document.addEventListener('mouseover', function(event) {
-    var link = closest(event.target, 'a');
+    var link = findClosest(event.target, 'a');
     if (!link) return;
 
     tooltipSpan = document.createElement('span');

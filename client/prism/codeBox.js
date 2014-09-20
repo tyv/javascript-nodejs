@@ -1,5 +1,5 @@
 var template = require('./codeBox.jade');
-var iframeResize = require('client/head').iframeResize;
+var resizeOnload = require('client/head').resizeOnload;
 var isScrolledIntoView = require('client/isScrolledIntoView');
 var clientRender = require('client/clientRender');
 
@@ -98,10 +98,7 @@ function CodeBox(pre) {
       doc.close();
 
       if (!hasHeight) {
-        frame.setAttribute('data-autoresize', '1');
-        iframeResize(frame, function(err, height) {
-          if (height) frame.style.height = height + 'px';
-        });
+        resizeOnload.iframe(frame);
       }
 
       if (!(isFirstRun && pre.dataset.autorun)) {
@@ -131,10 +128,7 @@ function CodeBox(pre) {
         frame.onload = function() {
 
           if (!hasHeight) {
-            frame.setAttribute('data-autoresize', '1');
-            iframeResize(frame, function(err, height) {
-              if (height) frame.style.height = height + 'px';
-            });
+            resizeOnload.iframe(frame);
           }
 
           if (!isScrolledIntoView(htmlResult)) {

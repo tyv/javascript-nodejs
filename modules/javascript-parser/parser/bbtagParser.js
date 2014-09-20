@@ -227,8 +227,7 @@ BbtagParser.prototype.parseIframe = function() {
     if (!this.trusted) height = Math.max(height, 800);
     attrs.style = 'height: ' + height + 'px';
   } else {
-    attrs['data-autoresize'] = 1;
-    attrs.onload = 'require("client/head").iframeResize(this, function(err,height) { if (height) this.style.height = height })';
+    attrs.onload = 'require("client/head").resizeOnload.iframe(this)';
   }
 
   // relative url w/o domain means we want static host

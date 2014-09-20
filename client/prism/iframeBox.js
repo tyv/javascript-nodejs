@@ -1,7 +1,7 @@
 
 var clientRender = require('client/clientRender');
 var template = require('./iframeBox.jade');
-var iframeResize = require('client/head').iframeResize;
+var resizeOnload = require('client/head').resizeOnload;
 
 function IframeBox(iframe) {
 
@@ -40,15 +40,9 @@ function IframeBox(iframe) {
     if (!iframe.dataset.trusted) height = Math.min(height, 800);
     iframe.style.height = height + 'px';
   } else {
-
-    iframe.setAttribute('data-autoresize', '1');
-
     iframe.onload = function() {
-      iframeResize(iframe, function(err, height) {
-        if (height) iframe.style.height = height + 'px';
-      });
+      resizeOnload.iframe(iframe);
     };
-
   }
 
 

@@ -249,15 +249,16 @@ ServerHtmlTransformer.prototype.transformExampleTag = function* (node) {
   // TODO: render nicely
 //  console.log(tabs);
 
-  var height = parseInt(node.attrs.height);
+  var height = parseInt(node.attrs.height) || '';
 
-  var rendered = jade.renderFile(require.resolve('./templates/example.jade'), {
+  var rendered = jade.renderFile(require.resolve('./templates/complexCode.jade'), {
     bem: bem(),
     tabs: tabs,
     height: height && (node.isTrusted() ? height : Math.max(height, 800)),
     src: src + '/'
   });
 
+//  console.log("---> height", height && (node.isTrusted() ? height : Math.max(height, 800)));
   return this.wrapTagAround('no-typography', {}, rendered);
 };
 

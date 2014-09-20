@@ -3,8 +3,8 @@ var path = require('path');
 // wrap('modulePath')
 // is same as
 // require('modulePath').middleware,
-// but also does
-//   --> this.templatePaths.push(hmvcModule dirname) when entering middleware / pop on leaving
+// but also calls apply/undo upon entering/leaving the middleware
+//   --> here it does: this.templatePaths.push(hmvcModule dirname)
 function wrapHmvcMiddleware(hmvcModulePath, hmvcMiddleware) {
 
   var hmvcModuleDir = path.dirname(hmvcModulePath);
@@ -32,7 +32,7 @@ function wrapHmvcMiddleware(hmvcModulePath, hmvcMiddleware) {
       yield* next;
       // ...then apply back, when control goes back after yield next
       apply();
-    });
+    }());
 
     undo();
 

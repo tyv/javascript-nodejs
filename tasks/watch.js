@@ -1,3 +1,7 @@
+/**
+ * Autorun tasks *sequentially* on watch events
+ */
+
 var gulp = require('gulp');
 var minimatch = require("minimatch");
 var fsevents = require('fsevents');
@@ -134,10 +138,6 @@ function onFsEvents(filePath, flags, id) {
     }
 
     if (!found) return;
-
-    if (mapping.task == 'client:browserify') {
-      console.log("Match ", relFilePath);
-    }
 
     pushTaskQueue(mapping.task);
   }
