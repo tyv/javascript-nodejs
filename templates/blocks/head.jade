@@ -9,6 +9,12 @@ script if (window.devicePixelRatio > 1) document.cookie='pixelRatio='+window.dev
 link(href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700|Open+Sans+Condensed:700&subset=latin,latin-ext,cyrillic,cyrillic-ext' rel='stylesheet' type='text/css')
 link(href=asset('/styles/base.css'),rel='stylesheet')
 
+if prev
+  link(rel="prev" href=prev.url)
+
+if next
+  link(rel="next" href=next.url)
+
 script(src=asset("/js/head.js"))
 
 if user

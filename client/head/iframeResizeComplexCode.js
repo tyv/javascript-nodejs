@@ -4,7 +4,8 @@ var closest = require('client/dom/closest');
 function iframeResizeComplexCode(iframe) {
   iframeResize(iframe, function(err, height) {
     if (err) console.error(err);
-    else closest(iframe, '[data-complex-code-content]').style.height = height + 'px';
+    // 30 px is the margin around the iframe
+    else closest(iframe, '[data-complex-code-content]').style.height = +height + 30 + 'px';
   });
 }
 

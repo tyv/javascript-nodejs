@@ -38,7 +38,7 @@ function iframeResize(ifrElem, callback) {
       var height = doc.documentElement.scrollHeight || doc.body.scrollHeight;
       ifrElem.style.display = 'block';
       cloneIframe.remove();
-      done(null, height + 10);
+      done(null, height);
     };
 
     document.body.appendChild(cloneIframe);
@@ -52,7 +52,7 @@ function iframeResize(ifrElem, callback) {
   var height = doc.documentElement.scrollHeight || doc.body.scrollHeight;
 
   ifrElem.style.height = '';
-  done(null, height + 10);
+  done(null, height);
 }
 
 function iframeResizeCrossDomain(ifrElem, callback) {

@@ -10,3 +10,4 @@ exports.iframeResize = require('./iframeResize');
 exports.iframeResizeComplexCode = require('./iframeResizeComplexCode');
 
 require('./sitetoolbar');
+require('./navigation');
