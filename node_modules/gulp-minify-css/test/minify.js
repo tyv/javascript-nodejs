@@ -73,7 +73,7 @@ describe('does not loose other properties in the file object', function () {
     .pipe(es.map(function (file) {
       expect(file).to.equal(originalFile);
       done();
-    }))
+    }));
   });
   it('should preserve additional properties on the original file instance', function (done) {
     gulp.src(filename)
@@ -85,6 +85,6 @@ describe('does not loose other properties in the file object', function () {
     .pipe(es.map(function (file) {
       expect(file.someProperty).to.equal(42);
       done();
-    }))
+    }));
   });
 });
