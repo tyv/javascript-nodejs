@@ -6,8 +6,6 @@ exports.login = require('./login');
 exports.logout = require('./logout');
 exports.Modal = require('./modal');
 exports.fontTest = require('./fontTest');
-exports.iframeResize = require('./iframeResize');
-exports.iframeResizeComplexCode = require('./iframeResizeComplexCode');
-
+exports.resizeOnload = require('./resizeOnload');
 require('./sitetoolbar');
 require('./navigation');

@@ -12,11 +12,13 @@ function navigate(event) {
   var rel = null;
   switch (event.keyCode) {
   case 0x25:
-    rel = 'next';
-    break;
-  case 0x27:
     rel = 'prev';
     break;
+  case 0x27:
+    rel = 'next';
+    break;
+  default:
+    return;
   }
 
   var link = document.querySelector('link[rel="' + rel + '"]');

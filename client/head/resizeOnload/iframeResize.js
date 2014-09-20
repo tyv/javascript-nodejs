@@ -59,14 +59,7 @@ function iframeResizeCrossDomain(ifrElem, callback) {
   throw new Error("Not implemented yet");
 }
 
-function iframeResizeAsync(iframe, callback) {
-  // delay to let the code inside the iframe finish
-  setTimeout(function() {
-    iframeResize(iframe, callback);
-  }, 0);
-}
-
-module.exports = iframeResizeAsync;
+module.exports = iframeResize;
 
 
 /*
