@@ -143,13 +143,12 @@ function CodeBox(pre) {
   function runJS() {
 
     if (isTrusted) {
-      var evalFunc = window.execScript || function (code) {
-        window["eval"].call(window, code);
-      };
 
       try {
-        evalFunc(code);
+        /* jshint -W061 */
+        window["eval"].call(window, code);
       } catch (e) {
+        console.error(e);
         alert("Ошибка: " + e.message);
       }
     } else {

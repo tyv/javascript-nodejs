@@ -19,6 +19,7 @@ var ErrorTag = require('../node/errorTag');
 var VerbatimText = require('../node/verbatimText');
 var TextNode = require('../node/textNode');
 var ParseError = require('./parseError');
+var ensureSafeUrl = require('./ensureSafeUrl');
 
 /**
  * Parser creates node objects from general text.
@@ -73,6 +74,13 @@ BbtagParser.prototype.parse = function() {
   }
 
   try {
+    if (!this.trusted && this.params.src){
+      ensureSafeUrl(this.params.src);
+    }
+    if (!this.trusted && this.params.href){
+      ensureSafeUrl(this.params.href);
+    }
+
     return method.call(this);
   } catch(e) {
     if (e instanceof ParseError) {
@@ -347,7 +355,7 @@ BbtagParser.prototype.parseImg = function() {
     this.paramRequiredError('div', 'src');
   }
 
-  var attrs = this.trusted ? _.clone(this.params) : _.pick(this.params, ['src', 'width', 'height']);
+  var attrs = this.trusted ? _.clone(this.params) : _.pick(this.params, ['src', 'width', 'height', 'alt']);
 
   return new ImgTag(attrs, this.token.isFigure);
 };

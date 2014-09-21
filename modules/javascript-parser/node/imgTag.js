@@ -4,6 +4,7 @@ var inherits = require('inherits');
 function ImgTag(attrs, isFigure) {
   TagNode.call(this, "img", "", attrs);
   this.isFigure = isFigure;
+  if (!attrs.alt) attrs.alt = "";
 }
 inherits(ImgTag, TagNode);
 

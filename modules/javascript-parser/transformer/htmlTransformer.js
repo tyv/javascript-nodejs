@@ -44,17 +44,19 @@ HtmlTransformer.prototype.formatHtml = function(html, trusted) {
   return html;
 };
 
-HtmlTransformer.prototype.wrapTagAround = function(tag, attrs, html) {
-  var result = "<" + tag;
-
-//  console.log(tag, attrs, html);
+HtmlTransformer.prototype.attrsToString = function(attrs) {
+  var result = [];
   for (var name in attrs) {
     name = escapeHtmlAttr(name);
     var value = escapeHtmlAttr(attrs[name]);
-    result += ' ' + name + '="' + value + '"';
+    result.push(name + '="' + value + '"');
   }
 
-  result += '>';
+  return result.join(' ');
+};
+
+HtmlTransformer.prototype.wrapTagAround = function(tag, attrs, html) {
+  var result = "<" + tag + ' ' + this.attrsToString(attrs) + '>';
 
   if (tag != 'img') {
     result += html + '</' + tag + '>';
@@ -137,11 +139,13 @@ HtmlTransformer.prototype.transformImgTag = function(node) {
   var html;
 
   if (node.isFigure) {
+    var attrs = Object.create(node.attrs);
+    attrs['class'] = attrs['class'] ? attrs['class'] + ' image__image' : 'image__image';
 
     if (node.attrs.width && node.attrs.height) {
       html = '<figure><div class="image" style="width: '+node.attrs.width+'px;">' +
         '<div class="image__ratio" style="padding-top: ' + (node.attrs.height/node.attrs.width*100) + '%"></div>' +
-        '<img class="image__image" src="' + node.attrs.src + '" alt="">' +
+        this.wrapTagAround('img', attrs) +
         '</div></figure>';
     } else {
       html = '<figure>' + this.transformTagNode(node) + '</figure>';
