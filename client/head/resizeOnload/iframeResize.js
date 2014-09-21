@@ -17,7 +17,7 @@ function iframeResize(ifrElem, callback) {
   try {
     /* jshint -W030 */
     (ifrElem.contentDocument || ifrElem.contentWindow.document).body;
-  } catch(e) {
+  } catch (e) {
     iframeResizeCrossDomain(ifrElem, done);
   }
 
@@ -54,6 +54,14 @@ function iframeResize(ifrElem, callback) {
   done(null, height);
 }
 
+iframeResize.async = function iframeResizeAsync(iframe, callback) {
+  // delay to let the code inside the iframe finish
+  setTimeout(function() {
+    iframeResize(iframe, callback);
+  }, 0);
+};
+
+
 function iframeResizeCrossDomain(ifrElem, callback) {
   throw new Error("Not implemented yet");
 }
@@ -62,70 +70,70 @@ module.exports = iframeResize;
 
 
 /*
-window.onmessage = function(e) {
-  if (e.origin != "http://ru.lookatcode.com") return;
-  var data = JSON.parse(e.data);
-  if (!data || data.cmd != "resize-iframe") return;
-  var elem = document.getElementsByName(data.name)[0];
+ window.onmessage = function(e) {
+ if (e.origin != "http://ru.lookatcode.com") return;
+ var data = JSON.parse(e.data);
+ if (!data || data.cmd != "resize-iframe") return;
+ var elem = document.getElementsByName(data.name)[0];
 
-  elem.style.height = +data.height + 10 + "px";
-  var deferred = iframeResizeCrossDomain.deferreds[data.id];
-  deferred.resolve();
-};
+ elem.style.height = +data.height + 10 + "px";
+ var deferred = iframeResizeCrossDomain.deferreds[data.id];
+ deferred.resolve();
+ };
 
-function iframeResizeCrossDomain(ifrElem, callback) {
+ function iframeResizeCrossDomain(ifrElem, callback) {
 
-  setTimeout(function() {
-    callback(new Error("timeout"));
-  }, 500);
+ setTimeout(function() {
+ callback(new Error("timeout"));
+ }, 500);
 
-  try {
-    // try to see if resizer can work on this iframe
-    ifrElem.contentWindow.postMessage("test", "http://ru.lookatcode.com");
-  } catch(e) {
-    // iframe from another domain, sorry
-    callback(new Error("the resizer must be from ru.lookatcode.com"));
-    return;
-  }
+ try {
+ // try to see if resizer can work on this iframe
+ ifrElem.contentWindow.postMessage("test", "http://ru.lookatcode.com");
+ } catch(e) {
+ // iframe from another domain, sorry
+ callback(new Error("the resizer must be from ru.lookatcode.com"));
+ return;
+ }
 
-  if (!ifrElem.offsetWidth) {
-    // move iframe to another place to resize there
-    var placeholder = document.createElement('span');
-    ifrElem.parentNode.insertBefore(placeholder, ifrElem);
-    document.body.appendChild(ifrElem);
-  }
+ if (!ifrElem.offsetWidth) {
+ // move iframe to another place to resize there
+ var placeholder = document.createElement('span');
+ ifrElem.parentNode.insertBefore(placeholder, ifrElem);
+ document.body.appendChild(ifrElem);
+ }
 
-  ifrElem.style.display = 'none';
+ ifrElem.style.display = 'none';
 
-  var id = "" + Math.random();
-  var message = { cmd: 'resize-iframe', name: ifrElem[0].name, id: id };
-  // TODO
-  iframeResizeCrossDomain.deferreds[id] = deferred;
-  deferred.always(function() {
-    delete iframeResizeCrossDomain.deferreds[id];
-  });
+ var id = "" + Math.random();
+ var message = { cmd: 'resize-iframe', name: ifrElem[0].name, id: id };
+ // TODO
+ iframeResizeCrossDomain.deferreds[id] = deferred;
+ deferred.always(function() {
+ delete iframeResizeCrossDomain.deferreds[id];
+ });
 
-  var frame = iframeResizeCrossDomain.iframe;
-  if (frame.loaded) {
-    frame.contentWindow.postMessage(JSON.stringify(message), "http://ru.lookatcode.com");
-  } else {
-    frame.on('load', function() {
-      frame.contentWindow.postMessage(JSON.stringify(message), "http://ru.lookatcode.com");
-    });
-  }
+ var frame = iframeResizeCrossDomain.iframe;
+ if (frame.loaded) {
+ frame.contentWindow.postMessage(JSON.stringify(message), "http://ru.lookatcode.com");
+ } else {
+ frame.on('load', function() {
+ frame.contentWindow.postMessage(JSON.stringify(message), "http://ru.lookatcode.com");
+ });
+ }
 
-  if (placeholder) {
-    setTimeout(function() {
-      placeholder.replaceWith(ifrElem);
-    }, 20);
-  }
+ if (placeholder) {
+ setTimeout(function() {
+ placeholder.replaceWith(ifrElem);
+ }, 20);
+ }
 
-  return deferred;
-}
+ return deferred;
+ }
 
-iframeResizeCrossDomain.deferreds = {};
-iframeResizeCrossDomain.iframe = $('<iframe src="http://ru.lookatcode.com/files/iframe-resize.html" style="display:none"></iframe>').prependTo('body');
-iframeResizeCrossDomain.iframe.on('load', function() {
-  this.loaded = true;
-});
-*/
+ iframeResizeCrossDomain.deferreds = {};
+ iframeResizeCrossDomain.iframe = $('<iframe src="http://ru.lookatcode.com/files/iframe-resize.html" style="display:none"></iframe>').prependTo('body');
+ iframeResizeCrossDomain.iframe.on('load', function() {
+ this.loaded = true;
+ });
+ */
