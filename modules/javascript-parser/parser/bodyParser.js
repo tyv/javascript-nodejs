@@ -20,12 +20,12 @@ var ErrorTag = require('../node/errorTag');
 var CommentNode = require('../node/commentNode');
 var HeaderTag = require('../node/headerTag');
 var VerbatimText = require('../node/verbatimText');
-var HREF_PROTOCOL_REG = require('../consts').HREF_PROTOCOL_REG;
 var makeAnchor = require('../util/makeAnchor');
 var TextNode = require('../node/textNode');
 var ParseError = require('./parseError');
 var contextTypography = require('../typography/contextTypography');
 var charTypography = require('../typography/charTypography');
+var ensureSafeUrl = require('./ensureSafeUrl');
 
 /**
  * BodyParser creates node objects from general text.
@@ -255,19 +255,12 @@ BodyParser.prototype.parseLink = function(token) {
   var href = token.href || token.title; // [http://ya.ru]() is fine
   var title = token.title; // [](http://ya.ru) is fine, but [](#test) - see below
 
-  var protocol = href.replace(/[\x00-\x20]/g, '').match(HREF_PROTOCOL_REG);
-  if (protocol) {
-    protocol = protocol[1].trim();
-  }
+  if (!this.trusted) ensureSafeUrl(href);
 
   var titleParsed = new BodyParser(title, this.options).parse();
 
   // external link goes "as is"
-  if (protocol) {
-    if (!this.trusted && !~["http", "ftp", "https", "mailto"].indexOf(protocol.toLowerCase())) {
-      throw new ParseError("span", "Protocol " + protocol + " is not allowed");
-    }
-
+  if (~href.indexOf('://')) {
     return new CompositeTag("a", titleParsed, {href: href});
   }
 
