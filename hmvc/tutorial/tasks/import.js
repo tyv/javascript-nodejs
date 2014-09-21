@@ -143,7 +143,7 @@ module.exports = function(options) {
       throw new Error("must start with a #Header");
     }
 
-    return stripTags(titleHeader.toHtml({contextTypography: true}));
+    return stripTags(titleHeader.text);
   }
 
   function* importArticle(articlePath, parent) {

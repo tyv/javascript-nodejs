@@ -1,3 +1,4 @@
+var getDocumentHeight = require('client/dom/getDocumentHeight');
 
 function iframeResize(ifrElem, callback) {
 
@@ -34,8 +35,7 @@ function iframeResize(ifrElem, callback) {
     cloneIframe.style.top = '10000px';
 
     cloneIframe.onload = function() {
-      var doc = this.contentDocument || this.contentWindow.document;
-      var height = doc.documentElement.scrollHeight || doc.body.scrollHeight;
+      var height = getDocumentHeight(this.contentDocument);
       ifrElem.style.display = 'block';
       cloneIframe.remove();
       done(null, height);
@@ -48,8 +48,7 @@ function iframeResize(ifrElem, callback) {
   ifrElem.style.display = 'block';
   ifrElem.style.height = '1px';
 
-  var doc = ifrElem.contentDocument || ifrElem.contentWindow.document;
-  var height = doc.documentElement.scrollHeight || doc.body.scrollHeight;
+  var height = getDocumentHeight(ifrElem.contentDocument);
 
   ifrElem.style.height = '';
   done(null, height);

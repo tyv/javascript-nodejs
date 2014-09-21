@@ -258,7 +258,7 @@ ServerHtmlTransformer.prototype.transformExampleTag = function* (node) {
     src: src + '/'
   });
 
-  console.log("---> height", height && (node.isTrusted() ? height : Math.max(height, 800)));
+//  console.log("---> height", height && (node.isTrusted() ? height : Math.max(height, 800)));
   return this.wrapTagAround('no-typography', {}, rendered);
 };
 
