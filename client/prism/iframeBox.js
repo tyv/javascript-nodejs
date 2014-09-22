@@ -2,6 +2,7 @@
 var clientRender = require('client/clientRender');
 var template = require('./iframeBox.jade');
 var resizeOnload = require('client/head').resizeOnload;
+var escapeHtmlText = require('lib/escapeHtmlText');
 
 function IframeBox(iframe) {
 
@@ -47,16 +48,9 @@ function IframeBox(iframe) {
 
 
   if (iframe.dataset.playError) {
-    elem.insertAdjacentHTML("afterBegin", '<div class="format_error">' + esc(iframe.dataset.playError) + '</div>');
+    elem.insertAdjacentHTML("afterBegin", '<div class="format_error">' + escapeHtmlText(iframe.dataset.playError) + '</div>');
   }
 }
 
-
-function esc(str) {
-  return str
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
-}
 
 module.exports = IframeBox;

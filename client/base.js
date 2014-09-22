@@ -1088,7 +1088,7 @@ function getRandomIdentifier(prefix) {
         // блок кода с табами на разные файлы
         // недоделан
         ///////////////////////////////////////////////////////////////
-        $('.complex-code.tabs_inited').each(function() {
+        $('.code-tabs.tabs_inited').each(function() {
             var root = $(this);
             var link = root.data('link');
             var uniqueClass = getRandomIdentifier('complex-code_');
@@ -1116,8 +1116,8 @@ function getRandomIdentifier(prefix) {
             initDropdowns();
         });
 
-        $('.complex-code.tabs_inited').first().each(function() {
-            $(document).on('click.complex-code', '.complex-code__dropdown .tabs__switch-control', function() {
+        $('.code-tabs.tabs_inited').first().each(function() {
+            $(document).on('click.code-tabs', '.complex-code__dropdown .tabs__switch-control', function() {
                 var jqComplexCodeDropdownItem = $(this);
                 var jqComplexCodeDropdown = jqComplexCodeDropdownItem.parents('.complex-code__dropdown');
                 var jqComplexCode = $('.' + jqComplexCodeDropdown.data('parent'));

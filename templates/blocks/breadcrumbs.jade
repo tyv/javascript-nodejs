@@ -1,4 +1,4 @@
 +b("ol").breadcrumbs
   each crumb in breadcrumbs
     +e("li").item
-      +e("link")(href=crumb.url) !{crumb.title}
+      +e("a")(href=crumb.url) !{crumb.title}

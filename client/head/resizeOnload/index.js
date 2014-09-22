@@ -16,19 +16,19 @@ exports.iframe = function(iframe) {
   onResize.push(resize);
 };
 
-exports.complexCode = function(iframe, initialHeight) {
+exports.codeTabs = function(iframe, initialHeight) {
   function resize() {
 
     // add arrows if needed
-    var elem = findClosest(iframe, '.complex-code');
-    var contentElem = findClosest(iframe, '[data-complex-code-content]');
-    var switchesElem = elem.querySelector('[data-complex-code-switches]');
+    var elem = findClosest(iframe, '.code-tabs');
+    var contentElem = findClosest(iframe, '[data-code-tabs-content]');
+    var switchesElem = elem.querySelector('[data-code-tabs-switches]');
     var switchesElemItems = switchesElem.firstElementChild;
 
     if (switchesElemItems.offsetWidth > switchesElem.offsetWidth) {
-      elem.classList.add('complex-code_scroll');
+      elem.classList.add('code-tabs_scroll');
     } else {
-      elem.classList.remove('complex-code_scroll');
+      elem.classList.remove('code-tabs_scroll');
     }
 
     // resize iframe only if no initial height is set
