@@ -9,12 +9,13 @@ var inherits = require('inherits');
 var _ = require('lodash');
 var SourceTag = require('../node/sourceTag');
 var TagNode = require('../node/tagNode');
+var IframeTag = require('../node/iframeTag');
 var EditTag = require('../node/editTag');
 var CutNode = require('../node/cutNode');
 var ImgTag = require('../node/imgTag');
 var KeyTag = require('../node/keyTag');
 var CompositeTag = require('../node/compositeTag');
-var ExampleTag = require('../node/exampleTag');
+var CodeTabsTag = require('../node/codeTabsTag');
 var ErrorTag = require('../node/errorTag');
 var VerbatimText = require('../node/verbatimText');
 var TextNode = require('../node/textNode');
@@ -225,43 +226,7 @@ BbtagParser.prototype.parseIframe = function() {
     throw new ParseError("protocol not allowed");
   }
 
-  var attrs = {
-    'class':        'result__iframe',
-    'data-trusted': this.trusted ? '1' : '0'
-  };
-
-  if (this.params.height) {
-    var height = parseInt(this.params.height);
-    if (!this.trusted) height = Math.max(height, 800);
-    attrs.style = 'height: ' + height + 'px';
-  } else {
-    attrs.onload = 'require("client/head").resizeOnload.iframe(this)';
-  }
-
-  // relative url w/o domain means we want static host
-  //    [iframe src="dir"]
-  // otherwise we want a dynamic service e.g
-  //    [iframe src="/ajax/service"]
-  if (src[0] != '/' && !~src.indexOf('://')) {
-    src = this.staticHost + this.resourceWebRoot + '/' + src;
-  }
-
-  attrs.src = src + '/';
-
-  if (this.params.play) {
-    attrs['data-play'] = "1";
-  }
-
-  if (this.params.link) {
-    attrs['data-external'] = 1;
-  }
-
-  if (this.params.zip) {
-    attrs['data-zip'] = 1;
-  }
-
-  return new TagNode('iframe', '', attrs);
-
+  return new IframeTag(this.params);
 };
 
 BbtagParser.prototype.parseQuote = function() {
@@ -371,6 +336,6 @@ BbtagParser.prototype.parseExample = function() {
     throw new ParseError("src must be relative, protocol not allowed");
   }
 
-  return new ExampleTag(this.params);
+  return new CodeTabsTag(this.params);
 };
 

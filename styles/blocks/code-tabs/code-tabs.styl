@@ -1,9 +1,9 @@
-// Чтобы показать кнопки прокрутки обертке блока .complex-code
-// добавляется класс .complex-code_scroll
+// Чтобы показать кнопки прокрутки обертке блока .code-tabs
+// добавляется класс .code-tabs_scroll
 //- задание высоты блока:
 //- https://github.com/iliakan/javascript-nodejs/issues/43
 
-.complex-code
+.code-tabs
 	border 3px solid #f5f2f0
 	margin 22px 0
 
@@ -64,6 +64,7 @@
 
 	&__switches-items // будет использоваться для прокрутки
 		position absolute
+		transition 100ms ease-in-out
 
 	&__switch
 		color #656565

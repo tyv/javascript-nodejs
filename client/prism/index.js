@@ -16,7 +16,7 @@ require('prismjs/components/prism-java.js');
 
 var CodeBox = require('./codeBox');
 var IframeBox = require('./iframeBox');
-var ComplexCodeBox = require('./complexCodeBox');
+var CodeTabsBox = require('./codeTabsBox');
 
 function initCodeBoxes() {
 
@@ -128,12 +128,12 @@ function initIframeBoxes() {
 
 }
 
-function initComplexCodeBoxes() {
+function initCodeTabsBox() {
 
-  var elems = document.querySelectorAll('div.complex-code');
+  var elems = document.querySelectorAll('div.code-tabs');
 
   for (var i = 0; i < elems.length; i++) {
-    new ComplexCodeBox(elems[i]);
+    new CodeTabsBox(elems[i]);
   }
 
 }
@@ -144,7 +144,7 @@ module.exports = function () {
   document.addEventListener('DOMContentLoaded', function() {
     initCodeBoxes();
     initIframeBoxes();
-    initComplexCodeBoxes();
+    initCodeTabsBox();
   });
 
 };
