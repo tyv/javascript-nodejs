@@ -9,6 +9,8 @@ var extractHighlight = require('../util/source/extractHighlight');
 
 function HtmlTransformer(options) {
   this.options = options || {};
+  this.resourceWebRoot = options.resourceWebRoot;
+  this.staticHost = options.staticHost;
 }
 
 HtmlTransformer.prototype.transform = function(node, isFinal) {
@@ -191,7 +193,7 @@ HtmlTransformer.prototype.transformReferenceNode = function(node) {
 };
 
 // on this stage the tag either contains this.src OR the resolved text
-HtmlTransformer.prototype.transformExampleTag = function(node) {
+HtmlTransformer.prototype.transformCodeTabsTag = function(node) {
   var text = 'Пример ' + node.attrs.src;
 
   return this.wrapTagAround('div', {}, text);
@@ -300,6 +302,49 @@ HtmlTransformer.prototype.transformVerbatimText = function(node) {
   return html;
 };
 
+HtmlTransformer.prototype.transformIframeTag = function(node) {
+
+  var attrs = {
+    'class':        'result__iframe',
+    'data-trusted': node.isTrusted() ? '1' : '0'
+  };
+
+  if (node.attrs.height) {
+    var height = parseInt(node.attrs.height);
+    if (!node.isTrusted()) height = Math.max(height, 800);
+    attrs.style = 'height: ' + height + 'px';
+  } else {
+    attrs.onload = 'require("client/head").resizeOnload.iframe(this)';
+  }
+
+  var src = node.attrs.src;
+
+  // relative url w/o domain means we want static host
+  //    [iframe src="dir"]
+  // otherwise we want a dynamic service e.g
+  //    [iframe src="/ajax/service"]
+  if (src[0] != '/' && !~src.indexOf('://')) {
+    src = this.staticHost + this.resourceWebRoot + '/' + src;
+  }
+
+  attrs.src = src + '/';
+
+  if (node.attrs.play) {
+    attrs['data-play'] = "1";
+  }
+
+  if (node.attrs.link) {
+    attrs['data-external'] = 1;
+  }
+
+  if (node.attrs.zip) {
+    attrs['data-zip'] = 1;
+  }
+
+  return this.wrapTagAround('iframe', attrs, '');
+
+};
+
 
 HtmlTransformer.prototype.makeLabel = function() {
   return Math.random().toString(36).slice(2);
@@ -315,5 +360,6 @@ HtmlTransformer.prototype.replaceLabels = function(html, labels) {
     return content;
   });
 };
+
 
 module.exports = HtmlTransformer;

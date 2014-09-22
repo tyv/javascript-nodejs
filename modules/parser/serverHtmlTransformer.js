@@ -19,8 +19,6 @@ var imageSize = thunkify(require('image-size'));
 
 function ServerHtmlTransformer(options) {
   HtmlTransformer.apply(this, arguments);
-  this.resourceWebRoot = options.resourceWebRoot;
-  this.staticHost = options.staticHost;
 }
 
 inherits(ServerHtmlTransformer, HtmlTransformer);
@@ -40,7 +38,7 @@ ServerHtmlTransformer.prototype.transform = function*(node, isFinal) {
     } else {
       html = method.call(this, node);
     }
-  } catch(e) {
+  } catch (e) {
     if (e instanceof ParseError) {
       html = this.transformErrorTag(new ErrorTag(e.tag, e.message));
     } else {
@@ -189,7 +187,7 @@ function* readPlunkId(dirPath) {
 
     info = JSON.parse(yield fs.readFile(plnkrPath));
 
-  } catch(e) {
+  } catch (e) {
     if (e instanceof SyntaxError) {
       throw new ParseError('div', 'incorrect .plnkr');
     } else {
@@ -200,7 +198,7 @@ function* readPlunkId(dirPath) {
   return info.plunk;
 }
 
-ServerHtmlTransformer.prototype.transformExampleTag = function* (node) {
+ServerHtmlTransformer.prototype.transformCodeTabsTag = function* (node) {
 
   var src = path.join(this.resourceWebRoot, node.attrs.src);
 
@@ -210,7 +208,9 @@ ServerHtmlTransformer.prototype.transformExampleTag = function* (node) {
   yield readPlunkId(srcPath);
 
   var files = yield fs.readdir(srcPath);
-  files = files.filter(function(fileName) { return fileName[0] != '.'; });
+  files = files.filter(function(fileName) {
+    return fileName[0] != '.';
+  });
 
   files.sort(function(nameA, nameB) {
 
@@ -229,33 +229,45 @@ ServerHtmlTransformer.prototype.transformExampleTag = function* (node) {
     // html always first, then js, then css, then generic comparison
     return compare('.html') || compare('.js') || compare('.css') || (nameA > nameB ? 1 : -1);
   });
-/*
-  var tabs = [{
-    title: 'Результат',
-    selected: !node.attrs.selected, // if nothing is selected, select this
-    content:
-  }];*/
+  /*
+   var tabs = [{
+   title: 'Результат',
+   selected: !node.attrs.selected, // if nothing is selected, select this
+   content:
+   }];*/
   var tabs = [];
+
+
+  var prismLanguageMap = {
+    html:   'markup',
+    js:     'javascript',
+    coffee: 'coffeescript'
+  };
 
   for (var i = 0; i < files.length; i++) {
     var name = files[i];
 
+    var ext = path.extname(name).slice(1);
+
+    var prismLanguage = prismLanguageMap[ext] || ext;
+
+    var languageClass = 'language-' + prismLanguage + ' line-numbers';
+
+    var content = yield fs.readFile(path.join(srcPath, name), 'utf-8');
     tabs.push({
-      title: name,
-      content: yield fs.readFile(path.join(srcPath, name), 'utf-8')
+      title:   name,
+      class: languageClass,
+      content: content
     });
   }
 
-  // TODO: render nicely
-//  console.log(tabs);
-
   var height = parseInt(node.attrs.height) || '';
 
-  var rendered = jade.renderFile(require.resolve('./templates/complexCode.jade'), {
-    bem: bem(),
-    tabs: tabs,
+  var rendered = jade.renderFile(require.resolve('./templates/codeTabs.jade'), {
+    bem:    bem(),
+    tabs:   tabs,
     height: height && (node.isTrusted() ? height : Math.max(height, 800)),
-    src: src + '/'
+    src:    src + '/'
   });
 
 //  console.log("---> height", height && (node.isTrusted() ? height : Math.max(height, 800)));
@@ -264,39 +276,39 @@ ServerHtmlTransformer.prototype.transformExampleTag = function* (node) {
 
 /*
 
-      options = {
-          'class' => 'result__iframe',
-          'data-trusted' => @trusted ? '1' : '0'
-      }
+ options = {
+ 'class' => 'result__iframe',
+ 'data-trusted' => @trusted ? '1' : '0'
+ }
 
-      if @params['height']
-        options['data-demo-height'] = @params['height']
-      else
-        options['data-demo-height'] = '350'
-      end
+ if @params['height']
+ options['data-demo-height'] = @params['height']
+ else
+ options['data-demo-height'] = '350'
+ end
 
-      #options['src'] = prefix_relative_src(@params['src']) + "/"
+ #options['src'] = prefix_relative_src(@params['src']) + "/"
 
-      begin
-        plunk_id = read_plunk_id(@params['src'])
-        options['data-play'] = plunk_id
-      rescue => e
-        return Node::ErrorTag.new(:div, "#{@bbtag}: нет такой песочницы #{@params['src']}")
-      end
+ begin
+ plunk_id = read_plunk_id(@params['src'])
+ options['data-play'] = plunk_id
+ rescue => e
+ return Node::ErrorTag.new(:div, "#{@bbtag}: нет такой песочницы #{@params['src']}")
+ end
 
-      options['src'] = "http://embed.plnkr.co/#{plunk_id}/preview"
+ options['src'] = "http://embed.plnkr.co/#{plunk_id}/preview"
 
-      options['data-zip'] = "1" if @params['zip']
+ options['data-zip'] = "1" if @params['zip']
 
-      Node::Tag.new(:iframe, "", options)
+ Node::Tag.new(:iframe, "", options)
 
-    end
-*/
+ end
+ */
 
 ServerHtmlTransformer.prototype._srcUnderRoot = function(root, src) {
   src = path.join(root, src);
 
-  if (src.slice(0, root.length + 1) != root + '/' ) {
+  if (src.slice(0, root.length + 1) != root + '/') {
     throw new ParseError("div", "src goes outside of root: " + src);
   }
 

@@ -3,13 +3,13 @@ var inherits = require('inherits');
 
 // Тег, содержимое которого нужно полностью заэкранировать
 // Все теги внутри эскейпятся, так что вложенный HTML заведомо безопасен
-function ExampleTag(attrs) {
+function CodeTabsTag(attrs) {
   TagNode.call(this, 'div', '', attrs);
 }
-inherits(ExampleTag, TagNode);
+inherits(CodeTabsTag, TagNode);
 
-ExampleTag.prototype.getType = function() {
-  return "ExampleTag";
+CodeTabsTag.prototype.getType = function() {
+  return "CodeTabsTag";
 };
 
-module.exports = ExampleTag;
+module.exports = CodeTabsTag;

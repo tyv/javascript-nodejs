@@ -1,29 +1,29 @@
 include ./bem
 
-+b.complex-code
++b.code-tabs
   +e.tools
     +e.scroll-wrap
-      +e('button').scroll-button._left(title="&larr;")
+      +e('button').scroll-button._left(title="&larr;" data-code-tabs-left)
     +e.switches-wrap
-      +e.switches
+      +e.switches(data-code-tabs-switches)
         +e.switches-items
           +e.switch._current Результат
           each tab in tabs
             +e.switch #{tab.title}
     +e.scroll-wrap
-      +e('button').scroll-button._right(title="&rarr;")
+      +e('button').scroll-button._right(title="&rarr;" data-code-tabs-right)
     +e.buttons
       if zip
         +e('a').button._download(target="_blank", href=zip.url)
       if play
         +e('a').button._open(target="_blank", href=play.url)
-  +e.content(data-complex-code-content style=height ? ('height:' + height + 'px') : '')
-    +e.content-inner
+  +e.content(data-code-tabs-content style=height ? ('height:' + height + 'px') : '')
+    +e.content-inner(data-code-tabs-content-inner)
       +e.section._current
         //- assigning an attribute to false removes the attribute
-        +e('iframe').result(src=src onload=(!height ? "require('client/head').resizeOnload.complexCode(this)" : false))
+        +e('iframe').result(src=src onload=("require('client/head').resizeOnload.codeTabs(this, "+(height||false)+")"))
 
       each tab in tabs
         +e.section
-          pre
+          pre(class=tab.class)
             = tab.content
