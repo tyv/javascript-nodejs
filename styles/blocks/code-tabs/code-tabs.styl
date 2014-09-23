@@ -4,14 +4,19 @@
 //- https://github.com/iliakan/javascript-nodejs/issues/43
 
 .code-tabs
-	border 3px solid #f5f2f0
 	margin 22px 0
+	background #ffefef
 
 	&__tools
 		display table
-		margin -3px -3px 0
 		background #f5f2f0
 		font-size 13px
+		box-shadow 0 2px 5px rgba(0, 0, 0, .12)
+		position relative
+		z-index 99
+
+	&_result_on &__tools
+		box-shadow none
 
 	&__switches-wrap,
 	&__buttons
@@ -125,18 +130,12 @@
 
 	&__content
 		overflow auto
+		box-sizing border-box
 
-	&__content-inner
-		margin 15px
-		height calc(100% - 30px)
-
-	&__content-inner p,
-	&__content-inner ul,
-	&__content-inner ol,
-	&__content-inner figure,
-	&__content-inner .code-example
-	&__content-inner .codebox
-		margin 15px 0
+	&_result_on &__content
+		border solid #f5f2f0
+		border-width 0 3px 3px
+		padding 15px
 
 	&__dropdown
 		background #fff
@@ -152,13 +151,18 @@
 
 	&__section
 		display none
+		height 100%
 
 	&__section_current
 		display block
-		height 100%
+
+	& &__section .code-example,
+	& &__section .code-example__codebox
+		margin 0
 
 	&__result
+		display block
 		border 0
 		width 100%
-		display block
 		height 100%
+
