@@ -12,17 +12,17 @@ exports.init = function() {
 
 function initTaskButtons() {
   // solution button
-  delegate(document.body, '.tasks__solution', 'click', function(event) {
-    findClosest(event.target, '.tasks__task').classList.toggle('tasks__task_answer_open');
+  delegate(document.body, '.task__solution', 'click', function(event) {
+    findClosest(event.target, '.task').classList.toggle('task__answer_open');
   });
 
   // close solution button
-  delegate(document.body, '.tasks__answer-close', 'click', function(event) {
-    findClosest(event.target, '.tasks__task').classList.toggle('tasks__task_answer_open');
+  delegate(document.body, '.task__answer-close', 'click', function(event) {
+    findClosest(event.target, '.task').classList.toggle('task__answer_open');
   });
 
   // every step button (if any steps)
-  delegate(document.body, '.tasks__step-show', 'click', function(event) {
-    findClosest(event.target, '.tasks__step').classList.toggle('tasks__step_open');
+  delegate(document.body, '.task__step-show', 'click', function(event) {
+    findClosest(event.target, '.task__step').classList.toggle('task__step_open');
   });
 }

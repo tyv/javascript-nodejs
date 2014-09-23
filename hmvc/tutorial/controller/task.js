@@ -5,7 +5,7 @@ const TaskRenderer = require('../renderer/taskRenderer');
 exports.get = function *get(next) {
   const task = yield Task.findOne({
     slug: this.params.slug
-  }).exec();
+  }).populate('parent', 'slug').exec();
 
   if (!task) {
     yield next;
@@ -13,9 +13,6 @@ exports.get = function *get(next) {
   }
 
   const renderer = new TaskRenderer();
-
-
-  this.body = yield renderer.renderContent(task);
 
   this.locals.task = {
     url: task.getUrl(),
@@ -25,7 +22,8 @@ exports.get = function *get(next) {
     solution: yield renderer.renderSolution(task)
   };
 
-  this.body = this.render("task");
+  this.locals.articleUrl = task.parent.getUrl();
 
+  this.body = this.render("task");
 };
 
