@@ -75,15 +75,15 @@ BbtagParser.prototype.parse = function() {
   }
 
   try {
-    if (!this.trusted && this.params.src){
+    if (!this.trusted && this.params.src) {
       ensureSafeUrl(this.params.src);
     }
-    if (!this.trusted && this.params.href){
+    if (!this.trusted && this.params.href) {
       ensureSafeUrl(this.params.href);
     }
 
     return method.call(this);
-  } catch(e) {
+  } catch (e) {
     if (e instanceof ParseError) {
       return new ErrorTag(e.tag, e.message);
     } else {
@@ -266,40 +266,44 @@ BbtagParser.prototype.parseCompare = function() {
   var cons = new CompositeTag('ul', [], {"class": "balance__list"});
 
   var parts = this.body.split(/\n+/);
+
   for (var i = 0; i < parts.length; i++) {
     var item = parts[i];
     if (!item) continue;
     var content = new BodyParser(item.slice(1), this.options).parse();
     if (item[0] == '+') {
-      pros.appendChild(new CompositeTag('li', content, {'class': 'plus'}));
+      pros.appendChild(new CompositeTag('li', content, {'class': 'balance__list-item'}));
     } else if (item[0] == '-') {
-      cons.appendChild(new CompositeTag('li', content, {'class': 'minus'}));
+      cons.appendChild(new CompositeTag('li', content, {'class': 'balance__list-item'}));
     } else {
       throw new ParseError('div', 'compare items should start with either + or -');
     }
   }
 
-  var balance = new CompositeTag('div', [], {'class': 'balance__content'});
+  var hasBothParts = pros.hasChildren() && cons.hasChildren();
 
-  var balanceAttrs = {
-    'class': 'balance'
-  };
-
-  var title = pros.hasChildren() && cons.hasChildren();
-  if (!title) {
-    balanceAttrs['class'] += ' balance_single';
+  if (hasBothParts) {
+    pros.prependChild(new TagNode('h3', 'Достоинства', {'class': 'balance__title'}));
+    cons.prependChild(new TagNode('h3', 'Недостатки', {'class': 'balance__title'}));
   }
 
+
+  var balance = new CompositeTag('div', [], {'class': 'balance'});
+
   if (pros.hasChildren()) {
-    if (title) pros.prependChild(new TagNode('h3', 'Достоинства', {'class': 'balance__title'}));
-    balance.appendChild(new CompositeTag('div', [pros], {'class': 'balance__pluses'}));
+    balance.appendChild(new CompositeTag('div', [
+      new CompositeTag('div', [pros], {'class': 'balance__content'})
+    ], {'class': 'balance__pluses'}));
   }
 
   if (cons.hasChildren()) {
-    if (title) cons.prependChild(new TagNode('h3', 'Недостатки', {'class': 'balance__title'}));
-    balance.appendChild(new CompositeTag('div', [cons], {'class': 'balance__minuses'}));
+    balance.appendChild(new CompositeTag('div', [
+      new CompositeTag('div', [cons], {'class': 'balance__content'})
+    ], {'class': 'balance__minuses'}));
   }
-  return new CompositeTag('div', [balance], balanceAttrs);
+
+  return balance;
+
 };
 
 BbtagParser.prototype.parseOnline = function() {
