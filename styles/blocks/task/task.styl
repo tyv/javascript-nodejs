@@ -1,35 +1,31 @@
 .task
 	&__header
-		display table
-		width 100%
-		white-space nowrap
 		margin 19px 0 12px
 
-	&__title-wrap,
-	&__header-aside
-		display table-cell
-		vertical-align baseline
-
-	&__header-aside
-		width 100%
-		padding-left 18px
+	&__title-wrap
+		padding-right 45px
 
 	& &__title
 		margin 0
 		line-height 1
+		display inline
+
+	&__header-note
+		margin-top 6px
 
 	& &__open-link
 		@extend $plain-link
 		text-decoration none
-		margin-right 16px
+		margin-left 20px
 		outline 0
+		position absolute
+		line-height 18px
 
 	&__open-link::before
 		@extend $font-external
 		font-size 16px
 		display inline-block
 		min-width 16px
-		vertical-align bottom
 
 	&__importance
 		color #999
@@ -58,21 +54,21 @@
 		height 0
 		top 100%
 		left 50%
-		margin 5px 0 0 -7px
+		margin 4px 0 0 -7px
 
 	&__content,
 	&__content p,
 	&__content ul,
 	&__content ol,
 	&__content figure,
-	&__content .code-example
+	&__content .code-example,
 	&__content .codebox,
 	&__content .code-tabs
-		margin 14px 0
+		margin 18px 0
 
 	&__content
-		margin-bottom 21px
 		line-height 140%
+		margin-bottom 21px
 
 	&__answer
 		border 3px solid #F7F6EA

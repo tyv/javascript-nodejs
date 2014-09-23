@@ -436,20 +436,19 @@ alert(a)
 <h2><a class="main__anchor" id="в-чем-уникальность-javascript" href="#в-чем-уникальность-javascript">В чем уникальность
   JavaScript?</a></h2>
 <p>Есть как минимум <em>три</em> замечательных особенности JavaScript:</p>
-<div class="balance balance_single">
-  <div class="balance__content">
-    <div class="balance__pluses">
-      <!-- <h3 class="balance__title">Плюсы</h3> -->
+<div class="balance">
+  <div class="balance__pluses">
+    <div class="balance__content">
       <ul class="balance__list">
-        <li><p>Полная интеграция с HTML/CSS. <code>function f (x, y, z) { return x + y + z; }</code></p></li>
-        <li><p>Простые вещи делаются просто.</p>
+        <li class="balance__list-item"><p>Полная интеграция с HTML/CSS. <code>function f (x, y, z) { return x + y + z; }</code></p></li>
+        <li class="balance__list-item"><p>Простые вещи делаются просто.</p>
                 <pre class="language-javascript line-numbers">function sayHi(name) {
   var phrase = "Привет, " + name;
   alert(phrase);
-}
+  }
 
-sayHi('Вася');</pre></li>
-        <li><p>Поддерживается всеми распространенными браузерами и включен по умолчанию.</p></li>
+  sayHi('Вася');</pre></li>
+        <li class="balance__list-item"><p>Поддерживается всеми распространенными браузерами и включен по умолчанию.</p></li>
       </ul>
     </div>
   </div>
@@ -458,21 +457,23 @@ sayHi('Вася');</pre></li>
 <p>Вариант блока с достоинствами и недостатками</p>
 
 <div class="balance">
-  <div class="balance__content">
-    <div class="balance__pluses">
+  <div class="balance__pluses">
+    <div class="balance__content">
       <h3 class="balance__title">Достоинства</h3>
       <ul class="balance__list">
-        <li><p>Полная интеграция с HTML/CSS.</p></li>
-        <li><p>Простые вещи делаются просто.</p></li>
-        <li><p>Поддерживается всеми распространенными браузерами и включен по умолчанию.</p></li>
+        <li class="balance__list-item"><p>Полная интеграция с HTML/CSS.</p></li>
+        <li class="balance__list-item"><p>Простые вещи делаются просто.</p></li>
+        <li class="balance__list-item"><p>Поддерживается всеми распространенными браузерами и включен по умолчанию.</p></li>
       </ul>
     </div>
-    <div class="balance__minuses">
+  </div>
+  <div class="balance__minuses">
+    <div class="balance__content">
       <h3 class="balance__title">Недостатки</h3>
       <ul class="balance__list">
-        <li><p>Полная интеграция с HTML/CSS.</p></li>
-        <li><p>Простые вещи делаются просто.</p></li>
-        <li><p>Поддерживается всеми распространенными браузерами и включен по умолчанию.</p></li>
+        <li class="balance__list-item"><p>Полная интеграция с HTML/CSS.</p></li>
+        <li class="balance__list-item"><p>Простые вещи делаются просто.</p></li>
+        <li class="balance__list-item"><p>Поддерживается всеми распространенными браузерами и включен по умолчанию.</p></li>
       </ul>
     </div>
   </div>
@@ -483,22 +484,24 @@ sayHi('Вася');</pre></li>
 <p>Пример блока "balance" с узким контентом, который может вызвать ошибку</p>
 
 <div class="balance">
-  <div class="balance__content">
-    <div class="balance__pluses">
+  <div class="balance__pluses">
+    <div class="balance__content">
       <h3 class="balance__title">Достоинства</h3>
       <ul class="balance__list">
-        <li class="plus">
+        <li class="balance__list-item">
           <p>Простота&nbsp;реализации.</p>
         </li>
       </ul>
     </div>
-    <div class="balance__minuses">
+  </div>
+  <div class="balance__minuses">
+    <div class="balance__content">
       <h3 class="balance__title">Недостатки</h3>
       <ul class="balance__list">
-        <li class="minus">
+        <li class="balance__list-item">
           <p>Задержки между событием и&nbsp;уведомлением.</p>
         </li>
-        <li class="minus">
+        <li class="balance__list-item">
           <p>Лишний трафик и запросы на&nbsp;сервер.</p>
         </li>
       </ul>

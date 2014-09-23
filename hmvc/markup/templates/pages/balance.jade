@@ -1,0 +1,14 @@
+extends ../layouts/base
+
+// - http://stackoverflow.com/questions/12646451/how-to-pass-variables-between-jade-templates
+block variables
+  //- layout
+  - layout.sitetoolbar = true
+  - layout.prevNext = true
+  - layout.sidebar = true
+
+  - self.title = "Пример блоков balance"
+
+block content
+  include ../blocks/balance-single
+  include ../blocks/balance
