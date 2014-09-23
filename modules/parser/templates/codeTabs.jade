@@ -1,6 +1,6 @@
 include ./bem
 
-+b.code-tabs
++b.code-tabs._result_on
   +e.tools
     +e.scroll-wrap
       +e('button').scroll-button._left(title="&larr;" data-code-tabs-left)
@@ -18,12 +18,11 @@ include ./bem
       if play
         +e('a').button._open(target="_blank", href=play.url)
   +e.content(data-code-tabs-content style=height ? ('height:' + height + 'px') : '')
-    +e.content-inner(data-code-tabs-content-inner)
-      +e.section._current
-        //- assigning an attribute to false removes the attribute
-        +e('iframe').result(src=src onload=("require('client/head').resizeOnload.codeTabs(this, "+(height||false)+")"))
+    +e.section._current
+      //- assigning an attribute to false removes the attribute
+      +e('iframe').result(src=src onload=("require('client/head').resizeOnload.codeTabs(this, " + (height || false) + ")"))
 
-      each tab in tabs
-        +e.section
-          pre(class=tab.class)
-            = tab.content
+    each tab in tabs
+      +e.section
+        pre(class=tab.class)
+          = tab.content

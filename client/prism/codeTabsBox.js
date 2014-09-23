@@ -30,18 +30,27 @@ function CodeTabsBox(elem) {
     e.preventDefault();
 
     var siblings = e.delegateTarget.parentNode.children;
-    var tabs = elem.querySelector('[data-code-tabs-content-inner]').children;
+    var tabs = elem.querySelector('[data-code-tabs-content]').children;
 
+
+    var selectedIndex;
     for(var i=0; i<siblings.length; i++) {
       var switchElem = siblings[i];
       var tabElem = tabs[i];
       if (switchElem == e.delegateTarget) {
+        selectedIndex = i;
         tabElem.classList.add('code-tabs__section_current');
         switchElem.classList.add('code-tabs__switch_current');
       } else {
         tabElem.classList.remove('code-tabs__section_current');
         switchElem.classList.remove('code-tabs__switch_current');
       }
+    }
+
+    if (selectedIndex === 0) {
+      elem.classList.add('code-tabs_result_on');
+    } else {
+      elem.classList.remove('code-tabs_result_on');
     }
 
   });

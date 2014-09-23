@@ -37,7 +37,7 @@ exports.codeTabs = function(iframe, initialHeight) {
       iframeResize.async(iframe, function(err, height) {
         if (err) console.error(err);
         // 30 px is the margin around the iframe
-        if (height) contentElem.style.height = +height + 30 + 'px';
+        if (height) contentElem.style.height = +height + 33 + 'px';
       });
     }
 
@@ -50,7 +50,6 @@ exports.codeTabs = function(iframe, initialHeight) {
 
 
 window.addEventListener('resize', throttle(function() {
-  console.log("RESIZE");
   onResize.forEach(function(resize) {
     resize();
   });

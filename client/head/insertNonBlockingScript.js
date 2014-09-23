@@ -4,6 +4,7 @@ var versions = require('client/versions');
 //   --> does not block rendering
 //   --> keeps execution order
 module.exports = function(src, options) {
+  options = options || {};
   var script = document.createElement('script');
   if (versions[src]) {
     src = src.replace('.js', '.v' + versions[src] + '.js');
