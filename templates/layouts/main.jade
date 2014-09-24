@@ -6,17 +6,6 @@ block main
       include ../blocks/breadcrumbs
     h1.main__header-title!= title
   block content
-  //- include ../blocks/prev-next-bottom
   //- include ../blocks/corrector
   if comments
     include ../blocks/comments
-  if prev
-    a.page__nav.page__nav_prev(href=prev.url, title="назад")
-      span.page__nav-text
-        span.page__nav-text-shortcut
-  if next
-    a.page__nav.page__nav_next(href=next.url, title="вперёд")
-      span.page__nav-text
-        span.page__nav-text-shortcut
-
-
