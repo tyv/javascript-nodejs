@@ -20,7 +20,8 @@ html
 
     block variables
     include ../blocks/head
-  body(class= layout.bodyClass != "" ? layout.bodyClass : undefined)
+  body.no-icons(class= layout.bodyClass != "" ? layout.bodyClass : undefined)
+    script require('client/head').fontTest();
     if layout.notificationPopup
       include ../blocks/notification-popup
     if layout.sitetoolbar
@@ -50,4 +51,8 @@ html
             include ../blocks/corrector
             include ../blocks/comments
       include ../blocks/page-footer
-    include ../blocks/scripts
+    script(src=asset("/js/footer.js"))
+    script require('client/footer').init();
+
+    script(src=asset("/js/tutorial.js"))
+    script require('tutorial/client').init();
