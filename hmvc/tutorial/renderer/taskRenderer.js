@@ -50,7 +50,7 @@ TaskRenderer.prototype.renderSolution = function* (task) {
 
   const solutionParts = [];
   if (!(children[0] instanceof HeaderTag)) {
-    return transformer.transform(node, true);
+    return yield* transformer.transform(node, true);
   }
 
   // split into parts
@@ -70,9 +70,8 @@ TaskRenderer.prototype.renderSolution = function* (task) {
     var part = solutionParts[i];
     var child = new CompositeTag(null, part.content);
     child.trusted = node.trusted;
-    part.content = yield transformer.transform(child, true);
+    part.content = yield* transformer.transform(child, true);
   }
-
 
   return solutionParts;
 };

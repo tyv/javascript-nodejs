@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Article = require('../models/article');
+const Task = require('../models/task');
 const ArticleRenderer = require('../renderer/articleRenderer');
+const TaskRenderer = require('../renderer/taskRenderer');
 const _ = require('lodash');
 const CacheEntry = require('cacheEntry');
 
@@ -17,17 +19,8 @@ exports.get = function *get(next) {
     return;
   }
 
-  var locals = {
-    title:      renderedArticle.title,
-    body:       renderedArticle.body,
-    head:       renderedArticle.head,
-    foot:       renderedArticle.foot,
-    modified:   renderedArticle.modified,
-    prev:       renderedArticle.prev,
-    next:       renderedArticle.next,
-    breadcrumbs: renderedArticle.breadcrumbs,
-    sitetoolbar: true
-  };
+  var locals = renderedArticle;
+  locals.sitetoolbar = true;
 
   var section;
   if (renderedArticle.isFolder) {
@@ -55,9 +48,25 @@ exports.get = function *get(next) {
 
   }
 
+  var section2 = { links: [] };
+
+  if (renderedArticle.tasks.length) {
+    section2.links.push({
+      title: 'Задачи (' + renderedArticle.tasks.length + ')',
+      url: '#tasks'
+    });
+  }
+
+  section2.links.push({
+    title: 'Комментарии',
+    url: '#comments'
+  });
+
   locals.sidebar = {
-    sections: [section]
+    sections: [section, section2]
   };
+
+
 
   // we don't need it, but didn't test
 //  _.assign(this.locals, locals);
@@ -84,10 +93,10 @@ function* renderArticle(slug) {
   }
 
   const renderer = new ArticleRenderer();
+
   rendered.body = yield renderer.render(article);
 
   rendered.headers = renderer.headers;
-
   rendered.head = renderer.getHead();
   rendered.foot = renderer.getFoot();
 
@@ -98,43 +107,80 @@ function* renderArticle(slug) {
   const tree = yield Article.findTree();
   const articleInTree = tree.byId(article._id);
 
-  var prev = tree.byId(articleInTree.prev);
+  yield* renderPrevNext();
+  yield* renderBreadCrumb();
+  yield* renderSiblings();
+  yield* renderTasks();
 
-  if (prev) {
-    rendered.prev = {
-      url:   Article.getUrlBySlug(prev.slug),
-      title: prev.title
-    };
+  function* renderPrevNext() {
+
+    var prev = tree.byId(articleInTree.prev);
+
+    if (prev) {
+      rendered.prev = {
+        url:   Article.getUrlBySlug(prev.slug),
+        title: prev.title
+      };
+    }
+
+    var next = tree.byId(articleInTree.next);
+    if (next) {
+      rendered.next = {
+        url:   Article.getUrlBySlug(next.slug),
+        title: next.title
+      };
+    }
   }
 
-  var next = tree.byId(articleInTree.next);
-  if (next) {
-    rendered.next = {
-      url:   Article.getUrlBySlug(next.slug),
-      title: next.title
-    };
+  function* renderBreadCrumb() {
+    var path = [];
+    var parent = articleInTree.parent;
+    while (parent) {
+      var a = tree.byId(parent);
+      path.push({
+        title: a.title,
+        url:   Article.getUrlBySlug(a.slug)
+      });
+      parent = a.parent;
+    }
+    path = path.reverse();
+
+    rendered.breadcrumbs = path;
   }
 
-  var path = [];
-  var parent = articleInTree.parent;
-  while (parent) {
-    var a = tree.byId(parent);
-    path.push({
-      title: a.title,
-      url:   Article.getUrlBySlug(a.slug)
+  function* renderSiblings() {
+    rendered.siblings = tree.byId(articleInTree.parent).children.map(function(child) {
+      return {
+        title: child.title,
+        url:   Article.getUrlBySlug(child.slug)
+      };
     });
-    parent = a.parent;
   }
-  path = path.reverse();
 
-  rendered.breadcrumbs = path;
+  function *renderTasks() {
+    var tasks = yield Task.find({
+      parent: article._id
+    }).sort({weight: 1}).exec();
 
-  rendered.siblings = tree.byId(articleInTree.parent).children.map(function(child) {
-    return {
-      title: child.title,
-      url:   Article.getUrlBySlug(child.slug)
-    };
-  });
+    const taskRenderer = new TaskRenderer();
+
+    rendered.tasks = [];
+
+    for (var i = 0; i < tasks.length; i++) {
+      var task = tasks[i];
+
+
+      rendered.tasks.push({
+        url: task.getUrl(),
+        title: task.title,
+        importance: task.importance,
+        content: yield taskRenderer.renderContent(task),
+        solution: yield taskRenderer.renderSolution(task)
+      });
+
+    }
+
+  }
 
   return rendered;
 
