@@ -11,3 +11,9 @@ router.get('/test', function*() {
   debugger;
 });
 
+router.get('/die', function*() {
+  setTimeout(function() {
+    throw new Error("die");
+  }, 10);
+});
+
