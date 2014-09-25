@@ -121,5 +121,5 @@ document.addEventListener('click', function() {
   ignoreJump = true;
   setTimeout(function() {
     ignoreJump = false;
-  }, 0);
+  }, 50); // firefox needs more than 0ms to scroll
 });
