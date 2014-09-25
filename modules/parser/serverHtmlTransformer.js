@@ -118,7 +118,9 @@ ServerHtmlTransformer.prototype.transformReferenceNode = function*(node) {
     }
   }
 
-  return this.transformCompositeTag(newNode);
+  node.parent.replaceChild(newNode, node);
+
+  return yield* this.transformCompositeTag(newNode);
 };
 
 ServerHtmlTransformer.prototype.transformImgTag = function*(node) {

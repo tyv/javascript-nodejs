@@ -1,6 +1,6 @@
 var lastPageYOffset;
 
-var ignoreJump = false;
+var wasJump = false;
 var requestAnimationFrameId;
 
 // when I scroll down on MacOS, Chrome does the bounce trick
@@ -54,7 +54,12 @@ function showHideSiteToolbar() {
 
   lastPageYOffset = scrollTop;
 
-  if (ignoreJump) return;
+  if (wasJump) {
+    if (!document.body.classList.contains('scrolled-out')) {
+      //window.scrollBy(0, -30);
+    }
+    return;
+  }
 
 //  console.log(scrollDirection, scrollDiff, tolerance[scrollDirection]);
 
@@ -116,10 +121,9 @@ function getDocumentHeight() {
  // }, 100);
  });
  */
-// don't autoscroll after a click on a navigation header
 document.addEventListener('click', function() {
-  ignoreJump = true;
+  wasJump = true;
   setTimeout(function() {
-    ignoreJump = false;
+    wasJump = false;
   }, 50); // firefox needs more than 0ms to scroll
 });

@@ -57,7 +57,7 @@ schema.statics.getResourceWebRootBySlug = function(slug) {
 };
 
 schema.statics.getUrlBySlug = function(slug) {
-  return '/' + slug;
+  return '/task/' + slug;
 };
 
 schema.methods.getResourceFsRoot = function() {

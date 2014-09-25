@@ -342,6 +342,8 @@ HtmlTransformer.prototype.transformIframeTag = function(node) {
     attrs['data-zip'] = 1;
   }
 
+  console.log(attrs);
+
   return this.wrapTagAround('iframe', attrs, '');
 
 };
