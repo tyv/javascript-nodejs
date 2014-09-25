@@ -21,23 +21,10 @@
 		padding 0 120px
 		transition margin-top animation_duration
 
-	// добавляем отступ только если навигация присутствует
-	.sitetoolbar + & &__inner
-		margin-top 60px
-
-	.notification_on & &__inner
-		margin-top 60px + top_notification_height
-
-	.notification_hidden & &__inner
-		margin-top 60px
-
-	.scrolled-out & &__inner
-		margin-top 0
-
 	&__sitemap
 		position fixed
 		background rgba(255, 255, 255, .95)
-		top 60px
+		top 0
 		right 115px
 		bottom 0
 		left 115px
@@ -51,7 +38,7 @@
 
 	&__nav
 		position fixed
-		top 60px
+		top 0
 		bottom 0
 		width 90px
 		outline 0
