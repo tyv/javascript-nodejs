@@ -102,7 +102,7 @@ HtmlTransformer.prototype.transformCompositeTag = function* (node) {
 
 ServerHtmlTransformer.prototype.transformReferenceNode = function*(node) {
 
-  const referenceObj = yield resolveReference(node.ref);
+  const referenceObj = yield* resolveReference(node.ref);
 
   if (!referenceObj) {
     throw new ParseError('span', 'Нет такой ссылки: ' + node.ref);

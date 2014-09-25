@@ -38,6 +38,7 @@ VerboseLogger.prototype.middleware = function() {
 
     yield* next;
   };
+
 };
 
 /*
