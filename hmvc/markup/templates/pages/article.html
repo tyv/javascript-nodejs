@@ -7,11 +7,11 @@
   Программы на этом языке называются <em>скриптами</em>. Они подключаются напрямую к HTML и, как только загружается
   страничка &mdash; тут же выполняются.</p>
 <p><a href="http://en.wikipedia.org/wiki/ECMAScript">ECMAScript</a>
-  <a href="mailto:me@example.com">намылить</a> <span class="link__type " data-url="mailto:me@example.com"></span> <a target="_blank" href="habrahabr.ru">новая вкладка</a> <a href="/play/ECMAScript">песочница</a> <span class="link__type " data-url="/play/ECMAScript"></span> <a href="http://plnkr.co/edit/mafDHHQUVJy7jdhlSMTB?p=preview">песочница plnkr.co</a> <a href="/files/file.doc">документ</a> <a href="/files/file.zip">архив</a> <a href="/files/file.xls">таблица</a> <a href="/files/file.pdf">pdf-документ</a> <a href="http://developer.mozilla.org/topic">справка в MDN</a> <a href="http://msdn.microsoft.com/topic">справка microsoft</a> <a href="http://www.w3.org/TR/HTML401">документация w3c</a> <a href="http://es5.github.com">спецификация ECMA</a>
+  <a href="mailto:me@example.com">намылить</a> <!-- <span class="link__type " data-url="mailto:me@example.com"></span> --> <a target="_blank" href="habrahabr.ru">новая вкладка</a> <a href="/play/ECMAScript">песочница</a> <!-- <span class="link__type " data-url="/play/ECMAScript"></span> --> <a href="http://plnkr.co/edit/mafDHHQUVJy7jdhlSMTB?p=preview">песочница plnkr.co</a> <a href="/files/file.doc">документ</a> <a href="/files/file.zip">архив</a> <a href="/files/file.xls">таблица</a> <a href="/files/file.pdf">pdf-документ</a> <a href="http://developer.mozilla.org/topic">справка в MDN</a> <a href="http://msdn.microsoft.com/topic">справка microsoft</a> <a href="http://www.w3.org/TR/HTML401">документация w3c</a> <a href="http://es5.github.com">спецификация ECMA</a>
   <!-- Чтобы показать тултип с типом ссылки в конец документа добавляем span с классом link__type,
        в атрибут data-url копируем href ссылки. Абсолютное позиционирование у него уже задано,
        достаточно указать left и top относительно документа. -->
-  <span class="link__type " data-url="/doc.doc"></span>
+  <!-- <span class="link__type " data-url="/doc.doc"></span> -->
   </p>
 <p><a class="plain" href="http://en.wikipedia.org/wiki/ECMAScript">ECMAScript</a> <a class="plain" href="mailto:me@example.com">намылить</a> <a class="plain" target="_blank" href="habrahabr.ru">новая вкладка</a> <a class="plain" href="/play/ECMAScript">песочница</a> <a class="plain" href="http://plnkr.co/edit/mafDHHQUVJy7jdhlSMTB?p=preview">песочница plnkr.co</a> <a class="plain" href="/files/file.doc">документ</a> <a class="plain" href="/files/file.zip">архив</a> <a class="plain" href="/files/file.xls">таблица</a> <a class="plain" href="/files/file.pdf">pdf-документ</a> <a class="plain" href="http://developer.mozilla.org/topic">справка в MDN</a> <a class="plain" href="http://msdn.microsoft.com/topic">справка microsoft</a> <a class="plain" href="http://www.w3.org/TR/HTML401">документация w3c</a> <a class="plain" href="http://es5.github.com">спецификация ECMA</a></p>
 <p><a class="wiki" href="#01">ECMAScript</a>
@@ -27,7 +27,8 @@
   прямо в тексте урока.</p>
 <p>Примеры кода и результата, которые должны создаваться динамически:</p>
 
-<pre class="language-javascript line-numbers">&lt;div class="code-example"&gt;
+<!-- Пример приведен для просмотра на странице -->
+<pre style="max-width: 100%; overflow: auto; background: #efefef; padding: 10px;">&lt;div class="code-example"&gt;
     &lt;div class="codebox code-example__codebox"&gt;
         &lt;div class="toolbar codebox__toolbar"&gt;
             &lt;div class="toolbar__tool"&gt;
@@ -55,38 +56,17 @@ sayHi('Вася');&lt;/pre&gt;
     &lt;/div&gt;
 &lt;/div&gt;</pre>
 
-<div class="code-example">
-    <div class="codebox code-example__codebox">
-        <div class="toolbar codebox__toolbar">
-            <div class="toolbar__tool">
-                <a href="/play/abcdef" class="toolbar__button toolbar__button_run" title="выполнить"></a>
-            </div>
-            <div class="toolbar__tool">
-                <a href="/files/file.doc" class="toolbar__button toolbar__button_edit" title="редактировать"></a>
-            </div>
-        </div>
-<pre class="language-javascript line-numbers">function sayHi(name) {
+
+<pre class="language-javascript line-numbers" data-trusted="1" data-run="1">function sayHi(name) {
   var phrase = "Привет, " + name;
   alert(phrase);
 }
 
 sayHi('Вася');</pre>
-  </div>
-
-    <div class="result code-example__result">
-        <div class="toolbar result__toolbar">
-            <div class="toolbar__tool">
-                <a href="/files/file.doc" class="toolbar__button toolbar__button_edit" title="редактировать"></a>
-            </div>
-        </div>
-        <iframe class="result__iframe" src="http://sass-lang.com/documentation/Sass/Script/Functions"></iframe>
-    </div>
-</div>
 
 <p>Пример кода</p>
 
-<pre class="language-javascript line-numbers" data-highlight-block="5-7" data-highlight-inline="2:8-14" data-trusted="1"
-     data-run="1">function sayHi(name) {
+<pre class="language-javascript line-numbers" data-highlight-block="5-7" data-highlight-inline="2:8-14" data-trusted="1" data-run="1">function sayHi(name) {
   var phrase = "Привет, " + name;
   alert(phrase);
 }
@@ -99,27 +79,8 @@ HelloWorld('World');
 
 sayHi('Вася');</pre>
 
-<div class="code-example">
-    <div class="codebox code-example__codebox">
-        <div class="toolbar codebox__toolbar">
-            <div class="toolbar__tool">
-                <a href="/play/abcdef" class="toolbar__button toolbar__button_run" title="выполнить"></a>
-            </div>
-            <div class="toolbar__tool">
-                <a href="/files/file.doc" class="toolbar__button toolbar__button_edit" title="редактировать"></a>
-            </div>
-        </div>
-<pre class="language-javascript line-numbers">function sayHi(name) {
-  var phrase = "Привет, " + name;
-  alert(phrase);
-}
-
-sayHi('Вася');</pre>
-  </div>
-</div>
-
 <p>Пример результата без кода, такой код должен создаваться динамически в js</p>
-<pre class="language-javascript line-numbers">&lt;div class="code-example"&gt;
+<pre style="max-width: 100%; overflow: auto; background: #efefef; padding: 10px;">&lt;div class="code-example"&gt;
     &lt;div class="result code-example__result"&gt;
         &lt;div class="toolbar result__toolbar"&gt;
             &lt;div class="toolbar__tool"&gt;
@@ -129,17 +90,6 @@ sayHi('Вася');</pre>
         &lt;iframe class="result__iframe" src="http://sass-lang.com/documentation/Sass/Script/Functions"&gt;&lt;/iframe&gt;
     &lt;/div&gt;
 &lt;/div&gt;</pre>
-
-<div class="code-example">
-    <div class="result code-example__result">
-        <div class="toolbar result__toolbar">
-            <div class="toolbar__tool">
-                <a href="/files/file.doc" class="toolbar__button toolbar__button_edit" title="редактировать"></a>
-            </div>
-        </div>
-        <iframe class="result__iframe" src="http://sass-lang.com/documentation/Sass/Script/Functions"></iframe>
-    </div>
-</div>
 
 <p>В этом плане JavaScript сильно отличается от другого языка, который называется Java.</p>
 
@@ -275,33 +225,29 @@ sayHi('Вася');</pre>
       <div class="spoiler__content">
         <p>Результат - <strong>ошибка</strong>. Попробуйте:</p>
 
-        <div class="codebox">
-                    <pre class="language-javascript line-numbers"><code>var a = 5
-
+        <pre class="language-javascript line-numbers">var a = 5;
 (function() {
   alert(a)
-})()</code></pre>
-        </div>
+})()</pre>
+
         <p>Дело в том, что после <code>var a = 5</code> нет точки с запятой. </p>
 
         <p>JavaScript воспринимает этот код как если бы перевода строки не было:</p>
 
-        <div class="codebox">
-          <pre class="language-javascript line-numbers"><code>var a = 5(function() {
-alert(a)
-})()</code></pre>
-        </div>
+        <pre class="language-javascript line-numbers">var a = 5;
+(function() {
+  alert(a)
+})()</pre>
+
         <p>То есть, он пытается вызвать <em>функцию</em> <code>5</code>, что и приводит к ошибке.</p>
 
         <p>Если точку с запятой поставить, все будет хорошо:</p>
 
-        <div class="codebox">
-          <pre class="language-javascript line-numbers"><code>var a = 5;
-
+        <pre class="language-javascript line-numbers">var a = 5;
 (function() {
   alert(a)
-})()</code></pre>
-        </div>
+})()</pre>
+
         <p>Это один из наиболее частых и опасных подводных камней, приводящих к ошибкам тех, кто <em>не</em> ставит
           точки с запятой.</p>
       </div>
@@ -359,33 +305,30 @@ alert(a)
   <div class="spoiler__content">
     <p>Результат - <strong>ошибка</strong>. Попробуйте:</p>
 
-    <div class="codebox">
-            <pre class="language-javascript line-numbers"><code>var a = 5
+    <pre class="language-javascript line-numbers">var a = 5
 
-              (function() {
-              alert(a)
-              })()</code></pre>
-    </div>
+(function() {
+  alert(a);
+})()</pre>
+
     <p>Дело в том, что после <code>var a = 5</code> нет точки с запятой. </p>
 
     <p>JavaScript воспринимает этот код как если бы перевода строки не было:</p>
 
-    <div class="codebox">
-            <pre class="language-javascript line-numbers"><code>var a = 5(function() {
-              alert(a)
-              })()</code></pre>
-    </div>
+    <pre class="language-javascript line-numbers">var a = 5(function() {
+  alert(a)
+})()</pre>
+
     <p>То есть, он пытается вызвать <em>функцию</em> <code>5</code>, что и приводит к ошибке.</p>
 
     <p>Если точку с запятой поставить, все будет хорошо:</p>
 
-    <div class="codebox">
-            <pre class="language-javascript line-numbers"><code>var a = 5;
+    <pre class="language-javascript line-numbers">var a = 5;
 
-              (function() {
-              alert(a)
-              })()</code></pre>
-    </div>
+(function() {
+  alert(a)
+})()</pre>
+
     <p>Это один из наиболее частых и опасных подводных камней, приводящих к ошибкам тех, кто <em>не</em> ставит точки с
       запятой.</p>
   </div>

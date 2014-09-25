@@ -11,6 +11,7 @@ function HtmlTransformer(options) {
   this.options = options || {};
   this.resourceWebRoot = options.resourceWebRoot;
   this.staticHost = options.staticHost;
+  this.linkHeaderTag = options.linkHeaderTag;
 }
 
 HtmlTransformer.prototype.transform = function(node, isFinal) {

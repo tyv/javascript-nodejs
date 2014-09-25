@@ -6,10 +6,15 @@ block sidebar
 block content
   != body
 
-  if tasks
-    +e('h2').title Задачи
-    each task, i in tasks
-      include task-in-article
+  if tasks.length
+
+    +b.tasks
+      +e('h2').title
+        a#tasks Задачи
+
+      each task, i in tasks
+        +b.task.__task
+          include _task
 
   script(src=asset("/js/tutorial.js"))
   script require('tutorial/client').init();

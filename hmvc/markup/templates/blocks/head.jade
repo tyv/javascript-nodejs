@@ -1,12 +1,6 @@
 meta(charset='UTF-8')
 title= self.title
 link(href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700|Open+Sans+Condensed:700&subset=latin,latin-ext,cyrillic,cyrillic-ext' rel='style' type='text/css')
-<!--[if !IE]><!-->
 link(href='/styles/base.css' rel='stylesheet')
-<!--<![endif]--><!--[if lte IE 9]>
-link(href='/styles/base.ie.css' rel='stylesheet')
-<![endif]-->
 
-//- link(href='/styles/base.css' rel='stylesheet')
-//- if lte IE 9
-  //- link(href='../app/assets/styles/base.ie.css' rel='style')
+script(src=asset("/js/head.js"))

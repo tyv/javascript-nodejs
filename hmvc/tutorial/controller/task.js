@@ -8,14 +8,13 @@ exports.get = function *get(next) {
   }).populate('parent', 'slug').exec();
 
   if (!task) {
-    yield next;
+    yield* next;
     return;
   }
 
   const renderer = new TaskRenderer();
 
   this.locals.task = {
-    url: task.getUrl(),
     title: task.title,
     importance: task.importance,
     content: yield renderer.renderContent(task),
