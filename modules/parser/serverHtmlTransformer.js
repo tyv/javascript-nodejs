@@ -319,8 +319,8 @@ ServerHtmlTransformer.prototype._srcUnderRoot = function(root, src) {
 
 ServerHtmlTransformer.prototype.transformSourceTag = function* (node) {
 
-  if (node.src) {
-    var sourcePath = this._srcUnderRoot(config.publicRoot, path.join(this.resourceWebRoot, node.src));
+  if (node.attrs.src) {
+    var sourcePath = this._srcUnderRoot(config.publicRoot, path.join(this.resourceWebRoot, node.attrs.src));
 
     var content;
 
@@ -332,7 +332,7 @@ ServerHtmlTransformer.prototype.transformSourceTag = function* (node) {
       );
     }
 
-    node.setTextFromSrc(content);
+    node.text = content;
   }
 
   return HtmlTransformer.prototype.transformSourceTag.call(this, node);

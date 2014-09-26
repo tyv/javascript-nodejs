@@ -11,6 +11,30 @@ const _ = require('lodash');
 const assert = require('assert');
 const JadeParserMultipleDirs = require('lib/jadeParserMultipleDirs');
 
+require.extensions['.jade'] = function(module, filename) {
+
+  var compiled = jade.compile(
+    fs.readFileSync(filename, 'utf-8'),
+    {
+      pretty:        false,
+      compileDebug:  false,
+      filename:      filename,
+      templatePaths: [path.join(config.projectRoot, 'templates')],
+      parser:        require('lib/jadeParserMultipleDirs')
+    }
+  );
+
+  module.exports = function(locals) {
+    locals = locals || {};
+    locals.bem = require('bem-jade')();
+
+    return compiled(locals);
+  };
+
+//  console.log("---------------> HERE", fs.readFileSync(filename, 'utf-8'), module.exports);
+
+};
+
 // public.versions.json is regenerated and THEN node is restarted on redeploy
 // so it loads a new version.
 var publicVersions;
@@ -118,7 +142,7 @@ module.exports = function render(app) {
       var templatePathResolved;
       for (var i = 0; i < this.templatePaths.length; i++) {
         templatePathResolved = path.join(this.templatePaths[i], templatePath);
-        if (path.extname(templatePathResolved) === '') templatePathResolved  += '.jade';
+        if (path.extname(templatePathResolved) === '') templatePathResolved += '.jade';
         if (fs.existsSync(templatePathResolved)) break;
       }
 

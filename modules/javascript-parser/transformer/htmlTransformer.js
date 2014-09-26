@@ -7,6 +7,9 @@ var escapeHtmlAttr = require('../util/escapeHtmlAttr');
 var stripIndents = require('../util/source/stripIndents');
 var extractHighlight = require('../util/source/extractHighlight');
 
+var iframeBoxTemplate = require('./iframeBox.jade');
+var codeBoxTemplate = require('./codeBox.jade');
+
 function HtmlTransformer(options) {
   this.options = options || {};
   this.resourceWebRoot = options.resourceWebRoot;
@@ -205,7 +208,7 @@ HtmlTransformer.prototype.transformSourceTag = function(node) {
 
   node.ensureKnowTrusted();
 
-  var text = node.src ? ('Содержимое файла ' + node.src) : node.text;
+  var text = node.attrs.src ? ('Содержимое файла ' + node.attrs.src) : node.text;
 
   var prismLanguageMap = {
     html:   'markup',
@@ -215,31 +218,34 @@ HtmlTransformer.prototype.transformSourceTag = function(node) {
 
   var prismLanguage = prismLanguageMap[node.name] || node.name;
 
-  var attrs = {
-    'class':        "language-" + prismLanguage + " line-numbers",
-    "data-trusted": (node.isTrusted() && !node.params.untrusted) ? '1' : '0'
+  var locals = {
+    language: prismLanguage
   };
 
-  if (node.params.height) {
-    attrs['data-demo-height'] = node.params.height;
+  var renderTrusted = (node.isTrusted() && !node.attrs.untrusted) ? 1 : false;
+
+  var attrs = locals.attrs = {
+    "data-trusted": renderTrusted
+  };
+
+  // demo height of
+  if (node.attrs.height) {
+    var height = parseInt(node.attrs.height);
+    if (!node.isTrusted()) height = Math.max(height, 800);
+    attrs['data-demo-height'] = height;
   }
 
-  if (node.params.autorun) {
+  if (node.attrs.autorun) {
     attrs['data-autorun'] = '1';
   }
-  if (node.params.refresh) {
+  if (node.attrs.refresh) {
     attrs['data-refresh'] = '1';
   }
-  if (node.params.run) {
-    attrs['data-run'] = '1';
-  }
-  if (node.params.demo) {
-    attrs['data-demo'] = '1';
-  }
 
-  if (node.params.hide) {
-    attrs['data-hide'] = (node.params.hide === true) ? "" : node.params.hide;
-    attrs['class'] += ' hide';
+  locals.run = node.attrs.run;
+
+  if (node.attrs.demo) {
+    attrs['data-demo'] = '1';
   }
 
   // strip first empty lines
@@ -255,10 +261,9 @@ HtmlTransformer.prototype.transformSourceTag = function(node) {
   }
   text = highlight.text;
 
-  var html = escapeHtmlText(text);
-  html = this.wrapTagAround(node.tag, attrs, html);
+  locals.text = text;
 
-  return html;
+  return this.wrapTagAround('no-typography', {}, codeBoxTemplate(locals));
 };
 
 HtmlTransformer.prototype.transformTagNode = function(node) {
@@ -305,17 +310,17 @@ HtmlTransformer.prototype.transformVerbatimText = function(node) {
 
 HtmlTransformer.prototype.transformIframeTag = function(node) {
 
-  var attrs = {
-    'class':        'result__iframe',
-    'data-trusted': node.isTrusted() ? '1' : '0'
+  var locals = {
+    'data-trusted': node.isTrusted() ? 1 : false,
+    attrs: {}
   };
 
   if (node.attrs.height) {
     var height = parseInt(node.attrs.height);
     if (!node.isTrusted()) height = Math.max(height, 800);
-    attrs.style = 'height: ' + height + 'px';
+    locals.attrs.style = 'height: ' + height + 'px';
   } else {
-    attrs.onload = 'require("client/head").resizeOnload.iframe(this)';
+    locals.attrs.onload = 'require("client/head").resizeOnload.iframe(this)';
   }
 
   var src = node.attrs.src;
@@ -328,23 +333,30 @@ HtmlTransformer.prototype.transformIframeTag = function(node) {
     src = this.staticHost + this.resourceWebRoot + '/' + src;
   }
 
-  attrs.src = src + '/';
+  locals.attrs.src = src + '/';
 
-  if (node.attrs.play) {
-    attrs['data-play'] = "1";
+
+  if (node.attrs.edit) {
+    locals.edit = {
+      href: 'http://plnkr.co/edit/' + node.attrs.edit + '?p=preview'
+    };
   }
 
   if (node.attrs.link) {
-    attrs['data-external'] = 1;
+    locals.link = {
+      href: locals.attrs.src
+    };
   }
 
   if (node.attrs.zip) {
-    attrs['data-zip'] = 1;
+    locals.zip = {
+      href: '/zip' + locals.attrs.src
+    };
   }
 
-  console.log(attrs);
 
-  return this.wrapTagAround('iframe', attrs, '');
+  var rendered = iframeBoxTemplate(locals);
+  return this.wrapTagAround('no-typography', {}, rendered);
 
 };
 
