@@ -7,7 +7,7 @@
         +e('embed').logo(src="/i/sitetoolbar__logo.svg")
     +e.nav-toggle-wrap
       //- FIXME: onclick - демо, убрать
-      //- при начале скролла тут же исчезает, для этого body += .scrolled-out
+      //- при начале скролла тут же исчезает, для этого body += .sitetoolbar_hidden
       +e('button').nav-toggle(onclick="document.getElementsByClassName('sitetoolbar')[0].classList.toggle('sitetoolbar_menu_open')")
     +e('nav').sections
       +e('ul').sections-list
