@@ -9,7 +9,6 @@ sitetoolbar_secondary_link = #498CBE
 	z-index 1
 	background #fff
 	top 0
-	transform translateY(-100%)
 	transition transform animation_duration
 
 	&__content
@@ -231,6 +230,13 @@ sitetoolbar_secondary_link = #498CBE
 		padding-top 1px
 		padding-bottom 4px
 		margin 0
+
+	// различные состояния
+	/.notification_hidden .sitetoolbar
+		transform translateY(top_notification_height * -1)
+
+	/.sitetoolbar_hidden .sitetoolbar
+		transform translateY(-100%)
 
 	@media (max-width: 970px)
 		&__user::before

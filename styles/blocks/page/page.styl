@@ -7,7 +7,16 @@
 	&_sidebar_on
 		padding-left sidebar_width
 
+	.sitetoolbar + & &__sidebar
+		top 60px
+
 	&__sidebar
+		top 0
+
+	&__sidebar
+		position fixed
+		bottom 0
+		left 0
 		transform translateX(-100%)
 		transition transform animation_duration, top animation_duration
 
@@ -21,6 +30,19 @@
 		padding 0 120px
 		transition margin-top animation_duration
 
+	// добавляем отступ только если навигация присутствует
+	.sitetoolbar + & &__inner
+		margin-top 60px
+
+	.notification_on & &__inner
+		margin-top 60px + top_notification_height
+
+	.notification_hidden & &__inner
+		margin-top 60px
+
+	.sitetoolbar_hidden & &__inner
+		margin-top 0
+
 	&__sitemap
 		position fixed
 		background rgba(255, 255, 255, .95)
@@ -33,8 +55,14 @@
 		padding 0 5px
 		overflow auto
 
+	.sitetoolbar + & &__sitemap
+		top 60px
+
 	&_sidebar_on &__sitemap
 		left 365px
+
+	.sitetoolbar + & &__nav
+		top 60px
 
 	&__nav
 		position fixed
@@ -95,6 +123,22 @@
 
 	&__nav_next &__nav-text::before
 		@extend $font-angle-right
+
+	// состояния при показе уведомления в панели навигации
+	.notification_on & &__sidebar,
+	.notification_on & &__nav,
+	.notification_on & &__sitemap
+		top 60px + top_notification_height
+
+	.notification_hidden & &__sidebar,
+	.notification_hidden & &__nav,
+	.notification_hidden & &__sitemap
+		top 60px
+
+	.sitetoolbar_hidden & &__sidebar,
+	.sitetoolbar_hidden & &__nav,
+	.sitetoolbar_hidden & &__sitemap
+		top 0
 
 	@media tablet
 		&,
