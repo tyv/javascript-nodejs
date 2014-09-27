@@ -1,22 +1,16 @@
-var EscapedTag = require('./escapedTag');
+var TagNode = require('./tagNode');
 var inherits = require('inherits');
 
 // Тег, содержимое которого нужно полностью заэкранировать
 // Все теги внутри эскейпятся, так что вложенный HTML заведомо безопасен
-function SourceTag(name, text, src, params) {
-  EscapedTag.call(this, 'pre', text);
+function SourceTag(name, text, attrs) {
+  TagNode.call(this, 'pre', text, attrs);
   this.name = name;
-  this.src = src;
-  this.params = params;
 }
-inherits(SourceTag, EscapedTag);
+inherits(SourceTag, TagNode);
 
 SourceTag.prototype.getType = function() {
   return "SourceTag";
-};
-
-SourceTag.prototype.setTextFromSrc = function(text) {
-  this.text = text;
 };
 
 module.exports = SourceTag;

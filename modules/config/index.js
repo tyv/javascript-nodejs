@@ -2,6 +2,7 @@ if (!process.env.NODE_ENV) {
   process.env.NODE_ENV = 'development';
 }
 
+
 Error.stackTraceLimit = 1000;
 
 if (process.env.NODE_ENV == 'development' && process.env.DEV_TRACE) {

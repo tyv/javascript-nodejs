@@ -1,6 +1,7 @@
+- var listShift = tasks ? 1 : 0;
 +e.header
   +e.title-wrap
-    +e('h2').title !{task.title}
+    +e('h' + (2 + listShift)).title !{task.title}
     if task.url
       +e('a').open-link(href=task.url, target="_blank")
 

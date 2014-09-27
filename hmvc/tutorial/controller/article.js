@@ -71,6 +71,7 @@ exports.get = function *get(next) {
   // we don't need it, but didn't test
 //  _.assign(this.locals, locals);
 
+  // requireJade("./article")
   this.body = this.render("article", locals);
 
 };

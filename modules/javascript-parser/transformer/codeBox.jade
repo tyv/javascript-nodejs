@@ -1,12 +1,15 @@
-include /bem
+include bem
 
-+b.code-example
++b.code-example&attributes(attrs)
   +b.codebox.__codebox
     +b.toolbar.__toolbar
       if run
         +e.tool
-          - var title = isJS ? "выполнить" : "показать"
+          - var title = (language == "javascript") ? "выполнить" : "показать"
           +e('a')(href="#" title=title data-action="run").button_run
         +e.tool
           +e('a')(href="#" title="открыть в песочнице" data-action="edit").button_edit
     +e.code(data-code="1")
+      pre(class="line-numbers language-#{language}")
+        code
+          = text

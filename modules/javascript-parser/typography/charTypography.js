@@ -4,11 +4,8 @@
  (возможно нужно запускать до jsdom, так как некоторые последовательности типа -> <- могут ему не понравиться)
 */
 
-var PUNCT_REG = /[!"#$%&'()*+,\-.\/:;<=>?@[\\\]^_`{|}~]/;
-
-function escapeReg(s) {
-  return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-}
+var VERBATIM_TAGS = require('../consts').VERBATIM_TAGS;
+var ATTRS_REG = require('../consts').ATTRS_REG;
 
 function processCopymarks(text) {
   text = text.replace(/\([сСcC]\)(?=[^\.\,\;\:])/ig, '©');
@@ -48,13 +45,17 @@ function processLoneLt(text) {
 }
 
 function charTypography(html) {
-  var label = Math.random().toString();
 
-  var replacements = [];
-  html = html.replace(/<no-typography>[\s\S]*?<\/no-typogrpahy>/gim, function(match) {
-    replacements.push(match);
-    return label;
+  var noTypographyReg = new RegExp('<(' + VERBATIM_TAGS.join('|') + '|figure|code|no-typography)' + ATTRS_REG.source + '>([\\s\\S]*?)</\\1>', 'gim');
+
+  var labels = [];
+  var label = ('' + Math.random()).slice(2);
+
+  html = html.replace(noTypographyReg, function(match, tag, attrs, body) {
+    labels.push(match);
+    return tag == 'code' ? ('<span>' + label + '</span>') : ('<div>' + label + '</div>');
   });
+
 
   html = processPlusmin(html);
   html = processArrows(html);
@@ -64,8 +65,9 @@ function charTypography(html) {
   html = processDash(html);
   html = processEmdash(html);
 
-  html = html.replace(new RegExp(label, 'gim'), function() {
-    return replacements.shift();
+  var i = 0;
+  html = html.replace(new RegExp('<(div|span)>'+label+'</\\1>', 'gm'), function() {
+    return labels[i++];
   });
 
   return html;

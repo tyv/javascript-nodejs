@@ -1,47 +1,46 @@
-var template = require('./codeBox.jade');
 var resizeOnload = require('client/head').resizeOnload;
 var isScrolledIntoView = require('client/isScrolledIntoView');
-var clientRender = require('client/clientRender');
 
-function CodeBox(pre) {
-  var code = pre.code;
+function CodeBox(elem) {
 
-  var isJS = pre.classList.contains('language-javascript');
-  var isHTML = pre.classList.contains('language-markup');
-  var isTrusted = pre.dataset.trusted;
+  var preElem = elem.querySelector('pre');
+  var codeElem = preElem.querySelector('code');
+  var code = codeElem.textContent;
+
+  Prism.highlightElement(codeElem);
+
+  addLineNumbers(preElem);
+  addBlockHighlight(preElem, elem.dataset.highlightBlock);
+  addInlineHighlight(preElem, elem.dataset.highlightInline);
+
+  var isJS = preElem.classList.contains('language-javascript');
+  var isHTML = preElem.classList.contains('language-markup');
+  var isTrusted = elem.dataset.trusted;
   var jsFrame;
   var htmlResult;
   var isFirstRun = true;
 
-  var locals = {
-    isJS: isJS,
-    isHTML: isHTML,
-    run: pre.dataset.run
-  };
-
-  var rendered = clientRender(template, locals);
-
-  pre.insertAdjacentHTML("afterEnd", rendered);
-  var elem = pre.nextSibling;
-  elem.querySelector('[data-code]').appendChild(pre);
-
   if (!isJS && !isHTML) return;
 
-  if (pre.dataset.run) {
-    elem.querySelector('[data-action="run"]').onclick = function() {
+  var runElem = elem.querySelector('[data-action="run"]');
+  if (runElem) {
+    runElem.onclick = function() {
       this.blur();
       run();
       return false;
     };
+  }
 
-    elem.querySelector('[data-action="edit"]').onclick = function() {
+  var editElem = elem.querySelector('[data-action="edit"]');
+  if (editElem) {
+    editElem.onclick = function() {
       this.blur();
       edit();
       return false;
     };
   }
 
-  if (pre.dataset.autorun) {
+  if (elem.dataset.autorun) {
     setTimeout(run, 10);
   }
 
@@ -59,26 +58,23 @@ function CodeBox(pre) {
     var hasHeight = false;
     var frame;
 
-    if (htmlResult && pre.dataset.refresh) {
+    if (htmlResult && elem.dataset.refresh) {
       htmlResult.remove();
       htmlResult = null;
     }
 
     if (!htmlResult) {
       frame = document.createElement('iframe');
-      frame.name = 'frame-'+Math.random();
+      frame.name = 'frame-' + Math.random();
       frame.className = 'result__iframe';
 
-      if (pre.dataset.demoHeight === "0") {
+      if (elem.dataset.demoHeight === "0") {// does that ever happen or dead code?
         frame.style.display = 'none';
         hasHeight = true;
-      } else if (pre.dataset.demoHeight) {
-        var height = +pre.dataset.demoHeight;
-        if (!isTrusted) height = Math.min(height, 800);
-        if (height) {
-          frame.style.height = height + 'px';
-          hasHeight = true;
-        }
+      } else if (elem.dataset.demoHeight) {
+        var height = +elem.dataset.demoHeight;
+        frame.style.height = height + 'px';
+        hasHeight = true;
       }
 
       htmlResult = document.createElement('div');
@@ -101,7 +97,7 @@ function CodeBox(pre) {
         resizeOnload.iframe(frame);
       }
 
-      if (!(isFirstRun && pre.dataset.autorun)) {
+      if (!(isFirstRun && elem.dataset.autorun)) {
         if (!isScrolledIntoView(htmlResult)) {
           htmlResult.scrollIntoView(false);
         }
@@ -124,7 +120,7 @@ function CodeBox(pre) {
       form.submit();
       form.remove();
 
-      if (!(isFirstRun && pre.dataset.autorun)) {
+      if (!(isFirstRun && elem.dataset.autorun)) {
         frame.onload = function() {
 
           if (!hasHeight) {
@@ -151,9 +147,10 @@ function CodeBox(pre) {
         console.error(e);
         alert("Ошибка: " + e.message);
       }
+
     } else {
 
-      if (pre.dataset.refresh && jsFrame) {
+      if (elem.dataset.refresh && jsFrame) {
         jsFrame.remove();
         jsFrame = null;
       }
@@ -184,25 +181,22 @@ function CodeBox(pre) {
       html = normalizeHtml(code);
     } else {
       var codeIndented = code.replace(/^/gim, '    ');
-      html = '<!DOCTYPE html>\n<html>\n\n<body>\n  <script>\n'+codeIndented+'\n  </script>\n</body>\n\n</html>';
+      html = '<!DOCTYPE html>\n<html>\n\n<body>\n  <script>\n' + codeIndented + '\n  </script>\n</body>\n\n</html>';
     }
 
     var form = document.createElement('form');
     form.action = "http://plnkr.co/edit/?p=preview";
     form.method = "POST";
-    form.enctype = "multipart/form-data";
     form.target = "_blank";
 
     document.body.appendChild(form);
 
-    var input = document.createElement('input');
-    input.name = "files[index.html]";
-    input.type = 'hidden';
-    input.value = html;
-    form.appendChild(input);
+    var textarea = document.createElement('textarea');
+    textarea.name = "files[index.html]";
+    textarea.value = html;
+    form.appendChild(textarea);
 
     var input = document.createElement('input');
-    input.type = 'hidden';
     input.name = "description";
     input.value = "Fork from " + window.location;
     form.appendChild(input);
@@ -236,18 +230,17 @@ function CodeBox(pre) {
     }
 
     if (!hasBodyStart) {
-      result = result.replace('<html>','<html>\n<head>\n  <meta charset="utf-8">\n</head><body>\n');
+      result = result.replace('<html>', '<html>\n<head>\n  <meta charset="utf-8">\n</head><body>\n');
     }
 
     if (!hasBodyEnd) {
-      result = result.replace('</html>','\n</body>\n</html>');
+      result = result.replace('</html>', '\n</body>\n</html>');
     }
 
     result = '<!DOCTYPE HTML>\n' + result;
 
     return result;
   }
-
 
 
   function run() {
@@ -260,7 +253,73 @@ function CodeBox(pre) {
   }
 
 
+}
+
+
+function addLineNumbers(pre) {
+
+  var linesNum = (1 + pre.innerHTML.split('\n').length);
+  var lineNumbersWrapper;
+
+  var lines = new Array(linesNum);
+  lines = lines.join('<span></span>');
+
+  lineNumbersWrapper = document.createElement('span');
+  lineNumbersWrapper.className = 'line-numbers-rows';
+  lineNumbersWrapper.innerHTML = lines;
+
+  if (pre.hasAttribute('data-start')) {
+    pre.style.counterReset = 'linenumber ' + Number(pre.dataset.start) - 1;
+  }
+
+  pre.appendChild(lineNumbersWrapper);
+}
+
+
+function addBlockHighlight(pre, lines) {
+
+  if (!lines) {
+    return;
+  }
+
+  var ranges = lines.replace(/\s+/g, '').split(',');
+
+  /*jshint -W084 */
+  for (var i = 0, range; range = ranges[i++];) {
+    range = range.split('-');
+
+    var start = +range[0],
+        end = +range[1] || start;
+
+
+    var mask = '<div class="block-highlight" data-start="' + start + '" data-end="' + end + '">' +
+      new Array(start + 1).join('\n') +
+      '<div class="mask">' + new Array(end - start + 2).join('\n') + '</div></div>';
+
+    pre.insertAdjacentHTML("afterBegin", mask);
+  }
 
 }
+
+
+function addInlineHighlight(pre, ranges) {
+
+  var codeElem = pre.querySelector('code');
+
+  ranges = ranges ? ranges.split(",") : [];
+
+  for (var i = 0; i < ranges.length; i++) {
+    var piece = ranges[i].split(':');
+    var lineNum = +piece[0], strRange = piece[1].split('-');
+    var start = +strRange[0], end = +strRange[1];
+    var mask = '<div class="inline-highlight">' +
+      new Array(lineNum + 1).join('\n') +
+      new Array(start + 1).join(' ') +
+      '<span class="mask">' + new Array(end - start + 1).join(' ') + '</span></div>';
+
+    codeElem.insertAdjacentHTML("afterBegin", mask);
+  }
+}
+
 
 module.exports = CodeBox;

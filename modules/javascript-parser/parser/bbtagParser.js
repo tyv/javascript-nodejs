@@ -203,7 +203,9 @@ BbtagParser.prototype.parseSource = function() {
     }
   }
 
-  return new SourceTag(this.name, this.body, src, this.params);
+  var attrs = this.trusted ? _.clone(this.params) : _.pick(this.params, ['src', 'run', 'height', 'autorun']);
+
+  return new SourceTag(this.name, this.body, attrs);
 };
 
 
