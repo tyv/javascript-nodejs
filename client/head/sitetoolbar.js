@@ -127,3 +127,11 @@ document.addEventListener('click', function() {
     wasJump = false;
   }, 50); // firefox needs more than 0ms to scroll
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+  if(!location.hash) return;
+
+  var target = document.querySelector(location.hash);
+  if (!target) return;
+
+});

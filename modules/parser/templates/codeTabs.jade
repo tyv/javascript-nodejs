@@ -1,4 +1,4 @@
-include ./bem
+include /bem
 
 +b.code-tabs._result_on
   +e.tools
@@ -25,4 +25,5 @@ include ./bem
     each tab in tabs
       +e.section
         pre(class=tab.class)
-          = tab.content
+          code
+            = tab.content

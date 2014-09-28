@@ -17,6 +17,8 @@ var gm = require('gm');
 var thunkify = require('thunkify');
 var imageSize = thunkify(require('image-size'));
 
+var codeTabsTemplate = require('./templates/codeTabs.jade');
+
 function ServerHtmlTransformer(options) {
   HtmlTransformer.apply(this, arguments);
 }
@@ -265,8 +267,7 @@ ServerHtmlTransformer.prototype.transformCodeTabsTag = function* (node) {
 
   var height = parseInt(node.attrs.height) || '';
 
-  var rendered = jade.renderFile(require.resolve('./templates/codeTabs.jade'), {
-    bem:    bem(),
+  var rendered = codeTabsTemplate({
     tabs:   tabs,
     height: height && (node.isTrusted() ? height : Math.max(height, 800)),
     src:    src + '/'

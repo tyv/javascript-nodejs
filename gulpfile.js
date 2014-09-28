@@ -43,8 +43,9 @@ gulp.task('lint-or-die', lazyRequireTask('./tasks/lint', { src: jsSources, dieOn
 gulp.task('loaddb', lazyRequireTask('./tasks/loadDb'));
 
 gulp.task("nodemon", lazyRequireTask('./tasks/nodemon', {
-  ext:    "js",
-  nodeArgs: ['--debug', '--harmony'],
+  ext:    "js,jade",
+  restartable: false, // don't hook on STDIN to wait rs
+  nodeArgs: ['--harmony'],
   script: "./bin/server",
   ignore: '**/client/', // ignore hmvc apps client code
   watch:  ["hmvc", "modules"]
