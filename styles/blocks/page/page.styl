@@ -1,15 +1,3 @@
-.scrolled-out
-	.page
-
-		&__sidebar
-			position fixed
-			top 60px
-
-		&__inner
-			position fixed
-			top 60px
-			bottom 0
-			overflow auto
 
 .page
 	position: relative
@@ -32,7 +20,8 @@
 		bottom 0
 		left 0
 		transform translateX(-100%)
-		transition transform animation_duration, top animation_duration
+		transition-property transform
+		transition-duration animation_duration
 
 	// для отображения/скрытия сайдбара переключаем класс .page_sidebar_on у блока .page
 	&_sidebar_on &__sidebar

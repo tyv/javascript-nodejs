@@ -5,6 +5,7 @@ var lastPageYOffset = 0;
 
 var requestAnimationFrameId;
 
+var lastState = '';
 // adds [data-scroll-prev] && [data-scroll] attributes
 // both the previous and the next state => for CSS animation to draw the transition
 function setState(newState) {
@@ -15,6 +16,7 @@ function setState(newState) {
   } else {
     document.body.setAttribute('data-scroll', newState);
   }
+  lastState = newState;
 }
 
 
@@ -65,13 +67,22 @@ function onscroll() {
     return;
   }
 
-  if (window.pageYOffset < sitetoolbarHeight) {
+  if (lastState == 'in' && window.pageYOffset < 3) {
 //    console.log("close to top");
     // if close to page top, no scrolled state apply
     lastPageYOffset = window.pageYOffset;
     setState('');
     return;
   }
+
+
+  if (lastState == '' && window.pageYOffset < sitetoolbarHeight) {
+//    console.log("close to top");
+    // if close to page top, no scrolled state apply
+    lastPageYOffset = window.pageYOffset;
+    return;
+  }
+
 
   // now we are in the middle of the page or at the end
   // let's see if the user scrolls up or down

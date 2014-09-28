@@ -28,18 +28,23 @@ sitetoolbar_secondary_link = #498CBE
 	.page__inner
 		top 0
 
+
+
 // only animate between floating states
 // in -> out
 // out -> in
 // don't animate static -> out (ugly unneccesary translation)
 // don't animate in -> static (no need too)
-[data-scroll="in"][data-scroll-prev="out"]
+[data-scroll="in"][data-scroll-prev="out"],
+[data-scroll="out"][data-scroll-prev="in"],
+// plus: out -> out, in -> in are also animated for the sake of not stopping an ongoing animation
+[data-scroll="out"][data-scroll-prev="out"],
+[data-scroll="in"][data-scroll-prev="in"]
 	.sitetoolbar
 		transition transform animation_duration
 
-[data-scroll="out"][data-scroll-prev="in"]
-	.sitetoolbar
-		transition transform animation_duration
+	.page__sidebar
+		transition-property top
 
 
 .sitetoolbar
