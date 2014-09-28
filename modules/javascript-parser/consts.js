@@ -20,7 +20,7 @@ var NO_WRAP_TAGS_REG = new RegExp('(?:' + NO_WRAP_TAGS.join('|') + ')', 'gim');
 // not the same as in Ruby (!)
 var ATTRS_REG = /('[^']*'|"[^"]*"|[^'">])*/ig;
 
-var VERBATIM_TAGS = "script style object embed video audio pre".split(' ');
+var VERBATIM_TAGS = "script style object embed video figure audio pre".split(' ');
 var VERBATIM_TAGS_SET = arrToObj(VERBATIM_TAGS);
 
 var BBTAGS_SOURCE = "html js txt css http coffee java php ruby scss sql".split(' ');

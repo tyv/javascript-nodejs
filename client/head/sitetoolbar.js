@@ -7,9 +7,9 @@ var requestAnimationFrameId;
 // At the page bottom it is possible to scroll below the page, and then it goes back (inertia)
 // the problem is that the actual scroll for mouse down goes a little bit up
 var tolerance = {
-  up:   10, // big enough to ignore chrome fallback
+  up:         10, // big enough to ignore chrome fallback
   upAtBottom: 60,
-  down: 10
+  down:       10
 };
 
 // defer event registration to handle browser
@@ -128,10 +128,20 @@ document.addEventListener('click', function() {
   }, 50); // firefox needs more than 0ms to scroll
 });
 
-document.addEventListener('DOMContentLoaded', function() {
-  if(!location.hash) return;
 
-  var target = document.querySelector(location.hash);
+document.addEventListener('DOMContentLoaded', function() {
+  if (!location.hash) return;
+
+  var target = document.querySelector(location.hash) || document.querySelector('[name="' + location.hash.slice(1) + '"]');
   if (!target) return;
 
+  var sitetoolbar = document.querySelector('.sitetoolbar');
+
+  setTimeout(function() {
+    console.log(target.getBoundingClientRect().top, sitetoolbar.offsetHeight);
+    if (target.getBoundingClientRect().top < sitetoolbar.offsetHeight) {
+      window.scrollBy(0, -sitetoolbar.offsetHeight - 10);
+    }
+  }, 50);
 });
+

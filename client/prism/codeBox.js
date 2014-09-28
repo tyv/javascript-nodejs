@@ -64,9 +64,12 @@ function CodeBox(elem) {
     }
 
     if (!htmlResult) {
+      htmlResult = document.createElement('div');
+      htmlResult.className = "code-result code-example__result";
+
       frame = document.createElement('iframe');
       frame.name = 'frame-' + Math.random();
-      frame.className = 'result__iframe';
+      frame.className = 'code-result__iframe';
 
       if (elem.dataset.demoHeight === "0") {// does that ever happen or dead code?
         frame.style.display = 'none';
@@ -76,9 +79,6 @@ function CodeBox(elem) {
         frame.style.height = height + 'px';
         hasHeight = true;
       }
-
-      htmlResult = document.createElement('div');
-      htmlResult.className = "result code-example__result";
       htmlResult.appendChild(frame);
 
       elem.appendChild(htmlResult);

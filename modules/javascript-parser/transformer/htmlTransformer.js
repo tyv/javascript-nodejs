@@ -62,7 +62,8 @@ HtmlTransformer.prototype.attrsToString = function(attrs) {
 };
 
 HtmlTransformer.prototype.wrapTagAround = function(tag, attrs, html) {
-  var result = "<" + tag + ' ' + this.attrsToString(attrs) + '>';
+  attrs = this.attrsToString(attrs);
+  var result = "<" + tag + (attrs ? (' ' + attrs) : '') + '>';
 
   if (tag != 'img') {
     result += html + '</' + tag + '>';
@@ -320,7 +321,8 @@ HtmlTransformer.prototype.transformIframeTag = function(node) {
     if (!node.isTrusted()) height = Math.max(height, 800);
     locals.attrs.style = 'height: ' + height + 'px';
   } else {
-    locals.attrs.onload = 'require("client/head").resizeOnload.iframe(this)';
+    // single-quotes ' are important here, the attr will be inserted "as is"
+    locals.attrs.onload = "require('client/head').resizeOnload.iframe(this)";
   }
 
   var src = node.attrs.src;

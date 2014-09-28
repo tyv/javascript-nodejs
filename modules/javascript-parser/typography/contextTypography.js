@@ -65,12 +65,13 @@ function makeParagraphs(html) {
 function contextTypography(html, options) {
   options = options || {};
 
-  var noTypographyReg = new RegExp('<(' + VERBATIM_TAGS.join('|') + '|figure|code|no-typography)' + ATTRS_REG.source + '>([\\s\\S]*?)</\\1>', 'gim');
+  var noTypographyReg = new RegExp('<(' + VERBATIM_TAGS.join('|') + '|code|no-typography)' + ATTRS_REG.source + '>([\\s\\S]*?)</\\1>', 'gim');
 
   var labels = [];
   var label = ('' + Math.random()).slice(2);
 
   html = html.replace(noTypographyReg, function(match, tag, attrs, body) {
+    // remove no-typography wrapper here
     labels.push(tag == 'no-typography' ? body : match);
     return tag == 'code' ? ('<span>' + label + '</span>') : ('<div>' + label + '</div>');
   });
