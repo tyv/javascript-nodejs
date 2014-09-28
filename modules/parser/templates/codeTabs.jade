@@ -17,10 +17,10 @@ include /bem
         +e('a').button._download(target="_blank", href=zip.url)
       if play
         +e('a').button._open(target="_blank", href=play.url)
-  +e.content(data-code-tabs-content style=height ? ('height:' + height + 'px') : '')
+  +e.content(data-code-tabs-content style=('height:' + height + 'px'))
     +e.section._current
       //- assigning an attribute to false removes the attribute
-      +e('iframe').result(src=src onload=("require('client/head').resizeOnload.codeTabs(this, " + (height || false) + ")"))
+      +e('iframe').result(src=src)
 
     each tab in tabs
       +e.section

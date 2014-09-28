@@ -316,14 +316,9 @@ HtmlTransformer.prototype.transformIframeTag = function(node) {
     attrs: {}
   };
 
-  if (node.attrs.height) {
-    var height = parseInt(node.attrs.height);
-    if (!node.isTrusted()) height = Math.max(height, 800);
-    locals.attrs.style = 'height: ' + height + 'px';
-  } else {
-    // single-quotes ' are important here, the attr will be inserted "as is"
-    locals.attrs.onload = "require('client/head').resizeOnload.iframe(this)";
-  }
+  var height = parseInt(node.attrs.height) || 1000;
+  if (!node.isTrusted()) height = Math.max(height, 800);
+  locals.attrs.style = 'height: ' + height + 'px';
 
   var src = node.attrs.src;
 

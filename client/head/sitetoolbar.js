@@ -1,7 +1,22 @@
-var lastPageYOffset;
+var getBrowserScrollCause = require('client/dom/getBrowserScrollCause');
+var getDocumentHeight = require('client/dom/getDocumentHeight');
 
-var wasJump = false;
+var lastPageYOffset = 0;
+
 var requestAnimationFrameId;
+
+// adds [data-scroll-prev] && [data-scroll] attributes
+// both the previous and the next state => for CSS animation to draw the transition
+function setState(newState) {
+  document.body.setAttribute('data-scroll-prev', document.body.getAttribute('data-scroll') || '');
+
+  if (!newState) {
+    document.body.removeAttribute('data-scroll');
+  } else {
+    document.body.setAttribute('data-scroll', newState);
+  }
+}
+
 
 // when I scroll down on MacOS, Chrome does the bounce trick
 // At the page bottom it is possible to scroll below the page, and then it goes back (inertia)
@@ -12,136 +27,97 @@ var tolerance = {
   down:       10
 };
 
-// defer event registration to handle browser
-// potentially restoring previous scroll position
-setTimeout(init, 200);
-
-function init() {
-  lastPageYOffset = window.pageYOffset;
-
-  window.addEventListener('scroll', onscroll);
-}
-
-function onscroll() {
+// don't handle more often than animation
+window.addEventListener('scroll', function() {
   if (requestAnimationFrameId) return;
 
   requestAnimationFrameId = window.requestAnimationFrame(function() {
-    showHideSiteToolbar();
+    onscroll();
     requestAnimationFrameId = null;
   });
 
-}
+});
 
-function showHideSiteToolbar() {
+function onscroll() {
   if (isScrollOutOfDocument()) { // Ignore bouncy scrolling in OSX
     return;
   }
 
-  var scrollTop = window.pageYOffset;
+  var sitetoolbar = document.querySelector('.sitetoolbar');
+  var sitetoolbarHeight = sitetoolbar.offsetHeight;
 
-  var scrollDirection = scrollTop > lastPageYOffset ? 'down' : 'up';
-  var scrollDiff = Math.abs(scrollTop - lastPageYOffset);
+  var browserScrollCause = getBrowserScrollCause();
+//  console.log("scrollCause", browserScrollCause);
+
+
+  if (browserScrollCause !== null) {
+//    console.log("browser scroll");
+    // browser-initiated scroll: never show navigation, try to hide it (except on top)
+    // if page top - user will see the nav and the header
+    // if not page top - user will see the header when opening a link with #hash
+    lastPageYOffset = window.pageYOffset;
+
+    if (window.pageYOffset > sitetoolbarHeight) {
+      setState('out');
+    } else {
+      setState('');
+    }
+    return;
+  }
+
+  if (window.pageYOffset < sitetoolbarHeight) {
+//    console.log("close to top");
+    // if close to page top, no scrolled state apply
+    lastPageYOffset = window.pageYOffset;
+    setState('');
+    return;
+  }
+
+  // now we are in the middle of the page or at the end
+  // let's see if the user scrolls up or down
+
+  var scrollDirection = window.pageYOffset > lastPageYOffset ? 'down' : 'up';
+  var scrollDiff = Math.abs(window.pageYOffset - lastPageYOffset);
 
 //  console.log("scrollDiff", scrollDiff);
 
   // если прокрутили мало - ничего не делаем, но и точку отсчёта не меняем
   if (tolerance[scrollDirection] > scrollDiff) return;
 
+  lastPageYOffset = window.pageYOffset;
+
   // в MacOs при прокрутке вниз возможен инерционный отскок наверх
   // если мы внизу страницы, то tolerance выше
-  var scrollBottom = getDocumentHeight() - scrollTop - window.innerHeight;
-  if (scrollDirection == 'up' && scrollBottom < tolerance.upAtBottom && scrollTop > tolerance.upAtBottom) return;
-
-  lastPageYOffset = scrollTop;
-
-  if (wasJump) {
-    if (!document.body.classList.contains('scrolled-out')) {
-      //window.scrollBy(0, -30);
-    }
-    return;
-  }
+  var scrollBottom = getDocumentHeight() - window.pageYOffset - window.innerHeight;
+  if (scrollDirection == 'up' && scrollBottom < tolerance.upAtBottom && window.pageYOffset > tolerance.upAtBottom) return;
 
 //  console.log(scrollDirection, scrollDiff, tolerance[scrollDirection]);
 
 
-  if (scrollTop === 0 || scrollDirection == 'up') {
-    document.body.classList.remove('scrolled-out');
+  if (scrollDirection == 'up') {
+//    console.log("scroll up");
+    setState('in');
     return;
   }
 
   if (scrollDirection == 'down') {
-    document.body.classList.add('scrolled-out');
+//    console.log("scroll down");
+    setState('out');
+    return;
   }
 
 }
 
 /**
  * determines if the scroll position is outside of document boundaries
- * @param  {int}  currentScrollY the current y scroll position
  * @return {bool} true if out of bounds, false otherwise
  */
 function isScrollOutOfDocument() {
+  // no document yet
+  if (document.readyState != 'complete') return false;
+
   var pastTop = window.pageYOffset < 0,
       pastBottom = window.pageYOffset + window.innerHeight > getDocumentHeight();
 
   return pastTop || pastBottom;
 }
-
-/**
- * Gets the height of the document
- * @see http://james.padolsey.com/javascript/get-document-height-cross-browser/
- * @return {int} the height of the document in pixels
- */
-function getDocumentHeight() {
-  var body = document.body,
-      documentElement = document.documentElement;
-
-  return Math.max(
-    body.scrollHeight, documentElement.scrollHeight,
-    body.offsetHeight, documentElement.offsetHeight,
-    body.clientHeight, documentElement.clientHeight
-  );
-}
-
-/*
- window.addEventListener('scroll', function() {
- console.log(window.pageYOffset);
- // setTimeout(function() {
- if (window.pageYOffset < lastPageYOffset || window.pageYOffset < 5) {
- console.log("UP");
- // scrolled up
- document.body.classList.remove('scrolled-out');
- } else if (window.pageYOffset > lastPageYOffset + 30) {
- console.log("DOWN");
- // scrolled down, hide nav
- document.body.classList.add('scrolled-out');
- }
-
- lastPageYOffset = window.pageYOffset;
- // }, 100);
- });
- */
-document.addEventListener('click', function() {
-  wasJump = true;
-  setTimeout(function() {
-    wasJump = false;
-  }, 50); // firefox needs more than 0ms to scroll
-});
-
-
-document.addEventListener('DOMContentLoaded', function() {
-  if (!location.hash) return;
-
-  var target = document.querySelector(location.hash) || document.querySelector('[name="' + location.hash.slice(1) + '"]');
-  if (!target) return;
-
-  var sitetoolbar = document.querySelector('.sitetoolbar');
-
-  setTimeout(function() {
-    console.log(target.getBoundingClientRect().top, sitetoolbar.offsetHeight);
-    if (target.getBoundingClientRect().top < sitetoolbar.offsetHeight) {
-      window.scrollBy(0, -sitetoolbar.offsetHeight - 10);
-    }
-  }, 50);
-});
-

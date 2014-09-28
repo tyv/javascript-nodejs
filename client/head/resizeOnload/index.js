@@ -5,6 +5,8 @@ var throttle = require('lib/throttle');
 var onResize = [];
 
 exports.iframe = function(iframe) {
+  return;
+
   function resize() {
     iframeResize.async(iframe, function(err, height) {
       if (err) console.error(err);
