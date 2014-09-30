@@ -34,12 +34,6 @@ html
         include ../blocks/sidebar
       .page__inner
         article.main
-          if layout.sitemap
-            //- блок map должен подгружаться динамически
-            //- подключен для демонстрации и отладки
-            //- сделан в виде страницы а не блока чтобы был доступен
-            //- по собственному url (/markup/pages/map)
-            include ../pages/map
           //- отключается только на странице задачи, по возможности отрефакторить
           if layout.header
             header.main__header(class= layout.centeredHeader == true ? "main__header_center" : undefined)
@@ -51,6 +45,13 @@ html
             include ../blocks/corrector
             include ../blocks/comments
       include ../blocks/page-footer
+      if layout.sitemap
+        //- блок map должен подгружаться динамически
+        //- подключен для демонстрации и отладки
+        //- сделан в виде страницы а не блока чтобы был доступен
+        //- по собственному url (/markup/pages/map)
+        .page__sitemap
+          include ../blocks/map
     script(src=asset("/js/footer.js"))
     script require('client/footer').init();
 

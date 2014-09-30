@@ -50,19 +50,12 @@
 		position fixed
 		background rgba(255, 255, 255, .95)
 		top 0
-		right 115px
+		right 0
 		bottom 0
-		left 115px
-		z-index 999
+		left 0
+		z-index 9
 		transition top animation_duration, right animation_duration, left animation_duration
-		padding 0 5px
 		overflow auto
-
-	.sitetoolbar + & &__sitemap
-		top 60px
-
-	&_sidebar_on &__sitemap
-		left 365px
 
 	.sitetoolbar + & &__nav
 		top 60px
@@ -131,18 +124,15 @@
 
 	// состояния при показе уведомления в панели навигации
 	.notification_on & &__sidebar,
-	.notification_on & &__nav,
-	.notification_on & &__sitemap
+	.notification_on & &__nav
 		top 60px + top_notification_height
 
 	.notification_hidden & &__sidebar,
-	.notification_hidden & &__nav,
-	.notification_hidden & &__sitemap
+	.notification_hidden & &__nav
 		top 60px
 
 	.sitetoolbar_hidden & &__sidebar,
-	.sitetoolbar_hidden & &__nav,
-	.sitetoolbar_hidden & &__sitemap
+	.sitetoolbar_hidden & &__nav
 		top 0
 
 	@media tablet
