@@ -44,8 +44,8 @@ gulp.task('loaddb', lazyRequireTask('./tasks/loadDb'));
 
 gulp.task("nodemon", lazyRequireTask('./tasks/nodemon', {
   ext:    "js,jade",
-  restartable: false, // don't hook on STDIN to wait rs
-  nodeArgs: ['--harmony'],
+ // restartable: false, // don't hook on STDIN to wait rs
+  nodeArgs: ['--debug', '--harmony'],
   script: "./bin/server",
   ignore: '**/client/', // ignore hmvc apps client code
   watch:  ["hmvc", "modules"]

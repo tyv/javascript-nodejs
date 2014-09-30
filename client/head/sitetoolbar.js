@@ -29,7 +29,7 @@ var tolerance = {
   down:       10
 };
 
-// don't handle more often than animation
+// don't handle onscroll more often than animation
 window.addEventListener('scroll', function() {
   if (requestAnimationFrameId) return;
 
@@ -54,9 +54,10 @@ function onscroll() {
 
   if (browserScrollCause !== null) {
 //    console.log("browser scroll");
-    // browser-initiated scroll: never show navigation, try to hide it (except on top)
+    // browser-initiated scroll: never show navigation (except on top), try to hide it
     // if page top - user will see the nav and the header
     // if not page top - user will see the header when opening a link with #hash
+    //   (without a sitetoolbar which would overlay it)
     lastPageYOffset = window.pageYOffset;
 
     if (window.pageYOffset > sitetoolbarHeight) {
@@ -76,7 +77,7 @@ function onscroll() {
   }
 
 
-  if (lastState == '' && window.pageYOffset < sitetoolbarHeight) {
+  if (lastState === '' && window.pageYOffset < sitetoolbarHeight) {
 //    console.log("close to top");
     // if close to page top, no scrolled state apply
     lastPageYOffset = window.pageYOffset;

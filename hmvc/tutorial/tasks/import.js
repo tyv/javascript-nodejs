@@ -146,7 +146,7 @@ module.exports = function(options) {
       throw new Error("must start with a #Header");
     }
 
-    return stripTags(titleHeader.text);
+    return titleHeader.text;
   }
 
   function* importArticle(articlePath, parent) {

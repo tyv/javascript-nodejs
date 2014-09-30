@@ -26,6 +26,7 @@ var ParseError = require('./parseError');
 var contextTypography = require('../typography/contextTypography');
 var charTypography = require('../typography/charTypography');
 var ensureSafeUrl = require('./ensureSafeUrl');
+var stripTags = require('../util/stripTags');
 
 /**
  * BodyParser creates node objects from general text.
@@ -173,10 +174,8 @@ BodyParser.prototype.parseNodes = function() {
  * @returns {*}
  */
 BodyParser.prototype.parseHeader = function(token) {
-  // only code is allowed in headers, not links, not italic...
-  var titleHtml = contextTypography(charTypography(token.title.replace(/`(.*?)`/gim, '<code>$1</code>')), { noParagraphs: true });
-
-  console.log(titleHtml);
+  // no formatting/tags in headers, only typography
+  var titleHtml = contextTypography(charTypography(stripTags(token.title)), { noParagraphs: true });
 
   var level = token.level;
 
@@ -237,8 +236,6 @@ BodyParser.prototype.parseHeader = function(token) {
     this.options.metadata.refs.add(anchor);
   }
 
-  // в заголовок отдаём не уже полученный HTML, а titleNode,
-  // чтобы внешний анализатор мог поискать в них ошибки
   return new HeaderTag(level, anchor, titleHtml);
 };
 

@@ -10,5 +10,6 @@ module.exports = function(html) {
       a:   ['href', 'name', 'target', 'title']
     }
   });
+
 };
 
