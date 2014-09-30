@@ -1,6 +1,6 @@
 /**
  * unique ordered Set of strings, based on objects
- * I implemented it because ES6 set is not fully in node 0.11.13 (no .values() call)
+ * I implemented it because ES6 Set is broken in node 0.11.14
  * @constructor
  */
 function StringMap() {

@@ -1,6 +1,7 @@
-include /bem
+extends /layouts/main
 
-.page__sitemap
+block main
+
   +b.sitemap
     +e.filter
       +e.header
@@ -9,7 +10,8 @@ include /bem
           +e('input').option-control#show-tasks(type="checkbox")
           +e('label').option-label(for="show-tasks") Показать задачи
       +b('span').text-input.__input
-        +e('input').control(type="text", autofocus)
+        +e('input').control(type="text", placeholder="Фильтр по заголовку", autofocus)
+
     +e.sitemap-map.columns.columns_3
       each topic in children
         +e.section.columns__col
