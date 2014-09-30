@@ -1,0 +1,12 @@
+doctype html
+include /bem
+
+meta(charset='UTF-8')
+title Карта сайта — Javascript.ru
+//- тут стоило бы использовать блок head, но он также подключает скрипт head.js,
+//- а на отдельной странице карты сайта скрипты не нужны
+link(href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700|Open+Sans+Condensed:700&subset=latin,latin-ext,cyrillic,cyrillic-ext' rel='style' type='text/css')
+link(href='/styles/base.css' rel='stylesheet')
+
+body
+	include ../blocks/map
