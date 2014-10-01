@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const config = require('config');
-const BodyParser = require('javascript-parser').BodyParser;
+const BodyParser = require('simpledownParser').BodyParser;
 const ServerHtmlTransformer = require('parser/serverHtmlTransformer');
 
 // Порядок библиотек на странице

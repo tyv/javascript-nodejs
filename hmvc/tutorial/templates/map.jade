@@ -24,3 +24,10 @@ block body
                   each article in subtopic.children
                     +e('li').sub-item
                       +e('a').link(href=article.url) !{article.title}
+                      if article.tasks
+                        +e('ul').sub-sub-items
+                          each task in article.tasks
+                            +e('li').sub-sub-item
+                              +e('a').link(href=task.url) #{task.title}
+                              =" "
+                              +e('span').note #{task.importance}

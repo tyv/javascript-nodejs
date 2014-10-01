@@ -2,8 +2,8 @@ var NO_WRAP_TAGS_SET = require('../consts').NO_WRAP_TAGS_SET;
 var sanitize = require('../util/sanitize');
 var charTypography = require('../typography/charTypography');
 var contextTypography = require('../typography/contextTypography');
-var escapeHtmlText = require('../util/escapeHtmlText');
-var escapeHtmlAttr = require('../util/escapeHtmlAttr');
+var escapeHtmlText = require('textUtil/escapeHtmlText');
+var escapeHtmlAttr = require('textUtil/escapeHtmlAttr');
 var stripIndents = require('../util/source/stripIndents');
 var extractHighlight = require('../util/source/extractHighlight');
 

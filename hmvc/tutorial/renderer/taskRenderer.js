@@ -1,7 +1,7 @@
-const HeaderTag = require('javascript-parser').HeaderTag;
-const BodyParser = require('javascript-parser').BodyParser;
+const HeaderTag = require('simpledownParser').HeaderTag;
+const BodyParser = require('simpledownParser').BodyParser;
 const ServerHtmlTransformer = require('parser/serverHtmlTransformer');
-const CompositeTag = require('javascript-parser').CompositeTag;
+const CompositeTag = require('simpledownParser').CompositeTag;
 const config = require('config');
 
 /**

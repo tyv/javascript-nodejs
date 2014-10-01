@@ -1,13 +1,3 @@
-- var listShift = tasks ? 1 : 0;
-+e.header
-  +e.title-wrap
-    +e('h' + (2 + listShift)).title !{task.title}
-    if task.url
-      +e('a').open-link(href=task.url, target="_blank")
-
-  +e.header-note
-    +e('span').importance(title="Насколько эта задача важна для освоения материала, от 1 до 5") важность: #{task.importance}
-    +e('button').solution(type="button") решение
 +e.content
   +e.answer
     if (task.solution instanceof Array)
