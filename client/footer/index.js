@@ -1,4 +1,3 @@
-
 require('./preventDocumentScroll');
 var showLinkType = require('./showLinkType');
 

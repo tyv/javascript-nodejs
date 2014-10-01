@@ -12,7 +12,7 @@ html
     - layout.sidebar = false
     - layout.articleFoot = false
     - layout.centeredHeader = false
-    - layout.sitemap = false
+    - layout.tutorialMap = false
     - layout.header = false
     - layout.notificationPopup = false
     - layout.notificationStripe = false
@@ -45,14 +45,14 @@ html
             include ../blocks/corrector
             include ../blocks/comments
       //include ../blocks/page-footer
-    if layout.sitemap
+    if layout.tutorialMap
       //- блок map должен подгружаться динамически
       //- подключен для демонстрации и отладки
       //- сделан в виде страницы а не блока чтобы был доступен
       //- по собственному url (/markup/pages/map)
-      .sitemap-overlay
+      .tutorial-map-overlay
         include ../blocks/map
-        +b('button').close-button.sitemap-overlay__close
+        +b('button').close-button.tutorial-map-overlay__close
     script(src=asset("/js/footer.js"))
     script require('client/footer').init();
 

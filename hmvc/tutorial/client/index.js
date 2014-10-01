@@ -9,6 +9,7 @@ exports.init = function() {
   prism();
 };
 
+exports.TutorialMap = require('./tutorialMap');
 
 function initTaskButtons() {
   // solution button

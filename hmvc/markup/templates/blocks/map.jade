@@ -1,13 +1,13 @@
-+b.sitemap
++b.tutorial-map
   +e.filter
     +e.header
       +e.title Фильтр по заголовку
       +e.option
-        +e('input').option-control#show-tasks(type="checkbox" data-sitemap-show-tasks)
+        +e('input').option-control#show-tasks(type="checkbox" data-tutorial-map-show-tasks)
         +e('label').option-label(for="show-tasks") Показать задачи
     +b('span').text-input.__input
-      +e('input').control(type="text" placeholder="Фильтр по заголовку" autofocus data-sitemap-filter)
-  +e.sitemap-map.columns.columns_3
+      +e('input').control(type="text" placeholder="Фильтр по заголовку" autofocus data-tutorial-map-filter)
+  +e.tutorial-map-map.columns.columns_3
     //- использовать блок columns?
     +e.section.columns__col
       +e('h2').col-title Базовый JavaScript
