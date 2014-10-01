@@ -146,7 +146,7 @@ module.exports = function(options) {
       throw new Error("must start with a #Header");
     }
 
-    return titleHeader.text.replace(/`/g, ''); // no more ugly code in headers
+    return titleHeader.text; // no more ugly code in headers
   }
 
   function* importArticle(articlePath, parent) {

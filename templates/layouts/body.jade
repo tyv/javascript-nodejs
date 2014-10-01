@@ -1,0 +1,25 @@
+//- body + navigation(sitetoolbar + prev + next + sidebar) + content(article.main)
+extends ./html
+
+block body
+  if sitetoolbar
+    include ../blocks/sitetoolbar
+  .page.page_sidebar_on
+    // основное содержимое статьи идёт до дизайна (пользователь увидит его первым)
+    .page__inner
+      article.main
+        block main
+    if prev
+      a.page__nav.page__nav_prev(href=prev.url, title="назад")
+        span.page__nav-text
+          span.page__nav-text-shortcut
+    if next
+      a.page__nav.page__nav_next(href=next.url, title="вперёд")
+        span.page__nav-text
+          span.page__nav-text-shortcut
+    if sidebar
+      +b.sidebar.page__sidebar
+        +e('button').toggle(onclick="document.querySelector('.page').classList.toggle('page_sidebar_on')")
+        +e.inner
+          +e.content
+            block sidebar

@@ -46,6 +46,10 @@ function onscroll() {
   }
 
   var sitetoolbar = document.querySelector('.sitetoolbar');
+  if (!sitetoolbar) {
+    return; // page in a no-top-nav layout
+  }
+
   var sitetoolbarHeight = sitetoolbar.offsetHeight;
 
   var browserScrollCause = getBrowserScrollCause();
