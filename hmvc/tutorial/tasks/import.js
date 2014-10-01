@@ -11,9 +11,9 @@ require('lib/requireJade');
 const Article = require('../models/article');
 const Reference = require('../models/reference');
 const Task = require('../models/task');
-const BodyParser = require('javascript-parser').BodyParser;
-const TreeWalkerSync = require('javascript-parser').TreeWalkerSync;
-const HeaderTag = require('javascript-parser').HeaderTag;
+const BodyParser = require('simpledownParser').BodyParser;
+const TreeWalkerSync = require('simpledownParser').TreeWalkerSync;
+const HeaderTag = require('simpledownParser').HeaderTag;
 const gm = require('gm');
 const log = require('log')();
 

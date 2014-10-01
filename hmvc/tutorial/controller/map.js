@@ -5,6 +5,7 @@ const ArticleRenderer = require('../renderer/articleRenderer');
 const TaskRenderer = require('../renderer/taskRenderer');
 const _ = require('lodash');
 const CacheEntry = require('cacheEntry');
+const makeAnchor = require('textUtil/makeAnchor');
 
 exports.get = function *get(next) {
 
@@ -52,10 +53,18 @@ function* renderMap() {
         childRendered.children = yield* renderTree(child);
       }
 
-      childRendered.tasks = yield Task.find({
+      var tasks = yield Task.find({
         parent: child._id
-      }).sort({weight: 1}).select('-_id slug title').lean().exec();
+      }).sort({weight: 1}).select('-_id slug title importance').lean().exec();
 
+      tasks = tasks.map(function(task) {
+        task.url = Task.getUrlBySlug(task.slug);
+        delete task.slug;
+        task.anchor = childRendered.url + '#' + makeAnchor(task.title);
+        return task;
+      });
+
+      childRendered.tasks = tasks;
       children.push(childRendered);
 
     }

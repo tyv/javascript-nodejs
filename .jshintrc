@@ -10,6 +10,7 @@
   "esnext": true,
   "multistr": true,
   "noyield": true,
+  "loopfunc": true,
   "-W004": true,
   "-W030": true // for yield* ...
 }
