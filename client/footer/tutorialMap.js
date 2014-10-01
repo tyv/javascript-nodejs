@@ -1,4 +1,4 @@
-
+// TODO
 var delegate = require('client/delegate');
 
 function TutorialMap(elem) {
@@ -6,8 +6,6 @@ function TutorialMap(elem) {
 
 
   this.delegate('[data-sitemap-show-tasks', 'change', this.onShowTasksChange);
-
-
 
 }
 
