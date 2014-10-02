@@ -8,10 +8,6 @@
 	&_sidebar_on
 		padding-left sidebar_width
 
-
-	// .sitetoolbar + & &__sidebar
-	//	top 60px
-
 	&__sidebar
 		top 0
 
@@ -20,12 +16,6 @@
 		bottom 0
 		left 0
 		transform translateX(-100%)
-		transition-property transform
-		transition-duration animation_duration
-
-	// для отображения/скрытия сайдбара переключаем класс .page_sidebar_on у блока .page
-	&_sidebar_on &__sidebar
-		transform translateX(0)
 
 	// используется при переключении видимости панели навигации
 	&__inner
@@ -33,25 +23,29 @@
 		padding 0 120px
 		transition margin-top animation_duration
 
-	// добавляем отступ только если навигация присутствует
-	// .sitetoolbar + & &__inner
-	//	margin-top 60px
+	// эмулируем колонку под sidebar'ом при малой высоте контента
+	&__inner::after
+		content ""
+		width sidebar_width - 1
+		background #F5F2F0
+		border-right 1px solid #d5d2d0
+		position fixed
+		top 0
+		bottom 0
+		left 0
+		z-index -1
+		transform translateX(-100%)
 
-	.notification_on & &__inner
-		margin-top 60px + top_notification_height
+	&__sidebar,
+	&__inner::after
+		transition transform animation_duration
 
-	.notification_hidden & &__inner
-		margin-top 60px
-
-	.sitetoolbar_hidden & &__inner
-		margin-top 0
-
-	.sitetoolbar + & &__nav
-		top 60px
+	// для отображения/скрытия сайдбара переключаем класс .page_sidebar_on у блока .page
+	&_sidebar_on &__sidebar,
+	&_sidebar_on &__inner::after
+		transform translateX(0)
 
 	&__nav
-		// fixme
-		display none
 		position fixed
 		top 0
 		bottom 0
@@ -112,24 +106,16 @@
 		@extend $font-angle-right
 
 	// состояния при показе уведомления в панели навигации
-	.notification_on & &__sidebar,
-	.notification_on & &__nav
-		top 60px + top_notification_height
-
-	.notification_hidden & &__sidebar,
-	.notification_hidden & &__nav
-		top 60px
-
-	.sitetoolbar_hidden & &__sidebar,
-	.sitetoolbar_hidden & &__nav
-		top 0
+	/.notification_on[data-scroll="in"] .sitetoolbar
+		top -1 * top_notification_height
 
 	@media tablet
 		&,
 		&_sidebar_on
 			padding 0
 
-		& &__sidebar
+		& &__sidebar,
+		& &__inner::after
 			display none
 
 		&__inner
