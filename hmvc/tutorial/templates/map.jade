@@ -2,17 +2,17 @@ extends /layouts/html
 
 block body
 
-  +b.sitemap
+  +b.tutorial-map
     +e.filter
       +e.header
         +e.title Фильтр по заголовку
         +e.option
-          +e('input').option-control#show-tasks(type="checkbox")
+          +e('input').option-control#show-tasks(type="checkbox" data-tutorial-map-show-tasks)
           +e('label').option-label(for="show-tasks") Показать задачи
       +b('span').text-input.__input
-        +e('input').control(type="text", placeholder="Фильтр по заголовку", autofocus)
+        +e('input').control(type="text" placeholder="Фильтр по заголовку" autofocus data-tutorial-map-filter)
 
-    +e.sitemap-map.columns.columns_3
+    +e.tutorial-map-map.columns.columns_3
       each topic in children
         +e.section.columns__col
           +e('h2').col-title !{topic.title}
@@ -31,3 +31,7 @@ block body
                               +e('a').link(href=task.url) #{task.title}
                               =" "
                               +e('span').note #{task.importance}
+
+  script(src=asset("/js/tutorial.js"))
+  script require('tutorial/client').init();
+  script new (require('tutorial/client').TutorialMap)(document.querySelector('.tutorial-map'))

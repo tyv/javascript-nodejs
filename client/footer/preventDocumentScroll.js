@@ -10,6 +10,7 @@
  *     => the event may lead to document scroll
  *       -> ...but only if there are no scrollable element above
  *
+ * P.S. Does not work when scrolling iframes :/
  */
 document.documentElement.addEventListener('wheel', function(event) {
 
@@ -32,14 +33,14 @@ document.documentElement.addEventListener('wheel', function(event) {
       foundScrollable = true;
 
       // got a scrollable element!
-      // console.log(target, event.deltaY, target.scrollTop, target.clientHeight + target.scrollTop,  target.scrollHeight);
+      console.log(target, event.deltaY, target.scrollTop, target.clientHeight + target.scrollTop,  target.scrollHeight);
 
 
       // can scroll in this direction?
       if ((target.scrollTop > 0 && event.deltaY < 0) ||
         (event.deltaY > 0 && target.clientHeight + target.scrollTop < target.scrollHeight)) {
         // yes, can scroll, let it go...
-        // console.log("can scroll");
+        console.log("can scroll");
         return;
       }
     }
@@ -54,3 +55,10 @@ document.documentElement.addEventListener('wheel', function(event) {
   }
 
 });
+
+// prevents parent scrolls from iframes (usually)
+var iframes = document.querySelectorAll('iframe');
+for (var i = 0; i < iframes.length; i++) {
+  var iframe = iframes[i];
+  iframe.addEventListener('wheel', function(e) { e.preventDefault(); });
+}
