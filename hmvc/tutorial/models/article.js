@@ -96,6 +96,12 @@ schema.statics.findTree = function* () {
     byId: function(id) {
       if (!id) return undefined;
       return articlesById[id.toString()];
+    },
+    siblings: function(id) {
+      id = id.toString();
+      var parent = articlesById[id];
+      if (parent) return parent.children;
+      else return root;
     }
   };
 

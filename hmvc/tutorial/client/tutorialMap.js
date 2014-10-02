@@ -9,8 +9,9 @@ function TutorialMap(elem) {
 
   this.showTasksCheckbox.onchange = this.updateShowTasks.bind(this);
 
+  this.filterInput = this.elem.querySelector('[data-tutorial-map-filter]');
 
-  this.elem.querySelector('[data-tutorial-map-filter]').oninput = this.onFilterInput.bind(this);
+  this.filterInput.oninput = this.onFilterInput.bind(this);
 }
 
 TutorialMap.prototype.updateShowTasks = function() {
@@ -27,6 +28,10 @@ TutorialMap.prototype.onFilterInput = function(event) {
   this.throttleFilter(event.target.value);
 };
 
+TutorialMap.prototype.focus = function() {
+  this.filterInput.focus();
+};
+
 TutorialMap.prototype.filter = function(value) {
   value = value.toLowerCase();
   var showingTasks = this.showTasksCheckbox.checked;
@@ -39,9 +44,11 @@ TutorialMap.prototype.filter = function(value) {
     return li.querySelector('a').innerHTML.toLowerCase().indexOf(value) != -1;
   }
 
+  // an item is shown if any of its children is shown OR it's link matches the filter
   for (var i = 0; i < topItems.length; i++) {
     var li = topItems[i];
     var subItems = li.querySelectorAll('.tutorial-map__sub-item');
+
     var childMatch = Array.prototype.reduce.call(subItems, function(prevValue, subItem) {
 
       var childMatch = false;
@@ -65,14 +72,6 @@ TutorialMap.prototype.filter = function(value) {
     li.hidden = !(childMatch || checkLiMatch(li));
 
   }
-
-  /*
-   for(var i = links.length - 1; i >= 0; i--) {
-   // go from tail to head, so that we meet children before parents
-   // a parent is shown IF it matches the filter or IF it has the children that match
-   var link = links[i];
-   var li = links[i].parentNode;
-   }*/
 
 };
 
