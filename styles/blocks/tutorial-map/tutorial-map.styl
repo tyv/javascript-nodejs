@@ -1,4 +1,4 @@
-.sitemap
+.tutorial-map
 	margin 50px 80px
 
 	&__filter
@@ -85,6 +85,7 @@
 		margin 0 0 0 -15px
 
 	& &__sub-sub-items
+		display none
 		padding 0 0 0 15px
 		margin 0
 
@@ -104,7 +105,7 @@
 	@media tablet
 		&__section:not(:first-child)
 			margin-top 30px
-			
+
 		& &__section.columns__col // усиливаем селектор классом columns__col из-за псевдокласса в блоке columns
 			display block
 			width auto
@@ -117,7 +118,7 @@
 			margin-top 15px
 
 	@media (max-width: 1050px)
-		// с точки зрения организации кода размещать эти стили в файле sitemap.styl
+		// с точки зрения организации кода размещать эти стили в файле tutorial-map.styl
 		// неправильно, но по сути дублировать их в файле page.styl чревато
 		// вероятной рассинхронизацией при поддержке
 		.page_sidebar_on &__section.columns__col
@@ -130,3 +131,9 @@
 		.page_sidebar_on &__items,
 		.page_sidebar_on &__item
 			margin-top 15px
+
+
+.tutorial-map_show-tasks
+	.tutorial-map__sub-sub-items
+		display block
+
