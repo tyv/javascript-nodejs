@@ -150,7 +150,9 @@ function* renderArticle(slug) {
   }
 
   function* renderSiblings() {
-    //console.log(articleInTree, tree.byId(articleInTree.parent));
+    console.log("_id", articleInTree._id, "byId", tree.byId(articleInTree.parent));
+    var siblings = tree.siblings(articleInTree._id);
+    console.log(siblings);
     rendered.siblings = tree.siblings(articleInTree._id).map(function(child) {
       return {
         title: child.title,
