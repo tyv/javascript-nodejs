@@ -13,20 +13,44 @@
 	&:hover
 		text-decoration none
 
+
+	&_tw
+		color #50ABF1
+
+	&_tw:hover
+		color hoverize(#50ABF1)
+
 	&_tw::after
 		@extend $font-twitter
-		color #50ABF1
+
+
+	&_fb
+		color #39579A
+
+	&_fb:hover
+		color hoverize(#39579A)
 
 	&_fb::after
 		@extend $font-facebook
 		min-width 12px
-		color #39579A
+
+
+	&_gp
+		color #DF4A32
+
+	&_gp:hover
+		color hoverize(#DF4A32)
 
 	&_gp::after
 		@extend $font-google
-		color #DF4A32
-	
+
+
+	&_vk
+		color #53759B
+
+	&_vk:hover
+		color hoverize(#53759B)
+
 	&_vk::after
 		@extend $font-vkontakte
 		min-width 27px
-		color #53759B
