@@ -1,3 +1,5 @@
+// DEPRECATED: see https://github.com/iliakan/javascript-nodejs/issues/62
+
 /**
  *
  * Don't scroll page when scrolling an element inside it and reached the bottom.
@@ -21,12 +23,12 @@ document.documentElement.addEventListener('wheel', function(event) {
   while (target != document.documentElement) {
 
     if (target.scrollHeight != target.clientHeight) {
-      if (getComputedStyle(target).overflowY == 'visible') {
+      if (getComputedStyle(target).overflowY != 'auto' ) {
         // strange glitch with .code-tabs__content:
         // scrollTop = 0 when the scrollbar is at bottom
         // it has overflow: visible
         //   usually scrollable elements have overflow: auto
-        //   so we ignore 'visible' here
+        //   so we ignore 'visible/hidden' here
         target = target.parentNode;
         continue;
       }
@@ -60,5 +62,10 @@ document.documentElement.addEventListener('wheel', function(event) {
 var iframes = document.querySelectorAll('iframe');
 for (var i = 0; i < iframes.length; i++) {
   var iframe = iframes[i];
-  iframe.addEventListener('wheel', function(e) { e.preventDefault(); });
+  iframe.addEventListener('wheel', function(e) {
+    var html = this.contentWindow.document.documentElement;
+    if (html.scrollHeight != html.clientHeight) {
+      e.preventDefault();
+    }
+  });
 }

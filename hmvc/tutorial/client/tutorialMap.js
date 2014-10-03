@@ -41,7 +41,7 @@ TutorialMap.prototype.filter = function(value) {
   var topItems = this.elem.querySelectorAll('.tutorial-map__item');
 
   function checkLiMatch(li) {
-    return li.querySelector('a').innerHTML.toLowerCase().indexOf(value) != -1;
+    return isSubSequence(li.querySelector('a').innerHTML.toLowerCase(), value.replace(/\s/g, ''));
   }
 
   // an item is shown if any of its children is shown OR it's link matches the filter
@@ -76,5 +76,20 @@ TutorialMap.prototype.filter = function(value) {
 };
 
 TutorialMap.prototype.throttleFilter = throttle(TutorialMap.prototype.filter, 200);
+
+
+function isSubSequence(str1, str2) {
+  var i = 0;
+  var j = 0;
+  while (i < str1.length && j < str2.length) {
+    if (str1[i] == str2[j]) {
+      i++;
+      j++;
+    } else {
+      i++;
+    }
+  }
+  return j == str2.length;
+}
 
 module.exports = TutorialMap;
