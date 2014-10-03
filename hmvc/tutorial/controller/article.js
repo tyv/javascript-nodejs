@@ -22,20 +22,16 @@ exports.get = function *get(next) {
   var locals = renderedArticle;
   locals.sitetoolbar = true;
 
-  var section;
+  var sections = [];
   if (renderedArticle.isFolder) {
 
-    section = {
+    sections.push({
       title: 'Смежные разделы',
       links: renderedArticle.siblings
-    };
+    });
 
   } else {
-    section = {
-      title: 'Навигация по уроку'
-    };
-
-    section.links = renderedArticle.headers
+    var headerLinks = renderedArticle.headers
       .filter(function(header) {
         // [level, titleHtml, anchor]
         return header.level == 2;
@@ -45,6 +41,14 @@ exports.get = function *get(next) {
           url:   '#' + header.anchor
         };
       });
+
+    if (headerLinks.length) {
+      sections.push({
+        title: 'Навигация по уроку',
+        links: headerLinks
+      });
+    }
+
 
   }
 
@@ -62,8 +66,9 @@ exports.get = function *get(next) {
     url: '#comments'
   });
 
+  sections.push(section2);
   locals.sidebar = {
-    sections: [section, section2]
+    sections: sections
   };
 
 
@@ -72,7 +77,7 @@ exports.get = function *get(next) {
 //  _.assign(this.locals, locals);
 
   // requireJade("./article")
-  this.body = this.render("article", locals);
+  this.body = this.render(renderedArticle.isFolder ? "folder" : "article", locals);
 
 };
 
@@ -101,6 +106,7 @@ function* renderArticle(slug) {
   rendered.head = renderer.getHead();
   rendered.foot = renderer.getFoot();
 
+  rendered.isFolder = article.isFolder;
   rendered.modified = article.modified;
   rendered.title = article.title;
   rendered.isFolder = article.isFolder;
@@ -111,6 +117,7 @@ function* renderArticle(slug) {
   yield* renderPrevNext();
   yield* renderBreadCrumb();
   yield* renderSiblings();
+  yield* renderChildren();
   yield* renderTasks();
 
   function* renderPrevNext() {
@@ -150,10 +157,18 @@ function* renderArticle(slug) {
   }
 
   function* renderSiblings() {
-    console.log("_id", articleInTree._id, "byId", tree.byId(articleInTree.parent));
     var siblings = tree.siblings(articleInTree._id);
-    console.log(siblings);
-    rendered.siblings = tree.siblings(articleInTree._id).map(function(child) {
+    rendered.siblings = tree.siblings(articleInTree._id).map(function(sibling) {
+      return {
+        title: sibling.title,
+        url:   Article.getUrlBySlug(sibling.slug)
+      };
+    });
+  }
+
+  function* renderChildren() {
+    if (!articleInTree.isFolder) return;
+    rendered.children = articleInTree.children.map(function(child) {
       return {
         title: child.title,
         url:   Article.getUrlBySlug(child.slug)

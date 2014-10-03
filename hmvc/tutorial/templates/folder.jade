@@ -1,0 +1,16 @@
+extends /layouts/main
+
+block sidebar
+  include sidebar
+
+block content
+  != body
+
+  +b.lessons-list
+    +e('ol').lessons
+      each article in children
+        +e('li').lesson
+          +e('a').link(href=article.url) #{article.title}
+
+  script(src=asset("/js/tutorial.js"))
+  script require('tutorial/client').init();
