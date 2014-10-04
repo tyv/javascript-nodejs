@@ -31,7 +31,7 @@ var UserSchema = new mongoose.Schema({
     ]
   },
   email:                     {
-    type: String,
+    type:     String,
     // если посетитель удалён, то у него нет email!
     validate: [
       {
@@ -45,28 +45,16 @@ var UserSchema = new mongoose.Schema({
           return this.deleted ? true : /^[-.\w]+@([\w-]+\.)+[\w-]{2,12}$/.test(value);
         },
         msg:       'Укажите, пожалуйста, корретный email.'
-      },
-      {
-        validator: function checkUnique(value, respond) {
-          if (this.deleted) {
-            respond(true);
-            return;
-          }
-          this.constructor.findOne({
-            email: value,
-            _id:   { $ne: this._id }
-          }, function(err, existingUser) {
-            respond(!existingUser);
-          });
-        },
-        msg:       "Такой e-mail уже используется другим пользователем."
       }
     ],
 
-
     // sparse (don't index users without email)
-    // dangerous: in queries that use email this index will make mongodb to ignore users w/o email
-    index:  { unique: true, sparse: true }
+    // dangerous: if mongodb uses this in queries (that search emails only), users w/o email will be ignored
+    index:    {
+      unique:       true,
+      sparse:       true,
+      errorMessage: "Такой e-mail уже используется другим пользователем."
+    }
   },
   passwordHash:              {
     type: String // user may have no password if used facebook to login/register

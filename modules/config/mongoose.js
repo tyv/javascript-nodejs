@@ -12,6 +12,8 @@ var path = require('path');
 var fs = require('fs');
 var log = require('log')();
 var autoIncrement = require('mongoose-auto-increment');
+var ValidationError = require('mongoose/lib/error').ValidationError;
+var ValidatorError = require('mongoose/lib/error').ValidatorError;
 
 //mongoose.set('debug', true);
 
@@ -35,7 +37,48 @@ mongoose.plugin(function(schema) {
 
     return function(callback) {
       if (body) model.set(body);
-      model.save(callback);
+      model.save(function(err, changed) {
+
+        if (err && err.code == 11000) {
+
+          var indexName = err.message.match(/\$(\w+)/)[1];
+
+          model.collection.getIndexes(function(err2, indexes) {
+            if (err2) return callback(err);
+
+            // e.g. [ [displayName, 1], [email, 1] ]
+            var indexInfo = indexes[indexName];
+
+            // e.g. { displayName: 1, email: 1 }
+            var indexFields = {};
+            indexInfo.forEach(function toObject(item) {
+              indexFields[item[0]] = item[1];
+            });
+
+            var schemaIndexes = schema.indexes();
+
+            var schemaIndex = schemaIndexes.find(function(idx) {
+              return _.isEqual(idx[0], indexFields);
+            });
+
+            // schema index object, e.g
+            // { unique: 1, sparse: 1 ... }
+            var schemaIndexInfo = schemaIndex[1];
+
+            var errorMessage = schemaIndexInfo.errorMessage || ("Index error: " + indexName);
+
+            var valError = new ValidationError(err);
+            var field = indexInfo[0][0]; // if many fields in uniq index - we take the 1st one for error
+            valError.errors[field] = new ValidatorError(field, errorMessage, err.err);
+
+            return callback(valError);
+          });
+
+        } else {
+          callback(err, changed);
+        }
+
+      });
     };
   };
   schema.methods.destroy = function() {

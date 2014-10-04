@@ -11,13 +11,16 @@ module.exports = function() {
     tooltipSpan.style.top = Math.min(event.clientY + shiftY, window.innerHeight - tooltipSpan.offsetHeight) + 'px';
   }
 
+  // TODO: show tooltip for next/prev buttons with next/prev title
   document.addEventListener('mouseover', function(event) {
     var link = findClosest(event.target, 'a');
     if (!link) return;
 
+    //if (!link.hasAttribute(''))
+
     tooltipSpan = document.createElement('span');
     tooltipSpan.className = 'link__type';
-    tooltipSpan.setAttribute('data-url', link.getAttribute('href'));
+    tooltipSpan.setAttribute('data-url', link.getAttribute('href') || "My Title Name");
 
     document.body.appendChild(tooltipSpan);
     updatePosition(event);

@@ -52,21 +52,26 @@ exports.get = function *get(next) {
 
   }
 
-  var section2 = { links: [] };
+  if (!renderedArticle.isFolder) {
 
-  if (renderedArticle.tasks.length) {
+    var section2 = { links: [] };
+
+    if (renderedArticle.tasks.length) {
+      section2.links.push({
+        title: 'Задачи (' + renderedArticle.tasks.length + ')',
+        url: '#tasks'
+      });
+    }
+
     section2.links.push({
-      title: 'Задачи (' + renderedArticle.tasks.length + ')',
-      url: '#tasks'
+      title: 'Комментарии',
+      url:   '#comments'
     });
+
+    sections.push(section2);
+
   }
 
-  section2.links.push({
-    title: 'Комментарии',
-    url: '#comments'
-  });
-
-  sections.push(section2);
   locals.sidebar = {
     sections: sections
   };
