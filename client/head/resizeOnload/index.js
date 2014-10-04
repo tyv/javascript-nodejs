@@ -2,9 +2,11 @@ var iframeResize = require('./iframeResize');
 var findClosest = require('client/dom/findClosest');
 var throttle = require('lib/throttle');
 // track resized iframes in window.onresize
-var onResize = [];
+
+var onResizeQueue = [];
 
 exports.iframe = function(iframe) {
+
   function resize() {
     iframeResize.async(iframe, function(err, height) {
       if (err) console.error(err);
@@ -13,11 +15,10 @@ exports.iframe = function(iframe) {
   }
 
   resize();
-  onResize.push(resize);
 };
 
-exports.codeTabs = function(iframe, initialHeight) {
-  function resize() {
+exports.codeTabs = function(iframe) {
+  function hideShowArrows() {
 
     // add arrows if needed
     var elem = findClosest(iframe, '.code-tabs');
@@ -31,26 +32,16 @@ exports.codeTabs = function(iframe, initialHeight) {
       elem.classList.remove('code-tabs_scroll');
     }
 
-    // resize iframe only if no initial height is set
-    // so it's better not to set initial height to iframes, otherwise they won't autoresize on window resize
-    if (!initialHeight) {
-      iframeResize.async(iframe, function(err, height) {
-        if (err) console.error(err);
-        // 30 px is the margin around the iframe
-        if (height) contentElem.style.height = +height + 33 + 'px';
-      });
-    }
-
   }
 
-  resize();
-  onResize.push(resize);
+  hideShowArrows();
+  onResizeQueue.push(hideShowArrows);
 };
 
 
 
 window.addEventListener('resize', throttle(function() {
-  onResize.forEach(function(resize) {
-    resize();
+  onResizeQueue.forEach(function(onResize) {
+    onResize();
   });
 }, 200));

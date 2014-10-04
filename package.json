@@ -12,6 +12,7 @@
       "underscore": "lodash"
     }
   },
+  "//": "while in development, all modules are recent",
   "dependencies": {
     "MD5": "*",
     "assert-plus": "*",

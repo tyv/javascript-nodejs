@@ -1,8 +1,8 @@
+Error.stackTraceLimit = 1000;
+
 if (!process.env.NODE_ENV) {
   process.env.NODE_ENV = 'development';
 }
-
-Error.stackTraceLimit = 1000;
 
 if (process.env.NODE_ENV == 'development' && process.env.DEV_TRACE) {
   // @see https://github.com/AndreasMadsen/trace
@@ -18,13 +18,12 @@ if (process.env.NODE_ENV == 'development' && process.env.DEV_TRACE) {
     var time = Date.now();
     var memo = process.memoryUsage();
     out.write(
-      time + ',' +
-      memo.rss + ', ' +
-      memo.heapTotal + ', ' +
-      memo.heapUsed + '\n'
+        time + ',' +
+        memo.rss + ', ' +
+        memo.heapTotal + ', ' +
+        memo.heapUsed + '\n'
     );
   }, 200);
-  //require('clarify'); // Exclude node internal calls from the stack
 }
 
 require('lib/debug');
@@ -52,8 +51,8 @@ if (fs.existsSync(path.join(secretDir, 'secret.js'))) {
 
 _.assign(module.exports, {
 //  "siteHost":   "http://127.0.0.1:3000",
-  "mongoose":  {
-    "uri":     "mongodb://localhost/" + (process.env.NODE_ENV == 'test' ? "js_test" : "js"),
+  "mongoose":    {
+    "uri": "mongodb://localhost/" + (process.env.NODE_ENV == 'test' ? "js_test" : "js"),
     "options": {
       "server": {
         "socketOptions": {
@@ -63,32 +62,32 @@ _.assign(module.exports, {
       }
     }
   },
-  session:     {
+  session:       {
     keys: [secret.sessionKey]
   },
-  payments: secret.payments,
+  payments:      secret.payments,
   authProviders: secret.authProviders,
-  mailer: {
+  mailer:        {
     senders: {
       default: {
         email:     'JavaScript.ru <inform@javascript.ru>',
         signature: "<p>Yours, robot</p>"
       }
     },
-    ses: secret.ses
+    ses:     secret.ses
   },
-  template:    {
+  template:      {
     options: {
       cache: process.env.NODE_ENV != 'development'
     }
   },
-  crypto:      {
+  crypto:        {
     hash: {
       length:     128,
       // may be slow(!): iterations = 12000 take ~60ms to generate strong password
       iterations: process.env.NODE_ENV == 'prod' ? 12000 : 1
     }
   },
-  projectRoot: process.cwd(),
-  publicRoot:  path.join(process.cwd(), 'public')
+  projectRoot:   process.cwd(),
+  publicRoot:    path.join(process.cwd(), 'public')
 });

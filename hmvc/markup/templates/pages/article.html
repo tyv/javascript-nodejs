@@ -28,7 +28,7 @@
 <p>Примеры кода и результата, которые должны создаваться динамически:</p>
 
 <!-- Пример приведен для просмотра на странице -->
-<pre style="max-width: 100%; overflow: auto; background: #efefef; padding: 10px;">&lt;div class="code-example"&gt;
+<pre style="max-width: 100%; overflow: auto; background: #efefef; padding: 10px; margin: 22px 0;">&lt;div class="code-example"&gt;
     &lt;div class="codebox code-example__codebox"&gt;
         &lt;div class="toolbar codebox__toolbar"&gt;
             &lt;div class="toolbar__tool"&gt;
@@ -46,23 +46,15 @@
 sayHi('Вася');&lt;/pre&gt;
     &lt;/div&gt;
 
-    &lt;div class="result code-example__result"&gt;
-        &lt;div class="toolbar result__toolbar"&gt;
+    &lt;div class="code-result code-example__result"&gt;
+        &lt;div class="toolbar code-result__toolbar"&gt;
             &lt;div class="toolbar__tool"&gt;
                 &lt;a href="/files/file.doc" class="toolbar__button toolbar__button_edit" title="редактировать"&gt;&lt;/a&gt;
             &lt;/div&gt;
         &lt;/div&gt;
-        &lt;iframe class="result__iframe" src="http://sass-lang.com/documentation/Sass/Script/Functions"&gt;&lt;/iframe&gt;
+        &lt;iframe class="code-result__iframe" src="http://sass-lang.com/documentation/Sass/Script/Functions"&gt;&lt;/iframe&gt;
     &lt;/div&gt;
 &lt;/div&gt;</pre>
-
-
-<pre class="language-javascript line-numbers" data-trusted="1" data-run="1">function sayHi(name) {
-  var phrase = "Привет, " + name;
-  alert(phrase);
-}
-
-sayHi('Вася');</pre>
 
 <p>Пример кода</p>
 
@@ -79,16 +71,14 @@ HelloWorld('World');
 
 sayHi('Вася');</pre>
 
-<p>Пример результата без кода, такой код должен создаваться динамически в js</p>
-<pre style="max-width: 100%; overflow: auto; background: #efefef; padding: 10px;">&lt;div class="code-example"&gt;
-    &lt;div class="result code-example__result"&gt;
-        &lt;div class="toolbar result__toolbar"&gt;
-            &lt;div class="toolbar__tool"&gt;
-                &lt;a href="/files/file.doc" class="toolbar__button toolbar__button_edit" title="редактировать"&gt;&lt;/a&gt;
-            &lt;/div&gt;
+<p>Пример самостоятельного результата, без кода, такой код должен создаваться динамически в js</p>
+<pre style="max-width: 100%; overflow: auto; background: #efefef; padding: 10px; margin: 22px 0;">&lt;div class="code-result"&gt;
+    &lt;div class="toolbar code-result__toolbar"&gt;
+        &lt;div class="toolbar__tool"&gt;
+            &lt;a href="/files/file.doc" class="toolbar__button toolbar__button_edit" title="редактировать"&gt;&lt;/a&gt;
         &lt;/div&gt;
-        &lt;iframe class="result__iframe" src="http://sass-lang.com/documentation/Sass/Script/Functions"&gt;&lt;/iframe&gt;
     &lt;/div&gt;
+    &lt;iframe class="code-result__iframe" src="http://sass-lang.com/documentation/Sass/Script/Functions"&gt;&lt;/iframe&gt;
 &lt;/div&gt;</pre>
 
 <p>В этом плане JavaScript сильно отличается от другого языка, который называется Java.</p>

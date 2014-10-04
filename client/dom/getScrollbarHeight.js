@@ -1,7 +1,9 @@
-
 function getScrollbarHeight() {
   var outer = document.createElement("div");
-  outer.style.cssText="visibility:hidden;height:100px";
+  outer.style.cssText = "visibility:hidden;height:100px";
+  if (!document.body) {
+    throw new Error("getScrollbarHeight called to early: no document.body");
+  }
   document.body.appendChild(outer);
 
   var widthNoScroll = outer.offsetWidth;
@@ -21,4 +23,4 @@ function getScrollbarHeight() {
   return widthNoScroll - widthWithScroll;
 }
 
-module.exports = getScrollbarHeight;
+module.exports = getScrollbarHeight();

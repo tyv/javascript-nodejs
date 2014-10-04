@@ -11,6 +11,8 @@ const _ = require('lodash');
 const assert = require('assert');
 const JadeParserMultipleDirs = require('lib/jadeParserMultipleDirs');
 
+require('lib/requireJade');
+
 // public.versions.json is regenerated and THEN node is restarted on redeploy
 // so it loads a new version.
 var publicVersions;
@@ -118,7 +120,7 @@ module.exports = function render(app) {
       var templatePathResolved;
       for (var i = 0; i < this.templatePaths.length; i++) {
         templatePathResolved = path.join(this.templatePaths[i], templatePath);
-        if (path.extname(templatePathResolved) === '') templatePathResolved  += '.jade';
+        if (path.extname(templatePathResolved) === '') templatePathResolved += '.jade';
         if (fs.existsSync(templatePathResolved)) break;
       }
 

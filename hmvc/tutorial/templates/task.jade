@@ -1,5 +1,5 @@
 
-extends /layouts/page
+extends /layouts/body
 
 block main
   +b.task-single
@@ -7,7 +7,13 @@ block main
       u вернуться к уроку
 
     +b.task.__task
-      include _task
+      +e.header
+        +e.title-wrap
+          +e('h2').title !{task.title}
+        +e.header-note
+          +e('span').importance(title="Насколько эта задача важна для освоения материала, от 1 до 5") важность: #{task.importance}
+          +e('button').solution(type="button") решение
+      include _task_content
 
   script(src=asset("/js/tutorial.js"))
   script require('tutorial/client').init();

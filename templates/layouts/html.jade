@@ -1,0 +1,13 @@
+// header + footer + empty body
+doctype html
+include ../bem
+html
+  head
+    include ../blocks/head
+  body.no-icons
+    script require('client/head').fontTest();
+
+    block body
+
+    script(src=asset("/js/footer.js"))
+    script require('client/footer').init();

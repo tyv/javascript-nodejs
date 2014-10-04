@@ -3,6 +3,10 @@
  * running 1 task does not require all tasks' files
  */
 
+// new Set([1,2]).size = 0 in node 0.11.14, Set is buggy all around
+// this header prevents `array-uniq` (-> array-union -> multimatch -> gulp-load-plugins) from it's use
+delete Set.prototype.forEach;
+
 const gulp = require('gulp');
 const path = require('path');
 const fs = require('fs');
@@ -39,7 +43,8 @@ gulp.task('lint-or-die', lazyRequireTask('./tasks/lint', { src: jsSources, dieOn
 gulp.task('loaddb', lazyRequireTask('./tasks/loadDb'));
 
 gulp.task("nodemon", lazyRequireTask('./tasks/nodemon', {
-  ext:    "js",
+  ext:    "js,jade",
+ // restartable: false, // don't hook on STDIN to wait rs
   nodeArgs: ['--debug', '--harmony'],
   script: "./bin/server",
   ignore: '**/client/', // ignore hmvc apps client code

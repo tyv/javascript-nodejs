@@ -22,20 +22,16 @@ exports.get = function *get(next) {
   var locals = renderedArticle;
   locals.sitetoolbar = true;
 
-  var section;
+  var sections = [];
   if (renderedArticle.isFolder) {
 
-    section = {
+    sections.push({
       title: 'Смежные разделы',
       links: renderedArticle.siblings
-    };
+    });
 
   } else {
-    section = {
-      title: 'Навигация по уроку'
-    };
-
-    section.links = renderedArticle.headers
+    var headerLinks = renderedArticle.headers
       .filter(function(header) {
         // [level, titleHtml, anchor]
         return header.level == 2;
@@ -46,24 +42,38 @@ exports.get = function *get(next) {
         };
       });
 
+    if (headerLinks.length) {
+      sections.push({
+        title: 'Навигация по уроку',
+        links: headerLinks
+      });
+    }
+
+
   }
 
-  var section2 = { links: [] };
+  if (!renderedArticle.isFolder) {
 
-  if (renderedArticle.tasks.length) {
+    var section2 = { links: [] };
+
+    if (renderedArticle.tasks.length) {
+      section2.links.push({
+        title: 'Задачи (' + renderedArticle.tasks.length + ')',
+        url: '#tasks'
+      });
+    }
+
     section2.links.push({
-      title: 'Задачи (' + renderedArticle.tasks.length + ')',
-      url: '#tasks'
+      title: 'Комментарии',
+      url:   '#comments'
     });
-  }
 
-  section2.links.push({
-    title: 'Комментарии',
-    url: '#comments'
-  });
+    sections.push(section2);
+
+  }
 
   locals.sidebar = {
-    sections: [section, section2]
+    sections: sections
   };
 
 
@@ -71,7 +81,8 @@ exports.get = function *get(next) {
   // we don't need it, but didn't test
 //  _.assign(this.locals, locals);
 
-  this.body = this.render("article", locals);
+  // requireJade("./article")
+  this.body = this.render(renderedArticle.isFolder ? "folder" : "article", locals);
 
 };
 
@@ -100,6 +111,7 @@ function* renderArticle(slug) {
   rendered.head = renderer.getHead();
   rendered.foot = renderer.getFoot();
 
+  rendered.isFolder = article.isFolder;
   rendered.modified = article.modified;
   rendered.title = article.title;
   rendered.isFolder = article.isFolder;
@@ -110,6 +122,7 @@ function* renderArticle(slug) {
   yield* renderPrevNext();
   yield* renderBreadCrumb();
   yield* renderSiblings();
+  yield* renderChildren();
   yield* renderTasks();
 
   function* renderPrevNext() {
@@ -149,7 +162,18 @@ function* renderArticle(slug) {
   }
 
   function* renderSiblings() {
-    rendered.siblings = tree.byId(articleInTree.parent).children.map(function(child) {
+    var siblings = tree.siblings(articleInTree._id);
+    rendered.siblings = tree.siblings(articleInTree._id).map(function(sibling) {
+      return {
+        title: sibling.title,
+        url:   Article.getUrlBySlug(sibling.slug)
+      };
+    });
+  }
+
+  function* renderChildren() {
+    if (!articleInTree.isFolder) return;
+    rendered.children = articleInTree.children.map(function(child) {
       return {
         title: child.title,
         url:   Article.getUrlBySlug(child.slug)

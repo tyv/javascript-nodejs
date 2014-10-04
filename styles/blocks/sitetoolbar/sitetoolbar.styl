@@ -2,14 +2,71 @@ sitetoolbar_color = #8B8987
 sitetoolbar_secondary_bg = #F5F2F0
 sitetoolbar_secondary_link = #498CBE
 
+// data-scroll means a floating state:
+//  either "in" (showing fixed nav with sitetoolbar)
+//  or "out" (showing fixed nav no sitetoolbar)
+// no data-scroll: everything's static/absolute
+[data-scroll]
+	.page__sidebar
+		position fixed
+
+	.sidebar__inner
+		position absolute
+		top 0
+		right 0
+		bottom 0
+		left 0
+
+	.sitetoolbar
+		position fixed
+		top 0
+
+	.page__inner
+		padding-top 60px
+
+.notification_on[data-scroll]
+	.page__inner
+		padding-top 60px + top_notification_height
+
+[data-scroll="in"]
+	.page__sidebar
+		top 60px
+
+[data-scroll="out"]
+	.page__sidebar
+		top 0
+
+	.sitetoolbar
+		transform translateY(-100%)
+
+	.page__inner
+		top 0
+
+
+
+// only animate between floating states
+// in -> out
+// out -> in
+// don't animate static -> out (ugly unneccesary translation)
+// don't animate in -> static (no need too)
+[data-scroll="in"][data-scroll-prev="out"],
+[data-scroll="out"][data-scroll-prev="in"],
+// plus: out -> out, in -> in are also animated for the sake of not stopping an ongoing animation
+[data-scroll="out"][data-scroll-prev="out"],
+[data-scroll="in"][data-scroll-prev="in"]
+	.sitetoolbar
+		transition transform animation_duration
+
+	.page__sidebar
+		transition-property top
+
+
 .sitetoolbar
 	box-shadow 0 2px 3px -2px rgba(0, 0, 0, .3)
-	position fixed
 	width 100%
 	z-index 1
+	position relative
 	background #fff
-	top 0
-	transition transform animation_duration
 
 	&__content
 		display table
@@ -230,6 +287,13 @@ sitetoolbar_secondary_link = #498CBE
 		padding-top 1px
 		padding-bottom 4px
 		margin 0
+
+	// различные состояния
+	/.notification_hidden .sitetoolbar
+		transform translateY(top_notification_height * -1)
+
+	/.sitetoolbar_hidden .sitetoolbar
+		transform translateY(-100%)
 
 	@media (max-width: 970px)
 		&__user::before

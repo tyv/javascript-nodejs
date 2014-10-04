@@ -11,6 +11,7 @@ module.exports = function(app) {
     var hmvcModule = require(hmvcModulePath);
     hmvcModulePath = require.resolve(hmvcModulePath);
     app.hmvc[hmvcModulePath] = hmvcModule;
+    //app.use( mount('/auth', require('auth').middleware) )
     app.use(mount(prefix, wrapHmvcMiddleware(hmvcModulePath, hmvcModule.middleware)));
   };
 

@@ -5,24 +5,5 @@ body
 	background background
 	margin 0
 
-//- просто так удобнее, пусть будет
-.notification_hidden .sitetoolbar
-	transform translateY(top_notification_height * -1)
-
-.scrolled-out .sitetoolbar
-	transform translateY(-100%)
-
-.notification_on .page__sidebar,
-.notification_on .page__nav,
-.notification_on .page__sitemap
-	top 60px + top_notification_height
-
-.notification_hidden .page__sidebar,
-.notification_hidden .page__nav,
-.notification_hidden .page__sitemap
-	top 60px
-
-.scrolled-out .page__sidebar,
-.scrolled-out .page__nav,
-.scrolled-out .page__sitemap
-	top 0
+.tutorial-map_on
+	overflow hidden

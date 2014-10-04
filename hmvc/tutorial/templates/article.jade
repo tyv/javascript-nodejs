@@ -14,7 +14,16 @@ block content
 
       each task, i in tasks
         +b.task.__task
-          include _task
+          +e.header
+            +e.title-wrap
+              +e('h3').title !{task.title}
+                +e('a').open-link(href=task.url, target="_blank")
+
+            +e.header-note
+              +e('span').importance(title="Насколько эта задача важна для освоения материала, от 1 до 5") важность: #{task.importance}
+              +e('button').solution(type="button") решение
+
+            include _task_content
 
   script(src=asset("/js/tutorial.js"))
   script require('tutorial/client').init();

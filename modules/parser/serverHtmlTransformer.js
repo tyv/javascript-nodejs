@@ -1,12 +1,12 @@
-var HtmlTransformer = require('javascript-parser').HtmlTransformer;
-var ParseError = require('javascript-parser').ParseError;
+var HtmlTransformer = require('simpledownParser').HtmlTransformer;
+var ParseError = require('simpledownParser').ParseError;
 var inherits = require('inherits');
 const Reference = require('tutorial/models/reference');
 const Article = require('tutorial/models/article');
 const Task = require('tutorial/models/task');
-const ErrorTag = require('javascript-parser').ErrorTag;
-const TextNode = require('javascript-parser').TextNode;
-const CompositeTag = require('javascript-parser').CompositeTag;
+const ErrorTag = require('simpledownParser').ErrorTag;
+const TextNode = require('simpledownParser').TextNode;
+const CompositeTag = require('simpledownParser').CompositeTag;
 const url = require('url');
 const path = require('path');
 const config = require('config');
@@ -16,6 +16,8 @@ var bem = require('bem-jade');
 var gm = require('gm');
 var thunkify = require('thunkify');
 var imageSize = thunkify(require('image-size'));
+
+var codeTabsTemplate = require('./templates/codeTabs.jade');
 
 function ServerHtmlTransformer(options) {
   HtmlTransformer.apply(this, arguments);
@@ -118,7 +120,9 @@ ServerHtmlTransformer.prototype.transformReferenceNode = function*(node) {
     }
   }
 
-  return this.transformCompositeTag(newNode);
+  node.parent.replaceChild(newNode, node);
+
+  return yield* this.transformCompositeTag(newNode);
 };
 
 ServerHtmlTransformer.prototype.transformImgTag = function*(node) {
@@ -263,8 +267,7 @@ ServerHtmlTransformer.prototype.transformCodeTabsTag = function* (node) {
 
   var height = parseInt(node.attrs.height) || '';
 
-  var rendered = jade.renderFile(require.resolve('./templates/codeTabs.jade'), {
-    bem:    bem(),
+  var rendered = codeTabsTemplate({
     tabs:   tabs,
     height: height && (node.isTrusted() ? height : Math.max(height, 800)),
     src:    src + '/'
@@ -317,8 +320,8 @@ ServerHtmlTransformer.prototype._srcUnderRoot = function(root, src) {
 
 ServerHtmlTransformer.prototype.transformSourceTag = function* (node) {
 
-  if (node.src) {
-    var sourcePath = this._srcUnderRoot(config.publicRoot, path.join(this.resourceWebRoot, node.src));
+  if (node.attrs.src) {
+    var sourcePath = this._srcUnderRoot(config.publicRoot, path.join(this.resourceWebRoot, node.attrs.src));
 
     var content;
 
@@ -330,7 +333,7 @@ ServerHtmlTransformer.prototype.transformSourceTag = function* (node) {
       );
     }
 
-    node.setTextFromSrc(content);
+    node.text = content;
   }
 
   return HtmlTransformer.prototype.transformSourceTag.call(this, node);

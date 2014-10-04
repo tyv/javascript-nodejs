@@ -1,18 +1,9 @@
 .sidebar
 	width sidebar_width - 1
 	background #F5F2F0
-	position fixed
-	top 60px
-	bottom 0
-	left 0
 	border-right 1px solid #d5d2d0
 
 	&__inner
-		position absolute
-		top 0
-		right 0
-		bottom 0
-		left 0
 		overflow auto
 
 	&__content
@@ -28,6 +19,9 @@
 		height 45px
 		border-radius 50%
 		cursor pointer
+
+	& &__toggle:active
+		position absolute
 
 	&__toggle:focus
 		outline 0

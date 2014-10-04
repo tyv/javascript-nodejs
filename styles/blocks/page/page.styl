@@ -1,3 +1,4 @@
+
 .page
 	position: relative
 	z-index: 0
@@ -8,12 +9,13 @@
 		padding-left sidebar_width
 
 	&__sidebar
-		transform translateX(-100%)
-		transition transform animation_duration, top animation_duration
+		top 0
 
-	// для отображения/скрытия сайдбара переключаем класс .page_sidebar_on у блока .page
-	&_sidebar_on &__sidebar
-		transform translateX(0)
+	&__sidebar
+		position absolute
+		bottom 0
+		left 0
+		transform translateX(-100%)
 
 	// используется при переключении видимости панели навигации
 	&__inner
@@ -21,37 +23,31 @@
 		padding 0 120px
 		transition margin-top animation_duration
 
-	// добавляем отступ только если навигация присутствует
-	.sitetoolbar + & &__inner
-		margin-top 60px
-
-	.notification_on & &__inner
-		margin-top 60px + top_notification_height
-
-	.notification_hidden & &__inner
-		margin-top 60px
-
-	.scrolled-out & &__inner
-		margin-top 0
-
-	&__sitemap
+	// эмулируем колонку под sidebar'ом при малой высоте контента
+	&__inner::after
+		content ""
+		width sidebar_width - 1
+		background #F5F2F0
+		border-right 1px solid #d5d2d0
 		position fixed
-		background rgba(255, 255, 255, .95)
-		top 60px
-		right 115px
+		top 0
 		bottom 0
-		left 115px
-		z-index 999
-		transition top animation_duration, right animation_duration, left animation_duration
-		padding 0 5px
-		overflow auto
+		left 0
+		z-index -1
+		transform translateX(-100%)
 
-	&_sidebar_on &__sitemap
-		left 365px
+	&__sidebar,
+	&__inner::after
+		transition transform animation_duration
+
+	// для отображения/скрытия сайдбара переключаем класс .page_sidebar_on у блока .page
+	&_sidebar_on &__sidebar,
+	&_sidebar_on &__inner::after
+		transform translateX(0)
 
 	&__nav
 		position fixed
-		top 60px
+		top 0
 		bottom 0
 		width 90px
 		outline 0
@@ -109,19 +105,24 @@
 	&__nav_next &__nav-text::before
 		@extend $font-angle-right
 
+	// состояния при показе уведомления в панели навигации
+	/.notification_on[data-scroll="in"] .sitetoolbar
+		top -1 * top_notification_height
+
 	@media tablet
 		&,
 		&_sidebar_on
 			padding 0
 
-		& &__sidebar
+		& &__sidebar,
+		& &__inner::after
 			display none
 
 		&__inner
 			margin-top 60px
 			padding 0 40px
 
-		& &__sitemap
+		& &__tutorial-map
 			left 40px
 			right 40px
 

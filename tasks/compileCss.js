@@ -17,7 +17,7 @@ module.exports = function(options) {
   return function() {
 
     var nib = require('nib')();
-    var asset = require('stylusAsset')({
+    var asset = require('lib/stylusAsset')({
       getVersion: getAssetVersion
     });
 

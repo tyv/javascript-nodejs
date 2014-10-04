@@ -12,7 +12,6 @@ var passport = require('koa-passport');
 
 var router = module.exports = new Router();
 
-
 router.post('/login/local', function*(next) {
   var ctx = this;
 

@@ -1,0 +1,14 @@
+include bem
+
++b.code-result
+  +b.toolbar.__toolbar
+    if link
+      +e.tool
+        +e('a')(href=link.href target="_blank" title="открыть в новом окне").button_external
+    if edit
+      +e.tool
+        +e('a')(href=edit.href target="_blank" title="открыть в песочнице окне").button_edit
+    if zip
+      +e.tool
+        +e('a')(href=zip.href target="_blank" title="скачать архив").button_zip
+  +e('iframe').iframe&attributes(attrs)

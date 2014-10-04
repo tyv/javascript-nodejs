@@ -1,30 +1,15 @@
 +b.tasks
-  //- скрипт-демо показа решений
-  script.
-    function parentByClass(currentElem, cls) {
-      var el = currentElem.parentNode;
-      while (!el.classList.contains(cls) && el !== null) {
-        el = el.parentNode;
-      }
-      return el;
-    }
-    function toggleSolution(elem) {
-      parentByClass(elem, 'task').classList.toggle('task__answer_open');
-    }
-    function showStep(elem) {
-      parentByClass(elem, 'task__step').classList.toggle('task__step_open');
-    }
-  //- конец демо
   +e('h2').title
     | Задачи
   +b.task.__task
     +e.header
       +e.title-wrap
-        +e('h3').title Использование prompt и alert
-        +e('a').open-link(href="#task1", target="_blank")
+        +e('h3').title
+          a.main__anchor(href="#task1") Использование prompt и alert
+        +e('a').open-link(href="/tasks/task1", target="_blank")
       +e.header-note
         +e('span').importance(title="Насколько эта задача важна для освоения материала, от 1 до 5") важность: 4
-        +e('button').solution(type="button", onclick="toggleSolution(this)") решение
+        +e('button').solution(type="button") решение
     +e.content
       +e.answer
         +e.answer-content
@@ -32,7 +17,7 @@
             | Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi sequi officiis modi,
             | eum nisi quas! Aspernatur ea repellendus ipsam cumque cupiditate voluptates soluta,
             | itaque explicabo voluptatibus! Vitae quas fugit culpa.
-        +b('button').close-button.__answer-close(type="button", title="закрыть", onclick="toggleSolution(this)")
+        +b('button').close-button.__answer-close(type="button", title="закрыть")
       p 
         | Создайте страницу, которая спрашивает имя и выводит его.<br>
         | Работать должно так:
@@ -41,15 +26,16 @@
   +b.task.__task
     +e.header
       +e.title-wrap
-        +e('h3').title Использование prompt и alert
-        +e('a').open-link(href="#task1", target="_blank")
+        +e('h3').title
+          a.main__anchor(href="#task2") Использование prompt и alert
+        +e('a').open-link(href="/tasks/task2", target="_blank")
       +e.header-note
         +e('span').importance(title="Насколько эта задача важна для освоения материала, от 1 до 5") важность: 4
-        +e('button').solution(type="button", onclick="toggleSolution(this)") решение
+        +e('button').solution(type="button") решение
     +e.content
       +e.answer
           +e.step._open
-            +e('button').step-show(type="button", onclick="showStep(this)") Шаг 1
+            +e('button').step-show(type="button") Шаг 1
             +e.answer-content
               +e('h4').step-title Шаг 1
               p
@@ -57,7 +43,7 @@
                 | eum nisi quas! Aspernatur ea repellendus ipsam cumque cupiditate voluptates soluta,
                 | itaque explicabo voluptatibus! Vitae quas fugit culpa.
           +e.step
-            +e('button').step-show(type="button", onclick="showStep(this)") Шаг 2
+            +e('button').step-show(type="button") Шаг 2
             +e.answer-content
               +e('h4').step-title Шаг 2
               p
@@ -69,14 +55,14 @@
                 | eum nisi quas! Aspernatur ea repellendus ipsam cumque cupiditate voluptates soluta,
                 | itaque explicabo voluptatibus! Vitae quas fugit culpa.
           +e.step
-            +e('button').step-show(type="button", onclick="showStep(this)") Шаг 3
+            +e('button').step-show(type="button") Шаг 3
             +e.answer-content
               +e('h4').step-title Шаг 3
               p
                 | Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi sequi officiis modi,
                 | eum nisi quas! Aspernatur ea repellendus ipsam cumque cupiditate voluptates soluta,
                 | itaque explicabo voluptatibus! Vitae quas fugit culpa.
-          +b('button').close-button.__answer-close(type="button", title="закрыть", onclick="toggleSolution(this)")
+          +b('button').close-button.__answer-close(type="button", title="закрыть")
       p Напишите кроссбраузерную функцию insertBefore(elem, html), которая:
       ul
         li Вставляет HTML-строку перед элементом elem, используя insertAdjacentHTML,

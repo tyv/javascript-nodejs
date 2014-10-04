@@ -2,22 +2,6 @@
   +e('a').back(href="#lesson")
     u вернуться к уроку
   +b.task.__task
-    //- скрипт-демо показа решений
-    script.
-      function parentByClass(currentElem, cls) {
-        var el = currentElem.parentNode;
-        while (!el.classList.contains(cls) && el !== null) {
-          el = el.parentNode;
-        }
-        return el;
-      }
-      function toggleSolution(elem) {
-        parentByClass(elem, 'task').classList.toggle('task__answer_open');
-      }
-      function showStep(elem) {
-        parentByClass(elem, 'task__step').classList.toggle('task__step_open');
-      }
-    //- конец демо
     +e.header
       +e.title-wrap
         +e('h2').title DOM Children
@@ -57,7 +41,7 @@
         +b('button').close-button.__answer-close(type="button", title="закрыть", onclick="toggleSolution(this)")
       p 
         | Для страницы:
-      pre.language-javascript
+      pre.line-numbers.language-javascript
         | &lt;!DOCTYPE html&gt;
         | &lt;html&gt;
         |   &lt;head&gt;

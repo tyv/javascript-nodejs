@@ -7,17 +7,33 @@ module.exports = function() {
   var shiftY = 10;
 
   function updatePosition(event) {
-    tooltipSpan.style.left = Math.min(event.clientX + shiftX, window.innerWidth - tooltipSpan.offsetWidth) + 'px';
-    tooltipSpan.style.top = Math.min(event.clientY + shiftY, window.innerHeight - tooltipSpan.offsetHeight) + 'px';
+    var left = event.clientX + shiftX;
+    if (left + tooltipSpan.offsetWidth > document.documentElement.clientWidth) { // if beyond the right document border
+      // mirror to the left
+      left = Math.max(0, event.clientX - shiftX - tooltipSpan.offsetWidth);
+    }
+    tooltipSpan.style.left = left + 'px';
+
+    var top = event.clientY + shiftY;
+    if (top + tooltipSpan.offsetHeight > document.documentElement.clientHeight) {
+      top = Math.max(0, event.clientY - shiftY - tooltipSpan.offsetHeight);
+    }
+
+    tooltipSpan.style.top = top + 'px';
   }
 
+  // we show tooltip element for any link hover, but few of them actually get styled
   document.addEventListener('mouseover', function(event) {
+//    console.log(event.target);
     var link = findClosest(event.target, 'a');
+
     if (!link) return;
+
+//    console.log("closest", link);
 
     tooltipSpan = document.createElement('span');
     tooltipSpan.className = 'link__type';
-    tooltipSpan.setAttribute('data-url', link.getAttribute('href'));
+    tooltipSpan.setAttribute('data-url', link.getAttribute('data-tooltip') || link.getAttribute('href'));
 
     document.body.appendChild(tooltipSpan);
     updatePosition(event);

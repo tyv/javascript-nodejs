@@ -1,5 +1,5 @@
 // Copyright 2012 Mark Cavage, Inc.  All rights reserved.
-
+// from restify
 var Stream = require('stream').Stream;
 var util = require('util');
 
