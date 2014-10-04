@@ -51,10 +51,10 @@ a:active
 	vertical-align super
 	font-size 90%
 
-.link__type
+.link__type[data-tooltip]
 	@extend $link-type
 	&::before
-		content attr(data-url)
+		content attr(data-tooltip)
 
 // --
 .link__type[data-url^="mailto:"]

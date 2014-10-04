@@ -35,9 +35,9 @@ var _ = require('lodash');
 var secretDir = path.join(process.cwd(), '../secret');
 
 module.exports = {
-  "port": process.env.PORT || 3000,
-  "host": process.env.HOST || '0.0.0.0',
-  "siteHost": process.env.SITE_HOST || "",
+  "port":       process.env.PORT || 3000,
+  "host":       process.env.HOST || '0.0.0.0',
+  "siteHost":   process.env.SITE_HOST || "",
   "staticHost": process.env.STATIC_HOST || ""
 };
 
@@ -52,7 +52,7 @@ if (fs.existsSync(path.join(secretDir, 'secret.js'))) {
 _.assign(module.exports, {
 //  "siteHost":   "http://127.0.0.1:3000",
   "mongoose":    {
-    "uri": "mongodb://localhost/" + (process.env.NODE_ENV == 'test' ? "js_test" : "js"),
+    "uri":     "mongodb://localhost/" + (process.env.NODE_ENV == 'test' ? "js_test" : "js"),
     "options": {
       "server": {
         "socketOptions": {
@@ -66,6 +66,7 @@ _.assign(module.exports, {
     keys: [secret.sessionKey]
   },
   payments:      secret.payments,
+  adminKey:      secret.adminKey,
   authProviders: secret.authProviders,
   mailer:        {
     senders: {

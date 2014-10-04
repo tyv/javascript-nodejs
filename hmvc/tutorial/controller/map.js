@@ -4,7 +4,7 @@ const Task = require('../models/task');
 const ArticleRenderer = require('../renderer/articleRenderer');
 const TaskRenderer = require('../renderer/taskRenderer');
 const _ = require('lodash');
-const CacheEntry = require('cacheEntry');
+const CacheEntry = require('cache').CacheEntry;
 const makeAnchor = require('textUtil/makeAnchor');
 
 exports.get = function *get(next) {

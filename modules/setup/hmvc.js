@@ -34,6 +34,7 @@ module.exports = function(app) {
 
 
   app.mountHmvc('/getpdf', 'getpdf');
+  app.mountHmvc('/cache', 'cache');
 
   app.mountHmvc('/profile', 'profile');
 
