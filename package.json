@@ -51,7 +51,6 @@
     "imagemin-svgo": "*",
     "inherits": "*",
     "jade": "*",
-    "jadeify": "*",
     "jquery": "*",
     "juice2": "*",
     "koa": "*",
