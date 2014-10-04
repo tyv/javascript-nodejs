@@ -8,6 +8,7 @@ exports.payments = {
   modules: {}
 };
 
+exports.adminKey = 'admin';
 
 exports.authProviders = {
   facebook:  {

@@ -1,6 +1,8 @@
+exports.mustBeAuthenticated = require('./lib/mustBeAuthenticated');
+exports.mustBeAdmin = require('./lib/mustBeAdmin');
+
 const router = require('./router');
 
-require('./lib/setup');
+require('./lib/passport');
 
 exports.middleware = router.middleware();
-exports.mustBeAuthenticated = require('./lib/mustBeAuthenticated');
