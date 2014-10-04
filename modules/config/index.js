@@ -1,10 +1,8 @@
+Error.stackTraceLimit = 1000;
 
 if (!process.env.NODE_ENV) {
   process.env.NODE_ENV = 'development';
 }
-
-
-Error.stackTraceLimit = 1000;
 
 if (process.env.NODE_ENV == 'development' && process.env.DEV_TRACE) {
   // @see https://github.com/AndreasMadsen/trace
@@ -26,7 +24,6 @@ if (process.env.NODE_ENV == 'development' && process.env.DEV_TRACE) {
         memo.heapUsed + '\n'
     );
   }, 200);
-  //require('clarify'); // Exclude node internal calls from the stack
 }
 
 require('lib/debug');

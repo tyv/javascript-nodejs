@@ -10,11 +10,11 @@ block body
       article.main
         block main
     if prev
-      a.page__nav.page__nav_prev(href=prev.url, title="назад")
+      a.page__nav.page__nav_prev(href=prev.url, data-tooltip=prev.title)
         span.page__nav-text
           span.page__nav-text-shortcut
     if next
-      a.page__nav.page__nav_next(href=next.url, title="вперёд")
+      a.page__nav.page__nav_next(href=next.url, data-tooltip=next.title)
         span.page__nav-text
           span.page__nav-text-shortcut
     if sidebar
