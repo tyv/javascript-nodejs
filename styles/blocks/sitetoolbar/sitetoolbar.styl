@@ -32,6 +32,10 @@ sitetoolbar_secondary_link = #498CBE
 	.page__sidebar
 		top 60px
 
+.notification_on[data-scroll="in"]
+	.sitetoolbar
+		transform translateY(-1 * top_notification_height)
+
 [data-scroll="out"]
 	.page__sidebar
 		top 0
@@ -42,7 +46,9 @@ sitetoolbar_secondary_link = #498CBE
 	.page__inner
 		top 0
 
-
+.notification_on[data-scroll="out"]
+	.sitetoolbar
+		transform translateY(-100%)
 
 // only animate between floating states
 // in -> out

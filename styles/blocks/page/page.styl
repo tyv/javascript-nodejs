@@ -105,10 +105,6 @@
 	&__nav_next &__nav-text::before
 		@extend $font-angle-right
 
-	// состояния при показе уведомления в панели навигации
-	/.notification_on[data-scroll="in"] .sitetoolbar
-		top -1 * top_notification_height
-
 	@media tablet
 		&,
 		&_sidebar_on
@@ -119,7 +115,6 @@
 			display none
 
 		&__inner
-			margin-top 60px
 			padding 0 40px
 
 		& &__tutorial-map

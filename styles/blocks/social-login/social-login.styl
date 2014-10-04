@@ -11,6 +11,7 @@
 
 	&:hover
 		text-decoration none
+		color #fff
 
 	&::before
 		display inline-block
@@ -22,11 +23,17 @@
 	&_facebook
 		background: #4e7ac2
 
+	&_facebook:hover
+		background: hoverize(#4e7ac2)
+
 	&_facebook::before
 		@extend $font-facebook
 
 	&_vkontakte
 		background #4e7ac2
+
+	&_vkontakte:hover
+		background hoverize(#4e7ac2)
 
 	&_vkontakte::before
 		@extend $font-vkontakte
@@ -35,17 +42,26 @@
 	&_google
 		background #444547
 
+	&_google:hover
+		background hoverize(#444547)
+
 	&_google::before
 		@extend $font-google
 
 	&_github
 		background #b3b3b3
 
+	&_github:hover
+		background hoverize(#b3b3b3)
+
 	&_github::before
 		@extend $font-github
 
 	&_yandex
 		background #eeb94d
+
+	&_yandex:hover
+		background hoverize(#eeb94d)
 
 	&_yandex::before
 		@extend $font-yandex
