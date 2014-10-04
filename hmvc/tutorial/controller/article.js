@@ -19,8 +19,6 @@ exports.get = function *get(next) {
     return;
   }
 
-  console.log(renderedArticle);
-
   var locals = renderedArticle;
   locals.sitetoolbar = true;
 
