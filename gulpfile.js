@@ -139,3 +139,5 @@ gulp.task('tutorial:import', ['link-modules'], lazyRequireTask('tutorial/tasks/i
   root:        'javascript-tutorial',
   updateFiles: true // skip same size files
 }));
+
+gulp.task('cache:destroy', lazyRequireTask('./tasks/cacheDestroy'));

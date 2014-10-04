@@ -24,16 +24,18 @@ module.exports = function() {
 
   // we show tooltip element for any link hover, but few of them actually get styled
   document.addEventListener('mouseover', function(event) {
-//    console.log(event.target);
     var link = findClosest(event.target, 'a');
 
     if (!link) return;
 
-//    console.log("closest", link);
-
     tooltipSpan = document.createElement('span');
     tooltipSpan.className = 'link__type';
-    tooltipSpan.setAttribute('data-url', link.getAttribute('data-tooltip') || link.getAttribute('href'));
+
+    if (link.getAttribute('data-tooltip')) {
+      tooltipSpan.setAttribute('data-tooltip', link.getAttribute('data-tooltip'));
+    } else {
+      tooltipSpan.setAttribute('data-url', link.getAttribute('href'));
+    }
 
     document.body.appendChild(tooltipSpan);
     updatePosition(event);

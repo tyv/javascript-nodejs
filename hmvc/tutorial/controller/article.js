@@ -4,7 +4,7 @@ const Task = require('../models/task');
 const ArticleRenderer = require('../renderer/articleRenderer');
 const TaskRenderer = require('../renderer/taskRenderer');
 const _ = require('lodash');
-const CacheEntry = require('cacheEntry');
+const CacheEntry = require('cache').CacheEntry;
 
 exports.get = function *get(next) {
 
@@ -18,6 +18,8 @@ exports.get = function *get(next) {
     yield next;
     return;
   }
+
+  console.log(renderedArticle);
 
   var locals = renderedArticle;
   locals.sitetoolbar = true;
@@ -116,7 +118,7 @@ function* renderArticle(slug) {
   rendered.title = article.title;
   rendered.isFolder = article.isFolder;
 
-  const tree = yield Article.findTree();
+  const tree = yield* Article.findTree();
   const articleInTree = tree.byId(article._id);
 
   yield* renderPrevNext();
@@ -198,8 +200,8 @@ function* renderArticle(slug) {
         url: task.getUrl(),
         title: task.title,
         importance: task.importance,
-        content: yield taskRenderer.renderContent(task),
-        solution: yield taskRenderer.renderSolution(task)
+        content: yield* taskRenderer.renderContent(task),
+        solution: yield* taskRenderer.renderSolution(task)
       });
 
     }
