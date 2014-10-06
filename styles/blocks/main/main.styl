@@ -138,7 +138,7 @@ $main-loud
 	h2 &__anchor:hover,
 	h3 &__anchor:hover,
 	h4 &__anchor:hover
-		color #6e6e6e
+		color hoverize(color)
 
 	h1 code,
 	h1 a,
@@ -184,6 +184,8 @@ $main-loud
 	&__anchor:hover::before
 		opacity 1
 
+	&__anchor_noicon::before
+		display none
 
 	code
 		color code_color
