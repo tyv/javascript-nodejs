@@ -316,7 +316,7 @@ HtmlTransformer.prototype.transformIframeTag = function(node) {
     attrs: {}
   };
 
-  var height = parseInt(node.attrs.height) || 1000;
+  var height = parseInt(node.attrs.height) || 300;
   if (!node.isTrusted()) height = Math.max(height, 800);
   locals.attrs.style = 'height: ' + height + 'px';
 

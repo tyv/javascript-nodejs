@@ -2,6 +2,7 @@
 --colors
 --timeout 10000
 --require config/mongoose
+--require lib/requireJade
 --require should
 --require co
 --require co-mocha

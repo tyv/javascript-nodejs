@@ -13,7 +13,7 @@ require.extensions['.jade'] = function(module, filename) {
       compileDebug:  false,
       filename:      filename,
       templatePaths: [path.join(config.projectRoot, 'templates')],
-      parser:        require('lib/jadeParserMultipleDirs')
+      parser:        JadeParserMultipleDirs
     }
   );
 

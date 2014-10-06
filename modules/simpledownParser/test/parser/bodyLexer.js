@@ -18,6 +18,12 @@ describe("BodyLexer", function() {
       this.test.lexer.isEof().should.be.true;
     });
 
+    it("```\nsome text\n```\n", function() {
+      var bbtag = this.test.lexer.consumeSource();
+      bbtag.should.be.eql({ type: 'bbtag', name: '', attrs: '', body: 'some text' });
+      this.test.lexer.isEof().should.be.true;
+    });
+
 
     it('```js\nignore close on same line```', function() {
       should.not.exist(this.test.lexer.consumeSource());
