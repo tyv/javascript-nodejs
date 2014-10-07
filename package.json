@@ -113,6 +113,8 @@
   "devDependencies": {
     "better-assert": "*",
     "browserify": "*",
+    "casperjs": "*",
+    "casperjs-spider": "git://github.com/iliakan/casperjs-spider",
     "clarify": "*",
     "co-mocha": "*",
     "gulp": "*",

@@ -1,7 +1,7 @@
 
 // strip first empty lines
 function stripFirstLines(text) {
-  return text.replace(/$(^[ \t]*\n)*/gim, '');
+  return text.replace(/$(^[ \t]*\n)*/, ''); // not gim, because $ means start of the text
 }
 
 var stripPattern = /^\s*(?=[^\s]+)/mg;
