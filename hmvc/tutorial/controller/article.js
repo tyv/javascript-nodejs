@@ -19,8 +19,6 @@ exports.get = function *get(next) {
     return;
   }
 
-  console.log(renderedArticle);
-
   var locals = renderedArticle;
   locals.sitetoolbar = true;
 
@@ -67,7 +65,7 @@ exports.get = function *get(next) {
 
     section2.links.push({
       title: 'Комментарии',
-      url:   '#comments'
+      url:   '#disqus_thread'
     });
 
     sections.push(section2);

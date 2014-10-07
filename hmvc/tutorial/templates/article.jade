@@ -25,5 +25,16 @@ block content
 
             include _task_content
 
+
+  #disqus_thread
+
   script(src=asset("/js/tutorial.js"))
   script require('tutorial/client').init();
+
+  script.
+    var disqus_shortname = 'nightlyjavascriptru';
+    var disqus_identifier = location.pathname;
+
+  script(async src = '//nightlyjavascriptru.disqus.com/embed.js')
+  script(async src = '//nightlyjavascriptru.disqus.com/count.js')
+

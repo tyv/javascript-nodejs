@@ -475,12 +475,25 @@ Lexer.prototype.consumeSource = function() {
   //    ^
 
   var languagePositionStart = position;
-  var languagePositionEnd = this.peekStringOneOf(consts.BBTAGS_SOURCE, languagePositionStart);
+  var languagePositionEnd;
 
-  if (languagePositionEnd === null) return null;
+  // check if there's no language
+  while (this.text[position] != '\n' &&
+    this.isWhiteSpaceCode(this.text.charCodeAt(position)) &&
+    position < this.text.length) {
+    position++;
+  }
 
-  languagePositionEnd++;
-  position = languagePositionEnd;
+  if (this.text[position] == '\n') {
+    languagePositionEnd = position;
+  } else {
+    languagePositionEnd = this.peekStringOneOf(consts.BBTAGS_SOURCE, languagePositionStart);
+
+    if (languagePositionEnd === null) return null;
+    languagePositionEnd++;
+    position = languagePositionEnd;
+  }
+
   // found
   // ```js
   //      ^
@@ -569,7 +582,7 @@ Lexer.prototype.consumeSource = function() {
 
   return {
     type:  'bbtag',
-    name:  this.text.slice(languagePositionStart, languagePositionEnd),
+    name:  this.text.slice(languagePositionStart, languagePositionEnd).trim() || 'txt',
     attrs: attrsEndPosition ? this.text.slice(attrsStartPosition, attrsEndPosition) : '',
     body:  this.text.slice(bodyStartPosition, bodyEndPosition)
   };
