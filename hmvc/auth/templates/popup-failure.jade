@@ -10,7 +10,7 @@ body
     if (window.opener && window.opener[window.name]) {
       window.opener.focus();
 
-      // I hope that decodeURIComponent is the strict inverse of querystring.stringify
+      //- I hope that decodeURIComponent is the strict inverse of querystring.stringify
       window.opener[window.name].onAuthFailure(reason);
     }
     window.close();

@@ -33,6 +33,7 @@ function deTab(text) {
 module.exports = function(text) {
   text = deTab(text);
   text += "\n";
+
   var r = {block: [], inline: []};
   var last = null;
   var newText = [];

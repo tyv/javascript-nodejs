@@ -141,3 +141,7 @@ gulp.task('tutorial:import', ['link-modules'], lazyRequireTask('tutorial/tasks/i
 }));
 
 gulp.task('cache:destroy', lazyRequireTask('./tasks/cacheDestroy'));
+
+gulp.task('check:spider', lazyRequireTask('./tasks/checkSpider'));
+
+

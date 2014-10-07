@@ -4,8 +4,8 @@ extends ./html
 block body
   if sitetoolbar
     include ../blocks/sitetoolbar
-  .page.page_sidebar_on
-    // основное содержимое статьи идёт до сайдбара (пользователь увидит его первым)
+  .page(class= sidebar ? 'page_sidebar_on' : undefined)
+    //- основное содержимое статьи идёт до сайдбара (пользователь увидит его первым)
     .page__inner
       article.main
         block main

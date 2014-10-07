@@ -156,6 +156,10 @@ sitetoolbar_secondary_link = #498CBE
 		height 60px
 		padding 0 17px
 
+	&__user:hover,
+	&__login:hover
+		color hoverize(sitetoolbar_color)
+
 	&__user::after
 		@extend $font-open
 		padding-left 7px
@@ -187,15 +191,18 @@ sitetoolbar_secondary_link = #498CBE
 
 	&__search
 		@extend $button-reset
+		color sitetoolbar_color
 		margin 17px 0
 		height 60px
 		width 60px
 		margin 0
 
+	&__search:hover
+		color hoverize(sitetoolbar_color)
+
 	&__search::before
 		@extend $font-search
 		font-size 23px
-		color #8b8987
 
 	&__spinner
 		position absolute
@@ -343,14 +350,17 @@ sitetoolbar_secondary_link = #498CBE
 
 		&__nav-toggle
 			@extend $button-reset
+			color sitetoolbar_color
 			height 60px
 			width 60px
 			text-align center
 
+		&__nav-toggle:hover
+			color hoverize(sitetoolbar_color)
+
 		&__nav-toggle::before
 			@extend $font-menu
 			font-size 22px
-			color #7e7e7e
 
 		&__search-wrap
 			padding-right 0
