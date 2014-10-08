@@ -11,6 +11,7 @@ var SourceTag = require('../node/sourceTag');
 var TagNode = require('../node/tagNode');
 var IframeTag = require('../node/iframeTag');
 var EditTag = require('../node/editTag');
+var DemoTag = require('../node/demoTag');
 var CutNode = require('../node/cutNode');
 var ImgTag = require('../node/imgTag');
 var KeyTag = require('../node/keyTag');
@@ -101,16 +102,17 @@ BbtagParser.prototype.parseOffline = function() {
   }
 };
 
-BbtagParser.prototype.parseDemo = function() {
 
-  var attrs = {};
-  if (this.params.src) {
-    attrs.href = this.params.src + '/';
-    attrs.target = '_blank';
-    return new TagNode('a', 'Демо в новом окне', attrs);
+BbtagParser.prototype.parseDemo = function() {
+  var src = this.params.src;
+  if (src) {
+    if (~src.indexOf('://')) {
+      // absolute (service) url is ok
+      throw new ParseError("protocol not allowed");
+    }
   }
 
-  return new TagNode('button', "Запустить демо", {"onclick": 'runDemo(this)'});
+  return new DemoTag(this.body, {src: this.params.src});
 };
 
 

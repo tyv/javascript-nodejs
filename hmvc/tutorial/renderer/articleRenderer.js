@@ -21,7 +21,14 @@ function ArticleRenderer() {
 
 // gets <head> content from metadata.libs & metadata.head
 ArticleRenderer.prototype.getHead = function() {
-  return [].concat(this._libsToJsCss(this._unmapLibsNames(this.metadata.libs.toArray())).css, this.metadata.head)
+  return [].concat(
+    this._libsToJsCss(
+      this._unmapLibsNames(this.metadata.libs.toArray())
+    ).css,
+    this._libsToJsCss(
+      this._unmapLibsNames(this.metadata.libs.toArray())
+    ).js,
+    this.metadata.head)
     .filter(Boolean).join("\n");
 };
 

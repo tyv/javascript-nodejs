@@ -73,7 +73,7 @@ HtmlTransformer.prototype.wrapTagAround = function(tag, attrs, html) {
 
 
 HtmlTransformer.prototype.transformCommentNode = function(node) {
-  return  "<!--" + node.text + "-->";
+  return "<!--" + node.text + "-->";
 };
 
 HtmlTransformer.prototype.replaceHtmlWithLabel = function(tag, html, labels) {
@@ -119,12 +119,12 @@ HtmlTransformer.prototype.transformCompositeTag = function(node) {
 
 
 HtmlTransformer.prototype.transformCommentNode = function(node) {
-  return  "<!--" + node.text + "-->";
+  return "<!--" + node.text + "-->";
 };
 
 
 HtmlTransformer.prototype.transformCutNode = function(node) {
-  return  "";
+  return "";
 };
 
 HtmlTransformer.prototype.transformErrorTag = function(node) {
@@ -150,10 +150,10 @@ HtmlTransformer.prototype.transformImgTag = function(node) {
     attrs['class'] = attrs['class'] ? attrs['class'] + ' image__image' : 'image__image';
 
     if (node.attrs.width && node.attrs.height) {
-      html = '<figure><div class="image" style="width: '+node.attrs.width+'px;">' +
-        '<div class="image__ratio" style="padding-top: ' + (node.attrs.height/node.attrs.width*100) + '%"></div>' +
-        this.wrapTagAround('img', attrs) +
-        '</div></figure>';
+      html = '<figure><div class="image" style="width: ' + node.attrs.width + 'px;">' +
+      '<div class="image__ratio" style="padding-top: ' + (node.attrs.height / node.attrs.width * 100) + '%"></div>' +
+      this.wrapTagAround('img', attrs) +
+      '</div></figure>';
     } else {
       html = '<figure>' + this.transformTagNode(node) + '</figure>';
     }
@@ -194,7 +194,7 @@ HtmlTransformer.prototype.transformNode = function(node) {
 };
 
 HtmlTransformer.prototype.transformReferenceNode = function(node) {
-  return  this.transformCompositeTag(node);
+  return this.transformCompositeTag(node);
 };
 
 // on this stage the tag either contains this.src OR the resolved text
@@ -292,10 +292,26 @@ HtmlTransformer.prototype.transformEditTag = function(node) {
 
   var attrs = {
     "class": "edit",
-    href:    "/play/" + node.attrs.src
+    href: "/play/" + node.attrs.src
   };
 
   return this.wrapTagAround('a', attrs, html);
+
+};
+
+
+HtmlTransformer.prototype.transformDemoTag = function(node) {
+
+  var attrs = {};
+
+  if (node.attrs.src) {
+    attrs.href = node.attrs.src[0] == '/' ? node.attrs.src : this.staticHost + this.resourceWebRoot + '/' + node.attrs.src;
+    attrs.href += '/';
+    attrs.target = '_blank';
+    return this.wrapTagAround('a', attrs, 'Демо в новом окне');
+  }
+
+  return this.wrapTagAround('button', {"onclick": 'runDemo(this)'}, "Запустить демо");
 
 };
 
@@ -313,7 +329,7 @@ HtmlTransformer.prototype.transformIframeTag = function(node) {
 
   var locals = {
     'data-trusted': node.isTrusted() ? 1 : false,
-    attrs: {}
+    attrs:          {}
   };
 
   var height = parseInt(node.attrs.height) || 300;

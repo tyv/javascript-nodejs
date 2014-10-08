@@ -140,7 +140,7 @@ gulp.task('tutorial:import', ['link-modules'], lazyRequireTask('tutorial/tasks/i
   updateFiles: true // skip same size files
 }));
 
-gulp.task('cache:destroy', lazyRequireTask('./tasks/cacheDestroy'));
+gulp.task('cache:clean', lazyRequireTask('./tasks/cacheClean'));
 
 gulp.task('check:spider', lazyRequireTask('./tasks/checkSpider'));
 
