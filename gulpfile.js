@@ -5,6 +5,7 @@
 
 // new Set([1,2]).size = 0 in node 0.11.14, Set is buggy all around
 // this header prevents `array-uniq` (-> array-union -> multimatch -> gulp-load-plugins) from it's use
+// fixme: when those above are fixed, remove it
 delete Set.prototype.forEach;
 
 const gulp = require('gulp');
@@ -12,6 +13,7 @@ const path = require('path');
 const fs = require('fs');
 const assert = require('assert');
 const runSequence = require('run-sequence');
+const mongoose = require('config/mongoose');
 
 //Error.stackTraceLimit = Infinity;
 //require('trace');
@@ -19,7 +21,7 @@ const runSequence = require('run-sequence');
 
 process.on('uncaughtException', function(err) {
   // not bunyan, because the 'log' module may be not linked yet
-  console.log(err);
+  console.log(err.message, err.stack);
   process.exit(255);
 });
 
@@ -135,7 +137,7 @@ gulp.task('dev', function(callback) {
   runSequence('build', ['nodemon', 'client:livereload', 'watch'], callback);
 });
 
-gulp.task('tutorial:import', ['link-modules'], lazyRequireTask('tutorial/tasks/import', {
+gulp.task('tutorial:import', ['link-modules', 'cache:clean'], lazyRequireTask('tutorial/tasks/import', {
   root:        'javascript-tutorial',
   updateFiles: true // skip same size files
 }));
@@ -143,5 +145,15 @@ gulp.task('tutorial:import', ['link-modules'], lazyRequireTask('tutorial/tasks/i
 gulp.task('cache:clean', lazyRequireTask('./tasks/cacheClean'));
 
 gulp.task('check:spider', lazyRequireTask('./tasks/checkSpider'));
+
+// when queue finished successfully or aborted, close db
+// orchestrator events (sic!)
+gulp.on('stop', function() {
+  mongoose.disconnect();
+});
+
+gulp.on('err', function() {
+  mongoose.disconnect();
+});
 
 

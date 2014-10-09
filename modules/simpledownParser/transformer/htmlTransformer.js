@@ -209,7 +209,7 @@ HtmlTransformer.prototype.transformSourceTag = function(node) {
 
   node.ensureKnowTrusted();
 
-  var text = node.attrs.src ? ('Содержимое файла ' + node.attrs.src) : node.text;
+  var text = (node.attrs.src && !node.text) ? ('Содержимое файла ' + node.attrs.src) : node.text;
 
   var prismLanguageMap = {
     html:   'markup',

@@ -20,9 +20,9 @@ exports.get = function *get(next) {
     children: yield* renderMap()
   };
 
-  console.log("TEST");
-  this.body = this.render("map", locals);
-  console.log(this.body);
+  var template = this.get('X-Requested-With') ? '_map' : 'map';
+
+  this.body = this.render(template, locals);
 };
 
 // body
