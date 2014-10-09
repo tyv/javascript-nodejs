@@ -1,9 +1,7 @@
 function Modal() {
-  document.body.insertAdjacentHTML('beforeEnd', '<div class="modal"><div class="modal-dialog"></div></div>');
-
   var self = this;
-  this.elem = document.body.lastChild;
-  this.contentElem = this.elem.lastChild;
+
+  this.render();
 
   this.onClick = this.onClick.bind(this);
   this.onDocumentKeyDown = this.onDocumentKeyDown.bind(this);
@@ -13,6 +11,11 @@ function Modal() {
   document.addEventListener("keydown", this.onDocumentKeyDown);
 }
 
+Modal.prototype.render = function() {
+  document.body.insertAdjacentHTML('beforeEnd', '<div class="modal"><div class="modal-dialog"></div></div>');
+  this.elem = document.body.lastChild;
+  this.contentElem = this.elem.lastChild;
+};
 
 Modal.prototype.onClick = function(event) {
   if (event.target.classList.contains('close-button')) {
