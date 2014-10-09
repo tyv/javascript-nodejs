@@ -1,10 +1,10 @@
 +b.tasks
-  +e('h2').title
-    | Задачи
+  +e('h2').title#tasks
+    +e('a').title-anchor.main__anchor.main__anchor_noicon(href="#tasks") Задачи
   +b.task.__task
     +e.header
       +e.title-wrap
-        +e('h3').title
+        +e('h3').title#task1
           a.main__anchor(href="#task1") Использование prompt и alert
         +e('a').open-link(href="/tasks/task1", target="_blank")
       +e.header-note
@@ -26,7 +26,7 @@
   +b.task.__task
     +e.header
       +e.title-wrap
-        +e('h3').title
+        +e('h3').title#task2
           a.main__anchor(href="#task2") Использование prompt и alert
         +e('a').open-link(href="/tasks/task2", target="_blank")
       +e.header-note

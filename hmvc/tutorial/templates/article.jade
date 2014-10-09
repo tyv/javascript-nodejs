@@ -9,8 +9,8 @@ block content
   if tasks.length
 
     +b.tasks
-      +e('h2').title
-        a#tasks Задачи
+      +e('h2').title#tasks
+        +e('a').title-anchor.main__anchor.main__anchor_noicon(href="#tasks") Задачи
 
       each task, i in tasks
         +b.task.__task

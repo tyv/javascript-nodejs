@@ -8,37 +8,33 @@
         //- FIXME: убрать
         +e('a').link._arrow(href="#", onclick="document.getElementsByTagName('body')[0].classList.toggle('scrolled-out'); return false;") Полное содержание
       +e.section
-        +e('h4').section-title Разделы курса Базовый JS:
-        +e('nav').navigation
-          +e('ul').navigation-links
-            +e('li').navigation-link
-              +e('a').link(href="#") Общая информация
-            +e('li').navigation-link
-              +e('a').link(href="#") Основы JavaScript
-            +e('li').navigation-link
-              +e('a').link(href="#") Пишем на JavaScript
-            +e('li').navigation-link
-              +e('a').link(href="#") Структуры данных
-            +e('li').navigation-link
-              +e('a').link(href="#") Функции и замыкания
-            +e('li').navigation-link
-              +e('a').link(href="#") Аргументы функций
-            +e('li').navigation-link
-              +e('a').link(href="#") Объекты и методы
-            +e('li').navigation-link
-              +e('a').link(href="#") Получение и проверка типа
-            +e('li').navigation-link
-              +e('a').link(href="#") Разные темы
+        +e('h4').section-title Раздел
+        +e('a').link(href="#") Основы JavaScript
       +e.section
+        +e('h4').section-title Навигация по уроку
         +e('nav').navigation
           +e('ul').navigation-links
             +e('li').navigation-link
-              +e('a').link(href="#") Резюме
+              +e('a').link(href="#") alert
+            +e('li').navigation-link
+              +e('a').link(href="#") prompt
+            +e('li').navigation-link
+              +e('a').link(href="#") confirm
+            +e('li').navigation-link
+              +e('a').link(href="#") Особенности встроенных&nbsp;функций
+      +e('hr').separator
+      +e.section._separator_before
+        +e('nav').navigation
+          +e('ul').navigation-links
+            +e('li').navigation-link
+              +e('a').link(href="#") Задачи (2)
             +e('li').navigation-link
               +e('a').link(href="#") Комментарии (12)
-      +e.section
+      +e.section._share
         +e.section-title Поделиться
         +b('a').share._tw.sidebar__share(href="https://twitter.com/share?url=http://design.javascript.ru/intro")
         +b('a').share._fb.sidebar__share(href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=http://design.javascript.ru/intro")
         +b('a').share._gp.sidebar__share(href="https://plus.google.com/share?url=http://design.javascript.ru/intro")
         +b('a').share._vk.sidebar__share(href="http://vkontakte.ru/share.php?url=http://design.javascript.ru/intro")
+      +e.section
+        +e('a').link(href="#edit-on-github") Редактировать на github

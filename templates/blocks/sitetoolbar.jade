@@ -28,7 +28,7 @@
     else
       include ./guest
     +e.search-wrap
-      +e('button').search(onclick="document.getElementsByClassName('sitetoolbar')[0].classList.toggle('sitetoolbar_search_open')")
+      +e('button').search-toggle(onclick="document.querySelector('.sitetoolbar').classList.toggle('sitetoolbar_search_open')")
   +e.tablet-menu
     +e.tablet-menu-line
       +e.tablet-menu-header
@@ -50,24 +50,21 @@
         +b('a').share._fb.sitetoolbar__tablet-menu-share(href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=http://design.javascript.ru/intro")
         +b('a').share._gp.sitetoolbar__tablet-menu-share(href="https://plus.google.com/share?url=http://design.javascript.ru/intro")
         +b('a').share._vk.sitetoolbar__tablet-menu-share(href="http://vkontakte.ru/share.php?url=http://design.javascript.ru/intro")
-  +e.tablet-search
-    +e('form').tablet-search-content(method="GET", action="/search")
-      +e.tablet-search-query-wrap
-        +b.text-input.sitetoolbar__tablet-search-query
-          +e('input').control(type="search")
-      +e.tablet-search-submit-wrap
-        //- очень не нравится текст "Отправить", в разговоре так никто не скажет. Предлагаю "Найти"
-        +b('button').submit-button._small.sitetoolbar__tablet-search-submit
+  +e.search
+    +e('form').search-content(method="GET", action="/search")
+      +e.search-query-wrap
+        +b.text-input.__search-query
+          +e('input').control(type="text")
+      +e.search-submit-wrap
+        +b('button').submit-button.__search-submit
           | Найти
-  +e.tablet-usermenu
-    +e('ul').tablet-usermenu-items
-      +e('li').tablet-usermenu-item
-        +e('a').secondary-link.__tablet-usermenu-link(href="#profile") Профиль
-      +e('li').tablet-usermenu-item
-        +e('a').secondary-link.__tablet-usermenu-link(href="#settings") Настройки аккаунта
-      +e('li').tablet-usermenu-item
-        +e('a').secondary-link.__tablet-usermenu-link(href="#orders") Заказы
-      +e('li').tablet-usermenu-item
-        +e('a').secondary-link.__tablet-usermenu-link(href="#favorites") Избранное
-      +e('li').tablet-usermenu-item
-        +e('a').secondary-link.__tablet-usermenu-link(href="#logout") Выйти
+  +e.usermenu
+    +e('ul').usermenu-items
+      +e('li').usermenu-item
+        +e('a').secondary-link.__usermenu-link(href="#profile") Профиль
+      +e('li').usermenu-item
+        +e('a').secondary-link.__usermenu-link(href="#settings") Настройки аккаунта
+      +e('li').usermenu-item
+        +e('a').secondary-link.__usermenu-link(href="#orders") Заказы
+      +e('li').usermenu-item
+        +e('a').secondary-link.__usermenu-link(href="#logout") Выйти
