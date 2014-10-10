@@ -57,7 +57,6 @@ exports.get = function *get(next) {
       });
     }
 
-
   }
 
   if (!renderedArticle.isFolder) {
