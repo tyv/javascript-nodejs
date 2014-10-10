@@ -1,8 +1,13 @@
 var scrollbarHeight = require('./getScrollbarHeight');
 
-module.exports = function(doc) {
+function getDocumentHeight(doc) {
   doc = doc || document;
-  var height = doc.documentElement.scrollHeight || doc.body.scrollHeight;
+
+  var height = Math.max(
+    doc.body.scrollHeight, doc.documentElement.scrollHeight,
+    doc.body.offsetHeight, doc.documentElement.offsetHeight,
+    doc.body.clientHeight, doc.documentElement.clientHeight
+  );
 
   if (doc.documentElement.scrollWidth > doc.documentElement.clientWidth) {
     // got a horiz scroll, let's add it
@@ -12,6 +17,7 @@ module.exports = function(doc) {
   return height;
 };
 
+module.exports = getDocumentHeight;
 
 /**  TODO: is Math.max below still needed anywhere?
  * Gets the height of the document

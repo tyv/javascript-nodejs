@@ -6,9 +6,18 @@ var lastPageYOffset = 0;
 var requestAnimationFrameId;
 
 var lastState = '';
+
+var DEBUG = false;
+function log() {
+  if (DEBUG) {
+    console.log.apply(console, arguments);
+  }
+}
+
 // adds [data-scroll-prev] && [data-scroll] attributes
 // both the previous and the next state => for CSS animation to draw the transition
 function setState(newState) {
+  log("setState", newState);
   document.body.setAttribute('data-scroll-prev', document.body.getAttribute('data-scroll') || '');
 
   if (!newState) {
@@ -30,7 +39,8 @@ var tolerance = {
 };
 
 // don't handle onscroll more often than animation
-window.addEventListener('scroll', function() {
+function onWindowScrollAndResize() {
+  log("onWindowScrollAndResize", requestAnimationFrameId);
   if (requestAnimationFrameId) return;
 
   requestAnimationFrameId = window.requestAnimationFrame(function() {
@@ -38,26 +48,57 @@ window.addEventListener('scroll', function() {
     requestAnimationFrameId = null;
   });
 
-});
+}
+
+window.addEventListener('scroll', onWindowScrollAndResize);
+window.addEventListener('resize', onWindowScrollAndResize);
+
 
 function onscroll() {
+  log("onscroll");
   if (isScrollOutOfDocument()) { // Ignore bouncy scrolling in OSX
+    log("isScrollOutOfDocument");
     return;
   }
 
   var sitetoolbar = document.querySelector('.sitetoolbar');
   if (!sitetoolbar) {
+    log("no siteoolbar");
     return; // page in a no-top-nav layout
   }
 
+
   var sitetoolbarHeight = sitetoolbar.offsetHeight;
 
+  // should content become scrollable? (fixed)
+  function contentIsScrollable() {
+    log(document.querySelector('.page').clientHeight, document.documentElement.clientHeight + sitetoolbarHeight);
+    return document.querySelector('.page').clientHeight > document.documentElement.clientHeight + sitetoolbarHeight;
+  }
+
+  log("contentIsScrollable", contentIsScrollable());
+
+  // если содержимое меньше по высоте, чем окно, а сайдбар - больше,
+  // то после скролла будет переход в fixed-состояние
+  // так как содержимое меньше окна, то получим pageYOffset==0,
+  // как следствие, прокрутить вверх будет нельзя,
+  // т.е. фиксированное состояние будет снять нельзя, обратно увидеть sitetoolbar нельзя
+  // чтобы такого не случилось
+  //   => запрещаем переход в fixed-состояние с небольшим содержимым (оно всё равно не нужно)
+  //     -> если содержимое чуть больше, чем окно, то при прокрутки были неожиданные появления sitetoolbar
+  //     -> поэтому добавляем высоту sitetoolbar к сравнению
+  // это важнейшая проверка на уместность fixed-состояния, поэтому идёт до всего
+  if (!contentIsScrollable()) {
+    setState('');
+    return;
+  }
+
   var browserScrollCause = getBrowserScrollCause();
-//  console.log("scrollCause", browserScrollCause);
+  log("scrollCause", browserScrollCause);
 
 
   if (browserScrollCause !== null) {
-//    console.log("browser scroll");
+    log("browser scroll");
     // browser-initiated scroll: never show navigation (except on top), try to hide it
     // if page top - user will see the nav and the header
     // if not page top - user will see the header when opening a link with #hash
@@ -73,7 +114,7 @@ function onscroll() {
   }
 
   if (lastState == 'in' && window.pageYOffset < 3) {
-//    console.log("close to top");
+    console.log("close to top");
     // if close to page top, no scrolled state apply
     lastPageYOffset = window.pageYOffset;
     setState('');
@@ -82,7 +123,7 @@ function onscroll() {
 
 
   if (lastState === '' && window.pageYOffset < sitetoolbarHeight) {
-//    console.log("close to top");
+    log("close to top");
     // if close to page top, no scrolled state apply
     lastPageYOffset = window.pageYOffset;
     return;
@@ -95,7 +136,7 @@ function onscroll() {
   var scrollDirection = window.pageYOffset > lastPageYOffset ? 'down' : 'up';
   var scrollDiff = Math.abs(window.pageYOffset - lastPageYOffset);
 
-//  console.log("scrollDiff", scrollDiff);
+  log("scrollDiff", scrollDiff);
 
   // если прокрутили мало - ничего не делаем, но и точку отсчёта не меняем
   if (tolerance[scrollDirection] > scrollDiff) return;
@@ -107,17 +148,16 @@ function onscroll() {
   var scrollBottom = getDocumentHeight() - window.pageYOffset - window.innerHeight;
   if (scrollDirection == 'up' && scrollBottom < tolerance.upAtBottom && window.pageYOffset > tolerance.upAtBottom) return;
 
-//  console.log(scrollDirection, scrollDiff, tolerance[scrollDirection]);
-
+  log(scrollDirection, scrollDiff, tolerance[scrollDirection]);
 
   if (scrollDirection == 'up') {
-//    console.log("scroll up");
+    log("scroll up");
     setState('in');
     return;
   }
 
   if (scrollDirection == 'down') {
-//    console.log("scroll down");
+    log("scroll down");
     setState('out');
     return;
   }
@@ -132,8 +172,10 @@ function isScrollOutOfDocument() {
   // no document yet
   if (document.readyState != 'complete') return false;
 
-  var pastTop = window.pageYOffset < 0,
-      pastBottom = window.pageYOffset + window.innerHeight > getDocumentHeight();
+  var pastTop = window.pageYOffset < 0;
+  var pastBottom = window.pageYOffset + document.documentElement.clientHeight > getDocumentHeight();
+
+  log("pastTop", pastTop, "pastBottom", pastBottom);
 
   return pastTop || pastBottom;
 }

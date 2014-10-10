@@ -59,6 +59,8 @@ function xhr(options) {
     request.setRequestHeader("Accept", "application/json");
   }
 
+  request.setRequestHeader('X-Requested-With', "XMLHttpRequest");
+
   var successStatuses = options.successStatuses || [200];
 
   function wrapEvent(name, e) {

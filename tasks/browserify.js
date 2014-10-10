@@ -6,7 +6,7 @@ const gutil = require('gulp-util');
 const watchify = require('watchify');
 const browserify = require('browserify');
 var config = require('config');
-var Notification = require('node-notifier');
+var notifier = require('node-notifier');
 var log = require('log')();
 var _ = require('lodash');
 var path = require('path');
@@ -20,7 +20,7 @@ var crypto = require('crypto');
 
 var browserifyJade = require('browserify-jade');
 
-function updateBrowserifyVersion(path, version) {
+function updateClientVersions(path, version) {
   var versions;
 
   try {
@@ -67,9 +67,11 @@ function makeBundler(options) {
     this.bundle()
       .on('error', function(e) {
         gutil.log(e.message);
-        new Notification().notify({
+
+        notifier.notify({
           message: e
         });
+
         callback(); // let gulp know that we finished, otherwise it won't rerun us
       })
       .pipe(source(path.basename(this._options.dst)))
@@ -79,7 +81,7 @@ function makeBundler(options) {
         var d = new Date();
         var md5 = crypto.createHash('md5').update(file.contents).digest('hex').slice(-6);
 
-        updateBrowserifyVersion('/js/' + path.basename(bundler._options.dst), md5);
+        updateClientVersions('/js/' + path.basename(bundler._options.dst), md5);
 
         this.push(file);
         cb();

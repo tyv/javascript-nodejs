@@ -1,4 +1,5 @@
 "use strict";
+//require("time-require");
 
 const config = require('config');
 
@@ -95,12 +96,16 @@ app.use(function* (next) {
 });
 
 // wait for full app load and all associated warm-ups to finish
-// mongoose buffers queries, so for tests there's no reason to wait
-// for PROD, there is a reason: to check if DB is ok.
+// mongoose buffers queries,
+// so for TEST/DEV there's no reason to wait
+// for PROD, there is a reason: to check if DB is ok before taking a request
 app.waitBoot = function* () {
-  yield function(callback) {
-    mongoose.waitConnect(callback);
-  };
+
+  if (process.env.NODE_ENV == 'production') {
+    yield function(callback) {
+      mongoose.waitConnect(callback);
+    };
+  }
 };
 
 // adding middlewares only possible *before* app.run
@@ -134,6 +139,8 @@ app.close = function*() {
   log.info("App stopped");
 };
 
+// uncomment for time-require to work
+//process.emit('exit');
 
 module.exports = app;
 

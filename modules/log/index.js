@@ -1,5 +1,4 @@
 var bunyan = require('bunyan');
-var RequestCaptureStream = require('requestCaptureStream');
 var reqSerializer = require('./reqSerializer');
 var reqVerboseSerializer = require('./reqVerboseSerializer');
 var resSerializer = require('./resSerializer');
@@ -60,6 +59,8 @@ module.exports = function(name, options) {
         stream: process.stderr
       }
     ];
+
+    var RequestCaptureStream = require('requestCaptureStream');
 
     // gather all data for req_id, but log only if warn happens
     // ...and dump to stderr (in addition to

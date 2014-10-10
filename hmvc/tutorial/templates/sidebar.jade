@@ -1,8 +1,8 @@
 +e.section
-  +e('a').link._arrow(href="#" data-action="sidebar-map") Полное содержание
+  +e('a').link._arrow(href="#" data-action="tutorial-map") Полное содержание
 
 each section in sidebar.sections
-  +e.section
+  +e(class="section #{section.class}")
     if section.title
       +e('h4').section-title !{section.title}
     +e('nav').navigation
