@@ -4,9 +4,7 @@
   +e.inner
     +e.content
       +e.section
-        //- переключение панели навигации, только для удобства отладки и демо
-        //- FIXME: убрать
-        +e('a').link._arrow(href="#", onclick="document.getElementsByTagName('body')[0].classList.toggle('scrolled-out'); return false;") Полное содержание
+        +e('a').link._arrow(href="#", data-action="tutorial-map", onclick="document.querySelector('body').classList.add('tutorial-map_on')") Полное содержание
       +e.section
         +e('h4').section-title Раздел
         +e('a').link(href="#") Основы JavaScript
