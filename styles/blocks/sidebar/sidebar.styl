@@ -37,6 +37,17 @@
 	&__section
 		margin 12px 0
 		padding 0 2px
+		position relative
+
+	&__section_separator_before
+		margin-top 24px
+
+	&__section_separator_before::before
+		content ""
+		position absolute
+		top -12px
+		width 35px
+		border-top 1px solid #d7d7d4
 
 	&__section_share
 		margin-top 18px
@@ -69,13 +80,6 @@
 	&__navigation-link
 		margin 8px 0
 		line-height 1.1 // чтобы соответствовать макету
-
-	&__separator
-		width 35px
-		height 1px
-		border 0
-		margin 0
-		background #d7d7d4
 
 	&__share
 		margin 8px 20px 0 0
