@@ -1,4 +1,5 @@
 var findClosest = require('client/dom/findClosest');
+var hoverIntent = require('client/hoverIntent');
 
 module.exports = function() {
 
@@ -22,8 +23,10 @@ module.exports = function() {
     tooltipSpan.style.top = top + 'px';
   }
 
+
+
   // we show tooltip element for any link hover, but few of them actually get styled
-  document.addEventListener('mouseover', function(event) {
+  function onOver(event) {
     var link = findClosest(event.target, 'a');
 
     if (!link) return;
@@ -37,17 +40,27 @@ module.exports = function() {
       tooltipSpan.setAttribute('data-url', link.getAttribute('href'));
     }
 
+
     document.body.appendChild(tooltipSpan);
     updatePosition(event);
 
     document.addEventListener('mousemove', updatePosition);
-  });
+  }
 
-  document.addEventListener('mouseout', function() {
+  function onOut() {
     if (!tooltipSpan) return;
 
     document.removeEventListener('mousemove', updatePosition);
     tooltipSpan.remove();
     tooltipSpan = null;
+  }
+
+  var handler = hoverIntent(onOver, onOut, 'a');
+  document.addEventListener('mouseover', function(event) {
+    if (!findClosest(event.target, 'a')) return;
+    handler.call(this, event);
   });
+  document.addEventListener('mouseout', handler);
+
+
 };
