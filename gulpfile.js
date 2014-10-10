@@ -13,6 +13,11 @@ const path = require('path');
 const fs = require('fs');
 const assert = require('assert');
 const runSequence = require('run-sequence');
+
+// before anything: make sure all modules are linked
+gulp.task('link-modules', lazyRequireTask('./tasks/linkModules', { src: ['client', 'modules/*', 'hmvc/*'] }));
+gulp.start('link-modules');
+
 const mongoose = require('config/mongoose');
 
 //Error.stackTraceLimit = Infinity;
@@ -58,8 +63,6 @@ gulp.task("client:livereload", lazyRequireTask("./tasks/livereload", {
   // we're only interested in changes
   watch: "public/{i,img,js,styles}/**/*.*"
 }));
-
-gulp.task('link-modules', lazyRequireTask('./tasks/linkModules', { src: ['client', 'modules/*', 'hmvc/*'] }));
 
 gulp.task('watch', lazyRequireTask('./tasks/watch', {
   root:        __dirname,
@@ -130,14 +133,14 @@ gulp.task("client:build-public-versions",
   lazyRequireTask('./tasks/buildPublicVersions', { cwd: 'public', src: './{fonts,js,styles}/**/*.*', dst: './public.versions.json' }));
 
 gulp.task('build', function(callback) {
-  runSequence('link-modules', "client:sync-resources", 'client:compile-css', 'client:browserify', 'client:sync-css-images', 'client:build-public-versions', callback);
+  runSequence("client:sync-resources", 'client:compile-css', 'client:browserify', 'client:sync-css-images', 'client:build-public-versions', callback);
 });
 
 gulp.task('dev', function(callback) {
   runSequence('build', ['nodemon', 'client:livereload', 'watch'], callback);
 });
 
-gulp.task('tutorial:import', ['link-modules', 'cache:clean'], lazyRequireTask('tutorial/tasks/import', {
+gulp.task('tutorial:import', ['cache:clean'], lazyRequireTask('tutorial/tasks/import', {
   root:        'javascript-tutorial',
   updateFiles: true // skip same size files
 }));
