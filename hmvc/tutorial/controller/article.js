@@ -62,7 +62,10 @@ exports.get = function *get(next) {
 
   if (!renderedArticle.isFolder) {
 
-    var section2 = { links: [] };
+    var section2 = {
+      class: '_separator_before',
+      links: []
+    };
 
     if (renderedArticle.tasks.length) {
       section2.links.push({
