@@ -1,4 +1,3 @@
-
 // must be above router, because router uses auth (which uses user)
 // cyclic require here
 exports.User = require('./models/user');

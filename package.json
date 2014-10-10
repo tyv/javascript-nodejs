@@ -137,6 +137,7 @@
     "sinon": "*",
     "superagent": "*",
     "supertest": "*",
+    "time-require": "^0.1.2",
     "trace": "*",
     "watchify": "*"
   },

@@ -5,14 +5,21 @@ var wrapHmvcMiddleware = require('lib/wrapHmvcMiddleware');
 
 module.exports = function(app) {
 
-  app.hmvc = {};
-
+  //app.use( mount('/auth', require('auth').middleware) )
   app.mountHmvc = function(prefix, hmvcModulePath) {
-    var hmvcModule = require(hmvcModulePath);
-    hmvcModulePath = require.resolve(hmvcModulePath);
-    app.hmvc[hmvcModulePath] = hmvcModule;
-    //app.use( mount('/auth', require('auth').middleware) )
-    app.use(mount(prefix, wrapHmvcMiddleware(hmvcModulePath, hmvcModule.middleware)));
+    var middleware;
+    // lazy require middleware, so that restarting node won't load all hmvc routes (slow for dev)
+    app.use(mount(prefix,
+        function*(next) {
+          if (!middleware) {
+            var resolvedModulePath = require.resolve(hmvcModulePath);
+            var hmvcModule = require(hmvcModulePath);
+            middleware = wrapHmvcMiddleware(resolvedModulePath, hmvcModule.middleware);
+          }
+
+          yield* middleware.call(this, next);
+        }
+    ));
   };
 
   app.mountHmvc('/', 'frontpage');

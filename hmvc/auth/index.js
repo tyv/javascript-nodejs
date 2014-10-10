@@ -1,8 +1,20 @@
 exports.mustBeAuthenticated = require('./lib/mustBeAuthenticated');
 exports.mustBeAdmin = require('./lib/mustBeAdmin');
 
-const router = require('./router');
-
 require('./lib/passport');
 
-exports.middleware = router.middleware();
+exports.middleware = require('lib/lazyRouter')('./router');
+
+/*
+
+ var middleware = null;
+
+ exports.middleware = function*(next) {
+ console.log("!!!!!!!!!");
+ process.exit(1);
+ if (!middleware) middleware = require('./router').middleware();
+ middleware.call(this, next);
+ }
+
+
+ */

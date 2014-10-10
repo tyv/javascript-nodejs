@@ -16,7 +16,8 @@ block content
         +b.task.__task
           +e.header
             +e.title-wrap
-              +e('h3').title !{task.title}
+              +e('h3').title
+                a.main__anchor(href=("#"+task.anchor) name=task.anchor)= task.title
               +e('a').open-link(href=task.url, target="_blank")
 
             +e.header-note

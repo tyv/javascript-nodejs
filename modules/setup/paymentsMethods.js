@@ -5,3 +5,4 @@ const config = require('config');
 module.exports = function(app) {
   app.use(payments.populateContextMiddleware);
 };
+
