@@ -5,6 +5,7 @@ const ArticleRenderer = require('../renderer/articleRenderer');
 const TaskRenderer = require('../renderer/taskRenderer');
 const _ = require('lodash');
 const CacheEntry = require('cache').CacheEntry;
+const makeAnchor = require('textUtil/makeAnchor');
 
 exports.get = function *get(next) {
 
@@ -31,6 +32,13 @@ exports.get = function *get(next) {
     });
 
   } else {
+
+    sections.push({
+      title: 'Раздел',
+      links: [renderedArticle.breadcrumbs[renderedArticle.breadcrumbs.length-1]]
+    });
+
+
     var headerLinks = renderedArticle.headers
       .filter(function(header) {
         // [level, titleHtml, anchor]
@@ -54,7 +62,10 @@ exports.get = function *get(next) {
 
   if (!renderedArticle.isFolder) {
 
-    var section2 = { links: [] };
+    var section2 = {
+      class: '_separator_before',
+      links: []
+    };
 
     if (renderedArticle.tasks.length) {
       section2.links.push({
@@ -197,6 +208,7 @@ function* renderArticle(slug) {
       rendered.tasks.push({
         url: task.getUrl(),
         title: task.title,
+        anchor: makeAnchor(task.title),
         importance: task.importance,
         content: yield* taskRenderer.renderContent(task),
         solution: yield* taskRenderer.renderSolution(task)

@@ -1,7 +1,9 @@
+
 const mongoose = require('mongoose');
 const passport = require('koa-passport');
 const config = require('config');
 const User = require('users').User;
+
 
 // auto logs in X-Test-User-Id when testing
 module.exports = function(app) {
