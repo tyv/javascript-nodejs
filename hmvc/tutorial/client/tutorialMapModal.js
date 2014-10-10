@@ -3,6 +3,7 @@ var xhr = require('client/xhr');
 var delegate = require('client/delegate');
 var Modal = require('client/head').Modal;
 var Spinner = require('client/spinner');
+var TutorialMap = require('./tutorialMap');
 
 /**
  * Options:
@@ -29,6 +30,7 @@ function TutorialMapModal() {
     wrapper.className = 'tutorial-map-overlay';
     wrapper.innerHTML = event.result + '<button class="close-button tutorial-map-overlay__close"></button>';
     self.setContent(wrapper);
+    new TutorialMap(self.contentElem.firstElementChild);
   });
 
   request.addEventListener('fail', function() {
@@ -41,6 +43,16 @@ function TutorialMapModal() {
 TutorialMapModal.prototype = Object.create(Modal.prototype);
 
 delegate.delegateMixin(TutorialMapModal.prototype);
+
+TutorialMapModal.prototype.render = function() {
+  Modal.prototype.render.apply(this, arguments);
+  document.body.classList.add('tutorial-map_on');
+};
+
+TutorialMapModal.prototype.remove = function() {
+  Modal.prototype.remove.apply(this, arguments);
+  document.body.classList.remove('tutorial-map_on');
+};
 
 TutorialMapModal.prototype.request = function(options) {
   var request = xhr(options);
