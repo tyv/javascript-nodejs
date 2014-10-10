@@ -6,7 +6,7 @@
 	bottom 0
 	left 0
 	z-index 9
-	transition top animation_duration, right animation_duration, left animation_duration
+	// transition top animation_duration, right animation_duration, left animation_duration
 	overflow auto
 
 	&__close,
@@ -14,3 +14,18 @@
 		position absolute
 		top 15px
 		right 24px
+
+.tutorial-map_on
+	overflow hidden
+	
+	.modal::before
+		background none
+
+	.modal .spinner__dot
+		background #999
+
+	.modal-dialog
+		transform none
+		// позиционирование менять не обязательно, потому что .tutorial-map-overlay
+		// позиционирован как fixed, а transform убираем, чтобы position fixed
+		// у .tutorial-map-overlay отсчитывался от окна

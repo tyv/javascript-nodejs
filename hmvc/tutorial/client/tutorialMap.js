@@ -14,6 +14,7 @@ function TutorialMap(elem) {
   this.filterInput.oninput = this.onFilterInput.bind(this);
 }
 
+
 TutorialMap.prototype.updateShowTasks = function() {
   if (this.showTasksCheckbox.checked) {
     this.elem.classList.add('tutorial-map_show-tasks');
@@ -74,6 +75,7 @@ TutorialMap.prototype.filter = function(value) {
   }
 
 };
+
 
 TutorialMap.prototype.throttleFilter = throttle(TutorialMap.prototype.filter, 200);
 
