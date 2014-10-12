@@ -62,7 +62,6 @@ CodeTabsBox.prototype.onSwitchClick = function(e) {
 };
 
 
-
 CodeTabsBox.prototype.highlightTab = function(tab) {
   if (tab.highlighted) return;
   var preElem = tab.querySelector('pre');

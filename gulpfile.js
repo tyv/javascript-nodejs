@@ -79,15 +79,6 @@ gulp.task('watch', lazyRequireTask('./tasks/watch', {
     {
       watch: "styles/**/*.styl",
       task:  'client:compile-css'
-    },
-    {
-      watch: ['client/**', 'hmvc/**/client/**'],
-      ignore: 'client/versions.json',
-      task:  "client:browserify"
-    },
-    {
-      watch: 'public/{fonts,js,styles}/**',
-      task:  'client:build-public-versions'
     }
   ]
 }));
@@ -102,16 +93,8 @@ gulp.task("client:sync-css-images", lazyRequireTask('./tasks/syncCssImages', {
   dst: 'public/i'
 }));
 
-gulp.task('client:clean-compiled-css', function(callback) {
-  fs.unlink('./public/styles/base.css', function(err) {
-    if (err && err.code == 'ENOENT') return callback();
-    callback(err);
-  });
-});
-
 // Show errors if encountered
 gulp.task('client:compile-css',
-  ['client:clean-compiled-css'],
   lazyRequireTask('./tasks/compileCss', {
     src: './styles/base.styl',
     dst: './public/styles',
@@ -124,23 +107,14 @@ gulp.task('client:minify', lazyRequireTask('./tasks/minify', {
   root: './public'
 }));
 
-gulp.task("client:browserify:clean", lazyRequireTask('./tasks/browserifyClean', {
-  dst: './public/js'
-}));
-
-gulp.task("client:browserify", ['client:browserify:clean'], lazyRequireTask('./tasks/browserify'));
-
-// we depend on compile-css, because if build-md5-list works in parallel with client:compile-css,
-// then compile-css recreates files and build-md5-list misses them or errors when they are suddenly removed
-gulp.task("client:build-public-versions",
-  lazyRequireTask('./tasks/buildPublicVersions', { cwd: 'public', src: './{fonts,js,styles}/**/*.*', dst: './public.versions.json' }));
+gulp.task('client:webpack', lazyRequireTask('./tasks/webpack'));
 
 gulp.task('build', function(callback) {
-  runSequence("client:sync-resources", 'client:compile-css', 'client:browserify', 'client:sync-css-images', 'client:build-public-versions', callback);
+  runSequence("client:sync-resources", 'client:compile-css', 'client:sync-css-images', 'client:webpack', callback);
 });
 
 gulp.task('dev', function(callback) {
-  runSequence('build', ['nodemon', 'client:livereload', 'watch'], callback);
+  runSequence("client:sync-resources", 'client:compile-css', 'client:sync-css-images', ['nodemon', 'client:livereload', 'client:webpack', 'watch'], callback);
 });
 
 gulp.task('tutorial:import', ['cache:clean'], lazyRequireTask('tutorial/tasks/import', {

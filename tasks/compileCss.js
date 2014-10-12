@@ -4,6 +4,7 @@ const fs = require('fs');
 const crypto = require('crypto');
 const es = require('event-stream');
 const path = require('path');
+const del = require('del');
 
 module.exports = function(options) {
 
@@ -22,6 +23,8 @@ module.exports = function(options) {
     var asset = require('lib/stylusAsset')({
       getVersion: getAssetVersion
     });
+
+    del.sync(options.dst + '/*');
 
     var versions = {};
     return gulp.src(options.src)
