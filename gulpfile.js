@@ -16,8 +16,10 @@ const runSequence = require('run-sequence');
 
 // before anything: make sure all modules are linked
 gulp.task('link-modules', lazyRequireTask('./tasks/linkModules', { src: ['client', 'modules/*', 'hmvc/*'] }));
+// sync!
 gulp.start('link-modules');
 
+const config = require('config');
 const mongoose = require('config/mongoose');
 
 //Error.stackTraceLimit = Infinity;
@@ -25,7 +27,6 @@ const mongoose = require('config/mongoose');
 //require('clarify');
 
 process.on('uncaughtException', function(err) {
-  // not bunyan, because the 'log' module may be not linked yet
   console.log(err.message, err.stack);
   process.exit(255);
 });
@@ -113,7 +114,9 @@ gulp.task('client:compile-css',
   ['client:clean-compiled-css'],
   lazyRequireTask('./tasks/compileCss', {
     src: './styles/base.styl',
-    dst: './public/styles'
+    dst: './public/styles',
+    publicDst: config.staticHost + '/styles/',  // from browser point of view
+    manifest: path.join(config.tmpRoot, 'styles.versions.json')
   })
 );
 

@@ -113,8 +113,9 @@ function onscroll() {
     return;
   }
 
+
   if (lastState == 'in' && window.pageYOffset < 3) {
-    console.log("close to top");
+    log("close to top");
     // if close to page top, no scrolled state apply
     lastPageYOffset = window.pageYOffset;
     setState('');

@@ -1,5 +1,4 @@
 var init = require('./init');
-var insertNonBlockingScript = require('./insertNonBlockingScript');
 var Modal = require('./modal');
 var Spinner = require('client/spinner');
 
@@ -18,12 +17,12 @@ function login() {
   var spinner = new Spinner();
   modal.setContent(spinner.elem);
   spinner.start();
-  var script = insertNonBlockingScript('/js/auth.js');
-  script.onload = function() {
+
+  require.ensure('auth/client', function() {
     modal.remove();
     var AuthModal = require('auth/client').AuthModal;
     new AuthModal();
-  };
+  });
 }
 
 module.exports = login;

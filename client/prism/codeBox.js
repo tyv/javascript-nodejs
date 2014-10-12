@@ -1,4 +1,4 @@
-var resizeOnload = require('client/head').resizeOnload;
+var resizeOnload = require('client/head/resizeOnload');
 var isScrolledIntoView = require('client/isScrolledIntoView');
 var addLineNumbers = require('./addLineNumbers');
 

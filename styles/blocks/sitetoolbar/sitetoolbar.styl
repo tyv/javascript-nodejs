@@ -25,18 +25,7 @@ sitetoolbar_secondary_link = #498CBE
 
 	.sitetoolbar
 		position fixed
-		top 0
-
-	.page__inner
-		padding-top 60px
-
-.notification_on[data-scroll]
-	.page__inner
-		padding-top 60px + top_notification_height
-
-[data-scroll="in"]
-	.page__sidebar
-		top 60px
+		bottom 0
 
 .notification_on[data-scroll="in"]
 	.sitetoolbar
@@ -47,14 +36,14 @@ sitetoolbar_secondary_link = #498CBE
 		top 0
 
 	.sitetoolbar
-		transform translateY(-100%)
+		transform translateY(100%)
 
 	.page__inner
 		top 0
 
 .notification_on[data-scroll="out"]
 	.sitetoolbar
-		transform translateY(-100%)
+		transform translateY(100%)
 
 // only animate between floating states
 // in -> out
@@ -70,7 +59,7 @@ sitetoolbar_secondary_link = #498CBE
 		transition transform animation_duration
 
 	.page__sidebar
-		transition-property top
+		transition-property bottom
 
 
 .sitetoolbar

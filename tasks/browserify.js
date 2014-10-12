@@ -176,6 +176,8 @@ function bundleHmvc(hmvcName, callback) {
 
 module.exports = function() {
 
+  return function(callback) { callback() };
+
   return function(callback) {
 
 
