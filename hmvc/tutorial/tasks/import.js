@@ -21,6 +21,17 @@ const log = require('log')();
 // TODO: use htmlhint/jslint for html/js examples
 
 
+function* destroyAll() {
+
+  yield Article.destroy({});
+  yield Task.destroy({});
+  yield Reference.destroy({});
+
+}
+
+function stripTags(str) {
+  return str.replace(/<\/?[a-z].*?>/gim, '');
+}
 
 /**
  *
@@ -30,15 +41,12 @@ const log = require('log')();
  * @returns {Function}
  */
 module.exports = function(options) {
-  const root = path.join(config.projectRoot, options.root);
+  const repoRoot = path.join(config.projectRoot, options.root);
 
   return function(callback) {
 
     co(function* () {
-
-      yield Article.destroy({});
-      yield Task.destroy({});
-      yield Reference.destroy({});
+      yield* destroyAll();
 
       if (!options.updateFiles) {
         fse.removeSync(Article.resourceFsRoot);
@@ -48,23 +56,18 @@ module.exports = function(options) {
         fs.mkdirSync(Task.resourceFsRoot);
       }
 
-      const subPaths = fs.readdirSync(root);
+      const subPaths = fs.readdirSync(repoRoot);
 
       for (var i = 0; i < subPaths.length; i++) {
-        var subPath = path.join(root, subPaths[i]);
+        var subPath = path.join(repoRoot, subPaths[i]);
         if (fs.existsSync(path.join(subPath, 'index.md'))) {
           yield importFolder(subPath, null);
         }
       }
 
-      mongoose.disconnect();
-
     })(callback);
   };
 
-  function stripTags(str) {
-    return str.replace(/<\/?[a-z].*?>/gim, '');
-  }
 
   function* importFolder(sourceFolderPath, parent) {
     log.info("importFolder", sourceFolderPath);

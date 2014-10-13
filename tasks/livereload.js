@@ -19,7 +19,7 @@ module.exports = function(options) {
       gutil.log("livereload: deferred listen on change " + options.watch);
 
       gulp.watch(options.watch).on('change', function(changed) {
-        if (changed.path.match(/\.js$/)) {
+        if (changed.path.match(/\.(js|map)/)) {
           livereload.changedThrottle(changed);
         } else {
           livereload.changed(changed);

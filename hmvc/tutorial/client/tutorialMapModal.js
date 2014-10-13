@@ -1,7 +1,7 @@
 var xhr = require('client/xhr');
 
 var delegate = require('client/delegate');
-var Modal = require('client/head').Modal;
+var Modal = require('client/head/modal');
 var Spinner = require('client/spinner');
 var TutorialMap = require('./tutorialMap');
 
@@ -25,6 +25,7 @@ function TutorialMapModal() {
   });
 
   var self = this;
+
   request.addEventListener('success', function(event) {
     var wrapper = document.createElement('div');
     wrapper.className = 'tutorial-map-overlay';

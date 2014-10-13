@@ -2,6 +2,9 @@ const gulp = require('gulp');
 const gp = require('gulp-load-plugins')();
 const fs = require('fs');
 const crypto = require('crypto');
+const es = require('event-stream');
+const path = require('path');
+const del = require('del');
 
 module.exports = function(options) {
 
@@ -21,6 +24,9 @@ module.exports = function(options) {
       getVersion: getAssetVersion
     });
 
+    del.sync(options.dst + '/*');
+
+    var versions = {};
     return gulp.src(options.src)
       // without plumber if stylus emits PluginError, it will disappear at the next step
       // plumber propagates it down the chain
@@ -28,7 +34,24 @@ module.exports = function(options) {
       .pipe(gp.stylus({use: [nib, asset]}))
       .pipe(gp.autoprefixer("last 1 version"))
       .pipe(gp.if(process.env.NODE_ENV == 'production', gp.minifyCss()))
-      .pipe(gulp.dest(options.dst));
+      .pipe(es.map(function(file, cb) {
+        var version = crypto.createHash('md5').update(file.contents).digest('hex').substring(0, 8);
+        var name = path.basename(file.path).slice(0, -4);
+
+        if (process.env.NODE_ENV == 'production') {
+          file.path = file.path.replace(/\.css$/, '.' + version + '.css');
+          versions[name] = options.publicDst + path.basename(file.path);
+        } else {
+          versions[name] = options.publicDst + path.basename(file.path) + '?' + version;
+        }
+        //console.log(versions);
+        cb(null, file);
+      }))
+      .pipe(gulp.dest(options.dst))
+      .on('end', function() {
+        //console.log(options.manifest, versions);
+        fs.writeFileSync(options.manifest, JSON.stringify(versions));
+      });
 
   };
 

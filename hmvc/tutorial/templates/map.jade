@@ -4,6 +4,6 @@ block body
 
   include _map
 
-  script(src=asset("/js/tutorial.js"))
-  script require('tutorial/client').init();
-  script new (require('tutorial/client').TutorialMap)(document.querySelector('.tutorial-map'));
+  script(src=script("tutorial"))
+  script tutorial.init();
+  script new (tutorial.TutorialMap)(document.querySelector('.tutorial-map'));

@@ -23,4 +23,4 @@ function getScrollbarHeight() {
   return widthNoScroll - widthWithScroll;
 }
 
-module.exports = getScrollbarHeight();
+module.exports = getScrollbarHeight;

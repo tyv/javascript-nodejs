@@ -21,7 +21,7 @@ html
     block variables
     include ../blocks/head
   body.no-icons(class= layout.bodyClass != "" ? layout.bodyClass : undefined)
-    script require('client/head').fontTest();
+    script head.fontTest();
     if layout.notificationPopup
       include ../blocks/notification-popup
     if layout.sitetoolbar
@@ -53,8 +53,8 @@ html
       .tutorial-map-overlay
         include ../blocks/map
         +b('button').close-button.tutorial-map-overlay__close
-    script(src=asset("/js/footer.js"))
-    script require('client/footer').init();
+    script(src=script("footer"))
+    script footer.init();
 
-    script(src=asset("/js/tutorial.js"))
-    script require('tutorial/client').init();
+    script(src=script("tutorial"))
+    script tutorial.init();

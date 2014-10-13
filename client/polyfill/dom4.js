@@ -16,7 +16,8 @@ function mutationMacro(nodes) {
 }
 
 var methods = {
-  matches: Element.prototype.matchesSelector || Element.prototype.mozMatchesSelector || Element.prototype.msMatchesSelector,
+  // safari = webkitMatchesSelector
+  matches: Element.prototype.matchesSelector || Element.prototype.webkitMatchesSelector || Element.prototype.mozMatchesSelector || Element.prototype.msMatchesSelector,
   remove: function() {
     var parentNode = this.parentNode;
     if (parentNode) {

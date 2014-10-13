@@ -85,6 +85,25 @@ function addStandardHelpers(locals, ctx) {
     return config.staticHost + publicPath.replace('.', '.v' + version + '.');
   };
 
+
+  locals.script = function(name) {
+    var versions = JSON.parse(
+      fs.readFileSync(path.join(config.tmpRoot, 'js.versions.json'), {encoding: 'utf-8'})
+    );
+    var versionName = versions[name];
+
+    return versionName;
+  };
+
+  locals.style = function(name) {
+    var versions = JSON.parse(
+      fs.readFileSync(path.join(config.tmpRoot, 'styles.versions.json'), {encoding: 'utf-8'})
+    );
+    var versionName = versions[name];
+
+    return versionName;
+  };
+
 //  locals.debug = true;
 }
 

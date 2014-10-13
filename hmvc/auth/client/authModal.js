@@ -1,8 +1,9 @@
 var xhr = require('client/xhr');
 
 var delegate = require('client/delegate');
-var Modal = require('client/head').Modal;
+var Modal = require('client/head/modal');
 var Spinner = require('client/spinner');
+
 
 var loginForm = require('../templates/login-form.jade');
 var registerForm = require('../templates/register-form.jade');
