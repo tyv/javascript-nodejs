@@ -9,8 +9,10 @@ module.exports = function() {
     var config = require('config/webpack');
     webpack(config, function(err, stats) {
       if (!err) {
+        // errors in files do not stop webpack watch
+        // instead, they are gathered, so I get the first one here (if no other)
         var jsonStats = stats.toJson();
-        err = jsonStats.errors[0] || jsonStats.warnings[0];
+        err = jsonStats.errors[0];
       }
 
       if (err) {
@@ -19,8 +21,10 @@ module.exports = function() {
           message: err
         });
 
-        gp.util.log(err.message);
+        gp.util.log(err);
 
+        if (!config.watch) callback(err);
+        return;
       }
 
       gp.util.log('[webpack]', stats.toString({

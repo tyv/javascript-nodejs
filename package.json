@@ -52,6 +52,7 @@
     "imagemin-svgo": "*",
     "inherits": "*",
     "jade": "*",
+    "jade-loader": "git://github.com/webpack/jade-loader",
     "jquery": "*",
     "juice2": "*",
     "koa": "*",

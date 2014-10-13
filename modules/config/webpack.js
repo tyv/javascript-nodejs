@@ -30,7 +30,7 @@ var webpackConfig = {
   },
   module: {
     loaders: [
-      {test: /\.jade$/, loader: "jade"}
+      {test: /\.jade$/, loader: "jade?root=" + config.projectRoot + '/templates'}
     ]
   },
 

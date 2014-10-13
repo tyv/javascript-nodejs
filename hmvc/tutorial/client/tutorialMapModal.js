@@ -25,6 +25,7 @@ function TutorialMapModal() {
   });
 
   var self = this;
+
   request.addEventListener('success', function(event) {
     var wrapper = document.createElement('div');
     wrapper.className = 'tutorial-map-overlay';
