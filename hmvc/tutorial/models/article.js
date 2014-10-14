@@ -5,6 +5,7 @@ const Schema = mongoose.Schema;
 const config = require('config');
 const path = require('path');
 const Reference = require('./reference');
+const Task = require('./task');
 
 const schema = new Schema({
   title: {
@@ -67,6 +68,27 @@ schema.methods.getResourceWebRoot = function() {
 
 schema.methods.getUrl = function() {
   return schema.statics.getUrlBySlug(this.get('slug'));
+};
+
+schema.methods.destroyTree = function* () {
+  if (this.isFolder) {
+    var children = yield this.schema.find({parent: this._id}).select('isFolder').exec();
+
+    for (var i = 0; i < children.length; i++) {
+      var child = children[i];
+      yield child.destroyTree();
+    }
+  }
+
+  yield this.destroy();
+};
+
+schema.statics.destroyTree = function* (condition) {
+  var articles = yield this.find(condition).select('isFolder').exec();
+
+  for (var i = 0; i < articles.length; i++) {
+    yield* articles[i].destroyTree();
+  }
 };
 
 /**
@@ -153,9 +175,15 @@ schema.statics.findTree = function* () {
 };
 
 schema.pre('remove', function(next) {
-  // require it here to be sure that Reference model actually exists ?
   Reference.remove({article: this._id}, next);
 });
+
+schema.pre('remove', function(next) {
+  Task.remove({parent: this._id}, next);
+});
+
+
+
 
 schema.plugin(troop.timestamp);
 
