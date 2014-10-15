@@ -73,13 +73,11 @@
 	&__item
 		border-bottom 1px solid #e6e0d4
 		line-height 20px
+		padding 0 50px 0 40px
 
 	&__item:last-child
 		border 0
 		border-radius 0 0 4px 4px
-
-	&__item_editable:hover &__item-value
-		color #727272
 
 	& &__inline-title
 		margin 25px 0 0
@@ -89,11 +87,13 @@
 
 	&__item-content
 		position relative
-		padding 17px 50px 17px 40px
+		padding 17px 0
 
 	&__item-change
-		padding 11px 40px
+		padding 11px 0
 		display none
+		position relative
+		width 100%
 
 	&__item-name
 		float left
@@ -107,7 +107,7 @@
 	&__edit
 		@extend $button-reset
 		position absolute
-		right 25px
+		right 0
 		top 17px
 		min-height 20px
 		min-width 20px
@@ -127,7 +127,7 @@
 		display none
 
 	&__item_editing &__item-change
-		display block
+		display table
 
 	&__item-value
 		overflow auto
@@ -172,6 +172,28 @@
 
 	&__pass
 		width 150px
+
+	&__change-content,
+	&__ok-cancel
+		display table-cell
+
+	&__ok-cancel
+		width 1%
+		white-space nowrap
+
+	&__item-save
+		margin 0 0 -1px // убираем смещение соседних пунктов в момент показа в Fx
+		height 32px
+
+	&__item-cancel
+		@extend $button-reset
+		color #568DCA
+		font-size inherit
+		margin-left 10px
+
+	&__item-cancel:hover
+		color link_hover_color
+		text-decoration underline
 
 
 // profile_item_padding_horiz = 25px
