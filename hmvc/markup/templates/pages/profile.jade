@@ -1,4 +1,4 @@
-extends ../layouts/base
+extends ../layouts/profile
 
 // - http://stackoverflow.com/questions/12646451/how-to-pass-variables-between-jade-templates
 block variables
@@ -15,7 +15,7 @@ block content
           var elem;
           if (e.target.hasAttribute('data-inline-edit')) {
             elem = e.target.parentNode;
-            while (elem && !elem.classList.contains('profile__item_editable')) {
+            while (elem && !elem.classList.contains('profile__item')) {
               elem = elem.parentNode;
             }
             elem.classList.add('profile__item_editing');
@@ -47,32 +47,38 @@ block content
       +e.item
         +e.item-content
           +e('h2').inline-title Управление аккаунтом
-      +e.item._editable
+      +e.item
         +e.item-content
           +e.item-name Юзернейм:
           +e.item-value Nakazator
           +e('button').edit(data-inline-edit)
         +e.item-change
-          +e('label').change-label(for="profile-username") Юзернейм:
-          +b.text-input._small
-            +e('input').control(type="text", id="profile-username", value="Nakazator")
-      +e.item._editable
+          +e.labeled
+            +e('label').labeled-label(for="profile-username") Юзернейм:
+            +b.text-input._small.__labeled-text
+              +e('input').control(type="text", id="profile-username", value="Nakazator")
+      +e.item
         +e.item-content
           +e.item-name Email:
           +e.item-value nakazator@mail.com
           +e('button').edit(data-inline-edit)
         +e.item-change
-          +e('label').change-label(for="profile-email") Email:
-          +b.text-input._small
-            +e('input').control(type="email", id="profile-email", value="nakazator@mail.com")
-      +e.item._editable
+          +e.labeled
+            +e('label').labeled-label(for="profile-email") Email:
+            +b.text-input._small.__labeled-text
+              +e('input').control(type="email", id="profile-email", value="nakazator@mail.com")
+      +e.item
         +e.item-content
           +e('button').action._change-password(data-inline-edit) Изменить пароль
         +e.item-change
-          +b.text-input._small
-            +e('input').control(type="password", id="profile-pass1")
-          +b.text-input._small
-            +e('input').control(type="password", id="profile-pass2")
+          +e.labeled.__pass-change
+            +e.labeled-label(for="profile-pass-old") Старый пароль:
+            +b.text-input._small.__labeled-text.__pass
+              +e('input').control(type="password", id="profile-pass-old")
+          +e.labeled.__pass-change
+            +e.labeled-label(for="profile-pass-new") Новый пароль:
+            +b.text-input._small.__labeled-text.__pass
+              +e('input').control(type="password", id="profile-pass-new")
       +e.item
         +e.item-content
           +e('h2').inline-title Привязанные внешние аккаунты
@@ -84,7 +90,6 @@ block content
             include ../../../auth/templates/providers
       +e.item
         +e.item-content
-          //- cссылка?
           +e('button').action._remove-account Удалить аккаунт
 
 

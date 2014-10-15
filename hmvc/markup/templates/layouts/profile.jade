@@ -28,12 +28,8 @@ html
       include ../blocks/sitetoolbar
       //- include ../blocks/sitetoolbar-login-loaders
     .page
-      if layout.prevNext
-        include ../blocks/page-nav
-      if layout.sidebar
-        include ../blocks/sidebar
       .page__inner
-        .main.main_width-limit
+        .main
           //- отключается только на странице задачи, по возможности отрефакторить
           if layout.header
             header.main__header(class= layout.centeredHeader == true ? "main__header_center" : undefined)

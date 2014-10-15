@@ -1,4 +1,38 @@
 .profile
+	&__upic
+		size-of('../../../assets/img/userpic.png')
+		margin auto
+		position relative
+
+	&__upic-upload
+		display none
+
+	&__upic-edit
+		position absolute
+		top 0
+		right 0
+		bottom 0
+		left 0
+		text-align center
+		color #fff
+		background rgba(0, 0, 0, .7)
+		border-radius 50%
+		cursor pointer
+		font-size 12px
+		line-height 17px
+		display none
+
+	&__upic-edit::before
+		@extend $font-camera
+		font-size 48px
+		display block
+		margin 30px 0 5px
+		color rgba(255, 255, 255, .35)
+		line-height 1
+
+	&__upic:hover &__upic-edit
+		display block
+
 	&__content
 		margin 20px 0
 
@@ -44,9 +78,6 @@
 		border 0
 		border-radius 0 0 4px 4px
 
-	&__item_editable:hover
-		background #f9f8f0
-
 	&__item_editable:hover &__item-value
 		color #727272
 
@@ -64,19 +95,13 @@
 		padding 11px 40px
 		display none
 
-	&__change-label
-		display inline-block
-		min-width 110px
-		margin 6px 15px 0 0
-		float left
-
 	&__item-name
 		float left
 		min-width 110px
 		margin-right 15px
 
 	&__item-name,
-	&__change-label
+	&__labeled-label
 		color #727272
 
 	&__edit
@@ -130,19 +155,23 @@
 	& &__item-title
 		margin-bottom 12px
 
-	&__socials
-		text-align justify
-		line-height 0
+	&__social-login
+		margin-right 6px
+		vertical-align bottom
 		margin-bottom 5px
 
-	// пока не появилась более полная поддержка text-align-last
-	// используем старый подход с псевдоэлементом
-	&__socials::after
-		content ""
+	&__labeled-label
 		display inline-block
-		width 100%
-		height 0
-		vertical-align top
+		min-width 110px
+		margin 6px 15px 0 0
+		float left
+
+	&__pass-change
+		display inline-block
+		margin-right 18px
+
+	&__pass
+		width 150px
 
 
 // profile_item_padding_horiz = 25px
