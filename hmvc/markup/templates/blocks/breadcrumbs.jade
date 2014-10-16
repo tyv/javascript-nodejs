@@ -1,9 +1,11 @@
-ol.breadcrumbs
-  li.breadcrumbs__item
-    a.breadcrumbs__link(href='/') Главная
-  li.breadcrumbs__item
-    a.breadcrumbs__link(href='/tutorial') Учебник
-  li.breadcrumbs__item
-    a.breadcrumbs__link(href='/getting-started') Общая информация
-  li.breadcrumbs__item
++b('ol').breadcrumbs
+  +e('li').item._home
+    +e('a').link(href='/')
+      //- добавляем элемент hidden-text, чтобы при отключенных стилях ссылка была доступна
+      +e('span').hidden-text Главная
+  +e('li').item
+    +e('a').link(href='/tutorial') Учебник
+  +e('li').item
+    +e('a').link(href='/getting-started') Общая информация
+  +e('li').item
     | Введение в JavaScript

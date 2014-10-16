@@ -16,6 +16,22 @@
 		&:last-child::after
 			display none
 
+	&__hidden-text
+		display none
+
+	&__item:first-child &__link::before
+		@extend $font-home
+		display inline-block
+		min-width 17px
+		font-size 18px
+		color #999
+
+	&__item:first-child &__link:hover
+		text-decoration none
+
+	&__item:first-child &__link:hover::before
+		color inherit
+
 	&__link
 		color link_color
 
