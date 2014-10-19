@@ -5,12 +5,31 @@
 	padding 0
 	color #777
 
+	&_fixed
+		position fixed
+		bottom 0
+		right 0
+		left 0
+		background #fff
+		line-height 20px
+		padding 20px 23px
+		box-shadow 1px -1px 2px rgba(0, 0, 0, .3)
+		transform translateY(105%)
+		transition left animation_duration, transform animation_duration
+
+	[data-scroll="in"] &_fixed
+			transform translateY(0)
+
+	.page_sidebar_on &_fixed
+		left sidebar_width
+
 	& &__item
 		display inline-block
-		margin 0 5px 0 0
 
 		&::after
-			content " →"
+			content "→"
+			display inline-block
+			margin 0 8px 0 9px
 			color #666
 
 		&:last-child::after
@@ -19,17 +38,17 @@
 	&__hidden-text
 		display none
 
-	&__item:first-child &__link::before
+	&__item_home &__link::before
 		@extend $font-home
 		display inline-block
 		min-width 17px
 		font-size 18px
 		color #999
 
-	&__item:first-child &__link:hover
+	&__item_home &__link:hover
 		text-decoration none
 
-	&__item:first-child &__link:hover::before
+	&__item_home &__link:hover::before
 		color inherit
 
 	&__link
