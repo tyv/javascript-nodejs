@@ -12,13 +12,10 @@ module.exports = function(options) {
     var importer = new Importer({
       root: options.root,
       onchange: function(path) {
-        console.log(path);
         livereload.changed(path);
       }
     });
     watch(options.root, function(filePath, flags, id) {
-      console.log("HERE");
-
       var relFilePath = filePath.slice(options.root.length+1);
 
       co(function* () {
