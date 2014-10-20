@@ -12,5 +12,5 @@ block content
         +e('li').lesson
           +e('a').link(href=article.url) #{article.title}
 
-  script(src=asset("/js/tutorial.js"))
-  script require('tutorial/client').init();
+  script(src=script("tutorial"))
+  script tutorial.init();

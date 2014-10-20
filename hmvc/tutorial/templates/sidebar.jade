@@ -1,5 +1,5 @@
 +e.section
-  +e('a').link._arrow(href="#" data-action="tutorial-map") Карта учебника
+  +e('a').link._arrow(href="/tutorial/map" data-action="tutorial-map") Карта учебника
 
 each section in sidebar.sections
   +e(class="section #{section.class}")
@@ -9,7 +9,7 @@ each section in sidebar.sections
       +e('ul').navigation-links
         each link in section.links
           +e('li').navigation-link
-            +e('a').link(href=link.url) !{link.title}
+            +e('a').link(href=link.url)= link.title
 
 +e.section
   +e.section-title Поделиться

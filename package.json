@@ -21,6 +21,7 @@
     "browserify-jade": "*",
     "bunyan": "*",
     "co": "*",
+    "del": "^0.1.3",
     "escape-html": "*",
     "event-stream": "*",
     "fs-extra": "*",
@@ -50,7 +51,8 @@
     "imagemin-pngcrush": "*",
     "imagemin-svgo": "*",
     "inherits": "*",
-    "jade": "*",
+    "jade": "git://github.com/visionmedia/jade",
+    "jade-loader": "^0.7.0",
     "jquery": "*",
     "juice2": "*",
     "koa": "*",
@@ -108,6 +110,7 @@
     "vinyl": "*",
     "vinyl-fs": "*",
     "vinyl-source-stream": "*",
+    "webpack": "^1.4.7",
     "yargs": "*"
   },
   "devDependencies": {
@@ -128,6 +131,7 @@
     "gulp-sourcemaps": "*",
     "gulp-streamify": "*",
     "gulp-uglify": "*",
+    "highland": "^2.0.0",
     "lazypipe": "*",
     "mocha": "*",
     "node-notifier": "*",

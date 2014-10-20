@@ -1,4 +1,5 @@
-var scrollbarHeight = require('./getScrollbarHeight');
+var getScrollbarHeight = require('./getScrollbarHeight');
+var scrollbarHeight;
 
 function getDocumentHeight(doc) {
   doc = doc || document;
@@ -11,6 +12,7 @@ function getDocumentHeight(doc) {
 
   if (doc.documentElement.scrollWidth > doc.documentElement.clientWidth) {
     // got a horiz scroll, let's add it
+    if (!scrollbarHeight) scrollbarHeight = getScrollbarHeight();
     height += scrollbarHeight;
   }
 

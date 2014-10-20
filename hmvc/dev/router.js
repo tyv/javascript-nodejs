@@ -6,8 +6,7 @@ var _ = require('lodash');
 
 var router = module.exports = new Router();
 
-
-router.get('/test', function*() {
+router.get('/user', function*() {
   var User = require('users').User;
 
   var user = new User({
@@ -24,9 +23,8 @@ router.get('/test', function*() {
     });
 
   } catch (e) {
+
     console.log(e.errors);
-
-
   }
 
 });
@@ -35,5 +33,11 @@ router.get('/die', function*() {
   setTimeout(function() {
     throw new Error("die");
   }, 10);
+});
+
+var d = new Date() + '';
+
+router.get('/test', function*() {
+  this.body = d;
 });
 

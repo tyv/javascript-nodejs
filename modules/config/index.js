@@ -90,5 +90,6 @@ _.assign(module.exports, {
     }
   },
   projectRoot:   process.cwd(),
-  publicRoot:    path.join(process.cwd(), 'public')
+  publicRoot:    path.join(process.cwd(), 'public'),
+  tmpRoot:  path.join(process.cwd(), 'tmp')
 });

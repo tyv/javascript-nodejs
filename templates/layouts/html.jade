@@ -5,9 +5,9 @@ html
   head
     include ../blocks/head
   body.no-icons
-    script require('client/head').fontTest();
+    script head.fontTest();
 
     block body
 
-    script(src=asset("/js/footer.js"))
-    script require('client/footer').init();
+    script(src=script("footer"))
+    script footer.init();
