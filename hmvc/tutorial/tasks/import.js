@@ -33,6 +33,91 @@ function stripTags(str) {
   return str.replace(/<\/?[a-z].*?>/gim, '');
 }
 
+
+function* syncFolder(sourceFolderPath, parent) {
+  log.info("syncFolder", sourceFolderPath);
+
+  const contentPath = path.join(sourceFolderPath, 'index.md');
+  const content = fs.readFileSync(contentPath, 'utf-8').trim();
+
+  const folderFileName = path.basename(sourceFolderPath);
+
+  const data = {
+    isFolder: true,
+    content:  content
+  };
+
+  if (parent) {
+    data.parent = parent._id;
+  }
+
+  data.weight = parseInt(folderFileName);
+  data.slug = folderFileName.slice(3);
+
+
+  var options = {
+    staticHost:      config.staticHost,
+    resourceWebRoot: Article.getResourceWebRootBySlug(data.slug),
+    metadata:        {},
+    trusted:         true
+  };
+
+  const parsed = new BodyParser(content, options).parseAndWrap();
+
+  checkIfErrorsInParsed(parsed);
+  data.title = extractHeader(parsed);
+
+  const folder = new Article(data);
+  yield folder.persist();
+
+  const subPaths = fs.readdirSync(sourceFolderPath);
+
+  for (var i = 0; i < subPaths.length; i++) {
+    if (subPaths[i] == 'index.md') continue;
+
+    var subPath = path.join(sourceFolderPath, subPaths[i]);
+
+    if (fs.existsSync(path.join(subPath, 'index.md'))) {
+      yield* importFolder(subPath, folder);
+    } else if (fs.existsSync(path.join(subPath, 'article.md'))) {
+      yield* importArticle(subPath, folder);
+    } else {
+      yield* importResource(subPath, folder.getResourceFsRoot());
+    }
+  }
+
+}
+
+
+function extractHeader(parsed) {
+  log.debug("extracting header");
+
+  const titleHeader = parsed.getChild(0);
+  if (titleHeader.getType() != 'HeaderTag') {
+    throw new Error("must start with a #Header");
+  }
+
+  return titleHeader.text; // no more ugly code in headers
+}
+
+
+// todo with incremental import: move to separate task?
+function checkIfErrorsInParsed(parsed) {
+  log.debug("checking errors in parsed");
+  const walker = new TreeWalkerSync(parsed);
+  const errors = [];
+
+  walker.walk(function(node) {
+    if (node.getType() == 'ErrorTag') {
+      errors.push(node.text);
+    }
+  });
+  if (errors.length) {
+    throw new Error("Errors: " + errors.join());
+  }
+}
+
+
 /**
  *
  * @param options
@@ -69,89 +154,6 @@ module.exports = function(options) {
   };
 
 
-  function* importFolder(sourceFolderPath, parent) {
-    log.info("importFolder", sourceFolderPath);
-
-    const contentPath = path.join(sourceFolderPath, 'index.md');
-    const content = fs.readFileSync(contentPath, 'utf-8').trim();
-
-    const folderFileName = path.basename(sourceFolderPath);
-
-    const data = {
-      isFolder: true,
-      content: content
-    };
-
-    if (parent) {
-      data.parent = parent._id;
-    }
-
-    data.weight = parseInt(folderFileName);
-    data.slug = folderFileName.slice(3);
-
-    var options = {
-      staticHost: config.staticHost,
-      resourceWebRoot:    Article.getResourceWebRootBySlug(data.slug),
-      metadata:        {},
-      trusted:         true
-    };
-
-    data.title = extractHeader(content, options);
-
-    const folder = new Article(data);
-    yield folder.persist();
-
-    const subPaths = fs.readdirSync(sourceFolderPath);
-
-    for (var i = 0; i < subPaths.length; i++) {
-      if (subPaths[i] == 'index.md') continue;
-
-      var subPath = path.join(sourceFolderPath, subPaths[i]);
-
-      if (fs.existsSync(path.join(subPath, 'index.md'))) {
-        yield importFolder(subPath, folder);
-      } else if (fs.existsSync(path.join(subPath, 'article.md'))) {
-        yield importArticle(subPath, folder);
-      } else {
-        yield importResource(subPath, folder.getResourceFsRoot());
-      }
-    }
-
-  }
-
-  // todo with incremental import: move to separate task?
-  function checkIfErrorsInParsed(parsed) {
-    log.debug("checking errors in parsed");
-    const walker = new TreeWalkerSync(parsed);
-    const errors = [];
-
-    walker.walk(function(node) {
-      if (node.getType() == 'ErrorTag') {
-        errors.push(node.text);
-      }
-    });
-    if (errors.length) {
-      throw new Error("Errors: " + errors.join());
-    }
-  }
-
-  function extractHeader(content, options) {
-    log.debug("extracting header");
-
-    options.metadata = {};
-    const parsed = new BodyParser(content, options).parseAndWrap();
-
-    checkIfErrorsInParsed(parsed);
-    log.debug("no errors");
-
-    const titleHeader = parsed.getChild(0);
-    if (titleHeader.getType() != 'HeaderTag') {
-      throw new Error("must start with a #Header");
-    }
-
-    return titleHeader.text; // no more ugly code in headers
-  }
-
   function* importArticle(articlePath, parent) {
     log.info("importArticle", articlePath);
 
@@ -161,7 +163,7 @@ module.exports = function(options) {
     const articlePathName = path.basename(articlePath);
 
     const data = {
-      content: content,
+      content:  content,
       isFolder: false
     };
 
@@ -173,9 +175,9 @@ module.exports = function(options) {
     data.slug = articlePathName.slice(3);
 
     const options = {
-      staticHost: config.staticHost,
+      staticHost:      config.staticHost,
       resourceWebRoot: Article.getResourceWebRootBySlug(data.slug),
-      metadata:        { },
+      metadata:        {},
       trusted:         true
     };
 
@@ -306,7 +308,7 @@ module.exports = function(options) {
     data.slug = taskPathName.slice(3);
 
     const options = {
-      staticHost: config.staticHost,
+      staticHost:      config.staticHost,
       resourceWebRoot: Task.getResourceWebRootBySlug(data.slug),
       metadata:        {},
       trusted:         true
