@@ -39,7 +39,6 @@
     "gulp-nodemon": "*",
     "gulp-notify": "*",
     "gulp-plumber": "*",
-    "gulp-rimraf": "*",
     "gulp-stylus": "*",
     "gulp-util": "*",
     "humane-js": "*",
