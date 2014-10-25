@@ -4,8 +4,6 @@
   +e.inner
     +e.content
       +e.section
-        +e('a').link._arrow(href="#", data-action="tutorial-map", onclick="document.querySelector('body').classList.add('tutorial-map_on')") Полное содержание
-      +e.section
         +e('h4').section-title Раздел
         +e('a').link(href="#") Основы JavaScript
       +e.section
@@ -27,6 +25,8 @@
               +e('a').link(href="#") Задачи (2)
             +e('li').navigation-link
               +e('a').link(href="#") Комментарии (12)
+      +e.section._map
+        +e('a').link._map(href="#", data-action="tutorial-map", onclick="document.querySelector('body').classList.add('tutorial-map_on')") Карта учебника
       +e.section._share
         +e.section-title Поделиться
         +b('a').share._tw.sidebar__share(href="https://twitter.com/share?url=http://design.javascript.ru/intro")
