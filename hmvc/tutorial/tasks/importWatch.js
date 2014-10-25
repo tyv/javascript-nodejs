@@ -13,7 +13,7 @@ module.exports = function(options) {
     var importer = new Importer({
       root:     root,
       onchange: function(path) {
-        livereload.changed(path);
+        liverelpoad.changed(path);
       }
     });
     watch(root, function(filePath, flags, id) {
