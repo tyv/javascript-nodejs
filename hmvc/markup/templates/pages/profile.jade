@@ -33,351 +33,96 @@ block content
     include ../blocks/profile-upic
     +e.content
       +e.tabs
-        +e.tab
-          +e.tab-content
-            +e('a').tab-link Профиль
         +e.tab._current
           +e.tab-content
-            | Аккаунт
+            | Профиль
         +e.tab
           +e.tab-content
-            +e('a').tab-link Заказы
+            +e('a').tab-link(href="#") Аккаунт
         +e.tab
           +e.tab-content
-            +e('a').tab-link Курсы
+            +e('a').tab-link(href="#") Заказы
         +e.tab
           +e.tab-content
-            +e('a').tab-link Уведомления
+            +e('a').tab-link(href="#") Курсы
         +e.tab
           +e.tab-content
-            +e('a').tab-link Тесты
+            +e('a').tab-link(href="#") Уведомления
+        +e.tab
+          +e.tab-content
+            +e('a').tab-link(href="#") Тесты
       +e.item
         +e.item-content
           +e('h2').inline-title Управление аккаунтом
       +e.item
         +e.item-content
-          +e.item-name Юзернейм:
-          +e.item-value Nakazator
+          +e.item-name Имя:
+          +e.item-value Валентиновский Валентин Валентинович
           +e('button').edit(data-inline-edit)
         +e.item-change
           +e.change-content
             +e.labeled
-              +e('label').labeled-label(for="profile-username") Юзернейм:
+              +e('label').labeled-label(for="profile-name") Имя:
               +b.text-input._small.__labeled-text
-                +e('input').control(type="text", id="profile-username", value="Nakazator")
+                +e('input').control(type="text", id="profile-name", value="Валентиновский Валентин Валентинович")
           include ../blocks/profile-ok-cancel
       +e.item
         +e.item-content
           +e.item-name Email:
-          +e.item-value nakazator@mail.com
+          +e.item-value
           +e('button').edit(data-inline-edit)
         +e.item-change
           +e.change-content
             +e.labeled
               +e('label').labeled-label(for="profile-email") Email:
               +b.text-input._small.__labeled-text
-                +e('input').control(type="email", id="profile-email", value="nakazator@mail.com")
+                +e('input').control(type="email", id="profile-email")
           include ../blocks/profile-ok-cancel
       +e.item
         +e.item-content
-          +e('button').action._change-password(data-inline-edit) Изменить пароль
+          +e.item-name Website:
+          +e.item-value www.valentin.com
+          +e('button').edit(data-inline-edit)
         +e.item-change
-          +e.labeled.__pass-change
-            +e.labeled-label(for="profile-pass-old") Старый пароль:
-            +b.text-input._small.__labeled-text.__pass
-              +e('input').control(type="password", id="profile-pass-old")
-          +e.labeled.__pass-change
-            +e.labeled-label(for="profile-pass-new") Новый пароль:
-            +b.text-input._small.__labeled-text.__pass
-              +e('input').control(type="password", id="profile-pass-new")
+          +e.change-content
+            +e.labeled
+              +e('label').labeled-label(for="profile-website") Website:
+              +b.text-input._small.__labeled-text
+                +e('input').control(type="url", id="profile-website", value="www.valentin.com")
+          include ../blocks/profile-ok-cancel
       +e.item
         +e.item-content
-          +e('h2').inline-title Привязанные внешние аккаунты
-          +e('p').item-note При привязке аккаунта можно будет заходить на сайт одним нажатием кнопки.
+          +e.item-name Страна:
+          +e.item-value Россия
+          +e('button').edit(data-inline-edit)
+        +e.item-change
+          +e.change-content
+            +e.labeled
+              +e('label').labeled-label(for="profile-country") Страна:
+              +b.text-input._small.__labeled-text
+                +e('input').control(type="url", id="profile-country", value="Россия")
+          include ../blocks/profile-ok-cancel
       +e.item
         +e.item-content
-          +e.item-title Привязать:
-          +e.socials
-            include ../../../auth/templates/providers
+          +e.item-name Город:
+          +e.item-value
+          +e('button').edit(data-inline-edit)
+        +e.item-change
+          +e.change-content
+            +e.labeled
+              +e('label').labeled-label(for="profile-city") Страна:
+              +b.text-input._small.__labeled-text
+                +e('input').control(type="url", id="profile-city")
+          include ../blocks/profile-ok-cancel
       +e.item
         +e.item-content
-          +e('button').action._remove-account Удалить аккаунт
-
-
-
-    //- .profile__tabs
-    //-   .profile__tab.profile__tab_current Профиль
-    //-   .profile__tab
-    //-     a.profile__section-link(href="#account") Аккаунт
-    //-   .profile__tab
-    //-     a.profile__section-link(href="#orders") Заказы
-    //-   .profile__tab
-    //-     a.profile__section-link(href="#notifications") Уведомления
-    //- .profile__properties
-    //-   table.profile__items
-    //-     tr.profile__item.profile__inline-editable
-    //-       th.profile__item-name Имя:
-    //-       td.profile__item-value
-    //-         .profile__item-value-content.profile__inline-value
-    //-           | Валентиновкский Валентин Валентинович
-    //-           span.profile__invisible-mark невидимое
-    //-           a.profile__item-edit.profile__inline-edit-trigger(title="редактировать", href="#") редактировать
-    //-         .profile__inline-change
-    //-           .profile__edit
-    //-             span.text-input.profile__text-field.profile__text-field_wide
-    //-               input.text-input__control(name="profile-name", value="Валентиновкский Валентин Валентинович")
-    //-             label.profile__checkbox(name="name-invisible")
-    //-               input(type="checkbox", name="name-invisible")
-    //-               | невидимое
-    //-           .profile__save
-    //-             button.submit-button.profile__submit(type="submit") Сохранить
-    //-             //- inserting space explicitly
-    //-             |  
-    //-             a.profile__item-edit-cancel(href="#", title="отменить") Отменить
-    //-     tr.profile__item.profile__inline-editable
-    //-       th.profile__item-name Email:
-    //-       td.profile__item-value
-    //-         .profile__item-value-content.profile__inline-value
-    //-           | valentin@gmail.com
-    //-           span.profile__invisible-mark невидимое
-    //-           a.profile__item-edit.profile__inline-edit-trigger(title="редактировать", href="#") редактировать
-    //-         .profile__inline-change
-    //-           .profile__edit
-    //-             span.text-input.profile__text-field.profile__text-field_wide
-    //-               input.text-input__control(name="profile-email", value="valentin@gmail.com")
-    //-             label.profile__checkbox
-    //-               input(type="checkbox", name="email-invisible")
-    //-               | невидимое
-    //-           .profile__save
-    //-             button.submit-button.profile__submit(type="submit") Сохранить
-    //-             //- inserting space explicitly
-    //-             |  
-    //-             a.profile__item-edit-cancel(href="#", title="отменить") Отменить
-    //-     tr.profile__item.profile__inline-editable
-    //-       th.profile__item-name Website:
-    //-       td.profile__item-value
-    //-         .profile__item-value-content.profile__inline-value
-    //-           | www.valentin.com
-    //-           a.profile__item-edit.profile__inline-edit-trigger(title="редактировать", href="#") редактировать
-    //-         .profile__inline-change
-    //-           .profile__edit
-    //-             span.text-input.profile__text-field.profile__text-field_wide
-    //-               input.text-input__control(name="profile-site", value="www.valentin.com")
-    //-             label.profile__checkbox
-    //-               input(type="checkbox", name="site-invisible")
-    //-               | невидимое
-    //-           .profile__save
-    //-             button.submit-button.profile__submit(type="submit") Сохранить
-    //-             //- inserting space explicitly
-    //-             |  
-    //-             a.profile__item-edit-cancel(href="#", title="отменить") Отменить
-    //-     tr.profile__item.profile__inline-editable
-    //-       th.profile__item-name Страна:
-    //-       td.profile__item-value
-    //-         .profile__item-value-content.profile__inline-value
-    //-           | Россия
-    //-           a.profile__item-edit.profile__inline-edit-trigger(title="редактировать", href="#") редактировать
-    //-         .profile__inline-change
-    //-           .profile__edit
-    //-             select.input-select.profile__select-field.profile__select-field_country(name="profilr-country")
-    //-               option Белоруссия
-    //-               option Россия
-    //-               option Украина
-    //-             label.profile__checkbox
-    //-               input(type="checkbox", name="country-invisible")
-    //-               | невидимое
-    //-           .profile__save
-    //-             button.submit-button.profile__submit(type="submit") Сохранить
-    //-             //- inserting space explicitly
-    //-             |  
-    //-             a.profile__item-edit-cancel(href="#", title="отменить") Отменить
-    //-     tr.profile__item.profile__inline-editable
-    //-       th.profile__item-name Город:
-    //-       td.profile__item-value
-    //-         .profile__item-value-content.profile__inline-value
-    //-           | Санкт-Петербург
-    //-           span.profile__invisible-mark невидимое
-    //-           a.profile__item-edit.profile__inline-edit-trigger(title="редактировать", href="#") редактировать
-    //-         .profile__inline-change
-    //-           .profile__edit
-    //-             select.input-select.profile__select-field.profile__select-field_city(name="profile-city")
-    //-               option Москва
-    //-               option Санкт-Петербург
-    //-               option Казань
-    //-             label.profile__checkbox
-    //-               input(type="checkbox", name="city-invisible")
-    //-               | невидимое
-    //-           .profile__save
-    //-             button.submit-button.profile__submit(type="submit") Сохранить
-    //-             //- inserting space explicitly
-    //-             |  
-    //-             a.profile__item-edit-cancel(href="#", title="отменить") Отменить
-    //-     tr.profile__item.profile__inline-editable
-    //-       th.profile__item-name Дата рождения:
-    //-       td.profile__item-value
-    //-         .profile__item-value-content.profile__inline-value
-    //-           | 18.08.1988
-    //-           span.profile__invisible-mark невидимое
-    //-           a.profile__item-edit.profile__inline-edit-trigger(title="редактировать", href="#") редактировать
-    //-         .profile__inline-change
-    //-           .profile__edit
-    //-             select.input-select.profile__select-field.profile__select-field_birth-day(name="profile-bitth-day")
-    //-               option 1
-    //-               option 2
-    //-               option 3
-    //-               option 4
-    //-               option 5
-    //-               option 6
-    //-               option 7
-    //-               option 8
-    //-               option 9
-    //-               option 10
-    //-               option 11
-    //-               option 12
-    //-               option 13
-    //-               option 14
-    //-               option 15
-    //-               option 16
-    //-               option 17
-    //-               option(selected) 18
-    //-               option 19
-    //-               option 20
-    //-               option 21
-    //-               option 22
-    //-               option 23
-    //-               option 24
-    //-               option 25
-    //-               option 26
-    //-               option 27
-    //-               option 28
-    //-               option 29
-    //-               option 30
-    //-             select.input-select.profile__select-field.profile__select-field_birth-month(name="profile-bitth-month")
-    //-               option 1
-    //-               option 2
-    //-               option 3
-    //-               option 4
-    //-               option 5
-    //-               option 6
-    //-               option 7
-    //-               option(selected) 8
-    //-               option 9
-    //-               option 10
-    //-               option 11
-    //-               option 12
-    //-             select.input-select.profile__select-field.profile__select-field_birth-year(name="profile-bitth-year")
-    //-               option 1980
-    //-               option 1981
-    //-               option 1982
-    //-               option 1983
-    //-               option 1984
-    //-               option 1985
-    //-               option 1986
-    //-               option 1987
-    //-               option(selected) 1988
-    //-               option 1989
-    //-               option 1990
-    //-               option 1991
-    //-             label.profile__checkbox
-    //-               input(type="checkbox", name="bitrh-invisible")
-    //-               | невидимое
-    //-           .profile__save
-    //-             button.submit-button.profile__submit(type="submit") Сохранить
-    //-             //- inserting space explicitly
-    //-             |  
-    //-             a.profile__item-edit-cancel(href="#", title="отменить") Отменить
-    //-     tr.profile__item.profile__inline-editable
-    //-       th.profile__item-name Часовой пояс:
-    //-       td.profile__item-value
-    //-         .profile__item-value-content.profile__inline-value
-    //-           | Европа/Москва: GMT+4
-    //-           a.profile__item-edit.profile__inline-edit-trigger(title="редактировать", href="#") редактировать
-    //-         .profile__inline-change
-    //-           .profile__edit
-    //-             select.input-select.profile__select-field.profile__select-field_city(name="profile-timezone")
-    //-               option Европа/Москва: GMT+3
-    //-               option Европа/Москва: GMT+4
-    //-               option Европа/Москва: GMT+5
-    //-             label.profile__checkbox
-    //-               input(type="checkbox", name="timezone-invisible")
-    //-               | невидимое
-    //-           .profile__save
-    //-             button.submit-button.profile__submit(type="submit") Сохранить
-    //-             //- inserting space explicitly
-    //-             |  
-    //-             a.profile__item-edit-cancel(href="#", title="отменить") Отменить
-    //-     tr.profile__item.profile__inline-editable
-    //-       th.profile__item-name Телефон:
-    //-       td.profile__item-value
-    //-         .profile__item-value-content.profile__inline-value
-    //-           | +7 888 212-85-06
-    //-           a.profile__item-edit.profile__inline-edit-trigger(title="редактировать", href="#") редактировать
-    //-         .profile__inline-change
-    //-           .profile__edit
-    //-             span.text-input.profile__text-field.profile__text-field_wide
-    //-               input.text-input__control(name="profile-phone", value="+7 888 212-85-06")
-    //-             label.profile__checkbox
-    //-               input(type="checkbox", name="phone-invisible")
-    //-               | невидимое
-    //-           .profile__save
-    //-             button.submit-button.profile__submit(type="submit") Сохранить
-    //-             //- inserting space explicitly
-    //-             |  
-    //-             a.profile__item-edit-cancel(href="#", title="отменить") Отменить
-    //-     tr.profile__item.profile__inline-editable
-    //-       th.profile__item-name Интересы:
-    //-       td.profile__item-value
-    //-         .profile__item-value-content.profile__inline-value
-    //-           | музыка, юзабилити, javascript, веб-дизайн, программирование, html, спорт, css
-    //-           a.profile__item-edit.profile__inline-edit-trigger(title="редактировать", href="#") редактировать
-    //-         .profile__inline-change
-    //-           .profile__edit
-    //-             span.text-input.profile__text-field.profile__text-field_wide
-    //-               input.text-input__control(name="profile-interests", value="музыка, юзабилити, javascript, веб-дизайн, программирование, html, спорт, css")
-    //-             label.profile__checkbox
-    //-               input(type="checkbox", name="interests-invisible")
-    //-               | невидимое
-    //-           .profile__save
-    //-             button.submit-button.profile__submit(type="submit") Сохранить
-    //-             //- inserting space explicitly
-    //-             |  
-    //-             a.profile__item-edit-cancel(href="#", title="отменить") Отменить
-    //-     tr.profile__item.profile__inline-editable
-    //-       th.profile__item-name Интересы:
-    //-       td.profile__item-value
-    //-         .profile__item-value-content.profile__inline-value
-    //-           p
-    //-             | Беспристрастный анализ любого творческого акта показывает,
-    //-             | что реализм просветляет самодостаточный этикет, однако само
-    //-             | по себе состояние игры всегда амбивалентно.
-    //-           p
-    //-             | Художественное опосредование, в том числе, монотонно имеет
-    //-             | резкий драматизм, так Г.Корф формулирует собственную
-    //-             | антитезу. Художественная контаминация, по определению,
-    //-             | готично имеет структурализм, именно об этом комплексе
-    //-             | движущих сил писал З.Фрейд в теории сублимации. Базовый тип
-    //-             | личности имеет хорал, однако само по себе состояние игры
-    //-             | всегда амбивалентно.
-    //-           a.profile__item-edit.profile__inline-edit-trigger(title="редактировать", href="#") редактировать
-    //-         .profile__inline-change
-    //-           .profile__edit
-    //-             textarea.textarea-input.profile__textarea(name="profile-about")
-    //-               | Беспристрастный анализ любого творческого акта показывает,
-    //-               | что реализм просветляет самодостаточный этикет, однако само
-    //-               | по себе состояние игры всегда амбивалентно.
-    //-               | 
-    //-               | Художественное опосредование, в том числе, монотонно имеет
-    //-               | резкий драматизм, так Г.Корф формулирует собственную
-    //-               | антитезу. Художественная контаминация, по определению,
-    //-               | готично имеет структурализм, именно об этом комплексе
-    //-               | движущих сил писал З.Фрейд в теории сублимации. Базовый тип
-    //-               | личности имеет хорал, однако само по себе состояние игры
-    //-               | всегда амбивалентно.
-    //-             label.profile__checkbox
-    //-               input(type="checkbox", name="about-invisible")
-    //-               | невидимое
-    //-           .profile__save
-    //-             button.submit-button.profile__submit(type="submit") Сохранить
-    //-             //- inserting space explicitly
-    //-             |  
-    //-             a.profile__item-edit-cancel(href="#", title="отменить") Отменить
+          +e.item-name Дата рождения:
+          +e.item-value
+          +e('button').edit(data-inline-edit)
+        +e.item-change
+          +e.change-content
+            +e.labeled
+              +e('label').labeled-label(for="profile-birth") Дата рождения:
+              +b.text-input._small.__labeled-text
+                +e('input').control(type="url", id="profile-birth")
+          include ../blocks/profile-ok-cancel

@@ -79,6 +79,12 @@
 		border 0
 		border-radius 0 0 4px 4px
 
+	&__item:last-child &__item-content
+		padding-bottom 32px
+
+	&__item:last-child &__item-change
+		padding-bottom 26px
+
 	& &__inline-title
 		margin 25px 0 0
 		font-size 16px
@@ -86,8 +92,9 @@
 		color #656565
 
 	&__item-content
+		@extend $clearfix
 		position relative
-		padding 17px 0
+		padding 17px 0 17px
 
 	&__item-change
 		padding 11px 0
@@ -132,6 +139,9 @@
 	&__item-value
 		overflow auto
 
+	&__item-value:empty::before
+		content "—"
+
 	&__action
 		@extend $button-reset
 		font inherit
@@ -142,7 +152,7 @@
 		text-decoration underline
 
 	&__action_remove-account
-		margin-bottom 115px
+		margin-bottom 100px
 
 	& &__item-note,
 	& &__item-title
@@ -194,6 +204,24 @@
 	&__item-cancel:hover
 		color link_hover_color
 		text-decoration underline
+
+	&__item_linked-account &__item-content
+		padding 19px 0 14px 68px
+		min-height 48px
+
+	&__linked-upic
+		position absolute
+		top 16px
+		left 0
+		width 48px
+		height 48px
+
+	&__linked-name
+		font-weight 700
+		color #333
+
+	&__linked-provider
+		color #999
 
 
 // profile_item_padding_horiz = 25px

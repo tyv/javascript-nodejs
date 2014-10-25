@@ -1,70 +1,123 @@
-extends ../layouts/base
+extends ../layouts/profile
 
 // - http://stackoverflow.com/questions/12646451/how-to-pass-variables-between-jade-templates
 block variables
-  - self.title = 'Кабинет пользователя <em class="main__username">Nakazator</em>';
+  - self.title = 'Кабинет пользователя Nakazator';
 
   //- layout
   - layout.header = true
 
 block content
-  .profile
+  +b.profile
+    script.
+      document.addEventListener("DOMContentLoaded", function(e) {
+        document.querySelector('.profile').addEventListener('click', function(e) {
+          var elem;
+          if (e.target.hasAttribute('data-inline-edit')) {
+            elem = e.target.parentNode;
+            while (elem && !elem.classList.contains('profile__item')) {
+              elem = elem.parentNode;
+            }
+            elem.classList.add('profile__item_editing');
+            elem.querySelector('input').focus(); // для текстовых инпутов — select()?
+          }
+          if (e.target.classList.contains('profile__item-cancel')) {
+            elem = e.target.parentNode;
+            while (elem && !elem.classList.contains('profile__item')) {
+              elem = elem.parentNode;
+            }
+            elem.classList.remove('profile__item_editing');
+          }
+        })
+      });
     include ../blocks/profile-upic
-    .profile__tabs
-      .profile__tab
-        a.profile__section-link(href="#profile") Профиль
-      .profile__tab.profile__tab_current Аккаунт
-      .profile__tab
-        a.profile__section-link(href="#orders") Заказы
-      .profile__tab
-        a.profile__section-link(href="#notifications") Уведомления
-    .profile__profiles
-      h2.profile__header Привязанные профили:
-      ul.profile__linked-profiles
-        li.profile__linked-profile
-          img.profile__small-upic(src="/img/linked-userpic.gif", alt="", width="48", height="48")
-          .profile__linked-details
-            a.profile__linked-user(href="vk.com/blah-blah") Алексей Борматенко
-            .profile__linked-service Vkontakte
-            a.profile__item-delete(title="Уалить", href="#del")
-        li.profile__linked-profile
-          img.profile__small-upic(src="/img/linked-userpic.gif", alt="", width="48", height="48")
-          .profile__linked-details
-            a.profile__linked-user(href="facebook.com/blah-blah") Алекс
-            .profile__linked-service Facebook
-            a.profile__item-delete(title="Уалить", href="#del")
-        li.profile__linked-profile
-          img.profile__small-upic(src="/img/linked-userpic.gif", alt="", width="48", height="48")
-          .profile__linked-details
-            a.profile__linked-user(href="twitter.com/blah-blah") Алексус
-            .profile__linked-service Twitter
-            a.profile__item-delete(title="Уалить", href="#del")
-      .profile__social
-        span.profile__social-label Добавить:
-        //- a.profile__social-add.social-link.social-link_vk(href="#vk") Вконтакте
-        //- a.profile__social-add.social-link.social-link_tw(href="#tw") Твиттер
-        //- a.profile__social-add.social-link.social-link_gp(href="#gp") Google+
-        //- a.profile__social-add.social-link.social-link_fb(href="#fb") Facebook
-        //- a.profile__social-add.social-link.social-link_gh(href="#gh") GitHub
-      h2.profile__header Управление аккаунтом:
-      .profile__action.profile__inline-editable
-        a.profile__action-trigger.profile__action-trigger_pseudo.profile__action-trigger_pass.profile__inline-edit-trigger(href="#") Сменить пароль
-        .profile__inline-change.profile__inline-change_pass
-          .profile__edit
-            .profile__label-input.profile__label-input_pass-change
-              label(for="profile-old-pass") Старый пароль:
-              span.text-input.profile__text-field
-                input.text-input__control#profile-old-pass(type="password", name="profile-old-pass")
-            .profile__label-input.profile__label-input_pass-change
-              label(for="profile-new-pass") Новый пароль:
-              span.text-input.profile__text-field
-                input.text-input__control#profile-new-pass(type="password", name="profile-new-pass")
-            .profile__label-input.profile__label-input_pass-change
-              label(for="profile-new-pass-again") Новый пароль еще раз:
-              span.text-input.profile__text-field
-                input.text-input__control#profile-new-pass(type="password", name="profile-new-pass-again")
-          .profile__save
-            button.submit-button.profile__submit(type="submit") Сохранить
-            a.profile__item-edit-cancel(href="") Отменить
-      .profile__action
-        a.profile__action-trigger.profile__action-trigger_remove(href="/remove") Удалить аккаунт
+    +e.content
+      +e.tabs
+        +e.tab
+          +e.tab-content
+            +e('a').tab-link(href="#") Профиль
+        +e.tab._current
+          +e.tab-content
+            | Аккаунт
+        +e.tab
+          +e.tab-content
+            +e('a').tab-link(href="#") Заказы
+        +e.tab
+          +e.tab-content
+            +e('a').tab-link(href="#") Курсы
+        +e.tab
+          +e.tab-content
+            +e('a').tab-link(href="#") Уведомления
+        +e.tab
+          +e.tab-content
+            +e('a').tab-link(href="#") Тесты
+      +e.item
+        +e.item-content
+          +e('h2').inline-title Управление аккаунтом
+      +e.item
+        +e.item-content
+          +e.item-name Юзернейм:
+          +e.item-value Nakazator
+          +e('button').edit(data-inline-edit)
+        +e.item-change
+          +e.change-content
+            +e.labeled
+              +e('label').labeled-label(for="profile-username") Юзернейм:
+              +b.text-input._small.__labeled-text
+                +e('input').control(type="text", id="profile-username", value="Nakazator")
+          include ../blocks/profile-ok-cancel
+      +e.item
+        +e.item-content
+          +e.item-name Email:
+          +e.item-value nakazator@mail.com
+          +e('button').edit(data-inline-edit)
+        +e.item-change
+          +e.change-content
+            +e.labeled
+              +e('label').labeled-label(for="profile-email") Email:
+              +b.text-input._small.__labeled-text
+                +e('input').control(type="email", id="profile-email", value="nakazator@mail.com")
+          include ../blocks/profile-ok-cancel
+      +e.item
+        +e.item-content
+          +e('button').action._change-password(data-inline-edit) Изменить пароль
+        +e.item-change
+          +e.change-content
+            //- смена пароля: используем поля text а не password, символы не скрываются,
+            //- потому что в дизайне предусмотрено только одно поле для ввода нового пароля,
+            //- а значит проверить его повторным вводом невозможно, пользователь должен видеть
+            //- свой новый пароль. Скрывать старый не имеет смысла, поскольку он станет
+            //- недействительным после отправки формы
+            +e.labeled.__pass-change
+              +e.labeled-label(for="profile-pass-old") Старый пароль:
+              +b.text-input._small.__labeled-text.__pass
+                +e('input').control(type="text", id="profile-pass-old")
+            +e.labeled.__pass-change
+              +e.labeled-label(for="profile-pass-new") Новый пароль:
+              +b.text-input._small.__labeled-text.__pass
+                +e('input').control(type="text", id="profile-pass-new")
+          include ../blocks/profile-ok-cancel
+      +e.item
+        +e.item-content
+          +e('h2').inline-title Привязанные внешние аккаунты
+          +e('p').item-note При привязке аккаунта можно будет заходить на сайт одним нажатием кнопки.
+      +e.item._linked-account
+        +e.item-content
+          +e('a').linked-name(href='http://vk.com/alexbor')
+            +e('img').linked-upic(src="/img/linked-upic.png")
+            | Алексей Борматенко
+          +e.linked-provider Vkontakte
+      +e.item._linked-account
+        +e.item-content
+          +e('a').linked-name(href='http://facebook.com/alexbor')
+            +e('img').linked-upic(src="/img/linked-upic.png")
+            | Alexey Bormatenko
+          +e.linked-provider Facebook
+      +e.item
+        +e.item-content
+          +e.item-title Привязать:
+          +e.socials
+            include ../../../auth/templates/providers
+      +e.item
+        +e.item-content
+          +e('button').action._remove-account Удалить аккаунт
