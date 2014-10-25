@@ -46,6 +46,7 @@
     "imagemin": "*",
     "imagemin-pngcrush": "*",
     "imagemin-svgo": "*",
+    "pngcrush-bin": "git://github.com/imagemin/pngcrush-bin",
     "inherits": "*",
     "jade": "git://github.com/visionmedia/jade",
     "jade-loader": "*",
