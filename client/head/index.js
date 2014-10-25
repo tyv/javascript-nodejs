@@ -10,5 +10,6 @@ exports.Modal = require('./modal');
 exports.fontTest = require('./fontTest');
 exports.resizeOnload = require('./resizeOnload');
 require('./sitetoolbar');
-require('./navigation');
+require('./sidebar');
+require('./navigationArrows');
 
