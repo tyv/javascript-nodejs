@@ -66,7 +66,7 @@ gulp.task("client:livereload", lazyRequireTask("./tasks/livereload", {
 }));
 
 gulp.task("tutorial:import:watch", lazyRequireTask('tutorial/tasks/importWatch', {
-  root: fs.realpathSync("/js/javascript-nodejs/javascript-tutorial")
+  root: "/js/javascript-nodejs/javascript-tutorial"
 }));
 
 gulp.task('watch', lazyRequireTask('./tasks/watch', {
