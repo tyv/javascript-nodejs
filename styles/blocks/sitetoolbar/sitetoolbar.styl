@@ -8,29 +8,6 @@ sitetoolbar_secondary_link = #498CBE
 // Пока не вижу способа избежать дублирования средствами css
 // или препроцессора
 
-// data-scroll means a floating state:
-//  either "in" (showing fixed nav with sitetoolbar)
-//  or "out" (showing fixed nav no sitetoolbar)
-// no data-scroll: everything's static/absolute
-[data-scroll]
-	.page__sidebar
-		position fixed
-
-	.sidebar__inner
-		position absolute
-		top 0
-		right 0
-		bottom 0
-		left 0
-
-[data-scroll="out"]
-	.page__sidebar
-		top 0
-
-	.page__inner
-		top 0
-
-
 .sitetoolbar
 	box-shadow 0 2px 3px -2px rgba(0, 0, 0, .3)
 	width 100%
@@ -65,7 +42,6 @@ sitetoolbar_secondary_link = #498CBE
 	&__user-wrap,
 	&__login-wrap
 		width .1%
-		// padding-right 17px
 
 	&__search-wrap
 		width .1%

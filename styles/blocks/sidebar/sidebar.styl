@@ -5,9 +5,19 @@
 
 	&__inner
 		overflow auto
+		height 100%
 
 	&__content
-		margin 23px 30px 30px
+		margin 23px 30px 0
+		min-height calc(100% - 85px)
+		position relative
+
+	&_edit-link &__content
+		padding-bottom 62px // резервируем место под «редактировать на github»
+
+	&_edit-link &__section:last-child
+		position absolute
+		bottom 0
 
 	& &__toggle
 		@extend $button-reset
@@ -34,12 +44,12 @@
 		color #7E7E7E
 
 	&__section
-		margin 15px 0
+		margin 22px 0
 		padding 0 2px
 		position relative
 
 	&__section_separator_before
-		margin-top 24px
+		margin-top 29px
 
 	&__section_separator_before::before
 		content ""
@@ -70,7 +80,7 @@
 	&__section-title
 		color #C4C2C0
 		font-weight 400
-		margin 8px 0
+		margin 12px 0
 
 	&__link
 		color navigation_link_color
@@ -79,26 +89,32 @@
 		text-decoration none
 
 	&__navigation-link
-		margin 8px 0
-		line-height 1.1 // чтобы соответствовать макету
+		margin 12px 0
+		line-height 1.25
 
 	&__share
 		margin 8px 20px 0 0
 
-	@media (min-height: 680px)
-		&__section
-			margin 22px 0
-
-		&__section_separator_before
-			margin-top 29px
-
-		&__section-title
-			margin 12px 0
-
-		&__navigation-link
-			line-height 1.25
-			margin 12px 0
 
 	@media tablet
 		&__toggle
 			display none
+
+	&_compact &__content
+		min-height calc(100% - 71px)
+
+	&_edit-link&_compact &__content
+		padding-bottom 48px // резервируем место под «редактировать на github»
+
+	&_compact &__section
+		margin 15px 0
+
+	&_compact &__section_separator_before
+		margin-top 24px
+
+	&_compact &__section-title
+		margin 8px 0
+
+	&_compact &__navigation-link
+		line-height 1.1
+		margin 8px 0

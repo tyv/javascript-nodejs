@@ -30,6 +30,7 @@ function TutorialMapModal() {
     var wrapper = document.createElement('div');
     wrapper.className = 'tutorial-map-overlay';
     wrapper.innerHTML = event.result + '<button class="close-button tutorial-map-overlay__close"></button>';
+    document.body.classList.add('tutorial-map_on');
     self.setContent(wrapper);
     new TutorialMap(self.contentElem.firstElementChild);
   });
@@ -44,11 +45,6 @@ function TutorialMapModal() {
 TutorialMapModal.prototype = Object.create(Modal.prototype);
 
 delegate.delegateMixin(TutorialMapModal.prototype);
-
-TutorialMapModal.prototype.render = function() {
-  Modal.prototype.render.apply(this, arguments);
-  document.body.classList.add('tutorial-map_on');
-};
 
 TutorialMapModal.prototype.remove = function() {
   Modal.prototype.remove.apply(this, arguments);

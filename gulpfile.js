@@ -15,7 +15,7 @@ const assert = require('assert');
 const runSequence = require('run-sequence');
 
 // before anything: make sure all modules are linked
-gulp.task('link-modules', lazyRequireTask('./tasks/linkModules', { src: ['client', 'modules/*', 'hmvc/*'] }));
+gulp.task('link-modules', lazyRequireTask('./tasks/linkModules', { src: ['client', 'manifest', 'modules/*', 'hmvc/*'] }));
 // sync!
 gulp.start('link-modules');
 
@@ -103,7 +103,7 @@ gulp.task('client:compile-css',
     src: './styles/base.styl',
     dst: './public/styles',
     publicDst: config.staticHost + '/styles/',  // from browser point of view
-    manifest: path.join(config.tmpRoot, 'styles.versions.json')
+    manifest: path.join(config.manifestRoot, 'styles.versions.json')
   })
 );
 
