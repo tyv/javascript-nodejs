@@ -28,18 +28,49 @@ function onWindowScrollAndResize() {
 
 window.addEventListener('scroll', onWindowScrollAndResize);
 window.addEventListener('resize', onWindowScrollAndResize);
+document.addEventListener('DOMContentLoaded', onWindowScrollAndResize);
 
+function compactifySidebar() {
+  var sidebar = document.querySelector('.sidebar');
+
+  var sidebarContent = sidebar.querySelector('.sidebar__content');
+  var sidebarInner = sidebar.querySelector('.sidebar__inner');
+
+  var hasStickyFooter = sidebar.classList.contains('sidebar_sticky-footer');
+  var isCompact = sidebar.classList.contains('sidebar_compact');
+
+  if (isCompact) {
+    var emptySpaceSize;
+    if (hasStickyFooter) {
+      emptySpaceSize = sidebarContent.lastElementChild.getBoundingClientRect().top -
+      sidebarContent.lastElementChild.previousElementSibling.getBoundingClientRect().bottom;
+    } else {
+      emptySpaceSize = sidebarContent.getBoundingClientRect().bottom -
+      sidebarContent.lastElementChild.getBoundingClientRect().bottom;
+    }
+
+    //console.log("decompact?", emptySpaceSize);
+
+    // enough space to occupy the full height in decompacted form without scrollbar
+    if (emptySpaceSize > 150) {
+      sidebar.classList.remove('sidebar_compact');
+    }
+
+  } else {
+    if (sidebarInner.scrollHeight > sidebarInner.clientHeight) {
+      //console.log("compact!");
+      sidebar.classList.add('sidebar_compact');
+    }
+  }
+
+
+}
 
 function onscroll() {
-  log("onscroll");
-  if (isScrollOutOfDocument()) { // Ignore bouncy scrolling in OSX
-    log("isScrollOutOfDocument");
-    return;
-  }
 
   var sitetoolbar = document.querySelector('.sitetoolbar');
   if (!sitetoolbar) {
-    log("no siteoolbar");
+    log("no sitetoolbar");
     return; // page in a no-top-nav layout
   }
 
@@ -47,14 +78,13 @@ function onscroll() {
 
   var sidebar = document.querySelector('.sidebar');
 
-
-  sidebar.style.top = Math.max(sitetoolbar.getBoundingClientRect().bottom, 0) + 'px';
-  console.log(sidebar.style.top, "!");
-  return;
+  if (sidebar) {
+    sidebar.style.top = Math.max(sitetoolbar.getBoundingClientRect().bottom, 0) + 'px';
+    compactifySidebar();
+  }
 
   var browserScrollCause = getBrowserScrollCause();
   log("scrollCause", browserScrollCause);
-
 
   if (browserScrollCause !== null) {
     log("browser scroll");
@@ -63,79 +93,26 @@ function onscroll() {
     // if not page top - user will see the header when opening a link with #hash
     //   (without a sitetoolbar which would overlay it)
     lastPageYOffset = window.pageYOffset;
-
-    if (window.pageYOffset > sitetoolbarHeight) {
-      setState('out');
-    } else {
-      setState('');
-    }
     return;
   }
-
-
-  if (lastState == 'in' && window.pageYOffset < 3) {
-    log("close to top");
-    // if close to page top, no scrolled state apply
-    lastPageYOffset = window.pageYOffset;
-    setState('');
-    return;
-  }
-
-
-  if (lastState === '' && window.pageYOffset < sitetoolbarHeight) {
-    log("close to top");
-    // if close to page top, no scrolled state apply
-    lastPageYOffset = window.pageYOffset;
-    return;
-  }
-
 
   // now we are in the middle of the page or at the end
   // let's see if the user scrolls up or down
 
   var scrollDirection = window.pageYOffset > lastPageYOffset ? 'down' : 'up';
-  var scrollDiff = Math.abs(window.pageYOffset - lastPageYOffset);
 
-  log("scrollDiff", scrollDiff);
-
-  // если прокрутили мало - ничего не делаем, но и точку отсчёта не меняем
-  if (tolerance[scrollDirection] > scrollDiff) return;
+  //console.log("HERE", scrollDirection, window.pageYOffset, window.pageYOffset > sitetoolbarHeight + 20,     window.pageYOffset + document.documentElement.clientHeight < document.documentElement.scrollHeight - 60);
+  if (scrollDirection == 'up' &&
+      // not at page top
+    window.pageYOffset > sitetoolbarHeight + 20 &&
+      // not at page bottom (may be bounce)
+    window.pageYOffset + document.documentElement.clientHeight < document.documentElement.scrollHeight - 60
+  ) {
+    document.body.classList.add('page_bottom-nav');
+  } else {
+    document.body.classList.remove('page_bottom-nav');
+  }
 
   lastPageYOffset = window.pageYOffset;
 
-  // в MacOs при прокрутке вниз возможен инерционный отскок наверх
-  // если мы внизу страницы, то tolerance выше
-  var scrollBottom = getDocumentHeight() - window.pageYOffset - window.innerHeight;
-  if (scrollDirection == 'up' && scrollBottom < tolerance.upAtBottom && window.pageYOffset > tolerance.upAtBottom) return;
-
-  log(scrollDirection, scrollDiff, tolerance[scrollDirection]);
-
-  if (scrollDirection == 'up') {
-    log("scroll up");
-    setState('in');
-    return;
-  }
-
-  if (scrollDirection == 'down') {
-    log("scroll down");
-    setState('out');
-    return;
-  }
-
-}
-
-/**
- * determines if the scroll position is outside of document boundaries
- * @return {bool} true if out of bounds, false otherwise
- */
-function isScrollOutOfDocument() {
-  // no document yet
-  if (document.readyState != 'complete') return false;
-
-  var pastTop = window.pageYOffset < 0;
-  var pastBottom = window.pageYOffset + document.documentElement.clientHeight > getDocumentHeight();
-
-  log("pastTop", pastTop, "pastBottom", pastBottom);
-
-  return pastTop || pastBottom;
 }
