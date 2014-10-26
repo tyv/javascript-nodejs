@@ -8,10 +8,8 @@
 		padding-left sidebar_width
 
 	&__sidebar
+		position fixed
 		top 0
-
-	&__sidebar
-		position absolute
 		bottom 0
 		left 0
 		transform translateX(-100%)
@@ -22,26 +20,11 @@
 		padding 0 120px
 		transition margin-top animation_duration
 
-	// эмулируем колонку под sidebar'ом при малой высоте контента
-	&__inner::after
-		content ""
-		width sidebar_width - 1
-		background #F5F2F0
-		border-right 1px solid #d5d2d0
-		position fixed
-		top 0
-		bottom 0
-		left 0
-		z-index -1
-		transform translateX(-100%)
-
-	&__sidebar,
-	&__inner::after
+	&__sidebar
 		transition transform animation_duration
 
 	// для отображения/скрытия сайдбара переключаем класс .page_sidebar_on у блока .page
-	&_sidebar_on &__sidebar,
-	&_sidebar_on &__inner::after
+	&_sidebar_on &__sidebar
 		transform translateX(0)
 
 	&__nav
