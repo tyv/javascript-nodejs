@@ -1,9 +1,8 @@
-+b("ol").breadcrumbs
-  each crumb, i in breadcrumbs
-    if i == 0
-      +e("li").item._home
-        +e("a").link(href=crumb.url)
-          +e('span').hidden-text !{crumb.title}
-    else
-      +e("li").item
-        +e("a").link(href=crumb.url) !{crumb.title}
+each crumb, i in breadcrumbs
+  if i == 0
+    +e("li").item._home
+      +e("a").link(href=crumb.url)
+        +e('span').hidden-text !{crumb.title}
+  else
+    +e("li").item
+      +e("a").link(href=crumb.url) !{crumb.title}

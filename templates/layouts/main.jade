@@ -4,9 +4,13 @@ extends ./body
 block main
   header.main__header
     if breadcrumbs
-      include ../blocks/breadcrumbs
+      +b("ol").breadcrumbs
+        include ../blocks/breadcrumbs
     h1.main__header-title!= title
   block content
+  if breadcrumbs
+    +b("ol").breadcrumbs._fixed
+      include ../blocks/breadcrumbs
   //- include ../blocks/corrector
   if comments
     include ../blocks/comments

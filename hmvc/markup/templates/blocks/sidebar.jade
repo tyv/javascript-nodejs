@@ -1,4 +1,5 @@
-+b.sidebar._edit-link.page__sidebar
+//- модификатор _sticky-footer делает последнюю секцию всегда прижатой к низу сайдбара
++b.sidebar._sticky-footer.page__sidebar
   //- FIXME: инлайновый скрипт — демо и используется для более удобной отладки
   +e('button').toggle(onclick="document.getElementsByClassName('page')[0].classList.toggle('page_sidebar_on')")
   +e.inner
@@ -34,6 +35,6 @@
         +b('a').share._gp.sidebar__share(href="https://plus.google.com/share?url=http://design.javascript.ru/intro")
         +b('a').share._vk.sidebar__share(href="http://vkontakte.ru/share.php?url=http://design.javascript.ru/intro")
       +e.section
-        button(onclick="this.parentNode.innerHTML=new Array(150).join('* ')") click me to add content
+        button(onclick="this.parentNode.innerHTML=new Array(200).join('* ')") click me to add content
       +e.section
         +e('a').link(href="#edit-on-github") Редактировать на github
