@@ -9,13 +9,14 @@
 
 	&__content
 		margin 23px 30px 0
-		min-height calc(100% - 85px)
+		min-height calc(100% - 63px)
 		position relative
 
-	&_edit-link &__content
-		padding-bottom 62px // резервируем место под «редактировать на github»
+	//- модификатор _sticky-footer делает последнюю секцию всегда прижатой к низу сайдбара
+	&_sticky-footer &__content
+		padding-bottom 40px // резервируем место под «редактировать на github»
 
-	&_edit-link &__section:last-child
+	&_sticky-footer &__section:last-child
 		position absolute
 		bottom 0
 
@@ -101,10 +102,10 @@
 			display none
 
 	&_compact &__content
-		min-height calc(100% - 71px)
+		min-height calc(100% - 56px)
 
-	&_edit-link&_compact &__content
-		padding-bottom 48px // резервируем место под «редактировать на github»
+	&_sticky-footer&_compact &__content
+		padding-bottom 33px // резервируем место под «редактировать на github»
 
 	&_compact &__section
 		margin 15px 0
