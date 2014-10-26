@@ -15,7 +15,7 @@ const assert = require('assert');
 const runSequence = require('run-sequence');
 
 // before anything: make sure all modules are linked
-gulp.task('link-modules', lazyRequireTask('./tasks/linkModules', { src: ['client', 'manifest', 'modules/*', 'hmvc/*'] }));
+gulp.task('link-modules', lazyRequireTask('./tasks/linkModules', { src: ['client', 'modules/*', 'hmvc/*'] }));
 // sync!
 gulp.start('link-modules');
 
