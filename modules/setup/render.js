@@ -88,7 +88,7 @@ function addStandardHelpers(locals, ctx) {
 
   locals.script = function(name) {
     var versions = JSON.parse(
-      fs.readFileSync(path.join(config.tmpRoot, 'js.versions.json'), {encoding: 'utf-8'})
+      fs.readFileSync(path.join(config.manifestRoot, 'js.versions.json'), {encoding: 'utf-8'})
     );
     var versionName = versions[name];
 
@@ -97,7 +97,7 @@ function addStandardHelpers(locals, ctx) {
 
   locals.style = function(name) {
     var versions = JSON.parse(
-      fs.readFileSync(path.join(config.tmpRoot, 'styles.versions.json'), {encoding: 'utf-8'})
+      fs.readFileSync(path.join(config.manifestRoot, 'styles.versions.json'), {encoding: 'utf-8'})
     );
     var versionName = versions[name];
 

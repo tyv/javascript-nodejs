@@ -1,5 +1,8 @@
 var throttle = require('lib/throttle');
 
+
+
+/*
 var resetSidebarSize = throttle(function() {
 
   var sidebar = document.querySelector('.sidebar__inner');
@@ -21,3 +24,4 @@ var resetSidebarSize = throttle(function() {
 }, 200);
 
 window.requestAnimationFrame(resetSidebarSize);
+  */

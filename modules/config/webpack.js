@@ -36,7 +36,7 @@ var webpackConfig = {
 
   plugins: [
     //new CommonsChunkPlugin("init", "init.js")
-    new WriteVersionsPlugin(path.join(config.tmpRoot, "js.versions.json"))
+    new WriteVersionsPlugin(path.join(config.manifestRoot, "js.versions.json"))
   ]
 };
 
