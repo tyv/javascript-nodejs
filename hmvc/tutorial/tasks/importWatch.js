@@ -8,15 +8,16 @@ var livereload = require('gulp-livereload');
 module.exports = function(options) {
 
   return function(callback) {
+    var root = fs.realpathSync(options.root);
 
     var importer = new Importer({
-      root: options.root,
+      root:     root,
       onchange: function(path) {
-        livereload.changed(path);
+        liverelpoad.changed(path);
       }
     });
-    watch(options.root, function(filePath, flags, id) {
-      var relFilePath = filePath.slice(options.root.length+1);
+    watch(root, function(filePath, flags, id) {
+      var relFilePath = filePath.slice(root.length + 1);
 
       co(function* () {
         var fileName = path.basename(filePath);

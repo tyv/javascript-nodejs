@@ -36,7 +36,7 @@ var webpackConfig = {
 
   plugins: [
     //new CommonsChunkPlugin("init", "init.js")
-    new WriteVersionsPlugin(path.join(config.tmpRoot, "js.versions.json"))
+    new WriteVersionsPlugin(path.join(config.manifestRoot, "js.versions.json"))
   ]
 };
 
@@ -53,7 +53,12 @@ webpackConfig.plugins.push(function() {
 
 if (isProduction) {
   webpackConfig.plugins.push(
-    new webpack.optimize.UglifyJsPlugin(),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        // don't show unreachable variables etc
+        warnings: false
+      }
+    }),
     new webpack.optimize.OccurenceOrderPlugin()
   );
 }

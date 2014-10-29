@@ -1,6 +1,3 @@
-+e.section
-  +e('a').link._arrow(href="/tutorial/map" data-action="tutorial-map") Карта учебника
-
 each section in sidebar.sections
   +e(class="section #{section.class}")
     if section.title
@@ -10,7 +7,8 @@ each section in sidebar.sections
         each link in section.links
           +e('li').navigation-link
             +e('a').link(href=link.url)= link.title
-
++e.section._map
+  +e('a').link._map(href="/tutorial/map" data-action="tutorial-map") Карта учебника
 +e.section
   +e.section-title Поделиться
   +b('a').share._tw.sidebar__share(href="https://twitter.com/share?url=http://design.javascript.ru/intro")

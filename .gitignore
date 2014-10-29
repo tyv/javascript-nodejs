@@ -29,14 +29,19 @@ client/versions.json
 # NPM packages folder.
 node_modules/
 
-# TMP folder (anything)
+# TMP folder (run-time tmp)
 tmp/
+
+# Manifest (build-generated content, versions)
+manifest/
+
 
 # contains v8 executable for linux-tick-processor (run from project root)
 out/*
 
 # Generated content
 public/*
+
 
 # Bower stuff.
 bower_components/
