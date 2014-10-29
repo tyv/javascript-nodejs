@@ -110,7 +110,7 @@ block content
         +e.item-change
           +e.change-content
             +e.labeled
-              +e('label').labeled-label(for="profile-city") Страна:
+              +e('label').labeled-label(for="profile-city") Город:
               +b.text-input._small.__labeled-text
                 +e('input').control(type="url", id="profile-city")
           include ../blocks/profile-ok-cancel
@@ -125,4 +125,16 @@ block content
               +e('label').labeled-label(for="profile-birth") Дата рождения:
               +b.text-input._small.__labeled-text
                 +e('input').control(type="url", id="profile-birth")
+          include ../blocks/profile-ok-cancel
+      +e.item
+        +e.item-content
+          +e.item-name Часовой пояс:
+          +e.item-value Европа/Москва: GMT+4
+          +e('button').edit(data-inline-edit)
+        +e.item-change
+          +e.change-content
+            +e.labeled
+              +e('label').labeled-label(for="profile-tz") Часовой пояс:
+              +b.text-input._small.__labeled-text
+                +e('input').control(type="url", id="profile-tz")
           include ../blocks/profile-ok-cancel
