@@ -114,17 +114,19 @@
 	&__edit
 		@extend $button-reset
 		position absolute
-		right 0
-		top 17px
+		left 100%
+		margin-left 3px
+		top 21px
 		min-height 20px
 		min-width 20px
+		font-size 15px
+		color #727272
 		display none
 
 	&__edit:active
 		position absolute
 
 	&__edit::before
-		font-size 15px
 		@extend $font-pencil
 
 	&__item:hover &__edit
@@ -170,11 +172,42 @@
 		vertical-align bottom
 		margin-bottom 5px
 
+	&__labeled
+		min-height 32px
+
 	&__labeled-label
 		display inline-block
 		min-width 110px
 		margin 6px 15px 0 0
 		float left
+
+	&__control
+		box-sizing border-box
+		width 230px
+		height 32px
+		display inline-block
+		box-shadow inset 1px 1px 5px 0 #eee
+		border-radius 3px
+		border 1px solid #e7e7e7
+		font-size 14px
+
+	//- using id for styling as an exception,
+	//- theese id's won't appear anywhere else
+	//- and we use them just to set size
+	#profile-birth-day
+		width 50px
+		margin-right 10px
+
+	#profile-birth-month
+		width 90px
+		margin-right 10px
+
+	#profile-birth-year
+		width 70px
+	
+	#profile-about
+		width 360px
+		height 100px
 
 	&__pass-change
 		display inline-block
@@ -186,6 +219,7 @@
 	&__change-content,
 	&__ok-cancel
 		display table-cell
+		vertical-align bottom
 
 	&__ok-cancel
 		width 1%
