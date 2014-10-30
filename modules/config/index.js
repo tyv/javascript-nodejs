@@ -67,6 +67,7 @@ _.assign(module.exports, {
   },
   payments:      secret.payments,
   adminKey:      secret.adminKey,
+
   authProviders: secret.authProviders,
   mailer:        {
     senders: {

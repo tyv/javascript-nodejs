@@ -1,13 +1,10 @@
 var getBrowserScrollCause = require('client/dom/getBrowserScrollCause');
-var getDocumentHeight = require('client/dom/getDocumentHeight');
 
 var lastPageYOffset = 0;
 
 var requestAnimationFrameId;
 
-var lastState = '';
-
-var DEBUG = false;
+var DEBUG = true;
 function log() {
   if (DEBUG) {
     console.log.apply(console, arguments);
@@ -31,6 +28,7 @@ window.addEventListener('resize', onWindowScrollAndResize);
 document.addEventListener('DOMContentLoaded', onWindowScrollAndResize);
 
 function compactifySidebar() {
+  log("compactifySidebar");
   var sidebar = document.querySelector('.sidebar');
 
   var sidebarContent = sidebar.querySelector('.sidebar__content');
@@ -49,7 +47,7 @@ function compactifySidebar() {
       sidebarContent.lastElementChild.getBoundingClientRect().bottom;
     }
 
-    //console.log("decompact?", emptySpaceSize);
+    log("decompact?", emptySpaceSize);
 
     // enough space to occupy the full height in decompacted form without scrollbar
     if (emptySpaceSize > 150) {
@@ -57,8 +55,9 @@ function compactifySidebar() {
     }
 
   } else {
+    log(sidebarInner.scrollHeight, sidebarInner.clientHeight);
     if (sidebarInner.scrollHeight > sidebarInner.clientHeight) {
-      //console.log("compact!");
+      log("compact!");
       sidebar.classList.add('sidebar_compact');
     }
   }

@@ -1,5 +1,5 @@
 each section in sidebar.sections
-  +e(class="section #{section.class}")
+  +e.section
     if section.title
       +e('h4').section-title !{section.title}
     +e('nav').navigation
@@ -7,11 +7,17 @@ each section in sidebar.sections
         each link in section.links
           +e('li').navigation-link
             +e('a').link(href=link.url)= link.title
+
 +e.section._map
   +e('a').link._map(href="/tutorial/map" data-action="tutorial-map") Карта учебника
+
 +e.section
   +e.section-title Поделиться
   +b('a').share._tw.sidebar__share(href="https://twitter.com/share?url=http://design.javascript.ru/intro")
   +b('a').share._fb.sidebar__share(href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=http://design.javascript.ru/intro")
   +b('a').share._gp.sidebar__share(href="https://plus.google.com/share?url=http://design.javascript.ru/intro")
   +b('a').share._vk.sidebar__share(href="http://vkontakte.ru/share.php?url=http://design.javascript.ru/intro")
+
++e.section
+  +e('a').link(href="http://github.com/iliakan/javascript-nodejs") Редактировать на github
+

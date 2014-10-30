@@ -5,3 +5,4 @@ exports.User = require('./models/user');
 var router = require('./router');
 
 exports.middleware = router.middleware();
+
