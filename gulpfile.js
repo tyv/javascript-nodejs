@@ -20,7 +20,7 @@ gulp.task('link-modules', lazyRequireTask('./tasks/linkModules', { src: ['client
 gulp.start('link-modules');
 
 const config = require('config');
-const mongoose = require('config/mongoose');
+const mongoose = require('lib/mongoose');
 
 //Error.stackTraceLimit = Infinity;
 //require('trace');

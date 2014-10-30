@@ -4,7 +4,7 @@ const fs = require('fs');
 const fse = require('fs-extra');
 const path = require('path');
 const config = require('config');
-const mongoose = require('config/mongoose');
+const mongoose = require('lib/mongoose');
 
 require('lib/requireJade');
 
