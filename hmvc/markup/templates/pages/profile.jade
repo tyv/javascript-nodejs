@@ -6,9 +6,10 @@ block variables
 
   //- layout
   - layout.header = true
+  - layout.centeredHeader = true
 
 block content
-  +b.profile
+  +b.profile._settings
     script.
       document.addEventListener("DOMContentLoaded", function(e) {
         document.querySelector('.profile').addEventListener('click', function(e) {
@@ -19,7 +20,7 @@ block content
               elem = elem.parentNode;
             }
             elem.classList.add('profile__item_editing');
-            elem.querySelector('input').focus(); // для текстовых инпутов — select()?
+            elem.querySelector('input, select, textarea').focus(); // для текстовых инпутов — select()?
           }
           if (e.target.classList.contains('profile__item-cancel')) {
             elem = e.target.parentNode;
