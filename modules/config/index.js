@@ -12,11 +12,11 @@ if (env.DEV_TRACE) require('./trace');
 var secret = require('./secret');
 
 module.exports = {
-  "port": env.PORT || 3000,
-  "host": env.HOST || '0.0.0.0',
-  "siteHost":   env.SITE_HOST,
-  "staticHost": env.STATIC_HOST,
-  "mongoose":   require('./mongoose'),
+  port: env.PORT || 3000,
+  host: env.HOST || '0.0.0.0',
+  siteHost:   env.SITE_HOST,
+  staticHost: env.STATIC_HOST,
+  mongoose:   require('./mongoose'),
   session:      {
     keys: [secret.sessionKey]
   },
@@ -25,6 +25,8 @@ module.exports = {
   adminKey: secret.adminKey,
 
   authProviders: require('./authProviders'),
+
+  plnkrAuthId: secret.plnkrAuthId,
 
   mailer:       require('./mailer'),
   template:     {

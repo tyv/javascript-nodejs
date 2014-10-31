@@ -101,7 +101,7 @@
     "stylus": "*",
     "svgutils": "*",
     "through": "*",
-    "through2": "*",
+    "through2": "^1.1.1",
     "thunkify": "*",
     "uglify-js": "*",
     "uglifyify": "*",

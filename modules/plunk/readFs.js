@@ -3,7 +3,7 @@ var path = require('path');
 var mime = require('mime');
 var log = require('log')();
 
-function* readPlunkContent(dir) {
+function* readFs(dir) {
 
   var files = fs.readdirSync(dir);
 
@@ -25,17 +25,19 @@ function* readPlunkContent(dir) {
     return true;
   });
 
-  var plunk = {};
+  var meta = {};
   var plunkFilePath = path.join(dir, '.plnkr');
 
   if (fs.existsSync(plunkFilePath)) {
     var existingPlunk = fs.readFileSync(plunkFilePath, 'utf-8');
     existingPlunk = JSON.parse(existingPlunk);
 
-    // dir name change = new plunk
-    var plunkDirName = path.basename(fs.realpathSync(dir));
+    // dir name change (2 levels up) = new plunk
+    var plunkDirName = fs.realpathSync(dir);
+    plunkDirName = path.basename(path.dirname(plunkDirName)) + path.sep + path.basename(plunkDirName);
+
     if (existingPlunk.name == plunkDirName) {
-      plunk = existingPlunk;
+      meta = existingPlunk;
     }
   }
 
@@ -55,12 +57,12 @@ function* readPlunkContent(dir) {
   }
 
   return {
-    plunk: plunk,
+    meta: meta,
     files: filesForPlunk
   };
 }
 
-module.exports = readPlunkContent;
+module.exports = readFs;
 
 /*
 require('co')(readPlunkContent('/private/var/site/js-dev/tutorial/03-more/11-css-for-js/17-css-sprite/height48'))(function(err, res) {
