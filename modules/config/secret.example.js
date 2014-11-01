@@ -1,16 +1,19 @@
 // this file contains all passwords etc,
 // should not be in repo
 
-exports.SESSION_KEY = "KillerIsJim";
+module.exports = {
+  sessionKey: "KillerIsJim",
+  adminKey:   'admin',
 
-exports.payments = {
-  currency: 'RUB',
-  modules: {}
-};
+  webmoney:    {},
+  yandexmoney: {},
+  paypal:      {
+    myCertPath:     __dirname,
+    myKeyPath:      __dirname,
+    paypalCertPath: __dirname
+  },
+  payanyway:   {},
 
-exports.adminKey = 'admin';
-
-exports.authProviders = {
   facebook:  {
     appId:     '*',
     appSecret: '*'
@@ -30,6 +33,6 @@ exports.authProviders = {
   vkontakte: {
     appId:     '*',
     appSecret: '*'
-  }
+  },
+  amazonSes: {}
 };
-exports.ses = {};

@@ -3,7 +3,7 @@ var co = require('co');
 var path = require('path');
 var gutil = require('gulp-util');
 var dataUtil = require('lib/dataUtil');
-var mongoose = require('config/mongoose');
+var mongoose = require('lib/mongoose');
 var projectRoot = require('config').projectRoot;
 
 module.exports = function() {

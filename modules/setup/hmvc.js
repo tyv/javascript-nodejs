@@ -6,7 +6,7 @@ var wrapHmvcMiddleware = require('lib/wrapHmvcMiddleware');
 module.exports = function(app) {
 
   //app.use( mount('/auth', require('auth').middleware) )
-  app.mountHmvc = function(prefix, hmvcModulePath) {
+  function mountHmvc(prefix, hmvcModulePath) {
     var middleware;
     // lazy require middleware, so that restarting node won't load all hmvc routes (slow for dev)
     app.use(mount(prefix,
@@ -20,18 +20,18 @@ module.exports = function(app) {
           yield* middleware.call(this, next);
         }
     ));
-  };
-
-  app.mountHmvc('/', 'frontpage');
-
-  if (process.env.NODE_ENV == 'development') {
-    app.mountHmvc('/markup', 'markup');
-    app.mountHmvc('/dev', 'dev');
   }
 
-  app.mountHmvc('/users', 'users');
+  mountHmvc('/', 'frontpage');
 
-  app.mountHmvc('/auth', 'auth');
+  if (process.env.NODE_ENV == 'development') {
+    mountHmvc('/markup', 'markup');
+    mountHmvc('/dev', 'dev');
+  }
+
+  mountHmvc('/users', 'users');
+
+  mountHmvc('/auth', 'auth');
   // no csrf check for guest endpoints (no generation of csrf for anon)
   app.csrfChecker.addIgnorePath('/auth/login/:any*');
   app.csrfChecker.addIgnorePath('/auth/register');
@@ -40,12 +40,12 @@ module.exports = function(app) {
   app.csrfChecker.addIgnorePath('/auth/forgot-recover');
 
 
-  app.mountHmvc('/getpdf', 'getpdf');
-  app.mountHmvc('/cache', 'cache');
+  mountHmvc('/getpdf', 'getpdf');
+  mountHmvc('/cache', 'cache');
 
-  app.mountHmvc('/profile', 'profile');
+  mountHmvc('/profile', 'profile');
 
-  app.mountHmvc('/payments', 'payments');
+  mountHmvc('/payments', 'payments');
   app.csrfChecker.addIgnorePath('/payments/:any*');
   app.verboseLogger.addPath('/payments/:any*');
 
@@ -68,7 +68,7 @@ module.exports = function(app) {
 */
 
   // stick to bottom to detect any not-yet-processed /:slug
-  app.mountHmvc('/', 'tutorial');
+  mountHmvc('/', 'tutorial');
 
 
 };

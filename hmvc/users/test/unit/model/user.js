@@ -1,5 +1,5 @@
 var app = require('app');
-var mongoose = require('config/mongoose');
+var mongoose = require('lib/mongoose');
 
 var dataUtil = require('lib/dataUtil');
 

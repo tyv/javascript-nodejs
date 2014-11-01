@@ -11,7 +11,7 @@ process.on('uncaughtException', function(err) {
 });
 
 const koa = require('koa');
-const mongoose = require('config/mongoose');
+const mongoose = require('lib/mongoose');
 const app = koa();
 
 app.log = log;
