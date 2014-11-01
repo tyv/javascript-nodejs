@@ -1,0 +1,79 @@
+extends ../layouts/profile
+
+// - http://stackoverflow.com/questions/12646451/how-to-pass-variables-between-jade-templates
+block variables
+  - self.title = 'Кабинет пользователя Nakazator';
+
+  //- layout
+  - layout.header = true
+  - layout.centeredHeader = true
+
+block content
+  +b.profile._tests
+    include ../blocks/profile-upic
+    +e.content
+      +e.tabs
+        +e.tab
+          +e.tab-content
+            +e('a').tab-link(href="#") Профиль
+        +e.tab
+          +e.tab-content
+            +e('a').tab-link(href="#") Аккаунт
+        +e.tab
+          +e.tab-content
+            +e('a').tab-link(href="#") Заказы
+        +e.tab
+          +e.tab-content
+            +e('a').tab-link(href="#") Курсы
+        +e.tab
+          +e.tab-content
+            +e('a').tab-link(href="#") Уведомления
+        +e.tab._current
+          +e.tab-content
+            | Тесты
+      //- воспроизводим структуру таблицы, чтобы обемпечить выравнивание
+      //- между разными строками, однако не используем теги таблицы,
+      //- чтобы оставить простую возможность менять лейаут с помощью css
+      +e.tests
+        +e.test
+          +e.test-name
+            +e.test-legend 18 июля 2014 в 19:42
+            +e.test-title Основной JavaScript
+            +e.test-legend Попытка #1
+          +e.test-score
+            +e.test-legend Результат
+            +e.test-percent 36%
+          +e.test-level
+            +e.test-legend Уровень
+            | Новичок
+          +e.test-weaks
+            +e.test-legend Слабые места
+            | Кроссбраузерность, события, CSS
+        +e.test
+          +e.test-name
+            +e.test-legend 18 июля 2014 в 19:42
+            +e.test-title Основной JavaScript
+            +e.test-legend Попытка #2
+          +e.test-score
+            +e.test-legend Результат
+            +e.test-percent 58%
+          +e.test-level
+            +e.test-legend Уровень
+            | Ученик
+          +e.test-weaks
+            +e.test-legend Слабые места
+            | Кроссбраузерность
+        +e.test
+          +e.test-name
+            +e.test-legend 18 июля 2014 в 19:42
+            +e.test-title Основной JavaScript
+            +e.test-legend Попытка #3
+          +e.test-score
+            +e.test-legend Результат
+            +e.test-percent 96%
+          +e.test-level
+            +e.test-legend Уровень
+            | Мастер
+          +e.test-weaks
+            +e.test-legend Слабые места
+            | Кроссбраузерность
