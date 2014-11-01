@@ -1,0 +1,1 @@
+exports.sync = require('./sync');

@@ -1,7 +1,7 @@
 const app = require('app');
 
 const TaskRenderer = require('../../renderer/taskRenderer').TaskRenderer;
-const mongoose = require('config/mongoose');
+const mongoose = require('lib/mongoose');
 const Task = require('../../models/task');
 
 describe("TaskRenderer", function() {

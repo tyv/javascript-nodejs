@@ -4,11 +4,16 @@ var config = require('config');
 var isDevelopment = (process.env.NODE_ENV === 'development');
 var isProduction = (process.env.NODE_ENV === 'production');
 var webpack = require('webpack');
+
+var WriteVersionsPlugin = require('lib/webpack/writeVersionsPlugin');
+
 var del = require('del');
 
 var webpackConfig = {
   output:     {
+    // fs path
     path:          './public/js',
+    // path as js sees it
     publicPath:    '/js/',
     // в dev-режиме файлы будут вида [name].js, но обращения - через [name].js?[hash], т.е. версия учтена
     // в prod-режиме не можем ?, т.к. CDN его обрезают, поэтому [hash] в имени
@@ -36,20 +41,18 @@ var webpackConfig = {
 
   plugins: [
     //new CommonsChunkPlugin("init", "init.js")
-    new WriteVersionsPlugin(path.join(config.manifestRoot, "js.versions.json"))
+    new WriteVersionsPlugin(path.join(config.manifestRoot, "js.versions.json")),
+    function() {
+      function clear(compiler, callback) {
+        del.sync(this.options.output.path + '/*');
+        callback();
+      }
+
+      this.plugin('run', clear);
+      this.plugin('watch-run', clear);
+    }
   ]
 };
-
-
-webpackConfig.plugins.push(function() {
-  function clear(compiler, callback) {
-    del.sync(this.options.output.path + '/*');
-    callback();
-  }
-
-  this.plugin('run', clear);
-  this.plugin('watch-run', clear);
-});
 
 if (isProduction) {
   webpackConfig.plugins.push(
@@ -62,27 +65,5 @@ if (isProduction) {
     new webpack.optimize.OccurenceOrderPlugin()
   );
 }
-
-function WriteVersionsPlugin(file) {
-  this.file = file;
-}
-
-WriteVersionsPlugin.prototype.apply = function(compiler) {
-  var self = this;
-  compiler.plugin("done", function(stats) {
-    stats = stats.toJson();
-    //console.log(stats.assetsByChunkName);
-    var assetsByChunkName = stats.assetsByChunkName;
-
-    for (var name in assetsByChunkName) {
-      if (assetsByChunkName[name] instanceof Array) {
-        assetsByChunkName[name] = assetsByChunkName[name][0];
-      }
-      assetsByChunkName[name] = this.options.output.publicPath + assetsByChunkName[name];
-    }
-
-    fs.writeFileSync(self.file, JSON.stringify(assetsByChunkName));
-  });
-};
 
 module.exports = webpackConfig;
