@@ -82,22 +82,6 @@ exports.get = function *get(next) {
 
   }
 
-  sections.push({
-    class: '_map',
-    links: [{
-      attrs: { 'data-action': 'tutorial-map' },
-      class: "_map",
-      title: 'Карта учебника',
-      url: '/tutorial/map'
-    }]
-  })
-
-  sections.push({
-    links: [{
-      url: '#edit-on-github',
-      title: 'Редактировать на Github'
-    }]
-  });
 
   locals.sidebar = {
     class: "sidebar_sticky-footer",

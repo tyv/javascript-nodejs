@@ -53,7 +53,7 @@ function onFsEvents(filePath, flags, id) {
     return;
   }
 
-  console.log(filePath, getFlagNames(flags));
+  //console.log(filePath, getFlagNames(flags));
 
   this.callback(filePath, flags, id);
 }

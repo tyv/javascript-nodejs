@@ -72,7 +72,7 @@ schema.methods.getUrl = function() {
 
 schema.methods.destroyTree = function* () {
   if (this.isFolder) {
-    var children = yield this.schema.find({parent: this._id}).select('isFolder').exec();
+    var children = yield Article.find({parent: this._id}).select('isFolder').exec();
 
     for (var i = 0; i < children.length; i++) {
       var child = children[i];
@@ -84,7 +84,7 @@ schema.methods.destroyTree = function* () {
 };
 
 schema.statics.destroyTree = function* (condition) {
-  var articles = yield this.find(condition).select('isFolder').exec();
+  var articles = yield Article.find(condition).select('isFolder').exec();
 
   for (var i = 0; i < articles.length; i++) {
     yield* articles[i].destroyTree();
@@ -187,5 +187,5 @@ schema.pre('remove', function(next) {
 
 schema.plugin(troop.timestamp);
 
-module.exports = mongoose.model('Article', schema);
+var Article = module.exports = mongoose.model('Article', schema);
 

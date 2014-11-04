@@ -32,6 +32,9 @@ var schema = new Schema({
     required: true
   },
 
+  solutionPlunkId: String,
+  sourcePlunkId: String,
+
   weight: {
     type:     Number,
     required: true

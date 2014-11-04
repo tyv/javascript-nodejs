@@ -3,6 +3,7 @@ var ParseError = require('simpledownParser').ParseError;
 var inherits = require('inherits');
 const Reference = require('tutorial/models/reference');
 const Article = require('tutorial/models/article');
+const Plunk = require('plunk').Plunk;
 const Task = require('tutorial/models/task');
 const ErrorTag = require('simpledownParser').ErrorTag;
 const TextNode = require('simpledownParser').TextNode;
@@ -59,7 +60,7 @@ ServerHtmlTransformer.prototype.transform = function*(node, isFinal) {
 function* resolveReference(value) {
   if (value[0] == '#') {
     var ref = yield Reference.findOne({anchor: value.slice(1)}).populate('article', 'slug title').exec();
-    return ref && { title: ref.article.title, url: ref.getUrl() };
+    return ref && {title: ref.article.title, url: ref.getUrl()};
   }
 
   if (value.indexOf('/task/') === 0) {
@@ -145,7 +146,7 @@ ServerHtmlTransformer.prototype.transformImgTag = function*(node) {
     stat = yield fs.stat(imagePath);
   } catch (e) {
     throw new ParseError("div", "Нет такого файла: " + node.attrs.src +
-        (process.env.NODE_ENV == 'development' ? " [" + imagePath + "]" : "")
+      (process.env.NODE_ENV == 'development' ? " [" + imagePath + "]" : "")
     );
   }
 
@@ -182,63 +183,18 @@ ServerHtmlTransformer.prototype.transformImgTag = function*(node) {
   return HtmlTransformer.prototype.transformImgTag.call(this, node);
 };
 
-function* readPlunkId(dirPath) {
-
-  var plnkrPath = path.join(dirPath, '.plnkr');
-
-  var info;
-  try {
-
-    info = JSON.parse(yield fs.readFile(plnkrPath));
-
-  } catch (e) {
-    if (e instanceof SyntaxError) {
-      throw new ParseError('div', 'incorrect .plnkr');
-    } else {
-      throw new ParseError('div', "can't read .plnkr from " + dirPath);
-    }
-  }
-
-  return info.plunk;
-}
-
 ServerHtmlTransformer.prototype.transformCodeTabsTag = function* (node) {
 
   var src = path.join(this.resourceWebRoot, node.attrs.src);
 
-  var srcPath = this._srcUnderRoot(config.publicRoot, src);
+  var plunk = yield Plunk.findOne({webPath: src}).exec();
 
-  // check to see if it's an example, not any folder
-  yield readPlunkId(srcPath);
+  if (!plunk) {
+    throw new ParseError('div', 'No such plunk');
+  }
 
-  var files = yield fs.readdir(srcPath);
-  files = files.filter(function(fileName) {
-    return fileName[0] != '.';
-  });
+  var files = plunk.files;
 
-  files.sort(function(nameA, nameB) {
-
-    var extA = path.extname(nameA);
-    var extB = path.extname(nameB);
-
-    function compare(ext) {
-      if (extA == ext && extB == ext) {
-        return nameA > nameB ? 1 : -1;
-      }
-
-      if (extA == ext) return -1;
-      if (extB == ext) return 1;
-    }
-
-    // html always first, then js, then css, then generic comparison
-    return compare('.html') || compare('.js') || compare('.css') || (nameA > nameB ? 1 : -1);
-  });
-  /*
-   var tabs = [{
-   title: 'Результат',
-   selected: !node.attrs.selected, // if nothing is selected, select this
-   content:
-   }];*/
   var tabs = [];
 
 
@@ -249,19 +205,18 @@ ServerHtmlTransformer.prototype.transformCodeTabsTag = function* (node) {
   };
 
   for (var i = 0; i < files.length; i++) {
-    var name = files[i];
+    var file = files[i];
 
-    var ext = path.extname(name).slice(1);
+    var ext = path.extname(file.filename).slice(1);
 
     var prismLanguage = prismLanguageMap[ext] || ext;
 
     var languageClass = 'language-' + prismLanguage + ' line-numbers';
 
-    var content = yield fs.readFile(path.join(srcPath, name), 'utf-8');
     tabs.push({
-      title:   name,
-      class: languageClass,
-      content: content
+      title:   file.filename,
+      class:   languageClass,
+      content: file.content
     });
   }
 
@@ -329,7 +284,7 @@ ServerHtmlTransformer.prototype.transformSourceTag = function* (node) {
       content = yield fs.readFile(sourcePath, 'utf-8');
     } catch (e) {
       throw new ParseError('div', "Не могу прочитать файл: " + node.src +
-          (process.env.NODE_ENV == 'development' ? " [" + sourcePath + "]" : "")
+        (process.env.NODE_ENV == 'development' ? " [" + sourcePath + "]" : "")
       );
     }
 

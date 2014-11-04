@@ -7,8 +7,18 @@
           +e.answer-content
             +e('h4').step-title !{step.title}
             != step.content
+
+            if (i == task.solution.length - 1 && solutionPlunkInfo)
+              a(href=solutionPlunkInfo.url)= solutionPlunkInfo.title
+
     else
       +e.answer-content
         != task.solution
+
+        if solutionPlunkInfo
+          a(href=solutionPlunkInfo.url)= solutionPlunkInfo.title
+
     +b('button').close-button.__answer-close(type="button", title="закрыть")
   != task.content
+  if sourcePlunkInfo
+    a(href=sourcePlunkInfo.url)= sourcePlunkInfo.title
