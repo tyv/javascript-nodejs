@@ -82,7 +82,9 @@ exports.get = function *get(next) {
 
   }
 
+
   locals.sidebar = {
+    class: "sidebar_sticky-footer",
     sections: sections
   };
 

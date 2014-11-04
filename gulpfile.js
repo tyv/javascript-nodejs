@@ -20,7 +20,7 @@ gulp.task('link-modules', lazyRequireTask('./tasks/linkModules', { src: ['client
 gulp.start('link-modules');
 
 const config = require('config');
-const mongoose = require('config/mongoose');
+const mongoose = require('lib/mongoose');
 
 //Error.stackTraceLimit = Infinity;
 //require('trace');
@@ -107,6 +107,10 @@ gulp.task('client:compile-css',
   })
 );
 
+gulp.task('plunk:sync', lazyRequireTask('./tasks/plunkSync', {
+  root: "/js/javascript-nodejs/javascript-tutorial"
+}));
+
 gulp.task('client:minify', lazyRequireTask('./tasks/minify', {
   root: './public'
 }));
@@ -124,8 +128,7 @@ gulp.task('dev', function(callback) {
 });
 
 gulp.task('tutorial:import', ['cache:clean'], lazyRequireTask('tutorial/tasks/import', {
-  root:        'javascript-tutorial',
-  updateFiles: true // skip same size files
+  root: "/js/javascript-nodejs/javascript-tutorial"
 }));
 
 gulp.task('cache:clean', lazyRequireTask('./tasks/cacheClean'));

@@ -18,7 +18,7 @@ block body
         span.page__nav-text
           span.page__nav-text-shortcut
     if sidebar
-      +b.sidebar.page__sidebar
+      +b(class="sidebar page__sidebar #{sidebar.class}")
         +e('button').toggle(onclick="document.querySelector('.page').classList.toggle('page_sidebar_on')")
         +e.inner
           +e.content

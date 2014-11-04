@@ -20,6 +20,7 @@ module.exports = function(options) {
       var relFilePath = filePath.slice(root.length + 1);
 
       co(function* () {
+
         var fileName = path.basename(filePath);
         var folder;
         if (flags & watch.FsEventsFlags.ItemIsFile) {
