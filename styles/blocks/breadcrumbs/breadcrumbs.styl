@@ -1,9 +1,9 @@
 .breadcrumbs
 	list-style none
-	font-size 13px
+	font-size 14px
 	margin 0
 	padding 0
-	color #777
+	color #888
 
 	.main &_fixed
 		position fixed
@@ -30,9 +30,11 @@
 
 		&::after
 			content "→"
+			font-family "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, sans-serif
+
+			color #a9a9a9
 			display inline-block
-			margin 0 8px 0 9px
-			color #666
+			margin 0 9px 0 7px
 
 		&:last-child::after
 			display none
@@ -46,6 +48,7 @@
 		min-width 17px
 		font-size 18px
 		color #999
+		vertical-align -1px
 
 	&__item_home &__link:hover
 		text-decoration none
