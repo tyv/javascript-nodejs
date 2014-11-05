@@ -245,7 +245,8 @@ AuthModal.prototype.submitForgotForm = function(form) {
 
   var request = this.request({
     method: 'POST',
-    url:    '/auth/forgot'
+    url:    '/auth/forgot',
+    successStatuses: [201, 404]
   });
 
   var self = this;
@@ -254,7 +255,7 @@ AuthModal.prototype.submitForgotForm = function(form) {
     if (this.status == 200) {
       self.setContent(clientRender(loginForm));
       self.showFormMessage(event.result, 'success');
-    } else {
+    } else if (this.status == 404) {
       self.showFormMessage(event.result, 'error');
     }
   });

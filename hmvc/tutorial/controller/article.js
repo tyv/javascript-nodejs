@@ -168,8 +168,14 @@ function* renderArticle(slug) {
       });
       parent = a.parent;
     }
+    path.push({
+      title: 'Учебник',
+      url: '/'
+    });
+
     path = path.reverse();
 
+    console.log(path);
     rendered.breadcrumbs = path;
   }
 
