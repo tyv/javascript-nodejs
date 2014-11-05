@@ -5,11 +5,13 @@ const fse = require('fs-extra');
 const path = require('path');
 const config = require('config');
 const mongoose = require('lib/mongoose');
+const crypto = require('crypto');
 
 require('lib/requireJade');
 
 const Article = require('tutorial').Article;
 const Reference = require('tutorial').Reference;
+const Plunk = require('plunk').Plunk;
 const Task = require('tutorial').Task;
 const BodyParser = require('simpledownParser').BodyParser;
 const TreeWalkerSync = require('simpledownParser').TreeWalkerSync;
@@ -23,14 +25,15 @@ const log = require('log')();
 
 function Importer(options) {
   this.root = fs.realpathSync(options.root);
-  this.onchange = options.onchange || function() {};
+  this.onchange = options.onchange || function() {
+  };
 }
 
 Importer.prototype.sync = function* (directory) {
 
   var dir = fs.realpathSync(directory);
   var type;
-  while(true) {
+  while (true) {
     if (fs.existsSync(path.join(dir, 'index.md'))) {
       type = 'Folder';
       break;
@@ -52,7 +55,10 @@ Importer.prototype.sync = function* (directory) {
   }
 
   var parentDir = path.dirname(dir);
-  var parentSlug = path.basename(parentDir).slice(3);
+
+  var parentSlug = path.basename(parentDir);
+  parentSlug = parentSlug.slice(parentSlug.indexOf('-') + 1);
+
   var parent = yield Article.findOne({slug: parentSlug}).exec();
 
   yield* this['sync' + type](dir, parent);
@@ -112,7 +118,7 @@ Importer.prototype.syncFolder = function*(sourceFolderPath, parent) {
   }
 
   data.weight = parseInt(folderFileName);
-  data.slug = folderFileName.slice(3);
+  data.slug = folderFileName.slice(String(data.weight).length + 1);
 
   yield Article.destroyTree({slug: data.slug});
 
@@ -128,6 +134,7 @@ Importer.prototype.syncFolder = function*(sourceFolderPath, parent) {
   this.checkIfErrorsInParsed(parsed);
   data.title = this.extractHeader(parsed);
 
+  console.log(data);
   const folder = new Article(data);
   yield folder.persist();
   this.onchange(folder.getUrl());
@@ -156,6 +163,7 @@ Importer.prototype.syncArticle = function* (articlePath, parent) {
   const contentPath = path.join(articlePath, 'article.md');
   const content = fs.readFileSync(contentPath, 'utf-8').trim();
 
+  console.log(content);
   const articlePathName = path.basename(articlePath);
 
   const data = {
@@ -168,7 +176,7 @@ Importer.prototype.syncArticle = function* (articlePath, parent) {
   }
 
   data.weight = parseInt(articlePathName);
-  data.slug = articlePathName.slice(3);
+  data.slug = articlePathName.slice(String(data.weight).length + 1);
 
   yield Article.destroyTree({slug: data.slug});
 
@@ -214,16 +222,20 @@ Importer.prototype.syncArticle = function* (articlePath, parent) {
     if (subPaths[i] == 'article.md') continue;
 
     var subPath = path.join(articlePath, subPaths[i]);
+
+
     if (fs.existsSync(path.join(subPath, 'task.md'))) {
-      yield this.syncTask(subPath, article);
+      yield* this.syncTask(subPath, article);
+    } else if (subPath.endsWith('.view')) {
+      yield* this.syncView(subPath, article);
     } else {
       // resources
-      yield this.syncResource(subPath, article.getResourceFsRoot());
+      yield* this.syncResource(subPath, article.getResourceFsRoot());
     }
+
   }
-
-
 };
+
 
 Importer.prototype.syncResource = function*(sourcePath, destDir) {
   fse.ensureDirSync(destDir);
@@ -305,7 +317,7 @@ Importer.prototype.syncTask = function*(taskPath, parent) {
   };
 
   data.weight = parseInt(taskPathName);
-  data.slug = taskPathName.slice(3);
+  data.slug = taskPathName.slice(String(data.weight).length + 1);
 
   yield Task.destroy({slug: data.slug});
 
@@ -315,7 +327,6 @@ Importer.prototype.syncTask = function*(taskPath, parent) {
     metadata:        {},
     trusted:         true
   };
-
 
   const parsed = new BodyParser(content, options).parseAndWrap();
   this.checkIfErrorsInParsed(parsed);
@@ -330,25 +341,176 @@ Importer.prototype.syncTask = function*(taskPath, parent) {
   log.debug("parsing solution");
 
   options.metadata = {};
-  console.log(util.inspect(options, {depth: 50}));
+  //console.log(util.inspect(options, {depth: 50}));
   const parsedSolution = new BodyParser(solution, options).parseAndWrap();
 
   this.checkIfErrorsInParsed(parsedSolution);
 
   const task = new Task(data);
   yield task.persist();
+
   this.onchange(task.getUrl());
 
   const subPaths = fs.readdirSync(taskPath);
 
   for (var i = 0; i < subPaths.length; i++) {
-    if (subPaths[i] == 'task.md' || subPaths[i] == 'solution.md') continue;
+    // names starting with _ don't sync
+    if (subPaths[i] == 'task.md' || subPaths[i] == 'solution.md' || subPaths[0] == '_') continue;
 
     var subPath = path.join(taskPath, subPaths[i]);
-    yield* this.syncResource(subPath, task.getResourceFsRoot());
+
+    if (subPath.endsWith('.view')) {
+      yield* this.syncView(subPath, task);
+    } else {
+      yield* this.syncResource(subPath, task.getResourceFsRoot());
+    }
+  }
+
+  if (fs.existsSync(path.join(taskPath, '_js'))) {
+    yield* this.syncTaskJs(path.join(taskPath, '_js'), task);
   }
 
 };
+
+Importer.prototype.syncView = function*(dir, parent) {
+  var pathName = path.basename(dir).replace('.view', '');
+  var webPath = parent.getResourceWebRoot() + '/' + pathName;
+
+  log.debug("syncView", webPath);
+  var plunk = yield Plunk.findOne({webPath: webPath}).exec();
+
+  if (!plunk) {
+    plunk = new Plunk({
+      webPath:     webPath,
+      description: "Fork from http://javascript.ru"
+    });
+  }
+
+  //log.debug("Plunk from db", plunk);
+
+  var filesForPlunk = require('plunk').readFs(dir);
+
+  if (!filesForPlunk) return; // had errors
+
+  yield* plunk.mergeAndSyncRemote(filesForPlunk);
+
+  var dst = path.join(parent.getResourceFsRoot(), pathName);
+
+  fse.ensureDirSync(dst);
+  fs.readdirSync(dir).forEach(function(dirFile) {
+    log.debug("Copy %s to %s", dir, dst);
+    copySync(path.join(dir, dirFile), path.join(dst, dirFile));
+  });
+};
+
+
+Importer.prototype.syncTaskJs = function*(jsPath, task) {
+
+  log.debug("syncTaskJs", jsPath);
+
+  try {
+    var sourceJs = fs.readFileSync(path.join(jsPath, 'source.js'), 'utf8');
+  } catch (e) {
+    sourceJs = "// ...ваш код...";
+  }
+  try {
+    var testJs = fs.readFileSync(path.join(jsPath, 'test.js'), 'utf8');
+  } catch (e) {
+    testJs = "";
+  }
+
+  var solutionJs = fs.readFileSync(path.join(jsPath, 'solution.js'), 'utf8');
+
+  // Source
+  var webPath = task.getResourceWebRoot() + '/source';
+
+  var source = makeSource(sourceJs, testJs);
+
+  var sourcePlunk = yield Plunk.findOne({webPath: webPath}).exec();
+
+  if (!sourcePlunk) {
+    sourcePlunk = new Plunk({
+      webPath:     webPath,
+      description: "Fork from http://javascript.ru"
+    });
+  }
+
+  var filesForPlunk = {
+    'index.html': {
+      content:  source,
+        filename: 'index.html'
+    },
+    'test.js':    !testJs ? null : {
+      content:  testJs.trim(),
+      filename: 'test.js'
+    }
+  };
+
+  log.debug("save plunk for ", webPath);
+  yield* sourcePlunk.mergeAndSyncRemote(filesForPlunk);
+
+  // Solution
+  var webPath = task.getResourceWebRoot() + '/solution';
+
+  var solution = makeSolution(solutionJs, testJs);
+
+  var solutionPlunk = yield Plunk.findOne({webPath: webPath}).exec();
+
+  if (!solutionPlunk) {
+    solutionPlunk = new Plunk({
+      webPath:     webPath,
+      description: "Fork from http://javascript.ru"
+    });
+  }
+
+  var filesForPlunk = {
+    'index.html': {
+      content:  solution,
+      filename: 'index.html'
+    },
+    'test.js':    !testJs ? null : {
+      content:  testJs.trim(),
+      filename: 'test.js'
+    }
+  };
+
+  log.debug("save plunk for ", webPath);
+  yield* solutionPlunk.mergeAndSyncRemote(filesForPlunk);
+
+};
+
+
+function makeSource(sourceJs, testJs) {
+  var source = "<!DOCTYPE HTML>\n<html>\n<head>\n  <meta charset=\"utf-8\">\n";
+  if (testJs) {
+    source += "  <script src=\"http://js.cx/test/libs.js\"></script>\n";
+    source += "  <script src=\"test.js\"></script>\n";
+  }
+  source += "</head>\n<body>\n\n  <script>\n\n";
+
+  source += sourceJs.trim().replace(/^/gim, '    ');
+  source += "\n\n  </script>\n";
+  source += "\n</body>\n</html>";
+  return source;
+}
+
+
+function makeSolution(solutionJs, testJs) {
+  var solution = "<!DOCTYPE html>\n<html>\n<head>\n  <meta charset=\"utf-8\">\n";
+  if (testJs) {
+    solution += "  <script src=\"http://js.cx/test/libs.js\"></script>\n";
+    solution += "  <script src=\"test.js\"></script>\n";
+  }
+  solution += "</head>\n<body>\n\n  <script>\n\n";
+
+  solution += solutionJs.trim().replace(/^/gim, '    ');
+
+  solution += "\n\n  </script>\n";
+  solution += "\n</body>\n</html>";
+
+  return solution;
+}
+
 
 
 function checkSameSizeFiles(filePath1, filePath2) {
