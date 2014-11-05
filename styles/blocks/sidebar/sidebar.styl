@@ -74,6 +74,8 @@
 		font-size 18px
 		position absolute
 		left 0
+		top 0
+		line-height 1
 
 	&__section_share
 		margin-top 18px
@@ -101,14 +103,14 @@
 		&__toggle
 			display none
 
-	&_compact &__content
-		min-height calc(100% - 56px)
-
-	&_sticky-footer&_compact &__content
-		padding-bottom 33px // резервируем место под «редактировать на github»
+	&_compact&_sticky-footer &__content
+		min-height calc(100% - 63px)
 
 	&_compact &__section
 		margin 15px 0
+
+	&_compact&_sticky-footer &__section:last-child
+		margin 22px 0
 
 	&_compact &__section_separator_before
 		margin-top 24px
