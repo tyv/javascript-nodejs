@@ -29,10 +29,9 @@ module.exports = {
   plnkrAuthId: secret.plnkrAuthId,
 
   mailer:       require('./mailer'),
-  template:     {
-    options: {
-      cache: env.NODE_ENV != 'development'
-    }
+  jade:     {
+    basedir: path.join(process.cwd(), 'templates'),
+    cache: env.NODE_ENV != 'development'
   },
   crypto:       {
     hash: {

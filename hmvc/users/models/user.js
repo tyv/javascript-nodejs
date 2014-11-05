@@ -53,7 +53,7 @@ var UserSchema = new mongoose.Schema({
     index:    {
       unique:       true,
       sparse:       true,
-      errorMessage: "Такой e-mail уже используется другим пользователем."
+      errorMessage: "Такой e-mail уже используется."
     }
   },
   passwordHash:              {

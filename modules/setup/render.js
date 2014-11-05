@@ -9,7 +9,6 @@ const log = require('log')();
 const jade = require('jade');
 const _ = require('lodash');
 const assert = require('assert');
-const JadeParserMultipleDirs = require('lib/jadeParserMultipleDirs');
 
 require('lib/requireJade');
 
@@ -27,9 +26,9 @@ function getPublicVersion(publicPath) {
 }
 
 function addStandardHelpers(locals, ctx) {
-  locals.moment = moment;
+  if (locals._hasStandardHelpers) return;
 
-  locals.parser = JadeParserMultipleDirs;
+  locals.moment = moment;
 
   // csrf only generated on request
   // use:
@@ -104,7 +103,7 @@ function addStandardHelpers(locals, ctx) {
     return versionName;
   };
 
-//  locals.debug = true;
+  locals._hasStandardHelpers = true;
 }
 
 
@@ -114,9 +113,7 @@ module.exports = function render(app) {
   app.use(function *(next) {
     var ctx = this;
 
-    this.locals = _.assign({}, config.template.options);
-
-    this.templatePaths = [path.join(config.projectRoot, 'templates')];
+    this.locals = _.assign({}, config.jade);
 
     // render('article', {})  -- 2 args
     // render('article')
@@ -126,26 +123,17 @@ module.exports = function render(app) {
       // probably we will have more stuff initialized here
       addStandardHelpers(this.locals, this);
 
-      this.log.debug("Lookup " + templatePath + " in " + this.templatePaths);
+      this.log.debug("Lookup " + templatePath + " in " + this.templatePath);
 
       // warning!
       // _.assign does NOT copy defineProperty
       // so I use this.locals as a root and merge all props in it, instead of cloning this.locals
       var loc = Object.create(this.locals);
-      loc.templatePaths = this.templatePaths;
 
       _.assign(loc, locals);
 
-      var templatePathResolved;
-      for (var i = 0; i < this.templatePaths.length; i++) {
-        templatePathResolved = path.join(this.templatePaths[i], templatePath);
-        if (path.extname(templatePathResolved) === '') templatePathResolved += '.jade';
-        if (fs.existsSync(templatePathResolved)) break;
-      }
-
-      if (i == this.templatePaths.length) {
-        throw new Error("Template file not found: " + templatePath + " (in dirs " + this.templatePaths + ") ");
-      }
+      templatePath += '.jade';
+      var templatePathResolved = path.join(templatePath[0] == '/' ? loc.basedir : this.templatePath, templatePath);
 
       this.log.debug("render file " + templatePathResolved);
       return jade.renderFile(templatePathResolved, loc);

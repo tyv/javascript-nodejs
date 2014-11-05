@@ -168,8 +168,18 @@ function* renderArticle(slug) {
       });
       parent = a.parent;
     }
+    path.push({
+      title: 'Учебник',
+      url: '/tutorial'
+    });
+    path.push({
+      title: 'JavaScript.ru',
+      url: 'http://javascript.ru'
+    });
+
     path = path.reverse();
 
+    console.log(path);
     rendered.breadcrumbs = path;
   }
 

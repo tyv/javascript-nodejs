@@ -16,12 +16,12 @@ function wrapHmvcMiddleware(hmvcModulePath, hmvcMiddleware) {
 
     // before entering middeware
     function apply() {
-      self.templatePaths.push(hmvcTemplateDir);
+      self.templatePath = hmvcTemplateDir;
     }
 
     // before leaving middleware
     function undo() {
-      self.templatePaths.pop();
+      delete self.templatePath;
     }
 
     apply();
