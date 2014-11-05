@@ -12,19 +12,17 @@ block content
   +b.profile._accounts
     script.
       document.addEventListener("DOMContentLoaded", function(e) {
+        var items = document.querySelectorAll('.profile__item_editable');
+        for (var i = 0; i < items.length; i++) {
+          items[i].addEventListener('click', function(e) {
+            this.classList.add('profile__item_editing');
+          });
+        }
         document.querySelector('.profile').addEventListener('click', function(e) {
           var elem;
-          if (e.target.hasAttribute('data-inline-edit')) {
-            elem = e.target.parentNode;
-            while (elem && !elem.classList.contains('profile__item')) {
-              elem = elem.parentNode;
-            }
-            elem.classList.add('profile__item_editing');
-            elem.querySelector('input, select, textarea').focus(); // для текстовых инпутов — select()?
-          }
           if (e.target.classList.contains('profile__item-cancel')) {
-            elem = e.target.parentNode;
-            while (elem && !elem.classList.contains('profile__item')) {
+            elem = e.target;
+            while (elem && !elem.classList.contains('profile__item_editable')) {
               elem = elem.parentNode;
             }
             elem.classList.remove('profile__item_editing');
@@ -55,33 +53,31 @@ block content
       +e.item
         +e.item-content
           +e('h2').inline-title Управление аккаунтом
-      +e.item
+      +e.item._editable
         +e.item-content
           +e.item-name Юзернейм:
           +e.item-value Nakazator
-          +e('button').edit(data-inline-edit)
         +e.item-change
           +e.change-content
             +e.labeled
               +e('label').labeled-label(for="profile-username") Юзернейм:
-              +b.text-input._small.__labeled-text
+              +b.text-input._small.__control
                 +e('input').control(type="text", id="profile-username", value="Nakazator")
           include ../blocks/profile-ok-cancel
-      +e.item
+      +e.item._editable
         +e.item-content
           +e.item-name Email:
           +e.item-value nakazator@mail.com
-          +e('button').edit(data-inline-edit)
         +e.item-change
           +e.change-content
             +e.labeled
               +e('label').labeled-label(for="profile-email") Email:
-              +b.text-input._small.__labeled-text
+              +b.text-input._small.__control
                 +e('input').control(type="email", id="profile-email", value="nakazator@mail.com")
           include ../blocks/profile-ok-cancel
       +e.item
         +e.item-content
-          +e('button').action._change-password(data-inline-edit) Изменить пароль
+          +e('button').action._change-password(onclick="this.parentNode.parentNode.classList.add('profile__item_editing')") Изменить пароль
         +e.item-change
           +e.change-content
             //- смена пароля: используем поля text а не password, символы не скрываются,

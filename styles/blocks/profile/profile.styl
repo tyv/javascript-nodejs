@@ -76,6 +76,10 @@
 		line-height 20px
 		padding 0 50px 0 40px
 
+	&__item_editable:not(&__item_editing):hover
+		background #f9f8f0
+		cursor pointer
+
 	&__item:last-child
 		border 0
 
@@ -116,8 +120,8 @@
 	&_accounts &__labeled-label
 		min-width 110px
 
-	&__edit
-		@extend $button-reset
+	&__item_editable &__item-content::after
+		@extend $font-pencil
 		position absolute
 		left 100%
 		margin-left 3px
@@ -128,13 +132,7 @@
 		color #727272
 		display none
 
-	&__edit:active
-		position absolute
-
-	&__edit::before
-		@extend $font-pencil
-
-	&__item:hover &__edit
+	&__item:hover &__item-content::after
 		display block
 
 	&__item_editing &__item-content
@@ -185,30 +183,36 @@
 
 	&__control
 		box-sizing border-box
-		width 230px
+		width calc(100% - 155px)
+		min-width 230px
 		height 32px
 		display inline-block
-		box-shadow inset 1px 1px 5px 0 #eee
-		border-radius 3px
-		border 1px solid #e7e7e7
 		font-size 14px
+
+	&_accounts &__control
+		width calc(100% - 125px)
 
 	//- using id for styling as an exception,
 	//- theese id's won't appear anywhere else
 	//- and we use them just to set size
 	#profile-birth-day
+		min-width 0
 		width 50px
 		margin-right 10px
 
 	#profile-birth-month
+		min-width 0
 		width 90px
 		margin-right 10px
 
 	#profile-birth-year
+		min-width 0
 		width 70px
 
+	#profile-tz
+		width 230px
+
 	#profile-about
-		width 360px
 		height 100px
 
 	&__pass-change
@@ -222,6 +226,9 @@
 	&__ok-cancel
 		display table-cell
 		vertical-align bottom
+
+	&__change-content
+		padding-right 15px
 
 	&__ok-cancel
 		width 1%

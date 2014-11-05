@@ -12,19 +12,17 @@ block content
   +b.profile._settings
     script.
       document.addEventListener("DOMContentLoaded", function(e) {
+        var items = document.querySelectorAll('.profile__item_editable');
+        for (var i = 0; i < items.length; i++) {
+          items[i].addEventListener('click', function(e) {
+            this.classList.add('profile__item_editing');
+          });
+        }
         document.querySelector('.profile').addEventListener('click', function(e) {
           var elem;
-          if (e.target.hasAttribute('data-inline-edit')) {
-            elem = e.target.parentNode;
-            while (elem && !elem.classList.contains('profile__item')) {
-              elem = elem.parentNode;
-            }
-            elem.classList.add('profile__item_editing');
-            elem.querySelector('input, select, textarea').focus(); // для текстовых инпутов — select()?
-          }
           if (e.target.classList.contains('profile__item-cancel')) {
-            elem = e.target.parentNode;
-            while (elem && !elem.classList.contains('profile__item')) {
+            elem = e.target;
+            while (elem && !elem.classList.contains('profile__item_editable')) {
               elem = elem.parentNode;
             }
             elem.classList.remove('profile__item_editing');
@@ -55,11 +53,10 @@ block content
       +e.item
         +e.item-content
           +e('h2').inline-title Управление аккаунтом
-      +e.item
+      +e.item._editable(data-inline-edit)
         +e.item-content
           +e.item-name Имя:
           +e.item-value Валентиновский Валентин Валентинович
-          +e('button').edit(data-inline-edit)
         +e.item-change
           +e.change-content
             +e.labeled
@@ -67,11 +64,10 @@ block content
               +b.text-input._small.__control
                 +e('input').control#profile-name(type="text", value="Валентиновский Валентин Валентинович")
           include ../blocks/profile-ok-cancel
-      +e.item
+      +e.item._editable
         +e.item-content
           +e.item-name Email:
           +e.item-value
-          +e('button').edit(data-inline-edit)
         +e.item-change
           +e.change-content
             +e.labeled
@@ -79,11 +75,10 @@ block content
               +b.text-input._small.__control
                 +e('input').control#profile-email(type="email")
           include ../blocks/profile-ok-cancel
-      +e.item
+      +e.item._editable
         +e.item-content
           +e.item-name Website:
           +e.item-value www.valentin.com
-          +e('button').edit(data-inline-edit)
         +e.item-change
           +e.change-content
             +e.labeled
@@ -91,11 +86,10 @@ block content
               +b.text-input._small.__control
                 +e('input').control#profile-website(type="url", value="www.valentin.com")
           include ../blocks/profile-ok-cancel
-      +e.item
+      +e.item._editable
         +e.item-content
           +e.item-name Страна:
           +e.item-value Россия
-          +e('button').edit(data-inline-edit)
         +e.item-change
           +e.change-content
             +e.labeled
@@ -103,11 +97,10 @@ block content
               +b.text-input._small.__control
                 +e('input').control#profile-country(type="text", value="Россия")
           include ../blocks/profile-ok-cancel
-      +e.item
+      +e.item._editable
         +e.item-content
           +e.item-name Город:
           +e.item-value
-          +e('button').edit(data-inline-edit)
         +e.item-change
           +e.change-content
             +e.labeled
@@ -115,11 +108,10 @@ block content
               +b.text-input._small.__control
                 +e('input').control#profile-city(type="text")
           include ../blocks/profile-ok-cancel
-      +e.item
+      +e.item._editable
         +e.item-content
           +e.item-name Дата рождения:
           +e.item-value
-          +e('button').edit(data-inline-edit)
         +e.item-change
           +e.change-content
             +e.labeled
@@ -177,11 +169,10 @@ block content
                 +e('option').select(value="1989") 1989
                 +e('option').select(value="1990") 1990
           include ../blocks/profile-ok-cancel
-      +e.item
+      +e.item._editable
         +e.item-content
           +e.item-name Часовой пояс:
           +e.item-value Европа/Москва: GMT+4
-          +e('button').edit(data-inline-edit)
         +e.item-change
           +e.change-content
             +e.labeled
@@ -194,11 +185,10 @@ block content
                 +e('option').select(value="+5") Европа/Москва: GMT+5
                 +e('option').select(value="+6") Европа/Москва: GMT+6
           include ../blocks/profile-ok-cancel
-      +e.item
+      +e.item._editable
         +e.item-content
           +e.item-name Телефон:
           +e.item-value
-          +e('button').edit(data-inline-edit)
         +e.item-change
           +e.change-content
             +e.labeled
@@ -206,11 +196,10 @@ block content
               +b.text-input._small.__control
                 +e('input').control#profile-tel(type="text")
           include ../blocks/profile-ok-cancel
-      +e.item
+      +e.item._editable
         +e.item-content
           +e.item-name Интересы:
           +e.item-value музыка, юзабилити, javascript, веб-дизайн, программирование, html, спорт, css
-          +e('button').edit(data-inline-edit)
         +e.item-change
           +e.change-content
             +e.labeled
@@ -218,11 +207,10 @@ block content
               +b.text-input._small.__control
                 +e('input').control#profile-hobbies(type="text", value="музыка, юзабилити, javascript, веб-дизайн, программирование, html, спорт, css")
           include ../blocks/profile-ok-cancel
-      +e.item
+      +e.item._editable
         +e.item-content
           +e.item-name О себе:
           +e.item-value Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ullam iure eaque unde, repellat est sapiente. Optio autem odio illo necessitatibus, aliquam, ducimus repellat enim, non distinctio in doloremque, magni eligendi.
-          +e('button').edit(data-inline-edit)
         +e.item-change
           +e.change-content
             +e.labeled
