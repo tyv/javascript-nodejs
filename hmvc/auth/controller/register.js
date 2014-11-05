@@ -23,6 +23,11 @@ exports.post = function* (next) {
     yield user.persist();
   } catch(e) {
     if (e.name == 'ValidationError') {
+      try {
+        if (e.errors.email.type == "notunique") {
+          e.errors.email.message += ' Если он ваш, то можно <a data-switch="forgot-form" href="#">войти</a> или <a data-switch="forgot-form" href="#">восстановить пароль</a>.';
+        }
+      } catch (ex) { }
       return this.renderValidationError(e);
     } else {
       this.throw(e);
@@ -33,7 +38,7 @@ exports.post = function* (next) {
     yield* sendVerifyEmail(user.email, verifyEmailToken, this);
   } catch(e) {
     this.log.error({err: e}, "Registration failed" );
-    this.throw(500, "На сервере ошибка отправки email.");
+    this.throw(500, "Ошибка отправки email.");
   }
 
   this.status = 201;

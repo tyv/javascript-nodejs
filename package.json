@@ -98,6 +98,7 @@
     "request": "*",
     "sanitize-html": "*",
     "send": "*",
+    "styliner": "^0.8.9",
     "stylus": "*",
     "svgutils": "*",
     "through": "*",

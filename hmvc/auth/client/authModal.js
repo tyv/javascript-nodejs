@@ -246,7 +246,7 @@ AuthModal.prototype.submitForgotForm = function(form) {
   var request = this.request({
     method: 'POST',
     url:    '/auth/forgot',
-    successStatuses: [201, 404]
+    successStatuses: [200, 404]
   });
 
   var self = this;

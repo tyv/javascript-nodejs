@@ -1,14 +1,15 @@
-var stylus = require('stylus');
 var fs = require('fs');
-var projectRoot = require('config').projectRoot;
-var inlineContent = require('juice2').inlineContent;
+
+// juice does not work w/ node 0.11
+
+var Styliner = require('styliner');
+
 var path = require('path');
 
-var mailCss = (function() {
-  var mailStyl = fs.readFileSync(path.join(projectRoot ,'styles', 'mail.styl'), 'utf-8');
-  return stylus.render(mailStyl, {use: [require('nib')()]});
-}());
+module.exports = function*(html) {
 
-module.exports = function(html) {
-  return inlineContent(html, mailCss);
+  var styliner = new Styliner('.', { compact: false });
+  var result = yield styliner.processHTML(html, '.');
+
+  return result;
 };

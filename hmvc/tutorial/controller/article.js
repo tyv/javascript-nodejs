@@ -170,7 +170,11 @@ function* renderArticle(slug) {
     }
     path.push({
       title: 'Учебник',
-      url: '/'
+      url: '/tutorial'
+    });
+    path.push({
+      title: 'JavaScript.ru',
+      url: 'http://javascript.ru'
     });
 
     path = path.reverse();

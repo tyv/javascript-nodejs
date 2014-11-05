@@ -12,7 +12,7 @@ function renderUserError(error) {
   if (preferredType == 'json') {
     this.body = error;
   } else {
-    this.body = this.render("error", {error: error});
+    this.body = this.render("/error", {error: error});
   }
 }
 

@@ -69,7 +69,10 @@ mongoose.plugin(function(schema) {
 
             var valError = new ValidationError(err);
             var field = indexInfo[0][0]; // if many fields in uniq index - we take the 1st one for error
-            valError.errors[field] = new ValidatorError(field, errorMessage, err.err);
+
+            // example:
+            // err = { path="email", message="Email is not unique", type="notunique", value=model.email }
+            valError.errors[field] = new ValidatorError(field, errorMessage, 'notunique', model[field]);
 
             return callback(valError);
           });

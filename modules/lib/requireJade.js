@@ -1,20 +1,18 @@
-const JadeParserMultipleDirs = require('lib/jadeParserMultipleDirs');
 const fs = require('fs');
 const path = require('path');
 const config = require('config');
 const jade = require('jade');
+const _ = require('lodash');
 
 require.extensions['.jade'] = function(module, filename) {
 
   var compiled = jade.compile(
     fs.readFileSync(filename, 'utf-8'),
-    {
+    _.assign({}, config.jade, {
       pretty:        false,
       compileDebug:  false,
-      filename:      filename,
-      templatePaths: [path.join(config.projectRoot, 'templates')],
-      parser:        JadeParserMultipleDirs
-    }
+      filename:      filename
+    })
   );
 
   module.exports = function(locals) {

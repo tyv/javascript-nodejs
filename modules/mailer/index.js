@@ -1,10 +1,10 @@
+var co = require('co');
 var config = require('config');
 var nodemailer = require('nodemailer');
 var ses = require('nodemailer-ses-transport');
 var stubTransport = require('nodemailer-stub-transport');
 var log = require('log')();
 var thunkify = require('thunkify');
-var inlineCss = require('./inlineCss');
 
 // Transport:
 // --> In test env stub, otherwise SES
@@ -32,8 +32,8 @@ transport.use('compile', function(mail, callback){
   var sender = config.mailer.senders[mail.data.from];
   log.debug(sender);
   mail.data.from = sender.email;
-  mail.data.html = mail.data.html.replace('</body></html>', sender.signature + '</body></html>');
-  mail.data.html = inlineCss(mail.data.html);
+//  mail.data.html = mail.data.html.replace('</body></html>', sender.signature + '</body></html>');
+
   callback();
 });
 
@@ -52,3 +52,4 @@ transport.sendMail = thunkify(function(data, callback) {
 });
 
 module.exports = transport;
+module.exports.inlineCss = require('./inlineCss');
