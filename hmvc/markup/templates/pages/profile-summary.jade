@@ -1,0 +1,38 @@
+extends ../layouts/profile
+
+// - http://stackoverflow.com/questions/12646451/how-to-pass-variables-between-jade-templates
+block variables
+  - self.title = 'Кабинет пользователя Nakazator';
+
+  //- layout
+  - layout.header = true
+  - layout.centeredHeader = true
+
+block content
+  +b.profile._summary
+    include ../blocks/profile-upic
+    +e.content
+      +e.item
+        +e.item-content
+          +e.item-name Имя:
+          +e.item-value Валентиновский Валентин Валентинович
+      +e.item
+        +e.item-content
+          +e.item-name Website:
+          +e.item-value www.valentin.com
+      +e.item
+        +e.item-content
+          +e.item-name Страна:
+          +e.item-value Украина
+      +e.item
+        +e.item-content
+          +e.item-name Часовой пояс:
+          +e.item-value Европа/Москва: GMT+4
+      +e.item
+        +e.item-content
+          +e.item-name Интересы:
+          +e.item-value музыка, юзабилити, javascript, веб-дизайн, программирование, html, спорт, css
+      +e.item
+        +e.item-content
+          +e.item-name О себе:
+          +e.item-value Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ullam iure eaque unde, repellat est sapiente. Optio autem odio illo necessitatibus, aliquam, ducimus repellat enim, non distinctio in doloremque, magni eligendi.
