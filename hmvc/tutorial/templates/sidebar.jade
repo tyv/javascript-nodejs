@@ -13,10 +13,10 @@ each section in sidebar.sections
 
 +e.section
   +e.section-title Поделиться
-  +b('a').share._tw.sidebar__share(href="https://twitter.com/share?url=http://design.javascript.ru/intro")
-  +b('a').share._fb.sidebar__share(href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=http://design.javascript.ru/intro")
-  +b('a').share._gp.sidebar__share(href="https://plus.google.com/share?url=http://design.javascript.ru/intro")
-  +b('a').share._vk.sidebar__share(href="http://vkontakte.ru/share.php?url=http://design.javascript.ru/intro")
+  +b('a').share._tw.sidebar__share(href="https://twitter.com/share?url="+escape(url))
+  +b('a').share._fb.sidebar__share(href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]="+escape(url))
+  +b('a').share._gp.sidebar__share(href="https://plus.google.com/share?url="+escape(url))
+  +b('a').share._vk.sidebar__share(href="http://vkontakte.ru/share.php?url="+escape(url))
 
 +e.section
   +e('a').link(href="http://github.com/iliakan/javascript-nodejs") Редактировать на github
