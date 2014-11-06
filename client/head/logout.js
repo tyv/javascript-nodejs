@@ -1,13 +1,10 @@
-var init = require('./init');
 
-init.addHandler("logout", function() {
 
-  var button = document.querySelector('.sitetoolbar__logout');
-  button.onclick = function(e) {
+document.addEventListener('click', function(e) {
+  if (e.target.hasAttribute('data-action-user-logout')) {
     e.preventDefault();
     logout();
-  };
-  button.classList.remove('unready');
+  }
 });
 
 

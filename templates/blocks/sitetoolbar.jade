@@ -46,10 +46,10 @@
       +e.tablet-menu-header
         +e.tablet-menu-title Поделиться
       +e.tablet-menu-content
-        +b('a').share._tw.sitetoolbar__tablet-menu-share(href="https://twitter.com/share?url=http://design.javascript.ru/intro")
-        +b('a').share._fb.sitetoolbar__tablet-menu-share(href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=http://design.javascript.ru/intro")
-        +b('a').share._gp.sitetoolbar__tablet-menu-share(href="https://plus.google.com/share?url=http://design.javascript.ru/intro")
-        +b('a').share._vk.sitetoolbar__tablet-menu-share(href="http://vkontakte.ru/share.php?url=http://design.javascript.ru/intro")
+        +b('a').share._tw.sitetoolbar__tablet-menu-share(href="https://twitter.com/share?url="+escape(url))
+        +b('a').share._fb.sitetoolbar__tablet-menu-share(href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]="+escape(url))
+        +b('a').share._gp.sitetoolbar__tablet-menu-share(href="https://plus.google.com/share?url="+escape(url))
+        +b('a').share._vk.sitetoolbar__tablet-menu-share(href="http://vkontakte.ru/share.php?url="+escape(url))
   +e.search
     +e('form').search-content(method="GET", action="/search")
       +e.search-query-wrap
@@ -58,13 +58,12 @@
       +e.search-submit-wrap
         +b('button').submit-button.__search-submit
           | Найти
-  +e.usermenu
-    +e('ul').usermenu-items
-      +e('li').usermenu-item
-        +e('a').secondary-link.__usermenu-link(href="#profile") Профиль
-      +e('li').usermenu-item
-        +e('a').secondary-link.__usermenu-link(href="#settings") Настройки аккаунта
-      +e('li').usermenu-item
-        +e('a').secondary-link.__usermenu-link(href="#orders") Заказы
-      +e('li').usermenu-item
-        +e('a').secondary-link.__usermenu-link(href="#logout") Выйти
+  if user
+    +e.usermenu
+      +e('ul').usermenu-items
+        +e('li').usermenu-item
+          +e('a').secondary-link.__usermenu-link(href="/profile") Профиль
+        +e('li').usermenu-item
+          +e('a').secondary-link.__usermenu-link(href="#settings") Настройки аккаунта
+        +e('li').usermenu-item
+          +e('a').secondary-link.__usermenu-link(href="#" data-action-user-logout) Выйти
