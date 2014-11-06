@@ -3,11 +3,14 @@ const config = require('config');
 const co = require('co');
 const _ = require('lodash');
 const log = require('log')();
+const request = require('koa-request');
+const imgur = require('imgur');
 
-function mergeProfile(user, profile) {
+function* mergeProfile(user, profile) {
   if (!user.photo && profile.photos && profile.photos.length && profile.photos[0].type != 'default') {
     // assign an avatar unless it's default
-    user.photo = profile.photos[0].value;
+    var photoUrl = profile.photos[0].value;
+    user.photo = yield* imgur.transload(photoUrl);
   }
 
   if (!user.email && profile.emails && profile.emails.length) {
@@ -33,7 +36,7 @@ function mergeProfile(user, profile) {
   }
 
   user.providers.push({
-    name: profile.provider,
+    name:    profile.provider,
     nameId:  makeProviderId(profile),
     profile: profile
   });
@@ -63,7 +66,7 @@ module.exports = function(req, profile, done) {
       // look for another user already using this profile
       var alreadyConnectedUser = yield User.findOne({
         "providers.nameId": providerNameId,
-        _id: { $ne: userToConnect._id }
+        _id:                {$ne: userToConnect._id}
       }).exec();
 
       if (alreadyConnectedUser) {
@@ -101,10 +104,21 @@ module.exports = function(req, profile, done) {
       }
     }
 
-    mergeProfile(user, profile);
 
     try {
-      yield function(callback) { user.validate(callback); };
+      yield* mergeProfile(user, profile);
+    } catch (e) {
+      if (e.name == 'BadImageError') { // image too big or kind of
+        return done(null, false, e.message);
+      } else {
+        return done(e);
+      }
+    }
+
+    try {
+      yield function(callback) {
+        user.validate(callback);
+      };
     } catch (e) {
       // there's a required field
       // maybe, when the user was on the remote social login screen, he disallowed something?

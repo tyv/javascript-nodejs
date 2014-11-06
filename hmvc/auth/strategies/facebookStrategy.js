@@ -2,7 +2,8 @@ var User = require('users').User;
 const FacebookStrategy = require('passport-facebook').Strategy;
 const authenticateByProfile = require('./../lib/authenticateByProfile');
 const config = require('config');
-const request = require('request');
+const request = require('koa-request');
+const co = require('co');
 
 /*
  Returns fields:
@@ -53,23 +54,33 @@ module.exports = new FacebookStrategy({
     // refreshToken:
     // undefined
 
-    // I guess, facebook won't allow to use an email w/o verification, but still///
+    // I guess, facebook won't allow to use an email w/o verification, but still...
     if (!profile._json.verified) {
       return done(null, false, {message: "Почта на facebook должна быть подтверждена"});
     }
 
-    request.get({
-      url: 'http://graph.facebook.com/v2.1/' + profile.id + '/picture?redirect=0&width=1000&height=1000',
-      json: true
-    }, function(error, response, body) {
-      if (!error && response.statusCode == 200) {
-        /* jshint -W106 */
-        profile.photos = [{
-          value: body.data.url,
-          type: body.data.is_silhouette ? 'default' : 'photo'
-        }];
+    co(function*() {
 
+      var response = yield request.get({
+        url: 'http://graph.facebook.com/v2.1/' + profile.id + '/picture?redirect=0&width=1000&height=1000',
+        json: true
+      });
+
+      if (response.statusCode != 200) {
+        done(null, false, {message: "Ошибка в запросе к Facebook"});
+        return;
       }
+
+      var photoData = response.body.data;
+      /* jshint -W106 */
+      profile.photos = [{
+        value: photoData.url,
+        type: photoData.is_silhouette ? 'default' : 'photo'
+      }];
+
+
+    })(function(err) {
+      if (err) return done(err);
       authenticateByProfile(req, profile, done);
     });
 

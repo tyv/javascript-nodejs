@@ -37,19 +37,18 @@ function addStandardHelpers(locals, ctx) {
   // detects the variable and uses it in the wrapping function, effectively triggering it's evaluation
   // so I assign getter not to "csrf", but to "csrf.token", which will only be asked by "csrf.token", not a wrapper
   locals.csrf = {
-    token: {
-      get: function() {
-        if (!ctx.req.user) {
-          // csrf generates session.secret
-          // we don't create session for anonymouse users (varnish cache)
-          // so we don't want csrf token for them
-          // (it's not needed for anonymous guys anyway)
-          throw new Error("Shouldn't ask for CSRF token when anonymouse user (it will require to make a session)");
-        }
-        var csrf = ctx.csrf;
-        assert(csrf);
-        return csrf;
+    get token() {
+      if (!ctx.req.user) {
+        // csrf generates session.secret
+        // we don't create session for anonymouse users (varnish cache)
+        // so we don't want csrf token for them
+        // (it's not needed for anonymous guys anyway)
+        throw new Error("Shouldn't ask for CSRF token when anonymouse user (it will require to make a session)");
       }
+
+      var csrf = ctx.csrf;
+      assert(csrf);
+      return csrf;
     }
   };
 

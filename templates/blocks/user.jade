@@ -2,6 +2,6 @@
   //- делаем пользователя кнопкой, так как она только раскрывает меню
   //- и никуда не ведет. Если предполагается функциональность ссылки
   //- потребуются минимальные доработки
-  +e('button').user(title=user.displayName)
-    +e('span').user-text.logout Что при клике? Logout?
-    script require('client/head').init.whenReady("logout");
+  +e('button').user(title=user.displayName, onclick="document.querySelector('.sitetoolbar').classList.toggle('sitetoolbar_user_open')")
+    +e('img').userpic(src=user.getPhotoUrl('t'), alt=user.displayName, width="36", height="36")
+    +e('span').user-text= user.displayName

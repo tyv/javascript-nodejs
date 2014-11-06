@@ -179,7 +179,6 @@ function* renderArticle(slug) {
 
     path = path.reverse();
 
-    console.log(path);
     rendered.breadcrumbs = path;
   }
 

@@ -22,6 +22,7 @@ module.exports = {
   },
   payments: require('./payments'),
 
+  imgur: secret.imgur,
   adminKey: secret.adminKey,
 
   authProviders: require('./authProviders'),

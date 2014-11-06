@@ -85,7 +85,7 @@ var UserSchema = new mongoose.Schema({
   },
   passwordResetTokenExpires: Date, // valid until this date
   passwordResetRedirect:     String, // where to redirect after password recovery
-  photo:                     String,
+  photo:                     { /* { link: ..., } */ }, // imgur data
   deleted:                   Boolean, // private & login data is deleted
   readOnly:                  Boolean,  // data is not deleted, just flagged as banned
   isAdmin:                   Boolean
@@ -142,8 +142,13 @@ UserSchema.methods.softDelete = function(callback) {
 UserSchema.statics.photoDefault = "http://i.imgur.com/QzBVuyI.png";
 UserSchema.statics.photoDeleted = "http://i.imgur.com/R3o9RSd.png";
 
-UserSchema.methods.getShowPhoto = function() {
-  return this.photo || User.photoDefault;
+UserSchema.methods.getPhotoUrl = function(thumb) {
+  if (!this.photo.link) return User.photoDefault;
+
+  var url = this.photo.link;
+  if (!thumb) return url;
+
+  return url.slice(0, url.lastIndexOf('.')) + thumb + url.slice(url.lastIndexOf('.'))
 };
 
 UserSchema.plugin(troop.timestamp, {useVirtual: false});
