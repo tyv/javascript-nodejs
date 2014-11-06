@@ -57,9 +57,19 @@ mongoose.plugin(function(schema) {
 
             var schemaIndexes = schema.indexes();
 
-            var schemaIndex = schemaIndexes.find(function(idx) {
-              return _.isEqual(idx[0], indexFields);
-            });
+            //console.log("idxes:", schemaIndexes, "idxf", indexFields, schemaIndexes.find);
+            var schemaIndex = null;
+
+            for (var i = 0; i < schemaIndexes.length; i++) {
+              if (_.isEqual(schemaIndexes[i][0], indexFields)) {
+                schemaIndex = schemaIndexes[i];
+                break;
+              }
+            }
+
+            if (!schemaIndex) {
+              return callback(new Error("schema needs index.errorMessage for unique plugin"));
+            }
 
             // schema index object, e.g
             // { unique: 1, sparse: 1 ... }

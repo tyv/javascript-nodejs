@@ -4,7 +4,7 @@ var lastPageYOffset = 0;
 
 var requestAnimationFrameId;
 
-var DEBUG = true;
+var DEBUG = false;
 function log() {
   if (DEBUG) {
     console.log.apply(console, arguments);
