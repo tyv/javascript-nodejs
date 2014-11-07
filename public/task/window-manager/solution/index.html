@@ -12,8 +12,9 @@
       }
     </style>
     <script src="draggableWindow.js"></script>
+    <script src="windowManager.js"></script>
 </head>
-<body style="height:2000px">
+<body>
 
 Текст Текст Текст Текст Текст Текст Текст Текст Текст Текст Текст Текст Текст Текст Текст Текст
 Текст Текст Текст Текст Текст Текст Текст Текст Текст Текст Текст Текст Текст Текст Текст Текст
@@ -32,12 +33,16 @@
 
 <script>
 
-var win = new DraggableWindow({
-  title: "Чат с Петей",
-  template: $('#draggable-window-template').html()
+
+WindowManager.setTemplate( $('#draggable-window-template').html().trim() );
+
+WindowManager.addWindow({
+  title: "Чат с Петей"
 });
 
-win.getElement().appendTo('body');
+WindowManager.addWindow({
+  title: "Чат с Машей"
+});
 
 </script>
 

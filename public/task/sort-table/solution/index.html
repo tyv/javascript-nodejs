@@ -65,7 +65,7 @@
         var tbody = grid.getElementsByTagName('tbody')[0];
 
         // Составить массив из TR
-        var rowsArray = [].slice.call(tbody);
+        var rowsArray = [].slice.call(tbody.rows);
 
         // определить функцию сравнения, в зависимости от типа
         var compare;

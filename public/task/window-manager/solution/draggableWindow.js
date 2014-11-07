@@ -17,12 +17,9 @@ function DraggableWindow(options) {
   var mouseDownShift;
 
   function render() {
-    elem = $('<div/>', {
-      "class": "window",
-      html: template({
-        title: title
-      })
-    });
+    elem = $('<div tabindex="0" class="window"/>').html(template({
+      title: title
+    }));
 
     $('form', elem).on('submit', onSubmit);
 
@@ -32,6 +29,7 @@ function DraggableWindow(options) {
     titleElem.on('mousedown', onTitleMouseDown); 
 
     contentElem = elem.find('.window-content'); // = children[1]
+    elem.on('focusin', onFocus);
   }
 
   this.getElement = function() {
@@ -39,9 +37,15 @@ function DraggableWindow(options) {
     return elem;
   }
 
+  function onFocus() {
+    $(self).triggerHandler({ type: 'focus' });
+  }
+
   function onTitleMouseDown(e) {  
     startDrag(e.pageX, e.pageY);  
-    return false;
+
+    setTimeout(onFocus, 0);
+    return false; // returning false prevents onfocus
   };
 
   function startDrag(mouseDownX, mouseDownY) {
@@ -121,6 +125,18 @@ function DraggableWindow(options) {
     contentElem.prop('scrollTop', 999999999);
   }
 
+
+  this.setZIndex = function(zIndex) {
+    elem.css('z-index', zIndex);
+  };
+
+  this.getZIndex = function() {
+    return +elem.css('z-index') || 0;
+  };
+
+  this.toString = function() {
+    return "[Window " + options.title + " " + elem.css('z-index') + "]";
+  }
 
 }
 
