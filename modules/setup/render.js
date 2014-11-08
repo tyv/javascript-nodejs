@@ -26,6 +26,7 @@ function getPublicVersion(publicPath) {
 }
 
 function addStandardHelpers(locals, ctx) {
+  // same locals may be rendered many times, let's not add helpers twice
   if (locals._hasStandardHelpers) return;
 
   locals.moment = moment;

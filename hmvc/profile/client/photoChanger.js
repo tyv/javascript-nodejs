@@ -1,6 +1,5 @@
 var delegate = require('client/delegate');
 var xhr = require('client/xhr');
-var ImageUploader = require('client/imageUploader');
 var notify = require('client/notify');
 
 function PhotoChanger() {
@@ -28,10 +27,6 @@ PhotoChanger.prototype.updateUserPhoto = function(link) {
 
   var self = this;
 
-  var request = xhr({
-    method: 'PATCH',
-    url: '/users/me'
-  });
 
   request.send({photo: link});
 
@@ -43,7 +38,18 @@ PhotoChanger.prototype.updateUserPhoto = function(link) {
 
 
 PhotoChanger.prototype.upload = function(file) {
-  var request = new ImageUploader(file).upload();
+
+  var formData = new FormData();
+
+  formData.append("photo", this.file);
+
+  var request = xhr({
+    method: 'PATCH',
+    url: '/users/me'
+  });
+
+  // 400 when corrupt or invalid file
+  request.successStatuses = [200, 400];
 
   var self = this;
   request.addEventListener('success', function(e) {
@@ -52,13 +58,11 @@ PhotoChanger.prototype.upload = function(file) {
       return;
     }
 
-    if (e.result.data.width < 160 || e.result.data.height < 160) {
-      notify.error("Минимальное разрешение 160x160, лучше 320px.");
-      return;
-    }
-
-    self.updateUserPhoto(e.result.data.link);
+    self.updateUserPhoto(e.result.photo);
   });
+
+
+  request.send(formData);
 
 };
 

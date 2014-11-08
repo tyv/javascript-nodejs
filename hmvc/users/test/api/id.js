@@ -6,6 +6,7 @@ const path = require('path');
 const request = require('supertest');
 const fixtures = require(path.join(__dirname, '../fixtures/db'));
 const app = require('app');
+const should = require('should');
 
 describe('Authorization', function() {
 
@@ -35,20 +36,52 @@ describe('Authorization', function() {
         });
     });
 
-    it('fails is a required field gets emptied or the email is non-unique', function(done) {
+    it('transloads the user photo', function(done) {
+      request(server)
+        .patch('/users/me')
+        .set('X-Test-User-Id', fixtures.User[0]._id)
+        .attach('photo', path.join(__dirname, 'me.jpg'))
+        .end(function(err, res) {
+          if (err) return done(err);
+          res.body.photo.should.startWith('http://');
+          done();
+        });
+    });
+
+    it('returns errors if a required field is empty or invalid', function(done) {
       request(server)
         .patch('/users/me')
         .set('X-Test-User-Id', fixtures.User[0]._id)
         .send({
           displayName: "",
-          email: "tester@mail.com",
-          gender: "Cyborg"
+          email:       Math.random() + "@mail.com",
+          gender:      "invalid"
         })
         .end(function(err, res) {
+          if (err) return done(err);
           res.body.errors.displayName.should.exist;
-          res.body.errors.email.should.exist;
           res.body.errors.gender.should.exist;
-          done(err);
+          done();
+        });
+    });
+
+
+    it('returns a single error if an unique field is duplicated', function(done) {
+
+      request(server)
+        .patch('/users/me')
+        .set('X-Test-User-Id', fixtures.User[0]._id)
+        .send({
+          displayName: "Such mail belongs to another user",
+          email:       "tester@mail.com",
+          gender:      "male"
+        })
+        .end(function(err, res) {
+          if (err) return done(err);
+          should(res.body.errors.displayName).not.exist;
+          should(res.body.errors.gender).not.exist;
+          res.body.errors.email.should.exist;
+          done();
         });
     });
 

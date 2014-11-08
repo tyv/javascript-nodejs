@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var hash = require('../lib/hash');
 var troop = require('mongoose-troop');
+var _ = require('lodash');
 
 var ProviderSchema = new mongoose.Schema({
   name:    String,
@@ -17,6 +18,7 @@ var UserSchema = new mongoose.Schema({
     validate: [
       {
         validator: function(value) {
+          //console.log("VALIDATING", this.deleted, value, this.deleted ? true : (value.length > 0));
           return this.deleted ? true : (value.length > 0);
         },
         msg:       "Имя пользователя должно быть непустым."
@@ -85,7 +87,7 @@ var UserSchema = new mongoose.Schema({
   },
   passwordResetTokenExpires: Date, // valid until this date
   passwordResetRedirect:     String, // where to redirect after password recovery
-  photo:                     { /* { link: ..., } */ }, // imgur data
+  photo:                     {/* { link: ..., } */}, // imgur data
   deleted:                   Boolean, // private & login data is deleted
   readOnly:                  Boolean,  // data is not deleted, just flagged as banned
   isAdmin:                   Boolean
@@ -108,6 +110,24 @@ UserSchema.virtual('password')
   .get(function() {
     return this._plainPassword;
   });
+
+// get all fields available to a visitor (except the secret/internal ones)
+UserSchema.methods.getAllPublicFields = function() {
+  return User.getAllPublicFields(this);
+};
+
+UserSchema.statics.getAllPublicFields = function(user) {
+  return {
+    displayName:   user.displayName,
+    gender:        user.gender,
+    email:         user.email,
+    verifiedEmail: user.verifiedEmail,
+    photo:         user.photo && user.photo.link,
+    deleted:       user.deleted,
+    readOnly:      user.readOnly,
+    isAdmin:       user.isAdmin
+  };
+};
 
 UserSchema.methods.checkPassword = function(password) {
   if (!password) return false; // empty password means no login by password

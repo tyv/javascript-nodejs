@@ -1,14 +1,18 @@
-"use strict";
 //require("time-require");
 
 const config = require('config');
 
 const log = require('log')('app', {bufferLowLevel: true});
-process.on('uncaughtException', function(err) {
-  // let bunyan handle the error
-  log.error(err);
-  process.exit(255);
-});
+
+if (process.env.NODE_ENV == 'production') {
+  // only log.error in prod, otherwise just die
+  process.on('uncaughtException', function(err) {
+    // let bunyan handle the error
+    log.error(err);
+    process.exit(255);
+  });
+}
+
 
 const koa = require('koa');
 const mongoose = require('lib/mongoose');
@@ -63,7 +67,10 @@ requireSetup('setup/errorHandler');
 requireSetup('setup/accessLogger');
 
 // before anything that may deal with body
-requireSetup('setup/httpPostParser');
+// it parses JSON & URLENCODED FORMS,
+// it does not parse form/multipart
+// (many tweaks possible, let the middleware decide how to parse it)
+requireSetup('setup/bodyParser');
 
 // right after parsing body, make sure we logged for development
 requireSetup('setup/verboseLogger');

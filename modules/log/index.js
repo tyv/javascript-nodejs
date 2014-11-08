@@ -40,12 +40,7 @@ module.exports = function(name, options) {
     ];
     break;
   case 'test':
-    streams = [
-      {
-        level:  'error',
-        stream: process.stderr
-      }
-    ];
+    streams = [ /* don't log anything, set LOG_ENV if want to see errors */ ];
     break;
   case 'production':
     // normally I see only info, but look in error in case of problems

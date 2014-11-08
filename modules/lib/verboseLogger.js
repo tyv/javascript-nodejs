@@ -55,4 +55,4 @@ VerboseLogger.prototype.log = function(context) {
 };
 */
 
-exports.VerboseLogger = VerboseLogger;
+module.exports = VerboseLogger;
