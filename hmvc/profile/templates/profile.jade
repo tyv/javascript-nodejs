@@ -27,8 +27,8 @@ block content
         })
       });
 
-    .profile__upic(style="background-image: url('" + user.getPhotoUrl('m') + "')" data-action="photo-change")
-      label.profile__upic-edit(for="profile-new-userpic") Загрузить<br> фотографию
+    +e.upic(style="background-image: url('" + user.getPhotoUrl('m') + "')" data-action="photo-change")
+      +e.upic-edit Загрузить<br> фотографию
 
 
     +e.content
