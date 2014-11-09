@@ -8,7 +8,7 @@ describe('User', function() {
   var User = require('../../../models/user');
 
   before(function* () {
-    yield dataUtil.createEmptyDb;
+    yield* dataUtil.createEmptyDb();
   });
 
   it('given bad email errors on save', function*() {
@@ -25,6 +25,7 @@ describe('User', function() {
 
   });
 
+  // TEST FAILS, @see https://github.com/LearnBoost/mongoose/issues/2446
   // does not require password, because social login does not use it
   it('requires email & displayName', function() {
     [
@@ -35,10 +36,12 @@ describe('User', function() {
         displayName: "John"
       }
     ].map(function(data) {
+        console.log("!!!", data);
         var user = new User(data);
         // cannot use yield* because inside map
         user.persist()(function(err) {
-          err.name.should.equal('ValidationError');
+          console.log(arguments);
+          err.errors.name.should.equal('ValidationError');
         });
       });
 

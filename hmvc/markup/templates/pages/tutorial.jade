@@ -1,0 +1,113 @@
+extends ../layouts/base
+
+// - http://stackoverflow.com/questions/12646451/how-to-pass-variables-between-jade-templates
+block variables
+  - self.title = 'Современный учебник JavaScript';
+
+  //- layout
+  - layout.header = true
+  - layout.centeredHeader = true
+
+block content
+  +b.intro
+    | Перед вами учебник по JavaScript, начиная с основ, включающий в себя много
+    | тонкостей и фишек JavaScript/DOM.
+  +b.course-search
+    +e('form').form(action="#")
+      +e.input-wrap._text
+        +b.text-input.__query
+          +e('input').control(type="text", placeholder="поиск по учебнику")
+      +e.input-wrap._submit
+        +b('button').submit-button.__submit Найти
+  +b.course-info
+    +e('h2').header Основной курс
+    +e.body.columns.columns_2
+      +e.col.columns__col
+        +e.content
+          +e.title-note Часть первая
+          +e('h3').title Язык JavaScript
+          p Эта часть позволит вам изучить JavaScript с нуля или упорядочить и дополнить существующие знания. Мы будем использовать браузер в качестве окружения, но основное внимание будет уделяться именно самому языку JavaScript.
+          +b('ul').special-links-list
+            +e('li').item
+              +e('a').link(href="#") Введение
+            +e('li').item
+              +e('a').link(href="#") Основы JavaScript
+            +e('li').item
+              +e('a').link(href="#") Качество кода
+            +e('li').item
+              +e('a').link(href="#") Структуры данных
+            +e('li').item
+              +e('a').link(href="#") Замыкания, область видимости
+            +e('li').item
+              +e('a').link(href="#") Методы объектов и контекст вызова
+            +e('li').item
+              +e('a').link(href="#") Некоторые другие возможности
+            +e('li').item
+              +e('a').link(href="#") ООП в функциональном стиле
+            +e('li').item
+              +e('a').link(href="#") ООП в прототипном стиле
+      +e.col.columns__col
+        +e.content
+          +e.title-note Часть вторая
+          +e('h3').title Документ, события, интерфейсы
+          p Изучаем работу со страницей -- как получать элементы, манипулировать их размерами, динамически создавать интерфейсы и взаимодействовать с посетителем.
+          +b('ul').special-links-list
+            +e('li').item
+              +e('a').link(href="#") Документ и объекты страницы
+            +e('li').item
+              +e('a').link(href="#") Основы работы с событиями
+            +e('li').item
+              +e('a').link(href="#") События в деталях
+            +e('li').item
+              +e('a').link(href="#") Формы, элементы управления
+            +e('li').item
+              +e('a').link(href="#") Создание графических компонентов
+  +b.bricks
+    +e('h2').title Дополнительные курсы
+    +e.body.columns.columns_3
+      +e.col.columns__col
+        +e.brick
+          +e('h3').brick-title
+            +e('a').brick-title-link(href="#") AJAX
+          +e.brick-content
+            p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit voluptatibus excepturi ad quisquam, error ex?
+            p Сonsectetur adipisicing elit. Suscipit voluptatibus excepturi ad quisquam, error ex?
+        +e.brick
+          +e('h3').brick-title
+            +e('a').brick-title-link(href="#") Lorem ipsum
+          +e.brick-content
+              p Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+        +e.brick
+          +e('h3').brick-title
+            +e('a').brick-title-link(href="#") Dolor sit amet
+          +e.brick-content
+            p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit voluptatibus excepturi ad quisquam, error ex quaerat reprehenderit enim est soluta hic.
+      +e.col.columns__col
+        +e.brick
+          +e('h3').brick-title
+            +e('a').brick-title-link(href="#") Consectetur
+          +e.brick-content
+            p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit voluptatibus excepturi ad quisquam, error ex quaerat reprehenderit enim est soluta hic, praesentium magnam laborum.
+        +e.brick
+          +e('h3').brick-title
+            +e('a').brick-title-link(href="#") Adipisicing elit
+          +e.brick-content
+            p Lorem ipsum dolor sit amet.
+      +e.col.columns__col
+        +e.brick
+          +e('h3').brick-title
+            +e('a').brick-title-link(href="#") Suscipit
+          +e.brick-content
+            p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit voluptatibus.
+        +e.brick
+          +e('h3').brick-title
+            +e('a').brick-title-link(href="#") Voluptatibus
+        +e.brick
+          +e('h3').brick-title
+            +e('a').brick-title-link(href="#") Quisquam
+        +e.brick
+          +e('h3').brick-title
+            +e('a').brick-title-link(href="#") Ex quaerat
+          +e.brick-content
+            p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit voluptatibus excepturi ad quisquam, error ex quaerat.
+

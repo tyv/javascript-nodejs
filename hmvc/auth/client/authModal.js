@@ -307,7 +307,8 @@ AuthModal.prototype.submitLoginForm = function(form) {
 
   var request = this.request({
     method: 'POST',
-    url:    '/auth/login/local'
+    url:    '/auth/login/local',
+    successStatuses: [200, 401]
   });
 
   var self = this;

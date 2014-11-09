@@ -1,12 +1,10 @@
 var delegate = require('client/delegate');
 var xhr = require('client/xhr');
-var ImageUploader = require('client/imageUploader');
 var notify = require('client/notify');
 
 function PhotoChanger() {
   this.elem = document.body.querySelector('[data-action="photo-change"]');
 
-  this.img = this.elem;
   this.elem.addEventListener('click', function(event) {
     event.preventDefault();
     this.changePhoto();
@@ -16,6 +14,7 @@ function PhotoChanger() {
 PhotoChanger.prototype.changePhoto = function() {
   var fileInput = document.createElement('input');
   fileInput.type = 'file';
+  //fileInput.accept = "image/*";
 
   var self = this;
   fileInput.onchange = function() {
@@ -26,24 +25,24 @@ PhotoChanger.prototype.changePhoto = function() {
 
 PhotoChanger.prototype.updateUserPhoto = function(link) {
 
-  var self = this;
+  this.elem.style.backgroundImage = 'url("' + link.replace(/(\.\w+)$/, window.devicePixelRatio > 1 ? 'm$1' : 't$1') + '")';
+
+};
+
+
+PhotoChanger.prototype.upload = function(file) {
+
+  var formData = new FormData();
+
+  formData.append("photo", this.file);
 
   var request = xhr({
     method: 'PATCH',
     url: '/users/me'
   });
 
-  request.send({photo: link});
-
-  request.addEventListener('success', function(event) {
-    self.img.src = event.result.photo.replace(/(\.\w+)$/, window.devicePixelRatio > 1 ? 'm$1' : 't$1');
-  });
-
-};
-
-
-PhotoChanger.prototype.upload = function(file) {
-  var request = new ImageUploader(file).upload();
+  // 400 when corrupt or invalid file
+  request.successStatuses = [200, 400];
 
   var self = this;
   request.addEventListener('success', function(e) {
@@ -52,13 +51,11 @@ PhotoChanger.prototype.upload = function(file) {
       return;
     }
 
-    if (e.result.data.width < 160 || e.result.data.height < 160) {
-      notify.error("Минимальное разрешение 160x160, лучше 320px.");
-      return;
-    }
-
-    self.updateUserPhoto(e.result.data.link);
+    self.updateUserPhoto(e.result.photo);
   });
+
+
+  request.send(formData);
 
 };
 

@@ -1,5 +1,11 @@
 var User = require('../models/user');
 var _ = require('lodash');
+var imgur = require('imgur');
+var multiparty = require('multiparty');
+var mime = require('mime');
+var co = require('co');
+var thunkify = require('thunkify');
+var async = require('async');
 
 exports.get = function*(next) {
 
@@ -25,11 +31,74 @@ exports.del = function*(next) {
   };
 };
 
+
+var readMultipart = thunkify(function(req, done) {
+
+  var hadError = false;
+  var fields = {};
+
+  // initially we're waiting for form.close only
+  // each part increases the counter on start and decreases back when nested processing (upoading) is done
+  var waitStreamsCount = 1;
+  var form = new multiparty.Form();
+
+  form.on('field', function(name, value) {
+    fields[name] = value;
+  });
+
+  // multipart file must be the last
+  form.on('part', function(part) {
+    waitStreamsCount++;
+    co(imgur.uploadStream(mime.lookup(part.name), part))(function(err, result) {
+      if (hadError) return;
+      if (err) return onError(err);
+      fields[part.name] = result;
+      onStreamDone();
+    });
+  });
+
+  form.on('error', onError);
+
+  form.on('close', onStreamDone);
+
+  form.parse(req);
+
+  function onStreamDone() {
+    if (hadError) return;
+    waitStreamsCount--;
+    if (!waitStreamsCount) {
+      done(null, fields);
+    }
+  }
+
+  function onError(err) {
+    if (hadError) return;
+    hadError = true;
+    done(err);
+  }
+
+});
+
 /* Partial update */
 exports.patch = function*(next) {
-  var fields = this.request.body;
 
   var user = this.params.user;
+
+  var type = this.get('content-type');
+  if (type.startsWith('multipart/form-data')) {
+    // may throw
+    try {
+      var fields = yield readMultipart(this.req);
+    } catch (e) {
+      if (e.name == 'BadImageError') {
+        this.throw(400, e.message);
+      } else {
+        throw e;
+      }
+    }
+  } else {
+    fields = this.request.body;
+  }
 
   'displayName password gender photo'.split(' ').forEach(function(field) {
     if (field in fields) {
@@ -43,23 +112,16 @@ exports.patch = function*(next) {
   }
 
   try {
-    // remember before saving
-    var modifiedPaths = user.modifiedPaths();
-
     yield user.persist();
-    this.body = {};
-
-    modifiedPaths.forEach(function(field) {
-      this.body[field] = user[field];
-    }, this);
-
   } catch(e) {
-    console.log(e.stack);
     if (e.name != 'ValidationError') {
-      this.throw(e);
+      throw e;
+    } else {
+      this.renderValidationError(e);
     }
-
-    this.renderValidationError(e);
+    return;
   }
+
+  this.body = user.getAllPublicFields();
 
 };

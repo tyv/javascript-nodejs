@@ -1,6 +1,7 @@
 'use strict';
 
 const koaFormidable = require('koa-formidable');
+const formidable = require('formidable');
 const _ = require('lodash');
 const pathToRegexp = require('path-to-regexp');
 
@@ -33,7 +34,6 @@ HttpPostParser.prototype.addPathOptions = function(path, options) {
 HttpPostParser.prototype.middleware = function() {
 
   var self = this;
-  var optionsDefault = { bytesExpected: 1e7 };
 
   return function* (next) {
     var options = Object.create(optionsDefault);
@@ -64,11 +64,17 @@ HttpPostParser.prototype.middleware = function() {
     // even if a bad person did not supply content-length,
     // formidable will not read more than options.bytesExpected
 
+    var form = new formidable.IncomingForm();
+    _.merge(form, options); // some options like onPart cannot be set in constructor, so we merge all
 
     yield* koaFormidable(options).call(this, next);
 
   };
 };
+
+
+
+
 
 
 module.exports = HttpPostParser;

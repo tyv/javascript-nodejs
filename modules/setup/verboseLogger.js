@@ -1,5 +1,4 @@
-const VerboseLogger = require('lib/verboseLogger').VerboseLogger;
-
+const VerboseLogger = require('lib/verboseLogger');
 
 module.exports = function(app) {
 

@@ -4,6 +4,10 @@ const config = require('config');
 const jade = require('jade');
 const _ = require('lodash');
 
+/**
+ * extension for require('file.jade'),
+ * works in libs that are shared between client & server
+ */
 require.extensions['.jade'] = function(module, filename) {
 
   var compiled = jade.compile(

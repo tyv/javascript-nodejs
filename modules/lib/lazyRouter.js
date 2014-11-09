@@ -3,6 +3,7 @@
 //   require('./router').middleware()
 // do:
 //   require('lib/lazyRouter')('./router')
+// purpose: don't require everything on startup
 module.exports = function(routerModulePath) {
   var middleware = null;
 

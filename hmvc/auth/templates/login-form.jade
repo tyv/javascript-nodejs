@@ -13,9 +13,9 @@ include /bem
         +e('input').control#login(name="login")
     +e.line
       +e('label').label(for="password") Пароль:
-      +b('span').text-input.__input.__input_with-aside
+      +b('span').text-input._with-aside.__input
         +e('input').control#password(type="password", name="password")
-      +e('button').button-link.__forgot(type="button" data-switch="forgot-form") Забыли?
+        +e('button').aside.__forgot.__button-link(type="button" data-switch="forgot-form") Забыли?
     +e.line.__footer
         +b('button').submit-button._small.__submit(type="submit")
           +e('span').text Войти

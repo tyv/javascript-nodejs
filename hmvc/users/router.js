@@ -13,6 +13,7 @@ var id = require('./controllers/id');
 
 router.get('/me', mustBeAuthenticated, loadByReq, id.get);
 router.patch('/me', mustBeAuthenticated, loadByReq, id.patch);
+//router.post('/me', id.patch);
 router.del('/me', mustBeAuthenticated, loadByReq, id.del);
 
 router.get('/:id', loadById, id.get);

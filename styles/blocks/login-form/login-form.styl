@@ -66,10 +66,7 @@ $login-form-additional-info
 	&__input
 		width 100%
 		margin-top 10px
-
-	// резервируем место для ссылки «Забыли?» поверх инпута
-	&__input_with-aside .text-input__control
-		padding-right 85px
+		position relative
 
 	&__input_invalid
 		border-color #e62e29
@@ -82,12 +79,11 @@ $login-form-additional-info
 	&__button-link
 		@extend $link-button
 
-	&__forgot,
+	&__forgot
+		line-height 34px
+
 	&__forgot:active
 		position absolute
-		bottom 0
-		right 40px
-		line-height 34px
 
 	&__footer
 		margin-top 25px
