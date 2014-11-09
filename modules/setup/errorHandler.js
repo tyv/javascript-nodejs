@@ -1,16 +1,16 @@
-'use strict';
-
 const config = require('config');
 const escapeHtml = require('escape-html');
+const _ = require('lodash');
 
 function renderUserError(error) {
   /*jshint -W040 */
   this.status = error.status || 500;
+  this.message = error.message;
 
   var preferredType = this.accepts('html', 'json');
 
   if (preferredType == 'json') {
-    this.body = error;
+    this.body = _.pick(error, ['message','status','statusCode']);
   } else {
     this.body = this.render("/error", {error: error});
   }
@@ -19,18 +19,20 @@ function renderUserError(error) {
 function renderDevError(error) {
   /*jshint -W040 */
   this.status = 500;
+  this.message = error.message;
 
   var preferredType = this.accepts('html', 'json');
 
-  if (preferredType == 'json') {
-    this.body = error;
-  } else {
-    var stack = (error.stack || '')
-      .split('\n').slice(1)
-      .map(function(v) {
-        return '<li>' + escapeHtml(v).replace(/  /g, ' &nbsp;') + '</li>';
-      }).join('');
+  var stack = (error.stack || '')
+    .split('\n').slice(1)
+    .map(function(v) {
+      return '<li>' + escapeHtml(v).replace(/  /g, ' &nbsp;') + '</li>';
+    }).join('');
 
+  if (preferredType == 'json') {
+    this.body = _.pick(error, ['message','status','statusCode']);
+    this.body.stack = stack;
+  } else {
     this.type = 'text/html; charset=utf-8';
     this.body = "<html><body><h1>" + error.message + "</h1><ul>" + stack + "</ul></body></html>";
   }
@@ -40,7 +42,7 @@ function renderDevError(error) {
 function renderError(err) {
   /*jshint -W040 */
 
-  if (err.status) {
+  if (err.expose) {
     // user-level error
 
     // this.log.error({httpError: err});

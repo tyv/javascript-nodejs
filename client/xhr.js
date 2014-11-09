@@ -30,7 +30,20 @@ function xhr(options) {
   var request = new XMLHttpRequest();
 
   var method = options.method || 'GET';
-  request.open(method, options.url, options.sync ? false : true);
+
+  var body = options.body;
+  var url = options.url;
+
+  if (window.csrf) {
+    url = addUrlParam(url, '_csrf', window.csrf);
+  }
+
+  if ({}.toString.call(body) == '[object Object]') {
+    this.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    body = JSON.stringify(body);
+  }
+
+  request.open(method, url, options.sync ? false : true);
 
   request.method = method;
 
@@ -118,38 +131,22 @@ function xhr(options) {
     success(result, e);
   });
 
-  wrapSend(request);
+  // defer to let other handlers be assigned
+  setTimeout(function() {
+    request.send(body);
+  }, 0);
+
   return request;
+
 }
 
-// All non-GET request get _csrf from window.csrf automatically
-// body object is autoserialized
-function wrapSend(request) {
 
-  var send = request.send;
-  request.send = function(body) {
-
-    if (!~['GET', 'HEAD', 'OPTIONS'].indexOf(this.method) && window.csrf) {
-      if (body instanceof FormData) {
-        body.append("_csrf", window.csrf);
-      }
-
-      if ({}.toString.call(body) == '[object Object]') {
-        body._csrf = window.csrf;
-      }
-
-      if (!body) {
-        body = {_csrf: window.csrf};
-      }
-    }
-
-    if ({}.toString.call(body) == '[object Object]') {
-      this.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-      body = JSON.stringify(body);
-    }
-
-    send.call(this, body);
-
-  };
+function addUrlParam(url, name, value) {
+  var param = encodeURIComponent(name) + '=' + encodeURIComponent(value);
+  if (~url.indexOf('?')) {
+    return url + '&' + param;
+  } else {
+    return url + '?' + param;
+  }
 
 }

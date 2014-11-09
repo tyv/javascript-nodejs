@@ -15,6 +15,7 @@ var ProviderSchema = new mongoose.Schema({
 var UserSchema = new mongoose.Schema({
   displayName:               {
     type:     String,
+    default: "", // need a value for validator to run
     validate: [
       {
         validator: function(value) {
@@ -34,6 +35,7 @@ var UserSchema = new mongoose.Schema({
   },
   email:                     {
     type:     String,
+    default: "", // need a value for validator to run
     // если посетитель удалён, то у него нет email!
     validate: [
       {
@@ -88,7 +90,10 @@ var UserSchema = new mongoose.Schema({
   passwordResetTokenExpires: Date, // valid until this date
   passwordResetRedirect:     String, // where to redirect after password recovery
   photo:                     {/* { link: ..., } */}, // imgur data
-  deleted:                   Boolean, // private & login data is deleted
+  deleted:                   {
+    type: Boolean,
+    default: false
+  }, // private & login data is deleted
   readOnly:                  Boolean,  // data is not deleted, just flagged as banned
   isAdmin:                   Boolean
   /* created, modified from plugin */
@@ -159,16 +164,14 @@ UserSchema.methods.softDelete = function(callback) {
   });
 };
 
-UserSchema.statics.photoDefault = "http://i.imgur.com/QzBVuyI.png";
-UserSchema.statics.photoDeleted = "http://i.imgur.com/R3o9RSd.png";
+UserSchema.statics.photoDefault = "http://i.imgur.com/zSGftLc.png";
+UserSchema.statics.photoDeleted = "http://i.imgur.com/7KZD6XK.png";
 
-UserSchema.methods.getPhotoUrl = function(thumb) {
+UserSchema.methods.getPhotoUrl = function() {
+  if (this.deleted) return User.photoDeleted;
   if (!this.photo) return User.photoDefault;
 
-  var url = this.photo.link;
-  if (!thumb) return url;
-
-  return url.slice(0, url.lastIndexOf('.')) + thumb + url.slice(url.lastIndexOf('.'))
+  return this.photo.link;
 };
 
 UserSchema.plugin(troop.timestamp, {useVirtual: false});

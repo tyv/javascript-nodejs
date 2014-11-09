@@ -2,10 +2,8 @@ var User = require('../models/user');
 var _ = require('lodash');
 var imgur = require('imgur');
 var multiparty = require('multiparty');
-var mime = require('mime');
 var co = require('co');
 var thunkify = require('thunkify');
-var async = require('async');
 
 exports.get = function*(next) {
 
@@ -49,7 +47,13 @@ var readMultipart = thunkify(function(req, done) {
   // multipart file must be the last
   form.on('part', function(part) {
     waitStreamsCount++;
-    co(imgur.uploadStream(mime.lookup(part.name), part))(function(err, result) {
+    if (!part.filename) {
+      return onError(new Error("No filename for form part " + part.name));
+    }
+
+    co(function*() {
+      return yield* imgur.uploadStream(part.filename, part.byteCount, part);
+    })(function(err, result) {
       if (hadError) return;
       if (err) return onError(err);
       fields[part.name] = result;
@@ -84,20 +88,14 @@ exports.patch = function*(next) {
 
   var user = this.params.user;
 
-  var type = this.get('content-type');
-  if (type.startsWith('multipart/form-data')) {
-    // may throw
-    try {
-      var fields = yield readMultipart(this.req);
-    } catch (e) {
-      if (e.name == 'BadImageError') {
-        this.throw(400, e.message);
-      } else {
-        throw e;
-      }
+  try {
+    var fields = yield readMultipart(this.req);
+  } catch (e) {
+    if (e.name == 'BadImageError') {
+      this.throw(400, e.message);
+    } else {
+      throw e;
     }
-  } else {
-    fields = this.request.body;
   }
 
   'displayName password gender photo'.split(' ').forEach(function(field) {

@@ -24,9 +24,9 @@ VerboseLogger.prototype.middleware = function() {
     var shouldLog = false;
     for (var i = 0; i < self.logPaths.length; i++) {
       var path = self.logPaths[i];
-      this.log.debug("test " + this.req.url + " against " + path);
-      if (path.test(this.req.url)) {
-        this.log.debug("match found, will log all");
+      this.log.debug("verboseLogger test " + this.path + " against " + path);
+      if (path.test(this.path)) {
+        this.log.debug("verboseLogger match found, will log all");
         shouldLog = true;
         break;
       }

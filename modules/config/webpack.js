@@ -31,6 +31,7 @@ var webpackConfig = {
   entry:  {
     head:     'client/head',
     tutorial: 'tutorial/client',
+    profile:   'profile/client',
     footer:   'client/footer'
   },
   module: {

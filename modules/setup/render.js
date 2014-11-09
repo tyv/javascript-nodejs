@@ -74,6 +74,15 @@ function addStandardHelpers(locals, ctx) {
 
   locals.bem = require('bem-jade')();
 
+  locals.thumb = function(url, width, height) {
+    // return 2 times larger image for retina
+    var modifier = (width < 320 && height < 320) ? 't' :
+      (width < 640 && height < 640) ? 'm' :
+        (width < 1280 && height < 1280) ? 'l' : '';
+
+    return url.slice(0, url.lastIndexOf('.')) + modifier + url.slice(url.lastIndexOf('.'))
+  };
+
   locals.asset = function(publicPath) {
     if (publicPath[0] != '/') {
       throw new Error("asset needs an /absolute/path");

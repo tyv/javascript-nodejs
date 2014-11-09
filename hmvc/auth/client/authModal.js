@@ -150,9 +150,13 @@ AuthModal.prototype.initEventHandlers = function() {
   this.delegate('[data-action-verify-email]', 'click', function(event) {
     event.preventDefault();
 
+    var payload = new FormData();
+    payload.append("email", event.delegateTarget.dataset.actionVerifyEmail);
+
     var request = this.request({
       method: 'POST',
-      url:    '/auth/reverify'
+      url:    '/auth/reverify',
+      body: payload
     });
 
     var self = this;
@@ -166,10 +170,6 @@ AuthModal.prototype.initEventHandlers = function() {
 
     });
 
-    var payload = new FormData();
-    payload.append("email", event.delegateTarget.dataset.actionVerifyEmail);
-
-    request.send(payload);
   });
 };
 
@@ -195,10 +195,14 @@ AuthModal.prototype.submitRegisterForm = function(form) {
 
   if (hasErrors) return;
 
+  var payload = new FormData(form);
+  payload.append("successRedirect", this.options.successRedirect);
+
   var request = this.request({
     method:          'POST',
     url:             '/auth/register',
-    successStatuses: [201, 400]
+    successStatuses: [201, 400],
+    body: payload
   });
 
   var self = this;
@@ -225,9 +229,6 @@ AuthModal.prototype.submitRegisterForm = function(form) {
     self.showFormMessage("Неизвестный статус ответа сервера", 'error');
   });
 
-  var payload = new FormData(form);
-  payload.append("successRedirect", this.options.successRedirect);
-  request.send(payload);
 };
 
 
@@ -243,10 +244,14 @@ AuthModal.prototype.submitForgotForm = function(form) {
 
   if (hasErrors) return;
 
+  var payload = new FormData(form);
+  payload.append("successRedirect", this.options.successRedirect);
+
   var request = this.request({
     method: 'POST',
     url:    '/auth/forgot',
-    successStatuses: [200, 404]
+    successStatuses: [200, 404],
+    body: payload
   });
 
   var self = this;
@@ -260,9 +265,6 @@ AuthModal.prototype.submitForgotForm = function(form) {
     }
   });
 
-  var payload = new FormData(form);
-  payload.append("successRedirect", this.options.successRedirect);
-  request.send(payload);
 };
 
 
@@ -308,7 +310,8 @@ AuthModal.prototype.submitLoginForm = function(form) {
   var request = this.request({
     method: 'POST',
     url:    '/auth/login/local',
-    successStatuses: [200, 401]
+    successStatuses: [200, 401],
+    body: new FormData(form)
   });
 
   var self = this;
@@ -322,7 +325,6 @@ AuthModal.prototype.submitLoginForm = function(form) {
     self.onAuthSuccess();
   });
 
-  request.send(new FormData(form));
 };
 
 AuthModal.prototype.openAuthPopup = function(url) {
