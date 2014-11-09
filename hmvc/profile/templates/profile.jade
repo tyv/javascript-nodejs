@@ -1,7 +1,10 @@
-extends /layouts/body
+extends /layouts/main
 
-block main
-  h1= title
+block variables
+  - var layout_header_class = "main__header_center"
+  - var sitetoolbar = true
+
+block content
 
   +b.profile._settings
     script.

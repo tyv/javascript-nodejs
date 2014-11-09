@@ -2,7 +2,7 @@
 extends ./body
 
 block main
-  header.main__header
+  header(class="main__header" + (layout_header_class ? ' ' + layout_header_class : ''))
     if breadcrumbs
       +b("ol").breadcrumbs
         include ../blocks/breadcrumbs
