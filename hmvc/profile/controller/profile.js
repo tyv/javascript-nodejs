@@ -3,11 +3,7 @@ exports.get = function* (next) {
 
   this.locals.sitetoolbar = true;
 
-  this.locals.title = user.displayName;
-
-  this.body = this.render('account', {
-    title: 'Учетная запись',
-    authProvidersNames: Object.keys(config.authProviders)
-  });
+  this.locals.title = this.user.displayName;
+  this.body = this.render('profile');
 };
 

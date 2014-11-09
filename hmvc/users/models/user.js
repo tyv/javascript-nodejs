@@ -163,7 +163,7 @@ UserSchema.statics.photoDefault = "http://i.imgur.com/QzBVuyI.png";
 UserSchema.statics.photoDeleted = "http://i.imgur.com/R3o9RSd.png";
 
 UserSchema.methods.getPhotoUrl = function(thumb) {
-  if (!this.photo.link) return User.photoDefault;
+  if (!this.photo) return User.photoDefault;
 
   var url = this.photo.link;
   if (!thumb) return url;

@@ -1,8 +1,6 @@
 exports.mustBeAuthenticated = require('./lib/mustBeAuthenticated');
 exports.mustBeAdmin = require('./lib/mustBeAdmin');
 
-require('./lib/passport');
-
 exports.middleware = require('lib/lazyRouter')('./router');
 
 /*

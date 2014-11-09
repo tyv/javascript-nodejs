@@ -69,8 +69,11 @@ requireSetup('setup/accessLogger');
 // before anything that may deal with body
 // it parses JSON & URLENCODED FORMS,
 // it does not parse form/multipart
-// (many tweaks possible, let the middleware decide how to parse it)
 requireSetup('setup/bodyParser');
+
+// parse FORM/MULTIPART
+// (many tweaks possible, lets the middleware decide how to parse it)
+requireSetup('setup/multipartParser');
 
 // right after parsing body, make sure we logged for development
 requireSetup('setup/verboseLogger');

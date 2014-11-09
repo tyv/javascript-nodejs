@@ -6,6 +6,8 @@ var Schema = mongoose.Schema;
 var _ = require('lodash');
 var log = require('log')();
 
+var REMOTE_OFF = true;
+
 var schema = new Schema({
   description: {
     type:    String,
@@ -65,10 +67,10 @@ schema.methods.mergeAndSyncRemote = function*(files) {
   }
 
   if (this.plunkId) {
-    log.debug("update remotely id:" + this.plunkId);
+    log.debug("update remotely", this.webPath, this.plunkId);
     yield* Plunk.updateRemote(this.plunkId, changes);
   } else {
-    log.debug("create plunk remotely");
+    log.debug("create plunk remotely", this.webPath);
     this.plunkId = yield* Plunk.createRemote(this.description, this.files);
   }
 
@@ -77,6 +79,10 @@ schema.methods.mergeAndSyncRemote = function*(files) {
 };
 
 schema.statics.createRemote = function*(description, files) {
+
+  if (REMOTE_OFF) {
+    return Math.random().toString(36).slice(2);
+  }
 
   var filesObj = {};
   files.forEach(function(file) {
@@ -108,6 +114,11 @@ schema.statics.createRemote = function*(description, files) {
 };
 
 schema.statics.updateRemote = function* (plunkId, changes) {
+
+
+  if (REMOTE_OFF) {
+    return;
+  }
 
   var form = {
     tags:        {},

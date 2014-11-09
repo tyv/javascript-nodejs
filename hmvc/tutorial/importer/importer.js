@@ -134,7 +134,6 @@ Importer.prototype.syncFolder = function*(sourceFolderPath, parent) {
   this.checkIfErrorsInParsed(parsed);
   data.title = this.extractHeader(parsed);
 
-  console.log(data);
   const folder = new Article(data);
   yield folder.persist();
   this.onchange(folder.getUrl());
@@ -163,7 +162,6 @@ Importer.prototype.syncArticle = function* (articlePath, parent) {
   const contentPath = path.join(articlePath, 'article.md');
   const content = fs.readFileSync(contentPath, 'utf-8').trim();
 
-  console.log(content);
   const articlePathName = path.basename(articlePath);
 
   const data = {

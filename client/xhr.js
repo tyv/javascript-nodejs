@@ -118,17 +118,18 @@ function xhr(options) {
     success(result, e);
   });
 
-  wrapCsrfSend(request);
+  wrapSend(request);
   return request;
 }
 
 // All non-GET request get _csrf from window.csrf automatically
-function wrapCsrfSend(request) {
+// body object is autoserialized
+function wrapSend(request) {
 
   var send = request.send;
   request.send = function(body) {
 
-    if (!~['GET', 'HEAD', 'OPTIONS'].indexOf(this.method)) {
+    if (!~['GET', 'HEAD', 'OPTIONS'].indexOf(this.method) && window.csrf) {
       if (body instanceof FormData) {
         body.append("_csrf", window.csrf);
       }

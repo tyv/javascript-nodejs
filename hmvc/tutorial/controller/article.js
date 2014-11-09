@@ -14,7 +14,6 @@ exports.get = function *get(next) {
     tags: ['article']
   }, _.partial(renderArticle, this.params.slug));
 
-
   if (!renderedArticle) {
     yield next;
     return;

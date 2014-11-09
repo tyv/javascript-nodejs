@@ -1,6 +1,7 @@
 extends /layouts/body
 
 block main
+  h2= title
 
   +b.profile._settings
     script.
@@ -22,8 +23,9 @@ block main
           }
         })
       });
-    .profile__upic
-      img.profile__upic-image(src=user.getPhotoUrl('m') data-action="photo-change" width="146" height="146" alt=user.displayName)
+
+    .profile__upic(style="background-image: url('" + user.getPhotoUrl('m') + "')" data-action="photo-change")
+      label.profile__upic-edit(for="profile-new-userpic") Загрузить<br> фотографию
 
 
     +e.content
@@ -59,7 +61,7 @@ block main
               +e('label').labeled-label(for="profile-name") Имя:
               +b.text-input._small.__control
                 +e('input').control#profile-name(type="text", value="Валентиновский Валентин Валентинович")
-          include ../blocks/profile-ok-cancel
+          include blocks/profile-ok-cancel
       +e.item._editable
         +e.item-content
           +e.item-name Email:
@@ -70,7 +72,7 @@ block main
               +e('label').labeled-label(for="profile-email") Email:
               +b.text-input._small.__control
                 +e('input').control#profile-email(type="email")
-          include ../blocks/profile-ok-cancel
+          include blocks/profile-ok-cancel
       +e.item._editable
         +e.item-content
           +e.item-name Website:
@@ -81,7 +83,7 @@ block main
               +e('label').labeled-label(for="profile-website") Website:
               +b.text-input._small.__control
                 +e('input').control#profile-website(type="url", value="www.valentin.com")
-          include ../blocks/profile-ok-cancel
+          include blocks/profile-ok-cancel
       +e.item._editable
         +e.item-content
           +e.item-name Страна:
@@ -92,7 +94,7 @@ block main
               +e('label').labeled-label(for="profile-country") Страна:
               +b.text-input._small.__control
                 +e('input').control#profile-country(type="text", value="Россия")
-          include ../blocks/profile-ok-cancel
+          include blocks/profile-ok-cancel
       +e.item._editable
         +e.item-content
           +e.item-name Город:
@@ -103,7 +105,7 @@ block main
               +e('label').labeled-label(for="profile-city") Город:
               +b.text-input._small.__control
                 +e('input').control#profile-city(type="text")
-          include ../blocks/profile-ok-cancel
+          include blocks/profile-ok-cancel
       +e.item._editable
         +e.item-content
           +e.item-name Дата рождения:
@@ -164,7 +166,7 @@ block main
                 +e('option').select(value="1988") 1988
                 +e('option').select(value="1989") 1989
                 +e('option').select(value="1990") 1990
-          include ../blocks/profile-ok-cancel
+          include blocks/profile-ok-cancel
       +e.item._editable
         +e.item-content
           +e.item-name Часовой пояс:
@@ -180,7 +182,7 @@ block main
                 +e('option').select(value="+4") Европа/Москва: GMT+4
                 +e('option').select(value="+5") Европа/Москва: GMT+5
                 +e('option').select(value="+6") Европа/Москва: GMT+6
-          include ../blocks/profile-ok-cancel
+          include blocks/profile-ok-cancel
       +e.item._editable
         +e.item-content
           +e.item-name Телефон:
@@ -191,7 +193,7 @@ block main
               +e('label').labeled-label(for="profile-tel") Телефон:
               +b.text-input._small.__control
                 +e('input').control#profile-tel(type="text")
-          include ../blocks/profile-ok-cancel
+          include blocks/profile-ok-cancel
       +e.item._editable
         +e.item-content
           +e.item-name Интересы:
@@ -202,7 +204,7 @@ block main
               +e('label').labeled-label(for="profile-hobbies") Интересы:
               +b.text-input._small.__control
                 +e('input').control#profile-hobbies(type="text", value="музыка, юзабилити, javascript, веб-дизайн, программирование, html, спорт, css")
-          include ../blocks/profile-ok-cancel
+          include blocks/profile-ok-cancel
       +e.item._editable
         +e.item-content
           +e.item-name О себе:
@@ -213,4 +215,4 @@ block main
               +e('label').labeled-label(for="profile-about") О себе:
               +b('textarea').textarea-input.__control#profile-about(cols="80", rows="5")
                 | Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ullam iure eaque unde, repellat est sapiente. Optio autem odio illo necessitatibus, aliquam, ducimus repellat enim, non distinctio in doloremque, magni eligendi.
-          include ../blocks/profile-ok-cancel
+          include blocks/profile-ok-cancel

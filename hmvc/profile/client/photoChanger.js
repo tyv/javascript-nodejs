@@ -5,7 +5,6 @@ var notify = require('client/notify');
 function PhotoChanger() {
   this.elem = document.body.querySelector('[data-action="photo-change"]');
 
-  this.img = this.elem;
   this.elem.addEventListener('click', function(event) {
     event.preventDefault();
     this.changePhoto();
@@ -15,6 +14,7 @@ function PhotoChanger() {
 PhotoChanger.prototype.changePhoto = function() {
   var fileInput = document.createElement('input');
   fileInput.type = 'file';
+  //fileInput.accept = "image/*";
 
   var self = this;
   fileInput.onchange = function() {
@@ -25,14 +25,7 @@ PhotoChanger.prototype.changePhoto = function() {
 
 PhotoChanger.prototype.updateUserPhoto = function(link) {
 
-  var self = this;
-
-
-  request.send({photo: link});
-
-  request.addEventListener('success', function(event) {
-    self.img.src = event.result.photo.replace(/(\.\w+)$/, window.devicePixelRatio > 1 ? 'm$1' : 't$1');
-  });
+  this.elem.style.backgroundImage = 'url("' + link.replace(/(\.\w+)$/, window.devicePixelRatio > 1 ? 'm$1' : 't$1') + '")';
 
 };
 
