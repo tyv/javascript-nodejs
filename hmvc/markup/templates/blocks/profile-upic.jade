@@ -1,6 +1,13 @@
 +e.upic(style="background-image: url('/img/userpic.png')")
 	+e.upic-edit Загрузить<br> фотографию
 
++e.upic._loading(style="background-image: url('/img/userpic.png')")
+	+e.upic-edit Загрузить<br> фотографию
+	+b('span').spinner._active._medium
+		+e.dot._1
+		+e.dot._2
+		+e.dot._3
+
 +e.upic(style="background-image: url('/img/userpic-deleted.png')")
 	+e.upic-edit Загрузить<br> фотографию
 
