@@ -2,6 +2,8 @@ const pathToRegexp = require('path-to-regexp');
 const multiparty = require('multiparty');
 const thunkify = require('thunkify');
 
+var log = require('log')();
+
 function MultipartParser() {
   this.ignorePaths = [];
 }
@@ -30,8 +32,10 @@ MultipartParser.prototype.parse = thunkify(function(req, callback) {
 
   // multipart file must be the last
   form.on('part', function(part) {
-    if (part.fileName != null) {
+    if (part.filename != null) {
       callback(new Error('Files are not allowed here'));
+    } else {
+      throw new Error("Must never reach this line (field event parses all fields)");
     }
     part.on('error', onError);
   });
@@ -43,11 +47,13 @@ MultipartParser.prototype.parse = thunkify(function(req, callback) {
   form.parse(req);
 
   function onDone() {
+    log.debug("multipart parse done", fields);
     if (hadError) return;
     callback(null, fields);
   }
 
   function onError(err) {
+    log.debug("multipart error", err);
     if (hadError) return;
     hadError = true;
     callback(err);
@@ -68,16 +74,27 @@ MultipartParser.prototype.middleware = function() {
     var parse = true;
     for (var i = 0; i < self.ignorePaths.length; i++) {
       var path = self.ignorePaths[i];
-      this.log.debug("test " + this.req.url + " against " + path);
-      if (path.test(this.req.url)) {
-        this.log.debug("match found, disable parse");
+      this.log.debug("multipart test " + this.path + " against " + path);
+      if (path.test(this.path)) {
+        this.log.debug("multipart match found, disable parse");
         parse = false;
         break;
       }
     }
 
     if (parse) {
-      this.request.body = yield self.parse(this.req);
+      this.log.debug("multipart will parse");
+
+      try {
+        this.request.body = yield self.parse(this.req);
+      } catch (e) {
+        // form parsing error is always 400 :/
+        // I hope that's really a parse error and not a programming error
+        // (multiparty module should be rewritten here)
+        this.throw(400, e.message);
+      }
+
+      this.log.debug("multipart done parse");
     }
 
     yield* next;

@@ -11,21 +11,21 @@ var id = require('./controllers/id');
  * /users/:id  GET PATCH DEL (for admin or self)
  */
 
-router.get('/me', mustBeAuthenticated, loadByReq, id.get);
-router.patch('/me', mustBeAuthenticated, loadByReq, id.patch);
+router.get('/me', mustBeAuthenticated, loadUserByReq, id.get);
+router.patch('/me', mustBeAuthenticated, loadUserByReq, id.patch);
 //router.post('/me', id.patch);
-router.del('/me', mustBeAuthenticated, loadByReq, id.del);
+router.del('/me', mustBeAuthenticated, loadUserByReq, id.del);
 
-router.get('/:id', loadById, id.get);
-router.patch('/:id', loadById, id.patch);
-router.del('/:id', loadById, id.del);
+router.get('/:id', loadUserById, id.get);
+router.patch('/:id', loadUserById, id.patch);
+router.del('/:id', loadUserById, id.del);
 
-function* loadByReq(next) {
+function* loadUserByReq(next) {
   this.params.user = this.req.user;
-  yield next;
+  yield* next;
 }
 
-function* loadById(next) {
+function* loadUserById(next) {
 
   try {
     mongoose.Types.ObjectId.fromString(this.params.id);
@@ -43,7 +43,7 @@ function* loadById(next) {
   var allowed = false;
 
   // public info open to everyone
-  if (['GET', 'OPTIONS', 'HEAD'].indexOf(this.method) != -1) {
+  if (~['GET', 'OPTIONS', 'HEAD'].indexOf(this.method)) {
     allowed = true;
   }
 
@@ -56,8 +56,8 @@ function* loadById(next) {
 
   if (allowed) {
     this.params.user = user;
-    yield next;
+    yield* next;
   } else {
-    this.throw(403, "Операция запрещена");
+    this.throw(403, "Not enough permissions");
   }
 }

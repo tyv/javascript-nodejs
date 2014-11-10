@@ -2,7 +2,24 @@
   +e.content
     +e.logo-wrap
       +e('a').link._logo(href="/")
-        +e('embed').logo(src="/i/sitetoolbar__logo.svg")
+        +e('img').logo(src="/i/sitetoolbar__logo.svg")
+        script.
+          (function() {
+            /* chrome renders embed.svg with a delay, this loads embed later to prevent flickering */
+            var img = document.querySelector('img.sitetoolbar__logo')
+            var embed = document.createElement('object');
+            embed.type='image/svg+xml';
+
+            embed.className = img.className;
+            embed.style.cssText = 'left:0;top:0;position:absolute';
+
+            embed.onload = function() {
+              embed.onload = null;
+              img.style.visibility = 'hidden';
+            };
+            embed.data = img.src;
+            img.parentNode.insertBefore(embed, img);
+          })();
     +e.nav-toggle-wrap
       //- todo: implement me
       //- эта кнопка видна только на узком экране

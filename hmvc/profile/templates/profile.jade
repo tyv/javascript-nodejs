@@ -1,31 +1,16 @@
-extends /layouts/body
+extends /layouts/main
 
-block main
-  h1= title
+block variables
+  - var layout_header_class = "main__header_center"
+  - var sitetoolbar = true
+
+block content
 
   +b.profile._settings
-    script.
-      document.addEventListener("DOMContentLoaded", function(e) {
-        var items = document.querySelectorAll('.profile__item_editable');
-        for (var i = 0; i < items.length; i++) {
-          items[i].addEventListener('click', function(e) {
-            this.classList.add('profile__item_editing');
-          });
-        }
-        document.querySelector('.profile').addEventListener('click', function(e) {
-          var elem;
-          if (e.target.classList.contains('profile__item-cancel')) {
-            elem = e.target;
-            while (elem && !elem.classList.contains('profile__item_editable')) {
-              elem = elem.parentNode;
-            }
-            elem.classList.remove('profile__item_editing');
-          }
-        })
-      });
 
-    .profile__upic(style="background-image: url('" + user.getPhotoUrl('m') + "')" data-action="photo-change")
-      label.profile__upic-edit(for="profile-new-userpic") Загрузить<br> фотографию
+    //- - var url = thumb(user.getPhotoUrl(),146,146);
+    +e.upic(style="background-image: url('" + thumb(user.getPhotoUrl(),146,146) + "')", data-action="photo-change")
+      +e.upic-edit Загрузить<br> фотографию
 
 
     +e.content
@@ -216,3 +201,6 @@ block main
               +b('textarea').textarea-input.__control#profile-about(cols="80", rows="5")
                 | Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ullam iure eaque unde, repellat est sapiente. Optio autem odio illo necessitatibus, aliquam, ducimus repellat enim, non distinctio in doloremque, magni eligendi.
           include blocks/profile-ok-cancel
+
+  script(src=script("profile"))
+  script profile.init();

@@ -36,12 +36,10 @@ describe('User', function() {
         displayName: "John"
       }
     ].map(function(data) {
-        console.log("!!!", data);
         var user = new User(data);
         // cannot use yield* because inside map
         user.persist()(function(err) {
-          console.log(arguments);
-          err.errors.name.should.equal('ValidationError');
+          err.name.should.equal('ValidationError');
         });
       });
 
@@ -74,7 +72,8 @@ describe('User', function() {
       yield new User(data).persist();
       throw new Error("Same email is saved twice!");
     } catch(err) {
-      err.code.should.equal(11000); // unique index is checked by mongo
+      err.name.should.equal('ValidationError');
+      err.errors.email.should.exist;
     }
 
   });

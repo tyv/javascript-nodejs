@@ -28,9 +28,9 @@ CsrfChecker.prototype.middleware = function() {
     var checkCsrf = true;
     for (var i = 0; i < self.ignorePaths.length; i++) {
       var path = self.ignorePaths[i];
-      this.log.debug("test " + this.req.url + " against " + path);
-      if (path.test(this.req.url)) {
-        this.log.debug("match found, disable csrf check");
+      this.log.debug("csrf test " + this.path + " against " + path);
+      if (path.test(this.path)) {
+        this.log.debug("csrf match found, disable csrf check");
         checkCsrf = false;
         break;
       }

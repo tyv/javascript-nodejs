@@ -27,9 +27,7 @@ describe('Authorization', function() {
       request(server)
         .patch('/users/me')
         .set('X-Test-User-Id', fixtures.User[0]._id)
-        .send({
-          displayName: "test"
-        })
+        .field('displayName', 'test') // will send as multipart
         .end(function(err, res) {
           res.body.displayName.should.exist;
           done(err);
@@ -52,11 +50,9 @@ describe('Authorization', function() {
       request(server)
         .patch('/users/me')
         .set('X-Test-User-Id', fixtures.User[0]._id)
-        .send({
-          displayName: "",
-          email:       Math.random() + "@mail.com",
-          gender:      "invalid"
-        })
+        .field('displayName', '')
+        .field('email', Math.random() + "@mail.com")
+        .field('gender', 'invalid')
         .end(function(err, res) {
           if (err) return done(err);
           res.body.errors.displayName.should.exist;
@@ -71,11 +67,9 @@ describe('Authorization', function() {
       request(server)
         .patch('/users/me')
         .set('X-Test-User-Id', fixtures.User[0]._id)
-        .send({
-          displayName: "Such mail belongs to another user",
-          email:       "tester@mail.com",
-          gender:      "male"
-        })
+        .field('displayName', "Such mail belongs to another user")
+        .field('email', "tester@mail.com")
+        .field('gender', "male")
         .end(function(err, res) {
           if (err) return done(err);
           should(res.body.errors.displayName).not.exist;

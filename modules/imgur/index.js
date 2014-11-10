@@ -1,8 +1,11 @@
-var request = require('koa-request');
+var request = require('request');
 var config = require('config');
 var log = require('log')();
 var inherits = require('inherits');
 var _ = require('lodash');
+var mime = require('mime');
+
+//require('request-debug')(request);
 
 function BadImageError(msg) {
   Error.call(this, msg);
@@ -29,20 +32,42 @@ exports.transload = function*(url) {
 
 };
 
-exports.uploadBuffer = function*(mime, buffer) {
+exports.uploadBuffer = function*(fileName, buffer) {
   // the same code actually
-  return yield* exports.uploadStream(mime, buffer);
+  return yield* exports.uploadStream(fileName, buffer.length, buffer);
 };
 
-exports.uploadStream = function*(mime, stream) {
+/*
+custom_file: {
+      value:  fs.createReadStream('/dev/urandom'),
+        options: {
+        filename: 'topsecret.jpg',
+          contentType: 'image/jpg'
+      }
+*/
+
+/**
+ * Uploads a stream (file or multiparty part or...)
+ * @param fileName fileName (for mime)
+ * @param knownLength contentLength (from file stream request could get it, but not from multiparty part)
+ * @param stream
+ * @returns {*}
+ */
+exports.uploadStream = function*(fileName, knownLength, stream) {
+
+  var mimeType = mime.lookup(fileName);
 
   var response = yield* imgurRequest('image', {
-    headers: {
-      'Content-Type':  mime
-    },
-    formData:    {
+    formData: {
       type:  'file',
-      image: stream
+      image: {
+        value: stream,
+        options: {
+          filename: fileName,
+          contentType: mimeType,
+          knownLength: knownLength
+        }
+      }
     }
   });
 
@@ -55,11 +80,18 @@ exports.uploadStream = function*(mime, stream) {
 
 
 function* imgurRequest(serviceName, options) {
-  var response = yield request.post(_.merge({
+  options = _.merge({
+    method:  'POST',
     url:     config.imgur.url + serviceName,
     headers: {'Authorization': 'Client-ID ' + config.imgur.clientId},
     json:    true
-  }, options));
+  }, options);
+
+  var response = yield function(callback) {
+    request(options, function(error, response) {
+      callback(error, response);
+    });
+  };
 
   if (response.statusCode != 200 && response.statusCode != 400) {
     log.error("Imgur error", {res: response});

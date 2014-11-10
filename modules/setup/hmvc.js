@@ -30,7 +30,7 @@ module.exports = function(app) {
   }
 
   mountHmvc('/users', 'users');
-  app.multipartParser.addIgnorePath('/users/me');
+  app.multipartParser.addIgnorePath('/users/me/:any*');
 
   mountHmvc('/auth', 'auth');
   // no csrf check for guest endpoints (no generation of csrf for anon)

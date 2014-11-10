@@ -24,9 +24,7 @@ PhotoChanger.prototype.changePhoto = function() {
 };
 
 PhotoChanger.prototype.updateUserPhoto = function(link) {
-
   this.elem.style.backgroundImage = 'url("' + link.replace(/(\.\w+)$/, window.devicePixelRatio > 1 ? 'm$1' : 't$1') + '")';
-
 };
 
 
@@ -34,11 +32,13 @@ PhotoChanger.prototype.upload = function(file) {
 
   var formData = new FormData();
 
-  formData.append("photo", this.file);
+  formData.append("photo", file);
 
   var request = xhr({
     method: 'PATCH',
-    url: '/users/me'
+    url: '/users/me',
+    json: true,
+    body: formData
   });
 
   // 400 when corrupt or invalid file
@@ -53,9 +53,6 @@ PhotoChanger.prototype.upload = function(file) {
 
     self.updateUserPhoto(e.result.photo);
   });
-
-
-  request.send(formData);
 
 };
 
