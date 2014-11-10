@@ -1,0 +1,14 @@
+extends ../layouts/base
+
+// - http://stackoverflow.com/questions/12646451/how-to-pass-variables-between-jade-templates
+block variables
+  - self.title = 'Доступ к этой странице закрыт';
+
+block content
+  +b.error
+    +e('h1').type Доступ к этой странице закрыт
+    +e.code 403
+    +e.text
+      | Возможно, вам нужно
+      =" "
+      +e('button').button-link.__login-button залогиниться

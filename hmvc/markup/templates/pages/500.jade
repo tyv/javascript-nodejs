@@ -1,0 +1,11 @@
+extends ../layouts/base
+
+// - http://stackoverflow.com/questions/12646451/how-to-pass-variables-between-jade-templates
+block variables
+  - self.title = 'Ошибка на сервере';
+
+block content
+  +b.error
+    +e('h1').type Ошибка на сервере
+    +e.code 500
+    +e.text Мы уже работаем над устранением ошибки
