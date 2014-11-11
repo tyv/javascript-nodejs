@@ -11,6 +11,7 @@ exports.resizeOnload = require('./resizeOnload');
 require('./layout');
 //require('./sidebar');
 require('./navigationArrows');
+require('./hover');
 
 // temporary
 window.Spinner = require('client/spinner');

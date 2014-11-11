@@ -14,6 +14,7 @@ var handler = hoverIntent(function() {
  * @returns {Function}
  */
 
+
 function hoverIntent(handlerIn, handlerOut) {
 
   // default configuration values
@@ -97,4 +98,4 @@ function hoverIntent(handlerIn, handlerOut) {
 
 }
 
-module.exports = hoverIntent;
+module.exports = (document.ontouchstart === undefined) ? hoverIntent : function() { return function() {}; };
