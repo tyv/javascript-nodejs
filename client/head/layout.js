@@ -78,7 +78,9 @@ function onscroll() {
   var sidebar = document.querySelector('.sidebar');
 
   if (sidebar) {
-    sidebar.style.top = Math.max(sitetoolbar.getBoundingClientRect().bottom, 0) + 'px';
+    //Math.max(sitetoolbar.offsetHeight, pageYOffsetsitetoolbar.getBoundingClientRect().bottom, 0)
+    sidebar.style.transform = 'translateY(' + (window.pageYOffset - 60) + 'px)';
+    console.log("sidebar", sidebar.style.transform);
     compactifySidebar();
   }
 
@@ -87,7 +89,7 @@ function onscroll() {
 
   if (browserScrollCause !== null) {
     log("browser scroll");
-    // browser-initiated scroll: never show navigation (except on top), try to hide it
+    // browser-initiated scroll: never show sitetoolbar (except on top), try to hide it
     // if page top - user will see the nav and the header
     // if not page top - user will see the header when opening a link with #hash
     //   (without a sitetoolbar which would overlay it)
