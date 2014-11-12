@@ -5,11 +5,10 @@ var findClosest = require('client/dom/findClosest');
 
 var currentHoverElem;
 
+/*
 function log(e) {
   console.log(Date.now() % 1e4, e.type);
 }
-
-
 
 document.addEventListener("focusin", log, false);
 document.addEventListener("focus", log, false);
@@ -25,7 +24,7 @@ document.addEventListener("pointerdown", log, false);
 document.addEventListener("pointermove", log, false);
 document.addEventListener("pointercancel", log, false);
 document.addEventListener("mouseover", log, false);
-
+*/
 document.addEventListener('mouseover', function(event) {
   var target = findClosest(event.target, '[data-add-class-on-hover]');
   if (target) {
@@ -44,8 +43,6 @@ document.addEventListener('touchend', function(event) {
 });
 
 document.addEventListener('mouseout', function(event) {
-  console.log("OUT", target);
-
   var target = findClosest(event.target, '[data-add-class-on-hover]');
   if (target == currentHoverElem) return;
   currentHoverElem.classList.remove('hover');

@@ -24,7 +24,7 @@
       //- todo: implement me
       //- эта кнопка видна только на узком экране
       //- при начале скролла тут же исчезает, для этого body += .sitetoolbar_hidden
-      +e('button').nav-toggle
+      +e('button').nav-toggle(onclick="document.querySelector('.sitetoolbar').classList.toggle('sitetoolbar_menu_open')")
     +e('nav').sections
       +e('ul').sections-list
         +e('li').section._current

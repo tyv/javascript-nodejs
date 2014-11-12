@@ -33,6 +33,7 @@ MultipartParser.prototype.parse = thunkify(function(req, callback) {
   // multipart file must be the last
   form.on('part', function(part) {
     if (part.filename != null) {
+      // FIXME: use createError from multiparty here
       callback(new Error('Files are not allowed here'));
     } else {
       throw new Error("Must never reach this line (field event parses all fields)");
