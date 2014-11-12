@@ -11,21 +11,25 @@ function log() {
   }
 }
 
-// don't handle onscroll more often than animation
-function onWindowScrollAndResize() {
-  log("onWindowScrollAndResize", requestAnimationFrameId);
-  if (requestAnimationFrameId) return;
+(function() {
 
-  requestAnimationFrameId = window.requestAnimationFrame(function() {
-    onscroll();
-    requestAnimationFrameId = null;
-  });
+  // don't handle onscroll more often than animation
+  function onWindowScrollAndResizeThrottled() {
+    log("onWindowScrollAndResizeThrottled", requestAnimationFrameId);
+    if (requestAnimationFrameId) return;
 
-}
+    requestAnimationFrameId = window.requestAnimationFrame(function() {
+      onWindowScrollAndResize();
+      requestAnimationFrameId = null;
+    });
 
-window.addEventListener('scroll', onWindowScrollAndResize);
-window.addEventListener('resize', onWindowScrollAndResize);
-document.addEventListener('DOMContentLoaded', onWindowScrollAndResize);
+  }
+
+  window.addEventListener('scroll', onWindowScrollAndResizeThrottled);
+  window.addEventListener('resize', onWindowScrollAndResizeThrottled);
+  document.addEventListener('DOMContentLoaded', onWindowScrollAndResizeThrottled);
+
+})();
 
 function compactifySidebar() {
   log("compactifySidebar");
@@ -65,7 +69,7 @@ function compactifySidebar() {
 
 }
 
-function onscroll() {
+function onWindowScrollAndResize() {
 
   var sitetoolbar = document.querySelector('.sitetoolbar');
   if (!sitetoolbar) {
@@ -82,6 +86,8 @@ function onscroll() {
     compactifySidebar();
   }
 
+  setUserScaleIfVisible(sidebar);
+
   var browserScrollCause = getBrowserScrollCause();
   log("scrollCause", browserScrollCause);
 
@@ -94,6 +100,8 @@ function onscroll() {
     lastPageYOffset = window.pageYOffset;
     return;
   }
+
+
 
   // now we are in the middle of the page or at the end
   // let's see if the user scrolls up or down
@@ -114,4 +122,10 @@ function onscroll() {
 
   lastPageYOffset = window.pageYOffset;
 
+}
+
+function setUserScaleIfVisible(sidebar) {
+  var content = document.querySelector('meta[name="viewport"]').content;
+  content = content.replace(/user-scalable=\w+/, 'user-scalable=' + (sidebar.offsetWidth ? 'no' : 'yes'));
+  document.querySelector('meta[name="viewport"]').content = content;
 }
