@@ -6,7 +6,7 @@ html
   head
     block variables
     include ../blocks/head
-  body.no-icons
+  body(class="no-icons" + (layout_body_class ? ' ' + layout_body_class : ''))
     script head.fontTest();
 
     block body
