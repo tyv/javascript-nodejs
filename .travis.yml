@@ -2,7 +2,8 @@ language: node_js
 node_js:
   - 0.11
 before_install:
-  - npm i -g npm && npm i -g bunyan gulp mocha
+  - npm i -g npm
+  - npm i -g bunyan gulp mocha
 services:
   - mongodb
 env:
