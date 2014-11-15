@@ -149,7 +149,8 @@
     "supertest": "*",
     "time-require": "^0.1.2",
     "trace": "*",
-    "watchify": "*"
+    "watchify": "*",
+    "yargs": "^1.3.3"
   },
   "optionalDependencies": {
     "fsevents": "*"

@@ -48,7 +48,8 @@ gulp.task('lint-once', lazyRequireTask('./tasks/lint', { src: jsSources }));
 gulp.task('lint-or-die', lazyRequireTask('./tasks/lint', { src: jsSources, dieOnError: true }));
 
 // usage: gulp loaddb --db fixture/db
-gulp.task('loaddb', lazyRequireTask('./tasks/loadDb'));
+gulp.task('db:load', lazyRequireTask('./tasks/dbLoad'));
+
 
 gulp.task("nodemon", lazyRequireTask('./tasks/nodemon', {
   ext:    "js,jade",
