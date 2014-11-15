@@ -18,9 +18,9 @@ describe("BodyLexer", function() {
       this.test.lexer.isEof().should.be.true;
     });
 
-    it("```\nsome text\n```\n", function() {
+    it("```\nno language means txt\n```\n", function() {
       var bbtag = this.test.lexer.consumeSource();
-      bbtag.should.be.eql({ type: 'bbtag', name: '', attrs: '', body: 'some text' });
+      bbtag.should.be.eql({ type: 'bbtag', name: 'txt', attrs: '', body: 'no language means txt' });
       this.test.lexer.isEof().should.be.true;
     });
 

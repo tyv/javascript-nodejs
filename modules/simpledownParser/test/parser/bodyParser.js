@@ -12,10 +12,10 @@ function toStructure(nodes) {
 describe("BodyParser", function() {
 
   var options = {
-    staticHost: 'http://js.cx',
-    resourceWebRoot: '/document',
+    staticHost:      'http://js.cx',
+    resourceWebRoot: '/data',
     trusted:         true,
-    metadata:        { }
+    metadata:        {}
   };
 
   describe('parse', function() {
@@ -29,7 +29,7 @@ describe("BodyParser", function() {
             type:     'CompositeTag',
             tag:      'em',
             children: [
-              { type: 'TextNode', text: 'italic' }
+              {type: 'TextNode', text: 'italic'}
             ]
           },
           {
@@ -45,11 +45,13 @@ describe("BodyParser", function() {
       var result = parser.parse();
       var structure = toStructure(result);
       structure.should.be.eql([
-        { type:  'ImgTag',
+        {
+          type:  'ImgTag',
           text:  '',
           tag:   'img',
-          attrs: { src: 'html6.jpg' } },
-        { type: 'TextNode', text: ' test' }
+          attrs: {alt: 'html6.jpg', src: 'html6.jpg'}
+        },
+        {type: 'TextNode', text: ' test'}
       ]);
     });
 
@@ -58,15 +60,16 @@ describe("BodyParser", function() {
       var result = parser.parse();
 
       toStructure(result).should.be.eql([
-          { type: 'TextNode', text: ' text ' },
-          { type:     'CompositeTag',
+          {type: 'TextNode', text: ' text '},
+          {
+            type:     'CompositeTag',
             tag:      'em',
             children: [
-              { type: 'TextNode', text: 'in' }
+              {type: 'TextNode', text: 'in'}
             ]
           },
-          { type: 'TextNode', text: ' ' },
-          { type: 'TextNode', text: ' out' }
+          {type: 'TextNode', text: ' '},
+          {type: 'TextNode', text: ' out'}
         ]
       );
     });
@@ -75,21 +78,22 @@ describe("BodyParser", function() {
       var parser = new BodyParser(this.test.title, options);
       var result = parser.parse();
       toStructure(result).should.be.eql([
-        { type: 'SourceTag',
+        {
+          type: 'SourceTag',
           text: 'my code;[css][/css]my code;',
           tag:  'pre'
         }
       ]);
     });
 
-    it("# Header *italic* `code`", function() {
+    it("# Header *has* no `markup`", function() {
       var parser = new BodyParser(this.test.title, options);
       var result = parser.parse();
 
       toStructure(result).should.be.eql([
         {
           type: 'HeaderTag',
-          text: 'Header *italic* <code>code</code>'
+          text: 'Header *has* no `markup`'
         }
       ]);
     });
@@ -99,73 +103,82 @@ describe("BodyParser", function() {
       var result = parser.parse();
 
       toStructure(result).should.be.eql([
-        { type: 'HeaderTag',
+        {
+          type: 'HeaderTag',
           text: "Header"
         },
-        { type: 'TextNode', text: '\n\n Content' }
+        {type: 'TextNode', text: '\n\n Content'}
       ]);
     });
 
     it("[compare]+Plus 1\n-Minus *italic*\n[/compare]", function() {
       var parser = new BodyParser(this.test.title, options);
       var result = parser.parse();
-      toStructure(result).should.be.eql([
-        { type:     'CompositeTag',
+
+      toStructure(result).should.be.eql([{
+        type:     'CompositeTag',
+        tag:      'div',
+        attrs:    {class: 'balance'},
+        children: [{
+          type:     'CompositeTag',
           tag:      'div',
-          attrs:    { class: 'balance' },
-          children: [
-            { type:     'CompositeTag',
+          attrs:    {class: 'balance__pluses'},
+          children: [{
+            type:     'CompositeTag',
+            tag:      'div',
+            attrs:    {class: 'balance__content'},
+            children: [{
+              type:     'CompositeTag',
+              tag:      'ul',
+              attrs:    {class: 'balance__list'},
+              children: [{
+                type:  'TagNode',
+                text:  'Достоинства',
+                tag:   'h3',
+                attrs: {class: 'balance__title'}
+              },
+                {
+                  type:     'CompositeTag',
+                  tag:      'li',
+                  attrs:    {class: 'balance__list-item'},
+                  children: [{type: 'TextNode', text: 'Plus 1'}]
+                }]
+            }]
+          }]
+        },
+          {
+            type:     'CompositeTag',
+            tag:      'div',
+            attrs:    {class: 'balance__minuses'},
+            children: [{
+              type:     'CompositeTag',
               tag:      'div',
-              attrs:    { class: 'balance__content' },
-              children: [
-                { type:     'CompositeTag',
-                  tag:      'div',
-                  attrs:    { class: 'balance__pluses' },
-                  children: [
-                    { type:     'CompositeTag',
-                      tag:      'ul',
-                      attrs:    { class: 'balance__list' },
-                      children: [
-                        { type:  'TagNode',
-                          text:  'Достоинства',
-                          tag:   'h3',
-                          attrs: { class: 'balance__title' } },
-                        { type:     'CompositeTag',
-                          tag:      'li',
-                          attrs:    { class: 'plus' },
-                          children: [
-                            { type: 'TextNode', text: 'Plus 1' }
-                          ] }
-                      ] }
-                  ] },
-                { type:     'CompositeTag',
-                  tag:      'div',
-                  attrs:    { class: 'balance__minuses' },
-                  children: [
-                    { type:     'CompositeTag',
-                      tag:      'ul',
-                      attrs:    { class: 'balance__list' },
-                      children: [
-                        { type:  'TagNode',
-                          text:  'Недостатки',
-                          tag:   'h3',
-                          attrs: { class: 'balance__title' } },
-                        { type:     'CompositeTag',
-                          tag:      'li',
-                          attrs:    { class: 'minus' },
-                          children: [
-                            { type: 'TextNode', text: 'Minus ' },
-                            { type:     'CompositeTag',
-                              tag:      'em',
-                              children: [
-                                { type: 'TextNode', text: 'italic' }
-                              ] }
-                          ] }
-                      ] }
-                  ] }
-              ] }
-          ] }
-      ]);
+              attrs:    {class: 'balance__content'},
+              children: [{
+                type:     'CompositeTag',
+                tag:      'ul',
+                attrs:    {class: 'balance__list'},
+                children: [{
+                  type:  'TagNode',
+                  text:  'Недостатки',
+                  tag:   'h3',
+                  attrs: {class: 'balance__title'}
+                },
+                  {
+                    type:     'CompositeTag',
+                    tag:      'li',
+                    attrs:    {class: 'balance__list-item'},
+                    children: [{type: 'TextNode', text: 'Minus '},
+                      {
+                        type:     'CompositeTag',
+                        tag:      'em',
+                        children: [{type: 'TextNode', text: 'italic'}]
+                      }]
+                  }]
+              }]
+            }]
+          }]
+      }]);
     });
 
   });
