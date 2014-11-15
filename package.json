@@ -4,14 +4,10 @@
   "private": true,
   "scripts": {
     "prod": "NODE_ENV=production node --harmony ./bin/server",
-    "fixperms": "sudo chown -R `id -u` . * ~/.n*"
+    "fixperms": "sudo chown -R `id -u` . * ~/.n*",
+    "test": "echo \"Error: no test specified\" && exit 0"
   },
   "precommit": "NODE_ENV=development node --harmony `which gulp` pre-commit",
-  "aliasify": {
-    "aliases": {
-      "underscore": "lodash"
-    }
-  },
   "//": "while in development, all modules are recent",
   "dependencies": {
     "MD5": "*",

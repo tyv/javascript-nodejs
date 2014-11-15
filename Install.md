@@ -1,6 +1,12 @@
 
 # Как поднять сайт локально
 
+## 0. Операционная система
+
+Сайт работает под MacOS, Unix (production на Debian), но не Windows.
+
+С Windows проблема не в коде самого сайта, а в ряде сторонних модулей, которые пока не дружат с Windows.
+
 ## 1. Поставьте Node.JS 0.11
 
 Нужна именно последняя версия.
@@ -57,6 +63,6 @@ npm install
 
 # TroubleShooting
 
-Если что-то не работает -- пишите issue.
+Если что-то не работает -- [пишите issue](https://github.com/iliakan/javascript-nodejs/issues/new).
 
 
