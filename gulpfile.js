@@ -70,6 +70,12 @@ gulp.task("tutorial:import:watch", lazyRequireTask('tutorial/tasks/importWatch',
   root: "/js/javascript-nodejs/javascript-tutorial"
 }));
 
+gulp.task("test", lazyRequireTask('./tasks/test', {
+  glob: 'modules/**/test/**/*.js',
+  reporter: 'spec',
+  timeout: 10000
+}));
+
 gulp.task('watch', lazyRequireTask('./tasks/watch', {
   root:        __dirname,
   taskMapping: [
