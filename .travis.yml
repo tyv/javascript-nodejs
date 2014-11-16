@@ -4,7 +4,7 @@ node_js:
 git:
   # custom init submodules with token
   submodules: false
-  depth: 150
+  depth: 50
 
 before_install:
   - chmod +x travis/*.sh
