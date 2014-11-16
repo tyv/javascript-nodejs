@@ -1,6 +1,6 @@
 --reporter spec
 --colors
---timeout 10000
+--timeout 100000
 --require config/mongoose
 --require lib/requireJade
 --require should

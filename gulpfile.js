@@ -73,7 +73,7 @@ gulp.task("tutorial:import:watch", lazyRequireTask('tutorial/tasks/importWatch',
 gulp.task("test", lazyRequireTask('./tasks/test', {
   glob: 'modules/**/test/**/*.js',
   reporter: 'spec',
-  timeout: 10000
+  timeout: 30000
 }));
 
 gulp.task('watch', lazyRequireTask('./tasks/watch', {
@@ -109,7 +109,7 @@ gulp.task('client:compile-css',
   lazyRequireTask('./tasks/compileCss', {
     src: './styles/base.styl',
     dst: './public/styles',
-    publicDst: config.staticHost + '/styles/',  // from browser point of view
+    publicDst: config.server.staticHost + '/styles/',  // from browser point of view
     manifest: path.join(config.manifestRoot, 'styles.versions.json')
   })
 );

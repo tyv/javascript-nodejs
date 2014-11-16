@@ -92,7 +92,7 @@ function addStandardHelpers(locals, ctx) {
       version = Math.random().toString().slice(2);
       log.error("No version for " + publicPath);
     }
-    return config.staticHost + publicPath.replace('.', '.v' + version + '.');
+    return config.server.staticHost + publicPath.replace('.', '.v' + version + '.');
   };
 
 

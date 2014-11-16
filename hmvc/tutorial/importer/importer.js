@@ -123,7 +123,7 @@ Importer.prototype.syncFolder = function*(sourceFolderPath, parent) {
   yield Article.destroyTree({slug: data.slug});
 
   var options = {
-    staticHost:      config.staticHost,
+    staticHost:      config.server.staticHost,
     resourceWebRoot: Article.getResourceWebRootBySlug(data.slug),
     metadata:        {},
     trusted:         true
@@ -179,7 +179,7 @@ Importer.prototype.syncArticle = function* (articlePath, parent) {
   yield Article.destroyTree({slug: data.slug});
 
   const options = {
-    staticHost:      config.staticHost,
+    staticHost:      config.server.staticHost,
     resourceWebRoot: Article.getResourceWebRootBySlug(data.slug),
     metadata:        {},
     trusted:         true
@@ -320,7 +320,7 @@ Importer.prototype.syncTask = function*(taskPath, parent) {
   yield Task.destroy({slug: data.slug});
 
   const options = {
-    staticHost:      config.staticHost,
+    staticHost:      config.server.staticHost,
     resourceWebRoot: Task.getResourceWebRootBySlug(data.slug),
     metadata:        {},
     trusted:         true
