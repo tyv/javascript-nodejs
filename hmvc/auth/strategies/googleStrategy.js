@@ -49,7 +49,7 @@ const config = require('config');
 module.exports = new GoogleStrategy({
     clientID:          config.authProviders.google.appId,
     clientSecret:      config.authProviders.google.appSecret,
-    callbackURL:       config.siteHost + "/auth/callback/google",
+    callbackURL:       config.server.siteHost + "/auth/callback/google",
     passReqToCallback: true
   },
   function(req, token, tokenSecret, profile, done) {

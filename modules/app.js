@@ -129,10 +129,10 @@ app.waitBootAndListen = function*() {
   yield* app.waitBoot();
 
   yield function(callback) {
-    app.server = app.listen(config.port, config.host, callback);
+    app.server = app.listen(config.server.port, config.server.host, callback);
   };
 
-  log.info('App listen %s:%d', config.host, config.port);
+  log.info('App listen %s:%d', config.server.host, config.server.port);
 };
 
 app.close = function*() {

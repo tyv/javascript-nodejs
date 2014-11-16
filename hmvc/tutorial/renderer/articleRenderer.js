@@ -116,7 +116,7 @@ ArticleRenderer.prototype.render = function* (article) {
   }, this);
 
   const transformer = new ServerHtmlTransformer({
-    staticHost:      config.staticHost,
+    staticHost:      config.server.staticHost,
     resourceWebRoot: article.getResourceWebRoot(),
     linkHeaderTag: true
   });

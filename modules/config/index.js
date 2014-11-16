@@ -12,10 +12,13 @@ if (env.DEV_TRACE) require('./trace');
 var secret = require('./secret');
 
 module.exports = {
-  port: env.PORT || 3000,
-  host: env.HOST || '0.0.0.0',
-  siteHost:   env.SITE_HOST,
-  staticHost: env.STATIC_HOST,
+  server: {
+    port:       env.PORT || 3000,
+    host:       env.HOST || '0.0.0.0',
+    siteHost:   env.SITE_HOST,
+    staticHost: env.STATIC_HOST
+  },
+
   mongoose:   require('./mongoose'),
   session:      {
     keys: [secret.sessionKey]

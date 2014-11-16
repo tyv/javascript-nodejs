@@ -11,7 +11,8 @@ var iframeBoxTemplate = require('./iframeBox.jade');
 var codeBoxTemplate = require('./codeBox.jade');
 
 function HtmlTransformer(options) {
-  this.options = options || {};
+  options = options || {};
+  this.options = options;
   this.resourceWebRoot = options.resourceWebRoot;
   this.staticHost = options.staticHost;
   this.linkHeaderTag = options.linkHeaderTag;

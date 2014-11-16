@@ -29,16 +29,17 @@
 
 	&__nav
 		position fixed
-		top 0
-		bottom 0
-		width 90px
+		top 50%
+		width 110px
+		height 90px
+		margin-top -45px
 		outline 0
+		background rgba(216, 216, 216, .14)
 
 	& &__nav
 		color #7d7d7d;
 
 	&__nav:hover
-		background rgba(216, 216, 216, .15)
 		text-decoration none
 
 	&__nav_prev
@@ -46,18 +47,19 @@
 		transition transform animation_duration, top animation_duration
 
 	&__nav-text
-		font-size 16px
+		font-size 13px
 		position absolute
 		top 50%
-		margin-top -40px
-		width 80px
+		margin-top -33px
+		box-sizing border-box
+		width 100%
 		padding 5px
 		text-align center
 		white-space nowrap
 
 	&__nav-text-shortcut
+		color #c1c1c0
 		visibility hidden
-		color #8B8987
 
 	&__nav-text-arr
 		position relative
@@ -68,7 +70,7 @@
 
 	&__nav-text::before
 		display block
-		margin-bottom 17px
+		margin-bottom 5px
 		font-size 36px
 		min-height 36px
 		line-height 1

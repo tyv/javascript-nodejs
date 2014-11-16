@@ -7,7 +7,7 @@ block body
   .page(class= sidebar ? 'page_sidebar_on' : undefined)
     //- основное содержимое статьи идёт до сайдбара (пользователь увидит его первым)
     .page__inner
-      article.main
+      div.main(class=layout_main_class ? ' ' + layout_main_class : '')
         block main
     if prev
       a.page__nav.page__nav_prev(href=prev.url, data-tooltip=prev.title)

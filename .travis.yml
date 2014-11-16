@@ -1,6 +1,17 @@
 language: node_js
 node_js:
-  - 0.10
   - 0.11
+git:
+  # custom init submodules with token
+  submodules: false
+  depth: 50
+
+before_install:
+  - chmod +x travis/*.sh
+  - ./travis/before_install.sh
+
 services:
   - mongodb
+
+env:
+  - NODE_ENV=test

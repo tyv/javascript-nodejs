@@ -1,6 +1,12 @@
 
 # Как поднять сайт локально
 
+## 0. Операционная система
+
+Сайт работает под MacOS, Unix (production на Debian), но не Windows.
+
+С Windows проблема не в коде самого сайта, а в ряде сторонних модулей, которые пока не дружат с Windows.
+
 ## 1. Поставьте Node.JS 0.11
 
 Нужна именно последняя версия.
@@ -23,21 +29,30 @@
 
 Клонируйте [https://github.com/iliakan/javascript-nodejs]().
 
-## 4. `npm install`
+## 4. Глобальные модули
+
+Поставьте глобальные модули:
+
+```
+npm install -g mocha karma-cli bunyan gulp nodemon  
+```
+
+## 5. `npm install`
 
 В директории, в которую клонировали, запустите:
+
 ```
 npm install
 ```
 
-## 5. База
+## 6. База
 
 Начальная база данных импортируется командой:
 ```
-./db
+./gulp db:load --from fixture/db.js
 ```
 
-## 6. Запуск сайта
+## 7. Запуск сайта
 
 Запуск сайта в режиме разработки:
 ```
@@ -48,6 +63,6 @@ npm install
 
 # TroubleShooting
 
-Если что-то не работает -- пишите issue.
+Если что-то не работает -- [пишите issue](https://github.com/iliakan/javascript-nodejs/issues/new).
 
 

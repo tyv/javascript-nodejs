@@ -7,8 +7,6 @@ var HtmlTransformer = require('../../transformer/htmlTransformer');
 describe("HtmlTransformer", function() {
 
   var options = {
-    trusted: true,
-    noContextTypography: true
   };
 
   var makeTrusted = true;

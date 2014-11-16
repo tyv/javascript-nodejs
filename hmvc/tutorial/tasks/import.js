@@ -14,6 +14,8 @@ module.exports = function(options) {
 
     co(function* () {
 
+      yield* importer.destroyAll();
+
       var subRoots = fs.readdirSync(root);
 
       for (var i = 0; i < subRoots.length; i++) {

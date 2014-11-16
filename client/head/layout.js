@@ -11,6 +11,8 @@ function log() {
   }
 }
 
+var TABLET_WIDTH = 840;
+
 (function() {
 
   // don't handle onscroll more often than animation
@@ -86,7 +88,7 @@ function onWindowScrollAndResize() {
     compactifySidebar();
   }
 
-  setUserScaleIfVisible(sidebar);
+  setUserScaleIfTablet();
 
   var browserScrollCause = getBrowserScrollCause();
   log("scrollCause", browserScrollCause);
@@ -124,8 +126,9 @@ function onWindowScrollAndResize() {
 
 }
 
-function setUserScaleIfVisible(sidebar) {
+function setUserScaleIfTablet() {
+  var isTablet = document.documentElement.clientWidth <= TABLET_WIDTH;
   var content = document.querySelector('meta[name="viewport"]').content;
-  content = content.replace(/user-scalable=\w+/, 'user-scalable=' + (sidebar.offsetWidth ? 'no' : 'yes'));
+  content = content.replace(/user-scalable=\w+/, 'user-scalable=' + (isTablet ? 'yes' : 'no'));
   document.querySelector('meta[name="viewport"]').content = content;
 }

@@ -4,14 +4,10 @@
   "private": true,
   "scripts": {
     "prod": "NODE_ENV=production node --harmony ./bin/server",
-    "fixperms": "sudo chown -R `id -u` . * ~/.n*"
+    "fixperms": "sudo chown -R `id -u` . * ~/.n*",
+    "test": "NODE_ENV=test gulp --harmony test"
   },
   "precommit": "NODE_ENV=development node --harmony `which gulp` pre-commit",
-  "aliasify": {
-    "aliases": {
-      "underscore": "lodash"
-    }
-  },
   "//": "while in development, all modules are recent",
   "dependencies": {
     "MD5": "*",
@@ -128,24 +124,31 @@
     "gulp-jshint": "*",
     "gulp-livereload": "*",
     "gulp-minify-css": "*",
-    "gulp-mocha": "*",
+    "gulp-mocha": "^1.1.1",
     "gulp-sourcemaps": "*",
     "gulp-streamify": "*",
     "gulp-uglify": "*",
     "highland": "^2.0.0",
+    "karma": "^0.12.24",
+    "karma-chrome-launcher": "^0.1.5",
+    "karma-firefox-launcher": "^0.1.3",
+    "karma-mocha": "^0.1.9",
+    "karma-phantomjs-launcher": "^0.1.4",
     "lazypipe": "*",
     "mocha": "*",
     "node-notifier": "*",
     "nodemailer-stub-transport": "*",
     "request-debug": "^0.1.1",
     "run-sequence": "*",
+    "selenium-webdriver": "^2.44.0",
     "should": "^4.2.1",
     "sinon": "*",
     "superagent": "*",
     "supertest": "*",
     "time-require": "^0.1.2",
     "trace": "*",
-    "watchify": "*"
+    "watchify": "*",
+    "yargs": "^1.3.3"
   },
   "optionalDependencies": {
     "fsevents": "*"

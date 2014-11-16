@@ -1,22 +1,48 @@
 
+function stripFirstEmptyLines(text) {
+  return text.replace(/^\n+/, ''); // no 'm' flag!
+}
 // strip first empty lines
-function stripFirstLines(text) {
-  return text.replace(/$(^[ \t]*\n)*/, ''); // not gim, because $ means start of the text
+function rtrim(text) {
+  return text.replace(/\s+$/, '');  // no 'm' flag!
 }
 
-var stripPattern = /^\s*(?=[^\s]+)/mg;
+function rtrimLines(text) {
+  return text.replace(/[ \t]+$/gim, '');
+}
 
-// same as Ruby strip_heredoc + strip first lines and rtrim
-module.exports = function(text) {
-
-  text = stripFirstLines(text).replace(/\s+$/, '');
-  if (!text) return '';
+function stripSpaceIndent(text) {
+  var stripPattern = /^ *(?=\S+)/gm;
 
   var indentLen = text.match(stripPattern)
     .reduce(function (min, line) {
       return Math.min(min, line.length);
     }, Infinity);
 
-  var indent = new RegExp('^\\s{' + indentLen + '}', 'mg');
+  var indent = new RegExp('^ {' + indentLen + '}', 'gm');
   return indentLen > 0 ? text.replace(indent, '') : text;
+}
+
+function stripTabIndent(text) {
+  var stripPattern = /^\t*(?=\S+)/gm;
+
+  var indentLen = text.match(stripPattern)
+    .reduce(function (min, line) {
+      return Math.min(min, line.length);
+    }, Infinity);
+
+  var indent = new RegExp('^\t{' + indentLen + '}', 'gm');
+  return indentLen > 0 ? text.replace(indent, '') : text;
+}
+
+// same as Ruby strip_heredoc + rtrim every line + strip first lines and rtrim
+module.exports = function(text) {
+  text = rtrim(text);
+  text = rtrimLines(text);
+  text = stripFirstEmptyLines(text);
+
+  text = stripSpaceIndent(text);
+  text = stripTabIndent(text);
+
+  return text;
 };

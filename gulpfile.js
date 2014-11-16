@@ -48,7 +48,8 @@ gulp.task('lint-once', lazyRequireTask('./tasks/lint', { src: jsSources }));
 gulp.task('lint-or-die', lazyRequireTask('./tasks/lint', { src: jsSources, dieOnError: true }));
 
 // usage: gulp loaddb --db fixture/db
-gulp.task('loaddb', lazyRequireTask('./tasks/loadDb'));
+gulp.task('db:load', lazyRequireTask('./tasks/dbLoad'));
+
 
 gulp.task("nodemon", lazyRequireTask('./tasks/nodemon', {
   ext:    "js,jade",
@@ -67,6 +68,12 @@ gulp.task("client:livereload", lazyRequireTask("./tasks/livereload", {
 
 gulp.task("tutorial:import:watch", lazyRequireTask('tutorial/tasks/importWatch', {
   root: "/js/javascript-nodejs/javascript-tutorial"
+}));
+
+gulp.task("test", lazyRequireTask('./tasks/test', {
+  glob: 'modules/**/test/**/*.js',
+  reporter: 'spec',
+  timeout: 30000
 }));
 
 gulp.task('watch', lazyRequireTask('./tasks/watch', {
@@ -102,7 +109,7 @@ gulp.task('client:compile-css',
   lazyRequireTask('./tasks/compileCss', {
     src: './styles/base.styl',
     dst: './public/styles',
-    publicDst: config.staticHost + '/styles/',  // from browser point of view
+    publicDst: config.server.staticHost + '/styles/',  // from browser point of view
     manifest: path.join(config.manifestRoot, 'styles.versions.json')
   })
 );

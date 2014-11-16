@@ -10,11 +10,11 @@ module.exports = function() {
   return function(callback) {
 
     var args = require('yargs')
-      .usage("Path to DB is required.")
-      .demand(['db'])
+      .usage("Path to DB fixture file is required.")
+      .demand(['from'])
       .argv;
 
-    var dbPath = path.join(projectRoot, args.db);
+    var dbPath = path.join(projectRoot, args.from);
 
     gutil.log("loading db " + dbPath);
 
@@ -23,11 +23,7 @@ module.exports = function() {
       yield* dataUtil.loadDb(dbPath);
 
       gutil.log("loaded db " + dbPath);
-    })(function(err) {
-      if (err) throw err;
-      mongoose.disconnect();
-      callback();
-    });
+    })(callback);
 
   };
 };
