@@ -1,9 +1,15 @@
 language: node_js
 node_js:
   - 0.11
+git:
+  # custom init submodules with token
+  submodules: false
+  depth: 150
+
 before_install:
-  - npm i -g npm
-  - npm i -g bunyan gulp mocha
+  - chmod +x travis/*.sh
+  - ./travis/before_install.sh
+
 services:
   - mongodb
 env:
