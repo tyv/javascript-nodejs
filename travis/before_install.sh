@@ -7,10 +7,9 @@
 
 echo -e "machine github.com\nlogin $CI_USER_TOKEN\nmachine api.github.com\nlogin $CI_USER_TOKEN" >> ~/.netrc
 
-git submodule update --init --remote
+git submodule update --init --remote &&
+npm i -g npm # need latest npm (less bugs, at time of writing 2.0.0 didn't work)
 
-# need latest npm (less bugs, at time of writing 2.0.0 didn't work)
-npm i -g npm
 
 
 
