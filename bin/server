@@ -8,7 +8,10 @@ co(function*() {
 
   yield* app.waitBootAndListen();
 
+  console.log("DONE");
+
 })(function(err) {
+  console.log("ERROR", err, err.stack);
   if (err) throw err;
 });
 

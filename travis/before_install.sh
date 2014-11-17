@@ -39,3 +39,5 @@ sudo service memcached stop
 sudo service postgresql stop
 
 chmod 755 ./prod
+echo "PWD"
+pwd
