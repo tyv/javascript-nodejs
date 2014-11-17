@@ -1,3 +1,5 @@
+require('client/polyfill/dom4');
+
 // find the nearest ancestor matching selector
 module.exports = function(elem, selector) {
 

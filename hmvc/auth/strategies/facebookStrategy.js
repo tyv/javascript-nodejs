@@ -54,12 +54,33 @@ module.exports = new FacebookStrategy({
     // refreshToken:
     // undefined
 
+    var permissionError = null;
     // I guess, facebook won't allow to use an email w/o verification, but still...
     if (!profile._json.verified) {
-      return done(null, false, {message: "Почта на facebook должна быть подтверждена"});
+      permissionError = "Почта на facebook должна быть подтверждена";
     }
 
+    if (!profile.emails || !profile.emails[0]) { // user may allow authentication, but disable email access (e.g in fb)
+      permissionError = "При входе разрешите доступ к email. Он используется для идентификации пользователя.";
+    }
+
+
     co(function*() {
+
+      if (permissionError) {
+        // revoke facebook auth, so that next time facebook will ask it again (otherwise it won't)
+        var response = yield request({
+          method: 'DELETE',
+          url: "https://graph.facebook.com/me/permissions?access_token=" + accessToken
+        });
+
+        if (response.body != 'true') {
+          req.log.error("Unexpected facebook response", {res: response, body: response.body});
+          throw new Error("Facebook auth delete call after successful auth must return true");
+        }
+
+        return permissionError;
+      }
 
       var response = yield request.get({
         url: 'http://graph.facebook.com/v2.1/' + profile.id + '/picture?redirect=0&width=1000&height=1000',
@@ -67,8 +88,7 @@ module.exports = new FacebookStrategy({
       });
 
       if (response.statusCode != 200) {
-        done(null, false, {message: "Ошибка в запросе к Facebook"});
-        return;
+        return "Ошибка в запросе к Facebook";
       }
 
       var photoData = response.body.data;
@@ -78,9 +98,9 @@ module.exports = new FacebookStrategy({
         type: photoData.is_silhouette ? 'default' : 'photo'
       }];
 
-
-    })(function(err) {
+    })(function(err, authErr) {
       if (err) return done(err);
+      if (authErr) return done(null, false, {message: authErr});
       authenticateByProfile(req, profile, done);
     });
 

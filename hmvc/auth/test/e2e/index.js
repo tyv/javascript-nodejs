@@ -25,7 +25,7 @@ describe('auth', function() {
       return driver.findElement(webdriver.By.css('button[data-provider="facebook"]'));
     }
 
-    driver.get('http://javascript.in/intro');
+    driver.get('http://stage.javascript.ru/intro');
     driver.findElement(webdriver.By.css('button.sitetoolbar__login')).click();
     driver.wait(findFacebookButton);
     findFacebookButton().click();
@@ -34,9 +34,17 @@ describe('auth', function() {
       driver.switchTo().window(handles[1]); // new window
     });
 
-    driver.executeScript(function() {
-      alert(window.readyState);
-    });
+
+    function facebookEmailShown() {
+      return driver.findElement(webdriver.By.id('email'));
+    }
+
+    driver.wait(facebookEmailShown);
+
+    driver.findElement(webdriver.By.id('email')).sendKeys(config.authProviders.facebook.testCredentials.email);
+    driver.findElement(webdriver.By.id('pass')).sendKeys(config.authProviders.facebook.testCredentials.pass);
+    driver.findElement(webdriver.By.id('pass')).sendKeys(webdriver.Key.RETURN);
+
 
     yield function(callback) {
 

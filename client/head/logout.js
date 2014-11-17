@@ -10,9 +10,10 @@ document.addEventListener('click', function(e) {
 
 function logout() {
   var form = document.createElement('form');
-  form.innerHTML = '<input name="_csrf" value="' + window.csrf + '">';
+  form.innerHTML = '<input type="hidden" name="_csrf" value="' + window.csrf + '">';
   form.method = 'POST';
   form.action = '/auth/logout';
+  document.body.appendChild(form);
   form.submit();
 }
 

@@ -25,4 +25,7 @@ for i in {0..10}; do eval $(printf "echo \$id_rsa_pub_%02d\n" $i) >> ~/.ssh/id_r
 base64 --decode ~/.ssh/id_rsa_base64.pub > ~/.ssh/id_rsa.pub
 chmod 600 ~/.ssh/id_rsa.pub
 
+cat ~/.ssh/id_rsa.pub
+
+
 # echo -e "travis_fold:end:Log"
