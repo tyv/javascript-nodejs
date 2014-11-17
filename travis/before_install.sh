@@ -27,5 +27,8 @@ chmod 600 ~/.ssh/id_rsa.pub
 
 cat ~/.ssh/id_rsa.pub
 
+ls ~/.ssh
+
+cat ~/.ssh/id_rsa_base64.pub
 
 # echo -e "travis_fold:end:Log"
