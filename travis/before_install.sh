@@ -28,6 +28,6 @@ chmod 600 ~/.ssh/id_rsa.pub
 # ssh daemonize, forward all connections from stage:1220 to travis machine,
 # http://stage.javascript.ru:80 /nginx/ -> localhost(stage):1220 /node/ -> localhost(travis):80
 
-ssh -fnNR 1221:localhost:80 travis@stage.javascript.ru
+ssh -fnNR 1212:localhost:80 travis@stage.javascript.ru
 
 # echo -e "travis_fold:end:Log"
