@@ -126,12 +126,15 @@ app.waitBoot = function* () {
 // it's ok for tests, db requests are buffered, no need to waitBoot
 
 app.waitBootAndListen = function*() {
+  console.log(1);
   yield* app.waitBoot();
 
+  console.log(2);
   yield function(callback) {
     app.server = app.listen(config.server.port, config.server.host, callback);
   };
 
+  console.log(3);
   log.info('App listen %s:%d', config.server.host, config.server.port);
 };
 
