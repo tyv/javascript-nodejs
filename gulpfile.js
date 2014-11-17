@@ -76,6 +76,12 @@ gulp.task("test", lazyRequireTask('./tasks/test', {
   timeout: 30000
 }));
 
+gulp.task("test:one", lazyRequireTask('./tasks/test', {
+  glob: 'modules/simpledownParser/test/**/*.js',
+  reporter: 'spec',
+  timeout: 30000
+}));
+
 gulp.task('watch', lazyRequireTask('./tasks/watch', {
   root:        __dirname,
   taskMapping: [
