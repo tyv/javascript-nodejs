@@ -5,7 +5,7 @@
   "scripts": {
     "prod": "NODE_ENV=production node --harmony ./bin/server",
     "fixperms": "sudo chown -R `id -u` . * ~/.n*",
-    "test": "NODE_ENV=test gulp --harmony test:one"
+    "test": "./dev"
   },
   "precommit": "NODE_ENV=development node --harmony `which gulp` pre-commit",
   "//": "while in development, all modules are recent",
