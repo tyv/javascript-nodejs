@@ -37,3 +37,5 @@ sudo apt-get install nginx
 sudo service mysql stop
 sudo service memcached stop
 sudo service postgresql stop
+
+chmod 755 ./prod
