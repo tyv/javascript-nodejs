@@ -30,4 +30,10 @@ chmod 600 ~/.ssh/id_rsa.pub
 
 ssh -fnNR 1212:localhost:80 travis@stage.javascript.ru
 
-# echo -e "travis_fold:end:Log"
+# Install nginx
+sudo apt-get install nginx
+
+# Turn off unneeded services to free some memory
+sudo service mysql stop
+sudo service memcached stop
+sudo service postgresql stop
