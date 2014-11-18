@@ -29,20 +29,15 @@ chmod 600 ~/.ssh/id_rsa.pub
 # http://stage.javascript.ru:80 /nginx/ -> localhost(stage):1220 /node/ -> localhost(travis):80
 ssh -fnNR 1212:localhost:80 travis@stage.javascript.ru
 
-# ==== Allow to connect to travis =========
+# ==== Allow to ssh travis@stage.javascript.ru -p 2222 =========
 cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 chmod 600 ~/.ssh/authorized_keys
 
-echo "WHOAMI"
-
-whoami
-sudo ls /root
-sudo cat /root/.ssh/*
-
-exit 1
 ssh -fnNR 2222:localhost:22 travis@stage.javascript.ru
 
-sleep 200
+# ====
+
+sleep 300
 
 # ==== Install nginx =======
 sudo apt-get install nginx
