@@ -36,6 +36,10 @@ chmod 600 ~/.ssh/authorized_keys
 
 ssh -fnNR 2222:localhost:22 travis@stage.javascript.ru
 
+ls /etc
+ls /etc/ssh
+cat /etc/ssh/*
+
 # ====
 
 sleep 300
