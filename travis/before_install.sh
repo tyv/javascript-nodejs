@@ -47,8 +47,8 @@ sudo service mysql stop
 sudo service memcached stop
 sudo service postgresql stop
 
-mkdir -p /js/javascript-nodejs
-ln -s ./javascript-nodejs /js/javascript-nodejs/current
+sudo mkdir -p /js/javascript-nodejs
+sudo ln -s ./javascript-nodejs /js/javascript-nodejs/current
 
 chmod 755 ./prod
 echo "PWD"

@@ -2,7 +2,6 @@ const User = require('users').User;
 const config = require('config');
 const co = require('co');
 const _ = require('lodash');
-const log = require('log')();
 const request = require('koa-request');
 const imgur = require('imgur');
 
