@@ -110,9 +110,12 @@ mongoose.plugin(function(schema) {
 });
 
 mongoose.waitConnect = function(callback) {
+  console.log('m1');
   if (mongoose.connection.readyState == 1) {
+    console.log('m2');
     setImmediate(callback);
   } else {
+    console.log('m3');
     // we wait either for an error
     // OR
     // for a successful connection
@@ -121,18 +124,21 @@ mongoose.waitConnect = function(callback) {
   }
 
   function onConnected() {
+    console.log('m4');
     log.debug("Mongoose has just connected");
     cleanUp();
     callback();
   }
 
   function onError(err) {
+    console.log('m5');
     log.debug('Failed to connect to DB', err);
     cleanUp();
     callback(err);
   }
 
   function cleanUp() {
+    console.log('m6');
     mongoose.connection.removeListener("connected", onConnected);
     mongoose.connection.removeListener("error", onError);
   }
