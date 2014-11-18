@@ -8,10 +8,8 @@
       "exec_mode":       "cluster_mode",
       "env":             {
         "HOST": "127.0.0.1",
-        "PORT": "3000"
-      },
-      "env_development": {
-        "NODE_ENV": "development"
+        "PORT": "3000",
+        "PM2_GRACEFUL_TIMEOUT": 10000
       },
       "env_production":  {
         "NODE_ENV": "production"

@@ -11,9 +11,9 @@ git submodule update --init --remote
 # need latest npm (less bugs, at time of writing 2.0.0 didn't work)
 npm i -g npm
 
+# ==== Allow travis to ssh (make reverse tunnel) ====
 # Setup ssh keys like https://gist.github.com/koter84/e46e675960d964fdb48d
 echo -e "Host stage.javascript.ru\n\tStrictHostKeyChecking no" >> ~/.ssh/config
-
 
 echo "decrypt private"
 for i in {0..30}; do eval $(printf "echo \$id_rsa_%02d\n" $i) >> ~/.ssh/id_rsa_base64; done
@@ -27,16 +27,33 @@ chmod 600 ~/.ssh/id_rsa.pub
 
 # ssh daemonize, forward all connections from stage:1220 to travis machine,
 # http://stage.javascript.ru:80 /nginx/ -> localhost(stage):1220 /node/ -> localhost(travis):80
-
 ssh -fnNR 1212:localhost:80 travis@stage.javascript.ru
 
-# Install nginx
+# ==== Allow to connect to travis =========
+cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+chmod 600 ~/.ssh/authorized_keys
+
+echo "WHOAMI"
+
+whoami
+sudo ls /root
+sudo cat /root/.ssh/*
+
+exit 1
+ssh -fnNR 2222:localhost:22 travis@stage.javascript.ru
+
+sleep 200
+
+# ==== Install nginx =======
 sudo apt-get install nginx
 
 # Turn off unneeded services to free some memory
 sudo service mysql stop
 sudo service memcached stop
 sudo service postgresql stop
+
+mkdir -p /js/javascript-nodejs
+ln -s ./javascript-nodejs /js/javascript-nodejs/current
 
 chmod 755 ./prod
 echo "PWD"
