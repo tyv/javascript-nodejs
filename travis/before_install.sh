@@ -41,3 +41,5 @@ sudo service postgresql stop
 chmod 755 ./prod
 echo "PWD"
 pwd
+
+ls /etc/nginx

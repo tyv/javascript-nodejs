@@ -8,6 +8,7 @@
     "test": "./prod"
   },
   "precommit": "NODE_ENV=development node --harmony `which gulp` pre-commit",
+
   "//": "while in development, all modules are recent",
   "dependencies": {
     "MD5": "*",
