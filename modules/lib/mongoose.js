@@ -78,11 +78,14 @@ mongoose.plugin(function(schema) {
             var errorMessage = schemaIndexInfo.errorMessage || ("Index error: " + indexName);
 
             var valError = new ValidationError(err);
+
             var field = indexInfo[0][0]; // if many fields in uniq index - we take the 1st one for error
 
             // example:
             // err = { path="email", message="Email is not unique", type="notunique", value=model.email }
             valError.errors[field] = new ValidatorError(field, errorMessage, 'notunique', model[field]);
+
+            valError.code = err.code; // if (err.code == 11000) in the outer code will still work
 
             return callback(valError);
           });
@@ -110,43 +113,34 @@ mongoose.plugin(function(schema) {
 });
 
 mongoose.waitConnect = function(callback) {
-  console.log('m1');
   if (mongoose.connection.readyState == 1) {
-    console.log('m2');
     setImmediate(callback);
   } else {
-    console.log('m3');
     // we wait either for an error
     // OR
     // for a successful connection
     //console.log("MONGOOSE", mongoose, "CONNECTION", mongoose.connection, "ON", mongoose.connection.on);
     mongoose.connection.on("connected", onConnected);
-    console.log("m31");
     mongoose.connection.on("error", onError);
-    console.log("m32");
   }
 
   function onConnected() {
-    console.log('m4');
     log.debug("Mongoose has just connected");
     cleanUp();
     callback();
   }
 
   function onError(err) {
-    console.log('m5');
     log.debug('Failed to connect to DB', err);
     cleanUp();
     callback(err);
   }
 
   function cleanUp() {
-    console.log('m6');
     mongoose.connection.removeListener("connected", onConnected);
     mongoose.connection.removeListener("error", onError);
   }
 
-  console.log("M7");
 };
 
 module.exports = mongoose;

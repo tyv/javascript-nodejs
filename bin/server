@@ -10,9 +10,8 @@ co(function*() {
 
   console.log("DONE");
 
-})(function(err) {
-  console.log("ERROR", err, err.stack);
-  if (err) throw err;
+}).catch(function(err) {
+  throw err;
 });
 
 process.on('message', function(msg) {
@@ -22,11 +21,10 @@ process.on('message', function(msg) {
 
     co(function*() {
       yield app.close();
-    })(function(err) {
-      if (err) {
-        console.error(err);
-      }
+    }).then(function() {
       process.exit(0);
+    }, function(err) {
+      console.error(err);
     });
 
     // I have 4000ms to close all connections

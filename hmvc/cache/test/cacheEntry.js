@@ -79,13 +79,13 @@ describe('CacheEntry', function() {
       it("Should use the latest (generated) value", function*() {
         var result = yield [
           CacheEntry.getOrGenerate({key: 'test'}, generateLong),
-          function(callback) {
-            setTimeout(function() {
-              co(function*() {
-                yield CacheEntry.set({key: 'test', value: 'set'});
-              })(callback);
-            }, 50);
-          }
+          co(function*() {
+            yield function(callback) {
+              setTimeout(callback, 50);
+            };
+
+            yield* CacheEntry.set({key: 'test', value: 'set'});
+          })
         ];
         result[0].should.be.eql('set');
       });

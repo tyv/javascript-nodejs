@@ -6,6 +6,10 @@ const log = require('log')();
 const request = require('koa-request');
 const imgur = require('imgur');
 
+function UserAuthError(message) {
+  this.message = message;
+}
+
 function* mergeProfile(user, profile) {
   if (!user.photo && profile.photos && profile.photos.length && profile.photos[0].type != 'default') {
     // assign an avatar unless it's default
@@ -73,7 +77,7 @@ module.exports = function(req, profile, done) {
         // if old user is in read-only,
         // I can't just reattach the profile to the new user and keep logging in w/ it
         if (alreadyConnectedUser.readOnly) {
-          return done(null, false, "Вход по этому профилю не разрешён, извините.");
+          throw new UserAuthError("Вход по этому профилю не разрешён, извините.");
         }
 
         // before this social login was used by alreadyConnectedUser
@@ -109,9 +113,9 @@ module.exports = function(req, profile, done) {
       yield* mergeProfile(user, profile);
     } catch (e) {
       if (e.name == 'BadImageError') { // image too big or kind of
-        return done(null, false, e.message);
+        throw new UserAuthError(e.message);
       } else {
-        return done(e);
+        throw e;
       }
     }
 
@@ -122,13 +126,22 @@ module.exports = function(req, profile, done) {
     } catch (e) {
       // there's a required field
       // maybe, when the user was on the remote social login screen, he disallowed something?
-      return done(null, false, "Недостаточно данных, разрешите их передачу, пожалуйста.");
+      throw new UserAuthError("Недостаточно данных, разрешите их передачу, пожалуйста.");
     }
 
     yield user.persist();
 
+
     return user;
 
-  })(done);
+  }).then(function(user) {
+    done(null, user);
+  }, function(err) {
+    if (err instanceof UserAuthError) {
+      done(null, false, {message: err.message});
+    } else {
+      done(err);
+    }
+  })
 
 };

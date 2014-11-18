@@ -14,6 +14,7 @@
     "assert-plus": "*",
     "async": "^0.9.0",
     "bem-jade": "*",
+    "bluebird": "^2.3.11",
     "browser-pack": "*",
     "browserify-jade": "*",
     "bunyan": "*",

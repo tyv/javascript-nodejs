@@ -111,15 +111,11 @@ app.use(function* (next) {
 // for PROD, there is a reason: to check if DB is ok before taking a request
 app.waitBoot = function* () {
 
-  console.log(2);
   if (process.env.NODE_ENV == 'production') {
-    console.log(3);
     yield function(callback) {
-      console.log(4);
       mongoose.waitConnect(callback);
     };
   }
-  console.log(5);
 };
 
 // adding middlewares only possible *before* app.run
@@ -130,7 +126,6 @@ app.waitBoot = function* () {
 // it's ok for tests, db requests are buffered, no need to waitBoot
 
 app.waitBootAndListen = function*() {
-  console.log(1);
   yield* app.waitBoot();
 
   yield function(callback) {

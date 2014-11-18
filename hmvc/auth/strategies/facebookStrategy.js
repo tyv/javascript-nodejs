@@ -34,6 +34,10 @@ const co = require('co');
 
 */
 
+function UserAuthError(message) {
+  this.message = message;
+}
+
 module.exports = new FacebookStrategy({
     clientID:          config.authProviders.facebook.appId,
     clientSecret:      config.authProviders.facebook.appSecret,
@@ -54,18 +58,18 @@ module.exports = new FacebookStrategy({
     // refreshToken:
     // undefined
 
-    var permissionError = null;
-    // I guess, facebook won't allow to use an email w/o verification, but still...
-    if (!profile._json.verified) {
-      permissionError = "Почта на facebook должна быть подтверждена";
-    }
-
-    if (!profile.emails || !profile.emails[0]) { // user may allow authentication, but disable email access (e.g in fb)
-      permissionError = "При входе разрешите доступ к email. Он используется для идентификации пользователя.";
-    }
-
 
     co(function*() {
+
+      var permissionError = null;
+      // I guess, facebook won't allow to use an email w/o verification, but still...
+      if (!profile._json.verified) {
+        permissionError = "Почта на facebook должна быть подтверждена";
+      }
+
+      if (!profile.emails || !profile.emails[0]) { // user may allow authentication, but disable email access (e.g in fb)
+        permissionError = "При входе разрешите доступ к email. Он используется для идентификации пользователя.";
+      }
 
       if (permissionError) {
         // revoke facebook auth, so that next time facebook will ask it again (otherwise it won't)
@@ -79,7 +83,7 @@ module.exports = new FacebookStrategy({
           throw new Error("Facebook auth delete call after successful auth must return true");
         }
 
-        return permissionError;
+        throw new UserAuthError(permissionError);
       }
 
       var response = yield request.get({
@@ -88,7 +92,7 @@ module.exports = new FacebookStrategy({
       });
 
       if (response.statusCode != 200) {
-        return "Ошибка в запросе к Facebook";
+        throw new UserAuthError("Ошибка в запросе к Facebook");
       }
 
       var photoData = response.body.data;
@@ -98,10 +102,14 @@ module.exports = new FacebookStrategy({
         type: photoData.is_silhouette ? 'default' : 'photo'
       }];
 
-    })(function(err, authErr) {
-      if (err) return done(err);
-      if (authErr) return done(null, false, {message: authErr});
+    }).then(function() {
       authenticateByProfile(req, profile, done);
+    }, function(err) {
+      if (err instanceof UserAuthError) {
+        done(null, false, {message: err.message});
+      } else {
+        done(err);
+      }
     });
 
 //    http://graph.facebook.com/v2.1/765813916814019/picture?redirect=0&width=1000&height=1000
