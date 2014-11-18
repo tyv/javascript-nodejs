@@ -119,9 +119,11 @@ mongoose.waitConnect = function(callback) {
     // we wait either for an error
     // OR
     // for a successful connection
-    console.log("MONGOOSE", mongoose, "CONNECTION", mongoose.connection, "ON", mongoose.connection.on);
+    //console.log("MONGOOSE", mongoose, "CONNECTION", mongoose.connection, "ON", mongoose.connection.on);
     mongoose.connection.on("connected", onConnected);
+    console.log("m31");
     mongoose.connection.on("error", onError);
+    console.log("m32");
   }
 
   function onConnected() {
@@ -143,6 +145,8 @@ mongoose.waitConnect = function(callback) {
     mongoose.connection.removeListener("connected", onConnected);
     mongoose.connection.removeListener("error", onError);
   }
+
+  console.log("M7");
 };
 
 module.exports = mongoose;
