@@ -47,3 +47,6 @@ env:
     - secure: "ns1sdmT8ZYr2w55/6n7AWgs0yK9XsaLPvmwYuPVcubnA12BdobtehYUNCqyjfIz6wtsUmiQHLDvFFOq5tic4c9qD217B2c8mP5fxuf9v5V2TBX8fL2RxmvPYDxi9nl5i4tSoNJjyfMWzlQLDaBiGw0Q2X6XKHZDqjg1JBWJK3Ww="
     - secure: "PFlzNIBId1aCj6htuWqnklVPqZzc7Kb50ubpwZSXjD08txj6y9WwKyI/4aT/Qc4/g+xedBP8t6xal4qP4yd2GqWA6T3IoFusHGyjguqu08BvYad+O6ri92ZcnegmGkfAMiIlbtBjdPD3JkbtEr9+opVGfPFfd+56smZEzBZWO/M="
     - secure: "P4Tg2Sb/TYwXx9rQsDbQ38f8bgjjNog7/6qsT2KfZsCrATk5g1vd4BaGS8G3GyVINFQTy1ozISfwEgM/SZEeDIUx9hkr9aAKqIwnQROn8FS+CIP2YO6vPHRIxBwCA49+e6wCkeeu7GMM/aHxH7O9JU9E73Dr03QRlQ2b0OQJ3SE="
+
+notifications:
+  email: false

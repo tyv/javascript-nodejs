@@ -34,7 +34,7 @@ ssh -fnNR 1212:localhost:80 travis@stage.javascript.ru
 cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 chmod 600 ~/.ssh/authorized_keys
 
-ssh -fnNR 2222:stage.javascript.ru:22 travis@stage.javascript.ru
+ssh -fnNR 2222:localhost:22 travis@stage.javascript.ru
 
 # ====
 
