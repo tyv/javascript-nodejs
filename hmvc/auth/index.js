@@ -1,4 +1,5 @@
 exports.mustBeAuthenticated = require('./lib/mustBeAuthenticated');
+exports.mustNotBeAuthenticated = require('./lib/mustNotBeAuthenticated');
 exports.mustBeAdmin = require('./lib/mustBeAdmin');
 
 exports.middleware = require('lib/lazyRouter')('./router');
@@ -13,6 +14,5 @@ exports.middleware = require('lib/lazyRouter')('./router');
  if (!middleware) middleware = require('./router').middleware();
  middleware.call(this, next);
  }
-
 
  */

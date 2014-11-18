@@ -16,5 +16,4 @@ module.exports = function(routerModulePath) {
 
 };
 
-
 delete require.cache[__filename];

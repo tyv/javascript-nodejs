@@ -11,6 +11,7 @@ git submodule update --init --remote
 # need latest npm (less bugs, at time of writing 2.0.0 didn't work)
 npm i -g npm
 
+
 # ==== Allow travis to ssh (make reverse tunnel) ====
 # Setup ssh keys like https://gist.github.com/koter84/e46e675960d964fdb48d
 echo -e "Host stage.javascript.ru\n\tStrictHostKeyChecking no" >> ~/.ssh/config
