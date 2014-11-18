@@ -119,6 +119,7 @@ mongoose.waitConnect = function(callback) {
     // we wait either for an error
     // OR
     // for a successful connection
+    console.log(mongoose.connection, mongoose.connection.on);
     mongoose.connection.on("connected", onConnected);
     mongoose.connection.on("error", onError);
   }
