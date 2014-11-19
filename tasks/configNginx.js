@@ -26,8 +26,13 @@ module.exports = function() {
 
     return gulp.src(path.join(projectRoot, 'nginx', '**'))
       .pipe(through.obj(function (file, enc, cb) {
+        if (file.isNull()) {
+          this.push(file);
+          return cb();
+        }
+
         try {
-          file.contents = ejs.render(file.contents.toString(), locals);
+          file.contents = new Buffer(ejs.render(file.contents.toString(), locals));
         } catch (err) {
           this.emit('error', new gp.util.PluginError('configNginx', err));
         }
