@@ -2,6 +2,7 @@
 
 # echo -e 'travis_fold:start:Log'
 
+export NODE_ENV=test
 
 # default travis /etc/sudoers does env_reset and secure_path
 # it leads to "sudo gulp" => command not found (wrong path)
@@ -57,13 +58,17 @@ npm install
 # ==== Install latest nginx =======
 sudo apt-get install python-software-properties software-properties-common
 sudo add-apt-repository -y ppa:nginx/stable
+sudo apt-get update
 sudo apt-get install nginx
 
 # deploy nginx config
 sudo rm -rf /etc/nginx/*
 sudo gulp --harmony config:nginx --env test --prefix /etc/nginx
 
-sleep 1200
-
 sudo /etc/init.d/nginx restart
 
+cd /js/javascript-nodejs/current
+
+gulp --harmony build
+
+sleep 1200
