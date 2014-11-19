@@ -8,7 +8,7 @@ co(function*() {
 
   yield* app.waitBootAndListen();
 
-  console.log("DONE");
+  console.log("app is listening");
 
 }).catch(function(err) {
   throw err;
@@ -19,8 +19,6 @@ process.on('message', function(msg) {
     shutdown();
   }
 });
-
-setTimeout(shutdown, 5000);
 
 function shutdown() {
   // The process is going to be reloaded
