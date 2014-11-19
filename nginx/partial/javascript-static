@@ -1,11 +1,4 @@
 index index.html;
-    
-# nginx open file cache descriptors
-open_file_cache max=20000 inactive=2000s; 
-open_file_cache_min_uses 1; # if 1 request in 2000 secs then the descriptior remains cached
-
-open_file_cache_valid 0s; # refresh after 45 secs
-open_file_cache_errors on; # speedup failed try_files
 
 # If no favicon exists return a 204 (no content error).
 location = /favicon.ico {
@@ -38,7 +31,7 @@ location ~ /\. { # above all
 # strip .v12345 from all files and restart match
 location ~ \.v.*?\. {
   rewrite ^(.*?)(\.v.*?)(\..+)$ $1$3 last;
-} 
+}
 
 location ~* ^(.+)@2x.(jpg|jpeg|gif|png)$ {
   try_files    $uri $1.$2 =404;

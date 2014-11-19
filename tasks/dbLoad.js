@@ -7,7 +7,7 @@ var mongoose = require('lib/mongoose');
 var projectRoot = require('config').projectRoot;
 
 module.exports = function() {
-  return function(callback) {
+  return function() {
 
     var args = require('yargs')
       .usage("Path to DB fixture file is required.")
@@ -18,12 +18,12 @@ module.exports = function() {
 
     gutil.log("loading db " + dbPath);
 
-    co(function*() {
+    return co(function*() {
 
       yield* dataUtil.loadDb(dbPath);
 
       gutil.log("loaded db " + dbPath);
-    })(callback);
+    });
 
   };
 };

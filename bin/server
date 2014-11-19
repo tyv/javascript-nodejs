@@ -8,8 +8,10 @@ co(function*() {
 
   yield* app.waitBootAndListen();
 
-})(function(err) {
-  if (err) throw err;
+  console.log("DONE");
+
+}).catch(function(err) {
+  throw err;
 });
 
 process.on('message', function(msg) {
@@ -19,17 +21,17 @@ process.on('message', function(msg) {
 
     co(function*() {
       yield app.close();
-    })(function(err) {
-      if (err) {
-        console.error(err);
-      }
+    }).then(function() {
       process.exit(0);
+    }, function(err) {
+      console.error(err);
     });
 
+    var dieDelay = process.env.PM2_GRACEFUL_TIMEOUT || 4000;
     // I have 4000ms to close all connections
     setTimeout(function() {
       console.error("App stopping is taking too long!");
-    }, 3500);
+    }, dieDelay - 100);
 
   }
 });

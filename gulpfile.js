@@ -76,6 +76,12 @@ gulp.task("test", lazyRequireTask('./tasks/test', {
   timeout: 30000
 }));
 
+gulp.task("test:one", lazyRequireTask('./tasks/test', {
+  glob: 'modules/simpledownParser/test/**/*.js',
+  reporter: 'spec',
+  timeout: 30000
+}));
+
 gulp.task('watch', lazyRequireTask('./tasks/watch', {
   root:        __dirname,
   taskMapping: [
@@ -141,6 +147,8 @@ gulp.task('tutorial:import', ['cache:clean'], lazyRequireTask('tutorial/tasks/im
 gulp.task('cache:clean', lazyRequireTask('./tasks/cacheClean'));
 
 gulp.task('check:spider', lazyRequireTask('./tasks/checkSpider'));
+
+gulp.task('config:nginx', lazyRequireTask('./tasks/configNginx'));
 
 // when queue finished successfully or aborted, close db
 // orchestrator events (sic!)

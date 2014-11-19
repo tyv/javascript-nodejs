@@ -8,6 +8,7 @@ var forgot = require('./controller/forgot');
 var forgotRecover = require('./controller/forgotRecover');
 var logout = require('./controller/logout');
 var mustBeAuthenticated = require('./lib/mustBeAuthenticated');
+var mustNotBeAuthenticated = require('./lib/mustNotBeAuthenticated');
 var passport = require('koa-passport');
 
 require('./strategies');
@@ -36,11 +37,11 @@ if (process.env.NODE_ENV == 'development') {
   router.get('/out', require('./out').get); // GET logout for DEV
 }
 
-router.post('/register', register.post);
-router.post('/forgot', forgot.post);
+router.post('/register', mustNotBeAuthenticated, register.post);
+router.post('/forgot', mustNotBeAuthenticated, forgot.post);
 
 router.get('/verify/:verifyEmailToken', verify.get);
-router.get('/forgot-recover/:passwordResetToken', forgotRecover.get);
+router.get('/forgot-recover/:passwordResetToken', mustNotBeAuthenticated, forgotRecover.get);
 router.post('/forgot-recover', forgotRecover.post);
 
 router.post('/reverify', reverify.post);
@@ -90,6 +91,7 @@ router.post('/disconnect/:providerName', mustBeAuthenticated, disconnect.post);
 router.get('/popup-success', function*() {
   this.body = this.render('popup-success');
 });
+
 router.get('/popup-failure', function*() {
   var reason = this.session.messages ? this.session.messages[0] : '';
   delete this.session.messages;

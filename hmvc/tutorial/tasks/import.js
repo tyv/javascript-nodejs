@@ -5,14 +5,14 @@ var path = require('path');
 
 module.exports = function(options) {
 
-  return function(callback) {
+  return function() {
     var root = fs.realpathSync(options.root);
 
     var importer = new Importer({
       root: root
     });
 
-    co(function* () {
+    return co(function* () {
 
       yield* importer.destroyAll();
 
@@ -26,7 +26,7 @@ module.exports = function(options) {
 
       console.log("DONE");
 
-    })(callback);
+    });
   };
 };
 

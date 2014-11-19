@@ -5,7 +5,7 @@
   "scripts": {
     "prod": "NODE_ENV=production node --harmony ./bin/server",
     "fixperms": "sudo chown -R `id -u` . * ~/.n*",
-    "test": "NODE_ENV=test gulp --harmony test"
+    "test": "./prod"
   },
   "precommit": "NODE_ENV=development node --harmony `which gulp` pre-commit",
   "//": "while in development, all modules are recent",
@@ -14,6 +14,7 @@
     "assert-plus": "*",
     "async": "^0.9.0",
     "bem-jade": "*",
+    "bluebird": "^2.3.11",
     "browser-pack": "*",
     "browserify-jade": "*",
     "bunyan": "*",
@@ -117,9 +118,11 @@
     "casperjs-spider": "git://github.com/iliakan/casperjs-spider",
     "clarify": "*",
     "co-mocha": "*",
+    "ejs": "^1.0.0",
     "gulp": "*",
     "gulp-autoprefixer": "*",
     "gulp-buster": "git://github.com/iliakan/gulp-buster",
+    "gulp-ejs": "^1.0.0",
     "gulp-flatten": "*",
     "gulp-jshint": "*",
     "gulp-livereload": "*",

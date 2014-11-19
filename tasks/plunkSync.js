@@ -16,9 +16,7 @@ module.exports = function(options) {
       .pipe(through2.obj(function(file, enc, callback) {
         var plunkDir = path.dirname(file.path);
 
-        co(plunkSync(plunkDir))(function(err) {
-          callback(err);
-        });
+        co(plunkSync(plunkDir)).nodeify(callback);
 
       }));
 
