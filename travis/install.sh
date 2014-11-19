@@ -52,9 +52,10 @@ npm install
 node -v
 
 # deploy nginx config
-#sudo gulp --harmony config:nginx --env test --prefix /etc/nginx
+sudo rm -rf /etc/nginx/*
+sudo gulp --harmony config:nginx --env test --prefix /etc/nginx
 
-sleep 300
+sleep 600
 
 /etc/init.d/nginx restart
 
