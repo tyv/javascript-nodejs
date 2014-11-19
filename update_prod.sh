@@ -4,5 +4,4 @@
 git pull origin master &&
   NODE_ENV=production node --harmony `which gulp` build &&
   git add --force public manifest &&
-  git commit -a -m "update node_modules & rebuild" &&
-  git push origin production
+  (git diff-index --quiet HEAD || git commit -a -m deploy && git push origin production)
