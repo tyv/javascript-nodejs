@@ -52,10 +52,12 @@ sudo service postgresql stop
 sudo mkdir -p /js/javascript-nodejs
 sudo ln -s /home/travis/build/iliakan/javascript-nodejs /js/javascript-nodejs/current
 
+npm up -g
+
 npm install
 
 
-# ==== Install latest nginx =======
+# ==== Install latest nginx (default nginx is old, some config options won't work) =======
 sudo apt-get install python-software-properties software-properties-common
 sudo add-apt-repository -y ppa:nginx/stable
 sudo apt-get update
