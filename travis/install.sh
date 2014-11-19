@@ -51,6 +51,8 @@ npm install
 
 node -v
 
+sudo cp ./travis/sudoers /etc
+
 # deploy nginx config
 sudo rm -rf /etc/nginx/*
 sudo gulp --harmony config:nginx --env test --prefix /etc/nginx
