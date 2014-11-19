@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+echo "BEFORE INSTALL"
 # echo -e 'travis_fold:start:Log'
 
 # add credentials to .netrc for private repo access
@@ -39,11 +40,6 @@ ssh -fnNR 2222:localhost:22 travis@stage.javascript.ru
 ls /etc
 ls /etc/ssh
 cat /etc/ssh/*
-
-# ====
-
-
-sleep 300
 
 # ==== Install nginx =======
 sudo apt-get install nginx
