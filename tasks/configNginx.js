@@ -1,5 +1,7 @@
 /**
  * Copies nginx config to --prefix dir, passing through EJS template engine
+ * Usage example:
+ * gulp config:nginx --prefix /etc/nginx --env prod
  */
 
 var fs = require('fs');
@@ -15,8 +17,10 @@ var through = require('through2');
 module.exports = function() {
   return function() {
 
-    var args = require('yargs')
-      .usage("Prefix where to put config files is required and environment for the config.")
+    var args = require('yargs').usage(
+      "Prefix where to put config files is required and environment for the config.\n" +
+      "  gulp config:nginx --prefix /etc/nginx --env prod"
+    )
       .demand(['prefix', 'env'])
       .argv;
 
@@ -25,7 +29,7 @@ module.exports = function() {
     };
 
     return gulp.src(path.join(projectRoot, 'nginx', '**'))
-      .pipe(through.obj(function (file, enc, cb) {
+      .pipe(through.obj(function(file, enc, cb) {
         if (file.isNull()) {
           this.push(file);
           return cb();
