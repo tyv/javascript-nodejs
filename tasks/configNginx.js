@@ -5,6 +5,7 @@
 var fs = require('fs');
 var co = require('co');
 var path = require('path');
+var gulp = require('gulp');
 var gp = require('gulp-load-plugins')();
 var mongoose = require('lib/mongoose');
 var projectRoot = require('config').projectRoot;
@@ -17,7 +18,7 @@ module.exports = function() {
       .demand(['prefix', 'env'])
       .argv;
 
-    return gulp.src(path.join(projectRoot, 'nginx'))
+    return gulp.src(path.join(projectRoot, 'nginx', '**'))
       .pipe(gp.ejs({
         env: args.env
       }))
