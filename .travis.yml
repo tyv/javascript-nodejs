@@ -6,8 +6,8 @@ git:
   submodules: false
   depth: 50
 
-before_install:
-  - bash ./travis/before_install.sh
+install:
+  - bash ./travis/install.sh
 
 services:
   - mongodb
