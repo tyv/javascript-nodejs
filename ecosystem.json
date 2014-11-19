@@ -23,8 +23,8 @@
       "ref":         "origin/production",
       "repo":        "https://github.com/iliakan/javascript-nodejs",
       "path":        "/js/javascript-nodejs",
-      "pre-deploy":  "cd /root/javascript-nodejs; bash ./update_prod.sh",
-      "post-deploy": "/root/.nvm/v0.11.14/bin/pm2 startOrGracefulReload ecosystem.json --env production && ./gulp cache:clean config:nginx"
+      "pre-deploy":  "cd /root/javascript-nodejs; ./pm2/pre_deploy.sh",
+      "post-deploy": "./pm2/post_deploy.sh"
     }
   }
 }
