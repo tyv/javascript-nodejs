@@ -9,7 +9,7 @@
       "env":             {
         "HOST": "127.0.0.1",
         "PORT": "3000",
-        "PM2_GRACEFUL_TIMEOUT": 10000
+        "PM2_GRACEFUL_TIMEOUT": 1000
       },
       "env_production":  {
         "NODE_ENV": "production"
