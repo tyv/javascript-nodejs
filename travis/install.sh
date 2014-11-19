@@ -45,14 +45,14 @@ sudo service postgresql stop
 
 # deploy
 sudo mkdir -p /js/javascript-nodejs
-sudo ln -s ./javascript-nodejs /js/javascript-nodejs/current
+sudo ln -s /home/travis/build/iliakan/javascript-nodejs /js/javascript-nodejs/current
 
 npm install
 
 node -v
 
 # deploy nginx config
-#sudo ./gulp config:nginx --env test --prefix /etc/nginx
+#sudo gulp --harmony config:nginx --env test --prefix /etc/nginx
 
 sleep 300
 
