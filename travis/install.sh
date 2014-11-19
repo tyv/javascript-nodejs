@@ -51,6 +51,9 @@ npm install
 
 node -v
 
+# default travis /etc/sudoers does env_reset and secure_path
+# it leads to "sudo gulp" => command not found (wrong path)
+# so I use my own sudoers
 sudo cp ./travis/sudoers /etc
 
 # deploy nginx config
