@@ -7,8 +7,7 @@ git:
   depth: 50
 
 before_install:
-  - chmod +x travis/*.sh
-  - ./travis/before_install.sh
+  - bash ./travis/before_install.sh
 
 services:
   - mongodb
