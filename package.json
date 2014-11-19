@@ -122,7 +122,6 @@
     "gulp": "*",
     "gulp-autoprefixer": "*",
     "gulp-buster": "git://github.com/iliakan/gulp-buster",
-    "gulp-ejs": "^1.0.0",
     "gulp-flatten": "*",
     "gulp-jshint": "*",
     "gulp-livereload": "*",
