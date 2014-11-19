@@ -8,7 +8,6 @@
     "test": "./prod"
   },
   "precommit": "NODE_ENV=development node --harmony `which gulp` pre-commit",
-
   "//": "while in development, all modules are recent",
   "dependencies": {
     "MD5": "*",
@@ -119,9 +118,11 @@
     "casperjs-spider": "git://github.com/iliakan/casperjs-spider",
     "clarify": "*",
     "co-mocha": "*",
+    "ejs": "^1.0.0",
     "gulp": "*",
     "gulp-autoprefixer": "*",
     "gulp-buster": "git://github.com/iliakan/gulp-buster",
+    "gulp-ejs": "^1.0.0",
     "gulp-flatten": "*",
     "gulp-jshint": "*",
     "gulp-livereload": "*",

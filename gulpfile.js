@@ -148,6 +148,8 @@ gulp.task('cache:clean', lazyRequireTask('./tasks/cacheClean'));
 
 gulp.task('check:spider', lazyRequireTask('./tasks/checkSpider'));
 
+gulp.task('config:nginx', lazyRequireTask('./tasks/configNginx'));
+
 // when queue finished successfully or aborted, close db
 // orchestrator events (sic!)
 gulp.on('stop', function() {
