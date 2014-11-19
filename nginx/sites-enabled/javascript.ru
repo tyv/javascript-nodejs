@@ -14,7 +14,7 @@ server {
 
 <% if (env != 'test') { %>
   auth_basic "Administrator Login";
-  auth_basic_user_file /etc/nginx/passwd;
+  auth_basic_user_file /etc/nginx.passwd;
 <% } %>
 
   include "partial/javascript-static";
