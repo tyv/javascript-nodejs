@@ -6,16 +6,10 @@
 # travis env set CI_USER_TOKEN [github API token] --private -r iliakan/javascript-nodejs
 echo -e "machine github.com\nlogin $CI_USER_TOKEN\nmachine api.github.com\nlogin $CI_USER_TOKEN" >> ~/.netrc
 
-echo "B0"
-
 git submodule update --init --remote
-
-echo "B1"
 
 # need latest npm (less bugs, at time of writing 2.0.0 didn't work)
 npm i -g npm
-
-echo "B2"
 
 # ==== Allow travis to ssh (make reverse tunnel) ====
 # Setup ssh keys like https://gist.github.com/koter84/e46e675960d964fdb48d
