@@ -1,21 +1,27 @@
 #!/usr/bin/env bash
 
-echo "BEFORE INSTALL"
 # echo -e 'travis_fold:start:Log'
 
 # add credentials to .netrc for private repo access
 # travis env set CI_USER_TOKEN [github API token] --private -r iliakan/javascript-nodejs
 echo -e "machine github.com\nlogin $CI_USER_TOKEN\nmachine api.github.com\nlogin $CI_USER_TOKEN" >> ~/.netrc
 
+echo "B0"
+
 git submodule update --init --remote
+
+echo "B1"
 
 # need latest npm (less bugs, at time of writing 2.0.0 didn't work)
 npm i -g npm
 
+echo "B2"
 
 # ==== Allow travis to ssh (make reverse tunnel) ====
 # Setup ssh keys like https://gist.github.com/koter84/e46e675960d964fdb48d
 echo -e "Host stage.javascript.ru\n\tStrictHostKeyChecking no" >> ~/.ssh/config
+
+echo "B3"
 
 echo "decrypt private"
 for i in {0..30}; do eval $(printf "echo \$id_rsa_%02d\n" $i) >> ~/.ssh/id_rsa_base64; done
