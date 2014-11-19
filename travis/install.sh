@@ -47,11 +47,13 @@ sudo service mysql stop
 sudo service memcached stop
 sudo service postgresql stop
 
+# deploy
 sudo mkdir -p /js/javascript-nodejs
 sudo ln -s ./javascript-nodejs /js/javascript-nodejs/current
 
-chmod 755 ./prod
-
 npm install
 
-./gulp config:nginx --env test --prefix /etc/nginx
+# deploy nginx config
+sudo ./gulp config:nginx --env test --prefix /etc/nginx
+/etc/init.d/nginx restart
+
