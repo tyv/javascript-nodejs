@@ -49,9 +49,10 @@ sudo ln -s ./javascript-nodejs /js/javascript-nodejs/current
 
 npm install
 
+node -v
 
 # deploy nginx config
-sudo ./gulp config:nginx --env test --prefix /etc/nginx
+#sudo ./gulp config:nginx --env test --prefix /etc/nginx
 
 sleep 300
 
