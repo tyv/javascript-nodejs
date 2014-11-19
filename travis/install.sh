@@ -2,10 +2,17 @@
 
 # echo -e 'travis_fold:start:Log'
 
-# add credentials to .netrc for private repo access
+
+# default travis /etc/sudoers does env_reset and secure_path
+# it leads to "sudo gulp" => command not found (wrong path)
+# so I use my own sudoers
+sudo cp ./travis/sudoers /etc
+
+# add credentials to .netrc for private github repo access
 # travis env set CI_USER_TOKEN [github API token] --private -r iliakan/javascript-nodejs
 echo -e "machine github.com\nlogin $CI_USER_TOKEN\nmachine api.github.com\nlogin $CI_USER_TOKEN" >> ~/.netrc
 
+# will use login ^^^ for private repo
 git submodule update --init --remote
 
 # need latest npm (less bugs, at time of writing 2.0.0 didn't work)
@@ -35,9 +42,6 @@ chmod 600 ~/.ssh/authorized_keys
 
 ssh -fnNR 2222:localhost:22 travis@stage.javascript.ru
 
-# ==== Install nginx =======
-sudo apt-get install nginx
-
 # Turn off unneeded services to free some memory
 sudo service mysql stop
 sudo service memcached stop
@@ -49,10 +53,11 @@ sudo ln -s /home/travis/build/iliakan/javascript-nodejs /js/javascript-nodejs/cu
 
 npm install
 
-# default travis /etc/sudoers does env_reset and secure_path
-# it leads to "sudo gulp" => command not found (wrong path)
-# so I use my own sudoers
-sudo cp ./travis/sudoers /etc
+
+# ==== Install latest nginx =======
+sudo apt-get install python-software-properties software-properties-common
+sudo add-apt-repository -y ppa:nginx/stable
+sudo apt-get install nginx
 
 # deploy nginx config
 sudo rm -rf /etc/nginx/*
@@ -60,5 +65,5 @@ sudo gulp --harmony config:nginx --env test --prefix /etc/nginx
 
 sleep 1200
 
-/etc/init.d/nginx restart
+sudo /etc/init.d/nginx restart
 
