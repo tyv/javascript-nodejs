@@ -2,7 +2,7 @@
 server {
   listen 80;
 
-  server_name stage.javascript.ru nightly.javascript.ru;
+  server_name nightly.javascript.ru;
 
   access_log  /var/log/nginx/js.local.log main;
 
@@ -12,10 +12,8 @@ server {
   charset utf-8;
   root         /js/javascript-nodejs/current/public;
 
-<% if (env != 'test') { %>
   auth_basic "Administrator Login";
   auth_basic_user_file /etc/nginx.passwd;
-<% } %>
 
   include "partial/javascript-static";
 
