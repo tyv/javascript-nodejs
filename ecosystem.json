@@ -4,7 +4,7 @@
       "name":            "Javascript.ru",
       "script":          "bin/server",
       "node_args":       "--harmony",
-      "instances":       "max",
+      "instances":       "2",
       "exec_mode":       "cluster_mode",
       "env":             {
         "HOST": "127.0.0.1",

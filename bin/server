@@ -20,7 +20,9 @@ process.on('message', function(msg) {
     // Have to close all database/socket.io/* connections
 
     co(function*() {
-      yield app.close();
+      console.log("closing the app...");
+      yield* app.close();
+      console.log("done");
     }).then(function() {
       process.exit(0);
     }, function(err) {
