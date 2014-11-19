@@ -50,3 +50,8 @@ env:
 
 notifications:
   email: false
+
+# blacklist
+branches:
+  except:
+    - production
