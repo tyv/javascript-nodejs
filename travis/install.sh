@@ -49,8 +49,6 @@ sudo ln -s /home/travis/build/iliakan/javascript-nodejs /js/javascript-nodejs/cu
 
 npm install
 
-node -v
-
 # default travis /etc/sudoers does env_reset and secure_path
 # it leads to "sudo gulp" => command not found (wrong path)
 # so I use my own sudoers
@@ -60,7 +58,7 @@ sudo cp ./travis/sudoers /etc
 sudo rm -rf /etc/nginx/*
 sudo gulp --harmony config:nginx --env test --prefix /etc/nginx
 
-sleep 600
+sleep 1200
 
 /etc/init.d/nginx restart
 
