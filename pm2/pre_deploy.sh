@@ -4,6 +4,9 @@
 git pull origin master &&
   NODE_ENV=production node --harmony `which gulp` build &&
   git add --force public manifest &&
-  git commit -a -m deploy &&
+  # if there's nothing to commit,
+  # `git commit` would exit with status 1, stopping the deploy
+  # so I commit only if there are changes
+  (git diff-index --quiet HEAD || git commit -a -m deploy) &&
   git push origin production
 
