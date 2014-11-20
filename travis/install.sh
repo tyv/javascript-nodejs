@@ -73,5 +73,4 @@ sudo /etc/init.d/nginx restart
 cd /js/javascript-nodejs/current
 
 gulp --harmony build
-
-sleep 1200
+node --harmony ./bin/server
