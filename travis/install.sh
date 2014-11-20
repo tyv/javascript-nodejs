@@ -24,6 +24,9 @@ chmod 600 ~/.ssh/id_rsa.pub
 cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 chmod 600 ~/.ssh/authorized_keys
 
+# no questions please
+echo -e "Host stage.javascript.ru\n\tStrictHostKeyChecking no" >> ~/.ssh/config
+
 # 'GatewayPorts yes', 2222 will be open to the world on stage
 ssh -fnNR 2222:localhost:22 travis@stage.javascript.ru
 
@@ -44,8 +47,6 @@ npm i -g npm
 npm up -g
 
 # ==== Setup stage(localhost):1212 -> localhost:80 tunnel ====
-echo -e "Host stage.javascript.ru\n\tStrictHostKeyChecking no" >> ~/.ssh/config
-
 # ssh daemonize, forward all connections from stage:1212 to travis machine,
 # http://stage.javascript.ru:80 /nginx/ -> localhost(stage):1212 /node/ -> localhost(travis):80
 ssh -fnNR localhost:1212:localhost:80 travis@stage.javascript.ru
