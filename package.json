@@ -130,12 +130,6 @@
     "gulp-sourcemaps": "*",
     "gulp-streamify": "*",
     "gulp-uglify": "*",
-    "highland": "^2.0.0",
-    "karma": "^0.12.24",
-    "karma-chrome-launcher": "^0.1.5",
-    "karma-firefox-launcher": "^0.1.3",
-    "karma-mocha": "^0.1.9",
-    "karma-phantomjs-launcher": "^0.1.4",
     "lazypipe": "*",
     "mocha": "*",
     "node-notifier": "*",
@@ -148,9 +142,7 @@
     "superagent": "*",
     "supertest": "*",
     "time-require": "^0.1.2",
-    "trace": "*",
-    "watchify": "*",
-    "yargs": "^1.3.3"
+    "trace": "*"
   },
   "optionalDependencies": {
     "fsevents": "*"

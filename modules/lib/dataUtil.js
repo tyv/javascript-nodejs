@@ -85,8 +85,10 @@ function *createEmptyDb() {
 
 // not using pow-mongoose-fixtures, becuae it fails with capped collections
 // it calls remove() on them => everything dies
-function *loadDb(data) {
-  yield* createEmptyDb();
+function *loadModels(data, clear) {
+  if (clear) {
+    yield* createEmptyDb();
+  }
   var modelsData = (typeof data == 'string') ? require(data) : data;
 
   yield Object.keys(modelsData).map(function(modelName) {
@@ -108,12 +110,12 @@ function *loadModel(name, data) {
   log.debug("loadModel is done");
 }
 
-exports.loadDb = loadDb;
+exports.loadModels = loadModels;
 exports.createEmptyDb = createEmptyDb;
 
 /*
  Usage:
- co(loadDb('sampleDb'))(function(err) {
+ co(loadModels('sampleDb'))(function(err) {
  if (err) throw err;
  mongoose.connection.close();
  });*/
