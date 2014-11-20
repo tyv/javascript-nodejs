@@ -14,7 +14,7 @@ sudo cp ./travis/sudoers /etc
 echo -e "machine github.com\nlogin $CI_USER_TOKEN\nmachine api.github.com\nlogin $CI_USER_TOKEN" >> ~/.netrc
 
 # will use login ^^^ for private repo
-git submodule update --init --remote
+git clone --depth=50 git://github.com/iliakan/javascript-tutorial.git
 
 # need latest npm (less bugs, at time of writing 2.0.0 didn't work)
 npm i -g npm
