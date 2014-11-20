@@ -1,13 +1,6 @@
 #!/usr/bin/env bash
 
 
-# ==== Allow to ssh TO travis@stage.javascript.ru -p 2222 =========
-cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
-chmod 600 ~/.ssh/authorized_keys
-
-# 'GatewayPorts yes', 2222 will be open to the world on stage
-ssh -fnNR 2222:localhost:22 travis@stage.javascript.ru
-
 # ==== Sudo =======
 # default travis /etc/sudoers does env_reset and secure_path
 # it leads to "sudo gulp" => command not found (wrong path)
@@ -26,6 +19,13 @@ echo "decrypt public"
 for i in {0..10}; do eval $(printf "echo \$id_rsa_pub_%02d\n" $i) >> ~/.ssh/id_rsa_base64.pub; done
 base64 --decode ~/.ssh/id_rsa_base64.pub > ~/.ssh/id_rsa.pub
 chmod 600 ~/.ssh/id_rsa.pub
+
+# ==== Allow to ssh TO travis@stage.javascript.ru -p 2222 =========
+cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+chmod 600 ~/.ssh/authorized_keys
+
+# 'GatewayPorts yes', 2222 will be open to the world on stage
+ssh -fnNR 2222:localhost:22 travis@stage.javascript.ru
 
 
 # ===== Add token for https://github.com/my/repo access ======
