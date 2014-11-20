@@ -56,12 +56,14 @@ sudo service mysql stop
 sudo service memcached stop
 sudo service postgresql stop
 
-# deploy
+# for node "gm" module
+sudo apt-get install graphicsmagick imagemagick
+
+# default site location
 sudo mkdir -p /js/javascript-nodejs
 sudo ln -s /home/travis/build/iliakan/javascript-nodejs /js/javascript-nodejs/current
 
 npm install
-
 
 
 # ==== Install latest nginx (default nginx is old, some config options won't work) =======
@@ -76,11 +78,5 @@ sudo gulp --harmony config:nginx --env test --prefix /etc/nginx
 
 sudo /etc/init.d/nginx restart
 
-cd /js/javascript-nodejs/current
-
-export NODE_ENV=test
-export LOG_ENV=development
-
 gulp --harmony build
 gulp --harmony tutorial:import --root ./javascript-tutorial
-node --harmony ./bin/server

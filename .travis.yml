@@ -15,6 +15,7 @@ services:
 env:
   global:  # not a build matrix, but variables for every build
     - NODE_ENV=test
+    - LOG_ENV=development
     # id_rsa (by travis_key.sh)
     - secure: "jXxCMfeJGuoQomJr/BzXtAnpjz6DVBRHsQqGLS5jky5KvQAaxwsC4MSOMCEPiTCUSRZ0/dTBhwzHeiFQ9c3m83NIwBmb27b/IkTbVUz8g515kHu1greDFWtdlVCwUOyTlc6bET84QDjMHnwmSTXHJw02j7D44mbOyvP07P1akAE="
     - secure: "JzmDqycU+E+3MFG6iSW5+yZ9wPns4a1vC3i2/SVhLUvOAQpi/NNiNZQjcRkLmOiiV2Z9ykm4Tw0inYRmGR1LyXTFDyukjrfd9SiZ2o8iSuP3bIACyB2uGwJcRdTt0RFXEFvjE9l7O8fiQxPo8Fa3ZMF5Vx9zDGV+JGudycbGfMQ="
