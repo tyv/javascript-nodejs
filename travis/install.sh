@@ -11,10 +11,11 @@ sudo cp ./travis/sudoers /etc
 
 # add credentials to .netrc for private github repo access
 # travis env set CI_USER_TOKEN [github API token] --private -r iliakan/javascript-nodejs
-echo -e "machine github.com\nlogin $CI_USER_TOKEN\nmachine api.github.com\nlogin $CI_USER_TOKEN" >> ~/.netrc
+echo -e "machine github.com\nlogin $CI_USER_TOKEN" >> ~/.netrc
 
 # will use login ^^^ for private repo
-git clone --depth=50 git://github.com/iliakan/javascript-tutorial.git
+# not using submodules here, because both repos need each other for testing
+git clone --depth=50 https://github.com/iliakan/javascript-tutorial.git
 
 # need latest npm (less bugs, at time of writing 2.0.0 didn't work)
 npm i -g npm
@@ -35,12 +36,13 @@ chmod 600 ~/.ssh/id_rsa.pub
 
 # ssh daemonize, forward all connections from stage:1220 to travis machine,
 # http://stage.javascript.ru:80 /nginx/ -> localhost(stage):1220 /node/ -> localhost(travis):80
-ssh -fnNR 1212:localhost:80 travis@stage.javascript.ru
+ssh -fnNR localhost:1212:localhost:80 travis@stage.javascript.ru
 
 # ==== Allow to ssh travis@stage.javascript.ru -p 2222 =========
 cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 chmod 600 ~/.ssh/authorized_keys
 
+# 'GatewayPorts yes', 2222 will be open to the world on stage
 ssh -fnNR 2222:localhost:22 travis@stage.javascript.ru
 
 # Turn off unneeded services to free some memory
