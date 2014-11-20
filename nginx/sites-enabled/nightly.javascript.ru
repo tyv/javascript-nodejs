@@ -11,9 +11,10 @@ server {
 
   charset utf-8;
   root         /js/javascript-nodejs/current/public;
-
+<% if (env != 'test') { %>
   auth_basic "Administrator Login";
   auth_basic_user_file /etc/nginx.passwd;
+<% } %>
 
   include "partial/javascript-static";
 
