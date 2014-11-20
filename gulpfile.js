@@ -140,9 +140,7 @@ gulp.task('dev', function(callback) {
   runSequence("client:sync-resources", 'client:compile-css', 'client:sync-css-images', ['nodemon', 'client:livereload', 'client:webpack', 'watch'], callback);
 });
 
-gulp.task('tutorial:import', ['cache:clean'], lazyRequireTask('tutorial/tasks/import', {
-  root: "/js/javascript-nodejs/javascript-tutorial"
-}));
+gulp.task('tutorial:import', ['cache:clean'], lazyRequireTask('tutorial/tasks/import'));
 
 gulp.task('cache:clean', lazyRequireTask('./tasks/cacheClean'));
 
