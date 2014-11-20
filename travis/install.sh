@@ -82,4 +82,5 @@ export NODE_ENV=test
 export LOG_ENV=development
 
 gulp --harmony build
+gulp --harmony tutorial:import --root ./javascript-tutorial
 node --harmony ./bin/server
