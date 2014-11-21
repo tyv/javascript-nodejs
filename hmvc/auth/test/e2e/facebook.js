@@ -25,10 +25,6 @@ describe('facebook', function() {
 
     driver.get(config.test.e2e.siteHost + '/intro');
 
-    yield function(callback) {
-      setTimeout(callback, 10000);
-    };
-
     driver.findElement(By.css('button.sitetoolbar__login')).click();
 
     var btn = By.css('button[data-provider="facebook"]');
