@@ -10,7 +10,7 @@ const assert = require('better-assert');
 
 describe('Authorization', function() {
 
-  var agent, server;
+  var server;
   before(function * () {
     yield* db.loadModels(fixtures);
 
@@ -73,9 +73,9 @@ describe('Authorization', function() {
     });
 
     var userData = {
-      email: "angelina@gmail.com",
-      displayName: "Angelina Jolie",
-      password: "angelina"
+      email: Math.random() + "@gmail.com",
+      displayName: "Random guy",
+      password: "somepass"
     };
 
     it('should create a new user', function(done) {

@@ -96,16 +96,20 @@ function *loadModels(data, clear) {
   });
 }
 
-// fixture file must make sure that the model is loaded!
+// load data into the DB, replace if _id is the same
 function *loadModel(name, data) {
 
   var Model = mongoose.models[name];
 
-  yield data.map(function(itemData) {
-    var model = new Model(itemData);
-    log.debug("save", itemData);
-    return model.persist();
-  });
+  for (var i = 0; i < data.length; i++) {
+    if (data[i]._id) {
+      yield Model.destroy({_id: data[i]._id});
+    }
+    var model = new Model(data[i]);
+
+    log.debug("save", data[i]);
+    yield model.persist();
+  }
 
   log.debug("loadModel is done");
 }

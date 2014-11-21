@@ -38,8 +38,10 @@ module.exports = new LocalStrategy({
       throw new UserAuthError('Ваш email не подтверждён, проверьте почту. Также можно <a href="#" data-action-verify-email="' + user.email + '">запросить подтверждение заново</a>.');
     }
 
+    return user;
+  }).then(function(user) {
     done(null, user);
-  }).catch(function(err) {
+  }, function(err) {
     if (err instanceof UserAuthError) {
       done(null, false, {message: err.message})
     } else {
