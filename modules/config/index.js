@@ -13,19 +13,27 @@ var secret = require('./secret');
 
 module.exports = {
   server: {
-    port:       env.PORT || 3000,
-    host:       env.HOST || '0.0.0.0',
-    siteHost:   env.SITE_HOST,
-    staticHost: env.STATIC_HOST
+    port:         env.PORT || 3000,
+    host:         env.HOST || '0.0.0.0',
+    siteHost:     env.SITE_HOST,
+    staticHost:   env.STATIC_HOST
   },
 
-  mongoose:   require('./mongoose'),
-  session:      {
+  test: {
+    e2e: {
+      sshHost: 'stage.javascript.ru', // remote host for testing e2e callbacks
+      sshUser: 'tunnel',
+      siteHost: 'http://stage.javascript.ru'
+    }
+  },
+
+  mongoose: require('./mongoose'),
+  session:  {
     keys: [secret.sessionKey]
   },
   payments: require('./payments'),
 
-  imgur: secret.imgur,
+  imgur:    secret.imgur,
   adminKey: secret.adminKey,
 
   authProviders: require('./authProviders'),
@@ -33,9 +41,9 @@ module.exports = {
   plnkrAuthId: secret.plnkrAuthId,
 
   mailer:       require('./mailer'),
-  jade:     {
+  jade:         {
     basedir: path.join(process.cwd(), 'templates'),
-    cache: env.NODE_ENV != 'development'
+    cache:   env.NODE_ENV != 'development'
   },
   crypto:       {
     hash: {

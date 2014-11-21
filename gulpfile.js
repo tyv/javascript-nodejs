@@ -71,7 +71,7 @@ gulp.task("tutorial:import:watch", lazyRequireTask('tutorial/tasks/importWatch',
 }));
 
 gulp.task("test", lazyRequireTask('./tasks/test', {
-  glob: 'modules/**/test/**/*.js',
+  glob: '{hmvc,modules}/**/test/**/*.js',
   reporter: 'spec',
   timeout: 30000
 }));

@@ -1,16 +1,20 @@
-var webdriver = require('selenium-webdriver');
+const webdriver = require('selenium-webdriver');
 const path = require('path');
 const app = require('app');
 const db = require('lib/dataUtil');
 const config = require('config');
-var By = require('selenium-webdriver').By;
-var until = require('selenium-webdriver').until;
+const By = require('selenium-webdriver').By;
+const until = require('selenium-webdriver').until;
+const testTunnel = require('../../lib/testTunnel');
 
 describe('facebook', function() {
 
-  var driver, server;
+  var driver, server, sshTunnel;
 
   before(function*() {
+
+    sshTunnel = yield* testTunnel();
+
     driver = new webdriver.Builder().
       withCapabilities(webdriver.Capabilities.firefox()).
       build();
@@ -18,9 +22,9 @@ describe('facebook', function() {
     server = app.listen(config.server.port);
   });
 
-  it('logs in', function*() {
+  it('logs in', function(callback) {
 
-    driver.get('http://stage.javascript.ru/intro');
+    driver.get(config.test.e2e.siteHost + '/intro');
     driver.findElement(By.css('button.sitetoolbar__login')).click();
 
     var btn = By.css('button[data-provider="facebook"]');
@@ -71,15 +75,19 @@ describe('facebook', function() {
     });
 
 
-    driver.wait(until.elementLocated(By.css('.sitetoolbar__user')));
-
-    // success!
+    driver.wait(until.elementLocated(By.css('.sitetoolbar__user'))).then(function() {
+      // success!
+      callback();
+    }, function(err) {
+      callback(err);
+    });
 
   });
 
   after(function() {
     driver.quit();
     server.close();
+    sshTunnel.kill();
   });
 
 });
