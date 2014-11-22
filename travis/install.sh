@@ -66,12 +66,7 @@ sudo service postgresql stop
 # for node "gm" module
 sudo apt-get install graphicsmagick imagemagick
 
-# default site location
-sudo mkdir -p /js/javascript-nodejs
-sudo ln -s /home/travis/build/iliakan/javascript-nodejs /js/javascript-nodejs/current
-
 npm install
-
 
 # ==== Install latest nginx (default nginx is old, some config options won't work) =======
 sudo apt-get install python-software-properties software-properties-common
@@ -80,10 +75,9 @@ sudo apt-get update
 sudo apt-get install nginx
 
 # deploy nginx config
-sudo rm -rf /etc/nginx/*
-sudo gulp --harmony config:nginx --env test --prefix /etc/nginx
+sudo ./gulp config:nginx --prefix /etc/nginx --root `pwd` --env test --clear
 
 sudo /etc/init.d/nginx restart
 
-gulp --harmony build
-gulp --harmony tutorial:import --root ./javascript-tutorial
+./gulp build
+./gulp tutorial:import --root ./javascript-tutorial

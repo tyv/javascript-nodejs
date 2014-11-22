@@ -7,12 +7,15 @@ const By = require('selenium-webdriver').By;
 const until = require('selenium-webdriver').until;
 const tunnel = require('lib/test/tunnel');
 const selenium = require('lib/test/selenium');
+const fixtures = require(path.join(__dirname, '../fixtures/db'));
+
 
 describe('facebook', function() {
 
   var driver, server;
 
   before(function*() {
+    yield* db.loadModels(fixtures);
 
     yield* tunnel();
 
@@ -23,7 +26,7 @@ describe('facebook', function() {
 
   it('logs in', function*() {
 
-    driver.get(config.test.e2e.siteHost + '/intro');
+    driver.get(config.test.e2e.siteHost + '/folder');
 
     driver.findElement(By.css('button.sitetoolbar__login')).click();
 

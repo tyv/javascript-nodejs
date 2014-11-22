@@ -17,7 +17,7 @@ tunnel.stdout.setEncoding('utf8');
 tunnel.stderr.on('data', function(data) {
   if (data.startsWith('Killed')) return;
   if (data.startsWith('setsockopt')) return; // setsockopt TCP_NODELAY: Invalid argument
-  throw data;
+  throw new Error(data.trim());
 });
 
 var tunnelReady = false;
@@ -28,14 +28,17 @@ tunnel.stdout.on('data', function(data) {
 });
 
 module.exports = function*() {
-  if (tunnelReady) return;
 
   yield function(callback) {
-    setTimeout(function poll() {
+
+    function poll() {
       if (tunnelReady) callback();
-      else setTimeout(poll, 100)
-    }, 100);
+      else setTimeout(poll, 100);
+    }
+
+    poll();
   };
+
 };
 
 // don't make the process wait for the child to end, but instead kill it

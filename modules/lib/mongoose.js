@@ -15,12 +15,15 @@ var autoIncrement = require('mongoose-auto-increment');
 var ValidationError = require('mongoose/lib/error').ValidationError;
 var ValidatorError = require('mongoose/lib/error').ValidatorError;
 
-if (process.env.DEBUG_MONGOOSE) {
-  mongoose.set('debug', true);
-}
-
 var config = require('config');
 var _ = require('lodash');
+
+
+if (process.env.DEBUG_MONGOOSE) {
+  mongoose.set('debug', true);
+  log.debug(config.mongoose.uri, config.mongoose.options);
+}
+
 
 mongoose.connect(config.mongoose.uri, config.mongoose.options);
 

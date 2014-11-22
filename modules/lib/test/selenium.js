@@ -23,3 +23,4 @@ exports.firefox = function() {
     withCapabilities(webdriver.Capabilities.firefox()).
     build();
 };
+
