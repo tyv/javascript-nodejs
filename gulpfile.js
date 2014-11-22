@@ -13,11 +13,11 @@ const path = require('path');
 const fs = require('fs');
 const assert = require('assert');
 const runSequence = require('run-sequence');
+const linkModules = require('./modules/linkModules');
 
-// before anything: make sure all modules are linked
-gulp.task('link-modules', lazyRequireTask('./tasks/linkModules', { src: ['client', 'modules/*', 'hmvc/*'] }));
-// sync!
-gulp.start('link-modules');
+linkModules({
+  src: ['client', 'modules/*', 'hmvc/*']
+});
 
 const config = require('config');
 const mongoose = require('lib/mongoose');
@@ -43,6 +43,8 @@ function lazyRequireTask(path) {
   };
 }
 
+/* the task does nothing, used to run linkModules only */
+gulp.task('init');
 
 gulp.task('lint-once', lazyRequireTask('./tasks/lint', { src: jsSources }));
 gulp.task('lint-or-die', lazyRequireTask('./tasks/lint', { src: jsSources, dieOnError: true }));
@@ -76,11 +78,6 @@ gulp.task("test", lazyRequireTask('./tasks/test', {
   timeout: 30000
 }));
 
-gulp.task("test:one", lazyRequireTask('./tasks/test', {
-  glob: 'modules/simpledownParser/test/**/*.js',
-  reporter: 'spec',
-  timeout: 30000
-}));
 
 gulp.task('watch', lazyRequireTask('./tasks/watch', {
   root:        __dirname,

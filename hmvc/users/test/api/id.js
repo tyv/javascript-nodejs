@@ -19,6 +19,7 @@ describe('Authorization', function() {
     // which superagent gets as server.address().port
     // so that every run will get it's own port
     server = app.listen();
+    server.unref();
   });
 
   describe('patch', function() {

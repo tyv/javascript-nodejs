@@ -5,19 +5,21 @@ const log = require('log')();
 
 // use -tt flag to force terminal, otherwise it fail
 var tunnel = spawn('ssh', ['-tt', '-R', '1212:localhost:80', config.test.e2e.sshUser + '@' + config.test.e2e.sshHost], {
-  stdio: 'pipe'
+  stdio: ['ignore', 'pipe', 'pipe']
 });
-
-tunnel.stdin.end();
 
 tunnel.stderr.setEncoding('utf8');
 tunnel.stdout.setEncoding('utf8');
+
 
 // an error means no tunnel (we die)
 tunnel.stderr.on('data', function(data) {
   if (data.startsWith('Killed')) return;
   if (data.startsWith('setsockopt')) return; // setsockopt TCP_NODELAY: Invalid argument
-  throw new Error(data.trim());
+  setImmediate(function() {
+    process.exit(1);
+  });
+  throw new Error(data);
 });
 
 var tunnelReady = false;
@@ -46,3 +48,8 @@ tunnel.unref();
 process.once('exit', function() {
   tunnel.kill();
 });
+
+// tunnel.stdout & tunnel.stderr are net.Socket streams
+// must unref them in addition
+tunnel.stdout.unref();
+tunnel.stderr.unref();

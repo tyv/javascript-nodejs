@@ -5,8 +5,8 @@ const db = require('lib/dataUtil');
 const config = require('config');
 const By = require('selenium-webdriver').By;
 const until = require('selenium-webdriver').until;
-const tunnel = require('lib/test/tunnel');
-const selenium = require('lib/test/selenium');
+const tunnel = require('lib/testing/tunnel');
+const selenium = require('lib/testing/selenium');
 const fixtures = require(path.join(__dirname, '../fixtures/db'));
 
 
@@ -22,6 +22,7 @@ describe('facebook', function() {
     driver = selenium.firefox();
 
     server = app.listen(config.server.port);
+    server.unref();
   });
 
   it('logs in', function*() {
@@ -80,21 +81,18 @@ describe('facebook', function() {
 
     // wait for either success or throw
     yield function(callback) {
-        driver.wait(until.elementLocated(By.css('.sitetoolbar__user'))).then(function() {
-          callback();
-        }, function(err) {
-          throw err;
-        });
+      driver.wait(until.elementLocated(By.css('.sitetoolbar__user'))).then(function() {
+        callback();
+      }, function(err) {
+        throw err;
+      });
     };
 
   });
 
   after(function(callback) {
     // callback after makes sure that the browser actually closed
-    driver.quit().then(function() {
-      server.close(callback);
-    });
-
+    driver.quit().then(callback);
   });
 
 });
