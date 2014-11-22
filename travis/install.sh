@@ -79,5 +79,10 @@ sudo ./gulp config:nginx --prefix /etc/nginx --root `pwd` --env test --clear
 
 sudo /etc/init.d/nginx restart
 
+
+export DISPLAY=:99.0
+sudo sh -e /etc/init.d/xvfb start
+sleep 3 # give xvfb some time to start
+
 ./gulp build
 ./gulp tutorial:import --root ./javascript-tutorial
