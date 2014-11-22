@@ -84,5 +84,5 @@ export DISPLAY=:99.0
 sudo sh -e /etc/init.d/xvfb start
 sleep 3 # give xvfb some time to start
 
-./gulp build
+NODE_ENV=production node --harmony `which gulp` build
 ./gulp tutorial:import --root ./javascript-tutorial
