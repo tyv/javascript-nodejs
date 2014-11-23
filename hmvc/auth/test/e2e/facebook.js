@@ -5,8 +5,8 @@ const db = require('lib/dataUtil');
 const config = require('config');
 const By = require('selenium-webdriver').By;
 const until = require('selenium-webdriver').until;
-const tunnel = require('lib/testing/tunnel');
-const selenium = require('lib/testing/selenium');
+const tunnel = require('lib/e2eTunnel');
+const browser = require('lib/selenium/browser');
 const fixtures = require(path.join(__dirname, '../fixtures/db'));
 
 
@@ -19,7 +19,7 @@ describe('facebook', function() {
 
     yield* tunnel();
 
-    driver = selenium.firefox();
+    driver = browser();
 
     server = app.listen(config.server.port);
     server.unref();

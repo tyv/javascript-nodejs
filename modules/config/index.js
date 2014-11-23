@@ -23,7 +23,8 @@ module.exports = {
     e2e: {
       sshHost: 'stage.javascript.ru', // remote host for testing e2e callbacks
       sshUser: 'tunnel',
-      siteHost: 'http://stage.javascript.ru'
+      siteHost: 'http://stage.javascript.ru',
+      browser: env.E2E_BROWSER || 'firefox'
     }
   },
 
@@ -52,6 +53,13 @@ module.exports = {
       iterations: env.NODE_ENV == 'prod' ? 12000 : 1
     }
   },
+
+  sauceLabs: {
+    username: secret.sauceLabs.username,
+    accessKey: secret.sauceLabs.accessKey,
+    address: 'http://ondemand.saucelabs.com:80/wd/hub'
+  },
+
   projectRoot:  process.cwd(),
   publicRoot:   path.join(process.cwd(), 'public'),
   tmpRoot:      path.join(process.cwd(), 'tmp'),

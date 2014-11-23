@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "prod": "NODE_ENV=production node --harmony ./bin/server",
-    "fixperms": "sudo chown -R `id -u` . * ~/.n*"
+    "fixperms": "sudo chown -R `id -u` . * ~/.n*",
+    "test": "SELENIUM_LOCAL=1 NODE_ENV=test node --harmony `which gulp` test | bunyan"
   },
   "precommit": "NODE_ENV=development node --harmony `which gulp` pre-commit",
   "//": "while in development, all modules are recent",

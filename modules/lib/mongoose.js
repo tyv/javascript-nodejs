@@ -19,7 +19,7 @@ var config = require('config');
 var _ = require('lodash');
 
 
-if (process.env.DEBUG_MONGOOSE) {
+if (process.env.MONGOOSE_DEBUG) {
   mongoose.set('debug', true);
   log.debug(config.mongoose.uri, config.mongoose.options);
 }
