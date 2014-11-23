@@ -9,6 +9,9 @@ git:
 install:
   - source ./travis/install.sh
 
+script:
+  - source ./travis/test.sh
+
 services:
   - mongodb
 
