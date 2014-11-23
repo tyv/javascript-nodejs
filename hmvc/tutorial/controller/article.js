@@ -183,7 +183,7 @@ function* renderArticle(slug) {
 
   function* renderSiblings() {
     var siblings = tree.siblings(articleInTree._id);
-    rendered.siblings = tree.siblings(articleInTree._id).map(function(sibling) {
+    rendered.siblings = siblings.map(function(sibling) {
       return {
         title: sibling.title,
         url:   Article.getUrlBySlug(sibling.slug)
@@ -193,7 +193,8 @@ function* renderArticle(slug) {
 
   function* renderChildren() {
     if (!articleInTree.isFolder) return;
-    rendered.children = articleInTree.children.map(function(child) {
+    var children = articleInTree.children || [];
+    rendered.children = children.map(function(child) {
       return {
         title: child.title,
         url:   Article.getUrlBySlug(child.slug)

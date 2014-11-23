@@ -83,9 +83,10 @@ function *createEmptyDb() {
 
 }
 
-// not using pow-mongoose-fixtures, becuae it fails with capped collections
-// it calls remove() on them => everything dies
-function *loadDb(data) {
+// tried using pow-mongoose-fixtures,
+// but it fails with capped collections, it calls remove() on them => everything dies
+// so rolling my own tiny-loader
+function *loadModels(data) {
   yield* createEmptyDb();
   var modelsData = (typeof data == 'string') ? require(data) : data;
 
@@ -94,26 +95,30 @@ function *loadDb(data) {
   });
 }
 
-// fixture file must make sure that the model is loaded!
+// load data into the DB, replace if _id is the same
 function *loadModel(name, data) {
 
   var Model = mongoose.models[name];
 
-  yield data.map(function(itemData) {
-    var model = new Model(itemData);
-    log.debug("save", itemData);
-    return model.persist();
-  });
+  for (var i = 0; i < data.length; i++) {
+    if (data[i]._id) {
+      yield Model.destroy({_id: data[i]._id});
+    }
+    var model = new Model(data[i]);
+
+    log.debug("save", data[i]);
+    yield model.persist();
+  }
 
   log.debug("loadModel is done");
 }
 
-exports.loadDb = loadDb;
+exports.loadModels = loadModels;
 exports.createEmptyDb = createEmptyDb;
 
 /*
  Usage:
- co(loadDb('sampleDb'))(function(err) {
+ co(loadModels('sampleDb'))(function(err) {
  if (err) throw err;
  mongoose.connection.close();
  });*/

@@ -5,7 +5,7 @@
   "scripts": {
     "prod": "NODE_ENV=production node --harmony ./bin/server",
     "fixperms": "sudo chown -R `id -u` . * ~/.n*",
-    "test": "./prod"
+    "test": "NODE_ENV=test node --harmony `which gulp` test | bunyan"
   },
   "precommit": "NODE_ENV=development node --harmony `which gulp` pre-commit",
   "//": "while in development, all modules are recent",
@@ -118,6 +118,7 @@
     "casperjs-spider": "git://github.com/iliakan/casperjs-spider",
     "clarify": "*",
     "co-mocha": "*",
+    "del": "^0.1.3",
     "ejs": "^1.0.0",
     "gulp": "*",
     "gulp-autoprefixer": "*",
@@ -130,12 +131,6 @@
     "gulp-sourcemaps": "*",
     "gulp-streamify": "*",
     "gulp-uglify": "*",
-    "highland": "^2.0.0",
-    "karma": "^0.12.24",
-    "karma-chrome-launcher": "^0.1.5",
-    "karma-firefox-launcher": "^0.1.3",
-    "karma-mocha": "^0.1.9",
-    "karma-phantomjs-launcher": "^0.1.4",
     "lazypipe": "*",
     "mocha": "*",
     "node-notifier": "*",
@@ -148,9 +143,7 @@
     "superagent": "*",
     "supertest": "*",
     "time-require": "^0.1.2",
-    "trace": "*",
-    "watchify": "*",
-    "yargs": "^1.3.3"
+    "trace": "*"
   },
   "optionalDependencies": {
     "fsevents": "*"
