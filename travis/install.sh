@@ -73,7 +73,9 @@ sudo /etc/init.d/nginx restart
 
 sudo mkdir /js
 echo "COPYING SECRET"
-sudo scp -r travis@stage.javascript.ru:/js/secret /js
+scp -r travis@stage.javascript.ru:/js/secret .
+sudo mv secret /js/
+sudo chown -R travis /js
 
 ./gulp build
 ./gulp tutorial:import --root ./javascript-tutorial
