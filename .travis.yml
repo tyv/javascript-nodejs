@@ -20,6 +20,7 @@ env:
     - E2E_BROWSER="internet explorer"
 
   global:  # not a build matrix, but variables for every build
+    - TRAVIS_DEBUG=1
     - NODE_ENV=test
     - LOG_ENV=development
     # id_rsa (by travis_key.sh)

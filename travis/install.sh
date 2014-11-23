@@ -71,7 +71,7 @@ sudo ./gulp config:nginx --prefix /etc/nginx --root `pwd` --env test --clear
 
 sudo /etc/init.d/nginx restart
 
-sudo mkdir -r /js
+sudo mkdir /js
 echo "COPYING SECRET"
 sudo scp -r travis@stage.javascript.ru:/js/secret /js
 
