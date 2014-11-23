@@ -17,8 +17,6 @@ services:
 
 env:
   matrix:
-    - E2E_BROWSER=firefox
-    - E2E_BROWSER=chrome
     - E2E_BROWSER="internet explorer"
 
   global:  # not a build matrix, but variables for every build

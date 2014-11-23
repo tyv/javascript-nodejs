@@ -75,5 +75,5 @@ sudo mkdir -r /js
 echo "COPYING SECRET"
 sudo scp -r travis@stage.javascript.ru:/js/secret /js
 
-NODE_ENV=production node --harmony `which gulp` build
+./gulp build
 ./gulp tutorial:import --root ./javascript-tutorial
