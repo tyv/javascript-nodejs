@@ -75,7 +75,7 @@ gulp.task("tutorial:import:watch", lazyRequireTask('tutorial/tasks/importWatch',
 gulp.task("test", lazyRequireTask('./tasks/test', {
   glob: '{hmvc,modules}/**/test/**/*.js',
   reporter: 'spec',
-  timeout: 30000
+  timeout: 100000 // big timeout for webdriver e2e tests
 }));
 
 

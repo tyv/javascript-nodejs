@@ -50,13 +50,14 @@ npm up -g
 # ssh daemonize, forward all connections from stage:1212 to travis machine,
 # http://stage.javascript.ru:80 /nginx/ -> localhost(stage):1212 /node/ -> localhost(travis):80
 
-PORT_BUSY=`ssh travis@stage.javascript.ru lsof -i TCP:1212`
-if [ ! -z "$PORT_BUSY" ]
-then
-  echo "Remote port 1212 is busy, can't setup forwarding";
-  exit 1;
-fi
-ssh -fnNR localhost:1212:localhost:80 travis@stage.javascript.ru
+# DISABLED IN FAVOR OF in-test spawn
+#PORT_BUSY=`ssh travis@stage.javascript.ru lsof -i TCP:1212`
+#if [ ! -z "$PORT_BUSY" ]
+#then
+#  echo "Remote port 1212 is busy, can't setup forwarding";
+#  exit 1;
+#fi
+#ssh -fnNR localhost:1212:localhost:80 travis@stage.javascript.ru
 
 # Turn off unneeded services to free some memory
 sudo service mysql stop
@@ -79,15 +80,8 @@ sudo ./gulp config:nginx --prefix /etc/nginx --root `pwd` --env test --clear
 
 sudo /etc/init.d/nginx restart
 
-# For firefox
-export DISPLAY=:99.0
-sudo sh -e /etc/init.d/xvfb start
-sleep 3 # give xvfb some time to start
-
-# For npm test | bunyan
-# pipefail: the return value of a pipeline is the status of the last command to exit with a non-zero status,
-# or zero if no command exited with a non-zero status
-set -e -o pipefail
+sudo mkdir -r /js
+sudo scp travis@stage.javascript.ru:/js/secret /js
 
 NODE_ENV=production node --harmony `which gulp` build
 ./gulp tutorial:import --root ./javascript-tutorial
