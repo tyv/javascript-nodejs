@@ -20,16 +20,20 @@ for i in {0..10}; do eval $(printf "echo \$id_rsa_pub_%02d\n" $i) >> ~/.ssh/id_r
 base64 --decode ~/.ssh/id_rsa_base64.pub > ~/.ssh/id_rsa.pub
 chmod 600 ~/.ssh/id_rsa.pub
 
+
 # ==== Allow to ssh TO travis@stage.javascript.ru -p 2222 =========
 # used for debugging purposes only
-cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
-chmod 600 ~/.ssh/authorized_keys
 
-# no questions please
+# no questions please when ssh to remote test machine
 echo -e "Host stage.javascript.ru\n\tStrictHostKeyChecking no" >> ~/.ssh/config
 
-# 'GatewayPorts yes', 2222 will be open to the world on stage
-ssh -fnNR 2222:localhost:22 travis@stage.javascript.ru
+if [[ ! -z $TRAVIS_DEBUG ]]; then
+  cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+  chmod 600 ~/.ssh/authorized_keys
+
+  # 'GatewayPorts yes', 2222 will be open to the world on stage
+  ssh -fnNR 2222:localhost:22 travis@stage.javascript.ru
+fi
 
 # ===== Add token for https://github.com/my/repo access ======
 # add credentials to .netrc for private github repo access
@@ -45,19 +49,6 @@ git clone --depth=50 https://github.com/iliakan/javascript-tutorial.git
 # need latest npm (less bugs, at time of writing 2.0.0 didn't work)
 npm i -g npm
 npm up -g
-
-# ==== Setup stage(localhost):1212 -> localhost:80 tunnel ====
-# ssh daemonize, forward all connections from stage:1212 to travis machine,
-# http://stage.javascript.ru:80 /nginx/ -> localhost(stage):1212 /node/ -> localhost(travis):80
-
-# DISABLED IN FAVOR OF in-test spawn
-#PORT_BUSY=`ssh travis@stage.javascript.ru lsof -i TCP:1212`
-#if [ ! -z "$PORT_BUSY" ]
-#then
-#  echo "Remote port 1212 is busy, can't setup forwarding";
-#  exit 1;
-#fi
-#ssh -fnNR localhost:1212:localhost:80 travis@stage.javascript.ru
 
 # Turn off unneeded services to free some memory
 sudo service mysql stop
@@ -81,7 +72,8 @@ sudo ./gulp config:nginx --prefix /etc/nginx --root `pwd` --env test --clear
 sudo /etc/init.d/nginx restart
 
 sudo mkdir -r /js
-sudo scp travis@stage.javascript.ru:/js/secret /js
+echo "COPYING SECRET"
+sudo scp -r travis@stage.javascript.ru:/js/secret /js
 
 NODE_ENV=production node --harmony `which gulp` build
 ./gulp tutorial:import --root ./javascript-tutorial
