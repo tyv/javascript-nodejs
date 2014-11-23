@@ -3,4 +3,4 @@
 echo $DISPLAY
 set -o pipefail
 
-./gulp test | bunyan
+node --harmony `which gulp` test | bunyan
