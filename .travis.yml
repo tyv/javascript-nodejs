@@ -7,7 +7,7 @@ git:
   depth: 50
 
 install:
-  - bash ./travis/install.sh
+  - source ./travis/install.sh
 
 services:
   - mongodb
