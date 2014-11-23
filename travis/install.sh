@@ -27,14 +27,6 @@ chmod 600 ~/.ssh/id_rsa.pub
 # no questions please when ssh to remote test machine
 echo -e "Host stage.javascript.ru\n\tStrictHostKeyChecking no" >> ~/.ssh/config
 
-if [[ ! -z $TRAVIS_DEBUG ]]; then
-  cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
-  chmod 600 ~/.ssh/authorized_keys
-
-  # 'GatewayPorts yes', 2222 will be open to the world on stage
-  ssh -fnNR 2222:localhost:22 travis@stage.javascript.ru
-fi
-
 # ===== Add token for https://github.com/my/repo access ======
 # add credentials to .netrc for private github repo access
 # travis env set CI_USER_TOKEN [github API token] --private -r iliakan/javascript-nodejs
@@ -78,3 +70,20 @@ sudo chown -R travis /js
 
 gulp build --harmony
 gulp build tutorial:import --harmony --root ./javascript-tutorial
+
+
+
+if [[ ! -z $TRAVIS_DEBUG ]]; then
+  cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+  chmod 600 ~/.ssh/authorized_keys
+
+  # 'GatewayPorts yes', 2222 will be open to the world on stage
+  ssh -fnNR 2222:localhost:22 travis@stage.javascript.ru
+
+  while :
+  do
+    echo "."
+    sleep 1
+  done
+
+fi
