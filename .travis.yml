@@ -16,9 +16,10 @@ services:
   - mongodb
 
 env:
-  - E2E_BROWSER=firefox
-  - E2E_BROWSER=chrome
-  - E2E_BROWSER="internet explorer"
+  matrix:
+    - E2E_BROWSER=firefox
+    - E2E_BROWSER=chrome
+    - E2E_BROWSER="internet explorer"
 
   global:  # not a build matrix, but variables for every build
     - NODE_ENV=test
