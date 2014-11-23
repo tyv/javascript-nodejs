@@ -1,5 +1,5 @@
 #!/bin/bash
 
-node --harmony `which gulp` test | bunyan
+gulp test --harmony | bunyan
 
 exit ${PIPESTATUS[0]}
