@@ -58,20 +58,27 @@ sudo add-apt-repository -y ppa:nginx/stable
 sudo apt-get update
 sudo apt-get install nginx
 
-# deploy nginx config
-sudo ./gulp config:nginx --prefix /etc/nginx --root `pwd` --env test --clear
+# ==== Install latest mongo (mongoose bugs otherwise) =======
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
+echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | sudo tee /etc/apt/sources.list.d/mongodb.list
+sudo apt-get update
+sudo apt-get install -y mongodb-org
+sudo /etc/init.d/mongodb restart
 
-sudo /etc/init.d/nginx restart
 
+# Get access to secret data
 sudo mkdir /js
 scp -r travis@stage.javascript.ru:/js/secret .
 sudo mv secret /js/
 sudo chown -R travis /js
 
+# deploy nginx config
+sudo ./gulp config:nginx --prefix /etc/nginx --root `pwd` --env test --clear
+
+sudo /etc/init.d/nginx restart
+
 gulp build --harmony
 gulp build tutorial:import --harmony --root ./javascript-tutorial
-
-
 
 if [[ ! -z $TRAVIS_DEBUG ]]; then
   cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
@@ -80,10 +87,11 @@ if [[ ! -z $TRAVIS_DEBUG ]]; then
   # 'GatewayPorts yes', 2222 will be open to the world on stage
   ssh -fnNR 2222:localhost:22 travis@stage.javascript.ru
 
+  # now sleep and let me SSH to travis and do the stuff manually
   while :
   do
     echo "."
-    sleep 1
+    sleep 60
   done
 
 fi
