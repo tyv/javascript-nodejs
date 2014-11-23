@@ -79,10 +79,15 @@ sudo ./gulp config:nginx --prefix /etc/nginx --root `pwd` --env test --clear
 
 sudo /etc/init.d/nginx restart
 
-
+# For firefox
 export DISPLAY=:99.0
 sudo sh -e /etc/init.d/xvfb start
 sleep 3 # give xvfb some time to start
+
+# For npm test | bunyan
+# pipefail: the return value of a pipeline is the status of the last command to exit with a non-zero status,
+# or zero if no command exited with a non-zero status
+set -o pipefail
 
 NODE_ENV=production node --harmony `which gulp` build
 ./gulp tutorial:import --root ./javascript-tutorial
