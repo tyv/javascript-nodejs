@@ -77,5 +77,4 @@ sudo mv secret /js/
 sudo chown -R travis /js
 
 gulp build --harmony
-
 gulp build tutorial:import --harmony --root ./javascript-tutorial
