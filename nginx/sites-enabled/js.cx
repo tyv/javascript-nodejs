@@ -1,0 +1,17 @@
+# Static no-cookie host
+# All resources are accessible from the main host too
+
+server {
+
+    listen 80;
+    server_name js.cx;
+
+    root <%=root%>/public;
+
+    access_log  /var/log/nginx/js.cx.log main;
+    charset utf-8;
+
+    include "partial/javascript-static";
+
+    add_header Access-Control-Allow-Origin *;
+}

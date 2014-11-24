@@ -15,10 +15,15 @@ var autoIncrement = require('mongoose-auto-increment');
 var ValidationError = require('mongoose/lib/error').ValidationError;
 var ValidatorError = require('mongoose/lib/error').ValidatorError;
 
-//mongoose.set('debug', true);
-
 var config = require('config');
 var _ = require('lodash');
+
+
+if (process.env.MONGOOSE_DEBUG) {
+  mongoose.set('debug', true);
+  log.debug(config.mongoose.uri, config.mongoose.options);
+}
+
 
 mongoose.connect(config.mongoose.uri, config.mongoose.options);
 
@@ -46,10 +51,12 @@ mongoose.plugin(function(schema) {
           model.collection.getIndexes(function(err2, indexes) {
             if (err2) return callback(err);
 
-            // e.g. [ [displayName, 1], [email, 1] ]
+            // e.g. indexes = {idxName:  [ [displayName, 1], [email, 1] ] }
+
+            // e.g indexInfo = [ [displayName, 1], [email, 1] ]
             var indexInfo = indexes[indexName];
 
-            // e.g. { displayName: 1, email: 1 }
+            // convert to indexFields = { displayName: 1, email: 1 }
             var indexFields = {};
             indexInfo.forEach(function toObject(item) {
               indexFields[item[0]] = item[1];
@@ -67,22 +74,34 @@ mongoose.plugin(function(schema) {
               }
             }
 
+            var errorMessage;
             if (!schemaIndex) {
-              return callback(new Error("schema needs index.errorMessage for unique plugin"));
+              // index exists in DB, but not in schema
+              // strange
+              // that's usually the case for _id_
+              if (indexName == '_id_') {
+                errorMessage = 'Id is not unique';
+              } else {
+                // non-standard index in DB, but not in schema? fix it!
+                return callback(new Error("index " + indexName + " in DB, but not in schema"));
+              }
+            } else {
+              // schema index object, e.g
+              // { unique: 1, sparse: 1 ... }
+              var schemaIndexInfo = schemaIndex[1];
+
+              errorMessage = schemaIndexInfo.errorMessage || ("Index error: " + indexName);
             }
 
-            // schema index object, e.g
-            // { unique: 1, sparse: 1 ... }
-            var schemaIndexInfo = schemaIndex[1];
-
-            var errorMessage = schemaIndexInfo.errorMessage || ("Index error: " + indexName);
-
             var valError = new ValidationError(err);
+
             var field = indexInfo[0][0]; // if many fields in uniq index - we take the 1st one for error
 
             // example:
             // err = { path="email", message="Email is not unique", type="notunique", value=model.email }
             valError.errors[field] = new ValidatorError(field, errorMessage, 'notunique', model[field]);
+
+            valError.code = err.code; // if (err.code == 11000) in the outer code will still work
 
             return callback(valError);
           });
@@ -116,6 +135,7 @@ mongoose.waitConnect = function(callback) {
     // we wait either for an error
     // OR
     // for a successful connection
+    //console.log("MONGOOSE", mongoose, "CONNECTION", mongoose.connection, "ON", mongoose.connection.on);
     mongoose.connection.on("connected", onConnected);
     mongoose.connection.on("error", onError);
   }
@@ -136,6 +156,7 @@ mongoose.waitConnect = function(callback) {
     mongoose.connection.removeListener("connected", onConnected);
     mongoose.connection.removeListener("error", onError);
   }
+
 };
 
 module.exports = mongoose;

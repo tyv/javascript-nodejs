@@ -5,14 +5,20 @@ var path = require('path');
 
 module.exports = function(options) {
 
-  return function(callback) {
-    var root = fs.realpathSync(options.root);
+  return function() {
+
+    var args = require('yargs')
+      .usage("Path to tutorial root is required.")
+      .demand(['root'])
+      .argv;
+
+    var root = fs.realpathSync(args.root);
 
     var importer = new Importer({
       root: root
     });
 
-    co(function* () {
+    return co(function* () {
 
       yield* importer.destroyAll();
 
@@ -26,7 +32,7 @@ module.exports = function(options) {
 
       console.log("DONE");
 
-    })(callback);
+    });
   };
 };
 

@@ -32,7 +32,7 @@ const config = require('config');
 module.exports = new YandexStrategy({
     clientID:          config.authProviders.yandex.appId,
     clientSecret:      config.authProviders.yandex.appSecret,
-    callbackURL:       config.siteHost + "/auth/callback/yandex",
+    callbackURL:       config.server.siteHost + "/auth/callback/yandex",
     passReqToCallback: true
   },
   function(req, accessToken, refreshToken, profile, done) {

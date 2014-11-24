@@ -41,5 +41,7 @@ module.exports = {
     appId:     '*',
     appSecret: '*'
   },
-  amazonSes: {}
+  amazonSes: {},
+  sauceLabs: {}
+
 };

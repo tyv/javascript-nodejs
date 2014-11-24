@@ -1,3 +1,5 @@
+// Usage: require('log')()
+
 var bunyan = require('bunyan');
 var reqSerializer = require('./reqSerializer');
 var reqVerboseSerializer = require('./reqVerboseSerializer');
@@ -6,6 +8,7 @@ var errSerializer = require('./errSerializer');
 var httpErrorSerializer = require('./httpErrorSerializer');
 var path = require('path');
 
+// log.debug({req: ...})
 var serializers = {
   reqVerbose: reqVerboseSerializer,
   req:        reqSerializer,

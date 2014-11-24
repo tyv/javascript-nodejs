@@ -8,28 +8,36 @@ co(function*() {
 
   yield* app.waitBootAndListen();
 
-})(function(err) {
-  if (err) throw err;
+  console.log("app is listening");
+
+}).catch(function(err) {
+  throw err;
 });
 
 process.on('message', function(msg) {
   if (msg == 'shutdown') { // PM2 sends this on graceful reload
-    // The process is going to be reloaded
-    // Have to close all database/socket.io/* connections
-
-    co(function*() {
-      yield app.close();
-    })(function(err) {
-      if (err) {
-        console.error(err);
-      }
-      process.exit(0);
-    });
-
-    // I have 4000ms to close all connections
-    setTimeout(function() {
-      console.error("App stopping is taking too long!");
-    }, 3500);
-
+    shutdown();
   }
 });
+
+function shutdown() {
+  // The process is going to be reloaded
+  // Have to close all database/socket.io/* connections
+
+  co(function*() {
+    console.log("Closing the app...");
+    yield* app.close();
+    console.log("App closed");
+  }).then(function() {
+    process.exit(0);
+  }, function(err) {
+    console.error(err);
+  });
+
+  var dieDelay = process.env.PM2_GRACEFUL_TIMEOUT || 4000;
+  // I have 4000ms to close all connections
+  setTimeout(function() {
+    console.error("App is stopping for too long! Will be killed now!");
+  }, dieDelay - 100);
+
+}

@@ -25,7 +25,7 @@ TaskRenderer.prototype.renderContent = function* (task) {
 
   const transformer = new ServerHtmlTransformer({
     resourceWebRoot:   task.getResourceWebRoot(),
-    staticHost:        config.staticHost
+    staticHost:        config.server.staticHost
   });
 
   return yield transformer.transform(node, true);
@@ -45,7 +45,7 @@ TaskRenderer.prototype.renderSolution = function* (task) {
 
   const transformer = new ServerHtmlTransformer({
     resourceWebRoot:   task.getResourceWebRoot(),
-    staticHost:        config.staticHost
+    staticHost:        config.server.staticHost
   });
 
   const solutionParts = [];

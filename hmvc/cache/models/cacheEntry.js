@@ -84,7 +84,7 @@ schema.statics.getOrGenerate = function* (doc, generator) {
       yield new CacheEntry({ key: doc.key, generatingStartTimestamp: generatingStartTimestamp }).persist();
     } catch (e) {
       // lost the race, someone has already persisted it and started generating
-      if (e.name == 'MongoError' && e.code == 11000) {
+      if (e.code == 11000) {
         // let's try again
         return yield CacheEntry.getOrGenerate(doc, generator);
       } else {

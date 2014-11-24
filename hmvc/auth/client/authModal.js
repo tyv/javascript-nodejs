@@ -348,7 +348,7 @@ AuthModal.prototype.onAuthSuccess = function() {
 
 
 AuthModal.prototype.onAuthFailure = function(errorMessage) {
-  this.showFormMessage(errorMessage || "Отказ в авторизации", 'error');
+  this.showFormMessage(errorMessage || "Отказ в авторизации.", 'error');
 };
 
 

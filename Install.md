@@ -1,6 +1,12 @@
 
 # Как поднять сайт локально
 
+## 0. Операционная система
+
+Сайт работает под MacOS, Unix (протестировано на Ubuntu, Debian), но не Windows.
+
+Под Windows криво работают некоторые сторонние модули, создатели которых не удосуживаются поддерживать эту ОС.
+
 ## 1. Поставьте Node.JS 0.11
 
 Нужна именно последняя версия.
@@ -13,9 +19,12 @@
 
 ## 2. Поставьте и запустите MongoDB.
 
-Самый простой способ описан здесь на [http://www.mkyong.com/mongodb/how-to-install-mongodb-on-mac-os-x/]().
+Если у вас Mac, то проще всего сделать это через [MacPorts](http://www.macports.org/install.php) или [Homebrew](http://brew.sh), чтобы было проще ставить дополнительные пакеты.
 
-Лучше сделать это через [MacPorts](http://www.macports.org/install.php) или [Homebrew](http://brew.sh), чтобы было проще ставить дополнительные пакеты.
+```
+sudo port install mongodb
+sudo port load mondogb
+```
 
 ## 3. Клонируйте репозитарий 
 
@@ -28,10 +37,37 @@
 Поставьте глобальные модули:
 
 ```
-npm install -g mocha karma-cli bunyan gulp nodemon  
+npm install -g mocha bunyan gulp nodemon  
 ```
 
-## 5. `npm install`
+## 5. Системные пакеты
+
+Для работы нужны Nginx, GraphicsMagick, ImageMagick (обычно используется GM, он лучше, но иногда IM).
+
+```
+sudo port install ImageMagick GraphicsMagick 
+sudo port install nginx +debug+gzip_static+realip
+
+sudo port load nginx
+```
+
+## 6. Конфигурация Nginx
+
+Если в системе уже был nginx и есть ценные конфиги для него, то нужно их аккуратно объединить с конфигами сайта, см. директорию `nginx` в корне и `sites-enabled/*`.
+
+Если же в системе нет ценных конфигов (или они забекаплены), то ставим настройки для сайта:
+
+Например:
+```
+./gulp config:nginx --prefix /opt/local/etc/nginx --root /js/javascript-nodejs --env development 
+```
+
+Здесь `--prefix` -- место для конфигов nginx, обычно `/etc/nginx`, в случае MacPorts это `/opt/local/etc/nginx`.
+В параметр `--root` запишите место установки сайта.
+
+Чтобы полностью удалить старые конфиги, добавьте опцию `--clear`.
+
+## 7. `npm install`
 
 В директории, в которую клонировали, запустите:
 
@@ -39,24 +75,27 @@ npm install -g mocha karma-cli bunyan gulp nodemon
 npm install
 ```
 
-## 6. База
+## 8. База
 
-Начальная база данных импортируется командой:
+Репозитарий учебника импортируется командой
+ 
 ```
-./db
+./gulp tutorial:import --root /js/javascript-tutorial
 ```
+Репозитарий до окончания работы над первым релизом сайта приватный, доступ предоставлю по запросу. 
+Сайт поднимется и без учебника, конечно, но статей на нём не будет.
 
-## 7. Запуск сайта
+## 9. Запуск сайта
 
 Запуск сайта в режиме разработки:
 ```
 ./dev
 ```
 
-Это поднимет сразу и сайт и механизмы автосборки спрайтов-стилей-скриптов и livereload.
+Это поднимет сразу и сайт и механизмы автосборки стилей-скриптов и livereload.
 
 # TroubleShooting
 
-Если что-то не работает -- пишите issue.
+Если что-то не работает -- [пишите issue](https://github.com/iliakan/javascript-nodejs/issues/new).
 
 

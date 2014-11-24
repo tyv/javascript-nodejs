@@ -18,14 +18,14 @@ result:
 module.exports = new VkontakteStrategy({
     clientID:          config.authProviders.vkontakte.appId,
     clientSecret:      config.authProviders.vkontakte.appSecret,
-    callbackURL:       config.siteHost + "/auth/callback/vkontakte",
+    callbackURL:       config.server.siteHost + "/auth/callback/vkontakte",
     passReqToCallback: true
   },
   function(req, accessToken, refreshToken, oauthResponse, profile, done) {
 
     // Vkontakte gives email in oauthResponse, not in profile (which is 1 more request)
     if (!oauthResponse.email) {
-      return done(null, false, {message: "Для захода на сайт необходим email. Он будет скрыт от внешнего просмотра."});
+      return done(null, false, {message: "При входе разрешите доступ к email. Он используется для идентификации пользователя."});
     }
 
 

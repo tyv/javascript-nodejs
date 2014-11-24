@@ -31,10 +31,8 @@ module.exports = function(root) {
 
         yield* importer.sync(folder);
 
-      })(function(err) {
-        if (err) {
-          throw err;
-        }
+      }).catch(function(err) {
+        throw err;
       });
     });
 

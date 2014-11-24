@@ -4,14 +4,12 @@
       "name":            "Javascript.ru",
       "script":          "bin/server",
       "node_args":       "--harmony",
-      "instances":       "max",
+      "instances":       "2",
       "exec_mode":       "cluster_mode",
       "env":             {
         "HOST": "127.0.0.1",
-        "PORT": "3000"
-      },
-      "env_development": {
-        "NODE_ENV": "development"
+        "PORT": "3000",
+        "PM2_GRACEFUL_TIMEOUT": 1000
       },
       "env_production":  {
         "NODE_ENV": "production"
@@ -25,8 +23,8 @@
       "ref":         "origin/production",
       "repo":        "https://github.com/iliakan/javascript-nodejs",
       "path":        "/js/javascript-nodejs",
-      "pre-deploy":  "cd /root/javascript-nodejs; bash ./update_prod.sh",
-      "post-deploy": "/root/.nvm/v0.11.14/bin/pm2 startOrGracefulReload ecosystem.json --env production && ./gulp cache:clean"
+      "pre-deploy":  "cd /root/javascript-nodejs; bash ./pm2/pre_deploy.sh",
+      "post-deploy": "bash ./pm2/post_deploy.sh"
     }
   }
 }

@@ -1,6 +1,6 @@
 const app = require('app');
 
-const ArticleRenderer = require('../../renderer/articleRenderer').ArticleRenderer;
+const ArticleRenderer = require('../../renderer/articleRenderer');
 const mongoose = require('lib/mongoose');
 const Article = require('../../models/article');
 
@@ -10,7 +10,7 @@ describe("ArticleRenderer", function() {
     yield Article.destroy();
   });
 
-  it("appens -2, -3... to header with same title", function* () {
+  it("appends -2, -3... to header with same title", function* () {
 
     const article = new Article({
       title:   "Title",
@@ -21,7 +21,7 @@ describe("ArticleRenderer", function() {
 
     const result = yield renderer.render(article);
     result.replace(/\n/g, '').should.be.eql(
-      '<h2><a name="title-2" href="#title-2">Title</a></h2><p>My html <em>string</em>.</p>'
+      '<h2><a class="main__anchor" name="title-2" href="#title-2">Title</a></h2><p>My html <em>string</em>.</p>'
     );
 
   });

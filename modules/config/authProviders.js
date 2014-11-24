@@ -2,17 +2,18 @@ var secret = require('./secret');
 
 module.exports = {
   facebook:  {
+    testCredentials: secret.facebook.testCredentials,
     appId:           secret.facebook.appId,
-      appSecret:       secret.facebook.appSecret,
-      passportOptions: {
+    appSecret:       secret.facebook.appSecret,
+    passportOptions: {
       display: 'popup',
-        scope:   ['email']
+      scope:   ['email']
     }
   },
   google:    {
     appId:           secret.google.appId,
-      appSecret:       secret.google.appSecret,
-      passportOptions: {
+    appSecret:       secret.google.appSecret,
+    passportOptions: {
       scope: [
         'profile',
         // https://www.googleapis.com/auth/plus.login - request access to circles (not needed)
@@ -23,20 +24,20 @@ module.exports = {
   },
   github:    {
     appId:           secret.github.appId,
-      appSecret:       secret.github.appSecret,
-      passportOptions: {
+    appSecret:       secret.github.appSecret,
+    passportOptions: {
       scope: 'user:email'
     }
   },
   yandex:    {
     appId:           secret.yandex.appId,
-      appSecret:       secret.yandex.appSecret,
-      passportOptions: {}
+    appSecret:       secret.yandex.appSecret,
+    passportOptions: {}
   },
   vkontakte: {
     appId:           secret.vkontakte.appId,
-      appSecret:       secret.vkontakte.appSecret,
-      passportOptions: {
+    appSecret:       secret.vkontakte.appSecret,
+    passportOptions: {
       scope: 'email'
     }
   }

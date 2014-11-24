@@ -53,12 +53,11 @@ var readMultipart = thunkify(function(req, done) {
 
     co(function*() {
       return yield* imgur.uploadStream(part.filename, part.byteCount, part);
-    })(function(err, result) {
+    }).then(function(result) {
       if (hadError) return;
-      if (err) return onError(err);
       fields[part.name] = result;
       onStreamDone();
-    });
+    }, onError);
   });
 
   form.on('error', onError);

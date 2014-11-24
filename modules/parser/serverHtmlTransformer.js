@@ -72,7 +72,7 @@ function* resolveReference(value) {
   return article && {title: article.title, url: article.getUrl()};
 }
 
-HtmlTransformer.prototype.transformCompositeTag = function* (node) {
+ServerHtmlTransformer.prototype.transformCompositeTag = function* (node) {
   var labels = {};
   var html = '';
 

@@ -1,0 +1,51 @@
+var fs = require('fs');
+var glob = require('glob');
+var path = require('path');
+var log = require('./log')();
+
+// Ensures the existance of a symlink linkDst -> linkSrc
+// returns true if link was created
+// returns false if link exists alread (and is correct)
+// throws error if conflict (another file or link by that name)
+function createSymlinkSync(linkSrc, linkDst) {
+  var lstat;
+  try {
+    lstat = fs.lstatSync(linkDst);
+  } catch (e) {
+  }
+
+  if (lstat) {
+    if (!lstat.isSymbolicLink()) {
+      throw new Error("Conflict: path exist and is not a link: " + linkDst);
+    }
+
+    var oldDst = fs.readlinkSync(linkDst);
+    if (oldDst == linkSrc) {
+      return false; // already exists and is correct
+    }
+    // kill old link!
+    fs.unlinkSync(linkDst);
+  }
+
+  fs.symlinkSync(linkSrc, linkDst);
+  return true;
+}
+
+module.exports = function(options) {
+  var modules = [];
+  options.src.forEach(function(pattern) {
+    modules = modules.concat(glob.sync(pattern));
+  });
+
+  for (var i = 0; i < modules.length; i++) {
+    var moduleToLinkRelPath = modules[i];  // hmvc/auth
+    var moduleToLinkName = path.basename(moduleToLinkRelPath); // auth
+    var linkSrc = path.join('..', moduleToLinkRelPath);
+    var linkDst = path.join('node_modules', moduleToLinkName);
+
+    if (createSymlinkSync(linkSrc, linkDst)) {
+      log.debug(linkSrc + " -> " + linkDst);
+    }
+  }
+
+};

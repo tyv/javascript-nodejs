@@ -3,6 +3,11 @@ var User = require('users').User;
 const LocalStrategy = require('passport-local').Strategy;
 const co = require('co');
 
+function UserAuthError(message) {
+  this.message = message;
+}
+
+
 // done(null, user)
 // OR
 // done(null, false, { message: <error message> })  <- 3rd arg format is from built-in messages of strategies
@@ -11,10 +16,10 @@ module.exports = new LocalStrategy({
   passwordField: 'password'
 }, function(login, password, done) {
 
-  if (!login) return done(null, false, {message: 'Укажите имя пользователя или email.'});
-  if (!password) return done(null, false, {message: 'Укажите пароль.'});
-
   co(function*() {
+
+    if (!login) throw new UserAuthError('Укажите имя пользователя или email.');
+    if (!password) throw new UserAuthError('Укажите пароль.');
 
     var user = yield User.findOne({email: login}).exec();
     if (!user) {
@@ -22,20 +27,26 @@ module.exports = new LocalStrategy({
     }
 
     if (!user) {
-      return done(null, false, {message: 'Нет такого пользователя.'});
+      throw new UserAuthError('Нет такого пользователя.');
     }
 
     if (!user.checkPassword(password)) {
-      return done(null, false, {message: 'Пароль неверен.'});
+      throw new UserAuthError('Пароль неверен.');
     }
 
     if (!user.verifiedEmail) {
-      return done(null, false, {message: 'Ваш email не подтверждён, проверьте почту. Также можно <a href="#" data-action-verify-email="' + user.email + '">запросить подтверждение заново</a>.'});
+      throw new UserAuthError('Ваш email не подтверждён, проверьте почту. Также можно <a href="#" data-action-verify-email="' + user.email + '">запросить подтверждение заново</a>.');
     }
 
+    return user;
+  }).then(function(user) {
     done(null, user);
-  })(function(err) {
-    if (err) done(err);
+  }, function(err) {
+    if (err instanceof UserAuthError) {
+      done(null, false, {message: err.message})
+    } else {
+      done(err);
+    }
   });
 
 });
