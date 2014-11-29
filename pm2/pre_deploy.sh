@@ -13,3 +13,5 @@ git pull origin master &&
   (git diff-index --quiet HEAD || git commit -a -m deploy) &&
   git push origin production
 
+
+# Tests
