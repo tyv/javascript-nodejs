@@ -13,11 +13,11 @@ const path = require('path');
 const fs = require('fs');
 const assert = require('assert');
 const runSequence = require('run-sequence');
+const linkModules = require('./modules/linkModules');
 
-// before anything: make sure all modules are linked
-gulp.task('link-modules', lazyRequireTask('./tasks/linkModules', { src: ['client', 'modules/*', 'hmvc/*'] }));
-// sync!
-gulp.start('link-modules');
+linkModules({
+  src: ['client', 'modules/*', 'hmvc/*']
+});
 
 const config = require('config');
 const mongoose = require('lib/mongoose');
@@ -43,6 +43,8 @@ function lazyRequireTask(path) {
   };
 }
 
+/* the task does nothing, used to run linkModules only */
+gulp.task('init');
 
 gulp.task('lint-once', lazyRequireTask('./tasks/lint', { src: jsSources }));
 gulp.task('lint-or-die', lazyRequireTask('./tasks/lint', { src: jsSources, dieOnError: true }));
@@ -71,16 +73,11 @@ gulp.task("tutorial:import:watch", lazyRequireTask('tutorial/tasks/importWatch',
 }));
 
 gulp.task("test", lazyRequireTask('./tasks/test', {
-  glob: 'modules/**/test/**/*.js',
+  glob: '{hmvc,modules}/**/test/**/*.js',
   reporter: 'spec',
-  timeout: 30000
+  timeout: 100000 // big timeout for webdriver e2e tests
 }));
 
-gulp.task("test:one", lazyRequireTask('./tasks/test', {
-  glob: 'modules/simpledownParser/test/**/*.js',
-  reporter: 'spec',
-  timeout: 30000
-}));
 
 gulp.task('watch', lazyRequireTask('./tasks/watch', {
   root:        __dirname,
@@ -140,9 +137,7 @@ gulp.task('dev', function(callback) {
   runSequence("client:sync-resources", 'client:compile-css', 'client:sync-css-images', ['nodemon', 'client:livereload', 'client:webpack', 'watch'], callback);
 });
 
-gulp.task('tutorial:import', ['cache:clean'], lazyRequireTask('tutorial/tasks/import', {
-  root: "/js/javascript-nodejs/javascript-tutorial"
-}));
+gulp.task('tutorial:import', ['cache:clean'], lazyRequireTask('tutorial/tasks/import'));
 
 gulp.task('cache:clean', lazyRequireTask('./tasks/cacheClean'));
 
@@ -159,5 +154,6 @@ gulp.on('stop', function() {
 gulp.on('err', function() {
   mongoose.disconnect();
 });
+
 
 

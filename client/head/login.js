@@ -22,7 +22,7 @@ function login() {
     modal.remove();
     var AuthModal = require('auth/client').AuthModal;
     new AuthModal();
-  });
+  }, 'authClient');
 }
 
 module.exports = login;

@@ -9,12 +9,12 @@
 
 	&__content
 		margin 23px 30px 0
-		min-height calc(100% - 63px)
 		position relative
 
 	//- модификатор _sticky-footer делает последнюю секцию всегда прижатой к низу сайдбара
 	&_sticky-footer &__content
-		padding-bottom 40px // резервируем место под «редактировать на github»
+		min-height calc(100% - 85px)
+		padding-bottom 62px // резервируем место под «редактировать на github»
 
 	&_sticky-footer &__section:last-child
 		position absolute
@@ -105,12 +105,11 @@
 		&__toggle
 			display none
 
-	&_compact&_sticky-footer &__content
-		min-height calc(100% - 63px)
-
 	&_compact &__section
 		margin 15px 0
 
+	// в компактном виде сохраняем у футера отступы по умолчанию
+	// для более удобного выравнивания с нижними хлебными крошками
 	&_compact&_sticky-footer &__section:last-child
 		margin 22px 0
 
@@ -123,3 +122,12 @@
 	&_compact &__navigation-link
 		line-height 1.1
 		margin 8px 0
+
+	@media short_window
+		&_sticky-footer &__content
+			padding-bottom 38px
+			min-height calc(100% - 62px)
+
+		&_compact&_sticky-footer &__section:last-child,
+		&_sticky-footer &__section:last-child
+			margin 10px 0

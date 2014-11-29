@@ -9,7 +9,8 @@ require('lib/requireJade');
 module.exports = function(options) {
 
   return function() {
-    assert(process.env.NODE_ENV == 'test');
+    // config needs the right env
+    assert(process.env.NODE_ENV == 'test', "NODE_ENV=test must be set");
 
     return gulp.src(options.glob)
       .pipe(mocha(options));

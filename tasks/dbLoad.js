@@ -20,7 +20,7 @@ module.exports = function() {
 
     return co(function*() {
 
-      yield* dataUtil.loadDb(dbPath);
+      yield* dataUtil.loadModels(dbPath);
 
       gutil.log("loaded db " + dbPath);
     });

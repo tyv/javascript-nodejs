@@ -48,27 +48,29 @@ var fs = require('fs');
 var assert = require('assert');
 var thunkify = require('thunkify');
 
-function signCart(myCertPath, myKeyPath, paypalCertPath, message, callback) {
+function* signCart(myCertPath, myKeyPath, paypalCertPath, message) {
 
   var cmd = 'openssl smime -sign -signer ' + myCertPath + ' -inkey ' + myKeyPath + ' -outform der -nodetach -binary | openssl smime -encrypt -des3 -binary -outform pem ' + paypalCertPath;
 
-  var child = exec(
-    cmd,
-    function(err, stdout, stderr) {
-      if (err) return callback(err);
-      return callback(null, stdout);
-    }
-  );
+  return yield function(callback) {
+    var child = exec(
+      cmd,
+      function(err, stdout, stderr) {
+        if (err) return callback(err);
+        return callback(null, stdout);
+      }
+    );
 
-  child.stdin.end(message);
+    child.stdin.end(message);
+  };
 }
 
 module.exports = function(myCertPath, myKeyPath, paypalCertPath) {
-  assert(fs.existsSync(myCertPath));
-  assert(fs.existsSync(myKeyPath));
-  assert(fs.existsSync(paypalCertPath));
+  assert(fs.existsSync(myCertPath), myCertPath + " not found");
+  assert(fs.existsSync(myKeyPath), myKeyPath + " not found");
+  assert(fs.existsSync(paypalCertPath), paypalCertPath + " not found");
 
-  return thunkify(signCart.bind(null, myCertPath, myKeyPath, paypalCertPath));
+  return signCart.bind(null, myCertPath, myKeyPath, paypalCertPath);
 };
 
 

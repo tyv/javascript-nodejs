@@ -17,7 +17,7 @@ function getDocumentHeight(doc) {
   }
 
   return height;
-};
+}
 
 module.exports = getDocumentHeight;
 

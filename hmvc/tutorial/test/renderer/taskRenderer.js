@@ -1,6 +1,6 @@
 const app = require('app');
 
-const TaskRenderer = require('../../renderer/taskRenderer').TaskRenderer;
+const TaskRenderer = require('../../renderer/taskRenderer');
 const mongoose = require('lib/mongoose');
 const Task = require('../../models/task');
 
@@ -50,7 +50,6 @@ describe("TaskRenderer", function() {
     <p>Content 2</div>
     </div>')
     */
-    console.log(result);
 
 
   });

@@ -10,14 +10,15 @@ const assert = require('better-assert');
 
 describe('Authorization', function() {
 
-  var agent, server;
+  var server;
   before(function * () {
-    yield db.loadDb(fixtures);
+    yield* db.loadModels(fixtures);
 
     // app.listen() uses a random port,
     // which superagent gets as server.address().port
     // so that every run will get it's own port
     server = app.listen();
+    server.unref();
   });
 
   describe('login', function() {
@@ -73,9 +74,9 @@ describe('Authorization', function() {
     });
 
     var userData = {
-      email: "angelina@gmail.com",
-      displayName: "Angelina Jolie",
-      password: "angelina"
+      email: Math.random() + "@gmail.com",
+      displayName: "Random guy",
+      password: "somepass"
     };
 
     it('should create a new user', function(done) {
@@ -119,4 +120,5 @@ describe('Authorization', function() {
     });
 
   });
+
 });

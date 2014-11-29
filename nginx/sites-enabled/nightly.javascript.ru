@@ -1,17 +1,21 @@
+# Main host
+# For home dev I use in DNS: javascript.in
+# For prod it's nightly.javascript.ru
 
 server {
   listen 80;
 
-  server_name nightly.javascript.ru;
+  server_name nightly.javascript.ru javascript.in;
 
-  access_log  /var/log/nginx/js.local.log main;
+  access_log  /var/log/nginx/nightly.javascript.ru.log main;
 
   error_page 404 /404.html;
   error_page   500 502 503 504  /50x.html;
 
   charset utf-8;
-  root         /js/javascript-nodejs/current/public;
-<% if (env != 'test') { %>
+  root         <%=root%>/public;
+
+<% if (env == 'production') { %>
   auth_basic "Administrator Login";
   auth_basic_user_file /etc/nginx.passwd;
 <% } %>

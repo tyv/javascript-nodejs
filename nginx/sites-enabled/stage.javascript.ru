@@ -1,12 +1,11 @@
-# proxy everything to remote machine which actually has node up
-# requires ssh like:
+# This host is used for live proxying from a remote server w/ open IP to dev/testing machine over NAT
+#
+# requires revers ssh tunnel, e.g:
 #  from dev machine:
 #    autossh -M 10984 -R 1212:localhost:80 <user>@stage.javascript.ru
 #  from travis:
 #    ssh -fnNR localhost:1212:localhost:80 travis@stage.javascript.ru
-#              ^^^^^^^^^ if I don't set it here and 'GatewayPorts yes', 1212 port will be open
-
-# port 1212 is
+#              ^^^^^^^^^ if I don't set it here and 'GatewayPorts yes', 1212 port will be open to everyone
 
 server {
 

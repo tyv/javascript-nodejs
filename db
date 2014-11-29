@@ -1,5 +1,0 @@
-#!/bin/bash
-echo Linking modules
-./gulp link-modules
-echo Loading the "default" site fixture.
-./gulp loaddb --db fixture/db.js

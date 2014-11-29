@@ -10,8 +10,7 @@ var Article = require('../../models/article');
 describe('Article', function() {
 
   before(function* () {
-    yield dataUtil.loadDb(path.join(__dirname, '../data/article'));
-
+    yield* dataUtil.loadModels(path.join(__dirname, '../fixture/article'));
   });
 
 
@@ -35,9 +34,13 @@ describe('Article', function() {
 
   describe('findTree', function() {
 
-    it("works", function* () {
+    it("returns nested structure { children: [ ... ] }", function* () {
       var tree = yield Article.findTree();
-      console.log(treeUtil.flattenArray(tree));
+      //console.log(tree);
+      tree.children.length.should.be.eql(2);
+      tree.children[0].children.length.should.be.eql(2);
+      tree.children[1].children.length.should.be.eql(2);
+ //     console.log(treeUtil.flattenArray(tree));
 //      console.log(util.inspect(tree, {depth:100}));
     });
 
