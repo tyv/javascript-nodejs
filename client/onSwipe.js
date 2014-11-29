@@ -18,6 +18,7 @@ function onSwipe(elem, options) {
     dist = 0;
     startX = touchobj.pageX;
     startY = touchobj.pageY;
+    //console.log(startX, startY);
     startTime = Date.now(); // record time when finger first makes contact with surface
   }, false);
 
