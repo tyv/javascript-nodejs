@@ -138,9 +138,12 @@ app.waitBootAndListen = function*() {
 app.close = function*() {
   log.info("Closing app server...");
   yield function(callback) {
-    app.server.close(callback);
+   console.log("ASCLOSE 0"); 
+   app.server.close(callback);
+    console.log("ASCLOSE");
   };
 
+  console.log("ASCLOSE2");
   log.info("App connections are closed");
 
   yield function(callback) {

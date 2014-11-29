@@ -15,6 +15,7 @@ co(function*() {
 });
 
 process.on('message', function(msg) {
+console.log("MESSAGE", arguments);
   if (msg == 'shutdown') { // PM2 sends this on graceful reload
     shutdown();
   }
@@ -25,12 +26,14 @@ function shutdown() {
   // Have to close all database/socket.io/* connections
 
   co(function*() {
-    console.log("Closing the app...");
+    console.log("Closing the app...!");
     yield* app.close();
-    console.log("App closed");
+    console.log("App closed!");
   }).then(function() {
+    console.log("EXIT");
     process.exit(0);
   }, function(err) {
+console.log("ERROR");
     console.error(err);
   });
 
