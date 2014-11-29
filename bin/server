@@ -3,19 +3,28 @@
 const config = require('config');
 const co = require('co');
 const app = require('app');
+var fs = require('fs');
+
+var fd = fs.openSync('/tmp/bla', 'w');
+
+function log(str) {
+  console.log(str);
+  fs.writeSync(fd, str + "\n");
+}
 
 co(function*() {
 
   yield* app.waitBootAndListen();
 
-  console.log("app is listening");
+  log("app is listening");
 
 }).catch(function(err) {
   throw err;
 });
 
+
 process.on('message', function(msg) {
-console.log("MESSAGE", arguments);
+  log("MESSAGE");
   if (msg == 'shutdown') { // PM2 sends this on graceful reload
     shutdown();
   }
@@ -26,14 +35,20 @@ function shutdown() {
   // Have to close all database/socket.io/* connections
 
   co(function*() {
-    console.log("Closing the app...!");
-    yield* app.close();
-    console.log("App closed!");
+    log("Closing the app...!");
+    yield function(callback) {
+     log("ASCLOSE 0");
+     app.server.close(callback);
+     log("ASCLOSE");
+    };
+
+    
+    log("App closed!");
   }).then(function() {
-    console.log("EXIT");
+    log("EXIT");
     process.exit(0);
   }, function(err) {
-console.log("ERROR");
+log("ERROR");
     console.error(err);
   });
 
