@@ -1,7 +1,13 @@
+/**
+ * This module does not have any other module dependencies,
+ * because even require('log') requires "log" to be linked in.
+ * @type {exports}
+ */
 var fs = require('fs');
 var glob = require('glob');
 var path = require('path');
-var log = require('./log')();
+
+var DEBUG = false;
 
 // Ensures the existance of a symlink linkDst -> linkSrc
 // returns true if link was created
@@ -44,7 +50,7 @@ module.exports = function(options) {
     var linkDst = path.join('node_modules', moduleToLinkName);
 
     if (createSymlinkSync(linkSrc, linkDst)) {
-      log.debug(linkSrc + " -> " + linkDst);
+      if (DEBUG) console.log(linkSrc + " -> " + linkDst);
     }
   }
 
