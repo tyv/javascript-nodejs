@@ -141,7 +141,7 @@ gulp.task('tutorial:import', ['cache:clean'], lazyRequireTask('tutorial/tasks/im
 
 gulp.task('cache:clean', lazyRequireTask('./tasks/cacheClean'));
 
-gulp.task('check:spider', lazyRequireTask('./tasks/checkSpider'));
+gulp.task('test:spider', lazyRequireTask('./tasks/testSpider'));
 
 gulp.task('config:nginx', lazyRequireTask('./tasks/configNginx'));
 
@@ -154,5 +154,6 @@ gulp.on('stop', function() {
 gulp.on('err', function() {
   mongoose.disconnect();
 });
+
 
 

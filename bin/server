@@ -38,6 +38,7 @@ function shutdown() {
   // I have 4000ms to close all connections
   setTimeout(function() {
     console.error("App is stopping for too long! Will be killed now!");
+    // kill is accomplished by PM2
   }, dieDelay - 100);
 
 }
