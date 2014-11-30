@@ -32,6 +32,7 @@ function addStandardHelpers(locals, ctx) {
   locals.moment = moment;
 
   locals.url = ctx.protocol + '://' + ctx.host + ctx.originalUrl;
+  locals.context = ctx;
 
   // csrf only generated on request
   // use:

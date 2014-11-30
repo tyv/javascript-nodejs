@@ -1,0 +1,2 @@
+#!/bin/bash
+sudo gulp config:nginx --prefix /opt/local/etc/nginx --env development --root /js/javascript-nodejs
