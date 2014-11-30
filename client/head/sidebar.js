@@ -1,27 +1,14 @@
-var throttle = require('lib/throttle');
 
+document.addEventListener('click', function(event) {
+  if (event.target.dataset.sidebarToggle === undefined) return;
 
+  document.querySelector('.page').classList.toggle('page_sidebar_on');
 
-/*
-var resetSidebarSize = throttle(function() {
-
-  var sidebar = document.querySelector('.sidebar__inner');
-  if (!sidebar) return;
-
-  var sidebarContent = sidebar.querySelector('.sidebar__content');
-
-  if (sidebar.scrollHeight == sidebar.clientHeight) {
-    console.log(sidebar.scrollHeight, sidebar.clientHeight);
-    sidebar.classList.add('sidebar__spacey');
+  if (document.querySelector('.page').classList.contains('page_sidebar_on')) {
+    delete localStorage.noSidebar;
   } else {
-    sidebar.classList.remove('sidebar__spacey');
+    localStorage.noSidebar = 1;
   }
 
-  // todo: go back from compact?
 
-  window.requestAnimationFrame(resetSidebarSize);
-
-}, 200);
-
-window.requestAnimationFrame(resetSidebarSize);
-  */
+});

@@ -5,6 +5,10 @@ block body
   if sitetoolbar
     include ../blocks/sitetoolbar
   .page(class= sidebar ? 'page_sidebar_on' : undefined)
+    script.
+      if (localStorage.noSidebar) {
+        document.querySelector('.page').classList.remove('page_sidebar_on');
+      }
     //- основное содержимое статьи идёт до сайдбара (пользователь увидит его первым)
     .page__inner
       main.main(class=layout_main_class ? ' ' + layout_main_class : '')
@@ -19,7 +23,7 @@ block body
           span.page__nav-text-shortcut
     if sidebar
       +b(class="sidebar page__sidebar #{sidebar.class}")
-        +e('button').toggle(onclick="document.querySelector('.page').classList.toggle('page_sidebar_on')" data-add-class-on-hover)
+        +e('button').toggle(data-sidebar-toggle data-add-class-on-hover)
         +e.inner
           +e.content
             block sidebar

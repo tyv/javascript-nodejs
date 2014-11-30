@@ -1,4 +1,5 @@
 types {
+    application/font-woff		  woff;
     text/html                             html htm shtml;
     text/css                              css;
     text/xml                              xml rss;
