@@ -24,8 +24,10 @@ module.exports = function(app) {
 
   mountHmvc('/', 'frontpage');
 
+  // it's actually dev, but fine for nightly
+  mountHmvc('/markup', 'markup');
+
   if (process.env.NODE_ENV == 'development') {
-    mountHmvc('/markup', 'markup');
     mountHmvc('/dev', 'dev');
   }
 
