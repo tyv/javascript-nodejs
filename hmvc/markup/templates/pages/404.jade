@@ -3,11 +3,12 @@ extends ../layouts/base
 // - http://stackoverflow.com/questions/12646451/how-to-pass-variables-between-jade-templates
 block variables
   - self.title = 'Страница не найдена';
+  - layout.sitetoolbar = true;
 
 block content
   +b.error
     +e('h1').type Страница не найдена
-    +e.code 403
+    +e.code 404
     +e.text
       | Для того, чтобы найти нужную вам страницу, вы можете воспользоваться поиском:
     +e.text
