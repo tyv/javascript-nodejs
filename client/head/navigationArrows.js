@@ -49,11 +49,11 @@ function showHotKeys() {
 
 onSwipe(document, {
   onRight: function() {
-    var link = document.querySelector('link[rel="next"]');
+    var link = document.querySelector('link[rel="prev"]');
     if (link) document.location = link.href;
   },
   onLeft: function() {
-    var link = document.querySelector('link[rel="prev"]');
+    var link = document.querySelector('link[rel="next"]');
     if (link) document.location = link.href;
   }
 });

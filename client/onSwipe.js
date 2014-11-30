@@ -37,11 +37,15 @@ function onSwipe(elem, options) {
     // too slow
     if (elapsedTime > allowedTime) return;
 
+    //console.log("threshold", dist, threshold);
+
     if (dist > threshold) {
+      //console.log("right");
       onRight(e);
     }
 
     if (dist < -threshold) {
+      //console.log("left");
       onLeft(e);
     }
   }, false)
