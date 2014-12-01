@@ -20,7 +20,7 @@
     }
   ],
   "deploy": {
-    "dev": {
+    "nightly": {
       "user":        "root",
       "host":        "stage",
       "ref":         "origin/production",
