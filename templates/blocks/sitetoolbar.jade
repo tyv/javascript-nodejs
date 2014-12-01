@@ -5,20 +5,21 @@
         +e('img').logo(src="/i/sitetoolbar__logo.svg")
         script.
           (function() {
-            /* chrome renders embed.svg with a delay, this loads embed later to prevent flickering */
-            var img = document.querySelector('img.sitetoolbar__logo')
+            /* chrome renders embed.svg with a delay,
+             this loads embed later to prevent flickering */
+            var logo = document.querySelector('img.sitetoolbar__logo')
             var embed = document.createElement('object');
             embed.type='image/svg+xml';
 
-            embed.className = img.className;
+            embed.className = logo.className;
             embed.style.cssText = 'left:0;top:0;position:absolute';
 
             embed.onload = function() {
               embed.onload = null;
-              img.style.visibility = 'hidden';
+              logo.style.visibility = 'hidden';
             };
-            embed.data = img.src;
-            img.parentNode.insertBefore(embed, img);
+            embed.data = logo.src;
+            logo.parentNode.insertBefore(embed, logo);
           })();
     +e.nav-toggle-wrap
       //- todo: implement me
@@ -31,15 +32,16 @@
           //- элемент с модификатором _current может содержать как ссылку,
           //- так и простой текст, выглядеть будет одинаково
           | Учебник
-        =' '
-        +e('li').section
-          +e('a').link(href="/courses") Курсы
-        =' '
-        +e('li').section
-          +e('a').link(href="/spec") Стандарт ES5
-        =' '
-        +e('li').section
-          +e('a').link(href="/tests") Тестирование
+        //-
+          =' '
+          +e('li').section
+            +e('a').link(href="/courses") Курсы
+          =' '
+          +e('li').section
+            +e('a').link(href="/spec") Стандарт ES5
+          =' '
+          +e('li').section
+            +e('a').link(href="/tests") Тестирование
     if user
       include ./user
     else

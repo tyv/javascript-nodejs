@@ -1,0 +1,45 @@
+extends /layouts/main
+
+block content
+  +b.intro
+    | Перед вами учебник по JavaScript, начиная с основ, включающий в себя много
+    | тонкостей и фишек JavaScript/DOM.
+  +b.course-search
+    +e('form').form(action="#" onsubmit="return false")
+      +e.input-wrap._text
+        +b.text-input.__query
+          +e('input').control(type="text", placeholder="поиск по учебнику пока неактивен")
+      +e.input-wrap._submit
+        +b('button').submit-button.__submit Найти
+  +b.course-info
+    +e('h2').header Основной курс
+    +e.body.columns.columns_2
+      +e.col.columns__col
+        +e.content
+          +e.title-note Часть первая
+          +e('h3').title= js.title
+          != js.body
+          +b('ul').special-links-list
+            - each folder in js.children
+              +e('li').item
+                +e('a').link(href=folder.url)= folder.title
+
+      +e.col.columns__col
+        +e.content
+          +e.title-note Часть вторая
+          +e('h3').title= ui.title
+          != ui.body
+          +b('ul').special-links-list
+            - each folder in ui.children
+              +e('li').item
+                +e('a').link(href=folder.url)= folder.title
+
+  +b.bricks
+    +e('h2').title= more.title
+    +e.body.columns.columns_3
+      +e.col.columns__col
+        - each folder in more.children
+          +e.brick
+            +e('h3').brick-title
+              +e('a').brick-title-link(href=folder.url)= folder.title
+            +e.brick-content!= folder.body

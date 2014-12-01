@@ -9,15 +9,13 @@ const makeAnchor = require('textUtil/makeAnchor');
 
 exports.get = function *get(next) {
 
-  /*
-  var renderedArticle = yield CacheEntry.getOrGenerate({
-    key:  'article:rendered:' + this.params.slug,
+  var renderedMap = yield CacheEntry.getOrGenerate({
+    key:  'map:rendered',
     tags: ['article']
-  }, _.partial(renderArticle, this.params.slug));
-*/
+  }, renderMap);
 
   var locals = {
-    children: yield* renderMap()
+    children: renderedMap
   };
 
   var template = this.get('X-Requested-With') ? '_map' : 'map';
