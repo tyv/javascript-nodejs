@@ -213,7 +213,7 @@ AuthModal.prototype.submitRegisterForm = function(form) {
       self.showFormMessage(
           "Сейчас вам придёт email с адреса <code>inform@javascript.ru</code> " +
           "со ссылкой-подтверждением.<br>" +
-          "<a href='#' data-action-verify-email='" + form.elements.email.value + "'>перезапросить подтверждение</a>",
+          "<a href='#' data-action-verify-email='" + form.elements.email.value + "'>перезапросить подтверждение.</a>",
         'success'
       );
       return;
