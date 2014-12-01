@@ -25,7 +25,7 @@ exports.post = function* (next) {
     if (e.name == 'ValidationError') {
       try {
         if (e.errors.email.type == "notunique") {
-          e.errors.email.message += ' Если он ваш, то можно <a data-switch="forgot-form" href="#">войти</a> или <a data-switch="forgot-form" href="#">восстановить пароль</a>.';
+          e.errors.email.message += ' Если он ваш, то можно <a data-switch="login-form" href="#">войти</a> или <a data-switch="forgot-form" href="#">восстановить пароль</a>.';
         }
       } catch (ex) { }
       return this.renderValidationError(e);

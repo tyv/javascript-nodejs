@@ -3,6 +3,7 @@ extends ../layouts/base
 // - http://stackoverflow.com/questions/12646451/how-to-pass-variables-between-jade-templates
 block variables
   - self.title = 'Доступ к этой странице закрыт';
+  - layout.sitetoolbar = true;
 
 block content
   +b.error
