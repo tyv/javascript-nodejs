@@ -4,7 +4,7 @@
 server {
 
     listen 80;
-    server_name js.cx;
+    server_name js.cx static-nightly.javascript.ru;
 
     root <%=root%>/public;
 
