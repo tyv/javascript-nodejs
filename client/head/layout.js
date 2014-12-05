@@ -1,7 +1,3 @@
-var getBrowserScrollCause = require('client/dom/getBrowserScrollCause');
-
-var lastPageYOffset = 0;
-
 var requestAnimationFrameId;
 
 var DEBUG = false;
@@ -90,39 +86,6 @@ function onWindowScrollAndResize() {
 
   setUserScaleIfTablet();
 
-  var browserScrollCause = getBrowserScrollCause();
-  log("scrollCause", browserScrollCause);
-
-  if (browserScrollCause !== null) {
-    log("browser scroll");
-    // browser-initiated scroll: never show navigation (except on top), try to hide it
-    // if page top - user will see the nav and the header
-    // if not page top - user will see the header when opening a link with #hash
-    //   (without a sitetoolbar which would overlay it)
-    lastPageYOffset = window.pageYOffset;
-    return;
-  }
-
-
-
-  // now we are in the middle of the page or at the end
-  // let's see if the user scrolls up or down
-
-  var scrollDirection = window.pageYOffset > lastPageYOffset ? 'down' : 'up';
-
-  //console.log("HERE", scrollDirection, window.pageYOffset, window.pageYOffset > sitetoolbarHeight + 20,     window.pageYOffset + document.documentElement.clientHeight < document.documentElement.scrollHeight - 60);
-  if (scrollDirection == 'up' &&
-      // not at page top
-    window.pageYOffset > sitetoolbarHeight + 20 &&
-      // not at page bottom (may be bounce)
-    window.pageYOffset + document.documentElement.clientHeight < document.documentElement.scrollHeight - 60
-  ) {
-    document.body.classList.add('page_bottom-nav');
-  } else {
-    document.body.classList.remove('page_bottom-nav');
-  }
-
-  lastPageYOffset = window.pageYOffset;
 
 }
 

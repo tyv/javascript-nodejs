@@ -45,6 +45,7 @@ function AuthModal(options) {
 }
 AuthModal.prototype = Object.create(Modal.prototype);
 
+
 delegate.delegateMixin(AuthModal.prototype);
 
 AuthModal.prototype.successRedirect = function() {
@@ -211,9 +212,8 @@ AuthModal.prototype.submitRegisterForm = function(form) {
     if (this.status == 201) {
       self.setContent(clientRender(loginForm));
       self.showFormMessage(
-          "Сейчас вам придёт email с адреса <code>inform@javascript.ru</code> " +
-          "со ссылкой-подтверждением.<br>" +
-          "<a href='#' data-action-verify-email='" + form.elements.email.value + "'>перезапросить подтверждение.</a>",
+          "<p>Сейчас вам придёт email с адреса inform@javascript.ru со ссылкой-подтверждением.</p>" +
+          "<p><a href='#' data-action-verify-email='" + form.elements.email.value + "'>перезапросить подтверждение.</a></p>",
         'success'
       );
       return;
@@ -277,10 +277,13 @@ AuthModal.prototype.showInputError = function(input, error) {
 };
 
 AuthModal.prototype.showFormMessage = function(message, type) {
+  if (message.indexOf('<p>') !== 0) {
+    message = '<p>' + message + '</p>';
+  }
+
   if (['info', 'error', 'warning', 'success'].indexOf(type) == -1) {
     throw new Error("Unsupported type: " + type);
   }
-
 
   var container = document.createElement('div');
   container.className = 'login-form__' + type;

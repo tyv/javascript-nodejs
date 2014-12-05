@@ -26,10 +26,10 @@ exports.get = function *get(next) {
 
   var sourcePlunk = yield Plunk.findOne({webPath: task.getResourceWebRoot() + '/source'}).exec();
 
-  // tODO
   if (sourcePlunk) {
     this.locals.sourcePlunkInfo = {
-      url: sourcePlunk.getUrl()
+      url: sourcePlunk.getUrl(),
+      plunkId: sourcePlunk.plunkId
     };
 
     var hasTest = sourcePlunk.files.find(function(item) {
@@ -44,7 +44,8 @@ exports.get = function *get(next) {
   var solutionPlunk = yield Plunk.findOne({webPath: task.getResourceWebRoot() + '/solution'}).exec();
   if (solutionPlunk) {
     this.locals.solutionPlunkInfo = {
-      url: solutionPlunk.getUrl()
+      url: solutionPlunk.getUrl(),
+      plunkId: solutionPlunk.plunkId
     };
 
     var hasTest = solutionPlunk.files.find(function(item) {
