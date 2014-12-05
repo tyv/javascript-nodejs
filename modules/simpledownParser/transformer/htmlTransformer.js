@@ -352,7 +352,8 @@ HtmlTransformer.prototype.transformIframeTag = function(node) {
 
   if (node.attrs.edit) {
     locals.edit = {
-      href: 'http://plnkr.co/edit/' + node.attrs.edit + '?p=preview'
+      href: 'http://plnkr.co/edit/' + node.attrs.edit + '?p=preview',
+      plunkId: node.attrs.edit
     };
   }
 

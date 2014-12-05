@@ -19,7 +19,7 @@ module.exports = function() {
     var child = spawn('./node_modules/casperjs/bin/casperjs',
       [
         '--start-url=http://javascript.in/tutorial/map',
-        '--required-values=javascript.in',
+        '--required-values=http://javascript.in',
         '--file-location=./tmp/',
         'node_modules/casperjs-spider/spider.js'
       ],

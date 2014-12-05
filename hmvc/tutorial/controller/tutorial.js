@@ -33,7 +33,6 @@ function* renderTutorial() {
 
   var treeRendered = yield* renderTree(tree);
 
-  console.log(treeRendered);
   var result = {
     js: treeRendered[0],
     ui: treeRendered[1],

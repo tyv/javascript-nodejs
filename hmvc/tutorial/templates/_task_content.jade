@@ -9,16 +9,16 @@
             != step.content
 
             if (i == task.solution.length - 1 && solutionPlunkInfo)
-              a(href=solutionPlunkInfo.url)= solutionPlunkInfo.title
+              a(href=solutionPlunkInfo.url data-plunk-id=solutionPlunkInfo.plunkId)= solutionPlunkInfo.title
 
     else
       +e.answer-content
         != task.solution
 
         if solutionPlunkInfo
-          a(href=solutionPlunkInfo.url)= solutionPlunkInfo.title
+          a(href=solutionPlunkInfo.url data-plunk-id=solutionPlunkInfo.plunkId)= solutionPlunkInfo.title
 
     +b('button').close-button.__answer-close(type="button", title="закрыть")
   != task.content
   if sourcePlunkInfo
-    a(href=sourcePlunkInfo.url)= sourcePlunkInfo.title
+    a(href=sourcePlunkInfo.url data-plunk-id=sourcePlunkInfo.plunkId)= sourcePlunkInfo.title
