@@ -40,6 +40,10 @@ var webpackConfig = {
     ]
   },
 
+  node: {
+    fs: 'empty'
+  },
+
   plugins: [
     //new CommonsChunkPlugin("init", "init.js")
     new WriteVersionsPlugin(path.join(config.manifestRoot, "js.versions.json")),
