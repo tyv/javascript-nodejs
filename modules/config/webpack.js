@@ -29,6 +29,7 @@ var webpackConfig = {
   devtool:    isDevelopment ? "source-map" : '',
 
   entry:  {
+    polyfill: 'client/polyfill',
     head:     'client/head',
     tutorial: 'tutorial/client',
     profile:   'profile/client',
@@ -36,7 +37,8 @@ var webpackConfig = {
   },
   module: {
     loaders: [
-      {test: /\.jade$/, loader: "jade?root=" + config.projectRoot + '/templates'}
+      {test: /\.jade$/, loader: "jade?root=" + config.projectRoot + '/templates'},
+      {test: /\.js$/, loader: '6to5-loader'}
     ]
   },
 

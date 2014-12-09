@@ -1,6 +1,3 @@
-
-
-var findClosest = require('client/dom/findClosest');
 var hoverIntent = require('client/hoverIntent');
 
 module.exports = function() {
@@ -29,7 +26,7 @@ module.exports = function() {
 
   // we show tooltip element for any link hover, but few of them actually get styled
   function onOver(event) {
-    var link = findClosest(event.target, 'a');
+    var link = event.target.closest('a');
 
     if (!link) return;
 
@@ -59,7 +56,7 @@ module.exports = function() {
 
   var handler = hoverIntent(onOver, onOut, 'a');
   document.addEventListener('mouseover', function(event) {
-    if (!findClosest(event.target, 'a')) return;
+    if (!event.target.closest('a')) return;
     handler.call(this, event);
   });
   document.addEventListener('mouseout', handler);

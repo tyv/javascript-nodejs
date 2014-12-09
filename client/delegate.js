@@ -1,6 +1,3 @@
-'use strict';
-
-require('./polyfill');
 
 function findDelegateTarget(event, selector) {
   var currentNode = event.target;

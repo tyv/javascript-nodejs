@@ -2,45 +2,49 @@
 // библиотека humane.js
 .humane
 .humane-libnotify
-  position   : fixed
-  transition : all .3s ease-out
-  z-index     100000
-
-.humane
-.humane-libnotify
-  font-family        Ubuntu, Arial, sans-serif
-  text-align         center
-  font-size          15px
-  top                10px
-  right              10px
-  opacity            0
-  width              150px
-  color              #fff
-  padding            10px
-  background         white
-  border-radius      5px
-  box-shadow         0 4px 4px -4px #000
-  transform          translateY(-40px)
+	position: fixed
+	transition: all .3s ease-out
+	z-index 100000
+	font-size 14px
+	top 46px
+	margin 0 auto
+	opacity 0
+	max-width 630px
+	color black
+	padding 10px
+	background white
+	border-radius 4px
+	box-shadow 0px 3px 3px 0px rgba(0,0,0,0.25)
+	transform translateY(-100px)
+	left 0
+	right 0
 
 &.humane-libnotify-info
-  background         lightgreen
+	background #D9EDF8
+	border 1px solid #C8E0ED
+
+&.humane-libnotify-warn
+	background #FCF8E1
+	border 1px solid #ECE6C4
 
 &.humane-libnotify-success
-  background   green
+	background #DFF0D6
+	border 1px solid #D1E7C6
 
 &.humane-libnotify-error
-  background         red
+	background #F2DEDE
+	border 1px solid #E7C9C9
 
 .humane.humane-animate
 .humane-libnotify.humane-libnotify-animate
-  opacity            1
-  transform          translateY(0)
-  &:hover
-    opacity          0.2
+	opacity 1
+	transform translateY(0)
+	&:hover
+		opacity 0.2
 
 .humane.humane-animate
 .humane-libnotify.humane-libnotify-js-animate
-  opacity            1
-  transform          translateY(0)
-  &:hover
-    opacity          0.2
+	opacity 1
+	transform translateY(0)
+	&:hover
+		opacity 0.2
