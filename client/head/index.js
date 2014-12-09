@@ -1,4 +1,5 @@
 
+
 require('./unready');
 
 exports.init = require('./init');
@@ -12,6 +13,3 @@ require('./layout');
 require('./sidebar');
 require('./navigationArrows');
 require('./hover');
-
-// temporary
-window.Spinner = require('client/spinner');

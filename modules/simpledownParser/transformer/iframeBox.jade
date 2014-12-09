@@ -7,7 +7,7 @@ include bem
         +e('a')(href=link.href target="_blank" title="открыть в новом окне").button_external
     if edit
       +e.tool
-        +e('a')(href=edit.href target="_blank" title="открыть в песочнице окне").button_edit
+        +e('a')(href=edit.href data-plunk-id=edit.plunkId target="_blank" title="открыть в песочнице").button_edit
     if zip
       +e.tool
         +e('a')(href=zip.href target="_blank" title="скачать архив").button_zip
