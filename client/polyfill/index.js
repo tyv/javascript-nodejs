@@ -1,1 +1,1 @@
-require('./dom4');
+require('./dom');

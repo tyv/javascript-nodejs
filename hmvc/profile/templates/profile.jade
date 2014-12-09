@@ -39,13 +39,13 @@ block content
       +e.item._editable(data-inline-edit)
         +e.item-content
           +e.item-name Имя:
-          +e.item-value Валентиновский Валентин Валентинович
-        +e.item-change
+          +e.item-value= user.displayName
+        +e('form').item-change(data-field="displayName")
           +e.change-content
             +e.labeled
               +e('label').labeled-label(for="profile-name") Имя:
               +b.text-input._small.__control
-                +e('input').control#profile-name(type="text", value="Валентиновский Валентин Валентинович")
+                +e('input').control(required name="displayName" type="text" value="Валентиновский Валентин Валентинович")
           include blocks/profile-ok-cancel
       +e.item._editable
         +e.item-content

@@ -1,8 +1,6 @@
 // add/remove .hover onmouseenter/leave
 // for mobile devices (:hover sticks)
 
-var findClosest = require('client/dom/findClosest');
-
 var currentHoverElem;
 
 /*
@@ -26,7 +24,7 @@ document.addEventListener("pointercancel", log, false);
 document.addEventListener("mouseover", log, false);
 */
 document.addEventListener('mouseover', function(event) {
-  var target = findClosest(event.target, '[data-add-class-on-hover]');
+  var target = event.target.closest('[data-add-class-on-hover]');
   if (target) {
     currentHoverElem = target;
     target.classList.add('hover');
@@ -43,7 +41,7 @@ document.addEventListener('touchend', function(event) {
 });
 
 document.addEventListener('mouseout', function(event) {
-  var target = findClosest(event.target, '[data-add-class-on-hover]');
+  var target = event.target.closest('[data-add-class-on-hover]');
   if (target == currentHoverElem) return;
   currentHoverElem.classList.remove('hover');
   currentHoverElem = null;

@@ -1,5 +1,4 @@
 var iframeResize = require('./iframeResize');
-var findClosest = require('client/dom/findClosest');
 var throttle = require('lib/throttle');
 // track resized iframes in window.onresize
 
@@ -21,8 +20,8 @@ exports.codeTabs = function(iframe) {
   function hideShowArrows() {
 
     // add arrows if needed
-    var elem = findClosest(iframe, '.code-tabs');
-    var contentElem = findClosest(iframe, '[data-code-tabs-content]');
+    var elem = iframe.closest('.code-tabs');
+    var contentElem = iframe.closest('[data-code-tabs-content]');
     var switchesElem = elem.querySelector('[data-code-tabs-switches]');
     var switchesElemItems = switchesElem.firstElementChild;
 
