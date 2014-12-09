@@ -1,4 +1,4 @@
-var xhr = require('client/xhr');
+import xhr from 'client/xhr';
 
 var delegate = require('client/delegate');
 var Modal = require('client/head/modal');

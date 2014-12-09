@@ -5,26 +5,6 @@
 	padding 0
 	color #888
 
-	.main &_fixed
-		position fixed
-		bottom 0
-		right 0
-		left 0
-		z-index 99
-		background #fff
-		line-height 20px
-		padding 22px 23px
-		margin 0
-		box-shadow 1px -1px 2px rgba(0, 0, 0, .3)
-		transform translateY(105%)
-		transition left animation_duration, transform animation_duration
-
-	.page_bottom-nav &_fixed
-			transform translateY(0)
-
-	.page_sidebar_on &_fixed
-		left sidebar_width
-
 	& &__item
 		display inline-block
 		margin 0
@@ -63,14 +43,3 @@
 	&__link:hover
 		color link_hover_color
 
-	@media tablet
-		.page_sidebar_on &_fixed
-			left 0
-
-	@media short_window
-		.main &_fixed
-			padding 10px 20px
-
-	@media (max-height: 320px)
-		.main &_fixed
-			display none

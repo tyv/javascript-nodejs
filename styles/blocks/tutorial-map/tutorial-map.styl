@@ -34,6 +34,7 @@
 	&__input
 		width 100%
 		margin-top 12px
+		position relative
 
 	& &__col-title
 		font 18px secondary_font
@@ -110,6 +111,11 @@
 		color #656565
 
 	@media tablet
+		margin 50px 20px
+		
+		&__option-control
+			margin-left 0
+
 		&__filter,
 		&__input-wrap,
 		&__option
@@ -130,21 +136,6 @@
 
 		& &__items,
 		& &__item
-			margin-top 15px
-
-	@media (max-width: 1050px)
-		// с точки зрения организации кода размещать эти стили в файле tutorial-map.styl
-		// неправильно, но по сути дублировать их в файле page.styl чревато
-		// вероятной рассинхронизацией при поддержке
-		.page_sidebar_on &__section.columns__col
-			display block
-			width auto
-
-		.page_sidebar_on &__col-title
-			margin-bottom 15px
-
-		.page_sidebar_on &__items,
-		.page_sidebar_on &__item
 			margin-top 15px
 
 

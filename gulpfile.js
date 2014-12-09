@@ -6,7 +6,6 @@
 // new Set([1,2]).size = 0 in node 0.11.14, Set is buggy all around
 // this header prevents `array-uniq` (-> array-union -> multimatch -> gulp-load-plugins) from it's use
 // fixme: when those above are fixed, remove it
-delete Set.prototype.forEach;
 
 const gulp = require('gulp');
 const path = require('path');

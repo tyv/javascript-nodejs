@@ -2,10 +2,10 @@
 
 # Pull all changes from the master branch and build the artifact
 # Then commit to production branch
+#
+# rm -rf node_modules to reinstall them
 
-#   rm -rf node_modules && npm i && find node_modules -name .git -delete && git add --force node_modules
 
-# Pull changes
 git pull origin master &&
   # Install node_modules if absent
   ([ -d node_modules ] ||

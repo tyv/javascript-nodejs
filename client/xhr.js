@@ -20,7 +20,7 @@ require('./xhr-notify');
 //    --> fail if error
 //
 // # CSRF
-//    --> GET/OPTIONS/HEAD requests get _csrf field from window.csrf
+//    --> requests get _csrf field from window.csrf
 
 function xhr(options) {
 
@@ -36,7 +36,7 @@ function xhr(options) {
   }
 
   if ({}.toString.call(body) == '[object Object]') {
-    this.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     body = JSON.stringify(body);
   }
 
@@ -104,18 +104,18 @@ function xhr(options) {
   });
 
   request.addEventListener("load", e => {
-    if (!this.status) { // does that ever happen?
+    if (!request.status) { // does that ever happen?
       fail("Не получен ответ от сервера.", e);
       return;
     }
 
-    if (successStatuses.indexOf(this.status) == -1) {
-      fail("Ошибка на стороне сервера (код " + this.status + "), попытайтесь позднее", e);
+    if (successStatuses.indexOf(request.status) == -1) {
+      fail("Ошибка на стороне сервера (код " + request.status + "), попытайтесь позднее", e);
       return;
     }
 
-    var result = this.responseText;
-    var contentType = this.getResponseHeader("Content-Type");
+    var result = request.responseText;
+    var contentType = request.getResponseHeader("Content-Type");
     if (contentType.match(/^application\/json/) || options.json) { // autoparse json if WANT or RECEIVED json
       try {
         result = JSON.parse(result);

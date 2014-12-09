@@ -1,12 +1,15 @@
-a.page__nav.page__nav_prev(href="#prev", title="назад")
-  span.page__nav-text
-    span.page__nav-text-shortcut
-      | Ctrl +
-      =" "
-      span.page__nav-text-arr &larr;
-a.page__nav.page__nav_next(href="#next", title="вперед")
-  span.page__nav-text
-    span.page__nav-text-shortcut
-      | Ctrl +
-      =" "
-      span.page__nav-text-arr &rarr;
+.page__nav-wrap
+  a.page__nav.page__nav_prev(href="#prev", title="назад")
+    span.page__nav-text
+      span.page__nav-text-shortcut
+        | Ctrl +
+        =" "
+        span.page__nav-text-arr &larr;
+    span.page__nav-text-alternate Предыдущий урок
+  a.page__nav.page__nav_next(href="#next", title="вперед")
+    span.page__nav-text
+      span.page__nav-text-shortcut
+        | Ctrl +
+        =" "
+        span.page__nav-text-arr &rarr;
+    span.page__nav-text-alternate Следующий урок
