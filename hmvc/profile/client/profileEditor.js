@@ -2,31 +2,51 @@ var delegate = require('client/delegate');
 var xhr = require('client/xhr');
 var notify = require('client/notify');
 
-function ProfileEditor() {
-  this.elem = document.body.querySelector('.profile__content');
+class ProfileEditor {
+  constructor() {
+    this.elem = document.body.querySelector('.profile__content');
 
-  this.delegate('.profile__item_editable', 'click', function(event) {
-    event.delegateTarget.classList.add('profile__item_editing');
-  });
+    this.delegate('.profile__item_editable', 'click', function(event) {
+      event.delegateTarget.classList.add('profile__item_editing');
+      event.delegateTarget.querySelector('.control').focus();
+    });
+
+    this.delegate('form[data-field="displayName"]', 'submit', this.onDisplayNameSubmit);
 
 
-  document.addEventListener("DOMContentLoaded", function(e) {
-
-    document.querySelector('.profile').addEventListener('click', function(e) {
-      var elem;
-      if (e.target.classList.contains('profile__item-cancel')) {
-        elem = e.target;
-        while (elem && !elem.classList.contains('profile__item_editable')) {
-          elem = elem.parentNode;
-        }
-        elem.classList.remove('profile__item_editing');
-      }
-    })
-  });
-
+    this.delegate('.profile__item-cancel', 'click', function(event) {
+      event.delegateTarget.closest('.profile__item_editable').classList.remove('profile__item_editing');
+      event.delegateTarget.closest('.profile__item_editable').classList.remove('profile__item_editing');
+    });
+  }
 
 }
 
-delegate.delegateMixin(PhotoChanger.prototype);
+delegate.delegateMixin(ProfileEditor.prototype);
 
-module.exports = PhotoChanger;
+ProfileEditor.prototype.onDisplayNameSubmit = function(event) {
+  var form = event.delegateTarget;
+  var input = form.elements.displayName;
+  var value = input.value;
+  if (!value) {
+    notify.error("Отсутствует значение.");
+    return;
+  }
+  var request = this.createRequest(form, new FormData(form));
+};
+
+ProfileEditor.prototype.createRequest = function(indicatorElem, formData) {
+
+  var request = xhr({
+    method: 'PATCH',
+    url:    '/users/me'
+  });
+
+  request.addEventListener('loadstart', function() {
+    var onEnd = this.startRequestIndication(indicatorElem);
+    request.addEventListener('loadend', onEnd);
+  }.bind(this));
+
+};
+
+module.exports = ProfileEditor;

@@ -1,4 +1,6 @@
 var humane = require('humane-js');
 
-exports.info = humane.spawn({ addnCls: 'humane-libnotify-info', timeout: 1000 });
-exports.error = humane.spawn({ addnCls: 'humane-libnotify-error', timeout: 3000 });
+window.info = exports.info = humane.spawn({addnCls: 'humane-libnotify-info', timeout: 3000});
+window.success = exports.success = humane.spawn({addnCls: 'humane-libnotify-success', timeout: 3000});
+window.warning = exports.warning = humane.spawn({addnCls: 'humane-libnotify-warning', timeout: 3000});
+window.error = exports.error = humane.spawn({addnCls: 'humane-libnotify-error', timeout: 3000});

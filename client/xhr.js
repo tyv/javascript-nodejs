@@ -1,7 +1,4 @@
-require('./polyfill');
 require('./xhr-notify');
-
-module.exports = xhr;
 
 // Wrapper about XHR
 // # Global Events
@@ -48,20 +45,20 @@ function xhr(options) {
   request.method = method;
 
   if (!options.noGlobalEvents) {
-    request.addEventListener('loadstart', function(event) {
+    request.addEventListener('loadstart', event => {
       var e = wrapEvent('xhrstart', event);
       document.dispatchEvent(e);
     });
-    request.addEventListener('loadend', function(event) {
+    request.addEventListener('loadend', event => {
       var e = wrapEvent('xhrend', event);
       document.dispatchEvent(e);
     });
-    request.addEventListener('success', function(event) {
+    request.addEventListener('success', event => {
       var e = wrapEvent('xhrsuccess', event);
       e.result = event.result;
       document.dispatchEvent(e);
     });
-    request.addEventListener('fail', function(event) {
+    request.addEventListener('fail', event => {
       var e = wrapEvent('xhrfail', event);
       e.reason = event.reason;
       document.dispatchEvent(e);
@@ -94,19 +91,19 @@ function xhr(options) {
     request.dispatchEvent(e);
   }
 
-  request.addEventListener("error", function(e) {
+  request.addEventListener("error", e => {
     fail("Ошибка связи с сервером.", e);
   });
 
-  request.addEventListener("timeout", function(e) {
+  request.addEventListener("timeout", e => {
     fail("Превышено максимально допустимое время ожидания ответа от сервера.", e);
   });
 
-  request.addEventListener("abort", function(e) {
+  request.addEventListener("abort", e => {
     fail("Запрос был прерван.", e);
   });
 
-  request.addEventListener("load", function(e) {
+  request.addEventListener("load", e => {
     if (!this.status) { // does that ever happen?
       fail("Не получен ответ от сервера.", e);
       return;
@@ -150,3 +147,5 @@ function addUrlParam(url, name, value) {
   }
 
 }
+
+export default xhr;

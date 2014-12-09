@@ -1,20 +1,20 @@
 {
   "apps":   [
     {
-      "name":            "Javascript.ru",
-      "script":          "bin/server",
-      "node_args":       "--harmony",
-      "instances":       "1",
-      "exec_mode":       "cluster_mode",
-      "env":             {
-        "HOST": "127.0.0.1",
-        "PORT": "3000",
+      "name":           "Javascript.ru",
+      "script":         "bin/server",
+      "node_args":      "--harmony",
+      "instances":      "1",
+      "exec_mode":      "cluster_mode",
+      "env":            {
+        "HOST":                        "127.0.0.1",
+        "PORT":                        "3000",
         "PM2_GRACEFUL_LISTEN_TIMEOUT": 1000,
-        "PM2_GRACEFUL_TIMEOUT": 5000
+        "PM2_GRACEFUL_TIMEOUT":        5000
       },
-      "env_production":  {
-        "NODE_ENV": "production",
-        "SITE_HOST": "http://nightly.javascript.ru",
+      "env_production": {
+        "NODE_ENV":    "production",
+        "SITE_HOST":   "http://nightly.javascript.ru",
         "STATIC_HOST": "http://static-nightly.javascript.ru"
       }
     }
@@ -26,6 +26,7 @@
       "ref":         "origin/production",
       "repo":        "https://github.com/iliakan/javascript-nodejs",
       "path":        "/js/javascript-nodejs",
+      "test":        "echo 'no test on deploy right now'",
       "pre-deploy":  "cd /root/javascript-nodejs; bash ./pm2/pre_deploy.sh",
       "post-deploy": "bash ./pm2/post_deploy.sh"
     }
