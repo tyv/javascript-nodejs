@@ -126,6 +126,20 @@ ServerHtmlTransformer.prototype.transformReferenceNode = function*(node) {
   return yield* this.transformCompositeTag(newNode);
 };
 
+
+ServerHtmlTransformer.prototype.transformIframeTag = function*(node) {
+  // load plunk from DB
+  if (node.attrs.edit) {
+    var plunk = yield Plunk.findOne({webPath: this.resourceWebRoot + '/' + node.attrs.src }).exec();
+    if (!plunk) {
+      throw new ParseError("div", "Нет такого plunk");
+    }
+    node.attrs.plunkId = plunk.plunkId;
+  }
+
+  return HtmlTransformer.prototype.transformIframeTag.call(this, node);
+};
+
 ServerHtmlTransformer.prototype.transformImgTag = function*(node) {
 
   if (!/\.(png|jpg|gif|jpeg|svg)$/i.test(node.attrs.src)) {
