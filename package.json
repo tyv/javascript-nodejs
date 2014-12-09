@@ -10,6 +10,7 @@
   "precommit": "NODE_ENV=development node --harmony `which gulp` pre-commit",
   "//": "while in development, all modules are recent",
   "dependencies": {
+    "6to5-loader": "^0.2.3",
     "MD5": "*",
     "assert-plus": "*",
     "async": "^0.9.0",
