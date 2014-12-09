@@ -38,7 +38,7 @@ var webpackConfig = {
   module: {
     loaders: [
       {test: /\.jade$/, loader: "jade?root=" + config.projectRoot + '/templates'},
-      {test: /\.js$/, loader: '6to5-loader'}
+      {test: /\.js$/, loader: '6to5-loader?modules=commonInterop'}
     ]
   },
 
