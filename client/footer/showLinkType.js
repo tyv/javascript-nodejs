@@ -30,6 +30,8 @@ module.exports = function() {
 
     if (!link) return;
 
+    if (link.closest('.toolbar')) return;
+
     tooltipSpan = document.createElement('span');
     tooltipSpan.className = 'link__type';
 
