@@ -4,6 +4,7 @@ var config = require('config');
 var isDevelopment = (process.env.NODE_ENV === 'development');
 var isProduction = (process.env.NODE_ENV === 'production');
 var webpack = require('webpack');
+var CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin");
 
 var WriteVersionsPlugin = require('lib/webpack/writeVersionsPlugin');
 
@@ -20,8 +21,9 @@ var webpackConfig = {
     //  (какой-то [hash] здесь необходим, иначе к chunk'ам типа 3.js, которые генерируются require.ensure,
     //  будет обращение без хэша при загрузке внутри сборки. при изменении - барузерный кеш их не подхватит)
     filename:      isDevelopment ? "[name].js?[hash]" : "[name].[hash].js",
-    chunkFilename: isDevelopment ? "[id].js?[hash]" : "[id].[hash].js",
-    library:       '[name]'
+    chunkFilename: isDevelopment ? "[id].js?[hash]" : "[id].[hash].js"
+    // the setting below does not work with CommonsChunkPlugin
+    //library:       '[name]'
   },
   cache:      isDevelopment,
   watchDelay: 10,
@@ -29,7 +31,6 @@ var webpackConfig = {
   devtool:    isDevelopment ? "source-map" : '',
 
   entry:  {
-    polyfill: 'client/polyfill',
     head:     'client/head',
     tutorial: 'tutorial/client',
     profile:   'profile/client',
@@ -38,6 +39,8 @@ var webpackConfig = {
   module: {
     loaders: [
       {test: /\.jade$/, loader: "jade?root=" + config.projectRoot + '/templates'},
+      // commonInterop means that "export default smth" becomes "module.exports = smth"
+      // (unless there are other exports, see "modules" doc in 6to5
       {test: /\.js$/, loader: '6to5-loader?modules=commonInterop'}
     ]
   },
@@ -47,9 +50,10 @@ var webpackConfig = {
   },
 
   plugins: [
-    //new CommonsChunkPlugin("init", "init.js")
+    // any common chunks from entries go to head
+    new CommonsChunkPlugin("head", isDevelopment ? "head.js?[hash]" : "head.[hash].js"),
     new WriteVersionsPlugin(path.join(config.manifestRoot, "js.versions.json")),
-    function() {
+    function clearBeforeRun() {
       function clear(compiler, callback) {
         del.sync(this.options.output.path + '/*');
         callback();
