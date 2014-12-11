@@ -30,6 +30,7 @@ module.exports = function() {
 
     if (!link) return;
 
+    // links inside toolbars need no tooltips
     if (link.closest('.toolbar')) return;
 
     tooltipSpan = document.createElement('span');

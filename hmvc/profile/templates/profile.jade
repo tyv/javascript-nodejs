@@ -36,7 +36,7 @@ block content
       +e.item
         +e.item-content
           +e('h2').inline-title Управление аккаунтом
-      +e.item._editable(data-inline-edit)
+      +e.item._editable
         +e.item-content
           +e.item-name Имя:
           +e.item-value= user.displayName
@@ -45,7 +45,7 @@ block content
             +e.labeled
               +e('label').labeled-label(for="profile-name") Имя:
               +b.text-input._small.__control
-                +e('input').control(required name="displayName" type="text" value="Валентиновский Валентин Валентинович")
+                +e('input').control(autofocus required name="displayName" type="text" value=user.displayName)
           include blocks/profile-ok-cancel
       +e.item._editable
         +e.item-content

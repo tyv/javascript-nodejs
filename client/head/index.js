@@ -1,5 +1,5 @@
 
-
+require('client/polyfill');
 require('./unready');
 
 exports.init = require('./init');
@@ -13,3 +13,9 @@ require('./layout');
 require('./sidebar');
 require('./navigationArrows');
 require('./hover');
+
+// must use CommonsChunkPlugin
+// to ensure that other modules use exactly this (initialized) client/notify
+require('client/notify').init();
+
+window.head = module.exports;

@@ -21,6 +21,9 @@ router.patch('/:id', loadUserById, id.patch);
 router.del('/:id', loadUserById, id.del);
 
 function* loadUserByReq(next) {
+
+  yield function(callback) {}
+
   this.params.user = this.req.user;
   yield* next;
 }

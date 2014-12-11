@@ -9,3 +9,6 @@ exports.init = function() {
   new PhotoChanger();
   new ProfileEditor();
 };
+
+
+window.profile = module.exports;

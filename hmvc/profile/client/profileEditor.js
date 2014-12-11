@@ -9,7 +9,8 @@ class ProfileEditor {
 
     this.delegate('.profile__item_editable', 'click', function(event) {
       event.delegateTarget.classList.add('profile__item_editing');
-      event.delegateTarget.querySelector('.control').focus();
+      var autofocus = event.delegateTarget.querySelector('[autofocus]');
+      if (autofocus) autofocus.focus();
     });
 
     this.delegate('form[data-field="displayName"]', 'submit', this.onDisplayNameSubmit);
@@ -23,29 +24,32 @@ class ProfileEditor {
 
 
   onDisplayNameSubmit(event) {
+    event.preventDefault();
     var form = event.delegateTarget;
     var input = form.elements.displayName;
     var value = input.value;
     if (!value) {
-      notify.error("Отсутствует значение.");
+      new notify.Error("Отсутствует значение.");
       return;
     }
-    var request = this.createRequest(form, new FormData(form));
-
+    var request = this.request(form.querySelector('[type="submit"]'), new FormData(form));
 
     request.addEventListener('success', (event) => {
 
-      if (this.status == 200) {
-        notify.success("Сохранено. Изменение будет видно после перезагрузки страницы.");
+      if (request.status == 400) {
+        input.closest('.text-input').classList.remove('text-input_invalid');
+        new notify.Success("Сохранено. Изменение будет видно после перезагрузки страницы.");
       } else {
-        notify.error("Ошибка");
+        input.closest('.text-input').classList.add('text-input_invalid');
+        new notify.Error("Ошибка");
       }
 
     });
+
   }
 
 
-  createRequest(indicatorElem, body) {
+  request(indicatorElem, body) {
 
     var request = xhr({
       method: 'PATCH',
@@ -58,7 +62,7 @@ class ProfileEditor {
       request.addEventListener('loadend', onEnd);
     });
 
-
+    return request;
   }
 
   startRequestIndication(elem) {

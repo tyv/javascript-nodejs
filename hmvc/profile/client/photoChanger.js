@@ -47,7 +47,7 @@ PhotoChanger.prototype.upload = function(file) {
   var self = this;
   request.addEventListener('success', function(e) {
     if (this.status == 400) {
-      notify.error("Неверный тип файла или изображение повреждено.");
+      new notify.Error("Неверный тип файла или изображение повреждено.");
       return;
     }
 

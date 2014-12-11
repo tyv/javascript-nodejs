@@ -1,5 +1,5 @@
-var notify = require('./notify');
+import notify from 'client/notify';
 
 document.addEventListener('xhrfail', function(event) {
-  notify.error(event.reason);
+  new notify.Error(event.reason);
 });
