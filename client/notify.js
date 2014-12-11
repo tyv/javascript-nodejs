@@ -109,4 +109,17 @@ export class Error extends Notification {
 
 }
 
-window.Error = Error;
+export class Test extends Notification {
+
+  constructor(html) {
+    super(html, 'error');
+  }
+
+
+  setupClose() {
+
+  }
+
+}
+
+window.Test = Test;
