@@ -45,7 +45,8 @@ block content
             +e.labeled
               +e('label').labeled-label(for="profile-name") Имя:
               +b.text-input._small.__control
-                +e('input').control(autofocus required name="displayName" type="text" value=user.displayName)
+                //- autofocus has a side-effect: it prevents modal-overlay from working
+                +e('input').control(data-autofocus required name="displayName" type="text" value=user.displayName)
           include blocks/profile-ok-cancel
       +e.item._editable
         +e.item-content

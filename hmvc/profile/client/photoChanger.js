@@ -1,6 +1,6 @@
 var delegate = require('client/delegate');
 var xhr = require('client/xhr');
-var notify = require('client/notify');
+var notification = require('client/notification');
 
 function PhotoChanger() {
   this.elem = document.body.querySelector('[data-action="photo-change"]');
@@ -47,7 +47,7 @@ PhotoChanger.prototype.upload = function(file) {
   var self = this;
   request.addEventListener('success', function(e) {
     if (this.status == 400) {
-      new notify.Error("Неверный тип файла или изображение повреждено.");
+      new notification.Error("Неверный тип файла или изображение повреждено.");
       return;
     }
 

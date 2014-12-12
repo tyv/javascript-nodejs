@@ -1,6 +1,6 @@
 var delegate = require('client/delegate');
 var xhr = require('client/xhr');
-var notify = require('client/notify');
+import notification from 'client/notification';
 var Spinner = require('client/spinner');
 
 class ProfileEditor {
@@ -9,7 +9,7 @@ class ProfileEditor {
 
     this.delegate('.profile__item_editable', 'click', function(event) {
       event.delegateTarget.classList.add('profile__item_editing');
-      var autofocus = event.delegateTarget.querySelector('[autofocus]');
+      var autofocus = event.delegateTarget.querySelector('[data-autofocus]');
       if (autofocus) autofocus.focus();
     });
 
@@ -29,7 +29,7 @@ class ProfileEditor {
     var input = form.elements.displayName;
     var value = input.value;
     if (!value) {
-      new notify.Error("Отсутствует значение.");
+      new notification.Error("Отсутствует значение.");
       return;
     }
     var request = this.request(form.querySelector('[type="submit"]'), new FormData(form));
@@ -38,10 +38,10 @@ class ProfileEditor {
 
       if (request.status == 400) {
         input.closest('.text-input').classList.remove('text-input_invalid');
-        new notify.Success("Сохранено. Изменение будет видно после перезагрузки страницы.");
+        new notification.Success("Сохранено. Изменение будет видно после перезагрузки страницы.");
       } else {
         input.closest('.text-input').classList.add('text-input_invalid');
-        new notify.Error("Ошибка");
+        new notification.Error("Ошибка");
       }
 
     });

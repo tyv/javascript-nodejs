@@ -16,6 +16,6 @@ require('./hover');
 
 // must use CommonsChunkPlugin
 // to ensure that other modules use exactly this (initialized) client/notify
-require('client/notify').init();
+require('client/notification').init();
 
 window.head = module.exports;

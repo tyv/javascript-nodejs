@@ -1,5 +1,5 @@
 var delegate = require('client/delegate');
-var notify = require('client/notify');
+import notification from 'client/notification';
 var xhr = require('client/xhr');
 
 function AuthProvidersManager() {
@@ -59,7 +59,7 @@ AuthProvidersManager.prototype.onAuthSuccess = function() {
 };
 
 AuthProvidersManager.prototype.onAuthFailure = function(errorMessage) {
-  new notify.Error(errorMessage || "Отказ в авторизации.", 'error');
+  new notification.Error(errorMessage || "Отказ в авторизации.", 'error');
 };
 
 

@@ -1,5 +1,5 @@
-import notify from 'client/notify';
+import notification from 'client/notification';
 
 document.addEventListener('xhrfail', function(event) {
-  new notify.Error(event.reason);
+  new notification.Error(event.reason);
 });
