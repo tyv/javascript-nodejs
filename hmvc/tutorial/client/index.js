@@ -33,3 +33,5 @@ function initTaskButtons() {
     event.target.closest('.task__step').classList.toggle('task__step_open');
   });
 }
+
+window.tutorial = module.exports;

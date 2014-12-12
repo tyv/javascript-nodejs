@@ -59,7 +59,7 @@ AuthProvidersManager.prototype.onAuthSuccess = function() {
 };
 
 AuthProvidersManager.prototype.onAuthFailure = function(errorMessage) {
-  notify.error(errorMessage || "Отказ в авторизации.", 'error');
+  new notify.Error(errorMessage || "Отказ в авторизации.", 'error');
 };
 
 

@@ -40,7 +40,6 @@
     "gulp-plumber": "*",
     "gulp-stylus": "*",
     "gulp-util": "*",
-    "humane-js": "*",
     "image-size": "*",
     "imagemin": "*",
     "imagemin-pngcrush": "*",
