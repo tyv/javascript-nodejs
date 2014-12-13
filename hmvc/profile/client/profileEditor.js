@@ -15,7 +15,6 @@ class ProfileEditor {
 
     this.delegate('form[data-field="displayName"]', 'submit', this.onDisplayNameSubmit);
 
-
     this.delegate('.profile__item-cancel', 'click', function(event) {
       event.delegateTarget.closest('.profile__item_editable').classList.remove('profile__item_editing');
       event.delegateTarget.closest('.profile__item_editable').classList.remove('profile__item_editing');
@@ -32,7 +31,7 @@ class ProfileEditor {
       new notification.Error("Отсутствует значение.");
       return;
     }
-    var request = this.request(form.querySelector('[type="submit"]'), new FormData(form));
+    var request = this.sendForm(form);
 
     request.addEventListener('success', (event) => {
 
@@ -49,7 +48,7 @@ class ProfileEditor {
   }
 
 
-  request(indicatorElem, body) {
+  sendForm(form) {
 
     var request = xhr({
       method: 'PATCH',
@@ -65,8 +64,8 @@ class ProfileEditor {
     return request;
   }
 
-  startRequestIndication(elem) {
-
+  startRequestIndication(form) {
+    elem.classList.add('modal-overlay');
     var spinner = new Spinner({
         elem:      elem,
         size:      'small',
@@ -76,6 +75,7 @@ class ProfileEditor {
     spinner.start();
 
     return function onEnd() {
+      elem.classList.remove('modal-overlay');
       spinner.stop();
     };
   }

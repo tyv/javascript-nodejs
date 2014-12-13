@@ -6,202 +6,206 @@ block variables
 
 block content
 
-  +b.profile._settings
+  script(src='https://code.angularjs.org/1.3.6/angular.js')
 
-    //- - var url = thumb(user.getPhotoUrl(),146,146);
-    +e.upic(style="background-image: url('" + thumb(user.getPhotoUrl(),146,146) + "')", data-action="photo-change")
-      +e.upic-edit Загрузить<br> фотографию
+  div(ng-app="profileApp" ng-strict-di)
+
+    +b.profile._settings
+
+      //- - var url = thumb(user.getPhotoUrl(),146,146);
+      +e.upic(style="background-image: url('" + thumb(user.getPhotoUrl(),146,146) + "')", data-action="photo-change")
+        +e.upic-edit Загрузить<br> фотографию
 
 
-    +e.content
-      +e.tabs
-        +e.tab._current
-          +e.tab-content
-            | Профиль
-        +e.tab
-          +e.tab-content
-            +e('a').tab-link(href="#") Аккаунт
-        +e.tab
-          +e.tab-content
-            +e('a').tab-link(href="#") Заказы
-        +e.tab
-          +e.tab-content
-            +e('a').tab-link(href="#") Курсы
-        +e.tab
-          +e.tab-content
-            +e('a').tab-link(href="#") Уведомления
-        +e.tab
-          +e.tab-content
-            +e('a').tab-link(href="#") Тесты
-      +e.item
-        +e.item-content
-          +e('h2').inline-title Управление аккаунтом
-      +e.item._editable
-        +e.item-content
-          +e.item-name Имя:
-          +e.item-value= user.displayName
-        +e('form').item-change(data-field="displayName")
-          +e.change-content
-            +e.labeled
-              +e('label').labeled-label(for="profile-name") Имя:
-              +b.text-input._small.__control
-                //- autofocus has a side-effect: it prevents modal-overlay from working
-                +e('input').control(data-autofocus required name="displayName" type="text" value=user.displayName)
-          include blocks/profile-ok-cancel
-      +e.item._editable
-        +e.item-content
-          +e.item-name Email:
-          +e.item-value
-        +e.item-change
-          +e.change-content
-            +e.labeled
-              +e('label').labeled-label(for="profile-email") Email:
-              +b.text-input._small.__control
-                +e('input').control#profile-email(type="email")
-          include blocks/profile-ok-cancel
-      +e.item._editable
-        +e.item-content
-          +e.item-name Website:
-          +e.item-value www.valentin.com
-        +e.item-change
-          +e.change-content
-            +e.labeled
-              +e('label').labeled-label(for="profile-website") Website:
-              +b.text-input._small.__control
-                +e('input').control#profile-website(type="url", value="www.valentin.com")
-          include blocks/profile-ok-cancel
-      +e.item._editable
-        +e.item-content
-          +e.item-name Страна:
-          +e.item-value Россия
-        +e.item-change
-          +e.change-content
-            +e.labeled
-              +e('label').labeled-label(for="profile-country") Страна:
-              +b.text-input._small.__control
-                +e('input').control#profile-country(type="text", value="Россия")
-          include blocks/profile-ok-cancel
-      +e.item._editable
-        +e.item-content
-          +e.item-name Город:
-          +e.item-value
-        +e.item-change
-          +e.change-content
-            +e.labeled
-              +e('label').labeled-label(for="profile-city") Город:
-              +b.text-input._small.__control
-                +e('input').control#profile-city(type="text")
-          include blocks/profile-ok-cancel
-      +e.item._editable
-        +e.item-content
-          +e.item-name Дата рождения:
-          +e.item-value
-        +e.item-change
-          +e.change-content
-            +e.labeled
-              +e('label').labeled-label(for="profile-birth-day") Дата рождения:
-              +b('select').input-select._small.__control#profile-birth-day
-                +e('option').option(value="1") 1
-                +e('option').option(value="2") 2
-                +e('option').option(value="3") 3
-                +e('option').option(value="4") 4
-                +e('option').option(value="5") 5
-                +e('option').option(value="6") 6
-                +e('option').option(value="7") 7
-                +e('option').option(value="8") 8
-                +e('option').option(value="9") 9
-                +e('option').option(value="10") 10
-                +e('option').option(value="11") 11
-                +e('option').option(value="12") 12
-                +e('option').option(value="13") 13
-                +e('option').option(value="14") 14
-                +e('option').option(value="15") 15
-                +e('option').option(value="16") 16
-                +e('option').option(value="17") 17
-                +e('option').option(value="18") 18
-                +e('option').option(value="19") 19
-                +e('option').option(value="20") 20
-                +e('option').option(value="21") 21
-                +e('option').option(value="22") 22
-                +e('option').option(value="23") 23
-                +e('option').option(value="24") 24
-                +e('option').option(value="25") 25
-                +e('option').option(value="26") 26
-                +e('option').option(value="27") 27
-                +e('option').option(value="28") 28
-                +e('option').option(value="29") 29
-                +e('option').option(value="30") 30
-                +e('option').option(value="31") 31
-              +b('select').input-select._small.__control#profile-birth-month
-                +e('option').select(value="1") январь
-                +e('option').select(value="2") февраль
-                +e('option').select(value="3") март
-                +e('option').select(value="4") апрель
-                +e('option').select(value="5") май
-                +e('option').select(value="6") июнь
-                +e('option').select(value="7") июль
-                +e('option').select(value="8") август
-                +e('option').select(value="9") сентябрь
-                +e('option').select(value="10") октябрь
-                +e('option').select(value="11") ноябрь
-                +e('option').select(value="12") декабрь
-              +b('select').input-select._small.__control#profile-birth-year
-                +e('option').select(value="1985") 1985
-                +e('option').select(value="1986") 1986
-                +e('option').select(value="1987") 1987
-                +e('option').select(value="1988") 1988
-                +e('option').select(value="1989") 1989
-                +e('option').select(value="1990") 1990
-          include blocks/profile-ok-cancel
-      +e.item._editable
-        +e.item-content
-          +e.item-name Часовой пояс:
-          +e.item-value Европа/Москва: GMT+4
-        +e.item-change
-          +e.change-content
-            +e.labeled
-              +e('label').labeled-label(for="profile-tz") Часовой пояс:
-              +b('select').input-select._small.__control#profile-tz
-                +e('option').select(value="+1") Европа/Москва: GMT+1
-                +e('option').select(value="+2") Европа/Москва: GMT+2
-                +e('option').select(value="+3") Европа/Москва: GMT+3
-                +e('option').select(value="+4") Европа/Москва: GMT+4
-                +e('option').select(value="+5") Европа/Москва: GMT+5
-                +e('option').select(value="+6") Европа/Москва: GMT+6
-          include blocks/profile-ok-cancel
-      +e.item._editable
-        +e.item-content
-          +e.item-name Телефон:
-          +e.item-value
-        +e.item-change
-          +e.change-content
-            +e.labeled
-              +e('label').labeled-label(for="profile-tel") Телефон:
-              +b.text-input._small.__control
-                +e('input').control#profile-tel(type="text")
-          include blocks/profile-ok-cancel
-      +e.item._editable
-        +e.item-content
-          +e.item-name Интересы:
-          +e.item-value музыка, юзабилити, javascript, веб-дизайн, программирование, html, спорт, css
-        +e.item-change
-          +e.change-content
-            +e.labeled
-              +e('label').labeled-label(for="profile-hobbies") Интересы:
-              +b.text-input._small.__control
-                +e('input').control#profile-hobbies(type="text", value="музыка, юзабилити, javascript, веб-дизайн, программирование, html, спорт, css")
-          include blocks/profile-ok-cancel
-      +e.item._editable
-        +e.item-content
-          +e.item-name О себе:
-          +e.item-value Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ullam iure eaque unde, repellat est sapiente. Optio autem odio illo necessitatibus, aliquam, ducimus repellat enim, non distinctio in doloremque, magni eligendi.
-        +e.item-change
-          +e.change-content
-            +e.labeled
-              +e('label').labeled-label(for="profile-about") О себе:
-              +b('textarea').textarea-input.__control#profile-about(cols="80", rows="5")
-                | Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ullam iure eaque unde, repellat est sapiente. Optio autem odio illo necessitatibus, aliquam, ducimus repellat enim, non distinctio in doloremque, magni eligendi.
-          include blocks/profile-ok-cancel
+      +e.content
+        +e.tabs
+          +e.tab._current
+            +e.tab-content
+              | Профиль
+          +e.tab
+            +e.tab-content
+              +e('a').tab-link(href="#") Аккаунт
+          +e.tab
+            +e.tab-content
+              +e('a').tab-link(href="#") Заказы
+          +e.tab
+            +e.tab-content
+              +e('a').tab-link(href="#") Курсы
+          +e.tab
+            +e.tab-content
+              +e('a').tab-link(href="#") Уведомления
+          +e.tab
+            +e.tab-content
+              +e('a').tab-link(href="#") Тесты
+        +e.item
+          +e.item-content
+            +e('h2').inline-title Управление аккаунтом
+        +e('form').item._editable(data-field="displayName")
+          +e.item-content
+            +e.item-name Имя:
+            +e.item-value= user.displayName
+          +e.item-change
+            +e.change-content
+              +e.labeled
+                +e('label').labeled-label(for="profile-name") Имя:
+                +b.text-input._small.__control
+                  //- autofocus has a side-effect: it prevents modal-overlay from working
+                  +e('input').control(data-autofocus required name="displayName" type="text" value=user.displayName)
+            include blocks/profile-ok-cancel
+        +e.item._editable
+          +e.item-content
+            +e.item-name Email:
+            +e.item-value
+          +e.item-change
+            +e.change-content
+              +e.labeled
+                +e('label').labeled-label(for="profile-email") Email:
+                +b.text-input._small.__control
+                  +e('input').control#profile-email(type="email")
+            include blocks/profile-ok-cancel
+        +e.item._editable
+          +e.item-content
+            +e.item-name Website:
+            +e.item-value www.valentin.com
+          +e.item-change
+            +e.change-content
+              +e.labeled
+                +e('label').labeled-label(for="profile-website") Website:
+                +b.text-input._small.__control
+                  +e('input').control#profile-website(type="url", value="www.valentin.com")
+            include blocks/profile-ok-cancel
+        +e.item._editable
+          +e.item-content
+            +e.item-name Страна:
+            +e.item-value Россия
+          +e.item-change
+            +e.change-content
+              +e.labeled
+                +e('label').labeled-label(for="profile-country") Страна:
+                +b.text-input._small.__control
+                  +e('input').control#profile-country(type="text", value="Россия")
+            include blocks/profile-ok-cancel
+        +e.item._editable
+          +e.item-content
+            +e.item-name Город:
+            +e.item-value
+          +e.item-change
+            +e.change-content
+              +e.labeled
+                +e('label').labeled-label(for="profile-city") Город:
+                +b.text-input._small.__control
+                  +e('input').control#profile-city(type="text")
+            include blocks/profile-ok-cancel
+        +e.item._editable
+          +e.item-content
+            +e.item-name Дата рождения:
+            +e.item-value
+          +e.item-change
+            +e.change-content
+              +e.labeled
+                +e('label').labeled-label(for="profile-birth-day") Дата рождения:
+                +b('select').input-select._small.__control#profile-birth-day
+                  +e('option').option(value="1") 1
+                  +e('option').option(value="2") 2
+                  +e('option').option(value="3") 3
+                  +e('option').option(value="4") 4
+                  +e('option').option(value="5") 5
+                  +e('option').option(value="6") 6
+                  +e('option').option(value="7") 7
+                  +e('option').option(value="8") 8
+                  +e('option').option(value="9") 9
+                  +e('option').option(value="10") 10
+                  +e('option').option(value="11") 11
+                  +e('option').option(value="12") 12
+                  +e('option').option(value="13") 13
+                  +e('option').option(value="14") 14
+                  +e('option').option(value="15") 15
+                  +e('option').option(value="16") 16
+                  +e('option').option(value="17") 17
+                  +e('option').option(value="18") 18
+                  +e('option').option(value="19") 19
+                  +e('option').option(value="20") 20
+                  +e('option').option(value="21") 21
+                  +e('option').option(value="22") 22
+                  +e('option').option(value="23") 23
+                  +e('option').option(value="24") 24
+                  +e('option').option(value="25") 25
+                  +e('option').option(value="26") 26
+                  +e('option').option(value="27") 27
+                  +e('option').option(value="28") 28
+                  +e('option').option(value="29") 29
+                  +e('option').option(value="30") 30
+                  +e('option').option(value="31") 31
+                +b('select').input-select._small.__control#profile-birth-month
+                  +e('option').select(value="1") январь
+                  +e('option').select(value="2") февраль
+                  +e('option').select(value="3") март
+                  +e('option').select(value="4") апрель
+                  +e('option').select(value="5") май
+                  +e('option').select(value="6") июнь
+                  +e('option').select(value="7") июль
+                  +e('option').select(value="8") август
+                  +e('option').select(value="9") сентябрь
+                  +e('option').select(value="10") октябрь
+                  +e('option').select(value="11") ноябрь
+                  +e('option').select(value="12") декабрь
+                +b('select').input-select._small.__control#profile-birth-year
+                  +e('option').select(value="1985") 1985
+                  +e('option').select(value="1986") 1986
+                  +e('option').select(value="1987") 1987
+                  +e('option').select(value="1988") 1988
+                  +e('option').select(value="1989") 1989
+                  +e('option').select(value="1990") 1990
+            include blocks/profile-ok-cancel
+        +e.item._editable
+          +e.item-content
+            +e.item-name Часовой пояс:
+            +e.item-value Европа/Москва: GMT+4
+          +e.item-change
+            +e.change-content
+              +e.labeled
+                +e('label').labeled-label(for="profile-tz") Часовой пояс:
+                +b('select').input-select._small.__control#profile-tz
+                  +e('option').select(value="+1") Европа/Москва: GMT+1
+                  +e('option').select(value="+2") Европа/Москва: GMT+2
+                  +e('option').select(value="+3") Европа/Москва: GMT+3
+                  +e('option').select(value="+4") Европа/Москва: GMT+4
+                  +e('option').select(value="+5") Европа/Москва: GMT+5
+                  +e('option').select(value="+6") Европа/Москва: GMT+6
+            include blocks/profile-ok-cancel
+        +e.item._editable
+          +e.item-content
+            +e.item-name Телефон:
+            +e.item-value
+          +e.item-change
+            +e.change-content
+              +e.labeled
+                +e('label').labeled-label(for="profile-tel") Телефон:
+                +b.text-input._small.__control
+                  +e('input').control#profile-tel(type="text")
+            include blocks/profile-ok-cancel
+        +e.item._editable
+          +e.item-content
+            +e.item-name Интересы:
+            +e.item-value музыка, юзабилити, javascript, веб-дизайн, программирование, html, спорт, css
+          +e.item-change
+            +e.change-content
+              +e.labeled
+                +e('label').labeled-label(for="profile-hobbies") Интересы:
+                +b.text-input._small.__control
+                  +e('input').control#profile-hobbies(type="text", value="музыка, юзабилити, javascript, веб-дизайн, программирование, html, спорт, css")
+            include blocks/profile-ok-cancel
+        +e.item._editable
+          +e.item-content
+            +e.item-name О себе:
+            +e.item-value Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ullam iure eaque unde, repellat est sapiente. Optio autem odio illo necessitatibus, aliquam, ducimus repellat enim, non distinctio in doloremque, magni eligendi.
+          +e.item-change
+            +e.change-content
+              +e.labeled
+                +e('label').labeled-label(for="profile-about") О себе:
+                +b('textarea').textarea-input.__control#profile-about(cols="80", rows="5")
+                  | Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ullam iure eaque unde, repellat est sapiente. Optio autem odio illo necessitatibus, aliquam, ducimus repellat enim, non distinctio in doloremque, magni eligendi.
+            include blocks/profile-ok-cancel
 
   script(src=script("profile"))
   script profile.init();

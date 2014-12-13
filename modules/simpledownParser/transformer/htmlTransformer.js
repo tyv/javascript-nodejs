@@ -194,7 +194,13 @@ HtmlTransformer.prototype.transformNode = function(node) {
   throw new Error("Basic node should not be instantiated and used");
 };
 
-HtmlTransformer.prototype.transformReferenceNode = function(node) {
+
+HtmlTransformer.prototype.transformLinkTag = function(node) {
+  // relative links are static
+  if (!~node.attrs.href.indexOf('://') && node.attrs.href[0] != '/') {
+    node.attrs.href = this.staticHost + this.resourceWebRoot + '/' + node.attrs.href;
+  }
+
   return this.transformCompositeTag(node);
 };
 
@@ -293,7 +299,7 @@ HtmlTransformer.prototype.transformEditTag = function(node) {
 
   var attrs = {
     "class": "edit",
-    href: "/play/" + node.attrs.src
+    href:    "/play/" + node.attrs.src
   };
 
   return this.wrapTagAround('a', attrs, html);
@@ -351,7 +357,7 @@ HtmlTransformer.prototype.transformIframeTag = function(node) {
 
   if (node.attrs.plunkId) {
     locals.edit = {
-      href: 'http://plnkr.co/edit/' + node.attrs.plunkId + '?p=preview',
+      href:    'http://plnkr.co/edit/' + node.attrs.plunkId + '?p=preview',
       plunkId: node.attrs.plunkId
     };
   }

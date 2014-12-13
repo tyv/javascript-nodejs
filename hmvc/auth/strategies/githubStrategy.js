@@ -76,12 +76,7 @@ module.exports = new GithubStrategy({
   },
   function(req, accessToken, refreshToken, profile, done) {
 
-
-    if (!profile.displayName) { // if no "name" field in response, use login
-    //  profile.displayName = profile._json.login;
-    }
-
-    // may be default avatar, can't be sure
+    // this may be a default avatar, or a real user pic, can't be sure
     /* jshint -W106 */
     profile.photos = [
       {

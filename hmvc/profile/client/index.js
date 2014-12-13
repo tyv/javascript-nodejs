@@ -1,4 +1,4 @@
-
+var angular = require('angular');
 
 var AuthProvidersManager = require('./authProvidersManager');
 var PhotoChanger = require('./photoChanger');
