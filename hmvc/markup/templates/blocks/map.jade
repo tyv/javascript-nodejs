@@ -7,6 +7,26 @@
     +e.option
       +e('input').option-control#show-tasks(type="checkbox" data-tutorial-map-show-tasks)
       +e('label').option-label(for="show-tasks") Показать задачи
+    +e.layout
+      +b.switch.__layout-switch
+        +e.option
+          +e('input').control#multicol(type="radio", name="map-layout", checked="checked")
+          +e('label').label.__multicol(for="multicol")
+        +e.option
+          +e('input').control#singlecol(type="radio", name="map-layout")
+          +e('label').label.__singlecol(for="singlecol")
+
+  script.
+    (function() {
+      document.querySelector('.tutorial-map__layout-switch').addEventListener('click', function() {
+        if(document.getElementById('singlecol').checked) {
+          document.querySelector('.tutorial-map').classList.add('tutorial-map_singlecol');
+        } else {
+          document.querySelector('.tutorial-map').classList.remove('tutorial-map_singlecol');
+        }
+      })
+    })()
+
   +e.tutorial-map-map.columns.columns_3
     //- использовать блок columns?
     +e.section.columns__col
