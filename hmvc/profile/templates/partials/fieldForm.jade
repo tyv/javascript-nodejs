@@ -1,0 +1,24 @@
+include /bem
+
++b('form').profile-item._editable(
+  novalidate
+  progress="loadingTracker.active()"
+  progress-overlay
+  name="form"
+  ng-submit="submit()"
+  ng-click="edit()"
+  ng-class="{'profile-item_editing': editing}"
+)
+  +e.content
+    +e.name {{title}}:
+    +e.value(ng-bind="value")
+  +e.change(ng-show="editing")
+    +e.change-content
+      +e.labeled
+        +e('label').labeled-label(for="field-{{name}}") Имя:
+        +b.text-input._small.__control
+          +e('input').control(focus-on="editing" id="field-{{name}}" required ng-model="editingValue" type="text")
+    +e.ok-cancel
+      +b('button')(type="submit" progress="loadingTracker.active()" progress-spinner="{elemClass:'submit-button_progress',size:'small'}").submit-button._small.__save
+        +e('span').text Сохранить
+      +e('button').cancel(type="button" ng-click="cancel()") Отмена

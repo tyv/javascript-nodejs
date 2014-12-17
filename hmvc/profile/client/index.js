@@ -2,8 +2,10 @@ import angular from 'angular';
 import { thumb } from 'client/image';
 import notification from 'client/notification';
 
+import './fieldForm';
+
 var profileApp = angular.module('profileApp', [
-  'ui.router', 'ngResource', 'global403Interceptor','ajoslin.promise-tracker', 'progress', 'focusOn'
+  'ui.router', 'ngResource', 'global403Interceptor','ajoslin.promise-tracker', 'progress', 'focusOn', 'fieldForm'
 ]);
 
 profileApp.factory('Me', ($http) => {
@@ -16,56 +18,13 @@ profileApp.factory('Me', ($http) => {
 
 profileApp.controller('ProfileAboutMeCtrl', ($scope, $state, $timeout, $http, me, promiseTracker) => {
 
-  var meForms = {};
-  for(var key in me) {
-    meForms[key] = {
-      value: me[key],
-      loadingTracker: promiseTracker(),
-      editingValue: me[key]
-    };
-  }
+  window.me = me;
+  $scope.displayName = me.displayName;
 
-  meForms.displayName.edit = function() {
-    if (this.editing) return;
-    this.editing = true;
-    this.editingValue = this.value;
+  $scope.photo = {
+    value: me.photo,
+    loadingTracker: promiseTracker()
   };
-
-  meForms.displayName.submit = function() {
-
-    var formData = new FormData();
-    formData.append('displayName', this.editingValue);
-
-    $http({
-      method: 'PATCH',
-      url: '/users/me',
-      tracker: this.loadingTracker,
-      headers: {'Content-Type': undefined },
-      transformRequest: angular.identity,
-      data: formData
-    }).then((response) => {
-      this.value = this.editingValue;
-      this.editing = false;
-      this.editingValue = '';
-      new notification.Success("Информация обновлена.");
-    }, (response) => {
-      new notification.Error("Ошибка загрузки, статус " + response.status);
-    });
-
-  };
-
-
-  meForms.displayName.cancel = function() {
-    if (!this.editing) return;
-    // if we turn editing off now, then click event may bubble up, reach the form and enable editing back
-    // so we wait until the event bubbles and ends, and *then* cancel
-    $timeout(() => {
-      this.editing = false;
-      this.editingValue = "";
-    });
-  };
-
-  $scope.meForms = meForms;
 
   $scope.states = $state.get()
     .filter( (state) => { return !state.abstract; } )

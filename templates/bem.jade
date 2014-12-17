@@ -6,8 +6,12 @@
 - var bem_chain_contexts = ['block'];
 
 //- Block
-mixin b(tag, isElement)
-  - bem.call(this, buf, bem_chain, bem_chain_contexts, tag, isElement)
+mixin b(tag, isElement, noBlockClass)
+  - bem.call(this, buf, bem_chain, bem_chain_contexts, tag, isElement, noBlockClass)
+
+//- Context (For partials, doesn't add block class to the element)
+mixin c(tag)
+  +b(tag, false, true)&attributes(attributes): block
 
 //- Element
 mixin e(tag)
