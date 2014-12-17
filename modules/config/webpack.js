@@ -32,15 +32,17 @@ var webpackConfig = {
   devtool: isDevelopment ? "inline-source-map" : '',
 
   entry: {
+    angular:  'client/angular',
     head:     'client/head',
     tutorial: 'tutorial/client',
     profile:  'profile/client',
     footer:   'client/footer'
   },
 
+
   externals: {
-    // require("jquery") is external and available
-    //  on the global var jQuery
+    // require("angular") is external and available
+    // on the global var angular
     "angular": "angular"
   },
 
@@ -49,7 +51,14 @@ var webpackConfig = {
       {test: /\.jade$/, loader: "jade?root=" + config.projectRoot + '/templates'},
       // commonInterop means that "export default smth" becomes "module.exports = smth"
       // (unless there are other exports, see "modules" doc in 6to5
-      {test: /\.js$/, loader: '6to5-loader?modules=commonInterop'}
+      {test: /\.js$/, exclude: /node_modules\/angular/, loader: '6to5-loader?modules=commonInterop'}
+    ],
+    noParse: [
+      // regexp gets full path with loader like
+      // '/js/javascript-nodejs/node_modules/client/angular.js'
+      // or even
+      // '/js/javascript-nodejs/node_modules/6to5-loader/index.js?modules=commonInterop!/js/javascript-nodejs/node_modules/client/head/index.js'
+      /node_modules\/angular/
     ]
   },
 
@@ -63,7 +72,6 @@ var webpackConfig = {
     }
   },
 
-
   node: {
     fs: 'empty'
   },
@@ -76,24 +84,28 @@ var webpackConfig = {
     // any common chunks from entries go to head
     new CommonsChunkPlugin("head", isDevelopment ? "head.js?[hash]" : "head.[hash].js"),
     new WriteVersionsPlugin(path.join(config.manifestRoot, "js.versions.json")),
-    function clearBeforeRun() {
-      function clear(compiler, callback) {
-        del.sync(this.options.output.path + '/*');
-        callback();
-      }
-
-      this.plugin('run', clear);
-      this.plugin('watch-run', clear);
-    }
   ]
 };
 
 
 if (isProduction) {
   webpackConfig.plugins.push(
+    function clearBeforeRun() {
+      function clear(compiler, callback) {
+        del.sync(this.options.output.path + '/*');
+        callback();
+      }
+
+      // in watch mode this will clear between partial rebuilds
+      // thus removing unchanged files
+      // => use this plugin only in normal run
+      this.plugin('run', clear);
+    },
+
     new ngAnnotatePlugin({ // add angular annotations with ng-strict-di to ensure it's correct
       add: true
     }),
+
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         // don't show unreachable variables etc

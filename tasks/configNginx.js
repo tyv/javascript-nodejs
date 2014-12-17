@@ -37,6 +37,7 @@ module.exports = function() {
     };
 
     if (args.clear) {
+      gp.util.log("clear ", args.prefix);
       del.sync(path.join(args.prefix, '**'), {force: true});
     }
 
@@ -53,9 +54,11 @@ module.exports = function() {
           this.emit('error', new gp.util.PluginError('configNginx', err));
         }
 
+        gp.util.log("Copy ", file.path);
         this.push(file);
         cb();
       }))
       .pipe(gulp.dest(args.prefix));
+
   };
 };

@@ -1,4 +1,4 @@
-require('./xhr-notify');
+import notification from 'client/notification';
 
 // Wrapper about XHR
 // # Global Events
@@ -147,5 +147,10 @@ function addUrlParam(url, name, value) {
   }
 
 }
+
+document.addEventListener('xhrfail', function(event) {
+  new notification.Error(event.reason);
+});
+
 
 export default xhr;

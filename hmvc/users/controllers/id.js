@@ -7,11 +7,14 @@ var thunkify = require('thunkify');
 
 exports.get = function*(next) {
 
-  this.body = {
-    displayName: this.params.user.displayName,
-    email: this.params.user.email,
-    created: this.params.user.created
-  };
+  var fields = 'created displayName email gender country town'.split(' ');
+
+  this.body = { };
+  fields.forEach( function(field) {
+    this.body[field] = this.params.user[field];
+  }, this);
+
+  this.body.photo = this.params.user.photo.link;
 
 };
 
@@ -85,10 +88,13 @@ var readMultipart = thunkify(function(req, done) {
 /* Partial update */
 exports.patch = function*(next) {
 
+  yield function(callback) {}
+
   var user = this.params.user;
 
+  var fields;
   try {
-    var fields = yield readMultipart(this.req);
+    fields = yield readMultipart(this.req);
   } catch (e) {
     if (e.name == 'BadImageError') {
       this.throw(400, e.message);
@@ -96,6 +102,8 @@ exports.patch = function*(next) {
       throw e;
     }
   }
+
+  console.log("RECEIVED", fields);
 
   'displayName password gender photo'.split(' ').forEach(function(field) {
     if (field in fields) {
@@ -107,6 +115,8 @@ exports.patch = function*(next) {
     user.email = fields.email;
     user.verifiedEmail = false;
   }
+
+  console.log("!!! SAVING", user);
 
   try {
     yield user.persist();

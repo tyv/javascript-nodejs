@@ -4,6 +4,7 @@
 function Spinner(options) {
   options = options || {};
   this.elem = options.elem;
+
   this.size = options.size || 'medium';
   // any class to add to spinner (make spinner special here)
   this.class = options.class ? (' ' + options.class) : '';
@@ -29,7 +30,10 @@ Spinner.prototype.start = function() {
 };
 
 Spinner.prototype.stop = function() {
-  this.elem.removeChild(this.elem.querySelector('.spinner'));
+  var spinnerElem = this.elem.querySelector('.spinner');
+  if (!spinnerElem) return; // already stopped or never started
+
+  spinnerElem.remove();
 
   if (this.elemClass) {
     this.elem.classList.toggle(this.elemClass);
