@@ -13,7 +13,13 @@ profileApp.factory('Me', ($http) => {
 });
 
 profileApp.controller('ProfileAboutMeCtrl', ($scope, $state, $http, me) => {
-  $scope.me = me;
+
+  var meForms = {};
+  for(var key in me) {
+    meForms[key] = { value: me[key], loading: false, editingValue: me[key] };
+  }
+
+  $scope.meForms = meForms;
 
   $scope.states = $state.get()
     .filter( (state) => { return !state.abstract; } )
@@ -47,7 +53,7 @@ profileApp.controller('ProfileAboutMeCtrl', ($scope, $state, $http, me) => {
       transformRequest: angular.identity,
       data: formData
     }).then(function(response) {
-      $scope.me.photo = response.data.photo;
+      $scope.meForms.photo.value = response.data.photo;
       new notification.Success("Изображение обновлено.");
     }, function(response) {
       if (response.status == 400) {
