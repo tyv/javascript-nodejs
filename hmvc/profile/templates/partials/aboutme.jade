@@ -2,7 +2,7 @@ include /bem
 
 +b.profile._settings
   //- - var url = thumb(user.getPhotoUrl(),146,146);
-  +e.upic(style="background-image: url('{{me.photo | thumb:146:146 }}')" ng-click="changePhoto()")
+  +e.upic(style="background-image: url('{{meForms.photo.value | thumb:146:146 }}')" ng-click="changePhoto()")
     +e.upic-edit Загрузить<br> фотографию
       +e.content
 
