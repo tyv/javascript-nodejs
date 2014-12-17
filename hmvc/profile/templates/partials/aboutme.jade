@@ -2,29 +2,47 @@ include /bem
 
 +b.profile._settings
   //- - var url = thumb(user.getPhotoUrl(),146,146);
-  +e.upic(style="background-image: url('{{meForms.photo.value | thumb:146:146 }}')" ng-click="changePhoto()")
-    +e.upic-edit Загрузить<br> фотографию
+  +e.upic(
+    style="background-image: url('{{meForms.photo.value | thumb:146:146 }}')"
+    progress="meForms.photo.loadingTracker.active()"
+    progress-overlay
+    progress-spinner="{elemClass:'profile__upic_loading'}"
+  )
+    +e.upic-edit(ng-click="changePhoto()") Загрузить<br> фотографию
       +e.content
 
   +e.tabs
     +e.tab(ng-repeat="state in states" ng-class="{profile__tab_current: state.isCurrent }")
       +e.tab-content
         +e('a').tab-link(ui-sref="{{state.url}}") {{state.title}}
+
   +e.item
     +e.item-content
       +e('h2').inline-title Управление аккаунтом
-  +e('form').item._editable(data-field="displayName")
+  +e('form').item._editable(
+    novalidate
+    progress="meForms.displayName.loadingTracker.active()"
+    progress-overlay
+    ng-submit="meForms.displayName.submit()"
+    ng-click="meForms.displayName.edit()"
+    ng-class="{profile__item_editing: meForms.displayName.editing}"
+  )
     +e.item-content
       +e.item-name Имя:
-      +e.item-value= user.displayName
-    +e.item-change
+      +e.item-value(ng-bind="meForms.displayName.value")
+    +e.item-change(ng-show="meForms.displayName.editing")
       +e.change-content
         +e.labeled
           +e('label').labeled-label(for="profile-name") Имя:
           +b.text-input._small.__control
-            //- autofocus has a side-effect: it prevents modal-overlay from working
-            +e('input').control(data-autofocus required name="displayName" type="text" value=user.displayName)
-      include ../blocks/profile-ok-cancel
+            //- autofocus has a side-effect: it prevents modal-overlay from working,
+            //- so I use custom attr to focus on form open
+            +e('input').control(focus-on="meForms.displayName.editing" required ng-model="meForms.displayName.editingValue" type="text")
+      +e.ok-cancel
+        +b('button')(type="submit" progress="meForms.displayName.loadingTracker.active()" progress-spinner="{elemClass:'submit-button_progress',size:'small'}").submit-button._small.__item-save
+          +e('span').text Сохранить
+        +e('button').item-cancel(type="button" ng-click="meForms.displayName.cancel()") Отмена
+
   +e.item._editable
     +e.item-content
       +e.item-name Email:

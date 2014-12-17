@@ -2,7 +2,9 @@ import angular from 'angular';
 import { thumb } from 'client/image';
 import notification from 'client/notification';
 
-var profileApp = angular.module('profileApp', ['ui.router', 'ngResource', 'global403Interceptor']);
+var profileApp = angular.module('profileApp', [
+  'ui.router', 'ngResource', 'global403Interceptor','ajoslin.promise-tracker', 'progress', 'focusOn'
+]);
 
 profileApp.factory('Me', ($http) => {
   return $http.get('/users/me').then(function(res) {
@@ -12,12 +14,56 @@ profileApp.factory('Me', ($http) => {
   });
 });
 
-profileApp.controller('ProfileAboutMeCtrl', ($scope, $state, $http, me) => {
+profileApp.controller('ProfileAboutMeCtrl', ($scope, $state, $timeout, $http, me, promiseTracker) => {
 
   var meForms = {};
   for(var key in me) {
-    meForms[key] = { value: me[key], loading: false, editingValue: me[key] };
+    meForms[key] = {
+      value: me[key],
+      loadingTracker: promiseTracker(),
+      editingValue: me[key]
+    };
   }
+
+  meForms.displayName.edit = function() {
+    if (this.editing) return;
+    this.editing = true;
+    this.editingValue = this.value;
+  };
+
+  meForms.displayName.submit = function() {
+
+    var formData = new FormData();
+    formData.append('displayName', this.editingValue);
+
+    $http({
+      method: 'PATCH',
+      url: '/users/me',
+      tracker: this.loadingTracker,
+      headers: {'Content-Type': undefined },
+      transformRequest: angular.identity,
+      data: formData
+    }).then((response) => {
+      this.value = this.editingValue;
+      this.editing = false;
+      this.editingValue = '';
+      new notification.Success("Информация обновлена.");
+    }, (response) => {
+      new notification.Error("Ошибка загрузки, статус " + response.status);
+    });
+
+  };
+
+
+  meForms.displayName.cancel = function() {
+    if (!this.editing) return;
+    // if we turn editing off now, then click event may bubble up, reach the form and enable editing back
+    // so we wait until the event bubbles and ends, and *then* cancel
+    $timeout(() => {
+      this.editing = false;
+      this.editingValue = "";
+    });
+  };
 
   $scope.meForms = meForms;
 
@@ -50,6 +96,7 @@ profileApp.controller('ProfileAboutMeCtrl', ($scope, $state, $http, me) => {
       method: 'PATCH',
       url: '/users/me',
       headers: {'Content-Type': undefined },
+      tracker: $scope.meForms.photo.loadingTracker,
       transformRequest: angular.identity,
       data: formData
     }).then(function(response) {
@@ -62,31 +109,7 @@ profileApp.controller('ProfileAboutMeCtrl', ($scope, $state, $http, me) => {
         new notification.Error("Ошибка загрузки, статус " + response.status);
       }
     });
-    /*
 
-    var formData = new FormData();
-
-    formData.append("photo", file);
-
-    var request = xhr({
-      method: 'PATCH',
-      url: '/users/me',
-      json: true,
-      body: formData
-    });
-
-    // 400 when corrupt or invalid file
-    request.successStatuses = [200, 400];
-
-    var self = this;
-    request.addEventListener('success', function(e) {
-      if (this.status == 400) {
-        new notification.Error("Неверный тип файла или изображение повреждено.");
-        return;
-      }
-
-      self.updateUserPhoto(e.result.photo);
-    });*/
 
   }
 
@@ -111,7 +134,7 @@ profileApp.config(($locationProvider, $stateProvider) => {
       controller: 'ProfileAboutMeCtrl'
     })
     .state('account', {
-      url: 'account',
+      url: '/account',
       title: 'Аккаунт'
     });
 });

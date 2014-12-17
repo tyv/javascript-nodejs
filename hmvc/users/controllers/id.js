@@ -88,6 +88,8 @@ var readMultipart = thunkify(function(req, done) {
 /* Partial update */
 exports.patch = function*(next) {
 
+  yield function(callback) {}
+
   var user = this.params.user;
 
   var fields;
@@ -101,6 +103,8 @@ exports.patch = function*(next) {
     }
   }
 
+  console.log("RECEIVED", fields);
+
   'displayName password gender photo'.split(' ').forEach(function(field) {
     if (field in fields) {
       user[field] = fields[field];
@@ -111,6 +115,8 @@ exports.patch = function*(next) {
     user.email = fields.email;
     user.verifiedEmail = false;
   }
+
+  console.log("!!! SAVING", user);
 
   try {
     yield user.persist();

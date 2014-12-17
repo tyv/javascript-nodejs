@@ -84,21 +84,24 @@ var webpackConfig = {
     // any common chunks from entries go to head
     new CommonsChunkPlugin("head", isDevelopment ? "head.js?[hash]" : "head.[hash].js"),
     new WriteVersionsPlugin(path.join(config.manifestRoot, "js.versions.json")),
-    function clearBeforeRun() {
-      function clear(compiler, callback) {
-        del.sync(this.options.output.path + '/*');
-        callback();
-      }
-
-      this.plugin('run', clear);
-      this.plugin('watch-run', clear);
-    }
   ]
 };
 
 
 if (isProduction) {
   webpackConfig.plugins.push(
+    function clearBeforeRun() {
+      function clear(compiler, callback) {
+        del.sync(this.options.output.path + '/*');
+        callback();
+      }
+
+      // in watch mode this will clear between partial rebuilds
+      // thus removing unchanged files
+      // => use this plugin only in normal run
+      this.plugin('run', clear);
+    },
+
     new ngAnnotatePlugin({ // add angular annotations with ng-strict-di to ensure it's correct
       add: true
     }),
