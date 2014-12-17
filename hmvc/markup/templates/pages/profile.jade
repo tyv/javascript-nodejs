@@ -61,8 +61,9 @@ block content
           +e.change-content
             +e.labeled
               +e('label').labeled-label(for="profile-name") Имя:
-              +b.text-input._small.__control
+              +b.text-input._small._invalid.__control
                 +e('input').control#profile-name(type="text", value="Валентиновский Валентин Валентинович")
+                +e.err Таких имен не бывает
           include ../blocks/profile-ok-cancel
       +e.item._editable
         +e.item-content
