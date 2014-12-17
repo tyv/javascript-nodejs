@@ -111,15 +111,21 @@
 		color #656565
 
 	@media tablet
-		margin 50px 20px
+		margin 2px 20px 20px
 		
 		&__option-control
 			margin-left 0
+		
+		&__filter
+			margin-top 2px
 
 		&__filter,
 		&__input-wrap,
 		&__option
 			display block
+		
+		.modal &__input-wrap
+			width calc(100% - 50px)
 
 		&__option
 			padding 10px 0 0

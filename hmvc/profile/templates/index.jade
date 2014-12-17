@@ -1,6 +1,18 @@
 extends /layouts/main
 
+block variables
+  - var layout_header_class = "main__header_center"
+  - var sitetoolbar = true
+
+block head
+  base(href="/profile/")
+
 block content
-  h1= title
-  p Welcome to #{title}
+
+  script(src=script("angular"))
+  script(src=script("profile"))
+
+  div(ng-app="profileApp")
+
+    div(ui-view) Loading
 

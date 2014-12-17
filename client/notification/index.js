@@ -2,6 +2,8 @@
  * For new notification types extend Notification
  */
 
+var delegate = require('client/delegate');
+
 /**
  * Calculates translateY positions when notifications are added/removed
  */
@@ -14,7 +16,7 @@ class NotificationManager {
 
   register(notification) {
     this.notifications.unshift(notification);
-    requestAnimationFrame(() => this.recalculate());
+    setTimeout(() => this.recalculate(), 20);
   }
 
   unregister(notification) {
@@ -25,7 +27,7 @@ class NotificationManager {
 
   recalculate() {
     var top = this.verticalSpace;
-    this.notifications.forEach( notification => {
+    this.notifications.forEach(notification => {
       notification.top = top;
       top += notification.height + this.verticalSpace;
     });
@@ -43,15 +45,20 @@ export function init(options) {
 class Notification {
 
   constructor(html, type) {
-    var elem = this.elem = document.createElement('div');
-    elem.className = 'notify notify_' + type;
-    elem.innerHTML = html;
+    var elemHtml = `<div class="notification notification_popup notification_${type}">
+    <div class="notification__content">${html}</div>
+    <button title="Закрыть" class="notification__close"></button></div>`;
 
-    document.body.append(elem);
+    document.body.insertAdjacentHTML("beforeEnd", elemHtml);
+
+    this.elem = document.body.lastElementChild;
 
     manager.register(this);
-    this.setupClose();
+    this.setupCloseHandler();
+    this.setupCloseTimeout();
   }
+
+
 
   close() {
     if (!this.elem.parentNode) return; // already closed (by user click?)
@@ -59,7 +66,11 @@ class Notification {
     manager.unregister(this);
   }
 
-  setupClose() {
+  setupCloseHandler() {
+    this.delegate('.notification__close', 'click', () => this.close());
+  }
+
+  setupCloseTimeout() {
     setTimeout(() => this.close(), 2500);
   }
 
@@ -72,6 +83,9 @@ class Notification {
   }
 
 }
+
+delegate.delegateMixin(Notification.prototype);
+
 
 export class Info extends Notification {
 
@@ -103,7 +117,7 @@ export class Error extends Notification {
   }
 
 
-  setupClose() {
+  setupCloseTimeout() {
     setTimeout(() => this.close(), 5000);
   }
 
@@ -116,10 +130,10 @@ export class Test extends Notification {
   }
 
 
-  setupClose() {
+  setupCloseTimeout() {
 
   }
 
 }
 
-window.Test = Test;
+window.Test = Success;

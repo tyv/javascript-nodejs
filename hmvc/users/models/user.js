@@ -90,10 +90,12 @@ var UserSchema = new mongoose.Schema({
   passwordResetTokenExpires: Date, // valid until this date
   passwordResetRedirect:     String, // where to redirect after password recovery
   photo:                     {/* { link: ..., } */}, // imgur data
-  deleted:                   {
+  country:                   String,
+  town:                      String,
+  deleted:                   { // private & login data is deleted
     type: Boolean,
     default: false
-  }, // private & login data is deleted
+  },
   readOnly:                  Boolean,  // data is not deleted, just flagged as banned
   isAdmin:                   Boolean
   /* created, modified from plugin */

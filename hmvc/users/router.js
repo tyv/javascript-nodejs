@@ -22,7 +22,7 @@ router.del('/:id', loadUserById, id.del);
 
 function* loadUserByReq(next) {
 
-  yield function(callback) {}
+  //yield function(callback) {}
 
   this.params.user = this.req.user;
   yield* next;

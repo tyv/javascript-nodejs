@@ -103,27 +103,35 @@ ServerHtmlTransformer.prototype.transformCompositeTag = function* (node) {
   return html;
 };
 
-ServerHtmlTransformer.prototype.transformReferenceNode = function*(node) {
+ServerHtmlTransformer.prototype.transformLinkTag = function*(node) {
 
-  const referenceObj = yield* resolveReference(node.ref);
-
-  if (!referenceObj) {
-    throw new ParseError('span', 'Нет такой ссылки: ' + node.ref);
+  var ref;
+  if (node.attrs.href[0] == '/' && !node.getChildren().length) {
+    ref = node.attrs.href;
+  } else if (node.attrs.href[0] == '#') {
+    ref = node.attrs.href;
   }
 
-  var newNode = new CompositeTag('a', node.getChildren(), {href: referenceObj.url});
+  if (ref) {
+    const referenceObj = yield* resolveReference(ref);
 
-  if (newNode.getChildren().length === 0) {
-    if (node.ref[0] == '#') {
-      newNode.appendChild(new TextNode(node.ref.slice(1)));
-    } else {
-      newNode.appendChild(new TextNode(referenceObj.title));
+    if (!referenceObj) {
+      throw new ParseError('span', 'Нет такой ссылки: ' + ref);
     }
+
+    node.attrs.href = referenceObj.url;
+
+    if (node.getChildren().length === 0) {
+      if (ref[0] == '#') {
+        node.appendChild(new TextNode(ref.slice(1)));
+      } else {
+        node.appendChild(new TextNode(referenceObj.title));
+      }
+    }
+
   }
 
-  node.parent.replaceChild(newNode, node);
-
-  return yield* this.transformCompositeTag(newNode);
+  return yield* HtmlTransformer.prototype.transformLinkTag.call(this, node);
 };
 
 

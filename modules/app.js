@@ -5,12 +5,14 @@ const config = require('config');
 const log = require('log')('app', {bufferLowLevel: true});
 
 if (process.env.NODE_ENV == 'production') {
+
   // only log.error in prod, otherwise just die
   process.on('uncaughtException', function(err) {
     // let bunyan handle the error
     log.error(err);
     process.exit(255);
   });
+
 }
 
 

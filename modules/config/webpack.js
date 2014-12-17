@@ -5,8 +5,8 @@ var isDevelopment = (process.env.NODE_ENV === 'development');
 var isProduction = (process.env.NODE_ENV === 'production');
 var webpack = require('webpack');
 var CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin");
-
 var WriteVersionsPlugin = require('lib/webpack/writeVersionsPlugin');
+var ngAnnotatePlugin = require('ng-annotate-webpack-plugin');
 
 var del = require('del');
 
@@ -28,21 +28,48 @@ var webpackConfig = {
   cache:      isDevelopment,
   watchDelay: 10,
   watch:      isDevelopment,
-  devtool:    isDevelopment ? "source-map" : '',
 
-  entry:  {
+  devtool: isDevelopment ? "inline-source-map" : '',
+
+  entry: {
+    angular:  'client/angular',
     head:     'client/head',
     tutorial: 'tutorial/client',
-    profile:   'profile/client',
+    profile:  'profile/client',
     footer:   'client/footer'
   },
+
+
+  externals: {
+    // require("angular") is external and available
+    // on the global var angular
+    "angular": "angular"
+  },
+
   module: {
     loaders: [
       {test: /\.jade$/, loader: "jade?root=" + config.projectRoot + '/templates'},
       // commonInterop means that "export default smth" becomes "module.exports = smth"
       // (unless there are other exports, see "modules" doc in 6to5
-      {test: /\.js$/, loader: '6to5-loader?modules=commonInterop'}
+      {test: /\.js$/, exclude: /node_modules\/angular/, loader: '6to5-loader?modules=commonInterop'}
+    ],
+    noParse: [
+      // regexp gets full path with loader like
+      // '/js/javascript-nodejs/node_modules/client/angular.js'
+      // or even
+      // '/js/javascript-nodejs/node_modules/6to5-loader/index.js?modules=commonInterop!/js/javascript-nodejs/node_modules/client/head/index.js'
+      /node_modules\/angular/
     ]
+  },
+
+  resolve: {
+    alias: {
+      lodash:          'lodash/dist/lodash',
+      angular:         'angular/angular',
+      angularRouter:   'angular-ui-router/release/angular-ui-router',
+      angularCookies:  'angular-cookies/angular-cookies',
+      angularResource: 'angular-resource/angular-resource'
+    }
   },
 
   node: {
@@ -50,6 +77,10 @@ var webpackConfig = {
   },
 
   plugins: [
+    // lodash is loaded when free variable _ occurs in the code
+    new webpack.ProvidePlugin({
+      _: 'lodash'
+    }),
     // any common chunks from entries go to head
     new CommonsChunkPlugin("head", isDevelopment ? "head.js?[hash]" : "head.[hash].js"),
     new WriteVersionsPlugin(path.join(config.manifestRoot, "js.versions.json")),
@@ -65,15 +96,21 @@ var webpackConfig = {
   ]
 };
 
+
 if (isProduction) {
   webpackConfig.plugins.push(
+    new ngAnnotatePlugin({ // add angular annotations with ng-strict-di to ensure it's correct
+      add: true
+    }),
+
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         // don't show unreachable variables etc
-        warnings: false
+        warnings: false,
+        drop_console: true,
+        unsafe: true
       }
-    }),
-    new webpack.optimize.OccurenceOrderPlugin()
+    })
   );
 }
 

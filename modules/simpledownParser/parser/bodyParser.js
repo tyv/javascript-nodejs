@@ -11,7 +11,7 @@ var StringMap = require('../util/stringMap');
 var Parser = require('./parser');
 var BbtagParser = require('./bbtagParser');
 var BodyLexer = require('./bodyLexer');
-var ReferenceNode = require('../node/referenceNode');
+var LinkTag = require('../node/linkTag');
 var TagNode = require('../node/tagNode');
 var EscapedTag = require('../node/escapedTag');
 var CompositeTag = require('../node/compositeTag');
@@ -256,25 +256,7 @@ BodyParser.prototype.parseLink = function(token) {
 
   var titleParsed = new BodyParser(title, this.options).parse();
 
-  // external link goes "as is"
-  if (~href.indexOf('://')) {
-    return new CompositeTag("a", titleParsed, {href: href});
-  }
-
-  if (href[0] == '/') {
-    // absolute link with title goes "as is", without title - we'll try to resolve the title on 2nd pass
-    if (!title) {
-      return new ReferenceNode(href, titleParsed);
-    }
-    return new CompositeTag("a", titleParsed, {href: href});
-  }
-
-  if (href[0] == '#') { // Reference, need second pass to resolve it
-    return new ReferenceNode(href, titleParsed);
-  }
-
-  // relative link
-  throw new ParseError("span", "относительные ссылки могут быть легко ломаться, используйте #метки или абсолютные URL вместо " + href);
+  return new LinkTag(titleParsed, {href: href});
 };
 
 /*
