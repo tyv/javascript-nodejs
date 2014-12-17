@@ -25,9 +25,9 @@
   position relative
 
 // todo: also hide closing button
-// usage: .modal-overlay.modal-overlay_dark for translucent black background or
-//        .modal-overlay.modal-overlay_light for translucent white background
-.modal-overlay:after
+// usage: .modal-overlay_dark for translucent black background or
+//        .modal-overlay_light for translucent white background
+$modal-overlay
   content " "
   position absolute
   left 0
@@ -35,13 +35,16 @@
   top 0
   bottom 0
   z-index 100000
-  opacity 0.2
 
 .modal-overlay_light:after
+  @extend $modal-overlay
   background white
+  opacity 0.35
 
 .modal-overlay_dark:after
+  @extend $modal-overlay
   background black
+  opacity 0.2
 
 .modal-dialog
   position fixed
