@@ -57,6 +57,15 @@ CsrfChecker.prototype.middleware = function() {
 module.exports = function(app) {
   koaCsrf(app);
 
+  app.use(function* setCsrfCookie(next) {
+    console.log(this.req.user, this.cookies.get('XSRF-TOKEN'));
+    // this cookie name is used in angular by default
+    if (this.req.user && !this.cookies.get('XSRF-TOKEN') || 1) {
+      this.cookies.set('XSRF-TOKEN', this.csrf, { httpOnly: false, signed: false });
+    }
+    yield* next;
+  });
+
   app.csrfChecker = new CsrfChecker();
 
   app.use(app.csrfChecker.middleware());

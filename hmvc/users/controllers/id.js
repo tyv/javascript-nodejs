@@ -7,11 +7,14 @@ var thunkify = require('thunkify');
 
 exports.get = function*(next) {
 
-  this.body = {
-    displayName: this.params.user.displayName,
-    email: this.params.user.email,
-    created: this.params.user.created
-  };
+  var fields = 'created displayName email gender country town'.split(' ');
+
+  this.body = { };
+  fields.forEach( function(field) {
+    this.body[field] = this.params.user[field];
+  }, this);
+
+  this.body.photo = this.params.user.photo.link;
 
 };
 
@@ -87,8 +90,9 @@ exports.patch = function*(next) {
 
   var user = this.params.user;
 
+  var fields;
   try {
-    var fields = yield readMultipart(this.req);
+    fields = yield readMultipart(this.req);
   } catch (e) {
     if (e.name == 'BadImageError') {
       this.throw(400, e.message);

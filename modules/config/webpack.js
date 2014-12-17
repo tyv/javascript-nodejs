@@ -32,15 +32,17 @@ var webpackConfig = {
   devtool: isDevelopment ? "inline-source-map" : '',
 
   entry: {
+    angular:  'client/angular',
     head:     'client/head',
     tutorial: 'tutorial/client',
     profile:  'profile/client',
     footer:   'client/footer'
   },
 
+
   externals: {
-    // require("jquery") is external and available
-    //  on the global var jQuery
+    // require("angular") is external and available
+    // on the global var angular
     "angular": "angular"
   },
 
@@ -49,7 +51,14 @@ var webpackConfig = {
       {test: /\.jade$/, loader: "jade?root=" + config.projectRoot + '/templates'},
       // commonInterop means that "export default smth" becomes "module.exports = smth"
       // (unless there are other exports, see "modules" doc in 6to5
-      {test: /\.js$/, loader: '6to5-loader?modules=commonInterop'}
+      {test: /\.js$/, exclude: /node_modules\/angular/, loader: '6to5-loader?modules=commonInterop'}
+    ],
+    noParse: [
+      // regexp gets full path with loader like
+      // '/js/javascript-nodejs/node_modules/client/angular.js'
+      // or even
+      // '/js/javascript-nodejs/node_modules/6to5-loader/index.js?modules=commonInterop!/js/javascript-nodejs/node_modules/client/head/index.js'
+      /node_modules\/angular/
     ]
   },
 
@@ -62,7 +71,6 @@ var webpackConfig = {
       angularResource: 'angular-resource/angular-resource'
     }
   },
-
 
   node: {
     fs: 'empty'
@@ -94,6 +102,7 @@ if (isProduction) {
     new ngAnnotatePlugin({ // add angular annotations with ng-strict-di to ensure it's correct
       add: true
     }),
+
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         // don't show unreachable variables etc
