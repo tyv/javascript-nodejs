@@ -14,7 +14,6 @@
     "MD5": "*",
     "angular": "^1.3.6",
     "angular-cookies": "^1.3.6",
-    "angular-datepicker": "file:../../tmp/npm-77419-7acee534/1418890338920-0.16339175030589104/9b1c79f62d016782a30614128110289699a9cb3a",
     "angular-promise-tracker": "git://github.com/ajoslin/angular-promise-tracker",
     "angular-resource": "^1.3.6",
     "angular-ui-router": "^0.2.11",
