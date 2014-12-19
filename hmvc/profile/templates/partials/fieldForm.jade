@@ -11,13 +11,12 @@ include /bem
 )
   +e.content
     +e.name {{title}}:
-    +e.value(ng-bind="value")
+    +e.value(ng-bind="showValue")
   +e.change(ng-show="editing")
     +e.change-content
-      +e.labeled
-        +e('label').labeled-label(for="field-{{name}}") Имя:
-        +b.text-input._small.__control
-          +e('input').control(focus-on="editing" id="field-{{name}}" required ng-model="editingValue" type="text")
+      +e.labeled(control-transclude)
+        +e('label').labeled-label {{title}}:
+        //- directive content will be appended here with current scope, not parent scope!
     +e.ok-cancel
       +b('button')(type="submit" progress="loadingTracker.active()" progress-spinner="{elemClass:'submit-button_progress',size:'small'}").submit-button._small.__save
         +e('span').text Сохранить

@@ -5,7 +5,7 @@ import notification from 'client/notification';
 import './fieldForm';
 
 var profileApp = angular.module('profileApp', [
-  'ui.router', 'ngResource', 'global403Interceptor','ajoslin.promise-tracker', 'progress', 'focusOn', 'fieldForm'
+  'ui.router', 'ngResource', 'global403Interceptor','ajoslin.promise-tracker', 'progress', 'focusOn', 'fieldForm', 'datePicker'
 ]);
 
 profileApp.factory('Me', ($http) => {
@@ -19,7 +19,7 @@ profileApp.factory('Me', ($http) => {
 profileApp.controller('ProfileAboutMeCtrl', ($scope, $state, $timeout, $http, me, promiseTracker) => {
 
   window.me = me;
-  $scope.displayName = me.displayName;
+  $scope.me = me;
 
   $scope.photo = {
     value: me.photo,
@@ -39,7 +39,7 @@ profileApp.controller('ProfileAboutMeCtrl', ($scope, $state, $timeout, $http, me
   $scope.changePhoto = function() {
     var fileInput = document.createElement('input');
     fileInput.type = 'file';
-    //fileInput.accept = "image/*";
+    fileInput.accept = "image/*";
 
     fileInput.onchange = () => uploadPhoto(fileInput.files[0]);
     fileInput.click();
@@ -55,11 +55,11 @@ profileApp.controller('ProfileAboutMeCtrl', ($scope, $state, $timeout, $http, me
       method: 'PATCH',
       url: '/users/me',
       headers: {'Content-Type': undefined },
-      tracker: $scope.meForms.photo.loadingTracker,
+      tracker: $scope.photo.loadingTracker,
       transformRequest: angular.identity,
       data: formData
     }).then(function(response) {
-      $scope.meForms.photo.value = response.data.photo;
+      $scope.photo.value = response.data.photo;
       new notification.Success("Изображение обновлено.");
     }, function(response) {
       if (response.status == 400) {

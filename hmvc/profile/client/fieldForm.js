@@ -7,12 +7,13 @@ angular.module('fieldForm', [])
     return {
       templateUrl: 'templates/partials/fieldForm',
       scope: {
-        title: '@',
-        name: '@',
-        value: '='
+        title: '@fieldTitle',
+        name: '@fieldName',
+        value: '=fieldValue'
       },
       replace: true,
-      link: function(scope, element, attrs) {
+      transclude: true,
+      link: function(scope, element, attrs, noCtrl, transclude) {
         scope.loadingTracker = promiseTracker();
 
         scope.edit = function() {
@@ -56,7 +57,9 @@ angular.module('fieldForm', [])
           });
         };
 
-
+        transclude(scope, function(clone, scope) {
+          element[0].querySelector('[control-transclude]').append(clone[0]);
+        });
 
       }
     };

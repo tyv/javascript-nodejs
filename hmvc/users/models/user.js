@@ -15,7 +15,7 @@ var ProviderSchema = new mongoose.Schema({
 var UserSchema = new mongoose.Schema({
   displayName:               {
     type:     String,
-    default: "", // need a value for validator to run
+    default:  "", // need a value for validator to run
     validate: [
       {
         validator: function(value) {
@@ -35,7 +35,7 @@ var UserSchema = new mongoose.Schema({
   },
   email:                     {
     type:     String,
-    default: "", // need a value for validator to run
+    default:  "", // need a value for validator to run
     // если посетитель удалён, то у него нет email!
     validate: [
       {
@@ -74,6 +74,7 @@ var UserSchema = new mongoose.Schema({
       message: "Неизвестное значение для пола."
     }
   },
+  birthday:                  Date,
   verifiedEmail:             {
     type:    Boolean,
     default: false
@@ -92,8 +93,9 @@ var UserSchema = new mongoose.Schema({
   photo:                     {/* { link: ..., } */}, // imgur data
   country:                   String,
   town:                      String,
+  interests:                 String,
   deleted:                   { // private & login data is deleted
-    type: Boolean,
+    type:    Boolean,
     default: false
   },
   readOnly:                  Boolean,  // data is not deleted, just flagged as banned
@@ -123,10 +125,14 @@ UserSchema.methods.getAllPublicFields = function() {
   return User.getAllPublicFields(this);
 };
 
+
 UserSchema.statics.getAllPublicFields = function(user) {
   return {
     displayName:   user.displayName,
     gender:        user.gender,
+    country:       user.country,
+    town:          user.town,
+    interests:     user.interests,
     email:         user.email,
     verifiedEmail: user.verifiedEmail,
     photo:         user.photo && user.photo.link,
@@ -135,6 +141,7 @@ UserSchema.statics.getAllPublicFields = function(user) {
     isAdmin:       user.isAdmin
   };
 };
+
 
 UserSchema.methods.checkPassword = function(password) {
   if (!password) return false; // empty password means no login by password
