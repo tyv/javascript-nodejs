@@ -21,9 +21,9 @@ linkModules({
 const config = require('config');
 const mongoose = require('lib/mongoose');
 
-//Error.stackTraceLimit = Infinity;
-//require('trace');
-//require('clarify');
+Error.stackTraceLimit = Infinity;
+require('trace');
+require('clarify');
 
 process.on('uncaughtException', function(err) {
   console.log(err.message, err.stack);
