@@ -1,0 +1,11 @@
+include /bem
+
++b.profile-photo
+  +e.upic(
+    style="background-image: url('{{photo | thumb:146:146 }}')"
+    progress="loadingTracker.active()"
+    progress-overlay
+    progress-spinner="{elemClass:'profile__upic_loading'}"
+  )
+    +e.upic-edit(ng-click="changePhoto()") Загрузить<br> фотографию
+      +e.content

@@ -6,7 +6,8 @@
 		display table
 
 	&__input-wrap,
-	&__option
+	&__option,
+	&__layout
 		display table-cell
 
 	&__input-wrap
@@ -30,6 +31,17 @@
 
 	&__option-label
 		padding-left 11px
+
+	&__singlecol,
+	&__multicol
+		width 33px
+		line-height 32px
+
+	&__singlecol::after
+		@extend $font-single-col
+
+	&__multicol::after
+		@extend $font-multi-col
 
 	&__input
 		width 100%
@@ -110,12 +122,16 @@
 		font-size 85%
 		color #656565
 
+	&_singlecol &__section.columns__col // усиливаем селектор классом columns__col из-за псевдокласса в блоке columns
+			display block
+			width auto
+
 	@media tablet
 		margin 2px 20px 20px
-		
+
 		&__option-control
 			margin-left 0
-		
+
 		&__filter
 			margin-top 2px
 
@@ -123,12 +139,15 @@
 		&__input-wrap,
 		&__option
 			display block
-		
+
 		.modal &__input-wrap
 			width calc(100% - 50px)
 
 		&__option
 			padding 10px 0 0
+
+		&__layout
+			display none
 
 		&__section:not(:first-child)
 			margin-top 30px

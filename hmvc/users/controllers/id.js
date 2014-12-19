@@ -101,7 +101,7 @@ exports.patch = function*(next) {
     }
   }
 
-  'displayName password gender photo'.split(' ').forEach(function(field) {
+  'displayName password gender photo country town interests'.split(' ').forEach(function(field) {
     if (field in fields) {
       user[field] = fields[field];
     }

@@ -4,6 +4,11 @@
 // hi@felipefialho.com
 // http://www.felipefialho.com/
 
+// NB
+// please place modal.styl before other files
+// modal-overlay implies position: relative
+// other styles may want to override this
+
 .modal:before
   content ""
   display block
@@ -16,17 +21,10 @@
   z-index 1001
 
 
-.modal-dialog
-  position fixed
-  top 50%
-  left 50%
-  transform: translate(-50%, -50%);
-  z-index 9999
-
-
-
 // todo: also hide closing button
-.modal-overlay:after
+// usage: .modal-overlay_dark for translucent black background or
+//        .modal-overlay_light for translucent white background
+$modal-overlay-after
   content " "
   position absolute
   left 0
@@ -34,6 +32,20 @@
   top 0
   bottom 0
   z-index 100000
-  // @iliakan закомментировал, т.к. при загрузке модального окна на чёрном фоне был белый сверху - некрасиво
-  // background white
+
+.modal-overlay_light:after
+  @extend $modal-overlay-after
+  background white
+  opacity 0.35
+
+.modal-overlay_dark:after
+  @extend $modal-overlay-after
+  background black
   opacity 0.2
+
+.modal-dialog
+  position fixed
+  top 50%
+  left 50%
+  transform: translate(-50%, -50%);
+  z-index 9999

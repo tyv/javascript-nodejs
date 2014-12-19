@@ -9,7 +9,8 @@ angular.module("global403Interceptor", []).factory("http403Interceptor", functio
     },
 
     responseError: function(rejection) {
-      $log.error(`error with status ${rejection.status}: ${rejection}`);
+      $log.error(`error with status ${rejection.status}`);
+      $log.error(rejection);
 
       // do something on error
       if (rejection.status == 401) {

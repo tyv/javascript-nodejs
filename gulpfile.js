@@ -21,9 +21,9 @@ linkModules({
 const config = require('config');
 const mongoose = require('lib/mongoose');
 
-//Error.stackTraceLimit = Infinity;
-//require('trace');
-//require('clarify');
+Error.stackTraceLimit = Infinity;
+require('trace');
+require('clarify');
 
 process.on('uncaughtException', function(err) {
   console.log(err.message, err.stack);
@@ -48,7 +48,7 @@ gulp.task('init');
 gulp.task('lint-once', lazyRequireTask('./tasks/lint', { src: jsSources }));
 gulp.task('lint-or-die', lazyRequireTask('./tasks/lint', { src: jsSources, dieOnError: true }));
 
-// usage: gulp loaddb --db fixture/db
+// usage: gulp db:load --from fixture/test/db --harmony
 gulp.task('db:load', lazyRequireTask('./tasks/dbLoad'));
 
 

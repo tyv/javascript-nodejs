@@ -1,10 +1,14 @@
 import angular from 'angular';
-import { thumb } from 'client/image';
 import notification from 'client/notification';
 
-var profileApp = angular.module('profileApp', ['ui.router', 'ngResource', 'global403Interceptor']);
+var profile = angular.module('profile', [
+  'ui.router', 'ngResource', 'global403Interceptor', 'ajoslin.promise-tracker', 'progress', 'focusOn'
+]);
 
-profileApp.factory('Me', ($http) => {
+import './profileField';
+import './profilePhoto';
+
+profile.factory('Me', ($http) => {
   return $http.get('/users/me').then(function(res) {
     var data = res.data;
     data.created = new Date(data.created);
@@ -12,107 +16,60 @@ profileApp.factory('Me', ($http) => {
   });
 });
 
-profileApp.controller('ProfileAboutMeCtrl', ($scope, $state, $http, me) => {
 
-  var meForms = {};
-  for(var key in me) {
-    meForms[key] = { value: me[key], loading: false, editingValue: me[key] };
-  }
+profile
+  .config(($locationProvider, $stateProvider) => {
+    $locationProvider.html5Mode(true);
 
-  $scope.meForms = meForms;
+    $stateProvider
+      .state('root', {
+        abstract:    true,
+        resolve:     {
+          me: (Me) => Me
+        },
+        templateUrl: "templates/partials/root",
+        controller:  'ProfileRootCtrl'
+      })
+      .state('root.aboutme', {
+        url:         "/",
+        resolve:     {
+          me: (Me) => Me
+        },
+        title:       'Профиль',
+        templateUrl: "templates/partials/aboutme",
+        controller:  'ProfileAboutMeCtrl'
+      })
+      .state('root.account', {
+        url:   '/account',
+        title: 'Аккаунт'
+      });
+  })
+  .controller('ProfileRootCtrl', ($scope, $state, $timeout, $http, me, promiseTracker) => {
 
-  $scope.states = $state.get()
-    .filter( (state) => { return !state.abstract; } )
-    .map( (state) => { return {
-      title: state.title,
-      name: state.name,
-      url: state.url,
-      isCurrent: state == $state.current
-    }; } );
+    window.me = me;
+    $scope.me = me;
 
 
-  $scope.changePhoto = function() {
-    var fileInput = document.createElement('input');
-    fileInput.type = 'file';
-    //fileInput.accept = "image/*";
+    $scope.states = $state.get()
+      .filter((state) => {
+        return !state.abstract;
+      })
+      .map((state) => {
+        return {
+          title:     state.title,
+          name:      state.name,
+          url:       state.url
+        };
+      });
 
-    fileInput.onchange = () => uploadPhoto(fileInput.files[0]);
-    fileInput.click();
-  };
 
+  })
+  .controller('ProfileAboutMeCtrl', ($scope, me) => {
 
-  function uploadPhoto(file) {
-    // todo progress indication
-    var formData = new FormData();
-    formData.append("photo", file);
+    $scope.me = me;
 
-    $http({
-      method: 'PATCH',
-      url: '/users/me',
-      headers: {'Content-Type': undefined },
-      transformRequest: angular.identity,
-      data: formData
-    }).then(function(response) {
-      $scope.meForms.photo.value = response.data.photo;
-      new notification.Success("Изображение обновлено.");
-    }, function(response) {
-      if (response.status == 400) {
-        new notification.Error("Неверный тип файла или изображение повреждено.");
-      } else {
-        new notification.Error("Ошибка загрузки, статус " + response.status);
-      }
-    });
-    /*
-
-    var formData = new FormData();
-
-    formData.append("photo", file);
-
-    var request = xhr({
-      method: 'PATCH',
-      url: '/users/me',
-      json: true,
-      body: formData
-    });
-
-    // 400 when corrupt or invalid file
-    request.successStatuses = [200, 400];
-
-    var self = this;
-    request.addEventListener('success', function(e) {
-      if (this.status == 400) {
-        new notification.Error("Неверный тип файла или изображение повреждено.");
-        return;
-      }
-
-      self.updateUserPhoto(e.result.photo);
-    });*/
-
-  }
-
-});
+  });
 
 
 
-
-profileApp.filter('thumb', () => thumb);
-
-profileApp.config(($locationProvider, $stateProvider) => {
-  $locationProvider.html5Mode(true);
-
-  $stateProvider
-    .state('aboutme', {
-      url: "/",
-      resolve: {
-        me: (Me) => Me
-      },
-      title: 'Профиль',
-      templateUrl: "templates/partials/aboutme",
-      controller: 'ProfileAboutMeCtrl'
-    })
-    .state('account', {
-      url: 'account',
-      title: 'Аккаунт'
-    });
-});
 

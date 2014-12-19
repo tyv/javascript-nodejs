@@ -1,0 +1,254 @@
+
+.profile-field
+	border-bottom 1px solid #e6e0d4
+	line-height 20px
+	padding 0 50px 0 40px
+
+	&_editable
+		position relative //- for overlay
+
+	&_editable:not(&_editing):hover
+		background #f9f8f0
+		cursor pointer
+
+	&:last-child
+		border 0
+
+	&:last-child &__content
+		padding-bottom 32px
+
+	&:last-child &__change
+		padding-bottom 26px
+
+	& &__inline-title
+		margin 25px 0 0
+		font-size 16px
+		line-height 18px
+		color #656565
+
+	&__content
+		@extend $clearfix
+		position relative
+		padding 17px 0 17px
+
+	&:first-child &__content
+		padding-top 30px
+
+	&__change
+		padding 11px 0
+		display none
+		position relative
+		width 100%
+
+	&__name,
+	&__labeled-label
+		color #727272
+		float left
+		min-width 140px
+		margin-right 15px
+
+	&_accounts &__name,
+	&_accounts &__labeled-label
+		min-width 110px
+
+	&__editable &__content::after
+		@extend $font-pencil
+		position absolute
+		left 100%
+		margin-left 3px
+		top 21px
+		min-height 20px
+		min-width 20px
+		font-size 15px
+		color #727272
+		display none
+
+	&:hover &__content::after
+		display block
+
+	&_editing &__content
+		display none
+
+	&_editing &__change
+		display table
+
+	&__value
+		overflow auto
+
+	&__value:empty::before
+		content "—"
+
+	&__action
+		@extend $button-reset
+		font inherit
+		color #727272
+
+	&__action:hover
+		color link_hover_color
+		text-decoration underline
+
+	&__action_remove-account
+		margin-bottom 100px
+
+	& &__note,
+	& &__title
+		color #999
+		margin 0
+
+	& &__note
+		margin-top 16px
+
+	& &__title
+		margin-bottom 12px
+
+	&__social-login
+		margin-right 6px
+		vertical-align bottom
+		margin-bottom 5px
+
+	&__labeled
+		min-height 32px
+
+	&__labeled-label
+		margin 6px 15px 0 0
+
+	&__control
+		box-sizing border-box
+		width calc(100% - 155px)
+		min-width 230px
+		height 32px
+		display inline-block
+		font-size 14px
+
+	&_accounts &__control
+		width calc(100% - 125px)
+
+	//- using id for styling as an exception,
+	//- theese id's won't appear anywhere else
+	//- and we use them just to set size
+	#profile-birth-day
+		min-width 0
+		width 50px
+		margin-right 10px
+
+	#profile-birth-month
+		min-width 0
+		width 90px
+		margin-right 10px
+
+	#profile-birth-year
+		min-width 0
+		width 70px
+
+	#profile-tz
+		width 230px
+
+	#profile-about
+		height 100px
+
+	&__pass-change
+		display inline-block
+		margin-right 18px
+
+	&__pass
+		width 150px
+
+	&__change-content,
+	&__ok-cancel
+		display table-cell
+		vertical-align top
+
+	&__change-content
+		padding-right 15px
+
+	&__ok-cancel
+		width 1%
+		white-space nowrap
+
+	&__save
+		margin 0 0 -1px // убираем смещение соседних пунктов в момент показа в Fx
+		height 32px
+
+	&__cancel
+		@extend $button-reset
+		color #568DCA
+		font-size inherit
+		margin-left 10px
+
+	&__cancel:hover
+		color link_hover_color
+		text-decoration underline
+
+	&__linked-account &__content
+		padding 19px 0 14px 68px
+		min-height 48px
+
+	&__linked-upic
+		position absolute
+		top 16px
+		left 0
+		width 48px
+		height 48px
+
+	&__linked-name
+		font-weight 700
+		color #333
+
+	&__linked-provider
+		color #999
+
+	&__tests
+		display table
+		width 100%
+
+	&__test
+		display table-row
+
+	&__test-name,
+	&__test-score,
+	&__test-level,
+	&__test-weaks
+		display table-cell
+		vertical-align top
+		padding 20px 15px 20px 0
+		border-top 1px solid #E4DDD2
+
+	&__test:first-child &__test-name,
+	&__test:first-child &__test-score,
+	&__test:first-child &__test-level,
+	&__test:first-child &__test-weaks
+		padding-top 34px
+		border 0
+
+	&__test:last-child &__test-name,
+	&__test:last-child &__test-score,
+	&__test:last-child &__test-level,
+	&__test:last-child &__test-weaks
+		padding-bottom 30px
+
+	&__test-name
+		padding-left 23px
+		width 33%
+
+	&__test-score
+		width 21%
+
+	&__test-level
+		width 15%
+
+	&__test-weaks
+		padding-right 23px
+
+	&__test-legend
+		font-size 12px
+		color #727272
+		margin-bottom 1px
+
+	&__test-title
+		font 18px/22px secondary_font
+		margin 4px 0 4px
+
+	&__test-percent
+		font-size 28px
+		color #4C906B
+		margin 7px 0 0 3px

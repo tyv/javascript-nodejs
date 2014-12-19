@@ -9,6 +9,14 @@ include /bem
     +e.option
       +e('input').option-control#show-tasks(type="checkbox" data-tutorial-map-show-tasks)
       +e('label').option-label(for="show-tasks") Показать задачи
+    +e.layout
+      +b.switch.__layout-switch
+        +e.option
+          +e('input').control#multicol(type="radio", name="map-layout", checked="checked")
+          +e('label').label.__multicol(for="multicol")
+        +e.option
+          +e('input').control#singlecol(type="radio", name="map-layout")
+          +e('label').label.__singlecol(for="singlecol")
 
   +e.tutorial-map-map.columns.columns_3
     each topic in children

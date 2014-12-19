@@ -28,8 +28,9 @@ var schema = new Schema({
   },
 
   solution: {
+    // can be empty (assuming there is a solution.view)
     type:     String,
-    required: true
+    default: ""
   },
 
   solutionPlunkId: String,

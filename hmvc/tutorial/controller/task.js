@@ -36,7 +36,8 @@ exports.get = function *get(next) {
       return item.filename == 'test.js';
     });
 
-    this.locals.sourcePlunkInfo.title = hasTest ? 'Открыть песочницу с тестами для задачи.' :
+    this.locals.sourcePlunkInfo.title = hasTest ?
+      'Открыть песочницу с тестами для задачи.' :
       'Открыть песочницу для задачи.';
 
   }
@@ -52,7 +53,8 @@ exports.get = function *get(next) {
       return item.filename == 'test.js';
     });
 
-    this.locals.solutionPlunkInfo.title = hasTest ? 'Открыть решение с тестами в песочнице.' :
+    this.locals.solutionPlunkInfo.title = hasTest ?
+      'Открыть решение с тестами в песочнице.' :
       'Открыть решение в песочнице';
   }
 

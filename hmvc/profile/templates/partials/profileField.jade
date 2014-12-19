@@ -1,0 +1,23 @@
+include /bem
+
++b('form').profile-field._editable(
+  novalidate
+  progress="loadingTracker.active()"
+  progress-overlay
+  name="form"
+  ng-submit="submit()"
+  ng-click="edit()"
+  ng-class="{'profile-field_editing': editing}"
+)
+  +e.content
+    +e.name {{title}}:
+    +e.value(ng-bind="value")
+  +e.change(ng-show="editing")
+    +e.change-content
+      +e.labeled(control-transclude)
+        +e('label').labeled-label {{title}}:
+        //- directive content will be appended here with current scope, not parent scope!
+    +e.ok-cancel
+      +b('button')(type="submit" progress="loadingTracker.active()" progress-spinner="{elemClass:'submit-button_progress',size:'small'}").submit-button._small.__save
+        +e('span').text Сохранить
+      +e('button').cancel(type="button" ng-click="cancel()") Отмена
