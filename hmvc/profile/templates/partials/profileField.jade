@@ -1,17 +1,17 @@
 include /bem
 
-+b('form').profile-item._editable(
++b('form').profile-field._editable(
   novalidate
   progress="loadingTracker.active()"
   progress-overlay
   name="form"
   ng-submit="submit()"
   ng-click="edit()"
-  ng-class="{'profile-item_editing': editing}"
+  ng-class="{'profile-field_editing': editing}"
 )
   +e.content
     +e.name {{title}}:
-    +e.value(ng-bind="showValue")
+    +e.value(ng-bind="value")
   +e.change(ng-show="editing")
     +e.change-content
       +e.labeled(control-transclude)

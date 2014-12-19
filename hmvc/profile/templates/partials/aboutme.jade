@@ -1,39 +1,23 @@
 include /bem
 
-
-+b.profile._settings
-  //- - var url = thumb(user.getPhotoUrl(),146,146);
-
-  +e.upic(
-    style="background-image: url('{{photo.value | thumb:146:146 }}')"
-    progress="photo.loadingTracker.active()"
-    progress-overlay
-    progress-spinner="{elemClass:'profile__upic_loading'}"
-  )
-    +e.upic-edit(ng-click="changePhoto()") Загрузить<br> фотографию
-      +e.content
-
-  +e.tabs
-    +e.tab(ng-repeat="state in states" ng-class="{profile__tab_current: state.isCurrent }")
-      +e.tab-content
-        +e('a').tab-link(ui-sref="{{state.url}}") {{state.title}}
++b.profile
 
   +e.item
     +e.item-content
       +e('h2').inline-title Управление аккаунтом
 
-  +e('field-form')(field-name="displayName" field-title="Имя" field-value="me.displayName")
+  +e('profile-field')(field-name="displayName" field-title="Имя" field-value="me.displayName")
     +b.text-input._small.__control
       +e('input').control(focus-on="editing" required ng-model="editingValue" type="text")
 
-  +e('field-form')(field-name="country" field-title="Страна" field-value="me.country")
+  +e('profile-field')(field-name="country" field-title="Страна" field-value="me.country")
     +b.text-input._small.__control
       +e('input').control(focus-on="editing" required ng-model="editingValue" type="text")
 
-  +e('field-form')(field-name="town" field-title="Город" field-value="me.town")
+  +e('profile-field')(field-name="town" field-title="Город" field-value="me.town")
     +b.text-input._small.__control
       +e('input').control(focus-on="editing" required ng-model="editingValue" type="text")
 
-  +e('field-form')(field-name="interests" field-title="Интересы" field-value="me.interests")
+  +e('profile-field')(field-name="interests" field-title="Интересы" field-value="me.interests")
     +b.text-input._small.__control
       +e('input').control(focus-on="editing" required ng-model="editingValue" type="text")

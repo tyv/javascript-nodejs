@@ -1,55 +1,4 @@
 .profile
-	&__upic
-		width 146px
-		height 146px
-		margin auto
-		position relative
-		background-position 50% 50%
-		background-size contain
-		background-repeat no-repeat
-		border-radius 50%
-
-	&__upic-edit
-		position absolute
-		top 0
-		right 0
-		bottom 0
-		left 0
-		text-align center
-		color #fff
-		background rgba(0, 0, 0, .7)
-		border-radius 50%
-		cursor pointer
-		font-size 12px
-		line-height 17px
-		display none
-
-	&__upic-edit::before
-		@extend $font-camera
-		font-size 48px
-		display block
-		margin 30px 0 5px
-		color rgba(255, 255, 255, .35)
-		line-height 1
-
-	&__upic:hover &__upic-edit
-		display block
-
-	& &__upic_loading &__upic-edit
-		display none
-
-	&__upic .spinner
-		margin auto
-		display block
-		padding-top 64px
-
-	&__upic .spinner__dot
-		background #999
-
-	&__content
-		margin 20px 0
-		border-radius 4px
-
 	&__tabs
 		display table
 		width 100%
@@ -90,25 +39,25 @@
 	&__tab-link:hover
 		color #BB1000
 
-	&__item
-		border-bottom 1px solid #e6e0d4
-		line-height 20px
-		padding 0 50px 0 40px
+.profile-field
+	border-bottom 1px solid #e6e0d4
+	line-height 20px
+	padding 0 50px 0 40px
 
-	&__item_editable
+	&_editable
 		position relative //- for overlay
 
-	&__item_editable:not(&__item_editing):hover
+	&_editable:not(&_editing):hover
 		background #f9f8f0
 		cursor pointer
 
-	&__item:last-child
+	&:last-child
 		border 0
 
-	&__item:last-child &__item-content
+	&:last-child &__content
 		padding-bottom 32px
 
-	&__item:last-child &__item-change
+	&:last-child &__change
 		padding-bottom 26px
 
 	& &__inline-title
@@ -117,32 +66,32 @@
 		line-height 18px
 		color #656565
 
-	&__item-content
+	&__content
 		@extend $clearfix
 		position relative
 		padding 17px 0 17px
 
-	&__item:first-child &__item-content
+	&:first-child &__content
 		padding-top 30px
 
-	&__item-change
+	&__change
 		padding 11px 0
 		display none
 		position relative
 		width 100%
 
-	&__item-name,
+	&__name,
 	&__labeled-label
 		color #727272
 		float left
 		min-width 140px
 		margin-right 15px
 
-	&_accounts &__item-name,
+	&_accounts &__name,
 	&_accounts &__labeled-label
 		min-width 110px
 
-	&__item_editable &__item-content::after
+	&__editable &__content::after
 		@extend $font-pencil
 		position absolute
 		left 100%
@@ -154,19 +103,19 @@
 		color #727272
 		display none
 
-	&__item:hover &__item-content::after
+	&:hover &__content::after
 		display block
 
-	&__item_editing &__item-content
+	&_editing &__content
 		display none
 
-	&__item_editing &__item-change
+	&_editing &__change
 		display table
 
-	&__item-value
+	&__value
 		overflow auto
 
-	&__item-value:empty::before
+	&__value:empty::before
 		content "—"
 
 	&__action
@@ -181,15 +130,15 @@
 	&__action_remove-account
 		margin-bottom 100px
 
-	& &__item-note,
-	& &__item-title
+	& &__note,
+	& &__title
 		color #999
 		margin 0
 
-	& &__item-note
+	& &__note
 		margin-top 16px
 
-	& &__item-title
+	& &__title
 		margin-bottom 12px
 
 	&__social-login
@@ -256,21 +205,21 @@
 		width 1%
 		white-space nowrap
 
-	&__item-save
+	&__save
 		margin 0 0 -1px // убираем смещение соседних пунктов в момент показа в Fx
 		height 32px
 
-	&__item-cancel
+	&__cancel
 		@extend $button-reset
 		color #568DCA
 		font-size inherit
 		margin-left 10px
 
-	&__item-cancel:hover
+	&__cancel:hover
 		color link_hover_color
 		text-decoration underline
 
-	&__item_linked-account &__item-content
+	&__linked-account &__content
 		padding 19px 0 14px 68px
 		min-height 48px
 
@@ -343,3 +292,56 @@
 		font-size 28px
 		color #4C906B
 		margin 7px 0 0 3px
+
+.profile-photo
+	&__upic
+		width 146px
+		height 146px
+		margin auto
+		position relative
+		background-position 50% 50%
+		background-size contain
+		background-repeat no-repeat
+		border-radius 50%
+
+	&__upic-edit
+		position absolute
+		top 0
+		right 0
+		bottom 0
+		left 0
+		text-align center
+		color #fff
+		background rgba(0, 0, 0, .7)
+		border-radius 50%
+		cursor pointer
+		font-size 12px
+		line-height 17px
+		display none
+
+	&__upic-edit::before
+		@extend $font-camera
+		font-size 48px
+		display block
+		margin 30px 0 5px
+		color rgba(255, 255, 255, .35)
+		line-height 1
+
+	&__upic:hover &__upic-edit
+		display block
+
+	& &__upic_loading &__upic-edit
+		display none
+
+	&__upic .spinner
+		margin auto
+		display block
+		padding-top 64px
+
+	&__upic .spinner__dot
+		background #999
+
+	&__content
+		margin 20px 0
+		border-radius 4px
+

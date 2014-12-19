@@ -2,10 +2,10 @@ import notification from 'client/notification';
 import angular from 'angular';
 
 
-angular.module('fieldForm', [])
-  .directive('fieldForm', function(promiseTracker, $http, $timeout) {
+angular.module('profile')
+  .directive('profileField', function(promiseTracker, $http, $timeout) {
     return {
-      templateUrl: 'templates/partials/fieldForm',
+      templateUrl: 'templates/partials/profileField',
       scope: {
         title: '@fieldTitle',
         name: '@fieldName',
