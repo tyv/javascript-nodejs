@@ -36,10 +36,10 @@ block content
 
   +b.bricks
     +e('h2').title= more.title
-    +e.body.columns.columns_3
-      +e.col.columns__col
-        - each folder in more.children
-          +e.brick
-            +e('h3').brick-title
-              +e('a').brick-title-link(href=folder.url)= folder.title
-            +e.brick-content!= folder.body
+    +e.container
+      - each folder in more.children
+        +e.brick
+          +e('h3').brick-title
+            +e('a').brick-title-link(href=folder.url)= folder.title
+          +e.brick-content!= folder.body
+
