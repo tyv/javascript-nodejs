@@ -305,9 +305,9 @@ h4 {
   font-weight: bold;
   /*@editable*/
   line-height: 100%;
-  padding-top: 20px;
+  padding-top: 0;
   padding-right: 20px;
-  padding-bottom: 20px;
+  padding-bottom: 0;
   padding-left: 20px;
 
   /*@editable*/
@@ -332,9 +332,11 @@ h4 {
   text-decoration: none;
 }
 
+
 #headerImage {
   height: auto;
   max-width: 600px;
+  margin: 13px 0 20px 0;
 }
 
 /* ========== Body Styles ========== */
