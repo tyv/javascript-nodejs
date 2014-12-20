@@ -13,7 +13,7 @@ require('./layout');
 require('./sidebar');
 require('./navigationArrows');
 require('./hover');
-
+require('./runDemo');
 // must use CommonsChunkPlugin
 // to ensure that other modules use exactly this (initialized) client/notify
 require('client/notification').init();
