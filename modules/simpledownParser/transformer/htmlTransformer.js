@@ -5,6 +5,7 @@ var contextTypography = require('../typography/contextTypography');
 var escapeHtmlText = require('textUtil/escapeHtmlText');
 var escapeHtmlAttr = require('textUtil/escapeHtmlAttr');
 var stripIndents = require('../util/source/stripIndents');
+var TextNode = require('simpledownParser').TextNode;
 var extractHighlight = require('../util/source/extractHighlight');
 
 var iframeBoxTemplate = require('./iframeBox.jade');
@@ -199,6 +200,11 @@ HtmlTransformer.prototype.transformLinkTag = function(node) {
   // relative links are static
   if (!~node.attrs.href.indexOf('://') && node.attrs.href[0] != '/') {
     node.attrs.href = this.staticHost + this.resourceWebRoot + '/' + node.attrs.href;
+  }
+
+  // [](http://site.com)
+  if (!node.getChildren().length) {
+    node.appendChild(new TextNode(node.attrs.href));
   }
 
   return this.transformCompositeTag(node);
