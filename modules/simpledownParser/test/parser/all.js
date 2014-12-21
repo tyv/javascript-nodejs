@@ -35,6 +35,16 @@ describe("BodyParser", function() {
       html.should.be.eql('<button onclick="runDemo(this)">Запустить демо</button>');
     });
 
+    it("formats [text](http://site.com)", function() {
+      var html = format("[text](http://site.com)");
+      html.should.be.eql('<a href="http://site.com">text</a>');
+    });
+
+    it("formats [](http://site.com)", function() {
+      var html = format("[](http://site.com)");
+      html.should.be.eql('<a href="http://site.com">http://site.com</a>');
+    });
+
     it("Leaves bad HTML as is", function() {
       var html = format("<p a>");
       html.should.be.eql(html);
