@@ -389,7 +389,6 @@ Importer.prototype.syncView = function*(dir, parent) {
   var filesForPlunk = require('plunk').readFs(dir);
 
   if (!filesForPlunk) return; // had errors
-
   yield* plunk.mergeAndSyncRemote(filesForPlunk);
 
   var dst = path.join(parent.getResourceFsRoot(), pathName);
