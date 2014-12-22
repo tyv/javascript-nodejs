@@ -10,9 +10,8 @@ document.addEventListener('click', function(e) {
 
 function logout() {
   var form = document.createElement('form');
-  form.innerHTML = '<input type="hidden" name="_csrf" value="' + window.csrf + '">';
   form.method = 'POST';
-  form.action = '/auth/logout';
+  form.action = '/auth/logout?_csrf=' + document.cookie.match(/XSRF-TOKEN=([\w-]+)/)[1];
   document.body.appendChild(form);
   form.submit();
 }

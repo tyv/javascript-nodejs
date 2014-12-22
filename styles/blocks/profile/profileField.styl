@@ -1,8 +1,6 @@
 
 .profile-field
-	border-bottom 1px solid #e6e0d4
-	line-height 20px
-	padding 0 50px 0 40px
+	@extend $profile-item
 
 	&_editable
 		position relative //- for overlay
@@ -27,9 +25,9 @@
 		color #656565
 
 	&__content
+		@extend $profile-item-content
 		@extend $clearfix
 		position relative
-		padding 17px 0 17px
 
 	&:first-child &__content
 		padding-top 30px
