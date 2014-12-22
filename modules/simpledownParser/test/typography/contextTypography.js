@@ -18,7 +18,6 @@ describe("contextTypography", function() {
     contextTypography("line1\n\nline2").should.be.eql("<p>line1</p>\n<p>line2</p>");
   });
 
-
   it("converts 2 or more \\n to single <p>", function() {
     contextTypography("line1\n\n\n\n\nline2").should.be.eql("<p>line1</p>\n<p>line2</p>");
   });
@@ -35,6 +34,8 @@ describe("contextTypography", function() {
   it("converts quotes", function() {
     contextTypography('"my text"').should.be.eql('<p>«my text»</p>');
     contextTypography('"мой текст"').should.be.eql('<p>«мой текст»</p>');
+
+    contextTypography('"<span>1</span> и <span>2</span>".').should.be.eql('<p>«<span>1</span> и <span>2</span>».</p>');
   });
 
   it("wraps text in <p>", function() {

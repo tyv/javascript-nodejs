@@ -72,6 +72,8 @@ function* resolveReference(value) {
   return article && {title: article.title, url: article.getUrl()};
 }
 
+
+
 ServerHtmlTransformer.prototype.transformCompositeTag = function* (node) {
   var labels = {};
   var html = '';
@@ -101,6 +103,20 @@ ServerHtmlTransformer.prototype.transformCompositeTag = function* (node) {
   }
 
   return html;
+};
+
+ServerHtmlTransformer.prototype.transformEditTag = function*(node) {
+  // load plunk from DB
+  if (node.attrs.src) {
+    var plunk = yield Plunk.findOne({webPath: this.resourceWebRoot + '/' + node.attrs.src }).exec();
+    if (!plunk) {
+      throw new ParseError("div", "Нет такого plunk");
+    }
+    node.attrs.plunkId = plunk.plunkId;
+  }
+
+  return HtmlTransformer.prototype.transformEditTag.call(this, node);
+
 };
 
 ServerHtmlTransformer.prototype.transformLinkTag = function*(node) {

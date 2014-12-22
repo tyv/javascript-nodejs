@@ -5,13 +5,17 @@ var VERBATIM_TAGS = require('../consts').VERBATIM_TAGS;
 // В отличие от остальных методов, этот работает не "точечно", а над всем текстом,
 // Например "Мой `код` :)"
 function replaceQuotesWithLaquo(text) {
-  text = text.replace( /(^|[\s><(])\"([~0-9ёa-zа-я\-:\/\.])/gim, "$1«$2");
+  //console.log(1, text);
+  text = text.replace( /(^|[\s><(])\"([<~0-9ёa-zа-я\-:\/])/gim, "$1«$2");
 
+
+  //console.log(2, text);
   var _text = '""';
 
   while (text != _text) {
     _text = text;
     text = text.replace(/(«([^"]*)[>ёa-zа-я0-9\.\-:\/\?\!])\"/gim, '$1»');
+    //console.log(3, text);
   }
 
   return text;
