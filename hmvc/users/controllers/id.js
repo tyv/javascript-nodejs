@@ -14,7 +14,7 @@ exports.get = function*(next) {
     this.body[field] = this.params.user[field];
   }, this);
 
-  this.body.photo = this.params.user.photo.link;
+  this.body.photo = this.params.user.photo && this.params.user.photo.link;
 
 };
 

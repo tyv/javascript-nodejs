@@ -1,0 +1,18 @@
+extends ../layouts/profile
+
+// - http://stackoverflow.com/questions/12646451/how-to-pass-variables-between-jade-templates
+block variables
+  - self.title = 'Восстановление пароля';
+
+block content
+  +b.recover
+    +e('h1').title Восстановление пароля
+    +e.content
+      +e.controls
+        +e.label-wrap
+          +e('label').label(for="newpass") Новый пароль
+        +e.input-wrap
+          +b.text-input._small.__input
+            +e('input').control#newpass(type="password", autofocus)
+        +e.save-wrap
+          +b('button').submit-button._small.__save Сохранить пароль

@@ -305,7 +305,7 @@ HtmlTransformer.prototype.transformEditTag = function(node) {
 
   var attrs = {
     "class": "edit",
-    href:    "/play/" + node.attrs.src
+    href:    "http://plnkr.co/edit/" + node.attrs.plunkId + "?p=preview"
   };
 
   return this.wrapTagAround('a', attrs, html);

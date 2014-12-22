@@ -16,6 +16,7 @@ include /bem
     +e.change-content
       +e.labeled(control-transclude)
         +e('label').labeled-label {{title}}:
+        //- ng-transclude comes here
         //- directive content will be appended here with current scope, not parent scope!
     +e.ok-cancel
       +b('button')(type="submit" progress="loadingTracker.active()" progress-spinner="{elemClass:'submit-button_progress',size:'small'}").submit-button._small.__save

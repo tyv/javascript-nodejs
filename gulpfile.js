@@ -116,9 +116,6 @@ gulp.task('client:compile-css',
   })
 );
 
-gulp.task('plunk:sync', lazyRequireTask('./tasks/plunkSync', {
-  root: "/js/javascript-nodejs/javascript-tutorial"
-}));
 
 gulp.task('client:minify', lazyRequireTask('./tasks/minify', {
   root: './public'

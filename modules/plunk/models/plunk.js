@@ -6,7 +6,7 @@ var Schema = mongoose.Schema;
 var _ = require('lodash');
 var log = require('log')();
 
-var REMOTE_OFF = true;
+var REMOTE_OFF = false;
 
 var schema = new Schema({
   description: {
