@@ -7,6 +7,9 @@ block variables
 block content
   +b.recover
     +e('h1').title Восстановление пароля
+    +b.notification._message._error.__message
+      +e.content Пароль не может быт пустым
+      +e('button').close
     +e.content
       +e.controls
         +e.label-wrap
