@@ -1,19 +1,25 @@
-doctype html
-html
-  title Восстановление доступа
+extends /layouts/mini
 
-body
+block variables
+  - var title = "Восстановление пароля"
 
-  h1 Введите, пожалуйста, новый пароль
+block body
+  +b.recover
+    +e('h1').title Восстановление пароля
 
-  form(action="/auth/forgot-recover" method="POST")
-    div #{error}
+    if error
+      +b.notification._error
+        +e.content= error
+        +e('button').close(title="Закрыть")
 
-    input(type="hidden" name="passwordResetToken" value=passwordResetToken)
-    input(type="password" name="password" autofocus required)
-
-    button(type="submit") Готово
-
-
-
+    +e('form')(action="/auth/forgot-recover" method="POST").content
+      input(type="hidden" name="passwordResetToken" value=passwordResetToken)
+      +e.controls
+        +e.label-wrap
+          +e('label').label(for="newpass") Новый пароль
+        +e.input-wrap
+          +b.text-input._small.__input
+            +e('input').control#newpass(type="password" name="password" autofocus)
+        +e.save-wrap
+          +b('button').submit-button._small.__save Сохранить пароль
 

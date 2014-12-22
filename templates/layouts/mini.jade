@@ -1,19 +1,19 @@
-//- header + footer + empty body
+//- mini-layout with only styles
 extends ./base
 
 block html
   head
     block variables
-    include ../blocks/head
+
+    title= title
+    //- for mobile devices
+    include ../blocks/style-top
     block head
 
   body.no-icons
     script head.fontTest();
 
     block body
-
-    script(src=script("footer"))
-    script footer.init();
 
     //- Yandex.Metrika only on production
     if context.host == 'nightly.javascript.ru'
