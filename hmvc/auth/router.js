@@ -41,7 +41,7 @@ router.post('/register', mustNotBeAuthenticated, register.post);
 router.post('/forgot', mustNotBeAuthenticated, forgot.post);
 
 router.get('/verify/:verifyEmailToken', verify.get);
-router.get('/forgot-recover/:passwordResetToken', mustNotBeAuthenticated, forgotRecover.get);
+router.get('/forgot-recover/:passwordResetToken?', mustNotBeAuthenticated, forgotRecover.get);
 router.post('/forgot-recover', forgotRecover.post);
 
 router.post('/reverify', reverify.post);

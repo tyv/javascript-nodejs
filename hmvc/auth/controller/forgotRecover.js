@@ -3,7 +3,6 @@ var jade = require('jade');
 var path = require('path');
 var config = require('config');
 
-// Регистрация пользователя.
 exports.get = function* (next) {
 
   var passwordResetToken = this.params.passwordResetToken;
