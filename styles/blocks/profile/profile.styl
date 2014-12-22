@@ -1,3 +1,11 @@
+$profile-item
+	border-bottom 1px solid #e6e0d4
+	line-height 20px
+	padding 0 50px 0 40px
+
+$profile-item-content
+	padding 17px 0 17px
+
 .profile
 	&__tabs
 		display table
@@ -38,6 +46,19 @@
 	&__tab_current &__tab-content,
 	&__tab-link:hover
 		color #BB1000
+
+	&__title
+		@extend $profile-item
+
+	&__title-content
+		@extend $profile-item-content
+
+	& &__inline-title
+		margin 25px 0 0
+		font-size 16px
+		line-height 18px
+		color #656565
+
 
 @require './profileField.styl'
 @require './profilePhoto.styl'
