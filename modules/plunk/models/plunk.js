@@ -6,7 +6,6 @@ var Schema = mongoose.Schema;
 var _ = require('lodash');
 var log = require('log')();
 
-var REMOTE_OFF = false;
 
 var schema = new Schema({
   description: {
@@ -14,17 +13,17 @@ var schema = new Schema({
     default: ""
   },
   webPath:     {
-    type:   String,
-    unique: true,
+    type:     String,
+    unique:   true,
     required: true
   },
   plunkId:     {
-    type: String,
+    type:     String,
     required: true
   },
-  files: [{
-    filename:    String,
-    content: String
+  files:       [{
+    filename: String,
+    content:  String
   }]
 });
 
@@ -51,7 +50,9 @@ schema.methods.mergeAndSyncRemote = function*(files) {
   }
 
   for (var name in files) {
-    var existingFile = this.files.find(function(item) { return item.filename == name });
+    var existingFile = this.files.find(function(item) {
+      return item.filename == name;
+    });
     if (existingFile) {
       if (existingFile.content == files[name].content) continue;
       existingFile.content = files[name].content;
@@ -80,7 +81,7 @@ schema.methods.mergeAndSyncRemote = function*(files) {
 
 schema.statics.createRemote = function*(description, files) {
 
-  if (REMOTE_OFF) {
+  if (Plunk.REMOTE_OFF) {
     return Math.random().toString(36).slice(2);
   }
 
@@ -88,7 +89,7 @@ schema.statics.createRemote = function*(description, files) {
   files.forEach(function(file) {
     filesObj[file.filename] = {
       filename: file.filename,
-      content: file.content
+      content:  file.content
     }; // no _id
   });
 
@@ -99,13 +100,15 @@ schema.statics.createRemote = function*(description, files) {
     private:     true
   };
 
-  var result = yield request({
+  var data = {
     method:  'POST',
-    headers: {'Content-Type': 'application/json'},
+    headers: {'Content-Type': 'application/json;charset=utf-8'},
     json:    true,
-    url: "http://api.plnkr.co/plunks/?sessid=" + config.plnkrAuthId,
-    body:    JSON.stringify(form)
-  });
+    url:     "http://api.plnkr.co/plunks/?sessid=" + config.plnkrAuthId,
+    body:    form
+  };
+
+  var result = yield Plunk.request(data);
 
   assert.equal(result.statusCode, 201);
 
@@ -113,24 +116,37 @@ schema.statics.createRemote = function*(description, files) {
 
 };
 
+schema.statics.request = function*(data) {
+  var result = yield request(data);
+
+  if (result.statusCode == 404) {
+    throw new Error("result status code 404, probably plnkrAuthId is too old");
+  }
+  if (result.statusCode == 400) {
+    throw new Error("invalid json, probably you don't need to stringify body (request will do it)");
+  }
+
+  return result;
+};
+
 schema.statics.updateRemote = function* (plunkId, changes) {
 
 
-  if (REMOTE_OFF) {
+  if (Plunk.REMOTE_OFF) {
     return;
   }
 
   var form = {
-    tags:        {},
-    files:       changes
+    tags:  {},
+    files: changes
   };
 
-  var result = yield request({
+  var result = yield Plunk.request({
     method:  'POST',
     headers: {'Content-Type': 'application/json'},
     json:    true,
-    url: "http://api.plnkr.co/plunks/" + plunkId + "?sessid=" + config.plnkrAuthId,
-    body:    JSON.stringify(form)
+    url:     "http://api.plnkr.co/plunks/" + plunkId + "?sessid=" + config.plnkrAuthId,
+    body:    form
   });
 
   assert.equal(result.statusCode, 200);
