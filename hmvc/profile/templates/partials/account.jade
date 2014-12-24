@@ -1,0 +1,19 @@
+include /bem
+
++b.profile
+
+  +e.title
+    +e.title-content
+      +e('h2').inline-title Управление аккаунтом
+
+  +e('profile-field')(field-name="realName" field-title="Имя" field-value="me.realName")
+    input.text-input__control(focus-on="editing" ng-required ng-minlength="2" ng-model="editingValue" type="text" name="input")
+
+  +e('profile-field')(field-name="country" field-title="Страна" field-value="me.country")
+    input.text-input__control(focus-on="editing" ng-model="editingValue" type="text")
+
+  +e('profile-field')(field-name="town" field-title="Город" field-value="me.town")
+    input.text-input__control(focus-on="editing" ng-model="editingValue" type="text")
+
+  +e('profile-field')(field-name="interests" field-title="Интересы" field-value="me.interests")
+    input.text-input__control(focus-on="editing" ng-model="editingValue" type="text")

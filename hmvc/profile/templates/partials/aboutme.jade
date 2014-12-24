@@ -4,16 +4,19 @@ include /bem
 
   +e.title
     +e.title-content
-      +e('h2').inline-title Управление аккаунтом
+      +e('h2').inline-title О себе
 
-  +e('profile-field')(field-name="displayName" field-title="Имя" field-value="me.displayName")
-    input.text-input__control(focus-on="editing" required ng-minlength="2" ng-model="editingValue" type="text" name="input")
+  +e('profile-field')(field-name="realName" field-title="Имя в жизни" field-value="me.realName")
+    input.text-input__control(focus-on="editing" placeholder="Иван Иванович" ng-model="editingValue" type="text" name="input")
 
   +e('profile-field')(field-name="country" field-title="Страна" field-value="me.country")
-    input.text-input__control(focus-on="editing" ng-model="editingValue" type="text")
+    input.text-input__control(focus-on="editing" ng-model="editingValue" type="text" name='input')
 
   +e('profile-field')(field-name="town" field-title="Город" field-value="me.town")
-    input.text-input__control(focus-on="editing" ng-model="editingValue" type="text")
+    input.text-input__control(focus-on="editing" ng-model="editingValue" type="text" name='input')
+
+  +e('profile-field')(field-name="birthday" field-title="Дата рождения" field-value="me.birthday")
+    input.text-input__control(focus-on="editing" date-validator date-range-validator="01.01.1900-" placeholder="30.12.2000" ng-model="editingValue" type="text" name="input")
 
   +e('profile-field')(field-name="interests" field-title="Интересы" field-value="me.interests")
     input.text-input__control(focus-on="editing" ng-model="editingValue" type="text")

@@ -74,6 +74,7 @@ var UserSchema = new mongoose.Schema({
       message: "Неизвестное значение для пола."
     }
   },
+  realName: String,
   birthday:                  Date,
   verifiedEmail:             {
     type:    Boolean,

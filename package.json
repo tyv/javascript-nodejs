@@ -74,7 +74,7 @@
     "mime": "^1.2.11",
     "mime-types": "*",
     "minimatch": "*",
-    "moment": "*",
+    "moment": "^2.8.4",
     "mongoose": "^3.8.0",
     "mongoose-auto-increment": "*",
     "mongoose-troop": "git://github.com/iliakan/mongoose-troop",

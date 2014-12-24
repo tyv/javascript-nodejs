@@ -16,12 +16,15 @@ include /bem
     +e.change-content
       +e.labeled
         +e('label').labeled-label {{title}}:
-        +b.text-input._small.__control(ng-class="{'text-input_invalid':!form.$valid}")
+        +b.text-input._small.__control(ng-class="{'text-input_invalid':form.$invalid}")
           div(control-transclude)
             //- ng-transclude comes here
             //- directive content will be appended here with current scope, not parent scope!
-          +e(ng-show="form.input.$error.required").err Значение не должно быть пустым.
-          +e(ng-show="form.input.$error.minlength").err Значение слишком короткое.
+          +e(ng-messages="form.input.$error" ng-show="form.input.$invalid").err
+            +e(ng-message="required") Значение не должно быть пустым.
+            +e(ng-message="minlength") Значение слишком короткое.
+            +e(ng-message="date") Дата неверна, формат: дд.мм.гггг.
+            +e(ng-message="dateRange") Такой даты здесь не может быть.
 
     +e.ok-cancel
       +b('button')(type="submit" progress="loadingTracker.active()" progress-spinner="{elemClass:'submit-button_progress',size:'small'}").submit-button._small.__save
