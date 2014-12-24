@@ -1,6 +1,8 @@
 +b.tutorial-map
   +e.filter
     +e.input-wrap
+      //- чтобы сделать видимой кнопку очистки необходимо добавить блоку
+      //- .text-input модификатор ._clear-button
       +b('span').text-input._clear-button.__input
         +e('input').control(type="text" placeholder="Фильтр по заголовку" autofocus data-tutorial-map-filter)
         +b.close-button.__clear
