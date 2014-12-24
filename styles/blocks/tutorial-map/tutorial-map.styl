@@ -65,12 +65,6 @@
 		> li
 			margin: .3em 0
 
-	ul > li::before
-		content "●"
-		position absolute
-		margin-left -20px
-		color #B2C1C1
-
 	& &__col-title,
 	& &__items
 		padding-right 25px
@@ -83,11 +77,28 @@
 		font-weight 700
 		margin-top 22px
 
-	& &__item::before
-		content "▪"
-		color #d16666
-		font-size 20px
-		margin 0 0 0 -12px
+	&__item > &__link
+		position relative
+		padding-left 5px
+		margin-left -5px
+
+	&__item > &__link::before
+		@extend $font-open
+		position absolute
+		height 14px
+		width 16px
+		text-align center
+		line-height 14px
+		padding 2px 0 0
+		color link_color
+		font-size 16px
+		right 100%
+
+	&__item_collapsed > &__link::before
+		transform rotate(-90deg)
+
+	&__item_collapsed &__sub-items
+		display none
 
 	& &__sub-items
 		margin-top 10px
@@ -102,6 +113,7 @@
 		content "•"
 		color #bbb
 		font-size 25px
+		position absolute
 		margin 0 0 0 -15px
 
 	& &__sub-sub-items
@@ -113,6 +125,7 @@
 		margin 3px 0
 
 	& &__sub-sub-item::before
+		position absolute
 		content "✓"
 		color #66ba7a
 		font-size inherit
