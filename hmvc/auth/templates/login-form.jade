@@ -8,9 +8,9 @@ include /bem
         +e('button').button-link.__register(type="button" data-switch="register-form") регистрация
     +e.line.__notification(data-notification)
     +e.line
-      +e('label').label(for="login") Имя пользователя или Email:
+      +e('label').label(for="login") Email:
       +b('span').text-input.__input
-        +e('input').control#login(name="login" autofocus)
+        +e('input').control#login(name="login" type="email" autofocus)
     +e.line
       +e('label').label(for="password") Пароль:
       +b('span').text-input._with-aside.__input

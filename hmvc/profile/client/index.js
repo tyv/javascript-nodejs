@@ -7,6 +7,9 @@ var profile = angular.module('profile', [
 
 import './profileField';
 import './profilePhoto';
+import './dateValidator';
+import './dateRangeValidator';
+
 
 profile.factory('Me', ($http) => {
   return $http.get('/users/me').then(function(res) {

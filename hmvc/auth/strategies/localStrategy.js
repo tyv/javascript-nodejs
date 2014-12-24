@@ -18,13 +18,10 @@ module.exports = new LocalStrategy({
 
   co(function*() {
 
-    if (!login) throw new UserAuthError('Укажите имя пользователя или email.');
+    if (!login) throw new UserAuthError('Укажите email.');
     if (!password) throw new UserAuthError('Укажите пароль.');
 
     var user = yield User.findOne({email: login}).exec();
-    if (!user) {
-      user = yield User.findOne({displayName: login}).exec();
-    }
 
     if (!user) {
       throw new UserAuthError('Нет такого пользователя.');
@@ -43,7 +40,7 @@ module.exports = new LocalStrategy({
     done(null, user);
   }, function(err) {
     if (err instanceof UserAuthError) {
-      done(null, false, {message: err.message})
+      done(null, false, {message: err.message});
     } else {
       done(err);
     }
