@@ -14,10 +14,15 @@ include /bem
     +e.value(ng-bind="value")
   +e.change(ng-show="editing")
     +e.change-content
-      +e.labeled(control-transclude)
+      +e.labeled
         +e('label').labeled-label {{title}}:
-        //- ng-transclude comes here
-        //- directive content will be appended here with current scope, not parent scope!
+        +b.text-input._small.__control(ng-class="{'text-input_invalid':!form.$valid}")
+          div(control-transclude)
+            //- ng-transclude comes here
+            //- directive content will be appended here with current scope, not parent scope!
+          +e(ng-show="form.input.$error.required").err Значение не должно быть пустым.
+          +e(ng-show="form.input.$error.minlength").err Значение слишком короткое.
+
     +e.ok-cancel
       +b('button')(type="submit" progress="loadingTracker.active()" progress-spinner="{elemClass:'submit-button_progress',size:'small'}").submit-button._small.__save
         +e('span').text Сохранить
