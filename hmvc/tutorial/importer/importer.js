@@ -351,9 +351,11 @@ Importer.prototype.syncTask = function*(taskPath, parent) {
 
   const subPaths = fs.readdirSync(taskPath);
 
+  console.log(subPaths);
   for (var i = 0; i < subPaths.length; i++) {
     // names starting with _ don't sync
-    if (subPaths[i] == 'task.md' || subPaths[i] == 'solution.md' || subPaths[0] == '_') continue;
+    console.log(subPaths[i]);
+    if (subPaths[i] == 'task.md' || subPaths[i] == 'solution.md' || subPaths[i][0] == '_') continue;
 
     var subPath = path.join(taskPath, subPaths[i]);
 
@@ -364,14 +366,19 @@ Importer.prototype.syncTask = function*(taskPath, parent) {
     }
   }
 
-  if (fs.existsSync(path.join(taskPath, '_js'))) {
-    yield* this.syncTaskJs(path.join(taskPath, '_js'), task);
+  if (fs.existsSync(path.join(taskPath, '_js.view'))) {
+    yield* this.syncTaskJs(path.join(taskPath, '_js.view'), task);
   }
 
 };
 
 Importer.prototype.syncView = function*(dir, parent) {
   var pathName = path.basename(dir).replace('.view', '');
+
+  if (pathName == '_js') {
+    throw new Error("Must not syncView " + pathName);
+  }
+
   var webPath = parent.getResourceWebRoot() + '/' + pathName;
 
   log.debug("syncView", webPath);
@@ -405,13 +412,17 @@ Importer.prototype.syncTaskJs = function*(jsPath, task) {
 
   log.debug("syncTaskJs", jsPath);
 
+  var sourceJs;
+
   try {
-    var sourceJs = fs.readFileSync(path.join(jsPath, 'source.js'), 'utf8');
+    sourceJs = fs.readFileSync(path.join(jsPath, 'source.js'), 'utf8');
   } catch (e) {
     sourceJs = "// ...ваш код...";
   }
+
+  var testJs;
   try {
-    var testJs = fs.readFileSync(path.join(jsPath, 'test.js'), 'utf8');
+    testJs = fs.readFileSync(path.join(jsPath, 'test.js'), 'utf8');
   } catch (e) {
     testJs = "";
   }

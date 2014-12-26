@@ -32,7 +32,7 @@ exports.get = function *get(next) {
       plunkId: sourcePlunk.plunkId
     };
 
-    var hasTest = sourcePlunk.files.find(function(item) {
+    var hasTest = sourcePlunk.files.toObject().find(function(item) {
       return item.filename == 'test.js';
     });
 
@@ -49,7 +49,7 @@ exports.get = function *get(next) {
       plunkId: solutionPlunk.plunkId
     };
 
-    var hasTest = solutionPlunk.files.find(function(item) {
+    var hasTest = solutionPlunk.files.toObject().find(function(item) {
       return item.filename == 'test.js';
     });
 
