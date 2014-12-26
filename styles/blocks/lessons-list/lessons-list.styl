@@ -1,3 +1,5 @@
+lessons-list-separator = 1px solid #ede8e0
+
 .lessons-list
 	@extend $clearfix
 	margin 22px 0
@@ -19,7 +21,7 @@
 	&__lesson
 		font 16px/20px font
 		padding 16px 20px 14px 55px
-		border-bottom 1px solid #ede8e0
+		border-bottom lessons-list-separator
 
 	&__lesson_level_2
 		display none
@@ -48,6 +50,8 @@
 	&__lesson_level_1
 		background #faf8f7
 		padding-left 46px
+
+	&__lesson_level_1 > &__link
 		font-weight 600
 
 	&__lesson_level_1::before
@@ -56,16 +60,15 @@
 		min-width 27px
 
 	&__lesson_level_1 &__lessons
-		margin 14px -20px -14px -55px
+		margin 14px -20px -14px -46px
 
 	&__lesson_level_2
 		background #fff
-		padding-left 80px
-		font-weight 400
+		padding-left 71px
 
 	&__lesson_level_2:first-child
-		border-top 1px solid #ede8e0
+		border-top lessons-list-separator
 
 	&__lesson_level_2::before
 		content counters(lesson, '.')
-		left 46px
+		left 35px
