@@ -20,6 +20,13 @@ exports.post = function* (next) {
   });
 
   try {
+    yield* sendVerifyEmail(user.email, verifyEmailToken, this);
+  } catch(e) {
+    this.log.error({err: e}, "Registration failed" );
+    this.throw(500, "Ошибка отправки email.");
+  }
+
+  try {
     yield user.persist();
   } catch(e) {
     if (e.name == 'ValidationError') {
@@ -27,18 +34,11 @@ exports.post = function* (next) {
         if (e.errors.email.type == "notunique") {
           e.errors.email.message += ' Если он ваш, то можно <a data-switch="login-form" href="#">войти</a> или <a data-switch="forgot-form" href="#">восстановить пароль</a>.';
         }
-      } catch (ex) { }
+      } catch (ex) { /* e.errors.email is undefined, that's ok */ }
       return this.renderValidationError(e);
     } else {
       this.throw(e);
     }
-  }
-
-  try {
-    yield* sendVerifyEmail(user.email, verifyEmailToken, this);
-  } catch(e) {
-    this.log.error({err: e}, "Registration failed" );
-    this.throw(500, "Ошибка отправки email.");
   }
 
   this.status = 201;

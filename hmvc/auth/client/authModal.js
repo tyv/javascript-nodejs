@@ -202,7 +202,7 @@ AuthModal.prototype.submitRegisterForm = function(form) {
   var request = this.request({
     method:          'POST',
     url:             '/auth/register',
-    successStatuses: [201, 400],
+    normalStatuses: [201, 400],
     body: payload
   });
 
@@ -250,7 +250,7 @@ AuthModal.prototype.submitForgotForm = function(form) {
   var request = this.request({
     method: 'POST',
     url:    '/auth/forgot',
-    successStatuses: [200, 404],
+    normalStatuses: [200, 404],
     body: payload
   });
 
@@ -313,7 +313,7 @@ AuthModal.prototype.submitLoginForm = function(form) {
   var request = this.request({
     method: 'POST',
     url:    '/auth/login/local',
-    successStatuses: [200, 401],
+    normalStatuses: [200, 401],
     body: new FormData(form)
   });
 

@@ -1,25 +1,30 @@
-extends /layouts/mini
+extends /layouts/body
 
 block variables
   - var title = "Восстановление пароля"
 
 block body
-  +b.recover
-    +e('h1').title Восстановление пароля
+  +b.page
+    +e.inner
+      +b.main._width-limit
 
-    if error
-      +b.notification._error
-        +e.content= error
-        +e('button').close(title="Закрыть")
+        +b.recover
+          +e('h1').title Восстановление пароля
 
-    +e('form')(action="/auth/forgot-recover" method="POST").content
-      input(type="hidden" name="passwordResetToken" value=passwordResetToken)
-      +e.controls
-        +e.label-wrap
-          +e('label').label(for="newpass") Новый пароль
-        +e.input-wrap
-          +b.text-input._small.__input
-            +e('input').control#newpass(type="password" name="password" autofocus)
-        +e.save-wrap
-          +b('button').submit-button._small.__save Сохранить пароль
+          if error
+            //- __message - на будущее, даёт класс recover__message для стилизации в контексте recover
+            +b.notification._message._error.__message
+              +e.content= error
+              +e('button').close(title="Закрыть")
+
+          +e('form')(action="/auth/forgot-recover" method="POST").content
+            input(type="hidden" name="passwordResetToken" value=passwordResetToken)
+            +e.controls
+              +e.label-wrap
+                +e('label').label(for="newpass") Новый пароль
+              +e.input-wrap
+                +b.text-input._small.__input
+                  +e('input').control#newpass(type="password" name="password" autofocus)
+              +e.save-wrap
+                +b('button').submit-button._small.__save Сохранить пароль
 

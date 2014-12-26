@@ -5,6 +5,26 @@
 		margin 25px 0 43px
 		display table
 
+	// we MUST repeat theese rules for each selector to make it work
+	&__filter .text-input__control::-webkit-input-placeholder
+		color #7E7E7E
+		font size/16px font
+		opacity .5
+		padding-top 2px
+
+	&__filter .text-input__control::-moz-placeholder
+		color #7E7E7E
+		font size/16px font
+		opacity .5
+
+	&__filter .text-input__control:-ms-input-placeholder
+		color #7E7E7E
+		font size/16px font
+		opacity .5
+
+	&__filter .text-input__control
+		font size/16px font
+
 	&__input-wrap,
 	&__option,
 	&__layout
@@ -21,6 +41,9 @@
 		vertical-align baseline
 		width 16px
 		height 16px
+		transform scale(1.25)
+		// if we set bigger value we get even more blurry or corrupted checkboxes
+		// the only easy way to make it bigger that I found
 
 	&__option-label
 		color #7E7E7E
@@ -65,12 +88,6 @@
 		> li
 			margin: .3em 0
 
-	ul > li::before
-		content "●"
-		position absolute
-		margin-left -20px
-		color #B2C1C1
-
 	& &__col-title,
 	& &__items
 		padding-right 25px
@@ -83,11 +100,28 @@
 		font-weight 700
 		margin-top 22px
 
-	& &__item::before
-		content "▪"
-		color #d16666
-		font-size 20px
-		margin 0 0 0 -12px
+	&__item > &__link
+		position relative
+		padding-left 5px
+		margin-left -5px
+
+	&__item > &__link::before
+		@extend $font-open
+		position absolute
+		height 14px
+		width 16px
+		text-align center
+		line-height 14px
+		padding 2px 0 0
+		color link_color
+		font-size 16px
+		right 100%
+
+	&__item_collapsed > &__link::before
+		transform rotate(-90deg)
+
+	&__item_collapsed &__sub-items
+		display none
 
 	& &__sub-items
 		margin-top 10px
@@ -102,6 +136,7 @@
 		content "•"
 		color #bbb
 		font-size 25px
+		position absolute
 		margin 0 0 0 -15px
 
 	& &__sub-sub-items
@@ -113,6 +148,7 @@
 		margin 3px 0
 
 	& &__sub-sub-item::before
+		position absolute
 		content "✓"
 		color #66ba7a
 		font-size inherit

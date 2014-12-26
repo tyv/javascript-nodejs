@@ -1,6 +1,4 @@
 function Modal() {
-  var self = this;
-
   this.render();
 
   this.onClick = this.onClick.bind(this);
@@ -53,6 +51,7 @@ Modal.prototype.setContent = function(htmlOrNode) {
 Modal.prototype.remove = function() {
   document.body.removeChild(this.elem);
   document.removeEventListener("keydown", this.onDocumentKeyDown);
+  this.elem.dispatchEvent(new CustomEvent("modalClose"));
 };
 
 module.exports = Modal;

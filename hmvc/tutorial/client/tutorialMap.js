@@ -1,19 +1,79 @@
 var throttle = require('lib/throttle');
+var delegate = require('client/delegate');
 
 function TutorialMap(elem) {
   this.elem = elem;
 
   this.showTasksCheckbox = elem.querySelector('[data-tutorial-map-show-tasks]');
   this.showTasksCheckbox.checked = +localStorage.showTasksCheckbox;
+
   this.updateShowTasks();
 
   this.showTasksCheckbox.onchange = this.updateShowTasks.bind(this);
 
   this.filterInput = this.elem.querySelector('[data-tutorial-map-filter]');
 
+  this.layoutSwitch = this.elem.querySelector('[data-tutorial-map-layout-switch]');
+  var isMapSingleColumn = +localStorage.isMapSingleColumn;
+  this.layoutSwitch.querySelector('[value="0"]').checked = !isMapSingleColumn;
+  this.layoutSwitch.querySelector('[value="1"]').checked = isMapSingleColumn;
+  this.updateLayout();
+  this.layoutSwitch.onchange = this.onLayoutSwitchChange.bind(this);
+
   this.filterInput.oninput = this.onFilterInput.bind(this);
+
+  this.elem.querySelector('.close-button').onclick = () => {
+    this.filterInput.value = '';
+    this.showClearButton(false);
+    this.filter('');
+  };
+
+  this.chaptersCollapsed = JSON.parse(localStorage.tutorialMapChapters || "{}");
+  this.showChaptersCollapsed();
+
+  this.delegate('.tutorial-map__item > .tutorial-map__link', 'click', function(event) {
+    event.preventDefault();
+    var href = event.delegateTarget.getAttribute('href');
+    if (this.chaptersCollapsed[href]) {
+      delete this.chaptersCollapsed[href];
+    } else {
+      this.chaptersCollapsed[href] = 1;
+    }
+    localStorage.tutorialMapChapters = JSON.stringify(this.chaptersCollapsed);
+    this.showChaptersCollapsed();
+  });
+
 }
 
+
+TutorialMap.prototype.showChaptersCollapsed = function() {
+  var links = this.elem.querySelectorAll('.tutorial-map__item > .tutorial-map__link');
+  for (var i = 0; i < links.length; i++) {
+    var link = links[i];
+
+    if (this.chaptersCollapsed[link.getAttribute('href')]) {
+      link.parentNode.classList.add('tutorial-map__item_collapsed');
+    } else {
+      link.parentNode.classList.remove('tutorial-map__item_collapsed');
+    }
+  }
+};
+
+TutorialMap.prototype.onLayoutSwitchChange = function(event) {
+  this.updateLayout();
+};
+
+
+TutorialMap.prototype.updateLayout = function() {
+  var isMapSingleColumn = +this.elem.querySelector('[name="map-layout"]:checked').value;
+  if (isMapSingleColumn) {
+    this.elem.classList.add('tutorial-map_singlecol');
+  } else {
+    this.elem.classList.remove('tutorial-map_singlecol');
+  }
+
+  localStorage.isMapSingleColumn = isMapSingleColumn ? "1" : "0";
+};
 
 TutorialMap.prototype.updateShowTasks = function() {
   if (this.showTasksCheckbox.checked) {
@@ -26,7 +86,17 @@ TutorialMap.prototype.updateShowTasks = function() {
 };
 
 TutorialMap.prototype.onFilterInput = function(event) {
+  this.showClearButton(event.target.value);
   this.throttleFilter(event.target.value);
+};
+
+TutorialMap.prototype.showClearButton = function(show) {
+  var textInputBlock = this.elem.querySelector('.tutorial-map__filter .text-input');
+  if (show) {
+    textInputBlock.classList.add('text-input_clear-button');
+  } else {
+    textInputBlock.classList.remove('text-input_clear-button');
+  }
 };
 
 TutorialMap.prototype.focus = function() {
@@ -78,6 +148,7 @@ TutorialMap.prototype.filter = function(value) {
 
 
 TutorialMap.prototype.throttleFilter = throttle(TutorialMap.prototype.filter, 200);
+delegate.delegateMixin(TutorialMap.prototype);
 
 
 function isSubSequence(str1, str2) {
@@ -93,5 +164,6 @@ function isSubSequence(str1, str2) {
   }
   return j == str2.length;
 }
+
 
 module.exports = TutorialMap;

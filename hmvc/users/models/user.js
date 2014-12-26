@@ -20,9 +20,9 @@ var UserSchema = new mongoose.Schema({
       {
         validator: function(value) {
           //console.log("VALIDATING", this.deleted, value, this.deleted ? true : (value.length > 0));
-          return this.deleted ? true : (value.length > 0);
+          return this.deleted ? true : (value.length >= 2);
         },
-        msg:       "Имя пользователя должно быть непустым."
+        msg:       "Имя пользователя должно иметь не менее 2 символов."
       },
       {
         validator: function(value) {
@@ -74,12 +74,32 @@ var UserSchema = new mongoose.Schema({
       message: "Неизвестное значение для пола."
     }
   },
-  birthday:                  Date,
+  realName:                  String,
+  // not Date, because Date requires time zone,
+  // so if I enter 18.04.1982 00:00:00 in GMT+3 zone, it will be 17.04.1982 21:00 actually (prbably wrong)
+  // string is like a "date w/o time zone"
+  birthday:                  String,
   verifiedEmail:             {
     type:    Boolean,
     default: false
   },
-  verifyEmailToken:          { // single impossible-to-guess token (resend if many verify attempts)
+
+  // we store all verified emails of the user for the history & account restoration issues
+  verifiedEmailsHistory: [{date: Date, email: String}],
+
+  // new not-yet-verified email, set on change attempt
+  pendingVerifyEmail:        String,
+
+  // impossible-to-guess token
+  // used on both new user & email change
+  // new user:
+  //  - generate a random roken
+  //  - keep/resend on verification attempts (so that a user can use any letter, that's convenient)
+  // email change:
+  //  - generate a random token
+  //  - regenerate on change attempts (if entered a wrong email, next letter will void the previous one)
+  // cleared after use
+  verifyEmailToken:          {
     type:  String,
     index: true
   },
@@ -105,6 +125,13 @@ var UserSchema = new mongoose.Schema({
 
 UserSchema.virtual('password')
   .set(function(password) {
+
+    if (password !== undefined) {
+      if (password.length < 4) {
+        this.invalidate('password', 'Пароль должен быть минимум 4 символа.');
+      }
+    }
+
     this._plainPassword = password;
 
     if (password) {

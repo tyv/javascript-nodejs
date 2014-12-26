@@ -4,18 +4,21 @@ var imgur = require('imgur');
 var multiparty = require('multiparty');
 var co = require('co');
 var thunkify = require('thunkify');
+var config = require('config');
+var mailer = require('mailer');
 
 exports.get = function*(next) {
 
-  var fields = 'created displayName email gender country town'.split(' ');
+  var fields = 'created displayName realName birthday email gender country town'.split(' ');
 
   this.body = { };
   fields.forEach( function(field) {
     this.body[field] = this.params.user[field];
   }, this);
 
-  this.body.photo = this.params.user.photo && this.params.user.photo.link;
+  this.body.photo = this.params.user.getPhotoUrl();
 
+  this.body.hasPassword = Boolean(this.params.user.passwordHash);
 };
 
 /* Deleting a user */
@@ -101,15 +104,42 @@ exports.patch = function*(next) {
     }
   }
 
-  'displayName password gender photo country town interests'.split(' ').forEach(function(field) {
+  'displayName realName birthday gender photo country town interests'.split(' ').forEach(function(field) {
     if (field in fields) {
       user[field] = fields[field];
     }
   });
 
-  if (fields.email !== undefined) {
-    user.email = fields.email;
-    user.verifiedEmail = false;
+  if (fields.email !== undefined && fields.email != user.email) {
+
+    var isOccupied = yield User.findOne({email: fields.email}).exec();
+
+    if (isOccupied) {
+      this.throw(400, "Такой email используется другим пользователем.");
+    }
+
+    user.pendingVerifyEmail = fields.email;
+    user.verifyEmailToken = Math.random().toString(36).slice(2, 10);
+    user.verifyEmailRedirect = '/profile/account';
+
+    var letter = this.render('verify-change-email', {
+      link: config.server.siteHost + '/auth/verify/' + user.verifyEmailToken
+    });
+
+    yield mailer.sendMail({
+      to:      user.pendingVerifyEmail,
+      subject: "Подтвердите смену email",
+      html:    letter
+    });
+  }
+
+  if (fields.password) {
+    console.log(user);
+    if (user.passwordHash && !user.checkPassword(fields.passwordOld)) {
+      this.throw(400, "Старый пароль неверен.");
+    }
+
+    user.password = fields.password;
   }
 
   try {
