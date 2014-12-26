@@ -1,12 +1,14 @@
 import angular from 'angular';
 import notification from 'client/notification';
+import moment from 'moment';
 
 var profile = angular.module('profile', [
-  'ui.router', 'ngResource', 'global403Interceptor', 'ajoslin.promise-tracker', 'progress', 'focusOn'
+  'ui.router', 'ngResource', 'global403Interceptor', 'ajoslin.promise-tracker', 'progress', 'focusOn', 'ngMessages'
 ]);
 
 import './profileField';
 import './profilePhoto';
+import './profilePassword';
 import './dateValidator';
 import './dateRangeValidator';
 
@@ -35,16 +37,15 @@ profile
       })
       .state('root.aboutme', {
         url:         "/",
-        resolve:     {
-          me: (Me) => Me
-        },
         title:       'Профиль',
         templateUrl: "templates/partials/aboutme",
         controller:  'ProfileAboutMeCtrl'
       })
       .state('root.account', {
         url:   '/account',
-        title: 'Аккаунт'
+        title: 'Аккаунт',
+        templateUrl: "templates/partials/account",
+        controller:  'ProfileAccountCtrl'
       });
   })
   .controller('ProfileRootCtrl', ($scope, $state, $timeout, $http, me, promiseTracker) => {
@@ -70,6 +71,12 @@ profile
   .controller('ProfileAboutMeCtrl', ($scope, me) => {
 
     $scope.me = me;
+
+  })
+  .controller('ProfileAccountCtrl', ($scope, me) => {
+
+    $scope.me = me;
+
 
   });
 

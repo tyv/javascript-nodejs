@@ -6,14 +6,44 @@ include /bem
     +e.title-content
       +e('h2').inline-title Управление аккаунтом
 
-  +e('profile-field')(field-name="realName" field-title="Имя" field-value="me.realName")
-    input.text-input__control(focus-on="editing" ng-required ng-minlength="2" ng-model="editingValue" type="text" name="input")
+  +e('profile-field')(field-name="displayName" field-title="Имя пользователя" field-value="me.displayName")
+    input.text-input__control(type="text" name="input"
+      focus-on="editing"
+      required
+      ng-minlength="2"
+      ng-model="editingValue"
+      ng-model-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 0} }"
+    )
 
-  +e('profile-field')(field-name="country" field-title="Страна" field-value="me.country")
-    input.text-input__control(focus-on="editing" ng-model="editingValue" type="text")
+  +e('profile-field')(field-name="email" field-title="Email" field-value="me.email")
+    input.text-input__control(type="email" name="input"
+      focus-on="editing"
+      required
+      ng-model="editingValue"
+      ng-model-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 0} }"
+    )
 
-  +e('profile-field')(field-name="town" field-title="Город" field-value="me.town")
-    input.text-input__control(focus-on="editing" ng-model="editingValue" type="text")
 
-  +e('profile-field')(field-name="interests" field-title="Интересы" field-value="me.interests")
-    input.text-input__control(focus-on="editing" ng-model="editingValue" type="text")
+  +e('profile-password')(has-password="me.hasPassword")
+
+  +e.title
+    +e.title-content
+      +e('h2').inline-title Привязанные внешние аккаунты
+      // FIXME: item-note? и когда это показывается?
+      +e('p').item-note При привязке аккаунта можно будет заходить на сайт одним нажатием кнопки.
+
+  +e.item._linked-account
+    +e.item-content
+      +e('a').linked-name(href='http://vk.com/alexbor')
+        +e('img').linked-upic(src="/img/linked-upic.png")
+        | Алексей Борматенко
+      +e.linked-provider Vkontakte
+
+  +e.item
+    +e.item-content
+      +e.item-title Привязать:
+      +e.socials
+        include ../../../auth/templates/providers
+  +e.item
+    +e.item-content
+      +e('button').action._remove-account Удалить аккаунт

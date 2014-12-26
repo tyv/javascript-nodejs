@@ -8,7 +8,7 @@ import notification from 'client/notification';
 // # Events
 // triggers fail/success on load end:
 //    --> by default status=200 is ok, the others are failures
-//    --> options.successStatuses = [201,409] allow given statuses
+//    --> options.normalStatuses = [201,409] allow given statuses
 //    --> fail event has .reason field
 //    --> success event has .result field
 //
@@ -71,7 +71,7 @@ function xhr(options) {
 
   request.setRequestHeader('X-Requested-With', "XMLHttpRequest");
 
-  var successStatuses = options.successStatuses || [200];
+  var normalStatuses = options.normalStatuses || [200];
 
   function wrapEvent(name, e) {
     var event = new CustomEvent(name);
@@ -109,7 +109,7 @@ function xhr(options) {
       return;
     }
 
-    if (successStatuses.indexOf(request.status) == -1) {
+    if (normalStatuses.indexOf(request.status) == -1) {
       fail("Ошибка на стороне сервера (код " + request.status + "), попытайтесь позднее", e);
       return;
     }

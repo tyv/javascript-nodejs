@@ -1,6 +1,5 @@
 import angular from 'angular';
 
-
 angular.module('profile')
   .directive('dateValidator', function() {
     return {
