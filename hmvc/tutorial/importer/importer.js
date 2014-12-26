@@ -351,10 +351,8 @@ Importer.prototype.syncTask = function*(taskPath, parent) {
 
   const subPaths = fs.readdirSync(taskPath);
 
-  console.log(subPaths);
   for (var i = 0; i < subPaths.length; i++) {
     // names starting with _ don't sync
-    console.log(subPaths[i]);
     if (subPaths[i] == 'task.md' || subPaths[i] == 'solution.md' || subPaths[i][0] == '_') continue;
 
     var subPath = path.join(taskPath, subPaths[i]);
