@@ -59,6 +59,69 @@ $profile-item-content
 		line-height 18px
 		color #656565
 
+	& &__note,
+	& &__inline-title
+		color #999
+		margin 0
 
+	& &__note
+		margin-top 16px
+
+	&__linked-account
+		@extend $profile-item
+
+	&__account-content
+		padding 19px 0 14px 68px
+		min-height 48px
+		position relative
+
+	&__linked-upic
+		position absolute
+		top 16px
+		left 0
+		width 48px
+		height 48px
+
+	&__linked-name
+		font-weight 700
+		color #333
+
+	&__linked-provider
+		color #999
+
+	&__providers
+		@extend $profile-item
+
+	& &__providers-title
+		margin-bottom 12px
+
+	&__providers-content
+		@extend $profile-item-content
+
+	&__social-login
+		margin-right 6px
+		vertical-align bottom
+		margin-bottom 5px
+
+	&__action-item
+		@extend $profile-item
+
+	&__action-item:last-child
+		border 0
+
+	&__action-content
+		@extend $profile-item-content
+
+	&__action
+		@extend $button-reset
+		font inherit
+		color #727272
+
+	&__action:hover
+		color link_hover_color
+		text-decoration underline
+
+	&__action_remove-account
+		margin-bottom 100px
 @require './profileField.styl'
 @require './profilePhoto.styl'
