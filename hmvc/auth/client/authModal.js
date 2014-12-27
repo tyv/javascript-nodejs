@@ -123,7 +123,12 @@ AuthModal.prototype.initEventHandlers = function() {
 
   this.delegate('[data-switch="forgot-form"]', 'click', function(e) {
     e.preventDefault();
+
+    // move currently entered email into forgotForm
+    var oldEmailInput = this.elem.querySelector('[type="email"]');
     this.setContent(clientRender(forgotForm));
+    var newEmailInput = this.elem.querySelector('[type="email"]');
+    newEmailInput.value = oldEmailInput.value;
   });
 
 
