@@ -4,12 +4,14 @@ block sidebar
   include sidebar
 
 block content
+  - var parentSectionNumber = 2
+
   != body
 
   +b.lessons-list
     +e('ol').lessons
       each article in children
-        +e('li').lesson
+        +e('li').lesson(data-section-number=parentSectionNumber)
           +e('a').link(href=article.url) #{article.title}
 
   script(src=script("tutorial"))
