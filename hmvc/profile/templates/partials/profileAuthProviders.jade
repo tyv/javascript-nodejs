@@ -1,0 +1,15 @@
+include /bem
+
++e.item
+  +e.item-content
+    +e.item-title Привязать:
+    +e.socials
+      +b('button').social-login._facebook.__social-login(ng-click="connect('facebook')") Facebook
+      =" "
+      +b('button').social-login._google.__social-login(ng-click="connect('google')") Google+
+      =" "
+      +b('button').social-login._vkontakte.__social-login(ng-click="connect('vkontakte')") Вконтакте
+      =" "
+      +b('button').social-login._github.__social-login(ng-click="connect('github')") Github
+      =" "
+      +b('button').social-login._yandex.__social-login(ng-click="connect('yandex')") Яндекс

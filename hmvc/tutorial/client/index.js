@@ -39,7 +39,8 @@ function initFolderList() {
   delegate(document, '.lessons-list__lesson_level_1 > .lessons-list__link', 'click', function(event) {
     var link = event.delegateTarget;
     var openFolder = link.closest('.lessons-list').querySelector('.lessons-list__lesson_open');
-    if (openFolder && openFolder != link.parentNode) { // close previous open
+    // close the previous open folder (thus making an accordion)
+    if (openFolder && openFolder != link.parentNode) {
       openFolder.classList.remove('lessons-list__lesson_open');
     }
     link.parentNode.classList.toggle('lessons-list__lesson_open');
