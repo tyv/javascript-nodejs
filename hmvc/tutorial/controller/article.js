@@ -37,7 +37,6 @@ exports.get = function *get(next) {
       links: [renderedArticle.breadcrumbs[renderedArticle.breadcrumbs.length-1]]
     });
 
-
     var headerLinks = renderedArticle.headers
       .filter(function(header) {
         // [level, titleHtml, anchor]
@@ -126,6 +125,7 @@ function* renderArticle(slug) {
   rendered.modified = article.modified;
   rendered.title = article.title;
   rendered.isFolder = article.isFolder;
+  rendered.weight = article.weight;
 
   const tree = yield* Article.findTree();
   const articleInTree = tree.byId(article._id);
@@ -195,10 +195,23 @@ function* renderArticle(slug) {
     if (!articleInTree.isFolder) return;
     var children = articleInTree.children || [];
     rendered.children = children.map(function(child) {
-      return {
+      var renderedChild = {
         title: child.title,
-        url:   Article.getUrlBySlug(child.slug)
+        url:   Article.getUrlBySlug(child.slug),
+        weight: child.weight
       };
+
+      if (child.isFolder) {
+        renderedChild.children = (child.children || []).map(function(subChild) {
+          return {
+            title: subChild.title,
+            url:   Article.getUrlBySlug(subChild.slug),
+            weight: child.weight
+          };
+        });
+      }
+
+      return renderedChild;
     });
   }
 

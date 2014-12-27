@@ -61,7 +61,9 @@ angular.module('profile')
             }
 
             this.editing = false;
+            this.value = this.editingValue;
             this.editingValue = '';
+
           }, (response) => {
             if (response.status == 400) {
 

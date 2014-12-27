@@ -26,18 +26,17 @@ include /bem
 
   +e('profile-password')(has-password="me.hasPassword")
 
-  +e.title
+  +e.title(ng-if="me.providers.length")
     +e.title-content
       +e('h2').inline-title Привязанные внешние аккаунты
       // FIXME: item-note? и когда это показывается?
       +e('p').item-note При привязке аккаунта можно будет заходить на сайт одним нажатием кнопки.
 
-  +e.item._linked-account
+  +e.item._linked-account(ng-repeat="provider in me.providers")
     +e.item-content
-      +e('a').linked-name(href='http://vk.com/alexbor')
-        +e('img').linked-upic(src="/img/linked-upic.png")
-        | Алексей Борматенко
-      +e.linked-provider Vkontakte
+      +e('div').linked-name
+        +e('img').linked-upic(src="{{provider.photo}}") {{provider.displayName}}
+      +e.linked-provider {{provider.name}}
 
   +e.item
     +e.item-content

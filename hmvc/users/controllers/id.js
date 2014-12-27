@@ -19,6 +19,16 @@ exports.get = function*(next) {
   this.body.photo = this.params.user.getPhotoUrl();
 
   this.body.hasPassword = Boolean(this.params.user.passwordHash);
+
+  this.body.providers = this.params.user.providers.map(function(provider) {
+    return {
+      name: provider.name,
+      photo: provider.profile.photos && provider.profile.photos[0] && provider.profile.photos[0].value,
+      displayName: provider.profile.displayName
+    };
+  });
+
+
 };
 
 /* Deleting a user */

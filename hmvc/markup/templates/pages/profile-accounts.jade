@@ -94,27 +94,26 @@ block content
               +b.text-input._small.__labeled-text.__pass
                 +e('input').control(type="text", id="profile-pass-new")
           include ../blocks/profile-ok-cancel
-      +e.item
-        +e.item-content
+      +e.title
+        +e.title-content
           +e('h2').inline-title Привязанные внешние аккаунты
-          +e('p').item-note При привязке аккаунта можно будет заходить на сайт одним нажатием кнопки.
-      +e.item._linked-account
-        +e.item-content
-          +e('a').linked-name(href='http://vk.com/alexbor')
+      +e.linked-account
+        +e.account-content
+          +e.linked-name(href='http://vk.com/alexbor')
             +e('img').linked-upic(src="/img/linked-upic.png")
             | Алексей Борматенко
           +e.linked-provider Vkontakte
-      +e.item._linked-account
-        +e.item-content
-          +e('a').linked-name(href='http://facebook.com/alexbor')
+      +e.linked-account
+        +e.account-content
+          +e.linked-name(href='http://vk.com/alexbor')
             +e('img').linked-upic(src="/img/linked-upic.png")
             | Alexey Bormatenko
           +e.linked-provider Facebook
-      +e.item
-        +e.item-content
-          +e.item-title Привязать:
+      +e.providers
+        +e.providers-content
+          +e.providers-title Привязать:
           +e.socials
             include ../../../auth/templates/providers
-      +e.item
-        +e.item-content
+      +e.action-item
+        +e.action-content
           +e('button').action._remove-account Удалить аккаунт
