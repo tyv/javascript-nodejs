@@ -23,8 +23,8 @@ exports.get = function*(next) {
   this.body.providers = this.params.user.providers.map(function(provider) {
     return {
       name: provider.name,
-      photo: provider.photos && provider.photos[0] && provider.photos[0].value,
-      displayName: provider.displayName
+      photo: provider.profile.photos && provider.profile.photos[0] && provider.profile.photos[0].value,
+      displayName: provider.profile.displayName
     };
   });
 

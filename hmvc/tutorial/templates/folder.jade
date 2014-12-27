@@ -4,15 +4,19 @@ block sidebar
   include sidebar
 
 block content
-  - var parentSectionNumber = 2
 
   != body
 
   +b.lessons-list
     +e('ol').lessons
       each article in children
-        +e('li').lesson(data-section-number=parentSectionNumber)
+        +e('li')(data-section-number=weight class="lesson #{article.children ? '_level_1' : ''}")
           +e('a').link(href=article.url) #{article.title}
+          if article.children
+            +e('ol').lessons
+              each subChild in article.children
+                +e('li').lesson._level_2
+                  +e('a').link(href=subChild.url) #{subChild.title}
 
   script(src=script("tutorial"))
   script tutorial.init();
