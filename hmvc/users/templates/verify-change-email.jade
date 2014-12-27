@@ -1,0 +1,8 @@
+extends /layouts/email
+
+block body
+  h1 Подтверждение смены email на javascript.ru
+  p Для смены email перейдите, пожалуйста, по ссылке
+    =' '
+    a(href=link) #{link}
+    | .

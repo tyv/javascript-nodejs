@@ -44,7 +44,7 @@ export function init(options) {
 
 class Notification {
 
-  constructor(html, type) {
+  constructor(html, type, timeout) {
     var elemHtml = `<div class="notification notification_popup notification_${type}">
     <div class="notification__content">${html}</div>
     <button title="Закрыть" class="notification__close"></button></div>`;
@@ -53,11 +53,37 @@ class Notification {
 
     this.elem = document.body.lastElementChild;
 
+    switch(timeout) {
+    case undefined:
+      this.timeout = this.TIMEOUT_DEFAULT;
+      break;
+    case 'slow':
+      this.timeout = this.TIMEOUT_SLOW;
+      break;
+    case 'fast':
+      this.timeout = this.TIMEOUT_FAST;
+      break;
+    default:
+      this.timeout = timeout;
+    }
+
+
     manager.register(this);
     this.setupCloseHandler();
     this.setupCloseTimeout();
   }
 
+  get TIMEOUT_DEFAULT() {
+    return 2500;
+  }
+
+  get TIMEOUT_SLOW() {
+    return 5000;
+  }
+
+  get TIMEOUT_FAST() {
+    return 1500;
+  }
 
 
   close() {
@@ -71,7 +97,9 @@ class Notification {
   }
 
   setupCloseTimeout() {
-    setTimeout(() => this.close(), 2500);
+    if (this.timeout) {
+      setTimeout(() => this.close(), this.timeout);
+    }
   }
 
   get height() {
@@ -94,10 +122,10 @@ export class Info extends Notification {
   }
 
 }
-export class Warn extends Notification {
+export class Warning extends Notification {
 
   constructor(html) {
-    super(html, 'warn');
+    super(html, 'warning');
   }
 
 }
@@ -117,9 +145,10 @@ export class Error extends Notification {
   }
 
 
-  setupCloseTimeout() {
-    setTimeout(() => this.close(), 5000);
+  get TIMEOUT_DEFAULT() {
+    return 5000;
   }
+
 
 }
 
@@ -130,9 +159,10 @@ export class Test extends Notification {
   }
 
 
-  setupCloseTimeout() {
-
+  get TIMEOUT_DEFAULT() {
+    return null;
   }
+
 
 }
 

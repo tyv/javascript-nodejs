@@ -6,7 +6,7 @@ include /bem
     +e.title-content
       +e('h2').inline-title О себе
 
-  +e('profile-field')(field-name="realName" field-title="Имя в жизни" field-value="me.realName")
+  +e('profile-field')(field-name="realName" field-title="Имя" field-value="me.realName")
     input.text-input__control(focus-on="editing" placeholder="Иван Иванович" ng-model="editingValue" type="text" name="input")
 
   +e('profile-field')(field-name="country" field-title="Страна" field-value="me.country")
