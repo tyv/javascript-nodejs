@@ -3,9 +3,3 @@
 curl -XDELETE 'http://localhost:9200/js'
 
 curl -XPUT 'http://localhost:9200/js' -d @js.json
-
-curl -XPUT 'http://localhost:9200/_river/mongo/_meta' -d ''
-
-curl -X GET 'localhost:9200/_river/mongo/_status?pretty'
-
-curl -X GET 'localhost:9200/_river/_count?pretty'
