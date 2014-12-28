@@ -29,28 +29,28 @@
 	&__option,
 	&__layout
 		display table-cell
+		vertical-align middle
 
 	&__input-wrap
 		width 100%
 
 	&__option
 		white-space nowrap
-		padding 0 25px
+		padding 0 25px 0 40px
 
 	&__option-control
-		vertical-align baseline
-		width 16px
-		height 16px
-		transform scale(1.25)
+		position absolute
+		top 50%
+		right 100%
+		margin 0
+		transform translateY(-50%) scale(1.25)
+		transform-origin 100% 100%
 		// if we set bigger value we get even more blurry or corrupted checkboxes
 		// the only easy way to make it bigger that I found
 
 	&__option-label
 		color #7E7E7E
-
-	//- избавляемся от некликабельной области между флажком и подписью
-	&__option-control
-		margin-right 0
+		position relative
 
 	&__option-label
 		padding-left 11px
@@ -68,7 +68,6 @@
 
 	&__input
 		width 100%
-		margin-top 12px
 		position relative
 
 	& &__col-title

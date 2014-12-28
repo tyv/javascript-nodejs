@@ -7,8 +7,9 @@
         +e('input').control(type="text" placeholder="Фильтр по заголовку" autofocus data-tutorial-map-filter)
         +b.close-button.__clear
     +e.option
-      +e('input').option-control#show-tasks(type="checkbox" data-tutorial-map-show-tasks)
-      +e('label').option-label(for="show-tasks") Показать задачи
+      +e('label').option-label(for="show-tasks")
+        +e('input').option-control#show-tasks(type="checkbox" data-tutorial-map-show-tasks)
+        | Показать задачи
     +e.layout
       +b.switch.__layout-switch
         +e.option
