@@ -1,0 +1,14 @@
+{
+  "type":    "mongodb",
+  "mongodb": {
+    "servers": [ { "host": "localhost" }],
+    "db": "js"
+  },
+  "index":   {
+    "name":  "js",
+    "type":  "tasks",
+    "store": {
+      "type": "mmapfs"
+    }
+  }
+}

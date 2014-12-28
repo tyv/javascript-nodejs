@@ -9,15 +9,21 @@ var profile = angular.module('profile', [
 import './profileField';
 import './profilePhoto';
 import './profilePassword';
+import './profileAuthProviders';
 import './dateValidator';
 import './dateRangeValidator';
 
 
-profile.factory('Me', ($http) => {
-  return $http.get('/users/me').then(function(res) {
-    var data = res.data;
-    data.created = new Date(data.created);
-    return data;
+profile.factory('Me', ($resource) => {
+  return $resource('/users/me', {}, {
+    get: {
+      method: 'GET',
+      transformResponse: function(data, headers){
+        data = JSON.parse(data);
+        data.created = new Date(data.created);
+        return data;
+      }
+    }
   });
 });
 
@@ -30,7 +36,7 @@ profile
       .state('root', {
         abstract:    true,
         resolve:     {
-          me: (Me) => Me
+          me: (Me) => Me.get()
         },
         templateUrl: "templates/partials/root",
         controller:  'ProfileRootCtrl'
@@ -50,7 +56,7 @@ profile
   })
   .controller('ProfileRootCtrl', ($scope, $state, $timeout, $http, me, promiseTracker) => {
 
-    window.me = me;
+    //window.me = me;
     $scope.me = me;
 
 
@@ -78,6 +84,9 @@ profile
     $scope.me = me;
 
 
+  })
+  .filter('capitalize', () => function(str) {
+    return str[0].toUpperCase() + str.slice(1);
   });
 
 

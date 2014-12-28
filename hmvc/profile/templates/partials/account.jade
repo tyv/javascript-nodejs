@@ -26,23 +26,20 @@ include /bem
 
   +e('profile-password')(has-password="me.hasPassword")
 
-  +e.title(ng-if="me.providers.length")
+  +e.title
     +e.title-content
       +e('h2').inline-title Привязанные внешние аккаунты
-      // FIXME: item-note? и когда это показывается?
-      +e('p').item-note При привязке аккаунта можно будет заходить на сайт одним нажатием кнопки.
+      +e('p').note(ng-if="!me.providers.length") При привязке аккаунта можно будет заходить на сайт одним нажатием кнопки.
 
-  +e.item._linked-account(ng-repeat="provider in me.providers")
-    +e.item-content
-      +e('div').linked-name
-        +e('img').linked-upic(src="{{provider.photo}}") {{provider.displayName}}
-      +e.linked-provider {{provider.name}}
+  +e.linked-account(ng-repeat="provider in me.providers")
+    +e.account-content
+      +e.linked-name
+        +e('img').linked-upic(ng-src="{{provider.photo}}") {{provider.displayName}}
+      +e.linked-provider {{provider.name | capitalize}}
 
-  +e.item
-    +e.item-content
-      +e.item-title Привязать:
-      +e.socials
-        include ../../../auth/templates/providers
-  +e.item
-    +e.item-content
+
+  +e('profile-auth-providers')
+
+  +e.action-item
+    +e.action-content
       +e('button').action._remove-account Удалить аккаунт

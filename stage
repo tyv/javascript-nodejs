@@ -2,6 +2,7 @@
 export SITE_HOST=http://stage.javascript.ru
 export STATIC_HOST=http://stage.javascript.ru
 
-echo  autossh -M 10984 -R 1212:localhost:80 ilia@stage.javascript.ru
+#ssh -R 1212:localhost:80 ilia@stage.javascript.ru &
+ssh -f -nNT -R 1212:localhost:80 ilia@stage.javascript.ru
 
 NODE_ENV=development WATCH=1 ./gulp dev | bunyan -o short -l debug
