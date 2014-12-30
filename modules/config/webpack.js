@@ -51,7 +51,7 @@ var webpackConfig = {
       {test: /\.jade$/, loader: "jade?root=" + config.projectRoot + '/templates'},
       // commonInterop means that "export default smth" becomes "module.exports = smth"
       // (unless there are other exports, see "modules" doc in 6to5
-      {test: /\.js$/, exclude: /node_modules\/angular/, loader: '6to5-loader?modules=commonInterop'}
+      {test: /\.js$/, exclude: /node_modules\/angular/, loader: '6to5-loader?modules=common'}
     ],
     noParse: [
       // regexp gets full path with loader like
