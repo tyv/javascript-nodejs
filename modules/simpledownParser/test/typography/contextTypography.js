@@ -14,6 +14,14 @@ describe("contextTypography", function() {
     contextTypography(html).replace(/\n/g, '').should.be.eql(html);
   });
 
+  it("converts a single line to <p>single line</p>", function() {
+    contextTypography("single line").should.be.eql("<p>single line</p>");
+  });
+
+  it("converts empty text to empty text", function() {
+    contextTypography("").should.be.eql("");
+  });
+
   it("converts double \\n to <p>", function() {
     contextTypography("line1\n\nline2").should.be.eql("<p>line1</p>\n<p>line2</p>");
   });

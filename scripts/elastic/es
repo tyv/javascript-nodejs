@@ -1,5 +1,0 @@
-#!/bin/bash
-
-curl -XDELETE 'http://localhost:9200/js'
-
-curl -XPUT 'http://localhost:9200/js' -d @js.json

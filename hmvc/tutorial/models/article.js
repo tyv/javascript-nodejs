@@ -36,6 +36,12 @@ const schema = new Schema({
     required: true
   },
 
+  rendered: {
+    type: {}
+  },
+
+  search: String,
+
   isFolder: {
     type:     Boolean,
     required: true
@@ -61,6 +67,7 @@ schema.statics.getUrlBySlug = function(slug) {
 schema.methods.getResourceFsRoot = function() {
   return schema.statics.getResourceFsRootBySlug(this.get('slug'));
 };
+
 
 schema.methods.getResourceWebRoot = function() {
   return schema.statics.getResourceWebRootBySlug(this.get('slug'));
@@ -101,7 +108,7 @@ schema.statics.findTree = function* () {
 
   // arrange by ids
   var articlesById = {};
-  for (var i=0; i<articles.length; i++) {
+  for (var i = 0; i < articles.length; i++) {
     var article = articles[i];
     article._id = article._id.toString();
     articlesById[article._id] = article;
@@ -115,7 +122,7 @@ schema.statics.findTree = function* () {
 
   return {
     children: root,
-    byId: function(id) {
+    byId:     function(id) {
       if (!id) return undefined;
       return articlesById[id.toString()];
     },
@@ -182,7 +189,17 @@ schema.pre('remove', function(next) {
   Task.remove({parent: this._id}, next);
 });
 
-
+schema.pre('save', function(next) {
+  if (this.rendered) {
+    this.search = this.rendered.content
+      .replace(/([^.])(<\/h\d>)/gim, '$1.$2') // make all headers sentences:   # Text -> # Text.
+      // should we make "search in sources" an optional checkbox?
+      .replace(/<pre class="language-[\s\S]*?<\/pre>/gim, '') // remove code
+      .replace(/<pre class="line-numbers[\s\S]*?<\/pre>/gim, '') // remove code
+      .replace(/<\/?[a-z].*?>/gim, ''); // strip all tags
+  }
+  next();
+});
 
 
 schema.plugin(troop.timestamp);

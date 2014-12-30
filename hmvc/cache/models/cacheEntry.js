@@ -1,8 +1,10 @@
+// A mongoose entry for generic tagged caching
+
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// by default a generator may took that long maximally
-const GENERATING_TIME_LIMIT_DEFAULT = 3e3;
+// by default a generation may took that long ms maximally
+const GENERATING_TIME_LIMIT_DEFAULT = 3000;
 
 const schema = new Schema({
   key: {

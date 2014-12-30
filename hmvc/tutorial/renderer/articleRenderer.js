@@ -121,7 +121,26 @@ ArticleRenderer.prototype.render = function* (article) {
     linkHeaderTag: true
   });
 
-  return yield transformer.transform(node, true);
+  this.content = yield* transformer.transform(node, true);
+
+  return {
+    content: this.content,
+    headers: this.headers,
+    head:    this.getHead(),
+    foot:    this.getFoot()
+  };
+};
+
+ArticleRenderer.prototype.renderWithCache = function*(article) {
+  if (article.rendered) return article.rendered;
+
+  var rendered = yield* this.render(article);
+
+  article.rendered = rendered;
+
+  yield article.persist();
+
+  return rendered;
 };
 
 
