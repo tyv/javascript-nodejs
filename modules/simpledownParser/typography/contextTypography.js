@@ -62,6 +62,8 @@ function makeParagraphs(html) {
   // оно генерировало ...<div>*</div><p></span> <-- лишний <p> перед </span>, убъём его
   html = html.replace(/<p>(<\/[^>]+>)/g, '$1');
 
+  html = html.replace(/^<\/p>/, ''); // empty text leaves </p> in the beginning
+
 // $chunk = preg_replace('!<br />(\s*@@block)!', '$1', $chunk); // remove <br /> before future blocks
   return html.replace(/\s+$/, '');
 }

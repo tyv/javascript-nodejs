@@ -1,6 +1,8 @@
 {
   "settings": {
-    "analysis": {
+    "number_of_shards":   1,
+    "number_of_replicas": 0,
+    "analysis":           {
       "analyzer": {
         "default": {
           "type":        "custom",
@@ -24,30 +26,48 @@
   },
   "mappings": {
     "articles": {
+      "dynamic":    false,
       "properties": {
-        "modified":      { "type": "date" },
+        "modified": {"type": "date"},
         "isFolder": {"type": "boolean"},
-        "content": {"type": "string"},
-        "weight": {"type": "long"},
-        "slug": {
-          "type": "string",
-          "index":    "not_analyzed"
+        "search":   {
+          "type":  "string",
+          "index_options": "offsets"
         },
-        "title": { "type": "string"}
+        "weight":   {
+          "type":  "long"
+        },
+        "slug":     {
+          "type":  "string",
+          "index": "not_analyzed"
+        },
+        "title":    {
+          "type":  "string",
+          "index_options": "offsets"
+        }
       }
     },
-    "tasks": {
+    "tasks":    {
+      "dynamic":    false,
       "properties": {
-        "modified":      { "type": "date" },
-        "content": {"type": "string"},
-        "solution": {"type": "string" },
-        "weight": {"type": "long"},
-        "slug": {
-          "type": "string",
-          "index":    "not_analyzed"
+        "modified":   {"type": "date"},
+        "solution":   {"type": "string"},
+        "search":   {
+          "type":  "string",
+          "index_options": "offsets"
         },
-        "title": { "type": "string"},
-        "importance": { "type": "long"}
+        "weight":     {
+          "type":  "long"
+        },
+        "slug":       {
+          "type":  "string",
+          "index": "not_analyzed"
+        },
+        "title":      {
+          "type":  "string",
+          "index_options": "offsets"
+        },
+        "importance": {"type": "long"}
       }
     }
   }

@@ -16,7 +16,7 @@ module.exports = function* (email, token, context) {
 
   letter = yield mailer.inlineCss(letter);
 
-  console.log(letter);
+  //console.log(letter);
   yield mailer.sendMail({
     to:      email,
     subject: "Восстановление доступа",

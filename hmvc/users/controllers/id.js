@@ -144,7 +144,6 @@ exports.patch = function*(next) {
   }
 
   if (fields.password) {
-    console.log(user);
     if (user.passwordHash && !user.checkPassword(fields.passwordOld)) {
       this.throw(400, "Старый пароль неверен.");
     }

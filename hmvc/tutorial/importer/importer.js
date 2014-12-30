@@ -13,6 +13,8 @@ const Article = require('tutorial').Article;
 const Reference = require('tutorial').Reference;
 const Plunk = require('plunk').Plunk;
 const Task = require('tutorial').Task;
+const ArticleRenderer = require('../renderer/articleRenderer');
+const TaskRenderer = require('../renderer/taskRenderer');
 const BodyParser = require('simpledownParser').BodyParser;
 const TreeWalkerSync = require('simpledownParser').TreeWalkerSync;
 const HeaderTag = require('simpledownParser').HeaderTag;
@@ -136,7 +138,6 @@ Importer.prototype.syncFolder = function*(sourceFolderPath, parent) {
 
   const folder = new Article(data);
   yield folder.persist();
-  this.onchange(folder.getUrl());
 
   const subPaths = fs.readdirSync(sourceFolderPath);
 
@@ -153,6 +154,12 @@ Importer.prototype.syncFolder = function*(sourceFolderPath, parent) {
       yield* this.syncResource(subPath, folder.getResourceFsRoot());
     }
   }
+
+  var renderer = new ArticleRenderer();
+
+  yield* renderer.renderWithCache(folder);
+
+  this.onchange(folder.getUrl());
 
 };
 
@@ -197,7 +204,6 @@ Importer.prototype.syncArticle = function* (articlePath, parent) {
   // delete old article & insert the new one & insert refs
   const article = new Article(data);
   yield article.persist();
-  this.onchange(article.getUrl());
 
   const refs = options.metadata.refs.toArray();
   const refThunks = refs.map(function(anchor) {
@@ -232,6 +238,14 @@ Importer.prototype.syncArticle = function* (articlePath, parent) {
     }
 
   }
+
+  var renderer = new ArticleRenderer();
+
+  yield* renderer.renderWithCache(article);
+
+
+  this.onchange(article.getUrl());
+
 };
 
 
@@ -347,8 +361,6 @@ Importer.prototype.syncTask = function*(taskPath, parent) {
   const task = new Task(data);
   yield task.persist();
 
-  this.onchange(task.getUrl());
-
   const subPaths = fs.readdirSync(taskPath);
 
   for (var i = 0; i < subPaths.length; i++) {
@@ -367,6 +379,12 @@ Importer.prototype.syncTask = function*(taskPath, parent) {
   if (fs.existsSync(path.join(taskPath, '_js.view'))) {
     yield* this.syncTaskJs(path.join(taskPath, '_js.view'), task);
   }
+
+  var renderer = new TaskRenderer();
+
+  yield* renderer.renderWithCache(task);
+
+  this.onchange(task.getUrl());
 
 };
 
