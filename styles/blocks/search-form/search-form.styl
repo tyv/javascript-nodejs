@@ -1,0 +1,61 @@
+.search-form
+	display table
+	border-collapse collapse
+	width 100%
+
+	&__line
+		display table-row
+
+	&__query-wrap,
+	&__send-wrap,
+	&__status,
+	&__option-wrap
+		display table-cell
+		vertical-align middle
+
+	&__query-wrap,
+	&__status
+		width 100%
+
+	&__send-wrap,
+	&__option-wrap
+		white-space nowrap
+
+	&__status,
+	&__option-wrap
+		padding-top 10px
+		vertical-align baseline
+
+	&__query-wrap
+		padding-right 20px
+
+	&__query
+		width 100%
+
+	&__query .text-input__control
+		height 36px
+
+	&__send
+		min-width 140px
+		margin 0
+
+	&__status_notfound
+		font 20px secondary_font
+
+	&__status_notfound &__marked
+		background transparent
+		color #bb1000
+
+	&__status_found &__marked
+		background transparent
+		font-weight 700
+
+	&__option-label
+		position relative
+		margin-left 16px
+		padding-left 5px
+
+	&__option-control
+		position absolute
+		right 100%
+		transform scale(1.25)

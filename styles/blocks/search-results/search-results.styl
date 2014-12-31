@@ -1,0 +1,44 @@
+.search-results
+	border-top 1px solid #eee
+	counter-reset result-item
+
+	&__result
+		margin-bottom 20px
+
+	&__title
+		font 18px secondary_font
+		counter-increment result-item
+		position relative
+
+	&__title::before
+		content counter(result-item)
+		position absolute
+		right 100%
+		margin-right 10px
+
+	&__extract
+		margin 10px 0
+
+	& &__path
+		margin 0
+		padding 0
+		color #49916a
+
+	& &__path-step
+		display inline-block
+		margin-right 15px
+
+	& &__path-step::before
+		content "/"
+		color inherit
+		margin-left -9px
+
+	& &__path-step:first-child::before
+		display none
+
+	&__path-link
+		color inherit
+
+	&__marked
+		color inherit
+		background #ffffb7
