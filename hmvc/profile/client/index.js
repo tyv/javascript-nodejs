@@ -79,9 +79,31 @@ profile
     $scope.me = me;
 
   })
-  .controller('ProfileAccountCtrl', ($scope, me) => {
+  .controller('ProfileAccountCtrl', ($scope, $http, me) => {
 
     $scope.me = me;
+
+    $scope.remove = function() {
+      var isSure = confirm(`${me.displayName} (${me.email}) - удалить пользователя без возможности восстановления?`);
+
+      if (!isSure) return;
+
+      $http({
+        method:           'DELETE',
+        url:              '/users/me',
+        tracker:          this.loadingTracker,
+        headers:          {'Content-Type': undefined},
+        transformRequest: angular.identity,
+        data:             new FormData()
+      }).then((response) => {
+
+        alert('Пользователь удалён.');
+        window.location.href = '/';
+
+      }, (response) => {
+        new notification.Error("Ошибка загрузки, статус " + response.status);
+      });
+    };
 
 
   })

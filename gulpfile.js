@@ -68,7 +68,7 @@ gulp.task("client:livereload", lazyRequireTask("./tasks/livereload", {
 }));
 
 gulp.task("tutorial:import:watch", lazyRequireTask('tutorial/tasks/importWatch', {
-  root: "/js/javascript-nodejs/javascript-tutorial"
+  root: "/js/javascript-tutorial"
 }));
 
 gulp.task("test", lazyRequireTask('./tasks/test', {
@@ -127,7 +127,9 @@ gulp.task('build', function(callback) {
   runSequence("client:sync-resources", 'client:compile-css', 'client:sync-css-images', 'client:webpack', callback);
 });
 
-gulp.task('edit', ['dev', 'tutorial:import:watch']);
+gulp.task('server', lazyRequireTask('./tasks/server'));
+
+gulp.task('edit', ['build', 'tutorial:import:watch', 'client:livereload', 'server']);
 
 gulp.task('dev', function(callback) {
   runSequence("client:sync-resources", 'client:compile-css', 'client:sync-css-images', ['nodemon', 'client:livereload', 'client:webpack', 'watch'], callback);

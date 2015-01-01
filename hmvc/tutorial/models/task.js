@@ -4,6 +4,7 @@ var ObjectId = mongoose.Schema.Types.ObjectId;
 var Schema = mongoose.Schema;
 const config = require('config');
 const path = require('path');
+const html2search = require('search').html2search;
 
 var schema = new Schema({
   title: {
@@ -84,7 +85,7 @@ schema.methods.getUrl = function() {
 schema.pre('save', function(next) {
   if (!this.rendered) return next();
 
-  var searchContent = this.rendered.content.replace(/<\/?[a-z].*?>/gim, '');
+  var searchContent = this.rendered.content;
 
   var searchSolution = Array.isArray(this.rendered.solution) ? this.rendered.solution.map(function(part) {
     return part.title + "\n" + part.content;
@@ -92,7 +93,7 @@ schema.pre('save', function(next) {
     return prev + "\n" + current;
   }, '') : this.rendered.solution;
 
-  this.search = searchContent + "\n\n" + searchSolution.replace(/<\/?[a-z].*?>/gim, '');
+  this.search = html2search(searchContent + "\n\n" + searchSolution);
   next();
 });
 
