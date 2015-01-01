@@ -39,6 +39,8 @@ exports.del = function*(next) {
     user.softDelete(callback);
   };
 
+  this.logout();
+
   this.body = {
     deleted: true,
     modified: user.modified

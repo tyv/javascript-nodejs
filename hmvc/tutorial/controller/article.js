@@ -103,7 +103,6 @@ function* renderArticle(slug) {
     return null;
   }
 
-
   var renderer = new ArticleRenderer();
 
   var rendered = yield* renderer.renderWithCache(article);

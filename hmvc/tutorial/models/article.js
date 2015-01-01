@@ -6,6 +6,7 @@ const config = require('config');
 const path = require('path');
 const Reference = require('./reference');
 const Task = require('./task');
+const html2search = require('search').html2search;
 
 const schema = new Schema({
   title: {
@@ -191,12 +192,7 @@ schema.pre('remove', function(next) {
 
 schema.pre('save', function(next) {
   if (this.rendered) {
-    this.search = this.rendered.content
-      .replace(/([^.])(<\/h\d>)/gim, '$1.$2') // make all headers sentences:   # Text -> # Text.
-      // should we make "search in sources" an optional checkbox?
-      .replace(/<pre class="language-[\s\S]*?<\/pre>/gim, '') // remove code
-      .replace(/<pre class="line-numbers[\s\S]*?<\/pre>/gim, '') // remove code
-      .replace(/<\/?[a-z].*?>/gim, ''); // strip all tags
+    this.search = html2search(this.rendered.content);
   }
   next();
 });
