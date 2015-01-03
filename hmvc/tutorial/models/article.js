@@ -103,9 +103,12 @@ schema.statics.destroyTree = function* (condition) {
  * Returns {children: [whole article tree]} with nested children
  * @returns {{children: Array}}
  */
-schema.statics.findTree = function* () {
+schema.statics.findTree = function* (options) {
   const Article = this;
-  var articles = yield Article.find({}).sort({weight: 1}).select('parent slug title weight isFolder').lean().exec();
+  options = options || {};
+
+  var query = options.query || Article.find({}).sort({weight: 1}).select('parent slug title weight isFolder').lean();
+  var articles = yield query.exec();
 
   // arrange by ids
   var articlesById = {};

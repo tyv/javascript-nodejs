@@ -69,9 +69,10 @@ TaskRenderer.prototype.render = function*(task) {
   };
 };
 
-TaskRenderer.prototype.renderWithCache = function*(task) {
+TaskRenderer.prototype.renderWithCache = function*(task, options) {
+  options = options || {};
 
-  if (task.rendered) return task.rendered;
+  if (task.rendered && !options.refreshCache) return task.rendered;
 
   var rendered = yield* this.render(task);
 

@@ -90,22 +90,35 @@ ArticleRenderer.prototype._libsToJsCss = function(libs) {
   };
 };
 
+/**
+ * Render, gather metadata to the renderer object
+ * @param article
+ * @param options
+ * options.noStripTitle disables stripping of the first header
+ * options.headerLevelShift shifts all headers (to render in ebook as a subchapter0
+ * @returns {{content: *, headers: *, head: *, foot: *}}
+ */
+ArticleRenderer.prototype.render = function* (article, options) {
+  options = Object.create(options || {});
+  options.metadata = this.metadata;
+  options.trusted = true;
 
-ArticleRenderer.prototype.render = function* (article) {
-  const options = {
-    metadata:        this.metadata,
-    trusted:         true
-  };
 
   // shift off the title header
   const node = new BodyParser(article.content, options).parseAndWrap();
 
-  node.removeChild(node.getChild(0));
+  if (!options.noStripTitle) {
+    node.removeChild(node.getChild(0));
+  }
 
   this.headers = [];
 
   node.getChildren().forEach(function(child) {
     if (child.getType() != 'HeaderTag') return;
+
+    if (options.headerLevelShift) {
+      child.level += options.headerLevelShift;
+    }
 
     this.headers.push({
       level: child.level,
@@ -131,8 +144,16 @@ ArticleRenderer.prototype.render = function* (article) {
   };
 };
 
-ArticleRenderer.prototype.renderWithCache = function*(article) {
-  if (article.rendered) return article.rendered;
+/**
+ * Render with cache
+ * @param article
+ * @param options Add refreshCache: true not to use the cached value
+ * @returns {*}
+ */
+ArticleRenderer.prototype.renderWithCache = function*(article, options) {
+  options = options || {};
+
+  if (article.rendered && !options.refreshCache) return article.rendered;
 
   var rendered = yield* this.render(article);
 

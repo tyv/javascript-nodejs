@@ -118,6 +118,7 @@ app.waitBoot = function* () {
       mongoose.waitConnect(callback);
     };
   }
+
 };
 
 // adding middlewares only possible *before* app.run

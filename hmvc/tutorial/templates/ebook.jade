@@ -1,0 +1,20 @@
+extends /layouts/main
+
+block variables
+  - var layout_page_class = "page_ebook"
+
+block content
+  script window.isEbook = true;
+
+  != content
+
+  each child in children
+    != child.content
+
+
+
+  script(src=script("tutorial"))
+
+  script tutorial.init();
+
+

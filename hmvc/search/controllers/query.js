@@ -1,3 +1,4 @@
+
 var elastic = require('../lib/elastic');
 
 var allowedTypes = ['articles', 'tasks'];
@@ -40,7 +41,7 @@ exports.get = function*() {
     }
   };
 
-  var result = yield elastic.search({
+  var result = yield elastic().search({
     index: 'js',
     type:  types.join(','),
     body:  queryBody
