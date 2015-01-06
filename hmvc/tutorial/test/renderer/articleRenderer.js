@@ -20,7 +20,7 @@ describe("ArticleRenderer", function() {
     const renderer = new ArticleRenderer();
 
     const result = yield renderer.render(article);
-    result.replace(/\n/g, '').should.be.eql(
+    result.content.replace(/\n/g, '').should.be.eql(
       '<h2><a class="main__anchor" name="title-2" href="#title-2">Title</a></h2><p>My html <em>string</em>.</p>'
     );
 
@@ -47,7 +47,7 @@ describe("ArticleRenderer", function() {
     const renderer = new ArticleRenderer();
 
     const result = yield renderer.render(article);
-    result.replace(/\n/g, '').should.be.eql(
+    result.content.replace(/\n/g, '').should.be.eql(
       '<p><a href="/test">Title</a></p>'
     );
 
