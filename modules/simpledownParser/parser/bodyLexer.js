@@ -382,7 +382,7 @@ Lexer.prototype.consumeHeader = function() {
 
   var title = this.text.slice(titlePosition, position).trim();
   var anchor = "";
-  title = title.replace(/\[#([\w-]+)\]\s*$/, function(match, p1) {
+  title = title.replace(/\[#([.\w-]+)\]\s*$/, function(match, p1) {
     anchor = p1;
     return '';
   }).trim();

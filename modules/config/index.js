@@ -60,6 +60,7 @@ module.exports = {
     address: 'http://ondemand.saucelabs.com:80/wd/hub'
   },
 
+  renderedCacheEnabled: env.NODE_ENV == 'production',
   projectRoot:  process.cwd(),
   publicRoot:   path.join(process.cwd(), 'public'),
   tmpRoot:      path.join(process.cwd(), 'tmp'),

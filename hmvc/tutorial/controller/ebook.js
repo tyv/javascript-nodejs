@@ -7,51 +7,43 @@ const _ = require('lodash');
 
 exports.get = function *get(next) {
 
-  const article = yield Article.findOne({slug: this.params.slug}).exec();
-  if (!article) {
+  const topArticle = yield Article.findOne({slug: this.params.slug}).exec();
+  if (!topArticle) {
     this.throw(404);
   }
 
+  // gather all articles in locals.children array linearly with shifted headers
   var renderer = new ArticleRenderer();
 
-  var rendered = yield* renderer.render(article);
+  var renderedTop = yield* renderArticle(renderer, topArticle, 0, true);
 
-  rendered.isFolder = article.isFolder;
-  rendered.modified = article.modified;
-  rendered.title = article.title;
-  rendered.weight = article.weight;
+  if (renderedTop.tasks.length) {
+    renderedTop.hasTasks = true;
+  }
 
-  var locals = rendered;
-  locals.children = [];
+  var locals = {};
+  locals.children = [renderedTop];
 
   const tree = yield* Article.findTree({
     query: Article.find({}).sort({weight: 1})
   });
 
-  const articleInTree = tree.byId(article._id);
+  const topArticleInTree = tree.byId(topArticle._id);
 
-  if (articleInTree.isFolder) {
-    var children = articleInTree.children || [];
+  if (topArticleInTree.isFolder) {
+    var children = topArticleInTree.children || [];
 
     for (var i = 0; i < children.length; i++) {
       var child = children[i];
 
-      console.log("render i=", i, "/", children.length, child.title);
+      var renderedChild = yield* renderArticle(renderer, child, 1, true);
 
-      console.log(child);
-      var rendered = yield* renderer.render(child, {
-        headerLevelShift: 1,
-        noStripTitle: true
-      });
+      locals.children.push(renderedChild);
 
-      rendered.isFolder = child.isFolder;
-      rendered.title = child.title;
-      rendered.weight = child.weight;
-      rendered.url = Article.getUrlBySlug(child.slug);
-
-      delete rendered.head;
-      delete rendered.foot;
-      locals.children.push(rendered);
+      if (renderedChild.tasks.length) {
+        renderedChild.hasTasks = true;
+        renderedTop.hasTasks = true;
+      }
 
       if (child.isFolder) {
         var children2 = child.children || [];
@@ -59,19 +51,14 @@ exports.get = function *get(next) {
           var subChild = children2[j];
           console.log("render j=", j, subChild.title);
 
-          var rendered = yield* renderer.render(subChild,  {
-            headerLevelShift: 2,
-            noStripTitle: true
-          });
+          var renderedSubChild = yield* renderArticle(renderer, subChild, 2, true);
 
-          rendered.title = subChild.title;
-          rendered.weight = subChild.weight;
-          rendered.url = Article.getUrlBySlug(subChild.slug);
-
-          delete rendered.head;
-          delete rendered.foot;
-
-          locals.children.push(rendered);
+          locals.children.push(renderedSubChild);
+          if (renderedSubChild.tasks.length) {
+            renderedSubChild.hasTasks = true;
+            renderedChild.hasTasks = true;
+            renderedTop.hasTasks = true;
+          }
         }
       }
 
@@ -79,57 +66,66 @@ exports.get = function *get(next) {
 
   }
 
-
   // gather all head/foot data from the renderer, all libs etc
   locals.head = renderer.getHead();
   locals.foot = renderer.getFoot();
 
-  console.log(locals);
+  console.log(require('util').inspect(locals, {depth: 7}));
+
   this.body = this.render("ebook", locals);
 
 };
 
-// body
-// metadata
-// modified
-// title
-// isFolder
-// prev
-// next
-// path
-// siblings
-function* renderArticle(slug) {
+function *renderArticle(renderer, article, headerLevelShift, noStripTitle) {
+
+  var rendered = yield* renderer.render(article, {
+    headerLevelShift: headerLevelShift,
+    noStripTitle:     noStripTitle,
+    linkHeaderTag:    false,
+    translitAnchors:  true
+  });
+
+  rendered.isFolder = article.isFolder;
+  rendered.title = article.title;
+  rendered.weight = article.weight;
+  rendered.url = Article.getUrlBySlug(article.slug);
+  rendered.modified = article.modified;
+  rendered.level = headerLevelShift;
+
+  delete rendered.head;
+  delete rendered.foot;
+
+  rendered.tasks = yield* renderTasks(article);
+
+  return rendered;
+}
 
 
-  yield* renderTasks();
+function *renderTasks(article) {
+  var tasks = yield Task.find({
+    parent: article._id
+  }).sort({weight: 1}).exec();
 
-  function *renderTasks() {
-    var tasks = yield Task.find({
-      parent: article._id
-    }).sort({weight: 1}).exec();
+  const taskRenderer = new TaskRenderer();
 
-    const taskRenderer = new TaskRenderer();
+  var renderedTasks = [];
 
+  for (var i = 0; i < tasks.length; i++) {
+    var task = tasks[i];
 
-    rendered.tasks = [];
-
-    for (var i = 0; i < tasks.length; i++) {
-      var task = tasks[i];
-
-      var taskRendered = yield* taskRenderer.renderWithCache(task);
-      rendered.tasks.push({
-        url:        task.getUrl(),
-        title:      task.title,
-        importance: task.importance,
-        content:    taskRendered.content,
-        solution:   taskRendered.solution
-      });
-
-    }
+    var taskRendered = yield* taskRenderer.render(task);
+    renderedTasks.push({
+      url:        task.getUrl(),
+      title:      task.title,
+      importance: task.importance,
+      content:    taskRendered.content,
+      solution:   taskRendered.solution
+    });
 
   }
 
-  return rendered;
+  return renderedTasks;
 
 }
+
 

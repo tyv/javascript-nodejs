@@ -29,7 +29,7 @@ var schema = new Schema({
   },
 
   solution: {
-    // can be empty (assuming there is a solution.view)
+    // can be empty (assuming there is a solution.view which will be autolinked)
     type:     String,
     default: ""
   },

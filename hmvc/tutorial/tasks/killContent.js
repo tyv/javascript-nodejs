@@ -79,7 +79,7 @@ function* killTasks() {
   for (var i = 0; i < tasks.length; i++) {
     var task = tasks[i];
 
-    task.content = 'Task content ' + task.weight;
+    task.content =  '# ' + task.title + '\n\nTask content ' + task.weight;
     task.solution = 'Task solution ' + task.weight;
 
     yield task.persist();

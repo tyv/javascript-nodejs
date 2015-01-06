@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const config = require('config');
 const BodyParser = require('simpledownParser').BodyParser;
-const ServerHtmlTransformer = require('parser/serverHtmlTransformer');
+const ServerHtmlTransformer = require('serverHtmlTransformer');
 
 // Порядок библиотек на странице
 // - встроенный CSS
@@ -102,7 +102,7 @@ ArticleRenderer.prototype.render = function* (article, options) {
   options = Object.create(options || {});
   options.metadata = this.metadata;
   options.trusted = true;
-
+  if (options.linkHeaderTag === undefined) options.linkHeaderTag = true;
 
   // shift off the title header
   const node = new BodyParser(article.content, options).parseAndWrap();
@@ -131,7 +131,7 @@ ArticleRenderer.prototype.render = function* (article, options) {
   const transformer = new ServerHtmlTransformer({
     staticHost:      config.server.staticHost,
     resourceWebRoot: article.getResourceWebRoot(),
-    linkHeaderTag: true
+    linkHeaderTag: options.linkHeaderTag
   });
 
   this.content = yield* transformer.transform(node, true);
@@ -153,7 +153,9 @@ ArticleRenderer.prototype.render = function* (article, options) {
 ArticleRenderer.prototype.renderWithCache = function*(article, options) {
   options = options || {};
 
-  if (article.rendered && !options.refreshCache) return article.rendered;
+  var useCache = !options.refreshCache && config.renderedCacheEnabled;
+
+  if (article.rendered && useCache) return article.rendered;
 
   var rendered = yield* this.render(article);
 

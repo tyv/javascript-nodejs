@@ -98,11 +98,23 @@
 		@extend $font-angle-right
 
 
-	&_ebook &__inner
-		padding 0
+	&_ebook
+		.page__inner
+			padding 0
+
+		.code-example
+
+			.line-numbers-rows
+				display none
+
+			pre.line-numbers
+				padding-left 10px
+
+			pre[class*="language-"], code[class*="language-"]
+				font 8px/10px fixed_width_font !important
 
 
-	@media tablet
+@media tablet
 		&,
 		&_sidebar_on
 			padding 0

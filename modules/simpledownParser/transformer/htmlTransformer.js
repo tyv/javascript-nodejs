@@ -29,12 +29,12 @@ HtmlTransformer.prototype.transform = function(node, isFinal) {
   var html = this[method](node);
 
   if (isFinal) {
-    html = this.finalize(html);
+    html = this.applyContextTypography(html);
   }
   return html;
 };
 
-HtmlTransformer.prototype.finalize = function(html) {
+HtmlTransformer.prototype.applyContextTypography = function(html) {
   return contextTypography(html);
 };
 

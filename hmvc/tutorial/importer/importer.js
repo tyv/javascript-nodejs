@@ -66,6 +66,25 @@ Importer.prototype.sync = function* (directory) {
 
 };
 
+/**
+ * Call this after all import is complete to generate caches/searches for ElasticSearch to consume
+ */
+Importer.prototype.generateCaches = function*() {
+  var articles = yield Article.find({}).exec();
+
+  for (var i = 0; i < articles.length; i++) {
+    var article = articles[i];
+    yield* (new ArticleRenderer()).renderWithCache(article);
+  }
+
+  var tasks = yield Task.find({}).exec();
+
+  for (var i = 0; i < tasks.length; i++) {
+    var task = tasks[i];
+    yield* (new TaskRenderer()).renderWithCache(task);
+  }
+};
+
 Importer.prototype.extractHeader = function(parsed) {
   log.debug("extracting header");
 
@@ -154,10 +173,6 @@ Importer.prototype.syncFolder = function*(sourceFolderPath, parent) {
     }
   }
 
-  var renderer = new ArticleRenderer();
-
-  yield* renderer.renderWithCache(folder);
-
   this.onchange(folder.getUrl());
 
 };
@@ -237,11 +252,6 @@ Importer.prototype.syncArticle = function* (articlePath, parent) {
     }
 
   }
-
-  var renderer = new ArticleRenderer();
-
-  yield* renderer.renderWithCache(article);
-
 
   this.onchange(article.getUrl());
 
@@ -378,10 +388,6 @@ Importer.prototype.syncTask = function*(taskPath, parent) {
   if (fs.existsSync(path.join(taskPath, '_js.view'))) {
     yield* this.syncTaskJs(path.join(taskPath, '_js.view'), task);
   }
-
-  var renderer = new TaskRenderer();
-
-  yield* renderer.renderWithCache(task);
 
   this.onchange(task.getUrl());
 

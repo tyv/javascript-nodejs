@@ -8,13 +8,14 @@ code[class*="language-"],
 pre[class*="language-"]
 	color black
 	text-shadow 0 1px white
-	font-family 'Source Code Pro', 'Menlo', 'Monaco','Consolas', monospace
+	font-family fixed_width_font
 	direction ltr
 	text-align left
 	white-space pre
 	word-spacing normal
 	tab-size 4
 	hyphens none
+	position relative
 
 pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
 code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection
@@ -37,7 +38,6 @@ pre[class*="language-"]
 	margin 1.5em 0
 	overflow auto
 
-:not(pre) > code[class*="language-"],
 pre[class*="language-"]
 	background: background_blocks
 
