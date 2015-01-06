@@ -30,7 +30,7 @@ module.exports = function(options) {
       var ext = path.extname(url.val);
       var filepath = url.val.slice(0, url.val.length - ext.length);
 
-      literal = new nodes.Literal('url("/i/' + filepath + '.v' + version + ext + '")');
+      literal = new nodes.Literal('url("../i/' + filepath + '.v' + version + ext + '")');
 
       return literal;
     });

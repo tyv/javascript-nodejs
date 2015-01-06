@@ -34,6 +34,8 @@ function addStandardHelpers(locals, ctx) {
   locals.url = ctx.protocol + '://' + ctx.host + ctx.originalUrl;
   locals.context = ctx;
 
+  locals.counterEnabled = (ctx.host == 'nightly.javascript.ru');
+
   // we don't use defer in sessions, so can assign it
   // (simpler, need to call yield this.session)
   // (anon users may stop on varnish anyway)

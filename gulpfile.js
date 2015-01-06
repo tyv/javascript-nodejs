@@ -86,7 +86,7 @@ gulp.task('watch', lazyRequireTask('./tasks/watch', {
       task:  'client:sync-resources'
     },
     {
-      watch: 'styles/**/*.{png,svg,gif,jpg}',
+      watch: 'styles/**/*.{png,svg,gif,jpg,woff}',
       task:  'client:sync-css-images'
     },
     {
@@ -102,7 +102,7 @@ gulp.task("client:sync-resources", lazyRequireTask('./tasks/syncResources', {
 
 
 gulp.task("client:sync-css-images", lazyRequireTask('./tasks/syncCssImages', {
-  src: 'styles/**/*.{png,svg,gif,jpg}',
+  src: 'styles/**/*.{png,svg,gif,jpg,woff}',
   dst: 'public/i'
 }));
 
@@ -136,6 +136,7 @@ gulp.task('dev', function(callback) {
 });
 
 gulp.task('tutorial:import', ['cache:clean'], lazyRequireTask('tutorial/tasks/import'));
+gulp.task('tutorial:kill:content', ['cache:clean'], lazyRequireTask('tutorial/tasks/killContent'));
 
 gulp.task('cache:clean', lazyRequireTask('./tasks/cacheClean'));
 

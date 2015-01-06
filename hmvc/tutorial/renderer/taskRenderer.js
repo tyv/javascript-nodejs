@@ -1,6 +1,6 @@
 const HeaderTag = require('simpledownParser').HeaderTag;
 const BodyParser = require('simpledownParser').BodyParser;
-const ServerHtmlTransformer = require('parser/serverHtmlTransformer');
+const ServerHtmlTransformer = require('serverHtmlTransformer');
 const CompositeTag = require('simpledownParser').CompositeTag;
 const config = require('config');
 const Plunk = require('plunk').Plunk;
@@ -69,9 +69,12 @@ TaskRenderer.prototype.render = function*(task) {
   };
 };
 
-TaskRenderer.prototype.renderWithCache = function*(task) {
+TaskRenderer.prototype.renderWithCache = function*(task, options) {
+  options = options || {};
 
-  if (task.rendered) return task.rendered;
+  var useCache = !options.refreshCache && config.renderedCacheEnabled;
+
+  if (task.rendered && useCache) return task.rendered;
 
   var rendered = yield* this.render(task);
 
@@ -100,18 +103,21 @@ TaskRenderer.prototype.renderSolution = function* (task) {
   });
 
   const solutionParts = [];
+
+  // if no #header at start
+  // no parts, single solution
   if (!(children[0] instanceof HeaderTag)) {
     var solution = yield* transformer.transform(node, true);
     solution = yield* this.addSolutionPlunkLink(task, solution);
     return solution;
   }
 
-  // split into parts
+  // otherwise, split into parts
   var currentPart;
   for (var i = 0; i < children.length; i++) {
     var child = children[i];
     if (child instanceof HeaderTag) {
-      currentPart = { title: yield transformer.transform(child, true), content: [] };
+      currentPart = { title: stripTags(yield transformer.transform(child, true)), content: [] };
       solutionParts.push(currentPart);
       continue;
     }
@@ -127,7 +133,7 @@ TaskRenderer.prototype.renderSolution = function* (task) {
   }
 
   var solutionPartLast = solutionParts[solutionParts.length - 1];
-  solutionParts[solutionParts.length - 1] = yield* this.addSolutionPlunkLink(task, solutionPartLast);
+  solutionParts[solutionParts.length - 1].content = yield* this.addSolutionPlunkLink(task, solutionPartLast.content);
 
   return solutionParts;
 };
@@ -152,5 +158,8 @@ TaskRenderer.prototype.addSolutionPlunkLink = function*(task, solution) {
   return solution;
 };
 
+function stripTags(text) {
+  return text.replace(/<\/?[a-z].*?>/gim, '');
+}
 
 module.exports = TaskRenderer;

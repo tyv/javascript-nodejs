@@ -14,6 +14,8 @@ require('prismjs/components/prism-python.js');
 require('prismjs/components/prism-ruby.js');
 require('prismjs/components/prism-java.js');
 
+Prism.tokenTag = 'code'; // for iBooks to use monospace font
+
 var CodeBox = require('./codeBox');
 var CodeTabsBox = require('./codeTabsBox');
 
@@ -41,6 +43,7 @@ function initCodeTabsBox() {
 }
 
 module.exports = function () {
+
   document.removeEventListener('DOMContentLoaded', Prism.highlightAll);
 
   document.addEventListener('DOMContentLoaded', function() {
