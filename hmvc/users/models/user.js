@@ -203,11 +203,16 @@ UserSchema.methods.softDelete = function(callback) {
 UserSchema.statics.photoDefault = "http://i.imgur.com/zSGftLc.png";
 UserSchema.statics.photoDeleted = "http://i.imgur.com/7KZD6XK.png";
 
-UserSchema.methods.getPhotoUrl = function() {
-  if (this.deleted) return User.photoDeleted;
-  if (!this.photo) return User.photoDefault;
+UserSchema.methods.getPhotoUrl = function(width, height) {
+  var url = this.deleted ? User.photoDeleted :
+    !this.photo ? User.photoDefault : this.photo.link;
 
-  return this.photo.link;
+  var modifier = (width < 320 && height < 320) ? 't' :
+    (width < 640 && height < 640) ? 'm' :
+      (width < 1280 && height < 1280) ? 'l' : '';
+
+  return url.slice(0, url.lastIndexOf('.')) + modifier + url.slice(url.lastIndexOf('.'));
+
 };
 
 UserSchema.plugin(troop.timestamp, {useVirtual: false});

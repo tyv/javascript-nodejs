@@ -127,7 +127,7 @@ exports.patch = function*(next) {
     var isOccupied = yield User.findOne({email: fields.email}).exec();
 
     if (isOccupied) {
-      this.throw(400, "Такой email используется другим пользователем.");
+      this.throw(409, "Такой email используется другим пользователем.");
     }
 
     user.pendingVerifyEmail = fields.email;
