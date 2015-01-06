@@ -116,13 +116,14 @@
     "webpack": "^1.4.7",
     "yargs": "*"
   },
+  "//": "EJS 2.0 breaks include in nginx configs",
   "devDependencies": {
     "better-assert": "*",
     "casperjs": "*",
     "casperjs-spider": "git://github.com/iliakan/casperjs-spider",
     "clarify": "*",
     "co-mocha": "*",
-    "ejs": "*",
+    "ejs": "^1",
     "exports-loader": "^0.6.2",
     "expose-loader": "^0.6.0",
     "gulp": "*",
