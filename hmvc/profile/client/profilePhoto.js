@@ -14,19 +14,38 @@ angular.module('profile')
 
       link: function(scope, element, attrs, noCtrl) {
         scope.loadingTracker = promiseTracker();
+        var self = this;
 
         scope.changePhoto = function() {
           var fileInput = document.createElement('input');
           fileInput.type = 'file';
           fileInput.accept = "image/*";
 
-          fileInput.onchange = () => uploadPhoto(fileInput.files[0]);
+          fileInput.onchange = function() {
+
+            var reader = new FileReader();
+            var file = fileInput.files[0];
+
+            reader.onload = function(event) {
+              var image = new Image();
+              image.onload = function() {
+                if (image.width != image.height || image.width < 160) {
+                  new notification.Error("Изображение должно быть квадратом, размер 160x160 или больше");
+                } else {
+                  uploadPhoto(file);
+                }
+              };
+              image.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+
+          };
           fileInput.click();
         };
 
 
         function uploadPhoto(file) {
-          // todo progress indication
+
           var formData = new FormData();
           formData.append("photo", file);
 

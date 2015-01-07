@@ -33,7 +33,8 @@ module.exports = new VkontakteStrategy({
       {value: oauthResponse.email}
     ];
 
-    //console.log(profile);
+    // vkontakte assumes this to be a real name
+    profile.realName = profile.displayName;
 
     authenticateByProfile(req, profile, done);
   }
