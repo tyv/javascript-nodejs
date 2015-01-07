@@ -39,6 +39,8 @@ exports.del = function*(next) {
     user.softDelete(callback);
   };
 
+  this.logout();
+
   this.body = {
     deleted: true,
     modified: user.modified
@@ -125,7 +127,7 @@ exports.patch = function*(next) {
     var isOccupied = yield User.findOne({email: fields.email}).exec();
 
     if (isOccupied) {
-      this.throw(400, "Такой email используется другим пользователем.");
+      this.throw(409, "Такой email используется другим пользователем.");
     }
 
     user.pendingVerifyEmail = fields.email;
@@ -144,7 +146,6 @@ exports.patch = function*(next) {
   }
 
   if (fields.password) {
-    console.log(user);
     if (user.passwordHash && !user.checkPassword(fields.passwordOld)) {
       this.throw(400, "Старый пароль неверен.");
     }

@@ -5,7 +5,6 @@ const fse = require('fs-extra');
 const path = require('path');
 const config = require('config');
 const mongoose = require('lib/mongoose');
-const crypto = require('crypto');
 
 require('lib/requireJade');
 
@@ -13,6 +12,8 @@ const Article = require('tutorial').Article;
 const Reference = require('tutorial').Reference;
 const Plunk = require('plunk').Plunk;
 const Task = require('tutorial').Task;
+const ArticleRenderer = require('../renderer/articleRenderer');
+const TaskRenderer = require('../renderer/taskRenderer');
 const BodyParser = require('simpledownParser').BodyParser;
 const TreeWalkerSync = require('simpledownParser').TreeWalkerSync;
 const HeaderTag = require('simpledownParser').HeaderTag;
@@ -63,6 +64,25 @@ Importer.prototype.sync = function* (directory) {
 
   yield* this['sync' + type](dir, parent);
 
+};
+
+/**
+ * Call this after all import is complete to generate caches/searches for ElasticSearch to consume
+ */
+Importer.prototype.generateCaches = function*() {
+  var articles = yield Article.find({}).exec();
+
+  for (var i = 0; i < articles.length; i++) {
+    var article = articles[i];
+    yield* (new ArticleRenderer()).renderWithCache(article);
+  }
+
+  var tasks = yield Task.find({}).exec();
+
+  for (var i = 0; i < tasks.length; i++) {
+    var task = tasks[i];
+    yield* (new TaskRenderer()).renderWithCache(task);
+  }
 };
 
 Importer.prototype.extractHeader = function(parsed) {
@@ -136,7 +156,6 @@ Importer.prototype.syncFolder = function*(sourceFolderPath, parent) {
 
   const folder = new Article(data);
   yield folder.persist();
-  this.onchange(folder.getUrl());
 
   const subPaths = fs.readdirSync(sourceFolderPath);
 
@@ -153,6 +172,8 @@ Importer.prototype.syncFolder = function*(sourceFolderPath, parent) {
       yield* this.syncResource(subPath, folder.getResourceFsRoot());
     }
   }
+
+  this.onchange(folder.getUrl());
 
 };
 
@@ -197,7 +218,6 @@ Importer.prototype.syncArticle = function* (articlePath, parent) {
   // delete old article & insert the new one & insert refs
   const article = new Article(data);
   yield article.persist();
-  this.onchange(article.getUrl());
 
   const refs = options.metadata.refs.toArray();
   const refThunks = refs.map(function(anchor) {
@@ -232,6 +252,9 @@ Importer.prototype.syncArticle = function* (articlePath, parent) {
     }
 
   }
+
+  this.onchange(article.getUrl());
+
 };
 
 
@@ -347,8 +370,6 @@ Importer.prototype.syncTask = function*(taskPath, parent) {
   const task = new Task(data);
   yield task.persist();
 
-  this.onchange(task.getUrl());
-
   const subPaths = fs.readdirSync(taskPath);
 
   for (var i = 0; i < subPaths.length; i++) {
@@ -367,6 +388,8 @@ Importer.prototype.syncTask = function*(taskPath, parent) {
   if (fs.existsSync(path.join(taskPath, '_js.view'))) {
     yield* this.syncTaskJs(path.join(taskPath, '_js.view'), task);
   }
+
+  this.onchange(task.getUrl());
 
 };
 

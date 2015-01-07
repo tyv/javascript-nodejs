@@ -30,6 +30,8 @@ module.exports = function(options) {
         yield* importer.sync(path.join(root, subRoot));
       }
 
+      yield* importer.generateCaches();
+
       console.log("DONE");
 
     });

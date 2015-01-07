@@ -6,6 +6,7 @@ const config = require('config');
 const path = require('path');
 const Reference = require('./reference');
 const Task = require('./task');
+const html2search = require('search').html2search;
 
 const schema = new Schema({
   title: {
@@ -36,6 +37,12 @@ const schema = new Schema({
     required: true
   },
 
+  rendered: {
+    type: {}
+  },
+
+  search: String,
+
   isFolder: {
     type:     Boolean,
     required: true
@@ -61,6 +68,7 @@ schema.statics.getUrlBySlug = function(slug) {
 schema.methods.getResourceFsRoot = function() {
   return schema.statics.getResourceFsRootBySlug(this.get('slug'));
 };
+
 
 schema.methods.getResourceWebRoot = function() {
   return schema.statics.getResourceWebRootBySlug(this.get('slug'));
@@ -95,13 +103,16 @@ schema.statics.destroyTree = function* (condition) {
  * Returns {children: [whole article tree]} with nested children
  * @returns {{children: Array}}
  */
-schema.statics.findTree = function* () {
+schema.statics.findTree = function* (options) {
   const Article = this;
-  var articles = yield Article.find({}).sort({weight: 1}).select('parent slug title weight isFolder').lean().exec();
+  options = options || {};
+
+  var query = options.query || Article.find({}).sort({weight: 1}).select('parent slug title weight isFolder').lean();
+  var articles = yield query.exec();
 
   // arrange by ids
   var articlesById = {};
-  for (var i=0; i<articles.length; i++) {
+  for (var i = 0; i < articles.length; i++) {
     var article = articles[i];
     article._id = article._id.toString();
     articlesById[article._id] = article;
@@ -115,7 +126,7 @@ schema.statics.findTree = function* () {
 
   return {
     children: root,
-    byId: function(id) {
+    byId:     function(id) {
       if (!id) return undefined;
       return articlesById[id.toString()];
     },
@@ -182,7 +193,12 @@ schema.pre('remove', function(next) {
   Task.remove({parent: this._id}, next);
 });
 
-
+schema.pre('save', function(next) {
+  if (this.rendered) {
+    this.search = html2search(this.rendered.content);
+  }
+  next();
+});
 
 
 schema.plugin(troop.timestamp);

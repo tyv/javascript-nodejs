@@ -97,7 +97,32 @@
 	&__nav_next &__nav-text::before
 		@extend $font-angle-right
 
-	@media tablet
+
+	&_ebook
+		.page__inner
+			padding 0
+
+		.code-example
+
+			.line-numbers-rows
+				display none
+
+			pre.line-numbers
+				padding-left 10px
+
+			pre[class*="language-"], code[class*="language-"]
+				font 8px/10px fixed_width_font !important
+
+		// mark all external links
+		// [javascript.ru, nightly.javascript.ru, javascript.info] are internal
+		a[href*='://']:not([href*='javascript.'])::after
+			vertical-align super
+			font-size 90%
+			// fixme: use icon
+			content: '[→]'
+			color black
+
+@media tablet
 		&,
 		&_sidebar_on
 			padding 0

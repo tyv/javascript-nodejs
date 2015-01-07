@@ -33,7 +33,7 @@ module.exports = new VkontakteStrategy({
       {value: oauthResponse.email}
     ];
 
-    console.log(profile);
+    //console.log(profile);
 
     authenticateByProfile(req, profile, done);
   }

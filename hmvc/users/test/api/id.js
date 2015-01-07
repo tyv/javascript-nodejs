@@ -28,6 +28,7 @@ describe('Authorization', function() {
       request(server)
         .patch('/users/me')
         .set('X-Test-User-Id', fixtures.User[0]._id)
+        .set('Accept', 'application/json')
         .field('displayName', 'test') // will send as multipart
         .end(function(err, res) {
           res.body.displayName.should.exist;
@@ -39,6 +40,7 @@ describe('Authorization', function() {
       request(server)
         .patch('/users/me')
         .set('X-Test-User-Id', fixtures.User[0]._id)
+        .set('Accept', 'application/json')
         .attach('photo', path.join(__dirname, 'me.jpg'))
         .end(function(err, res) {
           if (err) return done(err);
@@ -51,11 +53,13 @@ describe('Authorization', function() {
       request(server)
         .patch('/users/me')
         .set('X-Test-User-Id', fixtures.User[0]._id)
+        .set('Accept', 'application/json')
         .field('displayName', '')
         .field('email', Math.random() + "@mail.com")
         .field('gender', 'invalid')
         .end(function(err, res) {
           if (err) return done(err);
+          console.log(res.body);
           res.body.errors.displayName.should.exist;
           res.body.errors.gender.should.exist;
           done();
@@ -63,19 +67,22 @@ describe('Authorization', function() {
     });
 
 
-    it('returns a single error if an unique field is duplicated', function(done) {
+    it('returns a single error if an email is duplicated', function(done) {
 
       request(server)
         .patch('/users/me')
         .set('X-Test-User-Id', fixtures.User[0]._id)
+        .set('Accept', 'application/json')
         .field('displayName', "Such mail belongs to another user")
         .field('email', "tester@mail.com")
         .field('gender', "male")
         .end(function(err, res) {
+
           if (err) return done(err);
-          should(res.body.errors.displayName).not.exist;
-          should(res.body.errors.gender).not.exist;
-          res.body.errors.email.should.exist;
+
+          res.status.should.eql(409);
+          should(res.body.errors).not.exist;
+          res.body.message.should.exist;
           done();
         });
     });

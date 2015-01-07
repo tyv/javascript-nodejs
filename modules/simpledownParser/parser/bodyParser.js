@@ -210,7 +210,7 @@ BodyParser.prototype.parseHeader = function(token) {
   }
 
   // Проверить якорь, при необходимости добавить anchor-1, anchor-2
-  var anchor = token.anchor || makeAnchor(titleHtml);
+  var anchor = token.anchor || makeAnchor(titleHtml, this.options.translitAnchors);
 
   var headersAnchorMap = this.options.metadata.headersAnchorMap;
 

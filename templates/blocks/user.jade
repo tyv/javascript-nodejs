@@ -3,5 +3,5 @@
   //- и никуда не ведет. Если предполагается функциональность ссылки
   //- потребуются минимальные доработки
   +e('button').user(title=user.displayName, onclick="document.querySelector('.sitetoolbar').classList.toggle('sitetoolbar_user_open')")
-    +e('img').userpic(src=user.getPhotoUrl('t'), alt=user.displayName, width="36", height="36")
+    +e('img').userpic(src=user.getPhotoUrl(36,36), alt=user.displayName, width="36", height="36")
     +e('span').user-text= user.displayName

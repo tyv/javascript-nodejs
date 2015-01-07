@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const config = require('config');
 const BodyParser = require('simpledownParser').BodyParser;
-const ServerHtmlTransformer = require('parser/serverHtmlTransformer');
+const ServerHtmlTransformer = require('serverHtmlTransformer');
 
 // Порядок библиотек на странице
 // - встроенный CSS
@@ -90,22 +90,35 @@ ArticleRenderer.prototype._libsToJsCss = function(libs) {
   };
 };
 
-
-ArticleRenderer.prototype.render = function* (article) {
-  const options = {
-    metadata:        this.metadata,
-    trusted:         true
-  };
+/**
+ * Render, gather metadata to the renderer object
+ * @param article
+ * @param options
+ * options.noStripTitle disables stripping of the first header
+ * options.headerLevelShift shifts all headers (to render in ebook as a subchapter0
+ * @returns {{content: *, headers: *, head: *, foot: *}}
+ */
+ArticleRenderer.prototype.render = function* (article, options) {
+  options = Object.create(options || {});
+  options.metadata = this.metadata;
+  options.trusted = true;
+  if (options.linkHeaderTag === undefined) options.linkHeaderTag = true;
 
   // shift off the title header
   const node = new BodyParser(article.content, options).parseAndWrap();
 
-  node.removeChild(node.getChild(0));
+  if (!options.noStripTitle) {
+    node.removeChild(node.getChild(0));
+  }
 
   this.headers = [];
 
   node.getChildren().forEach(function(child) {
     if (child.getType() != 'HeaderTag') return;
+
+    if (options.headerLevelShift) {
+      child.level += options.headerLevelShift;
+    }
 
     this.headers.push({
       level: child.level,
@@ -118,10 +131,39 @@ ArticleRenderer.prototype.render = function* (article) {
   const transformer = new ServerHtmlTransformer({
     staticHost:      config.server.staticHost,
     resourceWebRoot: article.getResourceWebRoot(),
-    linkHeaderTag: true
+    linkHeaderTag: options.linkHeaderTag
   });
 
-  return yield transformer.transform(node, true);
+  this.content = yield* transformer.transform(node, true);
+
+  return {
+    content: this.content,
+    headers: this.headers,
+    head:    this.getHead(),
+    foot:    this.getFoot()
+  };
+};
+
+/**
+ * Render with cache
+ * @param article
+ * @param options Add refreshCache: true not to use the cached value
+ * @returns {*}
+ */
+ArticleRenderer.prototype.renderWithCache = function*(article, options) {
+  options = options || {};
+
+  var useCache = !options.refreshCache && config.renderedCacheEnabled;
+
+  if (article.rendered && useCache) return article.rendered;
+
+  var rendered = yield* this.render(article);
+
+  article.rendered = rendered;
+
+  yield article.persist();
+
+  return rendered;
 };
 
 

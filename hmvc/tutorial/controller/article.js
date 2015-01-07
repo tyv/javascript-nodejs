@@ -9,13 +9,10 @@ const makeAnchor = require('textUtil/makeAnchor');
 
 exports.get = function *get(next) {
 
-  var renderedArticle = yield CacheEntry.getOrGenerate({
-    key:  'article:rendered:' + this.params.slug,
-    tags: ['article']
-  }, _.partial(renderArticle, this.params.slug));
+  var renderedArticle = yield* renderArticle(this.params.slug);
 
   if (!renderedArticle) {
-    yield next;
+    yield* next;
     return;
   }
 
@@ -86,12 +83,6 @@ exports.get = function *get(next) {
     sections: sections
   };
 
-
-
-  // we don't need it, but didn't test
-//  _.assign(this.locals, locals);
-
-  // requireJade("./article")
   this.body = this.render(renderedArticle.isFolder ? "folder" : "article", locals);
 
 };
@@ -107,19 +98,14 @@ exports.get = function *get(next) {
 // siblings
 function* renderArticle(slug) {
 
-  var rendered = {};
   const article = yield Article.findOne({ slug: slug }).exec();
   if (!article) {
     return null;
   }
 
-  const renderer = new ArticleRenderer();
+  var renderer = new ArticleRenderer();
 
-  rendered.body = yield renderer.render(article);
-
-  rendered.headers = renderer.headers;
-  rendered.head = renderer.getHead();
-  rendered.foot = renderer.getFoot();
+  var rendered = yield* renderer.renderWithCache(article);
 
   rendered.isFolder = article.isFolder;
   rendered.modified = article.modified;
@@ -222,19 +208,20 @@ function* renderArticle(slug) {
 
     const taskRenderer = new TaskRenderer();
 
+
     rendered.tasks = [];
 
     for (var i = 0; i < tasks.length; i++) {
       var task = tasks[i];
 
-
+      var taskRendered = yield* taskRenderer.renderWithCache(task);
       rendered.tasks.push({
         url: task.getUrl(),
         title: task.title,
         anchor: makeAnchor(task.title),
         importance: task.importance,
-        content: yield* taskRenderer.renderContent(task),
-        solution: yield* taskRenderer.renderSolution(task)
+        content: taskRendered.content,
+        solution: taskRendered.solution
       });
 
     }

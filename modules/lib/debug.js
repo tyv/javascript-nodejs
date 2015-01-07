@@ -35,3 +35,10 @@ if (process.env.DEBUG_ERROR) {
   };
 
 }
+
+if (process.env.DEBUG_CONSOLE) {
+  // find where console.log is called from
+  console.log = function() {
+    require('fs').writeSync(1, new Error().stack.toString())
+  };
+}
