@@ -1,6 +1,6 @@
 var User = require('users').User;
 const FacebookStrategy = require('passport-facebook').Strategy;
-const authenticateByProfile = require('./../lib/authenticateByProfile');
+const authenticateByProfile = require('../lib/authenticateByProfile');
 const config = require('config');
 const request = require('koa-request');
 const co = require('co');
@@ -102,7 +102,11 @@ module.exports = new FacebookStrategy({
         type: photoData.is_silhouette ? 'default' : 'photo'
       }];
 
+      profile.realName = profile._json.name;
+
     }).then(function() {
+
+      console.log(profile);
       authenticateByProfile(req, profile, done);
     }, function(err) {
       if (err instanceof UserAuthError) {

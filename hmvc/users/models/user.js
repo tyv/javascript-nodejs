@@ -85,7 +85,7 @@ var UserSchema = new mongoose.Schema({
   },
 
   // we store all verified emails of the user for the history & account restoration issues
-  verifiedEmailsHistory: [{date: Date, email: String}],
+  verifiedEmailsHistory:     [{date: Date, email: String}],
 
   // new not-yet-verified email, set on change attempt
   pendingVerifyEmail:        String,
@@ -207,9 +207,12 @@ UserSchema.methods.getPhotoUrl = function(width, height) {
   var url = this.deleted ? User.photoDeleted :
     !this.photo ? User.photoDefault : this.photo.link;
 
-  var modifier = (width < 320 && height < 320) ? 't' :
-    (width < 640 && height < 640) ? 'm' :
-      (width < 1280 && height < 1280) ? 'l' : '';
+  // I don't resize to square, because it breaks background
+  // @see http://i.imgur.com/zSGftLcs.png
+  var modifier = (width <= 80 && height < 80) ? 't' :
+    (width <= 160 && height <= 160) ? 'm' :
+      (width <= 320 && height <= 320) ? 'i' :
+        (width <= 512 && height <= 512) ? 'h' : '';
 
   return url.slice(0, url.lastIndexOf('.')) + modifier + url.slice(url.lastIndexOf('.'));
 

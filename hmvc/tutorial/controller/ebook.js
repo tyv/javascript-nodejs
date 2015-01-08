@@ -49,7 +49,6 @@ exports.get = function *get(next) {
         var children2 = child.children || [];
         for (var j = 0; j < children2.length; j++) {
           var subChild = children2[j];
-          console.log("render j=", j, subChild.title);
 
           var renderedSubChild = yield* renderArticle(renderer, subChild, 2, true);
 
@@ -70,7 +69,7 @@ exports.get = function *get(next) {
   locals.head = renderer.getHead();
   locals.foot = renderer.getFoot();
 
-  console.log(require('util').inspect(locals, {depth: 7}));
+  //console.log(require('util').inspect(locals, {depth: 7}));
 
   this.body = this.render("ebook", locals);
 

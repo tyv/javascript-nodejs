@@ -49,7 +49,6 @@ function* renderTutorial() {
   for (var i = 0; i < result.more.children.length; i++) {
     var child = result.more.children[i];
     yield* populateContent(child);
-    console.log(child);
   }
 
   return result;

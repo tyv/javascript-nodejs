@@ -42,7 +42,7 @@ document.documentElement.addEventListener('wheel', function(event) {
       if ((target.scrollTop > 0 && event.deltaY < 0) ||
         (event.deltaY > 0 && target.clientHeight + target.scrollTop < target.scrollHeight)) {
         // yes, can scroll, let it go...
-        console.log("can scroll");
+        //console.log("can scroll");
         return;
       }
     }
