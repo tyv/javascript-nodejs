@@ -52,7 +52,8 @@ function makeParagraphs(html) {
 
   html = html.replace(new RegExp('<p>\\s*(</?' + NO_WRAP_TAGS_REG.source + ATTRS_REG.source + '>)', 'gim'), "$1");
 
-  reg = new RegExp('(</?' + NO_WRAP_TAGS_REG.source + '>)\\s*</p>', 'gim');
+  // removes </p> from both </ul></p> and <ul class="..."></p>
+  reg = new RegExp('(</?' + NO_WRAP_TAGS_REG.source + ATTRS_REG.source  + '>)\\s*</p>', 'gim');
 
   html = html.replace(reg, "$1");
 
