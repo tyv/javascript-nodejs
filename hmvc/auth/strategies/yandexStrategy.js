@@ -36,6 +36,9 @@ module.exports = new YandexStrategy({
     passReqToCallback: true
   },
   function(req, accessToken, refreshToken, profile, done) {
+    /* jshint -W106 */
+    profile.realName = profile._json.real_name;
+
     authenticateByProfile(req, profile, done);
   }
 );

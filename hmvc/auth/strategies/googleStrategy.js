@@ -54,6 +54,8 @@ module.exports = new GoogleStrategy({
   },
   function(req, token, tokenSecret, profile, done) {
 
+    profile.realName = profile._json.nickname;
+
     authenticateByProfile(req, profile, done);
   }
 );

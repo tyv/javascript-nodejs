@@ -2,10 +2,16 @@ var contextTypography = require('../../typography/contextTypography');
 
 describe("contextTypography", function() {
 
-  it("doesn't wrap table tags & headers & lists & in p", function() {
-    var table = '<h1>test</h1><ul>1</ul><table><thead><tr><td>1</td></tr></thead><tbody><tr><td>2</td></tr></tbody><tfoot><tr><td>3</td></tr></tfoot></table>';
+  it("doesn't wrap table tags & headers in p", function() {
+    var table = '<h1>test</h1>\n<table>\n<thead>\n<tr>\n  <td>\n1\n</td>\n</tr>\n</thead>\n<tbody>\n<tr>\n  <td\n>2</td>\n</tr>\n</tbody>\n<tfoot>\n<tr>\n<td>\n3\n</td>\n</tr>\n</tfoot>\n</table>';
 
-    contextTypography(table).replace(/\n/g, '').should.be.eql("<h1>test</h1><ul>1</ul><table><thead><tr><td>1</td></tr></thead><tbody><tr><td>2</td></tr></tbody><tfoot><tr><td>3</td></tr></tfoot></table>");
+    contextTypography(table).replace(/\n/g, '').should.be.eql("<h1>test</h1><table><thead><tr><td>1</td></tr></thead><tbody><tr><td>2</td></tr></tbody><tfoot><tr><td>3</td></tr></tfoot></table>");
+  });
+
+  it("doesn't wrap ul/li lists with attrs in p", function() {
+    var list = '<ul class="test">\n<li class="me">\n1\n</li>\n</ul>';
+
+    contextTypography(list).replace(/\n/g, '').should.be.eql("<ul class=\"test\"><li class=\"me\">1</li></ul>");
   });
 
   it("no context typography inside pre or script", function() {

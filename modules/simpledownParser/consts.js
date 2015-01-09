@@ -12,7 +12,7 @@ var SAFE_TAGS = "a abbr acronym address em i b strong u strike cite blockquote c
 var SAFE_TAGS_SET = arrToObj(SAFE_TAGS);
 
 // Теги, которые не нужно оборачивать в <p>
-var NO_WRAP_TAGS = "h1 h2 h3 h4 h5 h6 hgroup ol ul li dl dd dt p div blockquote pre br hr canvas table td tr th tbody tfoot caption figure audio canvas embed iframe form fieldset script style object".split(" ");
+var NO_WRAP_TAGS = "h1 h2 h3 h4 h5 h6 hgroup ol ul li dl dd dt p div blockquote pre br hr canvas table td tr th tbody thead tfoot caption figure audio canvas embed iframe form fieldset script style object".split(" ");
 var NO_WRAP_TAGS_SET = arrToObj(NO_WRAP_TAGS);
 
 var NO_WRAP_TAGS_REG = new RegExp('(?:' + NO_WRAP_TAGS.join('|') + ')', 'gim');

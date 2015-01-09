@@ -229,6 +229,11 @@ describe("BodyLexer", function() {
       this.test.lexer.isEof().should.be.true;
     });
 
+    it('**1**', function() {
+      this.test.lexer.consumeBold().should.be.eql({type: 'bold', body: '1'});
+      this.test.lexer.isEof().should.be.true;
+    });
+
 
     it("'**' (**)", function() {
       while (!this.test.lexer.isEof()) {

@@ -32,6 +32,7 @@ function Importer(options) {
 
 Importer.prototype.sync = function* (directory) {
 
+  log.info("sync", directory);
   var dir = fs.realpathSync(directory);
   var type;
   while (true) {
@@ -405,19 +406,24 @@ Importer.prototype.syncView = function*(dir, parent) {
   log.debug("syncView", webPath);
   var plunk = yield Plunk.findOne({webPath: webPath}).exec();
 
-  if (!plunk) {
+  if (plunk) {
+    log.debug("Plunk from db", plunk);
+  } else {
     plunk = new Plunk({
       webPath:     webPath,
       description: "Fork from http://javascript.ru"
     });
+    log.debug("Created new plunk (db empty)", plunk);
   }
 
-  //log.debug("Plunk from db", plunk);
-
   var filesForPlunk = require('plunk').readFs(dir);
+  log.debug("Files for plunk", filesForPlunk);
 
   if (!filesForPlunk) return; // had errors
+
   yield* plunk.mergeAndSyncRemote(filesForPlunk);
+
+  log.debug("Plunk merged");
 
   var dst = path.join(parent.getResourceFsRoot(), pathName);
 
@@ -467,7 +473,7 @@ Importer.prototype.syncTaskJs = function*(jsPath, task) {
   var filesForPlunk = {
     'index.html': {
       content:  source,
-        filename: 'index.html'
+      filename: 'index.html'
     },
     'test.js':    !testJs ? null : {
       content:  testJs.trim(),
@@ -539,7 +545,6 @@ function makeSolution(solutionJs, testJs) {
 
   return solution;
 }
-
 
 
 function checkSameSizeFiles(filePath1, filePath2) {
