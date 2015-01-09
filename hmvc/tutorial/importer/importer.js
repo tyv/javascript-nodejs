@@ -473,7 +473,7 @@ Importer.prototype.syncTaskJs = function*(jsPath, task) {
   var filesForPlunk = {
     'index.html': {
       content:  source,
-        filename: 'index.html'
+      filename: 'index.html'
     },
     'test.js':    !testJs ? null : {
       content:  testJs.trim(),
@@ -545,7 +545,6 @@ function makeSolution(solutionJs, testJs) {
 
   return solution;
 }
-
 
 
 function checkSameSizeFiles(filePath1, filePath2) {
