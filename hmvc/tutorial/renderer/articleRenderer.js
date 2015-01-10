@@ -131,7 +131,8 @@ ArticleRenderer.prototype.render = function* (article, options) {
   const transformer = new ServerHtmlTransformer({
     staticHost:      config.server.staticHost,
     resourceWebRoot: article.getResourceWebRoot(),
-    linkHeaderTag: options.linkHeaderTag
+    linkHeaderTag: options.linkHeaderTag,
+    isEbook: options.isEbook
   });
 
   this.content = yield* transformer.transform(node, true);

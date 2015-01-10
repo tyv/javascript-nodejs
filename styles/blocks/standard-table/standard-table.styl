@@ -3,37 +3,40 @@
 	border-collapse collapse
 	font-size 13px
 	margin 30px 0
-	
+
 	tbody
 		border 0
-	
+
 	tr
 		border-bottom 1px solid #ccc
 
-	tr:first-child th
-		border-bottom 3px solid #CCC
-		vertical-align bottom
-	
 	th
 		text-align left
 
 	th,
 	td
 		padding 2px 1em 2px 5px
-	
+
 	tr:nth-child(even)
 		background #f9f9f9
 
 	code
 		font-weight inherit
 
+.main table:not(.bordered)
+
+	tr:first-child th
+		border-bottom 3px solid #CCC
+		vertical-align bottom
+
+
 .main table.bordered
-	td,
-	th
+	td
 		border solid #ccc
 		border-width 0 1px
 
 	th
+		border solid #ccc
 		border-width 0 0 1px
 
 @media (min-width: largescreen)

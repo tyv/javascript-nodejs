@@ -6,4 +6,4 @@
 
 #/Applications/calibre.app/Contents/MacOS/ebook-convert ~/Downloads/2.html 2.epub --embed-all-fonts --epub-inline-toc --level1-toc '//h2' --level2-toc '//h3' -vv
 #/Applications/calibre.app/Contents/MacOS/ebook-convert ~/Downloads/3.html 3.pdf --embed-all-fonts --max-toc-links 0 --level1-toc '//h:h2' --level2-toc '//h:h3' --level3-toc '//h:h4' -vv
-/Applications/calibre.app/Contents/MacOS/ebook-convert ~/Downloads/3.html 3.epub --embed-all-fonts --max-toc-links 0 --level1-toc '//h:h2' --level2-toc '//h:h3' --level3-toc '//h:h4' -vv
+/Applications/calibre.app/Contents/MacOS/ebook-convert ~/Downloads/3.html 3.epub --extra-css=/js/javascript-nodejs/public/styles/base.css --embed-all-fonts --max-toc-links 0 --level1-toc '//h:h2' --level2-toc '//h:h3' --level3-toc '//h:h4' -vv
