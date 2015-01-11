@@ -9,9 +9,6 @@
 *~
 *.sass-cache
 
-# temporary archives
-*.zip
-
 # OS or Editor folders
 .DS_Store
 .idea
