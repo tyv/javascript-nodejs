@@ -1,8 +1,9 @@
 const HeaderTag = require('simpledownParser').HeaderTag;
 const BodyParser = require('simpledownParser').BodyParser;
-const ServerHtmlTransformer = require('parser/serverHtmlTransformer');
+const ServerHtmlTransformer = require('serverHtmlTransformer');
 const CompositeTag = require('simpledownParser').CompositeTag;
 const config = require('config');
+const Plunk = require('plunk').Plunk;
 
 /**
  * Can render many articles, keeping metadata
@@ -12,53 +13,111 @@ function TaskRenderer() {
   this.metadata = {};
 }
 
-TaskRenderer.prototype.renderContent = function* (task) {
+TaskRenderer.prototype.renderContent = function* (task, options) {
 
-  const options = {
-    metadata:          this.metadata,
-    trusted:           true
-  };
+  options = Object.create(options);
+  options.metadata = this.metadata;
+  options.trusted = true;
 
   const node = new BodyParser(task.content, options).parseAndWrap();
 
   node.removeChild(node.getChild(0));
 
   const transformer = new ServerHtmlTransformer({
-    resourceWebRoot:   task.getResourceWebRoot(),
-    staticHost:        config.server.staticHost
+    resourceWebRoot: task.getResourceWebRoot(),
+    staticHost:      config.server.staticHost,
+    isEbook:         options.isEbook
   });
 
-  return yield transformer.transform(node, true);
+  var content = yield* transformer.transform(node, true);
+
+  content = yield* this.addContentPlunkLink(task, content);
+  return content;
 };
 
 
-TaskRenderer.prototype.renderSolution = function* (task) {
+TaskRenderer.prototype.addContentPlunkLink = function*(task, content) {
 
-  const options = {
-    metadata:        this.metadata,
-    trusted:         true
+
+  var sourcePlunk = yield Plunk.findOne({webPath: task.getResourceWebRoot() + '/source'}).exec();
+
+  if (sourcePlunk) {
+
+    var hasTest = sourcePlunk.files.toObject().find(function(item) {
+      return item.filename == 'test.js';
+    });
+
+    var title = hasTest ?
+      'Открыть песочницу с тестами для задачи.' :
+      'Открыть песочницу для задачи.';
+
+
+    content += '<a href="' + sourcePlunk.getUrl() + '" data-plunk-id="' + sourcePlunk.plunkId + '">' + title + '</a>';
+  }
+
+  return content;
+};
+
+TaskRenderer.prototype.render = function*(task, options) {
+
+  this.content = yield* this.renderContent(task, options);
+  this.solution = yield* this.renderSolution(task, options);
+
+  return {
+    content:  this.content,
+    solution: this.solution
   };
+};
+
+TaskRenderer.prototype.renderWithCache = function*(task, options) {
+  options = options || {};
+
+  var useCache = !options.refreshCache && config.renderedCacheEnabled;
+
+  if (task.rendered && useCache) return task.rendered;
+
+  var rendered = yield* this.render(task, options);
+
+  task.rendered = rendered;
+
+  yield task.persist();
+
+  return rendered;
+};
+
+
+TaskRenderer.prototype.renderSolution = function* (task, options) {
+
+  options = Object.create(options);
+  options.metadata = this.metadata;
+  options.trusted = true;
 
   const node = new BodyParser(task.solution, options).parseAndWrap();
 
   var children = node.getChildren();
 
   const transformer = new ServerHtmlTransformer({
-    resourceWebRoot:   task.getResourceWebRoot(),
-    staticHost:        config.server.staticHost
+    resourceWebRoot: task.getResourceWebRoot(),
+    staticHost:      config.server.staticHost,
+    isEbook:         options.isEbook
   });
 
   const solutionParts = [];
+
+// if no #header at start
+// no parts, single solution
   if (!(children[0] instanceof HeaderTag)) {
-    return yield* transformer.transform(node, true);
+    var solution = yield* transformer.transform(node, true);
+    solution = yield* this.addSolutionPlunkLink(task, solution);
+    return solution;
   }
 
-  // split into parts
+// otherwise, split into parts
   var currentPart;
   for (var i = 0; i < children.length; i++) {
     var child = children[i];
     if (child instanceof HeaderTag) {
-      currentPart = { title: yield transformer.transform(child, true), content: [] };
+      currentPart = {title: stripTags(yield transformer.transform(child, true)), content: []};
       solutionParts.push(currentPart);
       continue;
     }
@@ -73,8 +132,35 @@ TaskRenderer.prototype.renderSolution = function* (task) {
     part.content = yield* transformer.transform(child, true);
   }
 
+  var solutionPartLast = solutionParts[solutionParts.length - 1];
+  solutionParts[solutionParts.length - 1].content = yield* this.addSolutionPlunkLink(task, solutionPartLast.content);
+
   return solutionParts;
+}
+;
+
+TaskRenderer.prototype.addSolutionPlunkLink = function*(task, solution) {
+
+  var solutionPlunk = yield Plunk.findOne({webPath: task.getResourceWebRoot() + '/solution'}).exec();
+
+  if (solutionPlunk) {
+    var hasTest = solutionPlunk.files.toObject().find(function(item) {
+      return item.filename == 'test.js';
+    });
+
+    var title = hasTest ?
+      'Открыть решение с тестами в песочнице.' :
+      'Открыть решение в песочнице';
+
+    solution += '<a href="' + solutionPlunk.getUrl() + '" data-plunk-id="' + solutionPlunk.plunkId + '">' + title + '</a>';
+
+  }
+
+  return solution;
 };
 
+function stripTags(text) {
+  return text.replace(/<\/?[a-z].*?>/gim, '');
+}
 
 module.exports = TaskRenderer;

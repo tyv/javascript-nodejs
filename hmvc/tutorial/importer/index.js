@@ -12,7 +12,7 @@ module.exports = function(root) {
     var importer = new Importer({
       root: root,
       onchange: function(path) {
-        console.log(path);
+        console.log("onchange", path);
         livereload.changed(path);
       }
     });

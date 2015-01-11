@@ -23,11 +23,13 @@ lessons-list-separator = 1px solid #ede8e0
 		padding 16px 20px 14px 55px
 		border-bottom lessons-list-separator
 
-	&__lesson_level_2
-		display none
+	&__lessons &__lessons
+		transition max-height 200ms
+		max-height 0
+		overflow hidden
 
-	&__lesson_open 	&__lesson_level_2
-		display block
+	&__lesson_open 	&__lessons
+		max-height 1500px
 
 	&__lesson:last-child
 		border 0

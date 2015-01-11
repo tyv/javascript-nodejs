@@ -4,6 +4,7 @@ var co = require('co');
 var fs = require('fs');
 var path = require('path');
 var livereload = require('gulp-livereload');
+const log = require('log')();
 
 module.exports = function(options) {
 
@@ -13,11 +14,18 @@ module.exports = function(options) {
     var importer = new Importer({
       root:     root,
       onchange: function(path) {
-        liverelpoad.changed(path);
+        log.info("livereload.change", path);
+        livereload.changed(path);
       }
     });
+
+    livereload.listen();
+
     watch(root, function(filePath, flags, id) {
+
       var relFilePath = filePath.slice(root.length + 1);
+
+      log.info("watch detected change on", filePath);
 
       co(function* () {
 

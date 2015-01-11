@@ -5,7 +5,6 @@ const fse = require('fs-extra');
 const path = require('path');
 const config = require('config');
 const mongoose = require('lib/mongoose');
-const crypto = require('crypto');
 
 require('lib/requireJade');
 
@@ -13,6 +12,8 @@ const Article = require('tutorial').Article;
 const Reference = require('tutorial').Reference;
 const Plunk = require('plunk').Plunk;
 const Task = require('tutorial').Task;
+const ArticleRenderer = require('../renderer/articleRenderer');
+const TaskRenderer = require('../renderer/taskRenderer');
 const BodyParser = require('simpledownParser').BodyParser;
 const TreeWalkerSync = require('simpledownParser').TreeWalkerSync;
 const HeaderTag = require('simpledownParser').HeaderTag;
@@ -31,6 +32,7 @@ function Importer(options) {
 
 Importer.prototype.sync = function* (directory) {
 
+  log.info("sync", directory);
   var dir = fs.realpathSync(directory);
   var type;
   while (true) {
@@ -63,6 +65,25 @@ Importer.prototype.sync = function* (directory) {
 
   yield* this['sync' + type](dir, parent);
 
+};
+
+/**
+ * Call this after all import is complete to generate caches/searches for ElasticSearch to consume
+ */
+Importer.prototype.generateCaches = function*() {
+  var articles = yield Article.find({}).exec();
+
+  for (var i = 0; i < articles.length; i++) {
+    var article = articles[i];
+    yield* (new ArticleRenderer()).renderWithCache(article);
+  }
+
+  var tasks = yield Task.find({}).exec();
+
+  for (var i = 0; i < tasks.length; i++) {
+    var task = tasks[i];
+    yield* (new TaskRenderer()).renderWithCache(task);
+  }
 };
 
 Importer.prototype.extractHeader = function(parsed) {
@@ -136,7 +157,6 @@ Importer.prototype.syncFolder = function*(sourceFolderPath, parent) {
 
   const folder = new Article(data);
   yield folder.persist();
-  this.onchange(folder.getUrl());
 
   const subPaths = fs.readdirSync(sourceFolderPath);
 
@@ -153,6 +173,8 @@ Importer.prototype.syncFolder = function*(sourceFolderPath, parent) {
       yield* this.syncResource(subPath, folder.getResourceFsRoot());
     }
   }
+
+  this.onchange(folder.getUrl());
 
 };
 
@@ -197,7 +219,6 @@ Importer.prototype.syncArticle = function* (articlePath, parent) {
   // delete old article & insert the new one & insert refs
   const article = new Article(data);
   yield article.persist();
-  this.onchange(article.getUrl());
 
   const refs = options.metadata.refs.toArray();
   const refThunks = refs.map(function(anchor) {
@@ -232,6 +253,9 @@ Importer.prototype.syncArticle = function* (articlePath, parent) {
     }
 
   }
+
+  this.onchange(article.getUrl());
+
 };
 
 
@@ -347,8 +371,6 @@ Importer.prototype.syncTask = function*(taskPath, parent) {
   const task = new Task(data);
   yield task.persist();
 
-  this.onchange(task.getUrl());
-
   const subPaths = fs.readdirSync(taskPath);
 
   for (var i = 0; i < subPaths.length; i++) {
@@ -368,6 +390,8 @@ Importer.prototype.syncTask = function*(taskPath, parent) {
     yield* this.syncTaskJs(path.join(taskPath, '_js.view'), task);
   }
 
+  this.onchange(task.getUrl());
+
 };
 
 Importer.prototype.syncView = function*(dir, parent) {
@@ -382,19 +406,24 @@ Importer.prototype.syncView = function*(dir, parent) {
   log.debug("syncView", webPath);
   var plunk = yield Plunk.findOne({webPath: webPath}).exec();
 
-  if (!plunk) {
+  if (plunk) {
+    log.debug("Plunk from db", plunk);
+  } else {
     plunk = new Plunk({
       webPath:     webPath,
       description: "Fork from http://javascript.ru"
     });
+    log.debug("Created new plunk (db empty)", plunk);
   }
 
-  //log.debug("Plunk from db", plunk);
-
   var filesForPlunk = require('plunk').readFs(dir);
+  log.debug("Files for plunk", filesForPlunk);
 
   if (!filesForPlunk) return; // had errors
+
   yield* plunk.mergeAndSyncRemote(filesForPlunk);
+
+  log.debug("Plunk merged");
 
   var dst = path.join(parent.getResourceFsRoot(), pathName);
 
@@ -444,7 +473,7 @@ Importer.prototype.syncTaskJs = function*(jsPath, task) {
   var filesForPlunk = {
     'index.html': {
       content:  source,
-        filename: 'index.html'
+      filename: 'index.html'
     },
     'test.js':    !testJs ? null : {
       content:  testJs.trim(),
@@ -516,7 +545,6 @@ function makeSolution(solutionJs, testJs) {
 
   return solution;
 }
-
 
 
 function checkSameSizeFiles(filePath1, filePath2) {

@@ -100,6 +100,10 @@ describe("BodyParser", function() {
         (format('****')).should.be.eql('<strong></strong>');
       });
 
+      it("handles single char", function() {
+        (format('*1*')).should.be.eql('<em>1</em>');
+      });
+
       it("keeps `*` '*' and (*)", function() {
         (format("`*` '*' (*)")).should.be.eql("<code>*</code> '*' (*)");
       });
@@ -119,6 +123,11 @@ describe("BodyParser", function() {
         (format('my**test** ')).should.be.eql('my**test** ');
         (format(' **test**my')).should.be.eql(' **test**my');
         (format('a ** b ** c')).should.be.eql('a <em>* b *</em> c');
+      });
+
+
+      it("handles single char", function() {
+        (format('**1**')).should.be.eql('<strong>1</strong>');
       });
 
       it("can handle both em and bold", function() {

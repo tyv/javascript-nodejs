@@ -1,0 +1,58 @@
+extends /layouts/main
+
+block variables
+  - var layout_page_class = "page_ebook"
+
+block content
+  script window.isEbook = true;
+
+  each child in children
+    != child.content
+
+    if child.tasks.length
+      +b.tasks
+        +e('h' + (2 + child.level)).title Задачи
+        each task in child.tasks
+          +b.task.__task
+            +e.header
+              +e.title-wrap
+                +e('h3').title= task.title
+              +e.header-note
+                +e('span').importance(title="Насколько эта задача важна для освоения материала, от 1 до 5") важность: #{task.importance}
+
+              +e.content
+                != task.content
+
+              a(href=('#' + task.url + '/solution')) Решение
+
+  if children[0].hasTasks
+    h2 Решения
+
+  each child in children
+    if child.hasTasks && !child.isFolder
+      h3= child.title
+
+      +b.tasks
+        each task in child.tasks
+          +b.task.__task(id=(task.url + '/solution'))
+            +e.header
+              +e.title-wrap
+                +e('h4').title= task.title
+
+              +e.content
+                if (task.solution instanceof Array)
+                  each step, i in task.solution
+                    +e.step._open
+                      +e('button').step-show(type="button", onclick="showStep(this)") !{step.title}
+                      +e.answer-content
+                        +e('h5').step-title !{step.title}
+                        != step.content
+                else
+                  +e.answer-content
+                    != task.solution
+
+  script(src=script("tutorial"))
+
+  script tutorial.init();
+
+

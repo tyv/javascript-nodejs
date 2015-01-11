@@ -50,9 +50,22 @@ schema.methods.mergeAndSyncRemote = function*(files) {
   }
 
   for (var name in files) {
-    var existingFile = this.files.find(function(item) {
+    /**
+     * This hangs dunno why, doesn't print anything, maybe v8 bug (array this.files has 1 file)
+     var existingFile = this.files.find(function(item) {
+      console.log("find", item);
       return item.filename == name;
     });
+     */
+
+    var existingFile;
+    for (var i = 0; i < this.files.length; i++) {
+      var item = this.files[i];
+      if (item.filename == name) {
+        existingFile = item;
+        break;
+      }
+    }
     if (existingFile) {
       if (existingFile.content == files[name].content) continue;
       existingFile.content = files[name].content;
@@ -65,6 +78,8 @@ schema.methods.mergeAndSyncRemote = function*(files) {
   if (_.isEmpty(changes)) {
     log.debug("no changes, skip updating");
     return;
+  } else {
+    log.debug("plunk changes", changes);
   }
 
   if (this.plunkId) {

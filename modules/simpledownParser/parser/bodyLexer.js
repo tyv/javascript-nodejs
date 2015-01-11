@@ -168,6 +168,7 @@ Lexer.prototype.consumeBold = function() {
     return null; // no match after other chars
   }
 
+  debugger
   var position = this.position + 2;
   // position is after **
 
@@ -191,7 +192,7 @@ Lexer.prototype.consumeBold = function() {
       continue;
     }
 
-    if (this.text[starPosition + 1] != '*' || starPosition == position + 1) {
+    if (this.text[starPosition + 1] != '*') {
       starPosition++;
       continue;
     }
@@ -208,7 +209,7 @@ Lexer.prototype.consumeBold = function() {
   }
 
 
-  // found the nearest star except after a space followed by another start and then not wordly char
+  // found the nearest star except after a space followed by another star and then not wordly char
   // **blabla**
   //         ^
   this.setPosition(starPosition + 2);
@@ -382,7 +383,7 @@ Lexer.prototype.consumeHeader = function() {
 
   var title = this.text.slice(titlePosition, position).trim();
   var anchor = "";
-  title = title.replace(/\[#([\w-]+)\]\s*$/, function(match, p1) {
+  title = title.replace(/\[#([.\w-]+)\]\s*$/, function(match, p1) {
     anchor = p1;
     return '';
   }).trim();

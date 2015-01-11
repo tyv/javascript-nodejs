@@ -18,7 +18,7 @@ block content
         +e.content
           +e.title-note Часть первая
           +e('h3').title= js.title
-          != js.body
+          != js.content
           +b('ul').special-links-list
             - each folder in js.children
               +e('li').item
@@ -28,7 +28,7 @@ block content
         +e.content
           +e.title-note Часть вторая
           +e('h3').title= ui.title
-          != ui.body
+          != ui.content
           +b('ul').special-links-list
             - each folder in ui.children
               +e('li').item
@@ -41,5 +41,5 @@ block content
         +e.brick
           +e('h3').brick-title
             +e('a').brick-title-link(href=folder.url)= folder.title
-          +e.brick-content!= folder.body
+          +e.brick-content!= folder.content
 

@@ -15,7 +15,7 @@ describe('User', function() {
     var user = new User({
       email: "BAD",
       displayName: "John",
-      password: "123"
+      password: "1234"
     });
 
     user.persist()(function(err) {

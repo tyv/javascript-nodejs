@@ -24,6 +24,10 @@ function* mergeProfile(user, profile) {
     user.displayName = profile.displayName;
   }
 
+  if (!user.realName && profile.realName) {
+    user.realName = profile.realName;
+  }
+
   if (!user.gender && profile.gender) {
     user.gender = profile.gender;
   }

@@ -21,6 +21,7 @@ var imageSize = thunkify(require('image-size'));
 var codeTabsTemplate = require('./templates/codeTabs.jade');
 
 function ServerHtmlTransformer(options) {
+
   HtmlTransformer.apply(this, arguments);
 }
 
@@ -51,7 +52,7 @@ ServerHtmlTransformer.prototype.transform = function*(node, isFinal) {
 
 
   if (isFinal) {
-    html = this.finalize(html);
+    html = this.applyContextTypography(html);
   }
 
   return html;
@@ -341,7 +342,8 @@ ServerHtmlTransformer.prototype.transformHeaderTag = function(node) {
       headerContent +
       '</a></h' + node.level + '>';
   } else {
-    return '<h' + node.level + '>' + headerContent + '</h' + node.level + '>';
+    // for ebook need id
+    return '<h' + node.level + ' id="' + node.anchor + '">' + headerContent + '</h' + node.level + '>';
   }
 
 };

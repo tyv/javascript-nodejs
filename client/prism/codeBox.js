@@ -273,9 +273,9 @@ function addBlockHighlight(pre, lines) {
         end = +range[1] || start;
 
 
-    var mask = '<div class="block-highlight" data-start="' + start + '" data-end="' + end + '">' +
+    var mask = '<code class="block-highlight" data-start="' + start + '" data-end="' + end + '">' +
       new Array(start + 1).join('\n') +
-      '<div class="mask">' + new Array(end - start + 2).join('\n') + '</div></div>';
+      '<code class="mask">' + new Array(end - start + 2).join('\n') + '</code></code>';
 
     pre.insertAdjacentHTML("afterBegin", mask);
   }
@@ -285,7 +285,8 @@ function addBlockHighlight(pre, lines) {
 
 function addInlineHighlight(pre, ranges) {
 
-  var codeElem = pre.querySelector('code');
+  // select code with the language text, not block-highlighter
+  var codeElem = pre.querySelector('code[class*="language-"]');
 
   ranges = ranges ? ranges.split(",") : [];
 
@@ -293,10 +294,10 @@ function addInlineHighlight(pre, ranges) {
     var piece = ranges[i].split(':');
     var lineNum = +piece[0], strRange = piece[1].split('-');
     var start = +strRange[0], end = +strRange[1];
-    var mask = '<div class="inline-highlight">' +
+    var mask = '<code class="inline-highlight">' +
       new Array(lineNum + 1).join('\n') +
       new Array(start + 1).join(' ') +
-      '<span class="mask">' + new Array(end - start + 1).join(' ') + '</span></div>';
+      '<code class="mask">' + new Array(end - start + 1).join(' ') + '</code></code>';
 
     codeElem.insertAdjacentHTML("afterBegin", mask);
   }

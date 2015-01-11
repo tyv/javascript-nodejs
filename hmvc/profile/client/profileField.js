@@ -66,8 +66,8 @@ angular.module('profile')
 
           }, (response) => {
             if (response.status == 400) {
-
-
+              new notification.Error(response.data.message);
+            } else if (response.status == 409) {
               new notification.Error(response.data.message);
             } else {
               new notification.Error("Ошибка загрузки, статус " + response.status);

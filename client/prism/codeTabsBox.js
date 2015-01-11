@@ -2,6 +2,9 @@ var delegate = require('client/delegate');
 var addLineNumbers = require('./addLineNumbers');
 
 function CodeTabsBox(elem) {
+  if (window.isEbook) {
+    return;
+  }
 
   this.elem = elem;
   this.translateX = 0;
@@ -72,7 +75,6 @@ CodeTabsBox.prototype.highlightTab = function(tab) {
 };
 
 CodeTabsBox.prototype.renderTranslate = function() {
-  console.log(this.translateX);
   this.switchesElemItems.style.transform = 'translateX(-' + this.translateX + 'px)';
   if (this.translateX === 0) {
     this.arrowLeft.setAttribute('disabled', '');

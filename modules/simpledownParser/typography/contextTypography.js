@@ -52,7 +52,8 @@ function makeParagraphs(html) {
 
   html = html.replace(new RegExp('<p>\\s*(</?' + NO_WRAP_TAGS_REG.source + ATTRS_REG.source + '>)', 'gim'), "$1");
 
-  reg = new RegExp('(</?' + NO_WRAP_TAGS_REG.source + '>)\\s*</p>', 'gim');
+  // removes </p> from both </ul></p> and <ul class="..."></p>
+  reg = new RegExp('(</?' + NO_WRAP_TAGS_REG.source + ATTRS_REG.source  + '>)\\s*</p>', 'gim');
 
   html = html.replace(reg, "$1");
 
@@ -61,6 +62,8 @@ function makeParagraphs(html) {
   // для <table onclick='alert(1)'><tr><td>[unsafe_test]<div onclick='alert(1)'>*</div>[/unsafe_test]</td></tr></table>
   // оно генерировало ...<div>*</div><p></span> <-- лишний <p> перед </span>, убъём его
   html = html.replace(/<p>(<\/[^>]+>)/g, '$1');
+
+  html = html.replace(/^<\/p>/, ''); // empty text leaves </p> in the beginning
 
 // $chunk = preg_replace('!<br />(\s*@@block)!', '$1', $chunk); // remove <br /> before future blocks
   return html.replace(/\s+$/, '');

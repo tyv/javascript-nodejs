@@ -19,7 +19,7 @@ exports.get = function *get(next) {
   this.body = this.render('tutorial', locals);
 };
 
-// body
+// content
 // metadata
 // modified
 // title
@@ -45,7 +45,7 @@ function* renderTutorial() {
     yield* populateContent(child);
   }
 
-  // and render "more" content
+  // and render 1 level down inside result.more content
   for (var i = 0; i < result.more.children.length; i++) {
     var child = result.more.children[i];
     yield* populateContent(child);
@@ -81,6 +81,10 @@ function* renderTree(tree) {
 
 function* populateContent(articleObj) {
   var article = yield Article.findById(articleObj.id).exec();
+
   var renderer = new ArticleRenderer();
-  articleObj.body = yield renderer.render(article);
+
+  var rendered = yield* renderer.renderWithCache(article);
+
+  articleObj.content = rendered.content;
 }

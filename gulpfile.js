@@ -26,7 +26,7 @@ const mongoose = require('lib/mongoose');
 //require('clarify');
 
 process.on('uncaughtException', function(err) {
-  console.log(err.message, err.stack);
+  console.error(err.message, err.stack);
   process.exit(255);
 });
 
@@ -68,7 +68,7 @@ gulp.task("client:livereload", lazyRequireTask("./tasks/livereload", {
 }));
 
 gulp.task("tutorial:import:watch", lazyRequireTask('tutorial/tasks/importWatch', {
-  root: "/js/javascript-nodejs/javascript-tutorial"
+  root: "/js/javascript-tutorial"
 }));
 
 gulp.task("test", lazyRequireTask('./tasks/test', {
@@ -86,7 +86,7 @@ gulp.task('watch', lazyRequireTask('./tasks/watch', {
       task:  'client:sync-resources'
     },
     {
-      watch: 'styles/**/*.{png,svg,gif,jpg}',
+      watch: 'styles/**/*.{png,svg,gif,jpg,woff}',
       task:  'client:sync-css-images'
     },
     {
@@ -102,7 +102,7 @@ gulp.task("client:sync-resources", lazyRequireTask('./tasks/syncResources', {
 
 
 gulp.task("client:sync-css-images", lazyRequireTask('./tasks/syncCssImages', {
-  src: 'styles/**/*.{png,svg,gif,jpg}',
+  src: 'styles/**/*.{png,svg,gif,jpg,woff}',
   dst: 'public/i'
 }));
 
@@ -127,13 +127,16 @@ gulp.task('build', function(callback) {
   runSequence("client:sync-resources", 'client:compile-css', 'client:sync-css-images', 'client:webpack', callback);
 });
 
-gulp.task('edit', ['dev', 'tutorial:import:watch']);
+gulp.task('server', lazyRequireTask('./tasks/server'));
+
+gulp.task('edit', ['build', 'tutorial:import:watch', 'client:livereload', 'server']);
 
 gulp.task('dev', function(callback) {
   runSequence("client:sync-resources", 'client:compile-css', 'client:sync-css-images', ['nodemon', 'client:livereload', 'client:webpack', 'watch'], callback);
 });
 
 gulp.task('tutorial:import', ['cache:clean'], lazyRequireTask('tutorial/tasks/import'));
+gulp.task('tutorial:kill:content', ['cache:clean'], lazyRequireTask('tutorial/tasks/killContent'));
 
 gulp.task('cache:clean', lazyRequireTask('./tasks/cacheClean'));
 

@@ -115,6 +115,8 @@ module.exports = new GithubStrategy({
         {value: emails[0].email }
       ];
 
+      profile.realName = profile.displayName;
+
       authenticateByProfile(req, profile, done);
     });
 
