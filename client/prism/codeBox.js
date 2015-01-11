@@ -285,7 +285,8 @@ function addBlockHighlight(pre, lines) {
 
 function addInlineHighlight(pre, ranges) {
 
-  var codeElem = pre.querySelector('code');
+  // select code with the language text, not block-highlighter
+  var codeElem = pre.querySelector('code[class*="language-"]');
 
   ranges = ranges ? ranges.split(",") : [];
 

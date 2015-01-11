@@ -113,8 +113,11 @@
 			pre[class*="language-"], code[class*="language-"]
 				font 8px/10px fixed_width_font !important
 
+		.toolbar
+			display none
+
 		// mark all external links
-		// [javascript.ru, nightly.javascript.ru, javascript.info] are internal
+		// (javascript.ru, nightly.javascript.ru, javascript.info are internal)
 		a[href*='://']:not([href*='javascript.'])::after
 			vertical-align super
 			font-size 90%
@@ -122,7 +125,16 @@
 			content: '[→]'
 			color black
 
-@media tablet
+	// chrome pdf
+	@media print
+
+		&_ebook
+			.code-example
+
+				pre[class*="language-"], code[class*="language-"]
+					font 12px/14px fixed_width_font !important
+
+	@media tablet
 		&,
 		&_sidebar_on
 			padding 0

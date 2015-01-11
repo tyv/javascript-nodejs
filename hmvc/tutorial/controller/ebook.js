@@ -81,7 +81,8 @@ function *renderArticle(renderer, article, headerLevelShift, noStripTitle) {
     headerLevelShift: headerLevelShift,
     noStripTitle:     noStripTitle,
     linkHeaderTag:    false,
-    translitAnchors:  true
+    translitAnchors:  true,
+    isEbook:          true
   });
 
   rendered.isFolder = article.isFolder;
@@ -112,7 +113,7 @@ function *renderTasks(article) {
   for (var i = 0; i < tasks.length; i++) {
     var task = tasks[i];
 
-    var taskRendered = yield* taskRenderer.render(task);
+    var taskRendered = yield* taskRenderer.render(task, {isEbook: true});
     renderedTasks.push({
       url:        task.getUrl(),
       title:      task.title,
