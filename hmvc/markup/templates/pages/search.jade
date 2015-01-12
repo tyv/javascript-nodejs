@@ -1,11 +1,13 @@
-extends ../layouts/profile
+extends ../layouts/base
 
-// - http://stackoverflow.com/questions/12646451/how-to-pass-variables-between-jade-templates
+//- http://stackoverflow.com/questions/12646451/how-to-pass-variables-between-jade-templates
 block variables
   - self.title = 'Поиск по сайту';
 
   //- layout
+  - layout.sitetoolbar = true
   - layout.header = true
+  - layout.breadcrumbs = false
 
 block content
   +b.search-form
