@@ -3,10 +3,29 @@
 	border-width 1px 0
 	padding-top 24px
 
+	&_fixed
+		border-color #c5c5c5
+		border-top 0
+		background #eee
+		position fixed
+		top 0
+		left 0
+		right 0
+		padding 12px 120px
+		z-index 9999
+		box-shadow 0 0 3px #c5c5c5
+
+	&_hidden
+		visibility hidden
+
 	&__content
 		display table
 		border-collapse collapse
 		width 100%
+
+	&_fixed &__content
+		margin auto
+		max-width max_width
 
 	&__line
 		display table-row
