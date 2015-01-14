@@ -17,6 +17,7 @@ function HtmlTransformer(options) {
   this.resourceWebRoot = options.resourceWebRoot;
   this.staticHost = options.staticHost;
   this.linkHeaderTag = options.linkHeaderTag;
+  this.isEbook = options.ebook;
 }
 
 HtmlTransformer.prototype.transform = function(node, isFinal) {
@@ -147,7 +148,10 @@ HtmlTransformer.prototype.transformHeaderTag = function(node) {
 HtmlTransformer.prototype.transformImgTag = function(node) {
   var html;
 
-  if (node.isFigure) {
+  // standalone images will not auto-resize by ebook-convert if wrapped in figure
+  // so let's make them just <img>, they are on a separate line, so they'll be wrapped in <p>
+
+  if (node.isFigure && !this.options.isEbook) {
     var attrs = Object.create(node.attrs);
     attrs['class'] = attrs['class'] ? attrs['class'] + ' image__image' : 'image__image';
 

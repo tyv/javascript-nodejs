@@ -21,6 +21,7 @@ var imageSize = thunkify(require('image-size'));
 var codeTabsTemplate = require('./templates/codeTabs.jade');
 
 function ServerHtmlTransformer(options) {
+
   HtmlTransformer.apply(this, arguments);
 }
 

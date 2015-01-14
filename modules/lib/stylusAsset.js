@@ -30,7 +30,11 @@ module.exports = function(options) {
       var ext = path.extname(url.val);
       var filepath = url.val.slice(0, url.val.length - ext.length);
 
-      literal = new nodes.Literal('url("../i/' + filepath + '.v' + version + ext + '")');
+      var newUrl = process.env.CSS_NO_HASH ? url.val :
+        (process.env.NODE_ENV == 'development') ? (url.val + '?' + version) :
+        filepath + '.v' + version + ext;
+
+      literal = new nodes.Literal('url("../i/' + newUrl + '")');
 
       return literal;
     });
