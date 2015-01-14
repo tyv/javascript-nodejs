@@ -1,0 +1,156 @@
+extends ../layouts/base
+
+//- http://stackoverflow.com/questions/12646451/how-to-pass-variables-between-jade-templates
+block variables
+  - self.title = 'Результаты поиска';
+
+  //- layout
+  - layout.sitetoolbar = true
+  - layout.header = true
+  - layout.breadcrumbs = false
+
+block content
+  script.
+    document.addEventListener("DOMContentLoaded", function() {
+      var fixedForm = document.querySelector(".search-form_fixed");
+      var fixedFormInput = fixedForm.querySelector(".search-form__query .text-input__control");
+      var staticFormInput = document.querySelector(".search-form:not(.search-form_fixed) .search-form__query .text-input__control");
+      var fixedInputOffset = parseInt(getComputedStyle(fixedForm, "").paddingTop);
+
+      function updateFixedForm() {
+        if (staticFormInput.getBoundingClientRect().y <= fixedInputOffset) {
+          if (fixedForm.classList.contains("search-form_hidden")) {
+            fixedFormInput.value = staticFormInput.value;
+          }
+          fixedForm.classList.remove("search-form_hidden");
+        } else {
+          if (!fixedForm.classList.contains("search-form_hidden")) {
+            staticFormInput.value = fixedFormInput.value;
+          }
+          fixedForm.classList.add("search-form_hidden");
+        }
+      }
+
+      window.addEventListener("scroll", updateFixedForm);
+      updateFixedForm(); // set initial state
+    });
+
+  +b.search-form
+    +e.content
+      +e.line
+        +e.query-wrap
+          +b.text-input.__query
+            +e('input').control(type="text")
+        +e.send-wrap
+          +b('button').submit-button.__send Найти
+    +e.footer
+      +e.types
+        +e('button').type(type="submit", disabled="disabled") Учебник
+        +e('button').type(type="submit") Задачи
+
+
+  +b.search-results
+    +e.result
+      +e.title
+        +e('a').title-link(href="#")
+          +e('mark').marked Аргументы функций
+      +e.extract
+        | …альтернативная техника работы с
+        = " "
+        +e('mark').marked аргументами
+        | , которая позволяет обращаться к ним не по имени, а по номеру…
+      +e('ul').path
+        +e('li').path-step
+          +e('a').path-link(href="#") Учебник
+        +e('li').path-step
+          +e('a').path-link(href="#") Аргументы функций
+    +e.result
+      +e.title
+        +e('a').title-link(href="#") Аргументы функций
+      +e.extract …альтернативная техника работы с аргументами, которая позволяет обращаться к ним не по имени, а по номеру…
+      +e('ul').path
+        +e('li').path-step
+          +e('a').path-link(href="#") Учебник
+        +e('li').path-step
+          +e('a').path-link(href="#") Аргументы функций
+    +e.result
+      +e.title
+        +e('a').title-link(href="#") Аргументы функций
+      +e.extract …альтернативная техника работы с аргументами, которая позволяет обращаться к ним не по имени, а по номеру…
+      +e('ul').path
+        +e('li').path-step
+          +e('a').path-link(href="#") Учебник
+        +e('li').path-step
+          +e('a').path-link(href="#") Аргументы функций
+    +e.result
+      +e.title
+        +e('a').title-link(href="#") Аргументы функций
+      +e.extract …альтернативная техника работы с аргументами, которая позволяет обращаться к ним не по имени, а по номеру…
+      +e('ul').path
+        +e('li').path-step
+          +e('a').path-link(href="#") Учебник
+        +e('li').path-step
+          +e('a').path-link(href="#") Аргументы функций
+    +e.result
+      +e.title
+        +e('a').title-link(href="#") Аргументы функций
+      +e.extract …альтернативная техника работы с аргументами, которая позволяет обращаться к ним не по имени, а по номеру…
+      +e('ul').path
+        +e('li').path-step
+          +e('a').path-link(href="#") Учебник
+        +e('li').path-step
+          +e('a').path-link(href="#") Аргументы функций
+    +e.result
+      +e.title
+        +e('a').title-link(href="#") Аргументы функций
+      +e.extract …альтернативная техника работы с аргументами, которая позволяет обращаться к ним не по имени, а по номеру…
+      +e('ul').path
+        +e('li').path-step
+          +e('a').path-link(href="#") Учебник
+        +e('li').path-step
+          +e('a').path-link(href="#") Аргументы функций
+    +e.result
+      +e.title
+        +e('a').title-link(href="#") Аргументы функций
+      +e.extract …альтернативная техника работы с аргументами, которая позволяет обращаться к ним не по имени, а по номеру…
+      +e('ul').path
+        +e('li').path-step
+          +e('a').path-link(href="#") Учебник
+        +e('li').path-step
+          +e('a').path-link(href="#") Аргументы функций
+    +e.result
+      +e.title
+        +e('a').title-link(href="#") Аргументы функций
+      +e.extract …альтернативная техника работы с аргументами, которая позволяет обращаться к ним не по имени, а по номеру…
+      +e('ul').path
+        +e('li').path-step
+          +e('a').path-link(href="#") Учебник
+        +e('li').path-step
+          +e('a').path-link(href="#") Аргументы функций
+    +e.result
+      +e.title
+        +e('a').title-link(href="#") Аргументы функций
+      +e.extract …альтернативная техника работы с аргументами, которая позволяет обращаться к ним не по имени, а по номеру…
+      +e('ul').path
+        +e('li').path-step
+          +e('a').path-link(href="#") Учебник
+        +e('li').path-step
+          +e('a').path-link(href="#") Аргументы функций
+    +e.result
+      +e.title
+        +e('a').title-link(href="#") Аргументы функций
+      +e.extract …альтернативная техника работы с аргументами, которая позволяет обращаться к ним не по имени, а по номеру…
+      +e('ul').path
+        +e('li').path-step
+          +e('a').path-link(href="#") Учебник
+        +e('li').path-step
+          +e('a').path-link(href="#") Аргументы функций
+
+  +b.search-form._fixed._hidden
+    +e.content
+      +e.line
+        +e.query-wrap
+          +b.text-input.__query
+            +e('input').control(type="text")
+        +e.send-wrap
+          +b('button').submit-button.__send Найти
