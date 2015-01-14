@@ -151,6 +151,7 @@ BodyParser.prototype.parseNodes = function() {
   if (token === null) return null;
 
   var methodName = 'parse' + token.type[0].toUpperCase() + token.type.slice(1);
+
   if (!this[methodName]) {
     throw new Error("Unknown token: " + JSON.stringify(token));
   }

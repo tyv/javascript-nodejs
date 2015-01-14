@@ -95,7 +95,7 @@ BbtagParser.prototype.parse = function() {
 };
 
 BbtagParser.prototype.parseOffline = function() {
-  if (this.options.export) {
+  if (this.options.isEbook) {
     return new BodyParser(this.body, this.options).parse();
   } else {
     return new TextNode("");
@@ -312,7 +312,7 @@ BbtagParser.prototype.parseCompare = function() {
 };
 
 BbtagParser.prototype.parseOnline = function() {
-  if (!this.options.export) {
+  if (!this.options.isEbook) {
     var parser = new BodyParser(this.body, this.options);
     return parser.parse();
   } else {
