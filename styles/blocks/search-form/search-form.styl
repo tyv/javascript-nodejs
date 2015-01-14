@@ -1,11 +1,11 @@
 .search-form
 	border solid #eee
-	border-width 1px 0
+	border-width 1px 0 0
 	padding-top 24px
 
 	&_fixed
 		border-color #c5c5c5
-		border-top 0
+		border-width 0 0 1px
 		background #eee
 		position fixed
 		top 0
@@ -37,12 +37,10 @@
 		display table-cell
 		vertical-align middle
 
-	&__query-wrap,
-	&__status
+	&__query-wrap
 		width 100%
 
-	&__send-wrap,
-	&__option-wrap
+	&__send-wrap
 		white-space nowrap
 
 	&__query-wrap
@@ -61,6 +59,9 @@
 	&__footer
 		padding-top 16px
 
+	&__types
+		border-bottom 1px solid #eee
+
 	&__type
 		@extend $button-reset
 		font 15px font
@@ -74,3 +75,11 @@
 		color #727272
 		border-radius 3px 3px 0 0
 		cursor default
+
+	&__status_notfound
+		font 21px secondary_font
+		padding-right 160px // not very reliable but alows much simpler code
+
+	&__marked
+		color #bb1000
+		background none

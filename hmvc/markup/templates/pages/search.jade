@@ -2,7 +2,7 @@ extends ../layouts/base
 
 //- http://stackoverflow.com/questions/12646451/how-to-pass-variables-between-jade-templates
 block variables
-  - self.title = 'Поиск по сайту';
+  - self.title = 'Результаты поиска';
 
   //- layout
   - layout.sitetoolbar = true
@@ -44,8 +44,9 @@ block content
         +e.send-wrap
           +b('button').submit-button.__send Найти
     +e.footer
-      +e('button').type(type="submit", disabled="disabled") Учебник
-      +e('button').type(type="submit") Задачи
+      +e.types
+        +e('button').type(type="submit", disabled="disabled") Учебник
+        +e('button').type(type="submit") Задачи
 
 
   +b.search-results

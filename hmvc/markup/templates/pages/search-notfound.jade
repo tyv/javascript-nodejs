@@ -1,26 +1,25 @@
-extends ../layouts/profile
+extends ../layouts/base
 
 // - http://stackoverflow.com/questions/12646451/how-to-pass-variables-between-jade-templates
 block variables
-  - self.title = 'Поиск по сайту';
+  - self.title = 'Результаты поиска';
 
   //- layout
+  - layout.sitetoolbar = true
   - layout.header = true
+  - layout.breadcrumbs = false
 
 block content
   +b.search-form
-    +e.line
-      +e.query-wrap
-        +b.text-input.__query
-          +e('input').control(type="text")
-      +e.send-wrap
-        +b('button').submit-button.__send Найти
-    +e.line
+    +e.content
+      +e.line
+        +e.query-wrap
+          +b.text-input.__query
+            +e('input').control(type="text")
+        +e.send-wrap
+          +b('button').submit-button.__send Найти
+    +e.footer
       +e.status._notfound
         | Мы всё перерыли, но «
         +e('mark').marked клад
         | » так и не нашли :-(
-      +e.option-wrap
-        +e('label').option-label
-          +e('input').option-control(type="checkbox")
-          | Искать только в заголовках
