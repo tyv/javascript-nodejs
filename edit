@@ -1,4 +1,4 @@
 #!/bin/bash
 
-NODE_ENV=production gulp edit --harmony
+TUTORIAL_ROOT=/js/javascript-tutorial NODE_ENV=production gulp edit --harmony
 

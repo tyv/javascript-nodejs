@@ -9,7 +9,16 @@ const log = require('log')();
 module.exports = function(options) {
 
   return function(callback) {
+
+    if (!options.root) {
+      throw new Error("Import watch root is not provided");
+    }
+
     var root = fs.realpathSync(options.root);
+
+    if (!root) {
+      throw new Error("Import watch root does not exist " + options.root);
+    }
 
     var importer = new Importer({
       root:     root,

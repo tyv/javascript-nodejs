@@ -73,7 +73,11 @@ function addStandardHelpers(locals, ctx) {
       version = Math.random().toString().slice(2);
       log.error("No version for " + publicPath);
     }
-    return config.server.staticHost + publicPath.replace('.', '.v' + version + '.');
+
+    var versionedPath = (config.assetVersioning == 'file') ? publicPath.replace('.', '.v' + version + '.') :
+      config.assetVersioning == 'query' ? (publicPath + '?' + version) : publicPath;
+
+    return config.server.staticHost + versionedPath;
   };
 
 

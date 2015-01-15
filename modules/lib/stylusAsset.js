@@ -14,7 +14,6 @@ module.exports = function(options) {
   return function(style) {
     var paths = style.options.paths || [];
 
-    var renderer = this;
     style.define('asset', function(url) {
       var literal = new nodes.Literal('url("' + url.val + '")');
 
@@ -30,9 +29,9 @@ module.exports = function(options) {
       var ext = path.extname(url.val);
       var filepath = url.val.slice(0, url.val.length - ext.length);
 
-      var newUrl = process.env.CSS_NO_HASH ? url.val :
-        (process.env.NODE_ENV == 'development') ? (url.val + '?' + version) :
-        filepath + '.v' + version + ext;
+      var newUrl = options.assetVersioning == 'query' ? (url.val + '?' + version) :
+        options.assetVersioning == 'file' ? (filepath + '.v' + version + ext) :
+          url.val;
 
       literal = new nodes.Literal('url("../i/' + newUrl + '")');
 

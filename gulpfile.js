@@ -68,7 +68,7 @@ gulp.task("client:livereload", lazyRequireTask("./tasks/livereload", {
 }));
 
 gulp.task("tutorial:import:watch", lazyRequireTask('tutorial/tasks/importWatch', {
-  root: "/js/javascript-tutorial"
+  root: process.env.TUTORIAL_ROOT
 }));
 
 gulp.task("test", lazyRequireTask('./tasks/test', {
@@ -112,7 +112,8 @@ gulp.task('client:compile-css',
     src: './styles/base.styl',
     dst: './public/styles',
     publicDst: config.server.staticHost + '/styles/',  // from browser point of view
-    manifest: path.join(config.manifestRoot, 'styles.versions.json')
+    manifest: path.join(config.manifestRoot, 'styles.versions.json'),
+    assetVersioning: config.assetVersioning
   })
 );
 
