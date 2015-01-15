@@ -1,5 +1,7 @@
 #!/bin/bash
 
-# CSS_NO_HASH disables hash in CSS, need for ebook
-CSS_NO_HASH=1 NODE_ENV=production gulp edit --harmony
+export ASSET_VERSIONING=none
+export NODE_ENV=production
 
+gulp client:compile-css --harmony
+node ./bin/server --harmony

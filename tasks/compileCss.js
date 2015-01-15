@@ -24,7 +24,8 @@ module.exports = function(options) {
 
     var nib = require('nib')();
     var asset = require('lib/stylusAsset')({
-      getVersion: getAssetVersion
+      getVersion: getAssetVersion,
+      assetVersioning : options.assetVersioning
     });
 
     del.sync(options.dst + '/*');
@@ -50,12 +51,15 @@ module.exports = function(options) {
           var version = crypto.createHash('md5').update(file.contents).digest('hex').substring(0, 8);
           var name = path.basename(file.path).slice(0, -4);
 
-          if (process.env.NODE_ENV == 'production') {
+          if (options.assetVersioning == 'file') {
             file.path = file.path.replace(/\.css$/, '.' + version + '.css');
             versions[name] = options.publicDst + path.basename(file.path);
-          } else {
+          } else if (options.assetVersioning == 'query') {
             versions[name] = options.publicDst + path.basename(file.path) + '?' + version;
+          } else {
+            versions[name] = options.publicDst + path.basename(file.path);
           }
+
           //console.log(versions);
           cb(null, file);
         }))

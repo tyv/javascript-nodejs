@@ -18,4 +18,4 @@ require('./runDemo');
 // to ensure that other modules use exactly this (initialized) client/notify
 require('client/notification').init();
 
-window.head = module.exports;
+//window.head = module.exports;

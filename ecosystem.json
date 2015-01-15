@@ -15,7 +15,8 @@
       "env_production": {
         "NODE_ENV":    "production",
         "SITE_HOST":   "http://nightly.javascript.ru",
-        "STATIC_HOST": "http://static-nightly.javascript.ru"
+        "STATIC_HOST": "http://static-nightly.javascript.ru",
+        "ASSET_VERSIONING":  "file"
       }
     }
   ],

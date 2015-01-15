@@ -14,7 +14,7 @@ git pull origin master &&
     git add --force node_modules
   ) &&
   # rebuild the artifact and add prod. files to the branch
-  NODE_ENV=production gulp build --harmony &&
+  ASSET_VERSIONING=file NODE_ENV=production gulp build --harmony &&
   git add --force public manifest &&
   # if there's nothing to commit,
   # `git commit` would exit with status 1, stopping the deploy

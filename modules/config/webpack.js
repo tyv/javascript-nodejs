@@ -10,20 +10,26 @@ var ngAnnotatePlugin = require('ng-annotate-webpack-plugin');
 
 var del = require('del');
 
+function filenameTemplate(name) {
+  return config.assetVersioning == 'query' ? name + ".js?[hash]" :
+    config.assetVersioning == 'file' ? name + ".[hash].js" : name + ".js";
+}
+
 var webpackConfig = {
   output:     {
     // fs path
-    path:          './public/js',
+    path:       './public/js',
     // path as js sees it
-    publicPath:    '/js/',
+    publicPath: '/js/',
     // в dev-режиме файлы будут вида [name].js, но обращения - через [name].js?[hash], т.е. версия учтена
     // в prod-режиме не можем ?, т.к. CDN его обрезают, поэтому [hash] в имени
     //  (какой-то [hash] здесь необходим, иначе к chunk'ам типа 3.js, которые генерируются require.ensure,
     //  будет обращение без хэша при загрузке внутри сборки. при изменении - барузерный кеш их не подхватит)
-    filename:      isDevelopment ? "[name].js?[hash]" : "[name].[hash].js",
-    chunkFilename: isDevelopment ? "[id].js?[hash]" : "[id].[hash].js"
+    filename:   filenameTemplate("[name]"),
+
+    chunkFilename: filenameTemplate("[id]"),
     // the setting below does not work with CommonsChunkPlugin
-    //library:       '[name]'
+    library:       '[name]'
   },
   cache:      isDevelopment,
   watchDelay: 10,
@@ -82,7 +88,7 @@ var webpackConfig = {
       _: 'lodash'
     }),
     // any common chunks from entries go to head
-    new CommonsChunkPlugin("head", isDevelopment ? "head.js?[hash]" : "head.[hash].js"),
+    new CommonsChunkPlugin("head", filenameTemplate("head")),
     new WriteVersionsPlugin(path.join(config.manifestRoot, "js.versions.json")),
   ]
 };
@@ -109,9 +115,9 @@ if (isProduction) {
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         // don't show unreachable variables etc
-        warnings: false,
+        warnings:     false,
         drop_console: true,
-        unsafe: true
+        unsafe:       true
       }
     })
   );

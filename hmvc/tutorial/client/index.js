@@ -48,4 +48,4 @@ function initFolderList() {
   });
 }
 
-window.tutorial = module.exports;
+//window.tutorial = module.exports;

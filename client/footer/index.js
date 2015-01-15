@@ -5,4 +5,4 @@ exports.init = function() {
   showLinkType();
 };
 
-window.footer = module.exports;
+//window.footer = module.exports;
