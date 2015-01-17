@@ -33,8 +33,9 @@ function requireSetup(path) {
   if (process.env.NODE_ENV == 'development') {
     app.use(function *(next) {
       log.trace("-> setup " + path);
-      yield next;
-      log.trace("<- setup " + path);
+      var d = new Date();
+      yield* next;
+      log.trace("<- setup " + path, new Date() - d);
     });
   }
   require(path)(app);
