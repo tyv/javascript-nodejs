@@ -54,11 +54,17 @@ exports.get = function *get(next) {
 
   locals.searchTypes = searchTypes;
 
-  if (searchQuery) {
-    var result = yield* search(searchQuery, searchType);
-    var hits = result.hits.hits;
-    locals.results = [];
+  locals.results = [];
 
+  // for every type - total results#
+  locals.resultsCountPerType = {};
+
+  if (searchQuery) {
+    var result = yield* search(searchQuery);
+
+    var hits = result[searchType].hits.hits;
+
+    // will show these results
     for (var i = 0; i < hits.length; i++) {
       var hit = hits[i];
       locals.results.push({
@@ -68,6 +74,11 @@ exports.get = function *get(next) {
         breadcrumb: yield* searchTypes[hit._type].hit2breadcrumb(hit)
       });
     }
+
+    // will just show counts
+    for(var type in result) {
+      locals.resultsCountPerType[type] = result[type].hits.total;
+    }
   }
 
   this.body = this.render("index", locals);
@@ -75,7 +86,21 @@ exports.get = function *get(next) {
 };
 
 
-function* search(query, type) {
+/**
+ * search all types
+result = {
+   articles:
+     { took: 4,
+       timed_out: false,
+       _shards: { total: 1, successful: 1, failed: 0 },
+       hits: { total: 54, max_score: 2.7859237, hits: [Object] } },
+  tasks:
+   { took: 2,
+     timed_out: false,
+     _shards: { total: 1, successful: 1, failed: 0 },
+     hits: { total: 28, max_score: 2.7859237, hits: [Object] } } }
+ */
+function* search(query) {
 
   /*jshint -W106 */
   var queryBody = {
@@ -104,11 +129,19 @@ function* search(query, type) {
     }
   };
 
-  var result = yield elasticClient().search({
-    index: 'js',
-    type:  type,
-    body:  queryBody
-  });
+  var queries = {};
+  for(var type in searchTypes) {
+    // object of promises
+    queries[type] = elasticClient().search({
+      index: 'js',
+      type: type,
+      body: queryBody
+    });
+  }
+
+  // 1 query per type to ES
+  // maybe: replace w/ ES aggregations?
+  var result = yield queries;
 
   return result;
 }

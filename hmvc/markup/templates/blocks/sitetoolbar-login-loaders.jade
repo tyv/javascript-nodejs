@@ -53,13 +53,12 @@
         +b('a').share._gp.sitetoolbar__tablet-menu-share(href="https://plus.google.com/share?url=http://design.javascript.ru/intro")
         +b('a').share._vk.sitetoolbar__tablet-menu-share(href="http://vkontakte.ru/share.php?url=http://design.javascript.ru/intro")
   +e.search
-    +e('form').search-content(method="GET", action="/search")
+    +e('form').search-content(action="/search/")
       +e.search-query-wrap
         +b.text-input.__search-query
-          +e('input').control(type="text")
+          +e('input').control(type="text" name="query")
       +e.search-submit-wrap
-        +b('button').submit-button.__search-submit
-          | Найти
+        +b('button').submit-button.__search-submit(type="submit") Найти
   +b('span').spinner._medium.__spinner
     +e('span').dot._1
     +e('span').dot._2

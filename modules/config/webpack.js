@@ -42,6 +42,7 @@ var webpackConfig = {
     head:     'client/head',
     tutorial: 'tutorial/client',
     profile:  'profile/client',
+    search:   'search/client',
     footer:   'client/footer'
   },
 
