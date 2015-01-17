@@ -80,14 +80,15 @@
 		& &__content
 			margin 20px 23px 30px
 
-.page_ebook
-	.balance__pluses,
-	.balance__minuses
-		float none
-		width 100%
+@media not print
+	.page_ebook
+		.balance__pluses,
+		.balance__minuses
+			float none
+			width 100%
 
-	.balance__minuses::before
-		display none
+		.balance__minuses::before
+			display none
 
-	.balance .balance__content
-		margin 20px 23px 30px
+		.balance .balance__content
+			margin 20px 23px 30px
