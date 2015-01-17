@@ -2,6 +2,8 @@ extends /layouts/main
 
 block content
 
+  h1 Результаты поиска
+
   +b("form").search-form(action="/search/")
     +e.content
       +e.line
@@ -15,7 +17,7 @@ block content
         each type, name in searchTypes
           +e('button').type(type="submit" disabled=(name == searchType ? true : null) name="type" value=name)
             = type.title
-            = ' (' + resultsCountPerType[name] + ')'
+            = ' (' + (resultsCountPerType[name] || 0)  + ')'
 
   +b.search-results
     each result in results
