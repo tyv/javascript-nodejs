@@ -37,6 +37,10 @@ module.exports = {
   imgur:    secret.imgur,
   adminKey: secret.adminKey,
 
+  elastic: {
+    host: 'localhost:9200'
+  },
+
   authProviders: require('./authProviders'),
 
   plnkrAuthId: secret.plnkrAuthId,

@@ -18,7 +18,7 @@ block content
       var fixedInputOffset = parseInt(getComputedStyle(fixedForm, "").paddingTop);
 
       function updateFixedForm() {
-        if (staticFormInput.getBoundingClientRect().y <= fixedInputOffset) {
+        if (staticFormInput.getBoundingClientRect().top <= fixedInputOffset) {
           if (fixedForm.classList.contains("search-form_hidden")) {
             fixedFormInput.value = staticFormInput.value;
           }

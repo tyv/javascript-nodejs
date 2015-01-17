@@ -4,7 +4,7 @@ var ObjectId = mongoose.Schema.Types.ObjectId;
 var Schema = mongoose.Schema;
 const config = require('config');
 const path = require('path');
-const html2search = require('search').html2search;
+const html2search = require('elastic').html2search;
 
 var schema = new Schema({
   title: {

@@ -1,6 +1,6 @@
 module.exports = require('./angular');
-require("angular-resource");
-require("angular-messages");
+require("angular-resource/angular-resource");
+require("angular-messages/angular-messages");
 require("angular-ui-router");
 require('./global403Interceptor');
 require('./progress');

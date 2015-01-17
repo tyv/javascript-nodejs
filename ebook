@@ -4,4 +4,4 @@ export ASSET_VERSIONING=none
 export NODE_ENV=production
 
 gulp client:compile-css --harmony
-node ./bin/server --harmony
+node --harmony ./bin/server
