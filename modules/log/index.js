@@ -40,7 +40,7 @@ module.exports = function(name, options) {
         level:  process.env.LOG_LEVEL,
         stream: process.stdout
       }
-    ]
+    ];
   } else {
 
     switch (env) {
