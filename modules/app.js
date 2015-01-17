@@ -120,10 +120,12 @@ app.waitBoot = function* () {
       mongoose.waitConnect(callback);
     };
 
+    /* in ebook no elasticsearch
     var elastic = elasticClient();
     yield elastic.ping({
       requestTimeout: 1000
     });
+    */
   }
 
 };
