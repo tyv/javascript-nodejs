@@ -32,9 +32,9 @@ function requireSetup(path) {
   // if debug is on => will log the middleware travel chain
   if (process.env.NODE_ENV == 'development') {
     app.use(function *(next) {
-      log.trace("-> setup " + path);
+      log.debug("-> setup " + path);
       yield next;
-      log.trace("<- setup " + path);
+      log.debug("<- setup " + path);
     });
   }
   require(path)(app);
