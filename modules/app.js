@@ -30,7 +30,7 @@ app.proxy = true;
 
 function requireSetup(path) {
   // if debug is on => will log the middleware travel chain
-  if (process.env.NODE_ENV == 'development') {
+  if (process.env.NODE_ENV == 'development' || process.env.LOG_LEVEL) {
     app.use(function *(next) {
       log.trace("-> setup " + path);
       var d = new Date();
