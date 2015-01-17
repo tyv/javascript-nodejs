@@ -30,11 +30,12 @@ app.proxy = true;
 
 function requireSetup(path) {
   // if debug is on => will log the middleware travel chain
-  if (process.env.NODE_ENV == 'development') {
+  if (process.env.NODE_ENV == 'development' || process.env.LOG_LEVEL) {
     app.use(function *(next) {
       log.trace("-> setup " + path);
-      yield next;
-      log.trace("<- setup " + path);
+      var d = new Date();
+      yield* next;
+      log.trace("<- setup " + path, new Date() - d);
     });
   }
   require(path)(app);
@@ -111,12 +112,18 @@ app.use(function* (next) {
 // mongoose buffers queries,
 // so for TEST/DEV there's no reason to wait
 // for PROD, there is a reason: to check if DB is ok before taking a request
+var elasticClient = require('elastic').client;
 app.waitBoot = function* () {
 
   if (process.env.NODE_ENV == 'production') {
     yield function(callback) {
       mongoose.waitConnect(callback);
     };
+
+    var elastic = elasticClient();
+    yield elastic.ping({
+      requestTimeout: 1000
+    });
   }
 
 };

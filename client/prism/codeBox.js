@@ -72,7 +72,8 @@ function CodeBox(elem) {
       frame.name = 'frame-' + Math.random();
       frame.className = 'code-result__iframe';
 
-      if (elem.dataset.demoHeight === "0") {// does that ever happen or dead code?
+      if (elem.dataset.demoHeight === "0") {
+        // this html has nothing to show
         frame.style.display = 'none';
         hasHeight = true;
       } else if (elem.dataset.demoHeight) {

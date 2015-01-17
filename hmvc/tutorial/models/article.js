@@ -6,7 +6,7 @@ const config = require('config');
 const path = require('path');
 const Reference = require('./reference');
 const Task = require('./task');
-const html2search = require('search').html2search;
+const html2search = require('elastic').html2search;
 
 const schema = new Schema({
   title: {
@@ -72,6 +72,18 @@ schema.methods.getResourceFsRoot = function() {
 
 schema.methods.getResourceWebRoot = function() {
   return schema.statics.getResourceWebRootBySlug(this.get('slug'));
+};
+
+schema.methods.findParents = function*() {
+  var parents = [];
+  var article = this;
+  while(true) {
+    article = yield Article.findById(article.parent).select('slug parent title').exec();
+    if (!article) break;
+    parents.push(article);
+  }
+
+  return parents.reverse();
 };
 
 schema.methods.getUrl = function() {
