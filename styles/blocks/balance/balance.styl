@@ -16,19 +16,19 @@
 		margin 12px 0
 
 	// если блок содержит и плюсы и минусы
-	&__pluses:nth-last-child(2),
-	&__minuses:nth-child(2)
+	&__pluses,
+	&__minuses
 		float left
 		width 50%
 		box-sizing border-box
 
-	&__pluses:nth-last-child(2) &__content
+	&__pluses &__content
 		margin 20px 35px 30px 23px
 
-	&__minuses:nth-child(2) &__content
+	&__minuses &__content
 		margin 20px 23px 30px 35px
 
-	&__minuses:nth-child(2)::before
+	&__minuses::before
 		content ""
 		border-left 2px solid #F5F2F0
 		position absolute
@@ -37,10 +37,18 @@
 		left 50%
 		margin-left -1px
 
+	&_single &__minuses::before
+		display none
+
 	// если в блоке только плюсы или только минусы
-	&__pluses:first-child:last-child &__content
-	&__minuses:first-child:last-child &__content
+	&_single &__pluses
+	&_single &__minuses
+		width 100%
+
+	&_single &__pluses &__content
+	&_single &__minuses &__content
 		margin 20px 35px 30px 23px
+
 
 	& &__pluses &__list-item::before
 		color #8DC082
@@ -57,3 +65,29 @@
 	&__content .codebox,
 	&__content .code-tabs
 		margin 14px 0
+
+	// two pieces of copypaste,
+	// @extend didn't solve this problem
+	@media tablet
+		&__pluses,
+		&__minuses
+			float none
+			width 100%
+
+		&__minuses::before
+			display none
+
+		& &__content
+			margin 20px 23px 30px
+
+.page_ebook
+	.balance__pluses,
+	.balance__minuses
+		float none
+		width 100%
+
+	.balance__minuses::before
+		display none
+
+	.balance .balance__content
+		margin 20px 23px 30px
