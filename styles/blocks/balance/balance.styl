@@ -65,3 +65,29 @@
 	&__content .codebox,
 	&__content .code-tabs
 		margin 14px 0
+
+	// two pieces of copypaste,
+	// @extend didn't solve this problem
+	@media tablet
+		&__pluses,
+		&__minuses
+			float none
+			width 100%
+
+		&__minuses::before
+			display none
+
+		& &__content
+			margin 20px 23px 30px
+
+.page_ebook
+	.balance__pluses,
+	.balance__minuses
+		float none
+		width 100%
+
+	.balance__minuses::before
+		display none
+
+	.balance .balance__content
+		margin 20px 23px 30px
