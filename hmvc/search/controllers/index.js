@@ -4,6 +4,7 @@ var Task = require('tutorial').Task;
 var Article = require('tutorial').Article;
 
 // known types and methods to convert hits to showable results
+// FIXME: many queries to MongoDB for parents (breadcrumbs) Cache them?
 var searchTypes = {
   articles: {
     title: 'Учебник',
@@ -78,7 +79,7 @@ function* search(query, type) {
 
   /*jshint -W106 */
   var queryBody = {
-    size: 100,
+    size: 50,
     filter:    {
       bool:  {
         must_not: {
