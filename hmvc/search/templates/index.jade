@@ -1,0 +1,60 @@
+extends /layouts/main
+
+block content
+  script.
+    document.addEventListener("DOMContentLoaded", function() {
+      var fixedForm = document.querySelector(".search-form_fixed");
+      var fixedFormInput = fixedForm.querySelector(".search-form__query .text-input__control");
+      var staticFormInput = document.querySelector(".search-form:not(.search-form_fixed) .search-form__query .text-input__control");
+      var fixedInputOffset = parseInt(getComputedStyle(fixedForm, "").paddingTop);
+
+      function updateFixedForm() {
+        if (staticFormInput.getBoundingClientRect().top <= fixedInputOffset) {
+          if (fixedForm.classList.contains("search-form_hidden")) {
+            fixedFormInput.value = staticFormInput.value;
+          }
+          fixedForm.classList.remove("search-form_hidden");
+        } else {
+          if (!fixedForm.classList.contains("search-form_hidden")) {
+            staticFormInput.value = fixedFormInput.value;
+          }
+          fixedForm.classList.add("search-form_hidden");
+        }
+      }
+
+      window.addEventListener("scroll", updateFixedForm);
+      updateFixedForm(); // set initial state
+    });
+
+  +b("form").search-form(action="/search/")
+    +e.content
+      +e.line
+        +e.query-wrap
+          +b.text-input.__query
+            +e('input').control(type="text", name="query" value=searchQuery)
+        +e.send-wrap
+          +b('button').submit-button.__send(type="submit" name="type" value=searchType) Найти
+    +e.footer
+      +e.types
+        each type, name in searchTypes
+          +e('button').type(type="submit" disabled=(name == searchType ? true : null) name="type" value=name)= type.title
+
+  +b.search-results
+    each result in results
+      +e.result
+        +e.title
+          +e('a').title-link(href=result.url)!= result.title
+        +e.extract!= result.search
+        +e('ul').path
+          each crumb in result.breadcrumb
+            +e('li').path-step
+              +e('a').path-link(href=crumb.url)!= crumb.title
+
+  +b.search-form._fixed._hidden
+    +e.content
+      +e.line
+        +e.query-wrap
+          +b.text-input.__query
+            +e('input').control(type="text")
+        +e.send-wrap
+          +b('button').submit-button.__send Найти

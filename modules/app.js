@@ -111,12 +111,18 @@ app.use(function* (next) {
 // mongoose buffers queries,
 // so for TEST/DEV there's no reason to wait
 // for PROD, there is a reason: to check if DB is ok before taking a request
+var elasticClient = require('elastic').client;
 app.waitBoot = function* () {
 
   if (process.env.NODE_ENV == 'production') {
     yield function(callback) {
       mongoose.waitConnect(callback);
     };
+
+    var elastic = elasticClient();
+    yield elastic.ping({
+      requestTimeout: 1000
+    });
   }
 
 };
