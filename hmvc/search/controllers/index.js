@@ -66,8 +66,6 @@ exports.get = function *get(next) {
         search: hit.highlight.search.join('… '),
         breadcrumb: yield* searchTypes[hit._type].hit2breadcrumb(hit)
       });
-      console.log(locals.results[i]);
-
     }
   }
 
