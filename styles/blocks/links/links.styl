@@ -145,3 +145,13 @@ $plain-link
 
 .main .plain
 	@extend $plain-link
+
+.page_ebook
+	// mark all external links
+	// (javascript.ru, nightly.javascript.ru, javascript.info are internal)
+	a[href*='://']:not([href*='javascript.'])::after
+		@extend $font-external
+		padding-left 3px
+		vertical-align super
+		font-size 85%
+		color black
