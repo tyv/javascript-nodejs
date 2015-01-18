@@ -16,7 +16,8 @@ block content
           +b.task.__task
             +e.header
               +e.title-wrap
-                +e('h3').title= task.title
+                // task must not be h3, because h3 participates in ToC (AKA outline)
+                +e.title= task.title
               +e.header-note
                 +e('span').importance(title="Насколько эта задача важна для освоения материала, от 1 до 5") важность: #{task.importance}
 
@@ -37,7 +38,7 @@ block content
           +b.task.__task(id=(task.url + '/solution'))
             +e.header
               +e.title-wrap
-                +e('h4').title= task.title
+                +e.title= task.title
 
               +e.content
                 if (task.solution instanceof Array)
@@ -45,7 +46,7 @@ block content
                     +e.step._open
                       +e('button').step-show(type="button", onclick="showStep(this)") !{step.title}
                       +e.answer-content
-                        +e('h5').step-title !{step.title}
+                        +e.step-title !{step.title}
                         != step.content
                 else
                   +e.answer-content
