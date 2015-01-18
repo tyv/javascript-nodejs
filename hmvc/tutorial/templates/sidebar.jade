@@ -8,9 +8,6 @@ each section in sidebar.sections
           +e('li').navigation-link
             +e('a').link(href=link.url)= link.title
 
-+e.section._map
-  +e('a').link._map(href="/tutorial/map" data-action="tutorial-map") Карта учебника
-
 +e.section
   +e.section-title Поделиться
   +b('a').share._tw.sidebar__share(href="https://twitter.com/share?url="+escape(url))

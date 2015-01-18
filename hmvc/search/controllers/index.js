@@ -48,6 +48,8 @@ exports.get = function *get(next) {
   var searchQuery = locals.searchQuery = this.request.query.query || '';
   var searchType = locals.searchType = this.request.query.type || 'articles';
 
+  locals.title = searchQuery ? 'Результаты поиска' : 'Поиск';
+
   if (!searchTypes[searchType]) {
     this.throw(400);
   }

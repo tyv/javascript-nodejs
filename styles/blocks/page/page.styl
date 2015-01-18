@@ -118,14 +118,6 @@
 		.toolbar
 			display none
 
-		// mark all external links
-		// (javascript.ru, nightly.javascript.ru, javascript.info are internal)
-		a[href*='://']:not([href*='javascript.'])::after
-			vertical-align super
-			font-size 90%
-			// fixme: use icon
-			content: '[→]'
-			color black
 
 	// chrome pdf
 	@media print
