@@ -1,8 +1,9 @@
 extends /layouts/main
 
-block content
+block variables
+  - var layout_main_class = "main_width-limit"
 
-  h1 Результаты поиска
+block content
 
   +b("form").search-form(action="/search/")
     +e.content
@@ -17,8 +18,7 @@ block content
         each type, name in searchTypes
           +e('button').type(type="submit" disabled=(name == searchType ? true : null) name="type" value=name)
             = type.title
-            = ' (' + (
-            resultsCountPerType[name] || 0)  + ')'
+            = ' (' + (resultsCountPerType[name] || 0)  + ')'
 
 
 
