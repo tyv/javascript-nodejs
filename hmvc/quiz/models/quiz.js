@@ -45,5 +45,9 @@ schema.methods.getResourceWebRoot = function() {
   return schema.statics.getResourceWebRootBySlug(this.get('slug'));
 };
 
+schema.methods.getUrl = function() {
+  return schema.statics.getUrlBySlug(this.get('slug'));
+};
+
 
 module.exports = mongoose.model('Quiz', schema);
