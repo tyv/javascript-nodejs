@@ -9,6 +9,7 @@ const log = require('log')();
 const jade = require('jade');
 const _ = require('lodash');
 const assert = require('assert');
+const i18n = require('i18next');
 
 require('lib/requireJade');
 
@@ -53,6 +54,7 @@ function addStandardHelpers(locals, ctx) {
     debugger;
   };
 
+  locals.t = i18n.t;
   locals.bem = require('bem-jade')();
 
   locals.thumb = function(url, width, height) {
