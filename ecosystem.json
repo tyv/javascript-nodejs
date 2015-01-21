@@ -30,6 +30,16 @@
       "repo":        "https://github.com/iliakan/javascript-nodejs",
       "test":        "echo 'no test on deploy right now'",
       "post-deploy": "bash ./pm2/post_deploy.sh"
+    },
+    "evolution": {
+      "user":        "root",
+      "host":        "evolution",
+      "pre-deploy":  "cd /root/javascript-nodejs; bash ./pm2/pre_deploy.sh",
+      "path":        "/js/javascript-nodejs",
+      "ref":         "origin/production",
+      "repo":        "https://github.com/iliakan/javascript-nodejs",
+      "test":        "echo 'no test on deploy right now'",
+      "post-deploy": "bash ./pm2/post_deploy.sh"
     }
   }
 }

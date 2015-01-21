@@ -7,5 +7,8 @@
         "lastname": "Kantor"
     },
     "Next lesson": "Next lesson",
-    "Previous lesson": "Previous lesson"
+    "Previous lesson": "Previous lesson",
+    "/i/sitetoolbar__logo": {
+        "svg": "/i/sitetoolbar__logo.svg"
+    }
 }
