@@ -1,0 +1,11 @@
+{
+    "app": {
+        "name": "javascript"
+    },
+    "creator": {
+        "firstname": "Илья",
+        "lastname": "Кантор"
+    },
+    "Previous lesson": "Предыдущий урок",
+    "Next lesson": "Следующий урок"
+}

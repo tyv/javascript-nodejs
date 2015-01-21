@@ -36,8 +36,8 @@ block content
                 +e('a').path-link(href=crumb.url)!= crumb.title
 
 
-    if results.length < resultsCountPerType[searchType]
-      div Показываются первые #{results.length} результатов.
+      if results.length < resultsCountPerType[searchType]
+         +e.count-note Показываются первые #{results.length} результатов.
   else
     +b.search-results Извините, мы ничего не нашли.
 

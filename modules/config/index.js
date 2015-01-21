@@ -73,3 +73,5 @@ module.exports = {
   tmpRoot:      path.join(process.cwd(), 'tmp'),
   manifestRoot: path.join(process.cwd(), 'manifest')
 };
+
+require('./i18n');

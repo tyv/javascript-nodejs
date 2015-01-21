@@ -1,0 +1,14 @@
+{
+    "app": {
+        "name": "javascript"
+    },
+    "creator": {
+        "firstname": "Ilya",
+        "lastname": "Kantor"
+    },
+    "Next lesson": "Next lesson",
+    "Previous lesson": "Previous lesson",
+    "/i/sitetoolbar__logo": {
+        "svg": "/i/sitetoolbar__logo.svg"
+    }
+}

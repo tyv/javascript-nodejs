@@ -66,9 +66,55 @@
 	&__content .code-tabs
 		margin 14px 0
 
-	// two pieces of copypaste,
-	// @extend didn't solve this problem
-	@media tablet
+// two pieces of copypaste,
+// @extend didn't solve this problem
+.page_ebook
+	.balance
+		backround #fcc
+	.balance .balance__pluses,
+	.balance .balance__minuses
+		float none
+		width 100%
+
+	.balance .balance__minuses::before
+		display none
+
+	.balance .balance__content
+		margin 20px 23px 30px
+
+@media print
+	.page_ebook
+		.balance
+			.balance__pluses,
+			.balance__minuses
+				float left
+				width 50%
+				box-sizing border-box
+
+			.balance__pluses .balance__content
+				margin 20px 35px 30px 23px
+
+			.balance__minuses .balance__content
+				margin 20px 23px 30px 35px
+
+			.balance__minuses::before
+				display block
+
+		.balance_single .balance__minuses::before
+			display none
+
+		// если в блоке только плюсы или только минусы
+		.balance_single .balance__pluses,
+		.balance_single .balance__minuses
+			width 100%
+
+		.balance_single .balance__pluses .balance__content
+		.balance_single .balance__minuses .balance__content
+			margin 20px 35px 30px 23px
+
+
+@media tablet
+	.balance
 		&__pluses,
 		&__minuses
 			float none
@@ -78,17 +124,4 @@
 			display none
 
 		& &__content
-			margin 20px 23px 30px
-
-@media not print
-	.page_ebook
-		.balance__pluses,
-		.balance__minuses
-			float none
-			width 100%
-
-		.balance__minuses::before
-			display none
-
-		.balance .balance__content
 			margin 20px 23px 30px
