@@ -23,6 +23,7 @@ function login() {
     var AuthModal = require('auth/client').AuthModal;
     new AuthModal();
   }, 'authClient');
+
 }
 
 module.exports = login;
