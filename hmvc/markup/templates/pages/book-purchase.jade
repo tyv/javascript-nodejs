@@ -1,0 +1,77 @@
+extends ../layouts/base
+
+// - http://stackoverflow.com/questions/12646451/how-to-pass-variables-between-jade-templates
+block variables
+  - self.title = 'Приобретение книги javascript.ru в&nbsp;формате&nbsp;PDF';
+
+  //- layout
+  - layout.header = true
+  - layout.centeredHeader = true
+
+block content
+  +b.complex-form
+    +b.receipts.__receipts
+      +e.receipt
+        +e.receipt-body
+          +e.receipt-content
+            +e.type Заказ:
+            +e.title Учебник «Основы Javascript»
+            +e.note <b>125стр.,</b> pdf (10Мб)
+          +e.receipt-aside
+            +e.price 24000 RUR
+      +e.receipt
+        +e.receipt-body
+          +e.receipt-content
+            +e.type Оплата:
+            +e.status._ok Осуществлена успешно
+          +e.receipt-aside
+            +e('img').pay-method(src="/img/paypal.png", alt="PayPal", title="PayPal", width="121", height="31")
+    +e.step._current
+      +b.extract._small.__extract
+        +e.wrap
+          +e.content
+            +e('h5').title Основы JavaScript
+            +e.info <b>125 стр.</b>, pdf (10 Mb)
+          +e.aside._price._center
+            | Стоимость
+            +b.price.__price
+              | 2400&nbsp;RUR
+              +e('span').secondary (≈&nbsp;69$)
+      +e('h2').alternate-title Укажите свой email
+      +b.text-input.__email
+        +e('input').control(placeholder="email")
+      +e.email-note После оплаты ссылка на скачивание учебника придет на этот адрес
+      +e('h2').alternate-title Выберите метод оплаты
+      +b.pay-method
+        +e.methods
+          +e.method
+            +e('button').send(name="[payment-type]", value="webmoney")
+              +e('img').img(src="/img/pay-method__webmoney.png", width="184", height="98", alt="WebMoney")
+          +e.method
+            +e('button').send(name="[payment-type]", value="yamoney")
+              +e('img').img(src="/img/pay-method__yamoney.png", width="184", height="98", alt="Яндекс.Деньги")
+          +e.method
+            +e('button').send(name="[payment-type]", value="paypal")
+              +e('img').img(src="/img/pay-method__paypal.png", width="184", height="98", alt="Paypal")
+          +e.method
+            +e('button').send(name="[payment-type]", value="payanyway")
+              +e('img').img(src="/img/pay-method__payanyway.png", width="184", height="98", alt="Карта")
+          +e.method
+            +e('button').send(name="[payment-type]", value="interkassa")
+              +e('img').img(src="/img/pay-method__interkassa.png", width="184", height="98", alt="Терминалы и банки")
+      +b.pay-hint
+        +e('a').hint(href="hint")
+          +b('img').flag.__flag(src="/img/flag/flag_ua.png")
+            | Рекомендации по оплате
+    +e.step
+      +b.order-confirm
+        +e('h2').title__action-title Спасибо за заказ!
+        +e.accent В ближайшее время вам на электронный адрес придет ссылка на скачивание учебника
+        +e.content
+          +e.text
+            | Если у вас возникли какие-либо вопросы, присылайте их на
+            =" "
+            a(href="mailto:orders@javascript.ru") orders@javascript.ru
+    +b('ul').grayed-list.__next
+      +e('li').item.__next-item Подтверждение
+
