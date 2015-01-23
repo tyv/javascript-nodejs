@@ -2,6 +2,7 @@ const _ = require('lodash');
 const config = require('config');
 const BodyParser = require('simpledownParser').BodyParser;
 const ServerHtmlTransformer = require('serverHtmlTransformer');
+const log = require('log')();
 
 // Порядок библиотек на странице
 // - встроенный CSS
@@ -156,10 +157,12 @@ ArticleRenderer.prototype.renderWithCache = function*(article, options) {
 
   var useCache = !options.refreshCache && config.renderedCacheEnabled;
 
+  log.debug("renderer useCache: " + useCache);
   if (article.rendered && useCache) return article.rendered;
 
   var rendered = yield* this.render(article);
 
+  log.debug("renderer done");
   article.rendered = rendered;
 
   yield article.persist();

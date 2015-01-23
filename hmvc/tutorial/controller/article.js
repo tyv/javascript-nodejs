@@ -9,7 +9,7 @@ const makeAnchor = require('textUtil/makeAnchor');
 
 exports.get = function *get(next) {
 
-  var renderedArticle = yield* renderArticle(this.params.slug);
+  var renderedArticle = yield* renderArticle.call(this, this.params.slug);
 
   if (!renderedArticle) {
     yield* next;
@@ -103,9 +103,14 @@ function* renderArticle(slug) {
     return null;
   }
 
+  this.log.debug("article", article._id);
+
+
   var renderer = new ArticleRenderer();
 
   var rendered = yield* renderer.renderWithCache(article);
+
+  this.log.debug("rendered");
 
   rendered.isFolder = article.isFolder;
   rendered.modified = article.modified;
