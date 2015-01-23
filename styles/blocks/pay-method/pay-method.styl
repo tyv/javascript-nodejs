@@ -1,0 +1,51 @@
+
+.pay-method
+	width 561px
+	position relative
+	right -3px
+	margin 0 auto 22px
+
+	&__methods
+		@extend $clearfix
+		margin-bottom 23px
+
+	&__method
+		float left
+		margin -1px 2px 2px -1px
+		padding 1px
+		overflow hidden
+		position relative
+
+	&__send
+		@extend $button-reset
+		display block
+
+	&__radio
+		position absolute
+		bottom 110%
+		right 110%
+
+	&__img
+		display block
+
+	& &__img
+		margin 0
+
+	&__label
+		display block
+		cursor pointer
+
+	&__insert
+		padding-top 22px
+
+	&__insert-item
+		margin 0 10px 10px
+		text-align: left
+
+	&__text
+		display block
+		margin-top 7px
+
+	&__radio:checked + &__label
+		outline 2px solid #ffab34
+		outline-offset -1px
