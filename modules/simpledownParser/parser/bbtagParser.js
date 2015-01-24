@@ -263,7 +263,7 @@ BbtagParser.prototype.parseHide = function() {
 };
 
 BbtagParser.prototype.parsePre = function() {
-  return new VerbatimText(this.body);
+  return new VerbatimText(this.body, this.params['no-typography']);
 };
 
 BbtagParser.prototype.parseCompare = function() {

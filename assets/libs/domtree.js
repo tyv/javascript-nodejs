@@ -1,4 +1,13 @@
+// ebook-converter removes CSS which styles SVG
+// that's why I style here in JS
+
 function drawHtmlTree(json, nodeTarget, w, h) {
+
+  if (typeof nodeTarget == 'string') {
+    nodeTarget = document.querySelectorAll(nodeTarget);
+    nodeTarget = nodeTarget[nodeTarget.length - 1];
+  }
+
   w = w || 960;
   h = h || 800;
 
@@ -35,14 +44,14 @@ function drawHtmlTree(json, nodeTarget, w, h) {
 
     // Enter any new nodes at the parent's previous position.
     nodeEnter.append("svg:rect")
-      .attr("y", function () { return -barHeight / 2 + barMargin  })
+      .attr("y", function () { return -barHeight / 2 + barMargin; })
       .attr("x", -5)
       .attr("rx",barRadius)
       .attr("ry",barRadius)
-      
       .attr("height", barHeight-barMargin*2)
       .attr("width", barWidth)
       .style("fill", color)
+      .style("cursor", "pointer")
       .on("click", click);
 
 
@@ -50,13 +59,17 @@ function drawHtmlTree(json, nodeTarget, w, h) {
       .attr("dy", 4.5)
       .attr("dx", 3.5)
       .style('fill', 'black')
-      
+      .style("pointer-events", "none");
+
 
     nodeEnter.append("svg:text")
       .attr("dy", 4.5)
       .attr("dx", function(d) {
         return d.content ? 5.5 : 16.5;
       })
+      .style('font', '14px Consolas, monospace')
+      .style('fill', '#333')
+      .style("pointer-events", "none")
       .text(function(d) {
         var text = d.name;
         if (d.content) {
@@ -111,6 +124,9 @@ function drawHtmlTree(json, nodeTarget, w, h) {
     // Enter any new links at the parent's previous position.
     link.enter().insert("svg:path", "g")
       .attr("class", "link")
+      .style('fill', 'none')
+      .style('stroke', '#BEC3C7')
+      .style('stroke-width', '1px')
       .attr("d", function(d) {
         var o = {
           x: source.x0,
@@ -166,10 +182,8 @@ function drawHtmlTree(json, nodeTarget, w, h) {
   }
 
   function color(d) {
-    //TODO: using nested ternary operators is antipattern;
-    //TODO: move node types into constant;
-    return d.nodeType == 1 ? "#86C5F9" :
-      d.nodeType == 3 ? '#F4D265' : '#C6BDB3';
+    return d.nodeType == 1 ? "#CEE0F4" :
+      d.nodeType == 3 ? '#FFDE99' : '#CFCE95';
   }
 
   function drawTree(json) {
@@ -184,11 +198,11 @@ function drawHtmlTree(json, nodeTarget, w, h) {
             "M", [d.source.y+deltaX, d.source.x+deltaY].join(","),
             "L", [d.source.y+deltaX, d.target.x+deltaY].join(","),
             "L", [d.target.y+deltaX, d.target.x+deltaY].join(","),
-          ]
+          ];
         return points.join("");
       };
 
-    
+
     vis = d3.select(nodeTarget).append("svg:svg")
       .attr("width", w)
       .attr("height", h)

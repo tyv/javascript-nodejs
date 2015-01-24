@@ -43,9 +43,11 @@ TaskRenderer.prototype.addContentPlunkLink = function*(task, content) {
 
   if (sourcePlunk) {
 
-    var hasTest = sourcePlunk.files.toObject().find(function(item) {
-      return item.filename == 'test.js';
-    });
+    var files = sourcePlunk.files.toObject();
+    var hasTest = false;
+    for (var i = 0; i < files.length; i++) {
+      if (files[i].filename == 'test.js') hasTest = true;
+    }
 
     var title = hasTest ?
       'Открыть песочницу с тестами для задачи.' :
@@ -144,9 +146,11 @@ TaskRenderer.prototype.addSolutionPlunkLink = function*(task, solution) {
   var solutionPlunk = yield Plunk.findOne({webPath: task.getResourceWebRoot() + '/solution'}).exec();
 
   if (solutionPlunk) {
-    var hasTest = solutionPlunk.files.toObject().find(function(item) {
-      return item.filename == 'test.js';
-    });
+    var files = solutionPlunk.files.toObject();
+    var hasTest = false;
+    for (var i = 0; i < files.length; i++) {
+      if (files[i].filename == 'test.js') hasTest = true;
+    }
 
     var title = hasTest ?
       'Открыть решение с тестами в песочнице.' :

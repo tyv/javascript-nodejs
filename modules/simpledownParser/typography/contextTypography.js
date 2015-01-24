@@ -80,7 +80,9 @@ function contextTypography(html, options) {
   html = html.replace(noTypographyReg, function(match, tag, attrs, body) {
     // remove no-typography wrapper here
     labels.push(tag == 'no-typography' ? body : match);
-    return tag == 'code' ? ('<span>' + label + '</span>') : ('<div>' + label + '</div>');
+
+    // no-typography is a block tag!
+    return (tag == 'code') ? ('<span>' + label + '</span>') : ('<div>' + label + '</div>');
   });
 
   html = replaceQuotesWithLaquo(html);
