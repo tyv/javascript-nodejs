@@ -21,7 +21,7 @@ describe("TaskRenderer", function() {
     });
     const renderer = new TaskRenderer();
 
-    const result = yield renderer.renderContent(task);
+    const result = yield renderer.renderContent(task, {});
 
     result.replace(/\n/g, '').should.be.eql('<p>Content</p>');
   });
@@ -38,7 +38,7 @@ describe("TaskRenderer", function() {
     });
     const renderer = new TaskRenderer();
 
-    const result = yield renderer.renderSolution(task);
+    const result = yield renderer.renderSolution(task, {});
 /*
     result.replace(/\n/g, '').should.be.eql('<div class="spoiler closed"><button></button>
       <div class="spoiler__content"></p>

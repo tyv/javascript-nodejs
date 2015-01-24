@@ -37,6 +37,7 @@ module.exports = {
   imgur:    secret.imgur,
   adminKey: secret.adminKey,
 
+  lang:  env.NODE_LANG || 'ru',
   elastic: {
     host: 'localhost:9200'
   },
