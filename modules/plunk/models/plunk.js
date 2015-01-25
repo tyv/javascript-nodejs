@@ -79,7 +79,7 @@ schema.methods.mergeAndSyncRemote = function*(files) {
     log.debug("no changes, skip updating");
     return;
   } else {
-    log.debug("plunk changes", changes);
+    log.debug("plunk " + this.plunkId + " changes", changes);
   }
 
   if (this.plunkId) {
