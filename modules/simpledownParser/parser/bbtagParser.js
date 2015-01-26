@@ -175,10 +175,10 @@ BbtagParser.prototype.parseBlock = function() {
 
   content.push('<div class="important__header">');
   if (this.params.header) {
-    content.push('<span class="important__type"></span><h3 class="important__title">');
+    content.push('<span class="important__type"></span><div class="important__title">');
     var headerContent = new BodyParser(this.params.header, this.options).parse();
     content.push.apply(content, headerContent);
-    content.push('</h3>');
+    content.push('</div>');
   } else {
     content.push('<span class="important__type">', consts.BBTAG_BLOCK_DEFAULT_TITLE[this.name], '</span>');
   }
@@ -263,7 +263,7 @@ BbtagParser.prototype.parseHide = function() {
 };
 
 BbtagParser.prototype.parsePre = function() {
-  return new VerbatimText(this.body);
+  return new VerbatimText(this.body, this.params['no-typography']);
 };
 
 BbtagParser.prototype.parseCompare = function() {

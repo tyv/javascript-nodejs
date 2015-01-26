@@ -40,6 +40,10 @@ schema.methods.mergeAndSyncRemote = function*(files) {
 
   var changes = {};
 
+  log.debug("mergeAndSyncRemote " + this.plunkId);
+  log.debug("OLD files", this.files);
+  log.debug("NEW files", files);
+
   /* delete this.files which are absent in files */
   for (var i = 0; i < this.files.length; i++) {
     var file = this.files[i];
@@ -51,14 +55,14 @@ schema.methods.mergeAndSyncRemote = function*(files) {
 
   for (var name in files) {
     /**
-     * This hangs dunno why, doesn't print anything, maybe v8 bug (array this.files has 1 file)
+     * This hangs dunno why, doesn't print anything, maybe v8 or mongoose bug (this.files has 1 file)
      var existingFile = this.files.find(function(item) {
       console.log("find", item);
       return item.filename == name;
     });
      */
 
-    var existingFile;
+    var existingFile = null;
     for (var i = 0; i < this.files.length; i++) {
       var item = this.files[i];
       if (item.filename == name) {
@@ -75,11 +79,13 @@ schema.methods.mergeAndSyncRemote = function*(files) {
     changes[name] = files[name];
   }
 
+  log.debug("UPDATED files", this.files);
+
   if (_.isEmpty(changes)) {
     log.debug("no changes, skip updating");
     return;
   } else {
-    log.debug("plunk changes", changes);
+    log.debug("plunk " + this.plunkId + " changes", changes);
   }
 
   if (this.plunkId) {
@@ -89,6 +95,7 @@ schema.methods.mergeAndSyncRemote = function*(files) {
     log.debug("create plunk remotely", this.webPath);
     this.plunkId = yield* Plunk.createRemote(this.description, this.files);
   }
+
 
   yield this.persist();
 

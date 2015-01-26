@@ -14,7 +14,8 @@
 		text-align left
 
 	th,
-	td
+	td,
+	caption
 		padding 2px 1em 2px 5px
 
 	tr:nth-child(even)
@@ -23,21 +24,13 @@
 	code
 		font-weight inherit
 
-.main table:not(.bordered)
-
 	tr:first-child th
 		border-bottom 3px solid #CCC
 		vertical-align bottom
 
+	caption
+		text-align left
 
-.main table.bordered
-	td
-		border solid #ccc
-		border-width 0 1px
-
-	th
-		border solid #ccc
-		border-width 0 0 1px
 
 @media (min-width: largescreen)
 	.main table

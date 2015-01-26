@@ -1,0 +1,14 @@
+{
+    "app": {
+        "name": "javascript"
+    },
+    "creator": {
+        "firstname": "Илья",
+        "lastname": "Кантор"
+    },
+    "Previous lesson": "Предыдущий урок",
+    "Next lesson": "Следующий урок",
+    "/i/sitetoolbar__logo": {
+        "svg": "/i/sitetoolbar__logo.svg"
+    }
+}

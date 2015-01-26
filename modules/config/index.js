@@ -37,6 +37,7 @@ module.exports = {
   imgur:    secret.imgur,
   adminKey: secret.adminKey,
 
+  lang:  env.NODE_LANG || 'ru',
   elastic: {
     host: 'localhost:9200'
   },
@@ -73,3 +74,5 @@ module.exports = {
   tmpRoot:      path.join(process.cwd(), 'tmp'),
   manifestRoot: path.join(process.cwd(), 'manifest')
 };
+
+require('./i18n');

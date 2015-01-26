@@ -51,7 +51,7 @@ describe("BodyParser", function() {
     });
 
     it("doesn't apply char typography inside pre or script", function() {
-      var html = format('<script>...</script>');
+      var html = format('<script>...</script>', true);
       html.replace(/\n/g, '').should.be.eql('<script>...</script>');
     });
 
@@ -61,14 +61,22 @@ describe("BodyParser", function() {
       formatted.should.be.eql('<strong>help me…</strong>');
     });
 
-    describe("[pre]", function() {
-      it("No typograhy in [pre] block", function() {
-        (format("[pre]... :)[/pre]")).should.be.eql('... :)');
+    describe("[pre] bbtag", function() {
+      it("Typography by default enabled in [pre] block", function() {
+        format("[pre]... :)[/pre]", true).should.be.eql('<p>… :)</p>');
+
+        format('[pre]"Test"[/pre]', true).should.be.eql('<p>«Test»</p>');
+      });
+
+      it("Typography is disabled in [pre no-typography] block", function() {
+        format("[pre no-typography]... :)[/pre]", true).should.be.eql('... :)');
+
+        format('[pre no-typography]"Test"[/pre]', true).should.be.eql('"Test"');
       });
 
       it("No embedded blocks or italic inside [pre] block", function() {
-        var result = format("text [pre]*text* [html]code[/html][/pre] *i*");
-        result.should.be.eql("text *text* [html]code[/html] <em>i</em>");
+        var result = format("text [pre]*text* [html]code[/html][/pre] *i*", true);
+        result.should.be.eql("<p>text *text* [html]code[/html] <em>i</em></p>");
       });
 
     });
@@ -206,7 +214,7 @@ describe("BodyParser", function() {
       it("smart with title", function() {
         var result = (format("[smart header='\"my\" `code`']text[/smart]")).replace(/\n/g, '');
         result.should.be.eql(
-          "<div class=\"important important_smart\"><div class=\"important__header\"><span class=\"important__type\"></span><h3 class=\"important__title\">\"my\" <code>code</code></h3></div><div class=\"important__content\">text</div></div>"
+          "<div class=\"important important_smart\"><div class=\"important__header\"><span class=\"important__type\"></span><div class=\"important__title\">\"my\" <code>code</code></div></div><div class=\"important__content\">text</div></div>"
         );
       });
     });
@@ -240,7 +248,7 @@ describe("BodyParser", function() {
           "<div class=\"code-example__codebox codebox\">" +
             "<div class=\"codebox__toolbar toolbar\"></div>" +
             "<div data-code=\"1\" class=\"codebox__code\">" +
-              "<pre class=\"line-numbers language-javascript\"><code>alert(1)</code></pre>" +
+              "<pre class=\"line-numbers language-javascript\"><code class=\"language-javascript\">alert(1)</code></pre>" +
             "</div>" +
           "</div>" +
         "</div>");
@@ -252,7 +260,7 @@ describe("BodyParser", function() {
           "<div class=\"code-example__codebox codebox\">" +
            "<div class=\"codebox__toolbar toolbar\"></div>" +
             "<div data-code=\"1\" class=\"codebox__code\">" +
-              "<pre class=\"line-numbers language-javascript\"><code>alert(1)</code></pre>" +
+              "<pre class=\"line-numbers language-javascript\"><code class=\"language-javascript\">alert(1)</code></pre>" +
             "</div>" +
           "</div>" +
         "</div>");

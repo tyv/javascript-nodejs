@@ -336,11 +336,19 @@ HtmlTransformer.prototype.transformVerbatimText = function(node) {
   node.ensureKnowTrusted();
 
   var html = node.text;
+
+  if (!node.noTypography) {
+    html = charTypography(html);
+  }
+
   if (!node.isTrusted()) {
     html = sanitize(html);
   }
-  return html;
+
+  return node.noTypography ? this.wrapTagAround('no-typography', {}, html) : html;
 };
+
+
 
 HtmlTransformer.prototype.transformIframeTag = function(node) {
 

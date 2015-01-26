@@ -5,7 +5,7 @@
 server {
   listen 80;
 
-  server_name nightly.javascript.ru javascript.in;
+  server_name nightly.javascript.ru nightly.javascript.info david.javascript.info javascript.in;
 
   access_log  /var/log/nginx/nightly.javascript.ru.log main;
 

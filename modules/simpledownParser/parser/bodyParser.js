@@ -126,8 +126,9 @@ BodyParser.prototype.parseNodes = function() {
 
   var token = null;
 
+  var char = this.lexer.getChar();
   // perf optimization for most chars
-  switch (this.lexer.getChar()) {
+  switch (char) {
   case '[':
     token = this.lexer.consumeLink() || this.lexer.consumeBbtagSelfClose() || this.lexer.consumeBbtagNeedClose();
     break;

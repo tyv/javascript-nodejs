@@ -74,6 +74,10 @@ schema.methods.getResourceWebRoot = function() {
   return schema.statics.getResourceWebRootBySlug(this.get('slug'));
 };
 
+schema.methods.getUrl = function() {
+  return schema.statics.getUrlBySlug(this.get('slug'));
+};
+
 schema.methods.findParents = function*() {
   var parents = [];
   var article = this;
@@ -86,9 +90,6 @@ schema.methods.findParents = function*() {
   return parents.reverse();
 };
 
-schema.methods.getUrl = function() {
-  return schema.statics.getUrlBySlug(this.get('slug'));
-};
 
 schema.methods.destroyTree = function* () {
   if (this.isFolder) {

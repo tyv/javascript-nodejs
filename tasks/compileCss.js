@@ -46,7 +46,8 @@ module.exports = function(options) {
         .pipe(gp.autoprefixer("last 1 version"))
 
         .pipe(sourcemaps.write())
-        .pipe(gp.if(process.env.NODE_ENV == 'production', gp.minifyCss()))
+        // dies on node 0.11.15 with full npm reinstall
+        //.pipe(gp.if(process.env.NODE_ENV == 'production', gp.minifyCss()))
         .pipe(es.map(function(file, cb) {
           var version = crypto.createHash('md5').update(file.contents).digest('hex').substring(0, 8);
           var name = path.basename(file.path).slice(0, -4);

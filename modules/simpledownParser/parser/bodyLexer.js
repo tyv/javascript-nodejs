@@ -168,7 +168,6 @@ Lexer.prototype.consumeBold = function() {
     return null; // no match after other chars
   }
 
-  debugger
   var position = this.position + 2;
   // position is after **
 
