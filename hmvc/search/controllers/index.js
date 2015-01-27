@@ -13,6 +13,7 @@ var searchTypes = {
     },
     hit2breadcrumb: function*(hit) {
       var article = yield Article.findById(hit._id).select('slug title isFolder parent').exec();
+      if (!article) return null;
       var parents = yield* article.findParents();
       parents.forEach(function(parent) {
         parent.url = parent.getUrl();
@@ -28,7 +29,9 @@ var searchTypes = {
     },
     hit2breadcrumb: function*(hit) {
       var task = yield Task.findById(hit._id).select('slug title parent').exec();
+      if (!task) return null;
       var article = yield Article.findById(task.parent).select('slug title isFolder parent').exec();
+      if (!article) return null;
       var parents = (yield* article.findParents()).concat(article);
       parents.forEach(function(parent) {
         parent.url = parent.getUrl();
@@ -69,12 +72,20 @@ exports.get = function *get(next) {
     // will show these results
     for (var i = 0; i < hits.length; i++) {
       var hit = hits[i];
-      locals.results.push({
+
+      var hitFormatted = {
         url: searchTypes[hit._type].hit2url(hit),
         title: hit.highlight.title ? hit.highlight.title.join('… ') : hit.fields.title[0],
         search: hit.highlight.search.join('… '),
         breadcrumb: yield* searchTypes[hit._type].hit2breadcrumb(hit)
-      });
+      };
+
+      if (!hitFormatted.url || !hitFormatted.breadcrumb) {
+        this.log.error("Cannot find search result in DB", hit);
+        continue;
+      }
+
+      locals.results.push(hitFormatted);
     }
 
     // will just show counts

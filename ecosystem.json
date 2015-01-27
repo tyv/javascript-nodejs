@@ -31,6 +31,16 @@
       "test":        "echo 'no test on deploy right now'",
       "post-deploy": "NODE_LANG=ru bash ./pm2/post_deploy.sh"
     },
+    "david": {
+      "user":        "root",
+      "host":        "david",
+      "pre-deploy":  "cd /root/javascript-nodejs; bash ./pm2/pre_deploy.sh",
+      "path":        "/js/javascript-nodejs",
+      "ref":         "origin/production",
+      "repo":        "https://github.com/iliakan/javascript-nodejs",
+      "test":        "echo 'no test on deploy right now'",
+      "post-deploy": "NODE_LANG=en bash ./pm2/post_deploy.sh"
+    },
     "evolution": {
       "user":        "root",
       "host":        "evolution",

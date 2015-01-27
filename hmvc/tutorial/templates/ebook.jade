@@ -13,7 +13,7 @@ block content
       +b.tasks
         +e('h' + (2 + child.level)).title Задачи
         each task in child.tasks
-          +b.task.__task
+          +b.task.__task(id=(task.url + '/content'))
             +e.header
               +e.title-wrap
                 // task must not be h3, because h3 participates in ToC (AKA outline)
@@ -24,7 +24,7 @@ block content
               +e.content
                 != task.content
 
-              a(href=('#' + task.url + '/solution')) Решение
+              a(href=('#' + task.url + '/solution')) К решению
 
   if children[0].hasTasks
     h2 Решения
@@ -51,6 +51,8 @@ block content
                 else
                   +e.answer-content
                     != task.solution
+
+              a(href=('#' + task.url + '/content')) К условию
 
   script(src=script("tutorial"))
 
