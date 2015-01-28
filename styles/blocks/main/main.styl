@@ -92,9 +92,10 @@ $main-loud
 		> li
 			margin: .3em 0
 
+
 	ul > li::before
 		content "●"
-		position absolute
+		float left // not position: absolute because the latter doesn't show in iBooks (epub)
 		margin-left -20px
 		color #B2C1C1
 

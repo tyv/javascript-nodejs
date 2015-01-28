@@ -17,7 +17,6 @@ const TaskRenderer = require('../renderer/taskRenderer');
 const BodyParser = require('simpledownParser').BodyParser;
 const TreeWalkerSync = require('simpledownParser').TreeWalkerSync;
 const HeaderTag = require('simpledownParser').HeaderTag;
-const gm = require('gm');
 const log = require('log')();
 
 
@@ -303,18 +302,6 @@ function* importImage(srcPath, dstDir) {
   }
 
   copySync(srcPath, dstPath);
-
-  var isRetina = /@2x\.[^.]+$/.test(srcPath);
-
-  if (isRetina) {
-    var normalResolutionFilename = filename.replace(/@2x(?=\.[^.]+$)/, '');
-    var normalResolutionPath = path.join(dstDir, normalResolutionFilename);
-
-    yield function(callback) {
-      gm(srcPath).resize("50%").write(normalResolutionPath, callback);
-    };
-  }
-
 }
 
 function copySync(srcPath, dstPath) {
