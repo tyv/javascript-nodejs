@@ -1,7 +1,6 @@
 const Imagemin = require('imagemin');
-const pngcrush = require('imagemin-pngcrush');
+const pngquant = require('imagemin-pngquant');
 const es = require('event-stream');
-const svgo = require('imagemin-svgo');
 const path = require('path');
 const gulp = require('gulp');
 const gp = require('gulp-load-plugins')();
@@ -27,47 +26,17 @@ module.exports = function(options) {
 
     gutil.log("minify " + root);
 
-    return gulp.src(root + '/**/*.{svg,png,jpg,gif}')
-      .pipe(es.map(function(image, cb) {
-        gutil.log("minify " + image.path);
-
-        var sizeBefore = image.stat.size;
-        minifyImage(image.path, function() {
-          var sizeAfter = fs.statSync(image.path).size;
-          gutil.log(sizeBefore + " -> " + sizeAfter);
-          cb();
-        });
-
-      }));
+    return gulp.src('./**/*.{svg,png,jpg,gif}', {base: root})
+      .pipe(gp.debug())
+      .pipe(gp.imagemin({
+        verbose: true,
+        progressive: true,
+        svgoPlugins: [{removeViewBox: false}],
+        use:         [pngquant()]
+      }))
+      .pipe(gulp.dest(root));
   };
 
 
 };
 
-
-function minifyImage(imagePath, callback) {
-
-  var plugin;
-  switch (path.extname(imagePath)) {
-  case '.jpg':
-    plugin = Imagemin.jpegtran({ progressive: true });
-    break;
-  case '.gif':
-    plugin = Imagemin.gifsicle({ interlaced: true });
-    break;
-  case '.png':
-    plugin = pngcrush({ reduce: true });
-    break;
-  case '.svg':
-    plugin = svgo({});
-    break;
-  }
-
-  var imagemin = new Imagemin()
-    .src(imagePath)
-    .dest(imagePath)
-    .use(plugin);
-
-  imagemin.run(callback);
-
-}
