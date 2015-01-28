@@ -118,9 +118,7 @@ gulp.task('client:compile-css',
 );
 
 
-gulp.task('client:minify', lazyRequireTask('./tasks/minify', {
-  root: './public'
-}));
+gulp.task('client:minify', lazyRequireTask('./tasks/minify'));
 
 gulp.task('client:webpack', lazyRequireTask('./tasks/webpack'));
 

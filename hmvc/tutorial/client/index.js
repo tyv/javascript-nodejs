@@ -14,6 +14,12 @@ exports.init = function() {
   });
 
   prism();
+
+  if (window.isEbook) {
+    require.ensure('./ebook', function() {
+      require('./ebook').init();
+    }, 'ebook');
+  }
 };
 
 exports.TutorialMap = require('./tutorialMap');

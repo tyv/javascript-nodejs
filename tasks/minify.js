@@ -6,6 +6,7 @@ const path = require('path');
 const gulp = require('gulp');
 const gp = require('gulp-load-plugins')();
 const gutil = require('gulp-util');
+const fs = require('fs');
 
 /**
  *
@@ -14,14 +15,29 @@ const gutil = require('gulp-util');
  * @returns {Function}
  */
 module.exports = function(options) {
-  const root = options.root;
+  options = options || {};
+
+  const root = options.root || require('yargs').argv.root;
+
+  if (!root) {
+    throw new Error("Root not set");
+  }
 
   return function(callback) {
 
-    return gulp.src(options.root + '/**/*.{svg,png,jpg,gif}')
+    gutil.log("minify " + root);
+
+    return gulp.src(root + '/**/*.{svg,png,jpg,gif}')
       .pipe(es.map(function(image, cb) {
         gutil.log("minify " + image.path);
-        minifyImage(image.path, cb);
+
+        var sizeBefore = image.stat.size;
+        minifyImage(image.path, function() {
+          var sizeAfter = fs.statSync(image.path).size;
+          gutil.log(sizeBefore + " -> " + sizeAfter);
+          cb();
+        });
+
       }));
   };
 
@@ -52,6 +68,6 @@ function minifyImage(imagePath, callback) {
     .dest(imagePath)
     .use(plugin);
 
-  imagemin.optimize(callback);
+  imagemin.run(callback);
 
 }
