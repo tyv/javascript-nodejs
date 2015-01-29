@@ -10,6 +10,12 @@ var ngAnnotatePlugin = require('ng-annotate-webpack-plugin');
 
 var del = require('del');
 
+// 3rd party / slow to build modules
+// no webpack dependencies inside
+// no es6 (for 6to5 processing) inside
+// NB: includes angular-*
+var noProcessModulesRegExp = /node_modules\/(angular|moment|prismjs)/;
+
 function filenameTemplate(name) {
   return config.assetVersioning == 'query' ? name + ".js?[hash]" :
     config.assetVersioning == 'file' ? name + ".[hash].js" : name + ".js";
@@ -46,7 +52,6 @@ var webpackConfig = {
     footer:   'client/footer'
   },
 
-
   externals: {
     // require("angular") is external and available
     // on the global var angular
@@ -58,8 +63,7 @@ var webpackConfig = {
       {test: /\.jade$/, loader: "jade?root=" + config.projectRoot + '/templates'},
       {
         test: /\.js$/,
-        // 3rd party / slow to build modules
-        exclude: /node_modules\/(angular|moment|prismjs)/,
+        exclude: noProcessModulesRegExp,
         loader: '6to5-loader?modules=common'}
     ],
     noParse: [
@@ -67,7 +71,7 @@ var webpackConfig = {
       // '/js/javascript-nodejs/node_modules/client/angular.js'
       // or even
       // '/js/javascript-nodejs/node_modules/6to5-loader/index.js?modules=commonInterop!/js/javascript-nodejs/node_modules/client/head/index.js'
-      /node_modules\/angular/
+      noProcessModulesRegExp
     ]
   },
 

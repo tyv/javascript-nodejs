@@ -1,4 +1,4 @@
-var Importer = require('../importer/importer');
+var Importer = require('../importer');
 var co = require('co');
 var fs = require('fs');
 var path = require('path');
