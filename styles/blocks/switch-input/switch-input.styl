@@ -1,0 +1,57 @@
+.switch-input
+	display inline-block
+	vertical-align bottom
+	position relative
+	overflow hidden
+	background #888
+	border-radius 4px
+
+	&__checkbox
+		position absolute
+		right 110%
+
+	&__label
+		font-weight 400
+		line-height 28px
+		font-size: 12px
+		color #fff
+		cursor pointer
+		display inline-block
+		-moz-user-select none
+		-webkit-user-select none
+		-ms-user-select none
+		user-select none
+		border-radius 4px // for some old Operas
+
+	&__on,
+	&__off
+		box-sizing border-box
+		-moz-box-sizing border-box
+		display inline-block
+		padding 0 3px
+		text-align center
+		border-radius 4px
+		min-width 30px
+
+	&__on
+		background #d9a300
+
+	&__off
+		background #555
+
+	&__checkbox + &__label &__on,
+	&__checkbox:checked + &__label &__off
+		visibility hidden
+
+	&__checkbox + &__label &-input__off,
+	&__checkbox:checked + &__label &__on
+		visibility visible
+
+	&__checkbox:disabled + &__label
+		background #aaa
+		cursor default
+
+	&__checkbox:disabled + &__label &__on,
+	&__checkbox:disabled + &__label &__off
+		background #999
+		color #ccc
