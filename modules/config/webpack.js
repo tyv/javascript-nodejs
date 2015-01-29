@@ -56,11 +56,10 @@ var webpackConfig = {
   module: {
     loaders: [
       {test: /\.jade$/, loader: "jade?root=" + config.projectRoot + '/templates'},
-      // commonInterop means that "export default smth" becomes "module.exports = smth"
-      // (unless there are other exports, see "modules" doc in 6to5
       {
         test: /\.js$/,
-        exclude: /node_modules\/(angular|moment)/,
+        // 3rd party / slow to build modules
+        exclude: /node_modules\/(angular|moment|prismjs)/,
         loader: '6to5-loader?modules=common'}
     ],
     noParse: [
