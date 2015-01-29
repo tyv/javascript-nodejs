@@ -1,4 +1,4 @@
-var watch = require('./watch');
+var chokidar = require('chokidar');
 var Importer = require('./importer');
 var co = require('co');
 var fs = require('fs');
@@ -16,14 +16,25 @@ module.exports = function(root) {
         livereload.changed(path);
       }
     });
-    watch(root, function(filePath, flags, id) {
+
+
+    var watcher = chokidar.watch(root, {ignoreInitial: true});
+
+    watcher.on('add', onModify.bind(null, false));
+    watcher.on('change', onModify.bind(null, false));
+    watcher.on('unlink', onModify.bind(null, false));
+    watcher.on('unlinkDir', onModify.bind(null, true));
+    watcher.on('addDir', onModify.bind(null, true));
+
+    function onModify(isDir, filePath) {
+      if (~filePath.indexOf('___jb_')) return; // ignore JetBrains Webstorm tmp files
 
       var relFilePath = filePath.slice(root.length+1);
 
       co(function* () {
         var fileName = path.basename(filePath);
         var folder;
-        if (flags & watch.FsEventsFlags.ItemIsFile) {
+        if (!isDir) {
           folder = path.dirname(filePath);
         } else {
           folder = filePath;
@@ -34,7 +45,7 @@ module.exports = function(root) {
       }).catch(function(err) {
         throw err;
       });
-    });
+    }
 
   };
 
