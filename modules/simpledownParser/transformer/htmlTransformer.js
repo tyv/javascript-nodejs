@@ -151,19 +151,22 @@ HtmlTransformer.prototype.transformImgTag = function(node) {
   // standalone images will not auto-resize by ebook-convert if wrapped in figure
   // so let's make them just <img>, they are on a separate line, so they'll be wrapped in <p>
 
-  if (node.isFigure && !this.options.isEbook) {
-    var attrs = Object.create(node.attrs);
-    attrs['class'] = attrs['class'] ? attrs['class'] + ' image__image' : 'image__image';
+  if (node.isFigure) {
+    if (!this.options.isEbook) {
+      var attrs = Object.create(node.attrs);
+      attrs['class'] = attrs['class'] ? attrs['class'] + ' image__image' : 'image__image';
 
-    if (node.attrs.width && node.attrs.height) {
-      html = '<figure><div class="image" style="width: ' + node.attrs.width + 'px;">' +
-      '<div class="image__ratio" style="padding-top: ' + (node.attrs.height / node.attrs.width * 100) + '%"></div>' +
-      this.wrapTagAround('img', attrs) +
-      '</div></figure>';
+      if (node.attrs.width && node.attrs.height) {
+        html = '<figure><div class="image" style="width: ' + node.attrs.width + 'px;">' +
+        '<div class="image__ratio" style="padding-top: ' + (node.attrs.height / node.attrs.width * 100) + '%"></div>' +
+        this.wrapTagAround('img', attrs) +
+        '</div></figure>';
+      } else {
+        html = '<figure>' + this.transformTagNode(node) + '</figure>';
+      }
     } else {
       html = '<figure>' + this.transformTagNode(node) + '</figure>';
     }
-
   } else {
     html = this.transformTagNode(node);
   }

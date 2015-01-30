@@ -92,9 +92,10 @@ $main-loud
 		> li
 			margin: .3em 0
 
+
 	ul > li::before
 		content "●"
-		position absolute
+		float left // not position: absolute because the latter doesn't show in iBooks (epub)
 		margin-left -20px
 		color #B2C1C1
 
@@ -120,6 +121,11 @@ $main-loud
 
 	h4
 		font-size 114%
+		line-height 125%
+
+	// h5 actually appears only in ebook
+	h5
+		font-size 110%
 		line-height 125%
 
 	// исключения, полные отступы смотрятся неряшливо
@@ -153,6 +159,20 @@ $main-loud
 		font inherit
 		color inherit
 		text-decoration none
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5
+		page-break-after avoid
+
+	h1 + p,
+	h2 + p,
+	h3 + p,
+	h4 + p,
+	h5 + p
+		page-break-before avoid
 
 	// .format_error - old code support?
 	.format_error

@@ -10,6 +10,12 @@ var ngAnnotatePlugin = require('ng-annotate-webpack-plugin');
 
 var del = require('del');
 
+// 3rd party / slow to build modules
+// no webpack dependencies inside
+// no es6 (for 6to5 processing) inside
+// NB: includes angular-*
+var noProcessModulesRegExp = /node_modules\/(angular|moment|prismjs)/;
+
 function filenameTemplate(name) {
   return config.assetVersioning == 'query' ? name + ".js?[hash]" :
     config.assetVersioning == 'file' ? name + ".[hash].js" : name + ".js";
@@ -46,7 +52,6 @@ var webpackConfig = {
     footer:   'client/footer'
   },
 
-
   externals: {
     // require("angular") is external and available
     // on the global var angular
@@ -56,16 +61,17 @@ var webpackConfig = {
   module: {
     loaders: [
       {test: /\.jade$/, loader: "jade?root=" + config.projectRoot + '/templates'},
-      // commonInterop means that "export default smth" becomes "module.exports = smth"
-      // (unless there are other exports, see "modules" doc in 6to5
-      {test: /\.js$/, exclude: /node_modules\/angular/, loader: '6to5-loader?modules=common'}
+      {
+        test: /\.js$/,
+        exclude: noProcessModulesRegExp,
+        loader: '6to5-loader?modules=common'}
     ],
     noParse: [
       // regexp gets full path with loader like
       // '/js/javascript-nodejs/node_modules/client/angular.js'
       // or even
       // '/js/javascript-nodejs/node_modules/6to5-loader/index.js?modules=commonInterop!/js/javascript-nodejs/node_modules/client/head/index.js'
-      /node_modules\/angular/
+      noProcessModulesRegExp
     ]
   },
 

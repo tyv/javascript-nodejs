@@ -44,10 +44,6 @@ function requireSetup(path) {
 requireSetup('setup/requestId');
 requireSetup('setup/requestLog');
 
-// usually nginx(or varnish) will handle this before node
-// that's why we put it at the top
-requireSetup('setup/static');
-
 /*
  app.id = Math.random();
  app.use(function*(next) {

@@ -1,10 +1,10 @@
-var watch = require('../importer/watch');
-var Importer = require('../importer/importer');
+var Importer = require('../importer');
 var co = require('co');
 var fs = require('fs');
 var path = require('path');
 var livereload = require('gulp-livereload');
-const log = require('log')();
+var log = require('log')();
+var chokidar = require('chokidar');
 
 module.exports = function(options) {
 
@@ -30,17 +30,23 @@ module.exports = function(options) {
 
     livereload.listen();
 
-    watch(root, function(filePath, flags, id) {
+    var watcher = chokidar.watch(root, {ignoreInitial: true});
 
-      var relFilePath = filePath.slice(root.length + 1);
+    watcher.on('add', onModify.bind(null, false));
+    watcher.on('change', onModify.bind(null, false));
+    watcher.on('unlink', onModify.bind(null, false));
+    watcher.on('unlinkDir', onModify.bind(null, true));
+    watcher.on('addDir', onModify.bind(null, true));
 
-      log.info("watch detected change on", filePath);
+    function onModify(isDir, filePath) {
+      if (~filePath.indexOf('___jb_')) return; // ignore JetBrains Webstorm tmp files
+
+      var relFilePath = filePath.slice(root.length+1);
 
       co(function* () {
-
         var fileName = path.basename(filePath);
         var folder;
-        if (flags & watch.FsEventsFlags.ItemIsFile) {
+        if (!isDir) {
           folder = path.dirname(filePath);
         } else {
           folder = filePath;
@@ -51,7 +57,8 @@ module.exports = function(options) {
       }).catch(function(err) {
         throw err;
       });
-    });
+    }
+
 
   };
 

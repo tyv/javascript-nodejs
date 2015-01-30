@@ -1,16 +1,15 @@
-const Imagemin = require('imagemin');
-const pngquant = require('imagemin-pngquant');
 const es = require('event-stream');
 const path = require('path');
 const gulp = require('gulp');
 const gp = require('gulp-load-plugins')();
 const gutil = require('gulp-util');
 const fs = require('fs');
+const gm = require('gm');
 
 /**
- *
+ * Resize all @2x. images to normal resolution
  * @param options
- *  options.root => the root to import from
+ *  options.root => the root to resize from
  * @returns {Function}
  */
 module.exports = function(options) {
@@ -24,18 +23,16 @@ module.exports = function(options) {
 
   return function(callback) {
 
-    gutil.log("minify " + root);
+    gutil.log("resize retina images " + root);
 
-    return gulp.src(root + '/**/*.{svg,png,jpg,gif}')
+    return gulp.src(root + '/**/*@2x.{png,jpg,gif}')
       .pipe(gp.debug())
 
-      .pipe(gp.imagemin({
-        verbose: true,
-        progressive: true,
-        svgoPlugins: [{removeViewBox: false}],
-        use:         [pngquant()]
-      }))
-      .pipe(gulp.dest(root));
+      .pipe(es.map(function(file, cb) {
+        var normalResolutionPath = file.path.replace(/@2x(?=\.[^.]+$)/, '');
+        gutil.log(file.path + ' -> ' + normalResolutionPath);
+        gm(file.path).resize("50%").write(normalResolutionPath, cb);
+      }));
   };
 
 

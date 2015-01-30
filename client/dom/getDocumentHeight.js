@@ -21,21 +21,3 @@ function getDocumentHeight(doc) {
 
 module.exports = getDocumentHeight;
 
-/**  TODO: is Math.max below still needed anywhere?
- * Gets the height of the document
- * @see http://james.padolsey.com/javascript/get-document-height-cross-browser/
- * @return {int} the height of the document in pixels
-
-function getDocumentHeight() {
-  var body = document.body,
-      documentElement = document.documentElement;
-
-  return Math.max(
-    body.scrollHeight, documentElement.scrollHeight,
-    body.offsetHeight, documentElement.offsetHeight,
-    body.clientHeight, documentElement.clientHeight
-  );
-}
-*/
-
-
