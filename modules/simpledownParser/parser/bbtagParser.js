@@ -293,7 +293,9 @@ BbtagParser.prototype.parseCompare = function() {
   }
 
 
-  var balance = new CompositeTag('div', [], {'class': 'balance'});
+  var balance = new CompositeTag('div', [], {
+    'class': 'balance' + (cons.hasChildren() && pros.hasChildren() ? '' : ' balance_single')
+  });
 
   if (pros.hasChildren()) {
     balance.appendChild(new CompositeTag('div', [
