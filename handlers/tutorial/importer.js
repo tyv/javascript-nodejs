@@ -5,6 +5,7 @@ const fse = require('fs-extra');
 const path = require('path');
 const config = require('config');
 const mongoose = require('lib/mongoose');
+const glob = require("glob")
 
 require('lib/requireJade');
 
@@ -12,15 +13,15 @@ const Article = require('tutorial').Article;
 const Reference = require('tutorial').Reference;
 const Plunk = require('plunk').Plunk;
 const Task = require('tutorial').Task;
-const ArticleRenderer = require('../renderer/articleRenderer');
-const TaskRenderer = require('../renderer/taskRenderer');
+const ArticleRenderer = require('./renderer/articleRenderer');
+const TaskRenderer = require('./renderer/taskRenderer');
 const BodyParser = require('simpledownParser').BodyParser;
 const TreeWalkerSync = require('simpledownParser').TreeWalkerSync;
 const HeaderTag = require('simpledownParser').HeaderTag;
 const log = require('log')();
 
+const execSync = require('child_process').execSync;
 
-// TODO: separate minification to another task
 // TODO: use htmlhint/jslint for html/js examples
 
 function Importer(options) {
@@ -118,6 +119,73 @@ Importer.prototype.destroyAll = function* () {
   yield Article.destroy({});
   yield Task.destroy({});
   yield Reference.destroy({});
+};
+
+Importer.prototype.syncFigures = function*(figuresFilePath) {
+  var outputDir = path.join(config.tmpRoot, 'sketchtool');
+
+  fse.removeSync(outputDir);
+  fse.mkdirsSync(outputDir);
+
+  var artboardsByPages = JSON.parse(execSync('/usr/local/bin/sketchtool list artboards "' + figuresFilePath + '"', {
+    encoding: 'utf-8'
+  }));
+
+  var artboards = artboardsByPages
+    .pages
+    .reduce(function(prev, current) {
+      return prev.concat(current.artboards);
+    }, []);
+
+  var artboardsFiltered = artboards
+    .filter(function(artboard) {
+      // only allow artboards with lowercase first letter
+      // others are temporary / helpers
+      var isFigure = !!artboard.name[0].match(/[a-z]/);
+      return isFigure;
+    });
+
+  var artboardIds = artboardsFiltered
+    .map(function(artboard) {
+      return artboard.id;
+    });
+
+  execSync('/usr/local/bin/sketchtool export artboards "' + figuresFilePath +
+    '" --trimmed --formats=svg --compact --output="' + outputDir + '" --items=' + artboardIds.join(','), {
+    stdio: 'inherit',
+    encoding: 'utf-8'
+  });
+
+  var allSvgFilePaths = yield function(callback) {
+    glob(path.join(this.root, '**/*.svg'), callback);
+  }.bind(this);
+
+  function findArtboardPath(artboard) {
+
+    for (var j = 0; j < allSvgFilePaths.length; j++) {
+      if (path.basename(allSvgFilePaths[j]) == artboard.name + '.svg') {
+        return allSvgFilePaths[j];
+      }
+    }
+
+  }
+
+  for (var i = 0; i < artboardsFiltered.length; i++) {
+    var artboard = artboardsFiltered[i];
+    var artboardPath = findArtboardPath(artboard);
+    if (!artboardPath) {
+      log.error("Artboard path not found " + artboard.name);
+      continue;
+    }
+
+    log.info("syncFigure move figure to " + artboardPath);
+    yield function(callback) {
+      fse.move(path.join(outputDir, artboard.name + ".svg"), artboardPath, {clobber: true}, callback);
+    };
+
+  }
+
+
 };
 
 Importer.prototype.syncFolder = function*(sourceFolderPath, parent) {
