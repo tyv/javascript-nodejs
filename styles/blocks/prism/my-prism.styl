@@ -14,7 +14,6 @@ pre[class*="language-"]
 pre.line-numbers
 	padding-left 3.2em
 
-
 // span with line numbers is moved from <code> to the outer <pre>,
 // because we need to handle many <code>...</code> inside single <pre>
 // (this we need for highlighting *!*...* /!* inline
@@ -26,8 +25,17 @@ pre.line-numbers
 	background #e7e5e3
 	width auto
 
-.line-numbers-rows > span:before
+.line-numbers .line-numbers-rows:after
+	width auto
+	display block
+	visibility hidden
+	margin-top -1.2em // fitted value
+	content: '222' // stretch line up to 3 digits
+
+.line-numbers-rows > span:before,
+.line-numbers .line-numbers-rows:after
 	padding 0 .7em 0 .8em
+	background #e7e5e3 // #146 https://github.com/iliakan/javascript-nodejs/issues/146#issuecomment-72321753
 	text-shadow none
 
 @media (min-width: largescreen)
