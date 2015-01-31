@@ -4,4 +4,4 @@ exports.middleware = router.middleware();
 
 exports.renderForm = require('./renderForm');
 
-
+exports.title = "PayPal";

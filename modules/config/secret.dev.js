@@ -21,6 +21,11 @@ module.exports = {
     clientSecret: '9195ed91c629b9c933187d3eba8a4d0567ba4644'
   },
 
+  openexchangerates: {
+    // login: mk@javascript.ru
+    appId: "a41430df4d734553ae0edd5a932e8169"
+  },
+
   facebook:  {
     appId:     '*',
     appSecret: '*'

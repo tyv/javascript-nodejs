@@ -1,0 +1,62 @@
+extends ../layouts/base
+
+// - http://stackoverflow.com/questions/12646451/how-to-pass-variables-between-jade-templates
+block variables
+  - self.title = 'Приобретение книги javascript.ru в&nbsp;формате&nbsp;PDF';
+
+  //- layout
+  - layout.header = true
+  - layout.centeredHeader = true
+
+block content
+  +b.complex-form
+    +e.step._current
+      +e.step-content
+        +b.extract._small.__extract
+          +e.wrap
+            +e.content
+              +e('h5').title Основы JavaScript
+              +e.info <b>125 стр.</b>, pdf (10 Mb)
+            +e.aside._price._center
+              | Стоимость
+              +b.price.__price
+                | 2400&nbsp;RUR
+                +e('span').secondary (≈&nbsp;69$)
+        +e('h2').alternate-title Укажите свой email
+        +b.text-input.__email
+          +e('input').control(placeholder="email")
+        +e.email-note После оплаты ссылка на скачивание учебника придет на этот адрес
+        +e('h2').alternate-title Выберите метод оплаты
+        +b.pay-method.__pay-method
+          +e.methods
+            +e.method
+              +e('button').send(name="[payment-type]", value="webmoney")
+                +e('img').img(src="/img/pay-method__webmoney.png", width="184", height="98", alt="WebMoney")
+            +e.method
+              +e('button').send(name="[payment-type]", value="yamoney")
+                +e('img').img(src="/img/pay-method__yamoney.png", width="184", height="98", alt="Яндекс.Деньги")
+            +e.method
+              +e('button').send(name="[payment-type]", value="paypal")
+                +e('img').img(src="/img/pay-method__paypal.png", width="184", height="98", alt="Paypal")
+            +e.method
+              +e('button').send(name="[payment-type]", value="payanyway")
+                +e('img').img(src="/img/pay-method__payanyway.png", width="184", height="98", alt="Карта")
+            +e.method
+              +e('button').send(name="[payment-type]", value="interkassa")
+                +e('img').img(src="/img/pay-method__interkassa.png", width="184", height="98", alt="Терминалы и банки")
+        +b.pay-hint.__pay-hint
+          +e('a').hint(href="hint")
+            +b('img').flag.__flag(src="/img/flag/flag_ua.png")
+              | Рекомендации по оплате не из России
+    +e.step
+      +b.order-confirm
+        +e('h2').title__step-title Спасибо за заказ!
+        +e.accent В ближайшее время вам на электронный адрес придет ссылка на скачивание учебника
+        +e.content
+          +e.text
+            | Если у вас возникли какие-либо вопросы, присылайте их на
+            =" "
+            a(href="mailto:orders@javascript.ru") orders@javascript.ru
+    +b('ul').grayed-list.__next
+      +e('li').item.__next-item Подтверждение
+

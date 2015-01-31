@@ -2,12 +2,12 @@ var mongoose = require('mongoose');
 var payments = require('payments');
 var Order = payments.Order;
 var OrderTemplate = payments.OrderTemplate;
-var methods = require('../paymentMethods').methods;
 
 exports.post = function*(next) {
 
   yield* this.loadOrder();
-  var method = methods[this.request.body.paymentMethod];
+  var paymentMethod = this.request.body.paymentMethod;
+  var method = payments.methods[paymentMethod];
   if (!method) {
     this.throw(403, "Unsupported payment method");
   }
@@ -46,7 +46,7 @@ exports.post = function*(next) {
     this.session.orders.push(this.order.number);
   }
 
-  var form = yield* payments.createTransactionForm(this.order, method.name);
+  var form = yield* payments.createTransactionForm(this.order, paymentMethod);
 
   this.body = form;
 

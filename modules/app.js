@@ -44,6 +44,8 @@ function requireSetup(path) {
 requireSetup('setup/requestId');
 requireSetup('setup/requestLog');
 
+requireSetup('setup/nocache');
+
 /*
  app.id = Math.random();
  app.use(function*(next) {

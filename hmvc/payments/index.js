@@ -12,21 +12,21 @@ var OrderTemplate = exports.OrderTemplate = require('./models/orderTemplate');
 var Transaction = exports.Transaction = require('./models/transaction');
 var TransactionLog = exports.TransactionLog = require('./models/transactionLog');
 
+exports.methods = {};
+
 //  all submodules
-var paymentModules = {};
-for(var name in config.payments.modules) {
-  paymentModules[name] = require('./' + name);
+for(var key in config.payments.modules) {
+  exports.methods[key] = require('./' + key);
 }
 
 // mount('/webmoney', webmoney.middleware())
 var paymentMounts = [];
-for(var name in paymentModules) {
-  paymentMounts.push(mount('/' + name, paymentModules[name].middleware));
+for(key in exports.methods) {
+  paymentMounts.push(mount('/' + key, exports.methods[key].middleware));
 }
 
 // delegate all HTTP calls to payment modules
 exports.middleware = compose(paymentMounts);
-
 
 exports.populateContextMiddleware = function*(next) {
   this.redirectToOrder = function(order) {
@@ -52,7 +52,7 @@ exports.createTransactionForm = function* (order, method) {
 
   console.log(transaction);
 
-  var form = yield* paymentModules[method].renderForm(transaction);
+  var form = yield* exports.methods[method].renderForm(transaction);
 
   yield transaction.log('form', form);
 

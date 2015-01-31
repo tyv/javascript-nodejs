@@ -3,8 +3,8 @@ var Order = payments.Order;
 var OrderTemplate = payments.OrderTemplate;
 var Transaction = payments.Transaction;
 
-exports.get = function*(next) {
-  this.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+exports.get = function*() {
+  this.nocache();
 
   if (this.params.orderNumber) {
     yield* this.loadOrder();
@@ -25,14 +25,22 @@ exports.get = function*(next) {
     // order.isNew = true!
     this.order = Order.createFromTemplate(orderTemplate, {
       module: 'getpdf',
-      email: Math.round(Math.random()*1e6).toString(36) + '@gmail.com'
+      email: this.req.user ? this.req.user.email : ''
     });
 
   }
 
+  this.locals.sitetoolbar = true;
+  this.locals.title = "Покупка";
+
   this.locals.order = this.order;
 
-  this.locals.paymentMethods = require('../paymentMethods').methods;
+  this.locals.user = this.req.user;
 
-  this.body = this.render('main');
+  this.locals.paymentMethods = {};
+  for(var key in payments.methods) {
+    this.locals.paymentMethods[key] = { name: key, title: payments.methods[key].title };
+  }
+
+  this.body = this.render('order');
 };
