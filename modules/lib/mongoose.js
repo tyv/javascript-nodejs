@@ -37,6 +37,7 @@ _.bindAll(mongoose.connection.db);
 // yield.. .persist() or .destroy() for generators instead of save/remove
 // mongoose 3.10 will not need that (!)
 mongoose.plugin(function(schema) {
+
   schema.methods.persist = function(body) {
     var model = this;
 
