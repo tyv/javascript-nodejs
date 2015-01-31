@@ -17,7 +17,6 @@ if (process.env.NODE_ENV == 'production') {
 
 
 const koa = require('koa');
-const mongoose = require('lib/mongoose');
 const app = koa();
 
 app.log = log;
@@ -28,23 +27,15 @@ app.log = log;
 // X-Forwarded-For -> ip
 app.proxy = true;
 
-function requireSetup(path) {
-  // if debug is on => will log the middleware travel chain
-  if (process.env.NODE_ENV == 'development' || process.env.LOG_LEVEL) {
-    app.use(function *(next) {
-      log.trace("-> setup " + path);
-      var d = new Date();
-      yield* next;
-      log.trace("<- setup " + path, new Date() - d);
-    });
-  }
-  require(path)(app);
-}
+var requireHandler = require('lib/requireHandler')(app);
 
-requireSetup('setup/requestId');
-requireSetup('setup/requestLog');
 
-requireSetup('setup/nocache');
+requireHandler('mongooseHandler');
+
+requireHandler('requestId');
+requireHandler('requestLog');
+
+requireHandler('nocache');
 
 /*
  app.id = Math.random();
@@ -54,76 +45,100 @@ requireSetup('setup/nocache');
  });
  */
 
-//requireSetup('setup/time');
+//requireHandler('time');
 
 // this middleware adds this.render method
 // it is *before errorHandler*, because errors need this.render
-requireSetup('setup/render');
+requireHandler('render');
 
 // errors wrap everything
-requireSetup('setup/errorHandler');
+requireHandler('errorHandler');
 
 // this logger only logs HTTP status and URL
 // before everything to make sure it log all
-requireSetup('setup/accessLogger');
+requireHandler('accessLogger');
 
 // before anything that may deal with body
 // it parses JSON & URLENCODED FORMS,
 // it does not parse form/multipart
-requireSetup('setup/bodyParser');
+requireHandler('bodyParser');
 
 // parse FORM/MULTIPART
 // (many tweaks possible, lets the middleware decide how to parse it)
-requireSetup('setup/multipartParser');
+requireHandler('multipartParser');
 
 // right after parsing body, make sure we logged for development
-requireSetup('setup/verboseLogger');
+requireHandler('verboseLogger');
 
 if (process.env.NODE_ENV == 'development') {
 //  app.verboseLogger.addPath('/:any*');
 }
 
-requireSetup('setup/conditional');
+requireHandler('conditional');
 
-requireSetup('setup/session');
+requireHandler('session');
 
-requireSetup('setup/passport');
+requireHandler('passport');
 
-requireSetup('setup/csrf');
+requireHandler('csrf');
 
-requireSetup('setup/paymentsMethods');
+requireHandler('paymentsMethods');
 
-requireSetup('setup/hmvc');
+// Services that actually generate some stuff
 
-// by default if the router didn't find anything => it yields to next middleware
-// so I throw error here manually
-app.use(function* (next) {
-  yield* next;
+requireHandler('frontpage');
 
-  if (this.status == 404) {
-    // still nothing found? let default errorHandler show 404
-    this.throw(404);
-  }
-});
+if (process.env.NODE_ENV == 'development') {
+  requireHandler('markup');
+  requireHandler('dev');
+}
+
+requireHandler('users');
+
+requireHandler('auth');
+
+requireHandler('getpdf');
+requireHandler('cache');
+requireHandler('search');
+
+requireHandler('profile');
+
+requireHandler('payments');
+
+/*
+ app.use(mount('/webmoney', compose([payment.middleware, require('webmoney').middleware])));
+ app.csrfChecker.addIgnorePath('/webmoney/:any*');
+ app.verboseLogger.addPath('/webmoney/:any*');
+
+ app.use(mount('/yandexmoney', compose([payment.middleware, require('yandexmoney').middleware])));
+ app.csrfChecker.addIgnorePath('/yandexmoney/:any*');
+ app.verboseLogger.addPath('/yandexmoney/:any*');
+
+ app.use(mount('/payanyway', compose([payment.middleware, require('payanyway').middleware])));
+ app.csrfChecker.addIgnorePath('/payanyway/:any*');
+ app.verboseLogger.addPath('/payanyway/:any*');
+
+ app.use(mount('/paypal', compose([payment.middleware, require('paypal').middleware])));
+ app.csrfChecker.addIgnorePath('/paypal/:any*');
+ app.verboseLogger.addPath('/paypal/:any*');
+ */
+
+// stick to bottom to detect any not-yet-processed /:slug
+requireHandler('tutorial');
+
+
+requireHandler('404');
 
 // wait for full app load and all associated warm-ups to finish
 // mongoose buffers queries,
 // so for TEST/DEV there's no reason to wait
 // for PROD, there is a reason: to check if DB is ok before taking a request
-var elasticClient = require('elastic').client;
 app.waitBoot = function* () {
 
-  if (process.env.NODE_ENV == 'production') {
-    yield function(callback) {
-      mongoose.waitConnect(callback);
-    };
-
-    /* in ebook no elasticsearch
-    var elastic = elasticClient();
-    yield elastic.ping({
-      requestTimeout: 1000
-    });
-    */
+  for (var i = 0; i < app.handlers.length; i++) {
+    var handler = app.handlers[i];
+    if (!handler.boot) continue;
+    yield* handler.boot();
   }
 
 };
@@ -153,9 +168,12 @@ app.close = function*() {
 
   log.info("App connections are closed");
 
-  yield function(callback) {
-    mongoose.disconnect(callback);
-  };
+  for (var i = 0; i < app.handlers.length; i++) {
+    var handler = app.handlers[i];
+    if (!handler.close) continue;
+    yield* handler.close();
+  }
+
   log.info("App stopped");
 };
 
