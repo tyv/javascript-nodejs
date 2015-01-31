@@ -23,7 +23,6 @@ router.get('/user', function*() {
     });
 
   } catch (e) {
-
     console.log(e.errors);
   }
 

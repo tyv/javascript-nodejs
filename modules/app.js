@@ -2,40 +2,35 @@
 
 const config = require('config');
 
-const log = require('log')('app', {bufferLowLevel: true});
+const Application = require('application');
+var app = new Application();
 
 if (process.env.NODE_ENV == 'production') {
 
   // only log.error in prod, otherwise just die
   process.on('uncaughtException', function(err) {
     // let bunyan handle the error
-    log.error(err);
+    app.log.error(err);
     process.exit(255);
   });
 
 }
 
 
-const koa = require('koa');
-const app = koa();
-
-app.log = log;
-
-// trust all headers from proxy
+// The app is always behind Nginx which serves static
+// (Maybe behind Cloudflare as well)
+// trust all headers from the proxy
 // X-Forwarded-Host
 // X-Forwarded-Proto
 // X-Forwarded-For -> ip
 app.proxy = true;
 
-var requireHandler = require('lib/requireHandler')(app);
+app.requireHandler('mongooseHandler');
 
+app.requireHandler('requestId');
+app.requireHandler('requestLog');
 
-requireHandler('mongooseHandler');
-
-requireHandler('requestId');
-requireHandler('requestLog');
-
-requireHandler('nocache');
+app.requireHandler('nocache');
 
 /*
  app.id = Math.random();
@@ -45,65 +40,66 @@ requireHandler('nocache');
  });
  */
 
-//requireHandler('time');
+//app.requireHandler('time');
 
 // this middleware adds this.render method
 // it is *before errorHandler*, because errors need this.render
-requireHandler('render');
+app.requireHandler('render');
 
 // errors wrap everything
-requireHandler('errorHandler');
+app.requireHandler('errorHandler');
 
 // this logger only logs HTTP status and URL
 // before everything to make sure it log all
-requireHandler('accessLogger');
+app.requireHandler('accessLogger');
 
 // before anything that may deal with body
 // it parses JSON & URLENCODED FORMS,
 // it does not parse form/multipart
-requireHandler('bodyParser');
+app.requireHandler('bodyParser');
 
 // parse FORM/MULTIPART
 // (many tweaks possible, lets the middleware decide how to parse it)
-requireHandler('multipartParser');
+app.requireHandler('multipartParser');
 
 // right after parsing body, make sure we logged for development
-requireHandler('verboseLogger');
+app.requireHandler('verboseLogger');
 
 if (process.env.NODE_ENV == 'development') {
 //  app.verboseLogger.addPath('/:any*');
 }
 
-requireHandler('conditional');
+app.requireHandler('conditional');
 
-requireHandler('session');
+app.requireHandler('session');
 
-requireHandler('passport');
+app.requireHandler('passport');
 
-requireHandler('csrf');
+app.requireHandler('csrf');
 
-requireHandler('paymentsMethods');
+app.requireHandler('paymentsMethods');
 
 // Services that actually generate some stuff
 
-requireHandler('frontpage');
+app.requireHandler('frontpage');
 
 if (process.env.NODE_ENV == 'development') {
-  requireHandler('markup');
-  requireHandler('dev');
+  app.requireHandler('markup');
+  app.requireHandler('dev');
 }
 
-requireHandler('users');
+app.requireHandler('users');
 
-requireHandler('auth');
+app.requireHandler('auth');
 
-requireHandler('getpdf');
-requireHandler('cache');
-requireHandler('search');
+app.requireHandler('getpdf');
+app.requireHandler('cache');
+app.requireHandler('search');
 
-requireHandler('profile');
+app.requireHandler('profile');
 
-requireHandler('payments');
+app.requireHandler('currencyRate');
+app.requireHandler('payments');
 
 /*
  app.use(mount('/webmoney', compose([payment.middleware, require('webmoney').middleware])));
@@ -124,58 +120,10 @@ requireHandler('payments');
  */
 
 // stick to bottom to detect any not-yet-processed /:slug
-requireHandler('tutorial');
+app.requireHandler('tutorial');
 
 
-requireHandler('404');
-
-// wait for full app load and all associated warm-ups to finish
-// mongoose buffers queries,
-// so for TEST/DEV there's no reason to wait
-// for PROD, there is a reason: to check if DB is ok before taking a request
-app.waitBoot = function* () {
-
-  for (var i = 0; i < app.handlers.length; i++) {
-    var handler = app.handlers[i];
-    if (!handler.boot) continue;
-    yield* handler.boot();
-  }
-
-};
-
-// adding middlewares only possible *before* app.run
-// (before server.listen)
-// assigns server instance (meaning only 1 app can be run)
-//
-// app.listen can also be called from tests directly (and synchronously), without waitBoot (many times w/ random port)
-// it's ok for tests, db requests are buffered, no need to waitBoot
-
-app.waitBootAndListen = function*() {
-  yield* app.waitBoot();
-
-  yield function(callback) {
-    app.server = app.listen(config.server.port, config.server.host, callback);
-  };
-
-  log.info('App listen %s:%d', config.server.host, config.server.port);
-};
-
-app.close = function*() {
-  log.info("Closing app server...");
-  yield function(callback) {
-    app.server.close(callback);
-  };
-
-  log.info("App connections are closed");
-
-  for (var i = 0; i < app.handlers.length; i++) {
-    var handler = app.handlers[i];
-    if (!handler.close) continue;
-    yield* handler.close();
-  }
-
-  log.info("App stopped");
-};
+app.requireHandler('404');
 
 // uncomment for time-require to work
 //process.emit('exit');

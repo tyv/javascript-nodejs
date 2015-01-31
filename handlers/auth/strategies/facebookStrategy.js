@@ -105,8 +105,6 @@ module.exports = new FacebookStrategy({
       profile.realName = profile._json.name;
 
     }).then(function() {
-
-      console.log(profile);
       authenticateByProfile(req, profile, done);
     }, function(err) {
       if (err instanceof UserAuthError) {

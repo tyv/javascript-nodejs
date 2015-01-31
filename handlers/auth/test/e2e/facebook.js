@@ -10,7 +10,8 @@ const browser = require('lib/selenium/browser');
 const fixtures = require(path.join(__dirname, '../fixtures/db'));
 
 
-xdescribe('facebook', function() {
+// disabled until fixed
+describe('facebook', function() {
 
   var driver, server;
 

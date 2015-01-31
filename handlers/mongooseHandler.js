@@ -1,4 +1,3 @@
-
 const mongoose = require('lib/mongoose');
 
 exports.boot = function*() {
