@@ -150,8 +150,9 @@ Importer.prototype.syncFigures = function*(figuresFilePath) {
       return artboard.id;
     });
 
-  execSync('/usr/local/bin/sketchtool export artboards "' + figuresFilePath +
-    '" --trimmed --formats=svg --compact --output="' + outputDir + '" --items=' + artboardIds.join(','), {
+  // Artboards are NOT trimmed (sketchtool doesn't do that yet)
+  execSync('/usr/local/bin/sketchtool export artboards "' + figuresFilePath + '" ' +
+  '--overwriting=YES --trimmed=YES --formats=svg --compact=YES --output="' + outputDir + '" --items=' + artboardIds.join(','), {
     stdio: 'inherit',
     encoding: 'utf-8'
   });
@@ -170,6 +171,8 @@ Importer.prototype.syncFigures = function*(figuresFilePath) {
 
   }
 
+  // copy should trigger folder resync on watch
+  // and that's right (img size changed, <img> must be rerendered)
   for (var i = 0; i < artboardsFiltered.length; i++) {
     var artboard = artboardsFiltered[i];
     var artboardPath = findArtboardPath(artboard);
