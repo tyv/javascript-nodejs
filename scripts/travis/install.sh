@@ -83,7 +83,7 @@ sudo /etc/init.d/nginx restart
 gulp build --harmony
 
 if [ -d /js/javascript-tutorial ]; then
-  gulp build tutorial:import --harmony --root ./javascript-tutorial
+  gulp build tutorial:import --harmony --root /js/javascript-tutorial
 fi
 
 if [[ ! -z $TRAVIS_DEBUG ]]; then
