@@ -5,10 +5,11 @@
   "scripts": {
     "prod": "NODE_ENV=production node --harmony ./bin/server",
     "fixperms": "sudo chown -R `id -u` . * ~/.n*",
-    "test": "SELENIUM_LOCAL=1 NODE_ENV=test node --harmony `which gulp` test | bunyan"
+    "test": "SELENIUM_LOCAL=1 NODE_ENV=test gulp test --harmony | bunyan"
   },
   "precommit": "NODE_ENV=development node --harmony `which gulp` pre-commit",
   "//": "EJS 2.0 breaks include in nginx configs",
+  "//": "passport is not required, but buggy npm doesn't install it w/ koa-passport",
   "dependencies": {
     "6to5-loader": "*",
     "MD5": "*",
@@ -52,6 +53,7 @@
     "koa-logger": "*",
     "koa-mount": "*",
     "koa-passport": "*",
+    "passport": "*",
     "koa-request": "*",
     "koa-router": "*",
     "koa-send": "*",

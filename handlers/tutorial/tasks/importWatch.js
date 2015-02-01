@@ -30,7 +30,19 @@ module.exports = function(options) {
 
     livereload.listen();
 
-    var watcher = chokidar.watch(root, {ignoreInitial: true});
+
+    var subRoots = fs.readdirSync(root);
+    subRoots = subRoots.filter(function(subRoot) {
+      return parseInt(subRoot);
+    }).map(function(dir) {
+      return path.join(root, dir);
+    });
+
+    var figuresFilePath = path.join(root, 'figures.sketch');
+
+    var watchDirs = subRoots.concat(figuresFilePath);
+
+    var watcher = chokidar.watch(watchDirs, {ignoreInitial: true});
 
     watcher.on('add', onModify.bind(null, false));
     watcher.on('change', onModify.bind(null, false));
@@ -41,15 +53,19 @@ module.exports = function(options) {
     function onModify(isDir, filePath) {
       if (~filePath.indexOf('___jb_')) return; // ignore JetBrains Webstorm tmp files
 
-      var relFilePath = filePath.slice(root.length+1);
-
       co(function* () {
-        var fileName = path.basename(filePath);
+
+        //console.log('--> ' + filePath);
+        if (filePath == figuresFilePath) {
+          yield* importer.syncFigures(figuresFilePath);
+          return;
+        }
+
         var folder;
-        if (!isDir) {
-          folder = path.dirname(filePath);
-        } else {
+        if (isDir) {
           folder = filePath;
+        } else {
+          folder = path.dirname(filePath);
         }
 
         yield* importer.sync(folder);

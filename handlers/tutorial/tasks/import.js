@@ -22,6 +22,8 @@ module.exports = function(options) {
 
       yield* importer.destroyAll();
 
+      yield* importer.syncFigures(path.join(root, 'figures.sketch'));
+
       var subRoots = fs.readdirSync(root);
 
       for (var i = 0; i < subRoots.length; i++) {

@@ -55,7 +55,7 @@ Application.prototype.waitBootAndListen = function*(host, port) {
     this.server = this.listen(port, host, callback);
   }.bind(this);
 
-  this.log.info('App listen %s:%d', host, port);
+  this.log.info('App listening %s:%d', host, port);
 };
 
 Application.prototype.close = function*() {

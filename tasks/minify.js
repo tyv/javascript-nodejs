@@ -1,6 +1,4 @@
-const Imagemin = require('imagemin');
 const pngquant = require('imagemin-pngquant');
-const es = require('event-stream');
 const path = require('path');
 const gulp = require('gulp');
 const gp = require('gulp-load-plugins')();
@@ -26,7 +24,8 @@ module.exports = function(options) {
 
     gutil.log("minify " + root);
 
-    return gulp.src(root + '/**/*.{svg,png,jpg,gif}')
+    return gulp.src(root + '/**/*.{png,jpg,gif}')
+    //return gulp.src(root + '/**/*.{svg,png,jpg,gif}')
       .pipe(gp.debug())
 
       .pipe(gp.imagemin({

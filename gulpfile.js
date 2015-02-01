@@ -73,8 +73,15 @@ gulp.task("tutorial:import:watch", lazyRequireTask('tutorial/tasks/importWatch',
   root: process.env.TUTORIAL_ROOT
 }));
 
+var testSrcs = ['{handlers,modules}/**/test/**/*.js'];
+// on Travis, keys are required for E2E Selenium tests
+// for PRs there are no keys, so we disable E2E
+if (process.env.CI && process.env.TRAVIS_SECURE_ENV_VARS=="false") {
+  testSrcs.push(['!{handlers,modules}/**/test/e2e/*.js']);
+}
+
 gulp.task("test", lazyRequireTask('./tasks/test', {
-  glob: '{handlers,modules}/**/test/**/*.js',
+  src: testSrcs,
   reporter: 'spec',
   timeout: 100000 // big timeout for webdriver e2e tests
 }));
