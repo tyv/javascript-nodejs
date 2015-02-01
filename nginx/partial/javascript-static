@@ -19,11 +19,6 @@ location = /robots.txt {
 }
 
 
-# will look for @2x.png before .png
-if ($http_cookie ~ "hires" ) {
-  set     $hires 1;
-}
-
 location ~ /\. { # above all
   deny all;
 }
@@ -33,23 +28,11 @@ location ~ \.v.*?\. {
   rewrite ^(.*?)(\.v.*?)(\..+)$ $1$3 last;
 }
 
-location ~* ^(.+)@2x.(jpg|jpeg|gif|png)$ {
-  try_files    $uri $1.$2 =404;
-  access_log   off;
-  expires      max;
-  add_header Cache-Control public;
-}
-
-
 # anything with an extension in basename
 location ~ \.\w+$ {
   access_log   off;
   expires      max;
   add_header Cache-Control public;
-
-  if ($hires = 1) {
-    rewrite ^([^@]+)\.(jpg|jpeg|gif|png)$ $1@2x.$2;
-  }
 
   include "partial/args_limit";
 }

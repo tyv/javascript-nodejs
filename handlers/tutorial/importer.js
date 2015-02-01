@@ -137,35 +137,54 @@ Importer.prototype.syncFigures = function*(figuresFilePath) {
       return prev.concat(current.artboards);
     }, []);
 
-  var artboardsFiltered = artboards
-    .filter(function(artboard) {
-      // only allow artboards with lowercase first letter
-      // others are temporary / helpers
-      var isFigure = !!artboard.name[0].match(/[a-z]/);
-      return isFigure;
-    });
+  var svgIds = [];
+  var pngIds = [];
+  var artboardsExported = [];
 
-  var artboardIds = artboardsFiltered
-    .map(function(artboard) {
-      return artboard.id;
-    });
+  for (var i = 0; i < artboards.length; i++) {
+    var artboard = artboards[i];
 
-  // Artboards are NOT trimmed (sketchtool doesn't do that yet)
+    // only allow artboards with extensions are exported
+    // others are temporary / helpers
+    var ext = path.extname(artboard.name).slice(1);
+    if (ext == 'png') {
+      pngIds.push(artboard.id);
+      artboardsExported.push(artboard);
+    }
+    if (ext == 'svg') {
+      svgIds.push(artboard.id);
+      artboardsExported.push(artboard);
+    }
+  }
+
+  // NB: Artboards are NOT trimmed (sketchtool doesn't do that yet)
   execSync('/usr/local/bin/sketchtool export artboards "' + figuresFilePath + '" ' +
-  '--overwriting=YES --trimmed=YES --formats=svg --compact=YES --output="' + outputDir + '" --items=' + artboardIds.join(','), {
+  '--overwriting=YES --trimmed=YES --formats=png --scales=1,2 --output="' + outputDir + '" --items=' + pngIds.join(','), {
     stdio: 'inherit',
     encoding: 'utf-8'
   });
 
-  var allSvgFilePaths = yield function(callback) {
-    glob(path.join(this.root, '**/*.svg'), callback);
-  }.bind(this);
+  // NB: Artboards are NOT trimmed (sketchtool doesn't do that yet)
+  execSync('/usr/local/bin/sketchtool export artboards "' + figuresFilePath + '" ' +
+  '--overwriting=YES --trimmed=YES --formats=svg --output="' + outputDir + '" --items=' + svgIds.join(','), {
+    stdio: 'inherit',
+    encoding: 'utf-8'
+  });
+
+  // files are exported as array-pop.svg.svg, metric-css.png@2x.png
+  // => remove first extension
+  var images = glob.sync(path.join(outputDir, '*.*'));
+  images.forEach(function(image) {
+    fs.renameSync(image, image.replace(/.(svg|png)/, ''));
+  });
+
+  var allFigureFilePaths = glob.sync(path.join(this.root, '**/*.{png,svg}'));
 
   function findArtboardPath(artboard) {
 
-    for (var j = 0; j < allSvgFilePaths.length; j++) {
-      if (path.basename(allSvgFilePaths[j]) == artboard.name + '.svg') {
-        return allSvgFilePaths[j];
+    for (var j = 0; j < allFigureFilePaths.length; j++) {
+      if (path.basename(allFigureFilePaths[j]) == artboard.name) {
+        return path.dirname(allFigureFilePaths[j]);
       }
     }
 
@@ -173,18 +192,22 @@ Importer.prototype.syncFigures = function*(figuresFilePath) {
 
   // copy should trigger folder resync on watch
   // and that's right (img size changed, <img> must be rerendered)
-  for (var i = 0; i < artboardsFiltered.length; i++) {
-    var artboard = artboardsFiltered[i];
+
+  for (var i = 0; i < artboardsExported.length; i++) {
+    var artboard = artboardsExported[i];
     var artboardPath = findArtboardPath(artboard);
     if (!artboardPath) {
       log.error("Artboard path not found " + artboard.name);
       continue;
     }
 
-    log.info("syncFigure move figure to " + artboardPath);
-    yield function(callback) {
-      fse.move(path.join(outputDir, artboard.name + ".svg"), artboardPath, {clobber: true}, callback);
-    };
+
+    log.info("syncFigure move " + artboard.name + " -> " + artboardPath);
+    fse.copySync(path.join(outputDir, artboard.name), path.join(artboardPath, artboard.name));
+    if (path.extname(artboard.name) == '.png') {
+      var x2Name = artboard.name.replace('.png', '@2x.png');
+      fse.copySync(path.join(outputDir, x2Name), path.join(artboardPath, x2Name));
+    }
 
   }
 
