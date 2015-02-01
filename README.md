@@ -6,7 +6,9 @@
 
 А это исходный код для нового движка сайта http://javascript.ru.
 
-<!--[![Build Status](https://travis-ci.org/iliakan/javascript-nodejs.svg?branch=master)](https://travis-ci.org/iliakan/javascript-nodejs)-->
+<!--
+Travis отключён, пока NPM не поправит багу, из-за которой модули не все ставятся (koa-passport -> passport)
+[![Build Status](https://travis-ci.org/iliakan/javascript-nodejs.svg?branch=master)](https://travis-ci.org/iliakan/javascript-nodejs)-->
 
 ## Что делаем?
 
