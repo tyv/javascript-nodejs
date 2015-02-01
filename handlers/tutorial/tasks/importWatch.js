@@ -34,6 +34,8 @@ module.exports = function(options) {
     var subRoots = fs.readdirSync(root);
     subRoots = subRoots.filter(function(subRoot) {
       return parseInt(subRoot);
+    }).map(function(dir) {
+      return path.join(root, dir);
     });
 
     var figuresFilePath = path.join(root, 'figures.sketch');
@@ -53,6 +55,7 @@ module.exports = function(options) {
 
       co(function* () {
 
+        //console.log('--> ' + filePath);
         if (filePath == figuresFilePath) {
           yield* importer.syncFigures(figuresFilePath);
           return;
