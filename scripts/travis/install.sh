@@ -7,35 +7,45 @@
 # so I use my own sudoers
 sudo cp ./travis/sudoers /etc
 
+sudo mkdir /js
+sudo chown travis /js
+mv ~/javascript-nodejs /js/
 
 # ==== Allow travis to ssh (add keys) ==========
 # Setup ssh keys like https://gist.github.com/koter84/e46e675960d964fdb48d
-echo "decrypt private"
-for i in {0..30}; do eval $(printf "echo \$id_rsa_%02d\n" $i) >> ~/.ssh/id_rsa_base64; done
-base64 --decode ~/.ssh/id_rsa_base64 > ~/.ssh/id_rsa
-chmod 600 ~/.ssh/id_rsa
 
-echo "decrypt public"
-for i in {0..10}; do eval $(printf "echo \$id_rsa_pub_%02d\n" $i) >> ~/.ssh/id_rsa_base64.pub; done
-base64 --decode ~/.ssh/id_rsa_base64.pub > ~/.ssh/id_rsa.pub
-chmod 600 ~/.ssh/id_rsa.pub
+if [ "$TRAVIS_SECURE_ENV_VARS" = "true" ]; then
+  echo "decrypt private"
+  for i in {0..30}; do eval $(printf "echo \$id_rsa_%02d\n" $i) >> ~/.ssh/id_rsa_base64; done
+  base64 --decode ~/.ssh/id_rsa_base64 > ~/.ssh/id_rsa
+  chmod 600 ~/.ssh/id_rsa
 
+  echo "decrypt public"
+  for i in {0..10}; do eval $(printf "echo \$id_rsa_pub_%02d\n" $i) >> ~/.ssh/id_rsa_base64.pub; done
+  base64 --decode ~/.ssh/id_rsa_base64.pub > ~/.ssh/id_rsa.pub
+  chmod 600 ~/.ssh/id_rsa.pub
 
-# ==== Allow to ssh TO travis@stage.javascript.ru -p 2222 =========
-# used for debugging purposes only
+  # ==== Allow to ssh TO travis@stage.javascript.ru -p 2222 =========
+  # used for debugging purposes only
 
-# no questions please when ssh to remote test machine
-echo -e "Host stage.javascript.ru\n\tStrictHostKeyChecking no" >> ~/.ssh/config
+  # no questions please when ssh to remote test machine
+  echo -e "Host stage.javascript.ru\n\tStrictHostKeyChecking no" >> ~/.ssh/config
 
-# ===== Add token for https://github.com/my/repo access ======
-# add credentials to .netrc for private github repo access
-# travis env set CI_USER_TOKEN [github API token] --private -r iliakan/javascript-nodejs
-echo -e "machine github.com\nlogin $CI_USER_TOKEN" >> ~/.netrc
+  # ===== Add token for https://github.com/my/repo access ======
+  # add credentials to .netrc for private github repo access
+  # travis env set CI_USER_TOKEN [github API token] --private -r iliakan/javascript-nodejs
+  echo -e "machine github.com\nlogin $CI_USER_TOKEN" >> ~/.netrc
 
-# ===== Clone helper repo ============
-# will use login from .netrc for private repo
-# not using submodules here, because both repos need each other for testing
-git clone --depth=50 https://github.com/iliakan/javascript-tutorial.git
+  # ===== Clone helper repo ============
+  # will use login from .netrc for private repo
+  # not using submodules here, because both repos need each other for testing
+  git clone --depth=10 https://github.com/iliakan/javascript-tutorial.git /js/javascript-tutorial
+
+  # ===== Get access to secret data =====
+  scp -r travis@stage.javascript.ru:/js/secret .
+  sudo mv secret /js/
+
+fi
 
 # ===== Latest npm ==========
 # need latest npm (less bugs, at time of writing 2.0.0 didn't work)
@@ -65,22 +75,19 @@ sudo apt-get update
 sudo apt-get install -y mongodb-org
 sudo /etc/init.d/mongodb restart
 
-
-# Get access to secret data
-sudo mkdir /js
-scp -r travis@stage.javascript.ru:/js/secret .
-sudo mv secret /js/
-sudo chown -R travis /js
-
 # deploy nginx config
-sudo ./gulp config:nginx --prefix /etc/nginx --root `pwd` --env test --clear
+sudo ./gulp config:nginx --prefix /etc/nginx --root /js/javascript-nodejs --env test --clear
 
 sudo /etc/init.d/nginx restart
 
 gulp build --harmony
-gulp build tutorial:import --harmony --root ./javascript-tutorial
+
+if [ -d /js/javascript-tutorial ]; then
+  gulp build tutorial:import --harmony --root ./javascript-tutorial
+fi
 
 if [[ ! -z $TRAVIS_DEBUG ]]; then
+  # allow to SSH to travis via stage.javascript.ru:2222 port forwarding
   cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
   chmod 600 ~/.ssh/authorized_keys
 

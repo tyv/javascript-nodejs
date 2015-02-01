@@ -25,7 +25,7 @@
 
 Также в опен-сорсе - учебник JavaScript. Правда, это в другом репозитарии, здесь только код.
 
-Для установки dev-среды см. [Install.md](https://github.com/iliakan/javascript-nodejs/blob/master/Install.md).
+Для установки dev-среды см. [INSTALL.md](https://github.com/iliakan/javascript-nodejs/blob/master/Install.md).
 
 ## ♡
  

@@ -2,15 +2,25 @@ language: node_js
 node_js:
   - 0.11
 git:
-  # custom init submodules with token
+  # javascipt-turorial submodule is checked out manually with token,
+  # in install hook
   submodules: false
-  depth: 50
+  # Don't need history to do tests
+  # But depth: 1 would be too small
+  # The problem with using git clone depth 1 is that if the contributer
+  # pushes multiple commits in short succession before Travis is able to
+  # kick off a build. The build will fail due to being unable to find the
+  #commit. This is because Travis checks out a branch and then checks out
+  # the exact commit. So it is possible to get into a situation where the
+  # latest branch is newer than the commit Travis is trying to build
+  # against.
+  depth: 10
 
 install:
-  - source ./travis/install.sh
+  - source ./scripts/travis/install.sh
 
 script:
-  - source ./travis/test.sh
+  - source ./scripts/travis/test.sh
 
 services:
   - mongodb

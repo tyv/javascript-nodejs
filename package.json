@@ -5,7 +5,7 @@
   "scripts": {
     "prod": "NODE_ENV=production node --harmony ./bin/server",
     "fixperms": "sudo chown -R `id -u` . * ~/.n*",
-    "test": "SELENIUM_LOCAL=1 NODE_ENV=test node --harmony `which gulp` test | bunyan"
+    "test": "SELENIUM_LOCAL=1 NODE_ENV=test gulp test --harmony | bunyan"
   },
   "precommit": "NODE_ENV=development node --harmony `which gulp` pre-commit",
   "//": "EJS 2.0 breaks include in nginx configs",
