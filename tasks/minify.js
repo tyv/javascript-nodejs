@@ -1,6 +1,4 @@
-const Imagemin = require('imagemin');
 const pngquant = require('imagemin-pngquant');
-const es = require('event-stream');
 const path = require('path');
 const gulp = require('gulp');
 const gp = require('gulp-load-plugins')();
