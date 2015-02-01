@@ -122,6 +122,12 @@ Importer.prototype.destroyAll = function* () {
 };
 
 Importer.prototype.syncFigures = function*(figuresFilePath) {
+
+  if (!fs.existsSync('/usr/local/bin/sketchtool')) {
+    log.info("No sketchtool");
+    return;
+  }
+
   var outputDir = path.join(config.tmpRoot, 'sketchtool');
 
   fse.removeSync(outputDir);
