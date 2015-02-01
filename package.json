@@ -9,6 +9,7 @@
   },
   "precommit": "NODE_ENV=development node --harmony `which gulp` pre-commit",
   "//": "EJS 2.0 breaks include in nginx configs",
+  "//": "passport is not required, but buggy npm doesn't install it w/ koa-passport",
   "dependencies": {
     "6to5-loader": "*",
     "MD5": "*",
