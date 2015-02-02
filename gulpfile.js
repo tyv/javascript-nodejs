@@ -48,7 +48,7 @@ gulp.task('init');
 gulp.task('lint-once', lazyRequireTask('./tasks/lint', { src: jsSources }));
 gulp.task('lint-or-die', lazyRequireTask('./tasks/lint', { src: jsSources, dieOnError: true }));
 
-// usage: gulp db:load --from fixture/test/db --harmony
+// usage: gulp db:load --from fixture/init --harmony
 gulp.task('db:load', lazyRequireTask('./tasks/dbLoad'));
 
 
