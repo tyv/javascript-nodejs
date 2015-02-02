@@ -1,7 +1,13 @@
+/**
+ * Import tutorial into DB
+ * @type {TutorialImporter|exports}
+ */
+
 var TutorialImporter = require('../tutorialImporter');
 var co = require('co');
 var fs = require('fs');
 var path = require('path');
+var log = require('log')();
 
 module.exports = function(options) {
 
@@ -22,8 +28,6 @@ module.exports = function(options) {
 
       yield* importer.destroyAll();
 
-      yield* importer.syncFigures(path.join(root, 'figures.sketch'));
-
       var subRoots = fs.readdirSync(root);
 
       for (var i = 0; i < subRoots.length; i++) {
@@ -34,7 +38,7 @@ module.exports = function(options) {
 
       yield* importer.generateCaches();
 
-      console.log("DONE");
+      log.info("DONE");
 
     });
   };

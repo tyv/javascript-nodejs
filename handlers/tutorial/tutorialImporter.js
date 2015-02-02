@@ -5,7 +5,7 @@ const fse = require('fs-extra');
 const path = require('path');
 const config = require('config');
 const mongoose = require('lib/mongoose');
-const glob = require("glob")
+const glob = require("glob");
 
 require('lib/requireJade');
 
@@ -24,13 +24,13 @@ const execSync = require('child_process').execSync;
 
 // TODO: use htmlhint/jslint for html/js examples
 
-function Importer(options) {
+function TutorialImporter(options) {
   this.root = fs.realpathSync(options.root);
   this.onchange = options.onchange || function() {
   };
 }
 
-Importer.prototype.sync = function* (directory) {
+TutorialImporter.prototype.sync = function* (directory) {
 
   log.info("sync", directory);
   var dir = fs.realpathSync(directory);
@@ -70,7 +70,7 @@ Importer.prototype.sync = function* (directory) {
 /**
  * Call this after all import is complete to generate caches/searches for ElasticSearch to consume
  */
-Importer.prototype.generateCaches = function*() {
+TutorialImporter.prototype.generateCaches = function*() {
   var articles = yield Article.find({}).exec();
 
   for (var i = 0; i < articles.length; i++) {
@@ -86,7 +86,7 @@ Importer.prototype.generateCaches = function*() {
   }
 };
 
-Importer.prototype.extractHeader = function(parsed) {
+TutorialImporter.prototype.extractHeader = function(parsed) {
   log.debug("extracting header");
 
   const titleHeader = parsed.getChild(0);
@@ -99,7 +99,7 @@ Importer.prototype.extractHeader = function(parsed) {
 
 
 // todo with incremental import: move to separate task?
-Importer.prototype.checkIfErrorsInParsed = function(parsed) {
+TutorialImporter.prototype.checkIfErrorsInParsed = function(parsed) {
   log.debug("checking errors in parsed");
   const walker = new TreeWalkerSync(parsed);
   const errors = [];
@@ -115,13 +115,13 @@ Importer.prototype.checkIfErrorsInParsed = function(parsed) {
 };
 
 
-Importer.prototype.destroyAll = function* () {
+TutorialImporter.prototype.destroyAll = function* () {
   yield Article.destroy({});
   yield Task.destroy({});
   yield Reference.destroy({});
 };
 
-Importer.prototype.syncFigures = function*(figuresFilePath) {
+TutorialImporter.prototype.syncFigures = function*(figuresFilePath) {
 
   if (!fs.existsSync('/usr/local/bin/sketchtool')) {
     log.info("No sketchtool");
@@ -220,7 +220,7 @@ Importer.prototype.syncFigures = function*(figuresFilePath) {
 
 };
 
-Importer.prototype.syncFolder = function*(sourceFolderPath, parent) {
+TutorialImporter.prototype.syncFolder = function*(sourceFolderPath, parent) {
   log.info("syncFolder", sourceFolderPath);
 
   const contentPath = path.join(sourceFolderPath, 'index.md');
@@ -277,7 +277,7 @@ Importer.prototype.syncFolder = function*(sourceFolderPath, parent) {
 
 };
 
-Importer.prototype.syncArticle = function* (articlePath, parent) {
+TutorialImporter.prototype.syncArticle = function* (articlePath, parent) {
   log.info("syncArticle", articlePath);
 
   const contentPath = path.join(articlePath, 'article.md');
@@ -358,7 +358,7 @@ Importer.prototype.syncArticle = function* (articlePath, parent) {
 };
 
 
-Importer.prototype.syncResource = function*(sourcePath, destDir) {
+TutorialImporter.prototype.syncResource = function*(sourcePath, destDir) {
   fse.ensureDirSync(destDir);
 
   log.info("syncResource", sourcePath, destDir);
@@ -412,7 +412,7 @@ function copySync(srcPath, dstPath) {
   fse.copySync(srcPath, dstPath);
 }
 
-Importer.prototype.syncTask = function*(taskPath, parent) {
+TutorialImporter.prototype.syncTask = function*(taskPath, parent) {
   log.info("syncTask", taskPath);
 
   const contentPath = path.join(taskPath, 'task.md');
@@ -481,7 +481,7 @@ Importer.prototype.syncTask = function*(taskPath, parent) {
 
 };
 
-Importer.prototype.syncView = function*(dir, parent) {
+TutorialImporter.prototype.syncView = function*(dir, parent) {
   var pathName = path.basename(dir).replace('.view', '');
 
   if (pathName == '_js') {
@@ -522,7 +522,7 @@ Importer.prototype.syncView = function*(dir, parent) {
 };
 
 
-Importer.prototype.syncTaskJs = function*(jsPath, task) {
+TutorialImporter.prototype.syncTaskJs = function*(jsPath, task) {
 
   log.debug("syncTaskJs", jsPath);
 
@@ -652,4 +652,4 @@ function checkSameSizeFiles(filePath1, filePath2) {
 }
 
 
-module.exports = Importer;
+module.exports = TutorialImporter;

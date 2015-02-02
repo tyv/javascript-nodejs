@@ -144,7 +144,9 @@ gulp.task('dev', function(callback) {
   runSequence("client:sync-resources", 'client:compile-css', 'client:sync-css-images', ['nodemon', 'client:livereload', 'client:webpack', 'watch'], callback);
 });
 
-gulp.task('tutorial:import', ['cache:clean'], lazyRequireTask('tutorial/tasks/import'));
+gulp.task('tutorial:import', ['cache:clean'], lazyRequireTask('tutorial/tasks/tutorialImport'));
+gulp.task('figures:import', lazyRequireTask('tutorial/tasks/figuresImport'));
+
 gulp.task('tutorial:kill:content', ['cache:clean'], lazyRequireTask('tutorial/tasks/killContent'));
 
 gulp.task('cache:clean', lazyRequireTask('./tasks/cacheClean'));
