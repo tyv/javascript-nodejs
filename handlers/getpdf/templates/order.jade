@@ -1,5 +1,8 @@
 extends /layouts/main
 
+block variables
+  - var layout_header_class = "main__header_center"
+
 block content
 
   script var orderNumber = #{order.isNew ? order.number : 'null'};
@@ -17,12 +20,12 @@ block content
               | Стоимость
               +b.price.__price
                 | #{order.amount + 'р.'}
-                +e('span').secondary (≈&nbsp;69$)
+                +e('span').secondary (≈&nbsp;#{currencyConvertRound(order.amount, "RUB", "USD")}$)
 
         if (!user)
           +e('h2').alternate-title Укажите свой email
           +b.text-input.__email
-            +e('input').control(placeholder="email@gmail.com", name="email", required, type="email")
+            +e('input').control(placeholder="my@email.com", name="email", required, type="email")
           +e.email-note После оплаты ссылка на скачивание учебника придет на этот адрес
         +e('h2').alternate-title Выберите метод оплаты
         +b.pay-method.__pay-method

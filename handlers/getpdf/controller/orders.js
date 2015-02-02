@@ -31,7 +31,7 @@ exports.get = function*() {
   }
 
   this.locals.sitetoolbar = true;
-  this.locals.title = "Покупка";
+  this.locals.title = "Покупка учебника";
 
   this.locals.order = this.order;
 

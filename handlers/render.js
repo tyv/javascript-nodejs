@@ -10,6 +10,7 @@ const jade = require('jade');
 const _ = require('lodash');
 const assert = require('assert');
 const i18n = require('i18next');
+const money = require('money');
 
 require('lib/requireJade');
 
@@ -64,6 +65,10 @@ function addStandardHelpers(locals, ctx) {
         (width < 1280 && height < 1280) ? 'l' : '';
 
     return url.slice(0, url.lastIndexOf('.')) + modifier + url.slice(url.lastIndexOf('.'))
+  };
+
+  locals.currencyConvertRound = function(amount, from, to) {
+    return Math.round(money.convert(amount, {from: from, to: to}));
   };
 
   locals.asset = function(publicPath) {
