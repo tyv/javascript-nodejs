@@ -6,4 +6,3 @@ var back = require('./controller/back');
 
 router.get('/back', back.get);
 
-

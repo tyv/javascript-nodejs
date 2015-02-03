@@ -73,8 +73,7 @@ exports.get = function* (next) {
     var orderModule = require(this.order.module);
     yield* orderModule.onSuccess(this.order);
 
-
-    self.redirect(self.getOrderSuccessUrl());
+    self.redirectToOrder();
 
   } catch (e) {
     if (e instanceof URIError) {

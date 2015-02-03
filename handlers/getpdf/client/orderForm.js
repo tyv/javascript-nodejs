@@ -10,21 +10,24 @@ class OrderForm {
   constructor(options) {
     this.elem = options.elem;
 
-    this.elem.addEventListener('submit', (e) => this.onSubmit(e));
+    this.elem.addEventListener('submit', (e) => e.preventDefault());
+
+    // many buttons with paymentMethods, onSubmit doesn't give a way to learn which one is pressed
+    // so I listen to onclick
+    this.delegate('[name="paymentMethod"]', 'click', (e) => this.onPaymentMethodClick(e));
   }
 
-  onSubmit(e) {
-    e.preventDefault();
+  onPaymentMethodClick(e) {
 
     // response status must be 200
     var request = this.request({
-      method:          'POST',
-      url:             '/getpdf/checkout',
-      body:{
-        orderNumber: window.orderNumber,
+      method: 'POST',
+      url:    '/getpdf/checkout',
+      body:   {
+        orderNumber:   window.orderNumber,
         orderTemplate: window.orderTemplate,
-        email: this.elem.elements.email.value,
-        paymentMethod: this.elem.elements.paymentMethod.value
+        email:         this.elem.elements.email.value,
+        paymentMethod: e.delegateTarget.value
       }
     });
 
@@ -33,11 +36,23 @@ class OrderForm {
       // either html: what to show, if the result is clear
       // or form: form to submit (and leave the page)
       var result = event.result;
+
+      if (result.form) {
+        var container = document.createElement('div');
+        container.hidden = true;
+        container.innerHTML = result.form;
+        document.body.appendChild(container);
+        container.firstChild.submit();
+
+      } else {
+        debugger;
+        alert("TODO");
+      }
     });
-/*
-      .done(function(htmlForm) {
-        $(htmlForm).submit();
-      });*/
+    /*
+     .done(function(htmlForm) {
+     $(htmlForm).submit();
+     });*/
   }
 
 
@@ -58,12 +73,11 @@ class OrderForm {
     paymentMethodElem.classList.add('modal-overlay_light');
 
     var spinner = new Spinner({
-      elem:      paymentMethodElem,
-      size:      'medium'
+      elem:  paymentMethodElem,
+      size:  'medium',
+      class: 'pay-method__spinner'
     });
     spinner.start();
-
-    debugger;
 
     return function onEnd() {
       paymentMethodElem.classList.remove('modal-overlay_light');

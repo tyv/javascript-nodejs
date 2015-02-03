@@ -1,4 +1,4 @@
 
-exports.renderForm = require('./renderForm');
+exports.renderFormOrResult = require('./renderFormOrResult');
 
 exports.title = "PayAnyWay";

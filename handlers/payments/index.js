@@ -25,7 +25,7 @@ for(var key in config.payments.modules) {
 var mountHandlerMiddleware = require('lib/mountHandlerMiddleware');
 exports.init = function(app) {
   for(var name in exports.methods) {
-    app.use(mountHandlerMiddleware('/payments/' + name, path.join(__dirname, key)));
+    app.use(mountHandlerMiddleware('/payments/' + name, path.join(__dirname, name)));
   }
 
   app.csrfChecker.addIgnorePath('/payments/:any*');
@@ -42,9 +42,9 @@ exports.populateContextMiddleware = function*(next) {
   yield* next;
 };
 
-// creates transaction and returns the form to submit for its payment
-// delegates form to the method
-exports.createTransactionForm = function* (order, method) {
+// creates transaction and returns the form to submit for its payment OR the result
+// delegates to the method
+exports.createTransactionFormOrResult = function* (order, method) {
 
   var transaction = new Transaction({
     order:  order._id,
@@ -56,11 +56,11 @@ exports.createTransactionForm = function* (order, method) {
 
   console.log(transaction);
 
-  var form = yield* exports.methods[method].renderForm(transaction);
+  var formOrResult = yield* exports.methods[method].renderFormOrResult(transaction);
 
-  yield transaction.log('form', form);
+  yield* transaction.log('formOrResult', formOrResult);
 
-  return form;
+  return formOrResult;
 
 };
 

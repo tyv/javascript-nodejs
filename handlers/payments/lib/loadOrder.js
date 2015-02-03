@@ -13,19 +13,26 @@ module.exports = function* (field) {
     return;
   }
 
-  var order = yield Order.findOne({number: orderNumber}).populate('order').exec();
+  var order = yield Order.findOne({number: orderNumber}).populate('user').exec();
 
   if (!order) {
     this.throw(404, 'Нет такого заказа');
   }
 
-  // todo: add belongs to check (with auth)
-  if (!this.session.orders || this.session.orders.indexOf(order.number) == -1) {
-    this.throw(403, 'Заказ в сессии не найден');
+
+  var belongsToUser = this.req.user && this.req.user._id == order.user;
+
+  var orderInSession = this.session.orders && this.session.orders.indexOf(order.number) != -1;
+
+  // allow to load order which belongs to the user or in the current session
+  if (process.env.NODE_ENV != 'development' && !orderInSession && !belongsToUser) {
+    this.throw(403, 'Заказ отсутствует в текущей сессии');
   }
 
-
+  // the order must have not yet been loaded from the user data
   assert(!this.order, "this.order is already set (by loadTransaction?)");
+
+  this.log.debug(order);
 
   this.order = order;
 
