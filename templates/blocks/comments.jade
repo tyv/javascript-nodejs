@@ -1,30 +1,25 @@
 .comments#comments
-	.comments__header
-		h2.comments__header-title
-			| Комментарии 
-			span.comments__header-number 5
-		a.comments__header-write(href="#write-comment") Написать
-		ul
-			li Приветствуются комментарии, содержащие дополнения и вопросы по статье, и ответы на них.
-			li Если ваш комментарий касается задачи&nbsp;&mdash; откройте её в отдельном окне и напишите там.
-			li
-				| Для кода внутри строки используйте тег
-				<code>&lt;code&gt;</code>
-				| , для блока кода&nbsp;&mdash; тег
-				<code>&lt;pre&gt;</code>
-				| , если больше 10 строк&nbsp;&mdash; ссылку на 
-				<a href="/play">песочницу</a>
-				| .
-			li Если что-то непонятно&nbsp;&mdash; пишите, что именно и с какого места.
-//- <div id="comments" class="comments">
-//-     <div class="comments__header">
-//-         <h2 class="comments__header-title">Комментарии <span class="comments__header-number">5</span></h2>
-//-         <a href="#write-comment" class="comments__header-write">Написать</a>
-//- 		<ul>
-//-     		<li>Приветствуются комментарии, содержащие дополнения и вопросы по статье, и ответы на них.</li>
-//-     		<li>Если ваш комментарий касается задачи&nbsp;&mdash; откройте её в отдельном окне и напишите там.</li>
-//-     		<li>Для кода внутри строки используйте тег <code>&lt;code&gt;</code>, для блока кода&nbsp;&mdash; тег <code>&lt;pre&gt;</code>, если больше 10 строк&nbsp;&mdash; ссылку на <a href="/play">песочницу</a>.</li>
-//-     		<li>Если что-то непонятно&nbsp;&mdash; пишите, что именно и с какого места.</li>
-//-         </ul>
-//-     </div>
-//- </div>
+  .comments__header
+    h2.comments__header-title
+      | Комментарии
+    ul
+      li Приветствуются комментарии, содержащие дополнения и вопросы по статье, и ответы на них.
+      li
+        | Для кода внутри строки используйте тег
+        <code>&lt;code&gt;</code>
+        | , для блока кода&nbsp;&mdash; тег
+        <code>&lt;pre&gt;</code>
+        | , если больше 10 строк&nbsp;&mdash; ссылку на песочницу (<a href="http://plnkr.co/edit/?p=preview">plnkr.co</a>, <a href="http://jsfiddle.net">jsfiddle</a>...)
+        | .
+      li Если что-то непонятно&nbsp;&mdash; пишите, что именно и с какого места.
+
+
+#disqus_thread
+
+
+script.
+  var disqus_shortname = 'nightlyjavascriptru';
+  var disqus_identifier = location.pathname;
+
+script(async src = '//nightlyjavascriptru.disqus.com/embed.js')
+script(async src = '//nightlyjavascriptru.disqus.com/count.js')

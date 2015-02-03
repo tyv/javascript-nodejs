@@ -6,7 +6,7 @@ const app = require('app');
 
 co(function*() {
 
-  yield* app.waitBootAndListen();
+  yield* app.waitBootAndListen(config.server.host, config.server.port);
 
   console.log("app is listening");
 

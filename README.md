@@ -6,7 +6,9 @@
 
 А это исходный код для нового движка сайта http://javascript.ru.
 
-[![Build Status](https://travis-ci.org/iliakan/javascript-nodejs.svg?branch=master)](https://travis-ci.org/iliakan/javascript-nodejs)
+<!--
+Travis отключён, пока NPM не поправит багу, из-за которой модули не все ставятся (koa-passport -> passport)
+[![Build Status](https://travis-ci.org/iliakan/javascript-nodejs.svg?branch=master)](https://travis-ci.org/iliakan/javascript-nodejs)-->
 
 ## Что делаем?
 
@@ -25,7 +27,7 @@
 
 Также в опен-сорсе - учебник JavaScript. Правда, это в другом репозитарии, здесь только код.
 
-Для установки dev-среды см. [Install.md](https://github.com/iliakan/javascript-nodejs/blob/master/Install.md).
+Для установки dev-среды см. [INSTALL.md](https://github.com/iliakan/javascript-nodejs/blob/master/Install.md).
 
 ## ♡
  

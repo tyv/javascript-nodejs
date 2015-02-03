@@ -33,7 +33,7 @@ VerboseLogger.prototype.middleware = function() {
     }
 
     if (shouldLog) {
-      this.log({reqVerbose: this.req});
+      this.log.info({reqVerbose: this.req});
     }
 
     yield* next;

@@ -1,0 +1,35 @@
+extends /layouts/main
+
+block variables
+  - var layout_main_class = "main_width-limit"
+
+block sidebar
+  include sidebar
+
+block content
+  != content
+
+  if tasks.length
+
+    +b.tasks
+      +e('h2').title#tasks
+        +e('a').title-anchor.main__anchor.main__anchor_noicon(href="#tasks") Задачи
+
+      each task, i in tasks
+        +b.task.__task
+          +e.header
+            +e.title-wrap
+              +e('h3').title
+                a.main__anchor(href=("#"+task.anchor) name=task.anchor)= task.title
+              +e('a').open-link(href=task.url, target="_blank")
+
+            +e.header-note
+              +e('span').importance(title="Насколько эта задача важна для освоения материала, от 1 до 5") важность: #{task.importance}
+              +e('button').solution(type="button") решение
+
+            include _task_content
+
+
+  script(src=script("tutorial"))
+  script tutorial.init();
+

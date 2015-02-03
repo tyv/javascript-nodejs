@@ -1,0 +1,145 @@
+extends ../layouts/base
+
+// - http://stackoverflow.com/questions/12646451/how-to-pass-variables-between-jade-templates
+block variables
+  - self.title = 'Регистрация на курсы JavaScript, DOM, интерфейсы';
+
+  //- layout
+  - layout.header = true
+  - layout.centeredHeader = true
+
+block content
+  +b.complex-form
+    +b.receipts.__receipts
+      +e.receipt
+        +e.receipt-body
+          +e.receipt-content
+            +e.type Заказ:
+            +e.title Учебник «Основы Javascript»
+            +e.note <b>125стр.,</b> pdf (10Мб)
+          +e.receipt-aside
+            +e.price 24000 RUR
+      +e.receipt
+        +e.receipt-body
+          +e.receipt-content
+            +e.type Оплата:
+            +e.status._ok Осуществлена успешно
+          +e.receipt-aside
+            +e('img').pay-method(src="/img/paypal.png", alt="PayPal", title="PayPal", width="121", height="31")
+    +e.step._current
+      +e.step-content
+        +e('h2').step-title Места и участники
+        +b.extract._small.__extract
+          +e.title Группа 10
+          +e.dates 15 Мар 2014 — 15 Май 2014
+          +e.info Каждый <b>Пн</b> и <b>Ср</b> в <b>17:00</b> (UTC+4)
+        +b.order-form
+          +e.content
+            +e.item._amount
+              +e('label').title(for='request-amount') Количество мест:
+              +e.control
+                +b.number-input.__amount
+                  +e('button').dec &minus;
+                  +b.text-input._small.__text
+                    +e('input').control.__input#request-amount
+                  +e('button').inc +
+            +e.item._participant
+              +e('label').title(for='request-participant') Я являюсь участником
+              +e.control
+                +b.switch-input
+                  +e('input').checkbox#request-participant(type='checkbox')
+                  +e('label').label(for="request-participant")
+                    +e('span').off НЕТ
+                    =' '
+                    +e('span').on ДА
+            +e.item._price
+              +e('label').title Стоимость:
+              +e.control
+                +b.price
+                  output#request-price(for='request-amount') 2400
+                  | &nbsp;RUR
+                  =' '
+                  +e('span').secondary
+                    | (≈&nbsp;
+                    output#request-usd(for='request-amount') 69
+                    | $)
+          //- ._hidden
+          +e.participants
+            +e('span').participants-trigger.pseudo Указать участников
+            +e.participants-note (это можно сделать позже)
+            //- ._hidden
+            +e.participants-addresses.form-insert
+              +b('button').close-button.form-insert__close(title='закрыть')
+              +e('ul').participants-list
+                +e('li').participant
+                  +e('label').participant-label(for="order-participant-1") Участник 1:
+                  +b.text-input._small.__email-wrap
+                    +e('input').control.__email#order-participant-1(placeholder='email')
+                +e('li').participant
+                  +e('label').participant-label(for="order-participant-2") Участник 2:
+                  +b.text-input._small.__email-wrap
+                    +e('input').control.__email#order-participant-2(placeholder='email')
+                +e('li').participant
+                  +e('label').participant-label(for="order-participant-3") Участник 3:
+                  +b.text-input._small.__email-wrap
+                    +e('input').control.__email#order-participant-3(placeholder='email')
+                +e('li').participant
+                  +e('label').participant-label(for="order-participant-4") Участник 4:
+                  +b.text-input._small.__email-wrap
+                    +e('input').control.__email#order-participant-4(placeholder='email')
+                +e('li').participant
+                  +e('label').participant-label(for="order-participant-5") Участник 5:
+                  +b.text-input._small.__email-wrap
+                    +e('input').control.__email#order-participant-5(placeholder='email')
+            +b('button').submit-button._small.__submit Сохранить и продолжить
+    +e.step._current
+      +e.step-content
+        +e('h2').step-title Контактная информация
+        +e.step-title-note Оставьте ваши контактные данные чтобы мы могли связаться с вами в случае необходимости
+        +b.contact-form
+          +e.content
+            +e.fields
+              +e.name
+                label(for="contact-name") Имя и Фамилия:
+                +b.text-input._small.__name-input
+                  +e('input').control#contact-name
+              +e.tel
+                label(for="contact-phone") Телефон:
+                +b.full-phone.__full-phone
+                  +e.code-wrap
+                    +e('select').codes
+                      option(value='+7') RU (+7)
+                      option(value='+38') UA (+38)
+                  +e.tel-wrap
+                    +b.text-input._small.__tel
+                      +e('input').control#contact-phone(placeholder="XXX XXX-XX-XX")
+            +e.note
+              +e('h5').note-title Ваши данные в безопасности
+              p
+                | В соответствии с законом о защите личных данных, никакие ваши личные данные
+                | не будут переданы третьим лицам, кроме как по вашему желанию или для
+                | целей выполнения заключенного с вами договора.
+        +b('button').submit-button._small.__submit Сохранить и продолжить
+
+    +e.step._current
+      +e.step-content
+        +b.pay-method.__pay-method
+          +e.methods
+            +e.method
+              +e('button').send(name="[payment-type]", value="webmoney")
+                +e('img').img(src="/img/pay-method__webmoney.png", width="184", height="98", alt="WebMoney")
+            +e.method
+              +e('button').send(name="[payment-type]", value="yamoney")
+                +e('img').img(src="/img/pay-method__yamoney.png", width="184", height="98", alt="Яндекс.Деньги")
+            +e.method
+              +e('button').send(name="[payment-type]", value="paypal")
+                +e('img').img(src="/img/pay-method__paypal.png", width="184", height="98", alt="Paypal")
+            +e.method
+              +e('button').send(name="[payment-type]", value="payanyway")
+                +e('img').img(src="/img/pay-method__payanyway.png", width="184", height="98", alt="Карта")
+            +e.method
+              +e('button').send(name="[payment-type]", value="interkassa")
+                +e('img').img(src="/img/pay-method__interkassa.png", width="184", height="98", alt="Терминалы и банки")
+    +b('ul').grayed-list.__next
+      +e('li').item.__next-item Подтверждение
+

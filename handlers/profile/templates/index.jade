@@ -1,0 +1,19 @@
+extends /layouts/main
+
+block variables
+  - var layout_header_class = "main__header_center"
+  - var layout_main_class = "main_width-limit"
+  - var sitetoolbar = true
+
+block head
+  base(href="/profile/")
+
+block content
+
+  script(src=script("angular"))
+  script(src=script("profile"))
+
+  +b(ng-app="profile")
+
+    ui-view Загрузка...
+

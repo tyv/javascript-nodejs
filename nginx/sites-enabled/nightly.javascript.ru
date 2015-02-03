@@ -5,7 +5,7 @@
 server {
   listen 80;
 
-  server_name nightly.javascript.ru nightly.javascript.info david.javascript.info javascript.in;
+  server_name nightly.javascript.ru nightly.javascript.info yuri.javascript.ru javascript.in;
 
   access_log  /var/log/nginx/nightly.javascript.ru.log main;
 
@@ -15,7 +15,7 @@ server {
   charset utf-8;
   root         <%=root%>/public;
 
-<% if (env == 'production') { %>
+<% if (setPassword) { %>
   auth_basic "Administrator Login";
   auth_basic_user_file /etc/nginx.passwd;
 <% } %>

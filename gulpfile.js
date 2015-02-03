@@ -15,7 +15,7 @@ const runSequence = require('run-sequence');
 const linkModules = require('./modules/linkModules');
 
 linkModules({
-  src: ['client', 'modules/*', 'hmvc/*']
+  src: ['client', 'modules/*', 'handlers/*']
 });
 
 const config = require('config');
@@ -31,7 +31,7 @@ process.on('uncaughtException', function(err) {
 });
 
 const jsSources = [
-  'hmvc/**/*.js', 'modules/**/*.js', 'tasks/**/*.js', '*.js'
+  'handlers/**/*.js', 'modules/**/*.js', 'tasks/**/*.js', '*.js'
 ];
 
 function lazyRequireTask(path) {
@@ -48,17 +48,20 @@ gulp.task('init');
 gulp.task('lint-once', lazyRequireTask('./tasks/lint', { src: jsSources }));
 gulp.task('lint-or-die', lazyRequireTask('./tasks/lint', { src: jsSources, dieOnError: true }));
 
-// usage: gulp db:load --from fixture/test/db --harmony
+// usage: gulp db:load --from fixture/init --harmony
 gulp.task('db:load', lazyRequireTask('./tasks/dbLoad'));
+gulp.task('db:clear', lazyRequireTask('./tasks/dbClear'));
 
 
 gulp.task("nodemon", lazyRequireTask('./tasks/nodemon', {
+  // shared client/server code has require('template.jade) which precompiles template on run
+  // so I have to restart server to pickup the template change
   ext:    "js,jade",
- // restartable: false, // don't hook on STDIN to wait rs
+
   nodeArgs: ['--debug', '--harmony'],
   script: "./bin/server",
-  ignore: '**/client/', // ignore hmvc apps client code
-  watch:  ["hmvc", "modules"]
+  ignore: '**/client/', // ignore handlers' client code
+  watch:  ["handlers", "modules"]
 }));
 
 gulp.task("client:livereload", lazyRequireTask("./tasks/livereload", {
@@ -71,8 +74,15 @@ gulp.task("tutorial:import:watch", lazyRequireTask('tutorial/tasks/importWatch',
   root: process.env.TUTORIAL_ROOT
 }));
 
+var testSrcs = ['{handlers,modules}/**/test/**/*.js'];
+// on Travis, keys are required for E2E Selenium tests
+// for PRs there are no keys, so we disable E2E
+if (process.env.CI && process.env.TRAVIS_SECURE_ENV_VARS=="false") {
+  testSrcs.push(['!{handlers,modules}/**/test/e2e/*.js']);
+}
+
 gulp.task("test", lazyRequireTask('./tasks/test', {
-  glob: '{hmvc,modules}/**/test/**/*.js',
+  src: testSrcs,
   reporter: 'spec',
   timeout: 100000 // big timeout for webdriver e2e tests
 }));
@@ -135,7 +145,9 @@ gulp.task('dev', function(callback) {
   runSequence("client:sync-resources", 'client:compile-css', 'client:sync-css-images', ['nodemon', 'client:livereload', 'client:webpack', 'watch'], callback);
 });
 
-gulp.task('tutorial:import', ['cache:clean'], lazyRequireTask('tutorial/tasks/import'));
+gulp.task('tutorial:import', ['cache:clean'], lazyRequireTask('tutorial/tasks/tutorialImport'));
+gulp.task('figures:import', lazyRequireTask('tutorial/tasks/figuresImport'));
+
 gulp.task('tutorial:kill:content', ['cache:clean'], lazyRequireTask('tutorial/tasks/killContent'));
 
 gulp.task('cache:clean', lazyRequireTask('./tasks/cacheClean'));

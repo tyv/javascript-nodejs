@@ -30,11 +30,11 @@ Modal.prototype.onDocumentKeyDown = function(event) {
 };
 
 Modal.prototype.showOverlay = function() {
-  this.contentElem.classList.add('modal-overlay');
+  this.contentElem.classList.add('modal-overlay_light');
 };
 
 Modal.prototype.hideOverlay = function() {
-  this.contentElem.classList.remove('modal-overlay');
+  this.contentElem.classList.remove('modal-overlay_light');
 };
 
 Modal.prototype.setContent = function(htmlOrNode) {
