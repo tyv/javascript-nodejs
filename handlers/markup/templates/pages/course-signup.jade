@@ -92,6 +92,34 @@ block content
                   +b.text-input._small.__email-wrap
                     +e('input').control.__email#order-participant-5(placeholder='email')
             +b('button').submit-button._small.__submit Сохранить и продолжить
+    +e.step._current
+      +e.step-content
+        +e('h2').step-title Контактная информация
+        +e.step-title-note Оставьте ваши контактные данные чтобы мы могли связаться с вами в случае необходимости
+        +b.contact-form
+          +e.content
+            +e.fields
+              +e.name
+                label(for="contact-name") Имя и Фамилия:
+                +b.text-input._small.__name-input
+                  +e('input').control#contact-name
+              +e.tel
+                label(for="contact-phone") Телефон:
+                +b.full-phone.__full-phone
+                  +e.code-wrap
+                    +e('select').codes
+                      option(value='+7') RU (+7)
+                      option(value='+38') UA (+38)
+                  +e.tel-wrap
+                    +b.text-input._small.__tel
+                      +e('input').control#contact-phone(placeholder="XXX XXX-XX-XX")
+            +e.note
+              +e('h5').note-title Ваши данные в безопасности
+              p
+                | В соответствии с законом о защите личных данных, никакие ваши личные данные
+                | не будут переданы третьим лицам, кроме как по вашему желанию или для
+                | целей выполнения заключенного с вами договора.
+        +b('button').submit-button._small.__submit Сохранить и продолжить
 
     +e.step._current
       +e.step-content
