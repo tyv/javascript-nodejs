@@ -13,19 +13,6 @@ block body
     .page__inner
       main.main(class=layout_main_class ? ' ' + layout_main_class : '')
         block main
-      if prev || next
-        .page__nav-wrap
-          if prev
-            a.page__nav.page__nav_prev(href=prev.url, data-tooltip=prev.title)
-              span.page__nav-text
-                span.page__nav-text-shortcut
-              //- for mobile / narrow screens (on bottom)
-              span.page__nav-text-alternate= t('Previous lesson')
-          if next
-            a.page__nav.page__nav_next(href=next.url, data-tooltip=next.title)
-              span.page__nav-text
-                span.page__nav-text-shortcut
-              span.page__nav-text-alternate= t('Next lesson')
     if sidebar
       +b(class="sidebar page__sidebar #{sidebar.class}")
         +e('button').toggle(data-sidebar-toggle data-add-class-on-hover)

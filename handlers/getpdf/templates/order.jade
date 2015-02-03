@@ -5,10 +5,10 @@ block variables
 
 block content
 
-  script var orderNumber = #{order.isNew ? order.number : 'null'};
+  script var orderNumber = #{order.isNew ? 'null' : order.number};
   script var orderTemplate = "#{orderTemplate}";
 
-  +b("form").complex-form(data-new=(order.isNew ? "1" : "0"))
+  +b("form").complex-form(data-order-form, data-new=(order.isNew ? "1" : "0"))
     +e.step._current
       +e.step-content
         +b.extract._small.__extract
@@ -25,7 +25,7 @@ block content
         if (!user)
           +e('h2').alternate-title Укажите свой email
           +b.text-input.__email
-            +e('input').control(placeholder="my@email.com", name="email", required, type="email")
+            +e('input').control(placeholder="my@email.com", name="email", required, type="email" value="tester@javascript.ru")
           +e.email-note После оплаты ссылка на скачивание учебника придет на этот адрес
         +e('h2').alternate-title Выберите метод оплаты
         +b.pay-method.__pay-method
@@ -40,3 +40,6 @@ block content
               | Рекомендации по оплате не из России
     +b('ul').grayed-list.__next
       +e('li').item.__next-item Подтверждение
+
+  script(src=script("getpdf"))
+  script getpdf.init();

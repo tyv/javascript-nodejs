@@ -1,4 +1,4 @@
-import notification from 'client/notification';
+var notification = require('client/notification');
 
 // Wrapper about XHR
 // # Global Events
@@ -35,14 +35,16 @@ function xhr(options) {
     url = addUrlParam(url, '_csrf', window.csrf);
   }
 
+  request.open(method, url, options.sync ? false : true);
+
+  request.method = method;
+
   if ({}.toString.call(body) == '[object Object]') {
+    // must be OPENed to setRequestHeader
     request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     body = JSON.stringify(body);
   }
 
-  request.open(method, url, options.sync ? false : true);
-
-  request.method = method;
 
   if (!options.noGlobalEvents) {
     request.addEventListener('loadstart', event => {
@@ -153,4 +155,4 @@ document.addEventListener('xhrfail', function(event) {
 });
 
 
-export default xhr;
+module.exports = xhr;

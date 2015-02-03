@@ -4,6 +4,13 @@ var Order = payments.Order;
 var OrderTemplate = payments.OrderTemplate;
 
 exports.post = function*(next) {
+/*
+  this.body = {
+    html: "TEST"
+  };
+  return;*/
+
+  yield function(callback) {}
 
   yield* this.loadOrder();
   var paymentMethod = this.request.body.paymentMethod;

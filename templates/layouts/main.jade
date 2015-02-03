@@ -8,5 +8,20 @@ block main
         include ../blocks/breadcrumbs
     h1.main__header-title!= title
   block content
+
+  if prev || next
+  .page__nav-wrap
+    if prev
+      a.page__nav.page__nav_prev(href=prev.url, data-tooltip=prev.title)
+        span.page__nav-text
+          span.page__nav-text-shortcut
+        //- for mobile / narrow screens (on bottom)
+        span.page__nav-text-alternate= t('Previous lesson')
+    if next
+      a.page__nav.page__nav_next(href=next.url, data-tooltip=next.title)
+        span.page__nav-text
+          span.page__nav-text-shortcut
+        span.page__nav-text-alternate= t('Next lesson')
+
   if comments
     include ../blocks/comments
