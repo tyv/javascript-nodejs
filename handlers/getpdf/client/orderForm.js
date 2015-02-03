@@ -59,11 +59,11 @@ class OrderForm {
 
     var spinner = new Spinner({
       elem:      paymentMethodElem,
-      size:      'small'
+      size:      'medium'
     });
     spinner.start();
 
-
+    debugger;
 
     return function onEnd() {
       paymentMethodElem.classList.remove('modal-overlay_light');
