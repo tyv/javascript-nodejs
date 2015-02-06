@@ -3,18 +3,18 @@
 		font 193% secondary_font
 		text-align center
 		margin 39px 0 15px
-	
+
 	&__container
-		-moz-column-width 200px
-		-webkit-column-width 200px
-		column-width 200px
+		-webkit-columns 200px 3
+		-moz-columns 200px 3
+		columns 200px 3
 
 	&__brick
 		margin 0 9px 25px
 		-webkit-column-break-inside avoid
 		page-break-inside avoid // Fx uses this for columns too
 		break-inside avoid
-		
+
 
 	&__col:first-child &__brick
 		margin 0 18px 0 0
