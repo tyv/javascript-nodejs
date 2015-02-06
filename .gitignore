@@ -17,6 +17,7 @@
 .settings
 .tmproj
 .nvmrc
+sftp-config.json
 Thumbs.db
 
 # generated content
