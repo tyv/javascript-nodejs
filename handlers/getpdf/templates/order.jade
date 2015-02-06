@@ -37,7 +37,7 @@ block content
           +e('h2').alternate-title Укажите свой email
           +b.text-input.__email
             //+e('input').control(name="email", required, type="email" value=order.email)
-              +e('input').control(placeholder="my@email.com", name="email", required, type="email" value="tester@javascript.ru")
+            +e('input').control(placeholder="my@email.com", name="email", required, type="email" value="tester@javascript.ru")
           +e.email-note После оплаты ссылка на скачивание учебника придет на этот адрес
 
         +e('h2').alternate-title Выберите метод оплаты
@@ -45,8 +45,8 @@ block content
           +e.methods
             each paymentMethod in paymentMethods
               +e.method
-                +e('button').send(name="paymentMethod", value=paymentMethod.name)
-                  +e('img').img(src="/img/pay-method__"+paymentMethod.name + ".png", width="184", height="98", alt=paymentMethod.title)
+                // classes get prefix automatically from dynamic mixins
+                +e('button')(class=("send " + "_"+paymentMethod.name),  name="paymentMethod", value=paymentMethod.name)
         +b.pay-hint.__pay-hint
           +e('a').hint(href="hint")
             +b('img').flag.__flag(src="/img/flag/flag_ua.png")

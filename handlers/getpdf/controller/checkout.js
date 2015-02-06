@@ -20,6 +20,13 @@ exports.post = function*(next) {
     // checking out a pre-existing order
 
     this.log.debug("order exists", this.order.number);
+
+    // No many waiting transactions.
+    // The old one must had been cancelled before this.
+    if (yield* hasPendingTransactions(this.order)) {
+      this.throw(409, "A pending transaction exists already");
+    }
+
     yield* updateOrderFromBody(this.request.body, this.req.user, this.order);
 
   } else {
@@ -55,9 +62,9 @@ exports.post = function*(next) {
     this.session.orders.push(this.order.number);
   }
 
-  if (yield* hasPendingTransactions(this.order)) {
-    this.throw(409, "A pending transaction exists already");
-  }
+
+  this.order.status = Order.STATUS_PENDING;
+  yield this.order.persist();
 
   var form = yield* payments.createTransactionForm(this.order, paymentMethod);
 
@@ -93,6 +100,4 @@ function* updateOrderFromBody(body, user, order) {
 
   // if any freeform data
   // order.markModified('data');
-
-  yield order.persist();
 }

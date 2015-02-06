@@ -31,7 +31,12 @@ var schema = new Schema({
   // and provide the token value to track it
   // other details are also possible
   paymentDetails: {
-    type: {},
+    type: {
+      nextRetry: Number, // for Ya.Money processPayments
+      processing: Boolean, // for Ya.Money processPayments,
+      oauthToken: String, // for Ya.Money processPayments
+      requestId: String //  for Ya.Money processPayments
+    },
     default: {}
   },
 

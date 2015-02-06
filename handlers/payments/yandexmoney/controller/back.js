@@ -4,7 +4,7 @@ const Transaction = require('../../models/transaction');
 const request = require('koa-request');
 
 
-var updatePendingOnlineTransactionStatus = require('../updatePendingOnlineTransactionStatus');
+var updatePendingOnlineTransactionStatus = require('../lib/updatePendingOnlineTransactionStatus');
 
 /* jshint -W106 */
 exports.get = function* () {
@@ -43,7 +43,7 @@ exports.get = function* () {
 
     // payment approved, success
     this.transaction.paymentDetails.oauthToken = oauthToken;
-    this.transaction.paymentDetails.request_id = requestPaymentResponse.request_id;
+    this.transaction.paymentDetails.requestId = requestPaymentResponse.request_id;
     this.transaction.markModified('paymentDetails');
     yield* this.transaction.persist();
 

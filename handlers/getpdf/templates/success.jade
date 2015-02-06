@@ -22,7 +22,7 @@ block content
             +e.type Оплата:
             +e.status._ok Осуществлена успешно
           +e.receipt-aside
-            +e('img').pay-method(src="/img/paypal.png", alt=receiptPaymentModuleTitle, title=receiptPaymentModuleTitle, width="121", height="31")
+            +e(class="pay-method " + "_"+paymentMethods[transaction.paymentMethod].name)
 
     +e.step._current
       +b.order-confirm

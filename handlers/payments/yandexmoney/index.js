@@ -5,8 +5,6 @@ const Transaction = require('../models/transaction');
 
 exports.renderForm = require('./renderForm');
 
-exports.updatePendingOnlineTransactionStatus = require('./updatePendingOnlineTransactionStatus');
-
 // TX gets this status when created
 exports.createTransaction = function*(order) {
 

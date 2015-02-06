@@ -23,10 +23,6 @@ exports.get = function*() {
     this.locals.paymentMethods[key] = { name: key, title: payments.methods[key].title };
   }
 
-  // Variants:
-  //  Order.STATUS == Pending / Failed / Success
-  //    if pending && exists pending_online TX show "wait"
-
   if (this.order.status == Order.STATUS_SUCCESS) {
 
     var successfulTansaction = yield Transaction.findOne({
@@ -44,58 +40,39 @@ exports.get = function*() {
   }
 
   if (this.order.status == Order.STATUS_PENDING) {
-    var pendingOnlineTransaction = yield Transaction.findOne({
+    var pendingTransaction = yield Transaction.findOne({
       order: this.order._id,
-      status: Transaction.STATUS_PENDING_ONLINE
-    }).exec();
-
-    if (pendingOnlineTransaction) {
-      this.locals.transaction = pendingOnlineTransaction;
-      this.body = this.render('pendingOnline');
-      return;
-    }
-
-    var pendingOfflineTransaction = yield Transaction.findOne({
-      order: this.order._id,
-      status: Transaction.STATUS_PENDING_OFFLINE
-    }).exec();
-
-    if (pendingOfflineTransaction) {
-      this.locals.transaction = pendingOfflineTransaction;
-      this.body = this.render('pendingOffline');
-      return;
-    }
-
-
-  }
-
-
-  switch (lastTransaction.status) {
-    case Transaction.STATUS_SUCCESS:
-      // the order is not yet successful, but the last transaction is successful,
-      // that's possible if order.onSuccess hook has not yet finished
-      // let's wait a little bit
-      this.locals.status = Transaction.STATUS_PENDING_ONLINE;
-      this.body = this.render('pending');
-      break;
-    case Transaction.STATUS_PENDING_OFFLINE:
-      this.locals.status = Transaction.STATUS_PENDING_OFFLINE;
-      this.locals.paymentInfo = lastTransaction.statusMessage;
-      break;
-    case Transaction.STATUS_PENDING_ONLINE:
-      this.locals.status = Transaction.STATUS_PENDING_ONLINE;
-      this.locals.statusMessage = "Ожидаем ответа от системы оплаты...";
-      break;
-    case Transaction.STATUS_FAIL:
-      this.locals.status = Transaction.STATUS_FAIL;
-      this.locals.statusMessage =  'Оплата не прошла.';
-
-      if (lastTransaction.statusMessage) {
-        this.locals.statusMessage += '<div>' + escapeHtml(lastTransaction.statusMessage) + '</div>';
+      status: {
+          $in: [Transaction.STATUS_PENDING_ONLINE, Transaction.STATUS_PENDING_OFFLINE]
       }
-      break;
-    }
+    }).exec();
+
+    this.locals.transaction = pendingTransaction;
+    this.body = this.render('pending');
+
+    return;
+
+    // Pending offline is impossible for tutorial
   }
 
-  this.body = this.render('order');
+
+  if (this.order.status == Order.STATUS_FAIL) {
+
+    var failedTransaction = yield Transaction.findOne({
+      order:  this.order._id,
+      status: {
+        $in: [Transaction.STATUS_PENDING_ONLINE, Transaction.STATUS_PENDING_OFFLINE]
+      }
+    }).sort({created: -1}).exec();
+
+    this.locals.status = Order.STATUS_FAIL;
+
+    this.locals.statusMessage = 'Оплата не прошла.';
+
+    if (failedTransaction.statusMessage) {
+      this.locals.statusMessage += '<div>' + escapeHtml(failedTransaction.statusMessage) + '</div>';
+    }
+    this.body = this.render('order');
+  }
+
 };

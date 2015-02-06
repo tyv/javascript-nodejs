@@ -55,7 +55,7 @@ exports.createTransactionForm = function* (order, method) {
   var paymentMethod = paymentMethods[method];
 
   var transaction = yield* paymentMethod.createTransaction(order);
-  log.debug(transaction);
+  log.debug("new transaction", transaction.toObject());
 
   var form = yield* paymentMethod.renderForm(transaction);
 

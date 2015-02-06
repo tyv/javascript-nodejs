@@ -1,11 +1,18 @@
-/* jshint -W106 */
 
 const request = require('koa-request');
-const Transaction = require('../models/transaction');
+const Transaction = require('../../models/transaction');
+const assert = require('assert');
 
 // update order status if possible, check transactions
+/* jshint -W106 */
 module.exports = function*(transaction) {
-  if (transaction.status != Transaction.STATUS_PENDING_ONLINE) return;
+  assert(transaction.status == Transaction.STATUS_PENDING_ONLINE);
+
+  // to avoid race condition with regular update
+  // not really atomic locking, but much safer than w/o it
+  if (transaction.paymentDetails.processing) return;
+  transaction.paymentDetails.processing = true;
+  yield transaction.persist();
 
   var processPaymentResponse = yield* processPayment(transaction);
 
@@ -17,23 +24,31 @@ module.exports = function*(transaction) {
 
   switch (processPaymentResponse.status) {
   case 'success':
-    // success!
-    var orderModule = require(order.module);
-    yield* orderModule.onSuccess(order);
+    transaction.status = Transaction.STATUS_SUCCESS;
+    break;
 
-    return;
-
-  case 'ext_auth_required':
-    // never happens cause we don't use bank cards?
   case 'refused':
     transaction.status = Transaction.STATUS_FAIL;
     transaction.statusMessage = processPaymentResponse.error;
-    yield transaction.persist();
-    return;
+    break;
+
   case 'in_progress':
-    return processPaymentResponse.next_retry;
+    transaction.paymentDetails.nextRetry = Date.now() + processPaymentResponse.next_retry;
+    break;
+
   default:
-    return 1000;
+    this.log.error("Unexprected response from yandex ", processPaymentResponse);
+    this.throw(500, "Unexpected response from yandex.money");
+  }
+
+  transaction.paymentDetails.processing = false;
+
+  yield transaction.persist();
+
+  if (transaction.status == Transaction.STATUS_SUCCESS) {
+    // success!
+    var orderModule = require(order.module);
+    yield* orderModule.onSuccess(order);
   }
 
 };
