@@ -1,3 +1,3 @@
-exports.renderFormOrResult = require('./renderFormOrResult');
+exports.renderForm = require('./renderForm');
 
 exports.title = "PayPal";

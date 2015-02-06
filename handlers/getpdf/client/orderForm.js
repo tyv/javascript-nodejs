@@ -1,5 +1,5 @@
 var xhr = require('client/xhr');
-
+var notification = require('client/notification');
 var delegate = require('client/delegate');
 var Spinner = require('client/spinner');
 
@@ -32,9 +32,6 @@ class OrderForm {
     });
 
     request.addEventListener('success', function(event) {
-      // TODO
-      // either html: what to show, if the result is clear
-      // or form: form to submit (and leave the page)
       var result = event.result;
 
       if (result.form) {
@@ -43,16 +40,10 @@ class OrderForm {
         container.innerHTML = result.form;
         document.body.appendChild(container);
         container.firstChild.submit();
-
       } else {
-        debugger;
-        alert("TODO");
+        new notification.Error("Ошибка на сервере, свяжитесь со <a href='mailto:mk@javascript.ru'>службой поддержки</a>.");
       }
     });
-    /*
-     .done(function(htmlForm) {
-     $(htmlForm).submit();
-     });*/
   }
 
 

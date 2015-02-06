@@ -1,4 +1,4 @@
-const Transaction = require('payments').Transaction;
+const Order = require('payments').Order;
 const expiringDownload = require('expiringDownload');
 
 const ExpiringDownloadLink = expiringDownload.ExpiringDownloadLink;
@@ -7,9 +7,6 @@ const ses = require('nodemailer-ses-transport');
 
 module.exports = function* (order) {
 
-  yield order.persist({
-    status: Transaction.STATUS_SUCCESS
-  });
 
   // CREATE DOWNLOAD LINK
 
@@ -28,6 +25,15 @@ module.exports = function* (order) {
 */
 
   // ...
+
+  order.data.bookInfo = "Скачивать книгу тут";
+
+  order.markModified('data');
+  order.status = Order.STATUS_SUCCESS;
+
+
+  yield order.persist();
+
 
   console.log("Order success: " + order.number);
 };

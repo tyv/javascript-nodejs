@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var payments = require('payments');
 var Order = payments.Order;
+var Transaction = payments.Transaction;
 var OrderTemplate = payments.OrderTemplate;
 var t = require("i18next").t;
 
@@ -28,9 +29,7 @@ exports.post = function*(next) {
     this.log.debug(this.request.body.orderTemplate);
 
     var orderTemplate = yield OrderTemplate.findOne({
-      slug: this.request.body.orderTemplate,
-      user: this.req.user && this.req.user._id,
-      email: this.req.user && this.req.user.email
+      slug: this.request.body.orderTemplate
     }).exec();
 
     if (!orderTemplate) {
@@ -41,7 +40,9 @@ exports.post = function*(next) {
 
     // create order from template, don't trust the incoming post
     this.order = Order.createFromTemplate(orderTemplate, {
-      module: 'getpdf'
+      module: 'getpdf',
+      user:   this.req.user && this.req.user._id,
+      email:  this.req.user && this.req.user.email
     });
 
     yield* updateOrderFromBody(this.request.body, this.req.user, this.order);
@@ -54,11 +55,34 @@ exports.post = function*(next) {
     this.session.orders.push(this.order.number);
   }
 
-  var result = yield* payments.createTransactionFormOrResult(this.order, paymentMethod);
+  if (yield* hasPendingTransactions(this.order)) {
+    this.throw(409, "A pending transaction exists already");
+  }
 
-  this.body = result;
+  var form = yield* payments.createTransactionForm(this.order, paymentMethod);
+
+  this.body = {form: form};
 
 };
+
+
+// order must have only 1 pending transaction at 1 time.
+// finish one payment then create another
+// UI does not allow to create multiple pending transaction
+//  that's to easily find/cancel a pending method
+// Here I guard against hand-made POST requests (just to be sure)
+// P.S. it is ok to create a transaction if a SUCCESS one exists (maybe split payment?)
+function* hasPendingTransactions(order) {
+
+  var pendingTransactions = yield Transaction.findOne({
+    status: {
+      $in: [Transaction.STATUS_PENDING_ONLINE, Transaction.STATUS_PENDING_OFFLINE]
+    }
+  }).exec();
+
+  return !!pendingTransactions;
+}
+
 
 function* updateOrderFromBody(body, user, order) {
   if (!user) {
@@ -66,7 +90,9 @@ function* updateOrderFromBody(body, user, order) {
     // (can resend the goods to someone else if needed)
     order.email = body.email;
   }
-  order.markModified('data');
+
+  // if any freeform data
+  // order.markModified('data');
 
   yield order.persist();
 }

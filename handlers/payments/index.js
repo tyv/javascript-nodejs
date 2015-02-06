@@ -2,8 +2,10 @@ var mount = require('koa-mount');
 var config = require('config');
 var compose = require('koa-compose');
 var path = require('path');
+var assert = require('assert');
 // Interaction with payment systems only.
 
+var log = require('log')();
 
 exports.loadOrder = require('./lib/loadOrder');
 exports.loadTransaction = require('./lib/loadTransaction');
@@ -13,18 +15,19 @@ var OrderTemplate = exports.OrderTemplate = require('./models/orderTemplate');
 var Transaction = exports.Transaction = require('./models/transaction');
 var TransactionLog = exports.TransactionLog = require('./models/transactionLog');
 
-exports.methods = {};
+var paymentMethods = exports.methods = {};
 
 //  all submodules
 for(var key in config.payments.modules) {
-  exports.methods[key] = require('./' + key);
+  paymentMethods[key] = require('./' + key);
+  assert(paymentMethods[key].renderForm, key + ": no renderForm");
 }
 
 // delegate all HTTP calls to payment modules
 // mount('/webmoney', webmoney.middleware())
 var mountHandlerMiddleware = require('lib/mountHandlerMiddleware');
 exports.init = function(app) {
-  for(var name in exports.methods) {
+  for(var name in paymentMethods) {
     app.use(mountHandlerMiddleware('/payments/' + name, path.join(__dirname, name)));
   }
 
@@ -39,30 +42,27 @@ exports.populateContextMiddleware = function*(next) {
   };
   this.loadOrder = exports.loadOrder;
   this.loadTransaction = exports.loadTransaction;
+
+//  this.checkPendingOnlineOrderStatus = exports.checkPendingOnlineOrderStatus;
+
   yield* next;
 };
 
 // creates transaction and returns the form to submit for its payment OR the result
 // delegates to the method
-exports.createTransactionFormOrResult = function* (order, method) {
+exports.createTransactionForm = function* (order, method) {
 
-  var transaction = new Transaction({
-    order:  order._id,
-    amount: order.amount,
-    module: method
-  });
+  var paymentMethod = paymentMethods[method];
 
-  yield transaction.persist();
+  var transaction = yield* paymentMethod.createTransaction(order);
+  log.debug(transaction);
 
-  console.log(transaction);
+  var form = yield* paymentMethod.renderForm(transaction);
 
-  var formOrResult = yield* exports.methods[method].renderFormOrResult(transaction);
+  yield* transaction.log('form', form);
 
-  yield* transaction.log('formOrResult', formOrResult);
-
-  return formOrResult;
+  return form;
 
 };
-
 
 

@@ -3,9 +3,10 @@ var Order = require('../models/order');
 var assert = require('assert');
 
 // Populates this.order with the order by "orderNumber" parameter
-module.exports = function* (field) {
+module.exports = function* (options) {
+  options = options || {};
 
-  if (!field) field = 'orderNumber';
+  var field = options.field || 'orderNumber';
 
   var orderNumber = this.request.body && this.request.body[field] || this.params[field] || this.query[field];
 
@@ -29,10 +30,12 @@ module.exports = function* (field) {
     this.throw(403, 'Заказ отсутствует в текущей сессии');
   }
 
-  // the order must have not yet been loaded from the user data
-  assert(!this.order, "this.order is already set (by loadTransaction?)");
+  if (!options.reload) {
+    // the order must have not yet been loaded from the user data
+    assert(!this.order, "this.order is already set (by loadTransaction?)");
+  }
 
-  this.log.debug(order);
+  this.log.debug("order", order.toObject());
 
   this.order = order;
 

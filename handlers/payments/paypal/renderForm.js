@@ -39,7 +39,7 @@ module.exports = function* (transaction) {
     returnUrl: paypalConfig.successUrl + '?transactionNumber=' + transaction.number
   });
 
-  return {form: form};
+  return form;
 
 };
 

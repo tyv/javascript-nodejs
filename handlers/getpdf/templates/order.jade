@@ -7,8 +7,19 @@ block content
 
   script var orderNumber = #{order.isNew ? 'null' : order.number};
   script var orderTemplate = "#{orderTemplate}";
+  script var status = "#{status}";
 
   +b("form").complex-form(data-order-form, data-new=(order.isNew ? "1" : "0"))
+
+    if status == 'fail'
+      +b.notification._error._message.__error
+        +e.content!= statusMessage
+
+    if status == 'pending_online'
+      +b.notification._info._message.__info
+        +e.content Заказ ожидает оплаты.
+
+
     +e.step._current
       +e.step-content
         +b.extract._small.__extract
@@ -25,8 +36,10 @@ block content
         if (!user)
           +e('h2').alternate-title Укажите свой email
           +b.text-input.__email
-            +e('input').control(placeholder="my@email.com", name="email", required, type="email" value="tester@javascript.ru")
+            //+e('input').control(name="email", required, type="email" value=order.email)
+              +e('input').control(placeholder="my@email.com", name="email", required, type="email" value="tester@javascript.ru")
           +e.email-note После оплаты ссылка на скачивание учебника придет на этот адрес
+
         +e('h2').alternate-title Выберите метод оплаты
         +b.pay-method.__pay-method
           +e.methods

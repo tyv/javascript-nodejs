@@ -1,0 +1,40 @@
+extends /layouts/main
+
+block variables
+  - var layout_header_class = "main__header_center"
+
+block content
+
+
+  +b.complex-form
+    +b.receipts.__receipts
+      +e.receipt
+        +e.receipt-body
+          +e.receipt-content
+            +e.type Заказ:
+            +e.title!= order.title
+            +e.note!= order.description
+          +e.receipt-aside
+            +e.price= #{order.amount + 'р.'}
+      +e.receipt
+        +e.receipt-body
+          +e.receipt-content
+            +e.type Оплата:
+            +e.status._ok Осуществлена успешно
+          +e.receipt-aside
+            +e('img').pay-method(src="/img/paypal.png", alt=receiptPaymentModuleTitle, title=receiptPaymentModuleTitle, width="121", height="31")
+
+    +e.step._current
+      +b.order-confirm
+        +e('h2').title__step-title Спасибо за покупку!
+        +e.accent В ближайшее время вам на электронный адрес придет ссылка на скачивание учебника.
+        +e.content
+          +e.text
+            | Вы можете скачать его и прямо сейчас, по ссылке #{order.data.downloadLink}
+            | Если у вас возникли какие-либо вопросы, присылайте их на
+            =" "
+            a(href="mailto:mk@javascript.ru") mk@javascript.ru
+
+
+  script(src=script("getpdf"))
+  script getpdf.init();
