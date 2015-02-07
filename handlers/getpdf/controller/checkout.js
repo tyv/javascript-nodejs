@@ -54,6 +54,9 @@ exports.post = function*(next) {
 
     yield* updateOrderFromBody(this.request.body, this.req.user, this.order);
 
+    // must persist to create order.number
+    yield this.order.persist();
+
     this.log.debug("order created", this.order.number);
 
     if (!this.session.orders) {

@@ -2,6 +2,7 @@ var fs = require('fs');
 var path = require('path');
 var mime = require('mime');
 var log = require('log')();
+var stripIndents = require('textUtil/stripIndents');
 
 function readFs(dir) {
 
@@ -59,7 +60,7 @@ function readFs(dir) {
     var file = files[i];
     filesForPlunk[file] = {
       filename: file,
-      content: fs.readFileSync(path.join(dir, file), 'utf-8')
+      content: stripIndents(fs.readFileSync(path.join(dir, file), 'utf-8'))
     };
   }
 

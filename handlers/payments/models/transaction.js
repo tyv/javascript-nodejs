@@ -23,7 +23,7 @@ var schema = new Schema({
   },
 
   // which method created this TX
-  paymentModule:        {
+  paymentMethod:        {
     type:     String,
     required: true
   },
@@ -97,10 +97,13 @@ schema.pre('validate', function ensureSingleTransactionPerOrder(next) {
         Transaction.STATUS_PENDING_OFFLINE,
         Transaction.STATUS_SUCCESS // enforce payment with a single tx
       ]
+    },
+    _id: {
+      $ne: this._id
     }
   }, function (err, tx) {
     if (err) return next(err);
-    if (tx) return next("A transaction " + tx._id + " with status " + tx.status + " already exists for the same order " + tx.order);
+    if (tx) return next(new Error("A transaction " + tx._id + " with status " + tx.status + " already exists for the same order " + tx.order));
     next();
   });
 });

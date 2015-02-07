@@ -47,32 +47,29 @@ exports.get = function*() {
       }
     }).exec();
 
-    this.locals.transaction = pendingTransaction;
-    this.body = this.render('pending');
+    this.log.debug("findOne pending transaction: ", pendingTransaction && pendingTransaction.toObject());
 
-    return;
+    if (pendingTransaction) {
+      this.locals.transaction = pendingTransaction;
 
-    // Pending offline is impossible for tutorial
-  }
-
-
-  if (this.order.status == Order.STATUS_FAIL) {
+      this.body = this.render('pending');
+      return;
+    }
 
     var failedTransaction = yield Transaction.findOne({
       order:  this.order._id,
-      status: {
-        $in: [Transaction.STATUS_PENDING_ONLINE, Transaction.STATUS_PENDING_OFFLINE]
-      }
+      status: Transaction.STATUS_FAIL
     }).sort({created: -1}).exec();
 
-    this.locals.status = Order.STATUS_FAIL;
+    this.log.debug("findOne failed transaction: ", failedTransaction && failedTransaction.toObject());
 
-    this.locals.statusMessage = 'Оплата не прошла.';
-
-    if (failedTransaction.statusMessage) {
-      this.locals.statusMessage += '<div>' + escapeHtml(failedTransaction.statusMessage) + '</div>';
-    }
+    this.locals.transaction = failedTransaction;
     this.body = this.render('order');
+    return;
+  }
+
+  if (this.order.status == Order.STATUS_CANCEL) {
+    this.throw(403, "The order was canceled");
   }
 
 };

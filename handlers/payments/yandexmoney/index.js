@@ -12,7 +12,7 @@ exports.createTransaction = function*(order) {
     order:  order._id,
     amount: order.amount,
     status: Transaction.STATUS_PENDING_ONLINE,
-    paymentModule: path.basename(__dirname)
+    paymentMethod: path.basename(__dirname)
   });
 
   yield transaction.persist();
