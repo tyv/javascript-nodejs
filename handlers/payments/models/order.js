@@ -21,7 +21,9 @@ var schema = new Schema({
     type: String
   },
   status:      {
-    type: String
+    type: String,
+    enum: ['success', 'cancel', 'pending'],
+    default: 'pending'
   },
 
   // order can be bound to either an email or a user
@@ -33,7 +35,11 @@ var schema = new Schema({
     ref:  'User'
   },
 
-  data:        Schema.Types.Mixed,
+  data:      {
+    type: Schema.Types.Mixed,
+    default: {}
+  },
+
   created:     {
     type:    Date,
     default: Date.now
@@ -55,6 +61,13 @@ schema.statics.createFromTemplate = function(orderTemplate, body) {
 };
 
 schema.plugin(autoIncrement.plugin, {model: 'Order', field: 'number', startAt: 1});
+
+schema.statics.STATUS_SUCCESS = 'success';
+
+schema.statics.STATUS_PENDING = 'pending';
+
+schema.statics.STATUS_CANCEL = 'cancel';
+
 
 module.exports = mongoose.model('Order', schema);
 

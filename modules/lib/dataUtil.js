@@ -85,7 +85,6 @@ function *createEmptyDb() {
 // but it fails with capped collections, it calls remove() on them => everything dies
 // so rolling my own tiny-loader
 function *loadModels(data) {
-  yield* createEmptyDb();
   var modelsData = (typeof data == 'string') ? require(data) : data;
 
   yield Object.keys(modelsData).map(function(modelName) {

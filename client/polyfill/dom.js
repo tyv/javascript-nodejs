@@ -70,3 +70,5 @@ for (var methodName in methods) {
 }
 
 require('./customEvent');
+require('./dataset');
+require('./hidden');

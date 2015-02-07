@@ -1,7 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var autoIncrement = require('mongoose-auto-increment');
-var Order = require('./order');
 var TransactionLog = require('./transactionLog');
 
 /**
@@ -15,22 +14,40 @@ var TransactionLog = require('./transactionLog');
 var schema = new Schema({
   order:         {
     type: Schema.Types.ObjectId,
-    ref:  'Order'
+    ref:  'Order',
+    required: true
   },
   amount:        {
     type:     Number,
     required: true
   },
-  module:        {
+
+  // which method created this TX
+  paymentModule:        {
     type:     String,
     required: true
   },
+  // payment method may initiate the payment
+  // and provide the token value to track it
+  // other details are also possible
+  paymentDetails: {
+    type: {
+      nextRetry: Number, // for Ya.Money processPayments
+      processing: Boolean, // for Ya.Money processPayments,
+      oauthToken: String, // for Ya.Money processPayments
+      requestId: String //  for Ya.Money processPayments
+    },
+    default: {}
+  },
+
   created:       {
     type:    Date,
+    required: true,
     default: Date.now
   },
   status:        {
-    type: String
+    type: String,
+    required: true
   },
   statusMessage: {
     type: String
@@ -39,25 +56,19 @@ var schema = new Schema({
 
 schema.plugin(autoIncrement.plugin, {model: 'Transaction', field: 'number', startAt: 1});
 
+// Awaiting for the payment system callback,
+// when the user opens the order, let him wait and refresh the page
+schema.statics.STATUS_PENDING_ONLINE = 'pending_online';
+
+// Awaiting for the payment offline, there's no reason to wait
+schema.statics.STATUS_PENDING_OFFLINE = 'pending_offline';
+
 schema.statics.STATUS_SUCCESS = 'success';
-schema.statics.STATUS_PENDING = 'pending';
+
 schema.statics.STATUS_FAIL = 'fail';
 
-/*
-// DEPRECATED: orderModule.onSuccess updates its status
-// autoupdate order to SUCCESS when succeeded
-schema.pre('save', function(next) {
-  if (this.status == Transaction.STATUS_SUCCESS) {
-    var orderId = this.order._id || this.order;
-    Order.findByIdAndUpdate(orderId, {status: Transaction.STATUS_SUCCESS}, next);
-  } else {
-    next();
-  }
-});
-*/
-
 // autolog all changes
-schema.pre('save', function(next) {
+schema.pre('save', function logChanges(next) {
 
   var log = new TransactionLog({
     transaction: this._id,
@@ -73,6 +84,29 @@ schema.pre('save', function(next) {
     next(err);
   });
 });
+
+
+// allow many failed transactions
+// forbid many pending/successful
+schema.pre('validate', function ensureSingleTransactionPerOrder(next) {
+  Transaction.findOne({
+    order: this.order,
+    status: {
+      $in: [
+        Transaction.STATUS_PENDING_ONLINE,
+        Transaction.STATUS_PENDING_OFFLINE,
+        Transaction.STATUS_SUCCESS // enforce payment with a single tx
+      ]
+    }
+  }, function (err, tx) {
+    if (err) return next(err);
+    if (tx) return next("A transaction " + tx._id + " with status " + tx.status + " already exists for the same order " + tx.order);
+    next();
+  });
+});
+
+
+
 /*
 schema.methods.getStatusDescription = function() {
   if (this.status == Transaction.STATUS_SUCCESS) {

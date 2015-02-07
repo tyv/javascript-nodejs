@@ -37,9 +37,9 @@ class NotificationManager {
 
 var manager;
 
-export function init(options) {
+exports.init = function(options) {
   manager = new NotificationManager(options);
-}
+};
 
 
 class Notification {
@@ -115,14 +115,17 @@ class Notification {
 delegate.delegateMixin(Notification.prototype);
 
 
-export class Info extends Notification {
+class Info extends Notification {
 
   constructor(html) {
     super(html, 'info');
   }
 
 }
-export class Warning extends Notification {
+
+exports.Info = Info;
+
+class Warning extends Notification {
 
   constructor(html) {
     super(html, 'warning');
@@ -130,13 +133,17 @@ export class Warning extends Notification {
 
 }
 
-export class Success extends Notification {
+exports.Warning = Warning;
+
+class Success extends Notification {
 
   constructor(html) {
     super(html, 'success');
   }
 
 }
+
+exports.Success = Success;
 
 export class Error extends Notification {
 
@@ -152,6 +159,8 @@ export class Error extends Notification {
 
 }
 
+exports.Error = Error;
+
 export class Test extends Notification {
 
   constructor(html) {
@@ -166,4 +175,4 @@ export class Test extends Notification {
 
 }
 
-window.Test = Success;
+exports.Test = Test;

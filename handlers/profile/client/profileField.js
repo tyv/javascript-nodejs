@@ -1,5 +1,5 @@
-import notification from 'client/notification';
-import angular from 'angular';
+var notification = require('client/notification');
+var angular = require('angular');
 
 
 angular.module('profile')

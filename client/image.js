@@ -1,6 +1,6 @@
 
 export function thumb(url, width, height) {
-  var pixelRatio = parseFloat(document.cookie.slice(document.cookie.indexOf('pixelRatio=') + 11)) || 1;
+  var pixelRatio = window.devicePixelRatio;
 
   // return pixelRatio times larger image for retina
   width *= pixelRatio;

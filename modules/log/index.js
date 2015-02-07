@@ -9,7 +9,8 @@ var httpErrorSerializer = require('./httpErrorSerializer');
 var path = require('path');
 
 // log.debug({req: ...})
-var serializers = {
+// exported => new serializers can be added by other modules
+var serializers = exports.serializers = {
   reqVerbose: reqVerboseSerializer,
   req:        reqSerializer,
   res:        resSerializer,

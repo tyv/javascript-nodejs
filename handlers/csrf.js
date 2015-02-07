@@ -59,7 +59,7 @@ exports.init = function(app) {
 
   app.use(function* setCsrfCookie(next) {
     // this cookie name is used in angular by default
-    if (this.req.user && !this.cookies.get('XSRF-TOKEN') || 1) {
+    if (this.req.user && !this.cookies.get('XSRF-TOKEN')) {
       this.cookies.set('XSRF-TOKEN', this.csrf, { httpOnly: false, signed: false });
     }
     yield* next;

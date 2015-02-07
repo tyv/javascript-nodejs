@@ -3,8 +3,11 @@ const Order = require('../../models/order');
 const Transaction = require('../../models/transaction');
 const request = require('koa-request');
 
+
+var updatePendingOnlineTransactionStatus = require('../lib/updatePendingOnlineTransactionStatus');
+
 /* jshint -W106 */
-exports.get = function* (next) {
+exports.get = function* () {
 
   var self = this;
 
@@ -38,43 +41,17 @@ exports.get = function* (next) {
       throwResponseError(requestPaymentResponse);
     }
 
-    var requestId = requestPaymentResponse.request_id;
+    // payment approved, success
+    this.transaction.paymentDetails.oauthToken = oauthToken;
+    this.transaction.paymentDetails.requestId = requestPaymentResponse.request_id;
+    this.transaction.markModified('paymentDetails');
+    yield* this.transaction.persist();
 
-    var startTime = new Date();
+    // payment may not succeed yet,
+    // so this can be called later too with HTTP GET
+    yield* updatePendingOnlineTransactionStatus(this.transaction);
 
-    while_in_progress:
-      while (true) {
-        if (new Date() - startTime > 5 * 60 * 1e3) { // 5 minutes wait max
-          yield* fail("timeout");
-          return;
-        }
-        var processPaymentResponse = yield* processPayment(oauthToken, requestId);
-
-        switch (processPaymentResponse.status) {
-        case 'success':
-          break while_in_progress;
-        case 'refused':
-          yield* fail(processPaymentResponse.error);
-          return;
-        case 'ext_auth_required':
-          yield* fail("необходимо подтвердить авторизацию по технологии 3D-Secure");
-          return;
-        case 'in_progress':
-          yield delay(processPaymentResponse.next_retry);
-          break;
-        default:
-          yield delay(1000);
-        }
-
-      }
-
-
-    // success!
-    var orderModule = require(this.order.module);
-    yield* orderModule.onSuccess(this.order);
-
-
-    self.redirect(self.getOrderSuccessUrl());
+    self.redirectToOrder();
 
   } catch (e) {
     if (e instanceof URIError) {
@@ -151,26 +128,6 @@ exports.get = function* (next) {
     return JSON.parse(response.body);
   }
 
-  function* processPayment(oauthToken, requestId) {
-    var options = {
-      method:  'POST',
-      form:    {
-        request_id: requestId
-      },
-      headers: {
-        'Authorization': 'Bearer ' + oauthToken
-      },
-      url:     'https://money.yandex.ru/api/process-payment'
-    };
-
-    yield self.transaction.log('request api/process-payment', options);
-
-    var response = yield request(options);
-    yield self.transaction.log('response api/process-payment', response.body);
-
-    return JSON.parse(response.body);
-  }
-
 
 };
 
@@ -186,10 +143,4 @@ function throwResponseError(response) {
   }
 
   throw new URIError(message);
-}
-
-function delay(ms) {
-  return function(callback) {
-    setTimeout(callback, ms);
-  };
 }

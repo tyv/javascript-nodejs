@@ -1,0 +1,38 @@
+extends ../layouts/base
+
+// - http://stackoverflow.com/questions/12646451/how-to-pass-variables-between-jade-templates
+block variables
+  - self.title = 'Приобретение книги javascript.ru в&nbsp;формате&nbsp;PDF';
+
+  //- layout
+  - layout.header = true
+  - layout.centeredHeader = true
+
+block content
+  +b.complex-form
+    +b.receipts.__receipts
+      +e.receipt
+        +e.receipt-body
+          +e.receipt-content
+            +e.type Заказ:
+            +e.title Учебник «Основы Javascript»
+            +e.note <b>125стр.,</b> pdf (10Мб)
+          +e.receipt-aside
+            +e.price 24000 RUR
+      +e.receipt
+        +e.receipt-body
+          +e.receipt-content
+            +e.type Оплата:
+            +e.status._ok Осуществлена успешно
+          +e.receipt-aside
+            +e('img').pay-method(src="/img/paypal.png", alt="PayPal", title="PayPal", width="121", height="31")
+    +e.step._current
+      +b.order-confirm
+        +e('h2').title__step-title Спасибо за заказ!
+        +e.accent В ближайшее время вам на электронный адрес придет ссылка на скачивание учебника
+        +e.content
+          +e.text
+            | Если у вас возникли какие-либо вопросы, присылайте их на
+            =" "
+            a(href="mailto:orders@javascript.ru") orders@javascript.ru
+

@@ -1,4 +1,4 @@
-require('auth').User;
+require('users').User;
 require('tutorial').Article;
 
 exports.User = [

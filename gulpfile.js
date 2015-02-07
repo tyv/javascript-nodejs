@@ -48,8 +48,9 @@ gulp.task('init');
 gulp.task('lint-once', lazyRequireTask('./tasks/lint', { src: jsSources }));
 gulp.task('lint-or-die', lazyRequireTask('./tasks/lint', { src: jsSources, dieOnError: true }));
 
-// usage: gulp db:load --from fixture/test/db --harmony
+// usage: gulp db:load --from fixture/init --harmony
 gulp.task('db:load', lazyRequireTask('./tasks/dbLoad'));
+gulp.task('db:clear', lazyRequireTask('./tasks/dbClear'));
 
 
 gulp.task("nodemon", lazyRequireTask('./tasks/nodemon', {
@@ -144,7 +145,9 @@ gulp.task('dev', function(callback) {
   runSequence("client:sync-resources", 'client:compile-css', 'client:sync-css-images', ['nodemon', 'client:livereload', 'client:webpack', 'watch'], callback);
 });
 
-gulp.task('tutorial:import', ['cache:clean'], lazyRequireTask('tutorial/tasks/import'));
+gulp.task('tutorial:import', ['cache:clean'], lazyRequireTask('tutorial/tasks/tutorialImport'));
+gulp.task('figures:import', lazyRequireTask('tutorial/tasks/figuresImport'));
+
 gulp.task('tutorial:kill:content', ['cache:clean'], lazyRequireTask('tutorial/tasks/killContent'));
 
 gulp.task('cache:clean', lazyRequireTask('./tasks/cacheClean'));

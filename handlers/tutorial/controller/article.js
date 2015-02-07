@@ -19,6 +19,10 @@ exports.get = function *get(next) {
   var locals = renderedArticle;
   locals.sitetoolbar = true;
 
+  if (!renderedArticle.isFolder) {
+    locals.comments = true;
+  }
+
   var sections = [];
   if (renderedArticle.isFolder) {
 

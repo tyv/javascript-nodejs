@@ -20,7 +20,7 @@ var money = require('money');
 
 exports.boot = function*() {
   // load from db into memory
-  currencyRate = yield CurrencyRate.find().sort({timestamp: -1}).limit(1).exec();
+  currencyRate = yield CurrencyRate.findOne().sort({timestamp: -1}).limit(1).exec();
 
   if (!currencyRate) {
     currencyRate = yield* fetchLatest();

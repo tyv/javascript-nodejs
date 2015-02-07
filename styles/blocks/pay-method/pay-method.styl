@@ -18,6 +18,29 @@
 	&__send
 		@extend $button-reset
 		display block
+		width 184px
+		height 98px
+
+		&_webmoney
+			background asset('./pay-webmoney.svg')
+
+		&_banksimple
+			background asset('./pay-banksimple.svg')
+
+		&_interkassa
+			background asset('./pay-interkassa.svg')
+
+		&_payanyway
+			background asset('./pay-payanyway.svg')
+
+		&_paypal
+			background asset('./pay-paypal.svg')
+
+		&_webmoney
+			background asset('./pay-webmoney.svg')
+
+		&_yandexmoney
+			background asset('./pay-yandexmoney.svg')
 
 	&__radio
 		position absolute
@@ -48,3 +71,11 @@
 	&__radio:checked + &__label
 		outline 2px solid #ffab34
 		outline-offset -1px
+
+	&__spinner
+		position absolute
+		top 90px
+		left 248px
+
+	&__spinner .spinner__dot
+		background #333

@@ -141,58 +141,90 @@
 			right 20px
 
 		&__nav-wrap
-			display table
-			table-layout fixed
-			width calc(100% - 60px)
-			margin 20px 30px
-			// border-collapse collapse breaks positioning inside a cell in Fx
+			position relative
+			display block
+			white-space nowrap
+			margin 20px 0
+
+		&__nav-wrap:after
+			position absolute
+			left 50%
+			top 0
+			width 3px
+			height 100%
+			background #F5F2F0
+			content: ''
 
 		&__nav
 			position relative
 			top 0 // not necessary but more neat style
-			display table-cell
-			border solid #F5F2F0
+			display inline-block
 			box-sizing border-box
-			min-height 60px
+			width 50%
 			height auto
+			padding 17px 0
+			margin-top auto
+			border 3px solid #F5F2F0
 			text-align center
+			white-space normal
+
+		&__nav-wrap:active:after
+			background #7e7e7e
+
+		&__nav:active
+			border-color: #7e7e7e
+
+		&__nav_prev
+			padding-left 30px
+
+			border-right-width 0
+			border-radius: 6px 0 0 6px
+
+		&__nav_next
+			padding-right 30px
+
+			border-left-width 0
+			border-radius: 0 6px 6px 0
+
+
+		&__nav_next:only-child
+			display block
+			margin 0 0 0 auto
 
 		& &__nav
 			transform none
 
-		&__nav_prev
-			border-width 3px 2px 3px 0
-
-		&__nav_next
-			border-width 3px 0 3px 1px
-
 		&__nav-text
-			top -3px
-			bottom -3px
-			margin 0
+			top 0
+			bottom 0
 			left 0
-			padding-top 6px
+			margin 0
 			width 30px
+			white-space nowrap
 			text-align center
-			border 3px solid #F5F2F0
 
 		&__nav_prev &__nav-text
-			border-right 0
-			left auto
-			right 100%
-			border-radius 6px 0 0 6px
+			left 0
+			right auto
 
 		&__nav_next &__nav-text
-			border-left 0
-			right auto
-			left 100%
-			border-radius 0 6px 6px 0
+			right 0
+			left auto
+
+		// скрытый элемент для выравнивания иконок < | >
+		&__nav-text::after
+			display inline-block
+			height 100%
+			vertical-align middle
+			content: ''
 
 		&__nav-text::before
+			display inline-block
 			margin-bottom 0
 			min-height 0
-			width 27px
+			width 30px
 			line-height 1
+			vertical-align middle
 
 		&__nav:hover &__nav-text::before
 			background none
@@ -202,5 +234,4 @@
 
 		&__nav-text-alternate
 			display block
-			margin 17px 10px
 			color #333

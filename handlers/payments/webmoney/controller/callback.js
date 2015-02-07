@@ -52,7 +52,8 @@ exports.post = function* (next) {
 
   var order = this.transaction.order;
   this.log.debug("will call order onSuccess module=" + order.module);
-  yield* require(order.module).onSuccess(order);
+
+  yield* require(order.module).onPaymentSuccess(order);
 
   this.body = 'OK';
 

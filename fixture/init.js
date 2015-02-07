@@ -30,3 +30,4 @@ exports.User = [{
   password: "123456",
   verifiedEmail: true
 }];
+

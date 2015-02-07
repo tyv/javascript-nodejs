@@ -1,4 +1,4 @@
-var Importer = require('../importer');
+var TutorialImporter = require('../tutorialImporter');
 var co = require('co');
 var fs = require('fs');
 var path = require('path');
@@ -14,7 +14,7 @@ module.exports = function(options) {
 
     var root = fs.realpathSync(args.root);
 
-    var importer = new Importer({
+    var importer = new TutorialImporter({
       root: root
     });
 
