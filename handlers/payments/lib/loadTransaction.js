@@ -18,13 +18,13 @@ module.exports = function* (field, options) {
   var transaction = yield Transaction.findOne({number: transactionNumber}).populate('order').exec();
 
   if (!transaction) {
-    this.throw(404, 'Нет такой транзакции');
+    this.throw(404, 'Transaction not found');
   }
 
   if (!options.skipOwnerCheck) {
     // todo: add belongs to check (with auth)
     if (!this.session.orders || this.session.orders.indexOf(transaction.order.number) == -1) {
-      this.throw(403, 'Не найден заказ в сессии для этой транзакции');
+      this.throw(403, 'The order is not in session');
     }
   }
 
@@ -33,5 +33,7 @@ module.exports = function* (field, options) {
 
   this.transaction = transaction;
   this.order = transaction.order;
+
+  this.log.debug("tx loaded");
 
 };

@@ -20,7 +20,7 @@ class OrderForm {
   onPaymentMethodClick(e) {
 
     // response status must be 200
-    var request = this.request({
+    var request = xhr({
       method: 'POST',
       url:    '/getpdf/checkout',
       body:   {
@@ -31,17 +31,23 @@ class OrderForm {
       }
     });
 
+    var onEnd = this.startRequestIndication();
+
     request.addEventListener('success', function(event) {
       var result = event.result;
 
       if (result.form) {
+        // don't stop the spinner while submitting the form to the payment system!
+        // (still in progress)
         var container = document.createElement('div');
         container.hidden = true;
         container.innerHTML = result.form;
         document.body.appendChild(container);
         container.firstChild.submit();
       } else {
-        new notification.Error("Ошибка на сервере, свяжитесь со <a href='mailto:mk@javascript.ru'>службой поддержки</a>.");
+        console.error(result);
+        onEnd();
+        new notification.Error("Ошибка на сервере, свяжитесь со <a href='mailto:orders@javascript.ru'>службой поддержки</a>.");
       }
     });
   }

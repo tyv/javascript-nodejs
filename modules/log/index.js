@@ -1,8 +1,8 @@
 // Usage: require('log')()
 
 var bunyan = require('bunyan');
-var reqSerializer = require('./reqSerializer');
-var reqVerboseSerializer = require('./reqVerboseSerializer');
+var requestSerializer = require('./requestSerializer');
+var requestVerboseSerializer = require('./requestVerboseSerializer');
 var resSerializer = require('./resSerializer');
 var errSerializer = require('./errSerializer');
 var httpErrorSerializer = require('./httpErrorSerializer');
@@ -11,8 +11,8 @@ var path = require('path');
 // log.debug({req: ...})
 // exported => new serializers can be added by other modules
 var serializers = exports.serializers = {
-  reqVerbose: reqVerboseSerializer,
-  req:        reqSerializer,
+  requestVerbose: requestVerboseSerializer,
+  request:        requestSerializer,
   res:        resSerializer,
   err:        errSerializer,
   httpError:  httpErrorSerializer

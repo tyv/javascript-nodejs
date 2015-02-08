@@ -99,7 +99,7 @@ util.inherits(RequestCaptureStream, Stream);
 
 RequestCaptureStream.prototype.write = function write(record) {
 //  console.log(record);
-  var reqId = record.reqId || PROCESS_UUID;
+  var reqId = record.requestId || PROCESS_UUID;
   var ring;
   var self = this;
 

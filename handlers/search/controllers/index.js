@@ -81,7 +81,7 @@ exports.get = function *get(next) {
       };
 
       if (!hitFormatted.url || !hitFormatted.breadcrumb) {
-        this.log.error("Cannot find search result in DB", hit);
+        this.log.error("Cannot find result from the search response in MongoDB", hit);
         continue;
       }
 

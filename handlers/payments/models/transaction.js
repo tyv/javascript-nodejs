@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var autoIncrement = require('mongoose-auto-increment');
+var crypto = require('crypto');
 var TransactionLog = require('./transactionLog');
 
 /**
@@ -23,7 +23,7 @@ var schema = new Schema({
   },
 
   // which method created this TX
-  paymentModule:        {
+  paymentMethod:        {
     type:     String,
     required: true
   },
@@ -40,6 +40,16 @@ var schema = new Schema({
     default: {}
   },
 
+  // transaction number, external analog for _id
+  // always a number to be accepted by any payment system
+  // random, not autoincrement, because more convenient for development, doesn't repeat on dropdb
+  number: {
+    type: Number,
+    default: function() {
+      return parseInt(crypto.randomBytes(4).toString('hex'), 16);
+    },
+    unique: true
+  },
   created:       {
     type:    Date,
     required: true,
@@ -53,8 +63,6 @@ var schema = new Schema({
     type: String
   }
 });
-
-schema.plugin(autoIncrement.plugin, {model: 'Transaction', field: 'number', startAt: 1});
 
 // Awaiting for the payment system callback,
 // when the user opens the order, let him wait and refresh the page
@@ -97,10 +105,13 @@ schema.pre('validate', function ensureSingleTransactionPerOrder(next) {
         Transaction.STATUS_PENDING_OFFLINE,
         Transaction.STATUS_SUCCESS // enforce payment with a single tx
       ]
+    },
+    _id: {
+      $ne: this._id
     }
   }, function (err, tx) {
     if (err) return next(err);
-    if (tx) return next("A transaction " + tx._id + " with status " + tx.status + " already exists for the same order " + tx.order);
+    if (tx) return next(new Error("A transaction " + tx._id + " with status " + tx.status + " already exists for the same order " + tx.order));
     next();
   });
 });

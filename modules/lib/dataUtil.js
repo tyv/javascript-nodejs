@@ -84,18 +84,23 @@ function *createEmptyDb() {
 // tried using pow-mongoose-fixtures,
 // but it fails with capped collections, it calls remove() on them => everything dies
 // so rolling my own tiny-loader
-function *loadModels(data) {
+function *loadModels(data, options) {
+  options = options || {};
   var modelsData = (typeof data == 'string') ? require(data) : data;
 
-  yield Object.keys(modelsData).map(function(modelName) {
-    return loadModel(modelName, modelsData[modelName]);
-  });
+  var modelNames = Object.keys(modelsData);
+
+  for(var modelName in modelsData) {
+    var Model = mongoose.models[modelName];
+    if (options.reset) {
+      yield Model.destroy({});
+    }
+    yield* loadModel(Model, modelsData[modelName]);
+  }
 }
 
 // load data into the DB, replace if _id is the same
-function *loadModel(name, data) {
-
-  var Model = mongoose.models[name];
+function *loadModel(Model, data) {
 
   for (var i = 0; i < data.length; i++) {
     if (data[i]._id) {

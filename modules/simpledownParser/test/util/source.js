@@ -1,5 +1,5 @@
 var extractHighlight = require('../../util/source/extractHighlight');
-var stripIndents = require('../../util/source/stripIndents');
+var stripIndents = require('textUtil/stripIndents');
 
 var fs = require('fs');
 var path = require('path');

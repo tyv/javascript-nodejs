@@ -1,3 +1,4 @@
+// CRONTAB: run me daily
 var Router = require('koa-router');
 var mongoose = require('mongoose');
 var CurrencyRate = require('./models/currencyRate');

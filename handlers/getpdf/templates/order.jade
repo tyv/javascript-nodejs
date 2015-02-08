@@ -1,6 +1,6 @@
 extends /layouts/main
 
-block variables
+block append variables
   - var layout_header_class = "main__header_center"
 
 block content
@@ -11,14 +11,20 @@ block content
 
   +b("form").complex-form(data-order-form, data-new=(order.isNew ? "1" : "0"))
 
-    if status == 'fail'
+    if (transaction && transaction.status == 'fail')
       +b.notification._error._message.__error
-        +e.content!= statusMessage
+        +e.content
+          p Оплата не прошла, попробуйте ещё раз.
+            if transaction.statusMessage
+              div Ошибка:&nbsp;
+                em= transaction.statusMessage
+          p По вопросам, касающимся оплаты, вы можете писать на <a href="mailto:orders@javascript.ru">orders@javascript.ru</a>.
 
-    if status == 'pending_online'
-      +b.notification._info._message.__info
-        +e.content Заказ ожидает оплаты.
-
+    if (transaction && transaction.status == 'pending_online')
+      +b.notification._warning._message.__warning
+        +e.content
+          p Уведомление от платёжной системы не получено.
+          p Если вы точно знаете, что оплата была - можно обновить эту страницу через 5 минут или написать в поддержку <a href="mailto:orders@javascript.ru">orders@javascript.ru</a>.
 
     +e.step._current
       +e.step-content
