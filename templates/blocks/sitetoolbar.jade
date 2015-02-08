@@ -1,3 +1,6 @@
+block append variables
+  - var siteToolbarSections = [ { slug: 'tutorial', title: 'Учебник' } ];
+
 +b.sitetoolbar
   +e.content
     +e.logo-wrap
@@ -28,10 +31,9 @@
       +e('button').nav-toggle(onclick="document.querySelector('.sitetoolbar').classList.toggle('sitetoolbar_menu_open')")
     +e('nav').sections
       +e('ul').sections-list
-        +e('li').section._current
-          //- элемент с модификатором _current может содержать как ссылку,
-          //- так и простой текст, выглядеть будет одинаково
-          | Учебник
+         each section in siteToolbarSections
+          +e('li')(class="section" + ((siteToolbarCurrentSection == section.slug) ? ' _current' : ''))
+            +e('a').link(href="/"+section.slug)= section.title
         //-
           =' '
           +e('li').section
@@ -47,7 +49,7 @@
     else
       include ./guest
     +e.search-wrap
-      +e('button').search-toggle(onclick="document.querySelector('.sitetoolbar').classList.toggle('sitetoolbar_search_open')")
+      +e('button').search-toggle
   +e.tablet-menu
     +e.tablet-menu-line
       +e.tablet-menu-header

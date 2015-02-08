@@ -1,6 +1,6 @@
 extends /layouts/main
 
-block variables
+block append variables
   - var layout_header_class = "main__header_center"
 
 block content
@@ -15,7 +15,7 @@ block content
             +e.title!= order.title
             +e.note!= order.description
           +e.receipt-aside
-            +e.price= #{order.amount + 'р.'}
+            +e.price #{order.amount + 'р.'}
       +e.receipt
         +e.receipt-body
           +e.receipt-content

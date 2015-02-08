@@ -10,8 +10,10 @@ module.exports = function() {
   return function() {
 
     var args = require('yargs')
-      .usage("Path to DB fixture file is required.")
+      .usage("gulp db:load --from fixture/init --harmony --reset")
       .demand(['from'])
+      .describe('from', 'file to import')
+      .describe('reset', 'kill all existing models of each kind')
       .argv;
 
     var dbPath = path.join(projectRoot, args.from);
@@ -20,7 +22,7 @@ module.exports = function() {
 
     return co(function*() {
 
-      yield* dataUtil.loadModels(dbPath);
+      yield* dataUtil.loadModels(dbPath, { reset: args.reset });
 
       gutil.log("loaded db " + dbPath);
     });

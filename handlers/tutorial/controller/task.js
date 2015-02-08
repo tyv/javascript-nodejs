@@ -3,6 +3,7 @@ const Task = require('../models/task');
 const TaskRenderer = require('../renderer/taskRenderer');
 
 exports.get = function *get(next) {
+
   const task = yield Task.findOne({
     slug: this.params.slug
   }).populate('parent', 'slug').exec();
@@ -15,6 +16,8 @@ exports.get = function *get(next) {
   const renderer = new TaskRenderer();
 
   const rendered = yield* renderer.renderWithCache(task);
+
+  this.locals.siteToolbarCurrentSection = "tutorial";
 
   this.locals.task = {
     title:      task.title,

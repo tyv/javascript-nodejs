@@ -43,7 +43,7 @@ exports.get = function* () {
     // payment approved, success
     this.transaction.paymentDetails.oauthToken = oauthToken;
     this.transaction.paymentDetails.requestId = requestPaymentResponse.request_id;
-    yield* this.transaction.persist();
+    yield this.transaction.persist();
 
     // payment may not succeed yet,
     // so this can be called later too with HTTP GET

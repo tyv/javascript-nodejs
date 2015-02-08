@@ -40,6 +40,7 @@ function TutorialMapModal() {
   });
 
   request.send();
+
 }
 
 TutorialMapModal.prototype = Object.create(Modal.prototype);

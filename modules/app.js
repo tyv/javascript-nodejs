@@ -101,24 +101,6 @@ app.requireHandler('profile');
 app.requireHandler('currencyRate');
 app.requireHandler('payments');
 
-/*
- app.use(mount('/webmoney', compose([payment.middleware, require('webmoney').middleware])));
- app.csrfChecker.addIgnorePath('/webmoney/:any*');
- app.verboseLogger.addPath('/webmoney/:any*');
-
- app.use(mount('/yandexmoney', compose([payment.middleware, require('yandexmoney').middleware])));
- app.csrfChecker.addIgnorePath('/yandexmoney/:any*');
- app.verboseLogger.addPath('/yandexmoney/:any*');
-
- app.use(mount('/payanyway', compose([payment.middleware, require('payanyway').middleware])));
- app.csrfChecker.addIgnorePath('/payanyway/:any*');
- app.verboseLogger.addPath('/payanyway/:any*');
-
- app.use(mount('/paypal', compose([payment.middleware, require('paypal').middleware])));
- app.csrfChecker.addIgnorePath('/paypal/:any*');
- app.verboseLogger.addPath('/paypal/:any*');
- */
-
 // stick to bottom to detect any not-yet-processed /:slug
 app.requireHandler('tutorial');
 

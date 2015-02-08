@@ -8,7 +8,7 @@ exports.OrderTemplate = [
     title:    "Основы JavaScript",
     description: "500 стр, 10мб",
     slug:     "jsbasics",
-    amount:   1
+    amount:   100
   },
   {
     title:    "JS-DOM",
@@ -23,6 +23,7 @@ exports.OrderTemplate = [
     amount:   1
   }
 ];
+
 
 exports.User = [{
   email: "mk@javascript.ru",
