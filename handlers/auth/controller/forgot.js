@@ -1,6 +1,5 @@
 var User = require('users').User;
 var jade = require('jade');
-var sendForgotEmail  = require('../lib/sendForgotEmail');
 var path = require('path');
 var config = require('config');
 
@@ -23,7 +22,14 @@ exports.post = function* (next) {
   yield user.persist();
 
   try {
-    yield* sendForgotEmail(user.email, user.passwordResetToken, this);
+
+    yield this.sendMail({
+      template: 'forgot-email',
+      to: user.email,
+      subject: "Восстановление доступа",
+      link: config.server.siteHost + '/auth/forgot-recover/' + user.passwordResetToken
+    });
+
   } catch(e) {
     this.log.error({err: e}, "Mail send failed");
     this.throw(500, "На сервере ошибка отправки email.");

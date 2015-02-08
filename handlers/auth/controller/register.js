@@ -1,6 +1,5 @@
 var User = require('users').User;
 var jade = require('jade');
-var sendVerifyEmail  = require('../lib/sendVerifyEmail');
 var path = require('path');
 var config = require('config');
 
@@ -20,7 +19,14 @@ exports.post = function* (next) {
   });
 
   try {
-    yield* sendVerifyEmail(user.email, verifyEmailToken, this);
+
+    yield this.sendMail({
+      template: 'verify-registration-email',
+      to: user.email,
+      subject: "Подтверждение email",
+      link: config.server.siteHost + '/auth/verify/' + verifyEmailToken
+    });
+
   } catch(e) {
     this.log.error({err: e}, "Registration failed" );
     this.throw(500, "Ошибка отправки email.");

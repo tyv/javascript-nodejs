@@ -1,0 +1,8 @@
+extends /layouts/email
+
+block body
+  h1 Спасибо за покупку
+  p Вы можете скачать учебник по ссылке
+    =' '
+    a(href=link) #{link}
+    | .

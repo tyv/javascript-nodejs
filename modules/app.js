@@ -25,6 +25,8 @@ if (process.env.NODE_ENV == 'production') {
 // X-Forwarded-For -> ip
 app.proxy = true;
 
+// ========= Helper handlers ===========
+
 app.requireHandler('mongooseHandler');
 
 app.requireHandler('requestId');
@@ -79,33 +81,27 @@ app.requireHandler('csrf');
 
 app.requireHandler('paymentsMethods');
 
-// Services that actually generate some stuff
+app.requireHandler('sendMail');
 
-app.requireHandler('frontpage');
+// ======== Endpoint services that actually generate something ==========
+
+var endpoints = ['frontpage'];
 
 if (process.env.NODE_ENV == 'development') {
-  app.requireHandler('markup');
-  app.requireHandler('dev');
+  endpoints.push('markup', 'dev');
 }
 
-app.requireHandler('users');
-
-app.requireHandler('auth');
-
-app.requireHandler('getpdf');
-app.requireHandler('cache');
-app.requireHandler('search');
-
-app.requireHandler('profile');
-
-app.requireHandler('currencyRate');
-app.requireHandler('payments');
+endpoints.push('users', 'auth', 'getpdf', 'cache', 'search', 'profile', 'currencyRate', 'payments', 'download');
 
 // stick to bottom to detect any not-yet-processed /:slug
-app.requireHandler('tutorial');
+endpoints.push('tutorial');
 
+endpoints.push('404');
 
-app.requireHandler('404');
+endpoints.forEach(function(name) {
+  app.requireHandler(name);
+});
+
 
 // uncomment for time-require to work
 //process.emit('exit');

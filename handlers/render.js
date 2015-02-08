@@ -142,7 +142,6 @@ exports.init = function(app) {
       return jade.renderFile(templatePathResolved, loc);
     };
 
-
     yield* next;
   });
 

@@ -13,6 +13,3 @@ exports.init = function() {
   trackSticky();
 
 };
-
-
-//window.footer = module.exports;

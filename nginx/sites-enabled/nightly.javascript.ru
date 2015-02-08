@@ -20,6 +20,12 @@ server {
   auth_basic_user_file /etc/nginx.passwd;
 <% } %>
 
+  # ^~ don't check regexps locations if prefix matches
+  location ^~ /_download/ {
+    internal;
+    alias   <%=root%>/download/;
+  }
+
   include "partial/javascript-static";
 
   location ~ ^(?<uri_no_slash>[^.]*?)/$ {
