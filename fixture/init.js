@@ -8,7 +8,7 @@ exports.OrderTemplate = [
     title:    "Основы JavaScript",
     description: "500 стр, 10мб",
     slug:     "jsbasics",
-    amount:   100
+    amount:   1
   },
   {
     title:    "JS-DOM",

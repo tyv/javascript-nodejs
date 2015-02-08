@@ -5,7 +5,7 @@ var uuid = require('node-uuid').v4;
 exports.init = function(app) {
   app.use(function*(next) {
     /* jshint -W106 */
-    this.reqId = this.get('X-Request-Id') || uuid();
+    this.requestId = this.get('X-Request-Id') || uuid();
     yield next;
   });
 };

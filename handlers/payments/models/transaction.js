@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var autoIncrement = require('mongoose-auto-increment');
+var crypto = require('crypto');
 var TransactionLog = require('./transactionLog');
 
 /**
@@ -40,6 +40,16 @@ var schema = new Schema({
     default: {}
   },
 
+  // transaction number, external analog for _id
+  // always a number to be accepted by any payment system
+  // random, not autoincrement, because more convenient for development, doesn't repeat on dropdb
+  number: {
+    type: Number,
+    default: function() {
+      return parseInt(crypto.randomBytes(4).toString('hex'), 16);
+    },
+    unique: true
+  },
   created:       {
     type:    Date,
     required: true,
@@ -53,8 +63,6 @@ var schema = new Schema({
     type: String
   }
 });
-
-schema.plugin(autoIncrement.plugin, {model: 'Transaction', field: 'number', startAt: 1});
 
 // Awaiting for the payment system callback,
 // when the user opens the order, let him wait and refresh the page

@@ -26,11 +26,11 @@ block content
 
     +e.step._current
       +b.order-confirm
-        +e('h2').title__step-title Спасибо за покупку!
+        +e('h2').title__step-title Спасибо за заказ!
         +e.accent Ожидается подтверждение от платёжной системы
         +e.content
           +e.text
-            p Вам будет отправлено письмо на электронный адрес #{order.email}
+            p При получении подтверждения Вам будет отправлено письмо на электронный адрес #{order.email}.
             p Если оплата прошла, а письма нет или у вас возникли какие-либо вопросы, присылайте их на
               =" "
               a(href="mailto:orders@javascript.ru") orders@javascript.ru

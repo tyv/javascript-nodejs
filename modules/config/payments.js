@@ -2,6 +2,7 @@ var secret = require('./secret');
 
 module.exports = {
   currency: 'RUB',
+  supportEmail: 'orders@javascript.ru',
   modules:  {
     webmoney:    {
       secretKey: secret.webmoney.secretKey,
