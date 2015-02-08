@@ -55,22 +55,7 @@ TutorialMapModal.prototype.remove = function() {
 TutorialMapModal.prototype.request = function(options) {
   var request = xhr(options);
 
-  request.addEventListener('loadstart', function() {
-    var onEnd = this.startRequestIndication();
-    request.addEventListener('loadend', onEnd);
-  }.bind(this));
-
   return request;
 };
-
-TutorialMapModal.prototype.startRequestIndication = function() {
-  this.showOverlay();
-  var self = this;
-
-  return function onEnd() {
-    self.hideOverlay();
-  };
-};
-
 
 module.exports = TutorialMapModal;
