@@ -23,9 +23,7 @@ exports.post = function*(next) {
 
     // No many waiting transactions.
     // The old one must had been cancelled before this.
-    if (yield* hasPendingTransactions(this.order)) {
-      this.throw(409, "A pending transaction exists already");
-    }
+    yield* cancelPendingTransactions(this.order);
 
     yield* updateOrderFromBody(this.request.body, this.req.user, this.order);
 
@@ -42,8 +40,6 @@ exports.post = function*(next) {
     if (!orderTemplate) {
       this.throw(404);
     }
-
-    this.log.debug("GOT TEMPLATE");
 
     // create order from template, don't trust the incoming post
     this.order = Order.createFromTemplate(orderTemplate, {
@@ -82,15 +78,18 @@ exports.post = function*(next) {
 //  that's to easily find/cancel a pending method
 // Here I guard against hand-made POST requests (just to be sure)
 // P.S. it is ok to create a transaction if a SUCCESS one exists (maybe split payment?)
-function* hasPendingTransactions(order) {
+function* cancelPendingTransactions(order) {
 
-  var pendingTransactions = yield Transaction.findOne({
-    status: {
-      $in: [Transaction.STATUS_PENDING_ONLINE, Transaction.STATUS_PENDING_OFFLINE]
-    }
+  var pendingTransaction = yield Transaction.findOne({
+    order: order._id,
+    status: Transaction.STATUS_PENDING_ONLINE
   }).exec();
 
-  return !!pendingTransactions;
+  yield pendingTransaction.persist({
+    status: Transaction.STATUS_FAIL,
+    statusMessage: "смена способа оплаты."
+  });
+
 }
 
 

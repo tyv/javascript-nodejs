@@ -14,11 +14,17 @@ block content
     if (transaction && transaction.status == 'fail')
       +b.notification._error._message.__error
         +e.content
-          | Оплата не прошла, попробуйте ещё раз.
-          if transaction.statusMessage
-            div Ошибка:&nbsp;
-              em= transaction.statusMessage
+          p Оплата не прошла, попробуйте ещё раз.
+            if transaction.statusMessage
+              div Ошибка:&nbsp;
+                em= transaction.statusMessage
           p По вопросам, касающимся оплаты, вы можете писать на <a href="mailto:orders@javascript.ru">orders@javascript.ru</a>.
+
+    if (transaction && transaction.status == 'pending_online')
+      +b.notification._warning._message.__warning
+        +e.content
+          p Уведомление от платёжной системы не получено.
+          p Если вы точно знаете, что оплата была - можно обновить эту страницу через 5 минут или написать в поддержку <a href="mailto:orders@javascript.ru">orders@javascript.ru</a>.
 
     +e.step._current
       +e.step-content
