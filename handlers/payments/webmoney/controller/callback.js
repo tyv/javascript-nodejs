@@ -53,6 +53,7 @@ exports.post = function* (next) {
   var order = this.transaction.order;
   this.log.debug("will call order onSuccess module=" + order.module);
 
+  // EMULATE ERROR IN ONSUCCESS, what happens?
   yield* require(order.module).onPaymentSuccess(order);
 
   this.body = 'OK';

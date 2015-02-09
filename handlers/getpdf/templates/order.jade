@@ -26,6 +26,15 @@ block content
           p Уведомление от платёжной системы не получено.
           p Если вы точно знаете, что оплата была - можно обновить эту страницу через 5 минут или написать в поддержку <a href="mailto:orders@javascript.ru">orders@javascript.ru</a>.
 
+    // FIXME: обработать это в скрипте, а не в шаблоне (заказ PENDING, но транзакция прошла, видимо была ошибка в onsuccess
+    // сейчас в webmoney callback ошибка onPaymentSuccess
+    if (transaction && transaction.status == 'success')
+      +b.notification._error._message.__error
+        +e.content
+          // transaction success, but pending order??? onSuccess was an error?
+          p При обработке вашего заказа поизошла ошибка.
+          p Обратитесь в поддержку <a href="mailto:orders@javascript.ru">orders@javascript.ru</a>.
+
     +e.step._current
       +e.step-content
         +b.extract._small.__extract
@@ -53,10 +62,7 @@ block content
               +e.method
                 // classes get prefix automatically from dynamic mixins
                 +e('button')(class=("send " + "_"+paymentMethod.name),  name="paymentMethod", value=paymentMethod.name)
-        +b.pay-hint.__pay-hint
-          +e('a').hint(href="hint")
-            +b('img').flag.__flag(src="/img/flag/flag_ua.png")
-              | Рекомендации по оплате не из России
+
     +b('ul').grayed-list.__next
       +e('li').item.__next-item Подтверждение
 

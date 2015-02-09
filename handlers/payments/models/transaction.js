@@ -46,7 +46,8 @@ var schema = new Schema({
   number: {
     type: Number,
     default: function() {
-      return parseInt(crypto.randomBytes(4).toString('hex'), 16);
+      // webmoney requires transaction number to be a number 0 < LMI_PAYMENT_NO < 2147483647
+      return parseInt(crypto.randomBytes(4).toString('hex'), 16) % 2147483647;
     },
     unique: true
   },
