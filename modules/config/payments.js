@@ -1,16 +1,16 @@
 var secret = require('./secret');
 
 module.exports = {
-  currency: 'RUB',
+  currency:     'RUB',
   supportEmail: 'orders@javascript.ru',
-  modules:  {
+  modules:      {
     webmoney:    {
       secretKey: secret.webmoney.secretKey,
       purse:     secret.webmoney.purse
     },
     yandexmoney: {
       // full redirectUri, with host, because form-creating function isn't middleware, doesn't know context
-      redirectUri: process.env.SITE_HOST + '/payments/yandexmoney/back',
+      redirectUri:  process.env.SITE_HOST + '/payments/yandexmoney/back',
       clientId:     secret.yandexmoney.clientId,
       clientSecret: secret.yandexmoney.clientSecret,
       purse:        secret.yandexmoney.purse
@@ -23,14 +23,8 @@ module.exports = {
     },
 
     paypal: {
-      callbackUrl: process.env.SITE_HOST + '/payments/paypal/callback',
-      cancelUrl: process.env.SITE_HOST + '/payments/paypal/cancel',
-      successUrl: process.env.SITE_HOST + '/payments/paypal/success',
-      email:          secret.paypal.email,
-      myCertPath:     secret.paypal.myCertPath,
-      myKeyPath:      secret.paypal.myKeyPath,
-      paypalCertPath: secret.paypal.paypalCertPath,
-      certId:         secret.paypal.certId
+      email:    secret.paypal.email,
+      pdtToken: secret.paypal.pdtToken
     }
   }
 };

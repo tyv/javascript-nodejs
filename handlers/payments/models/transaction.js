@@ -33,7 +33,7 @@ var schema = new Schema({
   paymentDetails: {
     type: {
       nextRetry: Number, // for Ya.Money processPayments
-      processing: Boolean, // for Ya.Money processPayments,
+      processing: Boolean, // for Ya.Money processPayments & Paypal PDT/IPN locking not to onSuccess twice,
       oauthToken: String, // for Ya.Money processPayments
       requestId: String //  for Ya.Money processPayments
     },
