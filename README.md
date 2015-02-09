@@ -1,5 +1,7 @@
 # Новый javascript.ru 
 
+[![Join the chat at https://gitter.im/iliakan/javascript-nodejs](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/iliakan/javascript-nodejs?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ## powered by Node.js 
 
 Всем привет!
