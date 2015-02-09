@@ -4,4 +4,4 @@ var download = require('./controllers/download');
 
 var router = module.exports = new Router();
 
-router.get('/:linkId', download.get);
+router.get('/:linkId*', download.get);

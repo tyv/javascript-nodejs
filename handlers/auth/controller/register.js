@@ -2,6 +2,7 @@ var User = require('users').User;
 var jade = require('jade');
 var path = require('path');
 var config = require('config');
+var sendMail = require('sendMail');
 
 // Регистрация пользователя.
 exports.post = function* (next) {
@@ -20,8 +21,8 @@ exports.post = function* (next) {
 
   try {
 
-    yield this.sendMail({
-      template: 'verify-registration-email',
+    yield sendMail({
+      templatePath: path.join(this.templateDir, 'verify-registration-email'),
       to: user.email,
       subject: "Подтверждение email",
       link: config.server.siteHost + '/auth/verify/' + verifyEmailToken

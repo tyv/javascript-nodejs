@@ -43,6 +43,7 @@ exports.post = function* (next) {
   }
 
   if (response.body != "VERIFIED") {
+    yield this.transaction.log('invalid IPN', response.body);
     this.throw(403, "Invalid IPN");
   }
 

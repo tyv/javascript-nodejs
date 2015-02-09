@@ -2,6 +2,7 @@ var User = require('users').User;
 var jade = require('jade');
 var path = require('path');
 var config = require('config');
+var sendMail = require('sendMail');
 
 exports.post = function* (next) {
 
@@ -23,8 +24,8 @@ exports.post = function* (next) {
 
   try {
 
-    yield this.sendMail({
-      template: 'forgot-email',
+    yield sendMail({
+      templatePath: path.join(this.templateDir, 'forgot-email'),
       to: user.email,
       subject: "Восстановление доступа",
       link: config.server.siteHost + '/auth/forgot-recover/' + user.passwordResetToken
