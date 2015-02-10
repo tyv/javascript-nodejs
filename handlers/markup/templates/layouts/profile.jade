@@ -35,13 +35,12 @@ html
             header.main__header(class= layout.centeredHeader == true ? "main__header_center" : undefined)
               include ../blocks/breadcrumbs
               h1.main__header-title!= self.title
-          .content
-            block content
-            if layout.articleFoot
-              include ../blocks/article-foot
-              include ../blocks/corrector
-              include ../blocks/comments
-        //include ../blocks/page-footer
+          block content
+          if layout.articleFoot
+            include ../blocks/article-foot
+            include ../blocks/corrector
+            include ../blocks/comments
+      //include ../blocks/page-footer
     if layout.tutorialMap
       //- блок map должен подгружаться динамически
       //- подключен для демонстрации и отладки
