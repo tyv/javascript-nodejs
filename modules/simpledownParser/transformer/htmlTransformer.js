@@ -4,7 +4,7 @@ var charTypography = require('../typography/charTypography');
 var contextTypography = require('../typography/contextTypography');
 var escapeHtmlText = require('textUtil/escapeHtmlText');
 var escapeHtmlAttr = require('textUtil/escapeHtmlAttr');
-var stripIndents = require('../util/source/stripIndents');
+var stripIndents = require('textUtil/stripIndents');
 var TextNode = require('simpledownParser').TextNode;
 var extractHighlight = require('../util/source/extractHighlight');
 

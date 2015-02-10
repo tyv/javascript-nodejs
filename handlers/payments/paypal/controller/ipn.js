@@ -14,7 +14,7 @@ exports.post = function* (next) {
 
   yield* this.loadTransaction('invoice', {skipOwnerCheck: true});
 
-  yield this.transaction.logRequest('ipn-request unverified', this.request);
+  yield this.transaction.logRequest('ipn: request received', this.request);
 
   var qs = {
     'cmd': '_notify-validate'
@@ -28,21 +28,24 @@ exports.post = function* (next) {
   var options = {
     method: 'GET',
     qs:     qs,
-    url:    'https://www.paypal.com/cgi-bin/webscr'
+    url:    'https://www.paypal.com/cgi-bin/webscr',
+    headers: {
+      'User-Agent': 'request'
+    }
   };
 
-
-  yield this.transaction.log('request ipn verify', options);
+  yield this.transaction.log('ipn: request verify', options);
 
   var response;
   try {
     response = yield request(options);
   } catch(e) {
-    yield this.transaction.log('request ipn verify failed', e.message);
+    yield this.transaction.log('ipn: request verify failed', e.message);
     this.throw(403, "Couldn't verify ipn");
   }
 
   if (response.body != "VERIFIED") {
+    yield this.transaction.log('ipn: invalid IPN', response.body);
     this.throw(403, "Invalid IPN");
   }
 
@@ -51,39 +54,37 @@ exports.post = function* (next) {
     this.request.body.receiver_email != paypalConfig.email ||
     this.request.body.mc_currency != config.payments.currency) {
 
-    yield this.transaction.persist({
-      status:        Transaction.STATUS_FAIL,
-      statusMessage: "данные транзакции не совпадают с базой, свяжитесь с поддержкой"
-    });
-    this.throw(404, "transaction data doesn't match the POST body");
+    yield this.transaction.log("ipn: the response POST data doesn't match the transaction data", response.body);
+    this.throw(404, "transaction data doesn't match the POST body, strange");
   }
 
-  // match agains latest ipn in logs as recommended:
-  // if there was an IPN about the same transaction, and it's state is the same
-  //   => then the current one is a duplicate
+  // IPN is fully verified and valid
 
+
+  // match agains latest ipn in logs as recommended:
+  // if there just was an IPN about the same transaction, and it's state is the same
+  //   => then the current one is a duplicate
   var previousIpn = yield TransactionLog.findOne({
-    event: "ipn",
+    event: "ipn: VALIDATED_IN_PROCESS",
     transaction: this.transaction._id
   }).sort({created: -1}).exec();
 
   if (previousIpn && previousIpn.data.payment_status == this.request.body.payment_status) {
-    yield this.transaction.log("ipn duplicate", this.request.body);
+    yield this.transaction.log("ipn: duplicate", this.request.body);
     // ignore duplicate
     this.body = '';
     return;
   }
 
-  // now we have a valid non-duplicate IPN, let's update the transaction
+  yield this.transaction.log("ipn: VALIDATED_IN_PROCESS", this.request.body);
 
-  // log it right now to evade conflicts with duplicates
-  yield this.transaction.log("ipn", this.request.body);
+  // IPN is fully verified, valid, non-duplicate
 
   // Do not perform any processing on WPS transactions here that do not have
   // transaction IDs, indicating they are non-payment IPNs such as those used
   // for subscription signup requests.
   if (!this.request.body.txn_id) {
-    yield this.transaction.log("ipn without txn_id", this.request.body);
+    yield this.transaction.log("ipn: without txn_id", this.request.body);
     this.body = '';
     return;
   }
@@ -104,16 +105,34 @@ exports.post = function* (next) {
     this.body = '';
     return;
   case 'Completed':
-    yield this.transaction.persist({
-      status: Transaction.STATUS_SUCCESS
-    });
 
-    yield* require(this.order.module).onSuccess(this.order);
+    // Now let's see if the transaction was already processed by PDT or another IPN
+    var refreshedTransaction = yield Transaction.findOne({
+      _id:                        this.transaction._id
+    }).exec();
+
+    if (refreshedTransaction.status == Transaction.STATUS_SUCCESS) {
+      // done :)
+      yield this.transaction.log("ipn: transaction is already processed to success by PDT/IPN");
+    } else {
+
+      yield refreshedTransaction.persist({
+        status:        Transaction.STATUS_SUCCESS,
+        statusMessage: 'Paypal подтвердил оплату'
+      });
+
+
+      this.log.debug("will call order onSuccess module=" + this.order.module);
+      yield this.transaction.log("ipn: success action is taken");
+      yield* require(this.order.module).onSuccess(this.order);
+
+    }
+
     this.body = '';
     return;
   default:
     // Refunded ...
-    yield this.transaction.log("ipn payment_status unknown", this.request.body);
+    yield this.transaction.log("ipn: payment_status unknown", this.request.body);
 
     this.body = '';
     return;

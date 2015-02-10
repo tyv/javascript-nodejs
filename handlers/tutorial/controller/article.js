@@ -19,6 +19,8 @@ exports.get = function *get(next) {
   var locals = renderedArticle;
   locals.sitetoolbar = true;
 
+  locals.siteToolbarCurrentSection = "tutorial";
+
   if (!renderedArticle.isFolder) {
     locals.comments = true;
   }

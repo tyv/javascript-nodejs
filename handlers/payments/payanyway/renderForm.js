@@ -12,7 +12,7 @@ module.exports = function* (transaction) {
     limitIds: process.env.NODE_ENV == 'development' ? '' : '843858,248362,822360,545234,1028,499669'
   });
 
-  return {form: form};
+  return form;
 
 };
 

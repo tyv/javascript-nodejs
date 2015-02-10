@@ -1,11 +1,11 @@
 extends /layouts/main
 
-block variables
+block append variables
   - var layout_header_class = "main__header_center"
   - var layout_main_class = "main_width-limit"
   - var sitetoolbar = true
 
-block head
+block append head
   base(href="/profile/")
 
 block content

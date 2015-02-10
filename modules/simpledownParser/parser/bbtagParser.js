@@ -337,7 +337,7 @@ BbtagParser.prototype.parseImg = function() {
 };
 
 
-BbtagParser.prototype.parseExample = function() {
+BbtagParser.prototype.parseCodetabs = function() {
   var src = this.params.src;
   if (!src) {
     this.paramRequiredError('div', 'src');

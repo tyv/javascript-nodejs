@@ -4,7 +4,6 @@ var nodemailer = require('nodemailer');
 var ses = require('nodemailer-ses-transport');
 var stubTransport = require('nodemailer-stub-transport');
 var log = require('log')();
-var thunkify = require('thunkify');
 
 // Transport:
 // --> In test env stub, otherwise SES
@@ -37,19 +36,5 @@ transport.use('compile', function(mail, callback){
   callback();
 });
 
-// log result
-var sendMail = transport.sendMail;
-transport.sendMail = thunkify(function(data, callback) {
-  sendMail.call(this, data, function(err, info) {
-    if (err) {
-      log.error(err);
-    } else {
-      log.debug(info.envelope, data.html);
-    }
-    callback(err, info);
-  });
-
-});
-
-module.exports = transport;
-module.exports.inlineCss = require('./inlineCss');
+exports.transport = transport;
+exports.inlineCss = require('./inlineCss');

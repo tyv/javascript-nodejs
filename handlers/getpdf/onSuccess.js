@@ -1,33 +1,33 @@
-const Transaction = require('payments').Transaction;
-const expiringDownload = require('expiringDownload');
+const Order = require('payments').Order;
+const sendMail = require('sendMail');
+const ExpiringDownloadLink = require('download').ExpiringDownloadLink;
+const path = require('path');
+const log = require('log')();
 
-const ExpiringDownloadLink = expiringDownload.ExpiringDownloadLink;
-const nodemailer = require('nodemailer');
-const ses = require('nodemailer-ses-transport');
-
+// not a middleware
+// can be called from a CRON
 module.exports = function* (order) {
 
-  yield order.persist({
-    status: Transaction.STATUS_SUCCESS
+  var downloadLink = new ExpiringDownloadLink({
+    relativePath: 'tutorial/book.zip'
   });
 
-  // CREATE DOWNLOAD LINK
+  downloadLink.linkId += "/book.zip";
 
-  // EMAIL IT TO USER (move nodemailer to a separate site-wide "mail" module)
-  /*
-  var transporter = nodemailer.createTransport(ses({
-    accessKeyId: 'AWSACCESSKEY',
-    secretAccessKey: 'AWS/Secret/key'
-  }));
-  transporter.sendMail({
-    from: 'sender@address',
-    to: 'receiver@address',
-    subject: 'hello',
-    text: 'hello world!'
+  yield downloadLink.persist();
+
+  yield sendMail({
+    templatePath: path.join(__dirname, 'templates', 'success-email'),
+    to: order.email,
+    subject: "Учебник для чтения оффлайн",
+    link: downloadLink.getUrl()
   });
-*/
 
-  // ...
+  order.data.downloadLink = downloadLink.getUrl();
+  order.markModified('data');
+  order.status = Order.STATUS_SUCCESS;
 
-  console.log("Order success: " + order.number);
+  yield order.persist();
+
+  log.debug("Order success: " + order.number);
 };

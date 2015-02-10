@@ -261,11 +261,18 @@ ServerHtmlTransformer.prototype.transformCodeTabsTag = function* (node) {
 
   var height = parseInt(node.attrs.height) || '';
 
-  var rendered = codeTabsTemplate({
+  var locals = {
     tabs:   tabs,
     height: height && (node.isTrusted() ? height : Math.max(height, 800)),
     src:    src + '/'
-  });
+  };
+
+  locals.edit = {
+    href:    'http://plnkr.co/edit/' + plunk.plunkId + '?p=preview',
+    plunkId: plunk.plunkId
+  };
+
+  var rendered = codeTabsTemplate(locals);
 
 //  console.log("---> height", height && (node.isTrusted() ? height : Math.max(height, 800)));
   return this.wrapTagAround('no-typography', {}, rendered);

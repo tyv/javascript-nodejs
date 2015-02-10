@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var payments = require('payments');
 var Order = payments.Order;
+var Transaction = payments.Transaction;
 var OrderTemplate = payments.OrderTemplate;
 var t = require("i18next").t;
 
@@ -19,6 +20,11 @@ exports.post = function*(next) {
     // checking out a pre-existing order
 
     this.log.debug("order exists", this.order.number);
+
+    // No many waiting transactions.
+    // The old one must had been cancelled before this.
+    yield* cancelPendingTransactions(this.order);
+
     yield* updateOrderFromBody(this.request.body, this.req.user, this.order);
 
   } else {
@@ -28,23 +34,24 @@ exports.post = function*(next) {
     this.log.debug(this.request.body.orderTemplate);
 
     var orderTemplate = yield OrderTemplate.findOne({
-      slug: this.request.body.orderTemplate,
-      user: this.req.user && this.req.user._id,
-      email: this.req.user && this.req.user.email
+      slug: this.request.body.orderTemplate
     }).exec();
 
     if (!orderTemplate) {
       this.throw(404);
     }
 
-    this.log.debug("GOT TEMPLATE");
-
     // create order from template, don't trust the incoming post
     this.order = Order.createFromTemplate(orderTemplate, {
-      module: 'getpdf'
+      module: 'getpdf',
+      user:   this.req.user && this.req.user._id,
+      email:  this.req.user && this.req.user.email
     });
 
     yield* updateOrderFromBody(this.request.body, this.req.user, this.order);
+
+    // must persist to create order.number
+    yield this.order.persist();
 
     this.log.debug("order created", this.order.number);
 
@@ -54,11 +61,35 @@ exports.post = function*(next) {
     this.session.orders.push(this.order.number);
   }
 
-  var result = yield* payments.createTransactionFormOrResult(this.order, paymentMethod);
 
-  this.body = result;
+  this.order.status = Order.STATUS_PENDING;
+  yield this.order.persist();
+
+  var form = yield* payments.createTransactionForm(this.order, paymentMethod);
+
+  this.body = {form: form};
 
 };
+
+
+// order must have only 1 pending transaction at 1 time.
+// finish one payment then create another
+// UI does not allow to create multiple pending transaction
+//  that's to easily find/cancel a pending method
+// Here I guard against hand-made POST requests (just to be sure)
+// P.S. it is ok to create a transaction if a SUCCESS one exists (maybe split payment?)
+function* cancelPendingTransactions(order) {
+
+  yield Transaction.findOneAndUpdate({
+    order: order._id,
+    status: Transaction.STATUS_PENDING_ONLINE
+  }, {
+    status: Transaction.STATUS_FAIL,
+    statusMessage: "смена способа оплаты."
+  }).exec();
+
+}
+
 
 function* updateOrderFromBody(body, user, order) {
   if (!user) {
@@ -66,7 +97,7 @@ function* updateOrderFromBody(body, user, order) {
     // (can resend the goods to someone else if needed)
     order.email = body.email;
   }
-  order.markModified('data');
 
-  yield order.persist();
+  // if any freeform data
+  // order.markModified('data');
 }

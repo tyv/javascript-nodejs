@@ -6,6 +6,8 @@ const ArticleRenderer = require('../renderer/articleRenderer');
 
 exports.get = function *get(next) {
 
+  this.locals.sitetoolbar = true;
+  this.locals.siteToolbarCurrentSection = "tutorial";
   /*
   var renderedArticle = yield CacheEntry.getOrGenerate({
     key:  'article:rendered:' + this.params.slug,
@@ -14,7 +16,6 @@ exports.get = function *get(next) {
 */
 
   var locals = yield* renderTutorial();
-  locals.sitetoolbar = true;
 
   this.body = this.render('tutorial', locals);
 };

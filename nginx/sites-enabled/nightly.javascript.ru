@@ -20,12 +20,23 @@ server {
   auth_basic_user_file /etc/nginx.passwd;
 <% } %>
 
-  include "partial/javascript-static";
-
-  location ~ ^(?<uri_no_slash>[^.]*?)/$ {
-    try_files $uri_no_slash/index.html @node;
+  # ^~ don't check regexps locations if prefix matches
+  location ^~ /_download/ {
+    internal;
+    alias   <%=root%>/download/;
   }
 
+  # restricted download
+  location ^~ /download/ {
+    include "partial/proxy_3000";
+  }
+
+  # folder/ -> try folder/index.html first, then @node
+  location ~ ^(?<uri_no_dot>[^.]*?)/$ {
+    try_files $uri_no_dot/index.html @node;
+  }
+
+  # no / in url => @node
   location ~ ^[^.]*$ {
     include "partial/proxy_3000";
   }
@@ -33,6 +44,9 @@ server {
   location @node {
     include "partial/proxy_3000";
   }
+
+  include "partial/javascript-static";
+
 
 }
 

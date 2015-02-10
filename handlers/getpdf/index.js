@@ -10,4 +10,3 @@ exports.init = function(app) {
 };
 
 exports.onSuccess = require('./onSuccess');
-exports.onCancel = function(reason) { /* order canceled (timeout? user-canceled?) */ };

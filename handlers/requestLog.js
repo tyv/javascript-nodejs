@@ -4,7 +4,7 @@ exports.init = function(app) {
 
     /* jshint -W106 */
     this.log = app.log.child({
-      reqId: this.reqId
+      requestId: this.requestId
     });
 
     // fixme: remove (passport js issue fixed)

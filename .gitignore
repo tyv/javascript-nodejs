@@ -17,11 +17,11 @@
 .settings
 .tmproj
 .nvmrc
+sftp-config.json
 Thumbs.db
 
-# generated content
-public.versions.json
-client/versions.json
+# private downloads
+download/*
 
 # NPM packages folder.
 node_modules/
