@@ -41,11 +41,12 @@ html
               if layout.breadcrumbs
                 include ../blocks/breadcrumbs
               h1.main__header-title!= self.title
-          block content
-          if layout.articleFoot
-            include ../blocks/article-foot
-            include ../blocks/corrector
-            include ../blocks/comments
+          .content
+            block content
+            if layout.articleFoot
+              include ../blocks/article-foot
+              include ../blocks/corrector
+              include ../blocks/comments
     if layout.tutorialMap
       //- блок map должен подгружаться динамически
       //- подключен для демонстрации и отладки
