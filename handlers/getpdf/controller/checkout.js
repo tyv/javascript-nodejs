@@ -44,6 +44,7 @@ exports.post = function*(next) {
     // create order from template, don't trust the incoming post
     this.order = Order.createFromTemplate(orderTemplate, {
       module: 'getpdf',
+      itemUrl: '/getpdf/' + orderTemplate.slug,
       user:   this.req.user && this.req.user._id,
       email:  this.req.user && this.req.user.email
     });
@@ -80,15 +81,13 @@ exports.post = function*(next) {
 // P.S. it is ok to create a transaction if a SUCCESS one exists (maybe split payment?)
 function* cancelPendingTransactions(order) {
 
-  var pendingTransaction = yield Transaction.findOne({
+  yield Transaction.findOneAndUpdate({
     order: order._id,
     status: Transaction.STATUS_PENDING_ONLINE
-  }).exec();
-
-  yield pendingTransaction.persist({
+  }, {
     status: Transaction.STATUS_FAIL,
     statusMessage: "смена способа оплаты."
-  });
+  }).exec();
 
 }
 

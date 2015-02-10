@@ -11,6 +11,8 @@ block content
 
   +b("form").complex-form(data-order-form, data-new=(order.isNew ? "1" : "0"))
 
+    - var mailto = "mailto:orders@javascript.ru?subject=" + encodeURIComponent('Заказ ' + order.number);
+
     if (transaction && transaction.status == 'fail')
       +b.notification._error._message.__error
         +e.content
@@ -18,22 +20,20 @@ block content
             if transaction.statusMessage
               div Ошибка:&nbsp;
                 em= transaction.statusMessage
-          p По вопросам, касающимся оплаты, вы можете писать на <a href="mailto:orders@javascript.ru">orders@javascript.ru</a>.
+          p По вопросам, касающимся оплаты, пишите на <a href="#{mailto}">orders@javascript.ru</a>.
 
     if (transaction && transaction.status == 'pending_online')
       +b.notification._warning._message.__warning
         +e.content
           p Уведомление от платёжной системы не получено.
-          p Если вы точно знаете, что оплата была - можно обновить эту страницу через 5 минут или написать в поддержку <a href="mailto:orders@javascript.ru">orders@javascript.ru</a>.
+          p Если вы точно знаете, что оплата была - можно обновить эту страницу через 5 минут или написать в поддержку <a href="#{mailto}">orders@javascript.ru</a>.
 
-    // FIXME: обработать это в скрипте, а не в шаблоне (заказ PENDING, но транзакция прошла, видимо была ошибка в onsuccess
-    // сейчас в webmoney callback ошибка onPaymentSuccess
     if (transaction && transaction.status == 'success')
       +b.notification._error._message.__error
         +e.content
-          // transaction success, but pending order??? onSuccess was an error?
-          p При обработке вашего заказа поизошла ошибка.
-          p Обратитесь в поддержку <a href="mailto:orders@javascript.ru">orders@javascript.ru</a>.
+          // transaction success, but pending order => onSuccess was an error
+          p При обработке вашего заказа поизошла ошибка. Мы обязательно её исправим.
+          p Обратитесь в поддержку <a href="#{mailto}">orders@javascript.ru</a>, указав в теме "Заказ #{order.number}".
 
     +e.step._current
       +e.step-content
@@ -53,7 +53,7 @@ block content
           +b.text-input.__email
             //+e('input').control(name="email", required, type="email" value=order.email)
             +e('input').control(placeholder="my@email.com", name="email", required, type="email" value="tester@javascript.ru")
-          +e.email-note После оплаты ссылка на скачивание учебника придет на этот адрес
+          +e.email-note После оплаты ссылка на скачивание учебника придет на этот адрес.
 
         +e('h2').alternate-title Выберите метод оплаты
         +b.pay-method.__pay-method

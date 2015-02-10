@@ -80,7 +80,8 @@ function *renderArticle(renderer, article, headerLevelShift, noStripTitle) {
   var rendered = yield* renderer.render(article, {
     headerLevelShift: headerLevelShift,
     noStripTitle:     noStripTitle,
-    linkHeaderTag:    false,
+    linkHeaderTag:    true,
+    //linkHeaderTag:    false,
     translitAnchors:  true,
     isEbook:          true
   });

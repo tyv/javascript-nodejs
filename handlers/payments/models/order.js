@@ -40,6 +40,11 @@ var schema = new Schema({
     default: {}
   },
 
+  // the url to order this item
+  itemUrl: {
+    type: String,
+    required: true
+  },
   created:     {
     type:    Date,
     default: Date.now

@@ -83,6 +83,8 @@ app.requireHandler('paymentsMethods');
 
 app.requireHandler('sendMail');
 
+app.requireHandler('throwFinish');
+
 // ======== Endpoint services that actually generate something ==========
 
 var endpoints = ['frontpage'];

@@ -55,6 +55,22 @@ function* renderSuccess() {
 }
 
 function* renderPending() {
+
+
+  var successfulTansaction = yield Transaction.findOne({
+    order: this.order._id,
+    status: Transaction.STATUS_SUCCESS
+  }).exec();
+
+  // PENDING order, but Transaction.STATUS_SUCCESS?
+  // means that order onSuccess failed to finalize the job
+  if (successfulTansaction) {
+    this.locals.transaction = successfulTansaction;
+    this.body = this.render('order');
+    return;
+  }
+
+
   // NO CALLBACK from online-system, but the user is back?
   // probably he just pressed the "back" button
   // and didn't pay

@@ -25,9 +25,11 @@ module.exports = function* (options) {
 
   var orderInSession = this.session.orders && this.session.orders.indexOf(order.number) != -1;
 
+  // TODO: redirect to order.itemUrl
   // allow to load order which belongs to the user or in the current session
-  if (process.env.NODE_ENV != 'development' && !orderInSession && !belongsToUser) {
-    this.throw(403, 'Заказ отсутствует в текущей сессии');
+  if (!orderInSession && !belongsToUser) {
+    this.redirect(order.itemUrl);
+    this.throwFinish();
   }
 
   if (!options.reload) {
