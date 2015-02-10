@@ -44,6 +44,7 @@ exports.post = function*(next) {
     // create order from template, don't trust the incoming post
     this.order = Order.createFromTemplate(orderTemplate, {
       module: 'getpdf',
+      itemUrl: '/getpdf/' + orderTemplate.slug,
       user:   this.req.user && this.req.user._id,
       email:  this.req.user && this.req.user.email
     });
