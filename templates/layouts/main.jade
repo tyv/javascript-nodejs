@@ -2,12 +2,13 @@
 extends ./body
 
 block main
-  header(class="main__header" + (layout_header_class ? ' ' + layout_header_class : ''))
-    if breadcrumbs
-      +b("ol").breadcrumbs
-        include ../blocks/breadcrumbs
-    if title
-      h1.main__header-title!= title
+  if breadcrumbs || title
+    header(class="main__header" + (layout_header_class ? ' ' + layout_header_class : ''))
+      if breadcrumbs
+        +b("ol").breadcrumbs
+          include ../blocks/breadcrumbs
+      if title
+        h1.main__header-title!= title
 
   .content
     block content
