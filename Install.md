@@ -59,7 +59,7 @@ sudo port load nginx
 
 Например:
 ```
-./gulp config:nginx --prefix /opt/local/etc/nginx --root /js/javascript-nodejs --env development --clear 
+gulp config:nginx --prefix /opt/local/etc/nginx --root /js/javascript-nodejs --env development --clear --harmony
 ```
 
 Здесь `--prefix` -- место для конфигов nginx, обычно `/etc/nginx`, в случае MacPorts это `/opt/local/etc/nginx`.
@@ -83,19 +83,19 @@ npm install
 Инициализуйте базу сайта командой:
  
 ```
-./gulp db:load --from fixture/init --harmony
+gulp db:load --from fixture/init --harmony
 ```
 
 
 Репозитарий с учебником до окончания работы над первым релизом сайта приватный, можно импортировать "заглушки": 
 ```
-./gulp db:load --from fixture/tutorial --harmony
+gulp db:load --from fixture/tutorial --harmony
 ```
 
 Если есть доступ к учебнику, то клонируйте его, например, в `/js/javascript-tutorial` и импортируйте командой:
 
 ```
-./gulp tutorial:import --root /js/javascript-tutorial
+gulp tutorial:import --root /js/javascript-tutorial
 ```
 
 ## 9. Запуск сайта

@@ -76,7 +76,7 @@ sudo apt-get install -y mongodb-org
 sudo /etc/init.d/mongodb restart
 
 # deploy nginx config
-sudo ./gulp config:nginx --prefix /etc/nginx --root /js/javascript-nodejs --env test --clear
+sudo gulp config:nginx --prefix /etc/nginx --root /js/javascript-nodejs --env test --clear --harmony
 
 sudo /etc/init.d/nginx restart
 
