@@ -5,7 +5,8 @@ var multiparty = require('multiparty');
 var co = require('co');
 var thunkify = require('thunkify');
 var config = require('config');
-var mailer = require('mailer');
+var sendMail = require('sendMail');
+var path = require('path');
 
 exports.get = function*(next) {
 
@@ -134,15 +135,13 @@ exports.patch = function*(next) {
     user.verifyEmailToken = Math.random().toString(36).slice(2, 10);
     user.verifyEmailRedirect = '/profile/account';
 
-    var letter = this.render('verify-change-email', {
+    yield sendMail({
+      templatePath: path.join(this.templateDir, 'verify-change-email'),
+      to: user.pendingVerifyEmail,
+      subject: "Подтвердите смену email",
       link: config.server.siteHost + '/auth/verify/' + user.verifyEmailToken
     });
 
-    yield mailer.sendMail({
-      to:      user.pendingVerifyEmail,
-      subject: "Подтвердите смену email",
-      html:    letter
-    });
   }
 
   if (fields.password) {

@@ -59,6 +59,8 @@ describe('Authorization', function() {
         .field('gender', 'invalid')
         .end(function(err, res) {
           if (err) return done(err);
+          console.log(res);
+          
           res.body.errors.displayName.should.exist;
           res.body.errors.gender.should.exist;
           done();

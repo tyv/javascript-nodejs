@@ -58,5 +58,3 @@ function* testAutoLogin(next) {
 
   yield* next;
 }
-
-
