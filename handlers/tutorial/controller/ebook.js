@@ -21,7 +21,10 @@ exports.get = function *get(next) {
     renderedTop.hasTasks = true;
   }
 
-  var locals = {};
+  var locals = {
+    title: topArticle.title
+  };
+
   locals.children = [renderedTop];
 
   const tree = yield* Article.findTree({
@@ -30,13 +33,15 @@ exports.get = function *get(next) {
 
   const topArticleInTree = tree.byId(topArticle._id);
 
+  locals.topArticleInTree = topArticleInTree;
+
   if (topArticleInTree.isFolder) {
     var children = topArticleInTree.children || [];
 
     for (var i = 0; i < children.length; i++) {
       var child = children[i];
 
-      var renderedChild = yield* renderArticle(renderer, child, 1, true);
+      var renderedChild = yield* renderArticle(renderer, child, 1);
 
       locals.children.push(renderedChild);
 
@@ -50,7 +55,7 @@ exports.get = function *get(next) {
         for (var j = 0; j < children2.length; j++) {
           var subChild = children2[j];
 
-          var renderedSubChild = yield* renderArticle(renderer, subChild, 2, true);
+          var renderedSubChild = yield* renderArticle(renderer, subChild, 2);
 
           locals.children.push(renderedSubChild);
           if (renderedSubChild.tasks.length) {
@@ -75,13 +80,13 @@ exports.get = function *get(next) {
 
 };
 
-function *renderArticle(renderer, article, headerLevelShift, noStripTitle) {
+function *renderArticle(renderer, article, headerLevelShift) {
 
   var rendered = yield* renderer.render(article, {
     headerLevelShift: headerLevelShift,
-    noStripTitle:     noStripTitle,
-    linkHeaderTag:    true,
-    //linkHeaderTag:    false,
+    //linkHeaderTag:    true,
+    linkHeaderTag:    false,
+    //noStripTitle:     true,
     translitAnchors:  true,
     isEbook:          true
   });
@@ -92,11 +97,14 @@ function *renderArticle(renderer, article, headerLevelShift, noStripTitle) {
   rendered.url = Article.getUrlBySlug(article.slug);
   rendered.modified = article.modified;
   rendered.level = headerLevelShift;
+  rendered.url = article.getUrl();
 
   delete rendered.head;
   delete rendered.foot;
 
   rendered.tasks = yield* renderTasks(article);
+
+  article.renderedWithTitle = rendered;
 
   return rendered;
 }

@@ -288,8 +288,8 @@ BbtagParser.prototype.parseCompare = function() {
   var hasBothParts = pros.hasChildren() && cons.hasChildren();
 
   if (hasBothParts) {
-    pros.prependChild(new TagNode('h3', 'Достоинства', {'class': 'balance__title'}));
-    cons.prependChild(new TagNode('h3', 'Недостатки', {'class': 'balance__title'}));
+    pros.prependChild(new TagNode('div', 'Достоинства', {'class': 'balance__title'}));
+    cons.prependChild(new TagNode('div', 'Недостатки', {'class': 'balance__title'}));
   }
 
 
