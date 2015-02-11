@@ -1,0 +1,6 @@
++b("ul").selector
+    each item, i in quiz.list
+        +e("li").item
+            +e("h3").title !{ item.title }
+            +e("p").description !{ item.description }
+            +b("button").button._common Пройти тестирование
