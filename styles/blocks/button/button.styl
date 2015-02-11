@@ -1,0 +1,30 @@
+.button
+    font bold 14px/33px 'Open Sans', sans
+
+    padding 0 28px
+
+    border-radius 4px
+    border 1px solid
+
+    cursor pointer
+
+    &_common
+        color #333939
+        border-color: #cfcecd
+        background linear-gradient(to bottom, #ededed 0%, #cecece 100%)
+
+    &_common:hover
+        background linear-gradient(to bottom, #f5f5f5 0%, #e6e6e6 100%)
+
+    &_common:focus
+        outline 0
+        border-color #d4be4b
+        box-shadow 0 0 3px rgba(213,191,76, 0.7)
+
+    &_common:active,
+    &_common:focus:active
+        outline 0
+        border-color: #cfcecd
+        background linear-gradient(to bottom, #e3e3e3 0, #e3e3e3 2px, #f5f5f5 2px, #e6e6e6 100%)
+        box-shadow none
+
