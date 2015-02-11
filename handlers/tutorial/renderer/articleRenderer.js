@@ -100,6 +100,7 @@ ArticleRenderer.prototype._libsToJsCss = function(libs) {
  * @returns {{content: *, headers: *, head: *, foot: *}}
  */
 ArticleRenderer.prototype.render = function* (article, options) {
+
   options = Object.create(options || {});
   options.metadata = this.metadata;
   options.trusted = true;

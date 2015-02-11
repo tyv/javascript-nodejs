@@ -1,14 +1,13 @@
 extends /layouts/main
 
 
-mixin children_list(children, num)
+mixin children_list(children)
   ul
     each child in children
       li
-        a(href="#toc-#{num++}") #{child.title}
+        a(href='#'+child.getUrl()) #{child.title}
         if child.children && child.children.length > 0
-          mixin children_list(child.children, num)
-          - num += child.children.length
+          mixin children_list(child.children)
 
 block append variables
   - var layout_page_class = "page_ebook"
@@ -20,9 +19,11 @@ block content
 
   .page-break
 
-  - var num = 0;
-
   each child in children
+
+    // only top article has level 0 and no title (it's a book title actually)
+    if child.level > 0
+      +e('h' + (1+child.level))(id=child.url)= child.title
 
     != child.content
 
@@ -30,7 +31,7 @@ block content
       +b.tasks
         +e('h' + (2 + child.level)).title Задачи
         each task in child.tasks
-          +b.task.__task(id=(task.url + '/content'))
+          +b.task.__task(id=task.url)
             +e.header
               +e.title-wrap
                 // task must not be h3, because h3 participates in ToC (AKA outline)
@@ -69,7 +70,7 @@ block content
                   +e.answer-content
                     != task.solution
 
-              a(href=('#' + task.url + '/content')) К условию
+              a(href=('#' + task.url)) К условию
 
   script(src=script("tutorial"))
   script tutorial.init();
