@@ -1,7 +1,10 @@
-+b("ul").selector
++b.quiz-selector
+  +e("ul").list
     each item, i in quiz.list
-        +e("li").item
+      +e("li").item
+          +e.text
             +e("h3").title !{ item.title }
-            +e("p").description !{ item.description }
+            !{ item.description }
+          +e.start
             +b("button").button._common
               +e("span").text Пройти тестирование

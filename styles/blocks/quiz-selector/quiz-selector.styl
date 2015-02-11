@@ -1,0 +1,69 @@
+.quiz-selector
+    background #f2f2dc url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAIAAAC0Ujn1AAAFsklEQVRISwXByYHENgwEwEYDIKXNPzvH4Ic/Ix44XCX//vcPrjW7o22gF+1h17qUuUZqpNmQxo3jXiEuW/w5H16cMweZzI40A460WtUFCjKCfUy1eA3ThF4MuVdaGTxDrC15e+VXakirezl0L+CD2dgp4KnD+JoxvCP3xNVSBGyOLYfFlhUtf40WEmkmJ7JOl34zcX1qyikFesNEjvwyHyZ/UtSrpXrsB+XzK7G/K59SYB/mrRa+Kf3Cf4HSUzLh9IHJX751K/o4rKFdUQJ/rdJEhPaoC5Czn7/gHc/qFWaXv3adpXCxmJ6FbQ/k4mgP+ZZqDszNmbdrFwqlJbMldswU/T1XfgV/umTHltbumc1jw0ZmdYLjdpmaQdkAE9i/fAzF8BpVMcZrXaFpx3aHDQGPtNsd0qu0swZRt4P0nqAVijVol3R+ssQUcgkVESyE31Eh460vQfAATWZodXc8KrDuaPGLnjhsg3uhex0rIc7XVLDuexTQwC2MJeIPa+9U4/fZH88StRt3EC8N6gfpvVsGESMC5tl1qiRpswjR8fe0sAdmeeIPRXPLl0lpfTvUa5JQ9ayh71PmWLLXzji35FnR0Jy+cQUielUqNm3u6EEt4bpbnolzhyVCrrvGLXTfVkPRb8hkbGmhs6Tw4L3aXwbwna2v+Fc6vpO+3xfsRzK6eA9e1ZBuIt92kdOn55PTLK5od4pWXn0CKdtuv5RqrUTkvDKkIgp/aAphq90CzJkOJ66kV6+brBPQ57jwlwYMaGVSTLTyS1jZ0f6Lr2KEDMxd9ejuP0EeLQ+LJ9t424jMMrX22IcP7HtF7zeIAyEV7BMq74/L2tQtb4+ZAj3XfUrT2OeNDalMngyHHuNENWF5amW6TWmpESXj3b8WjUChYaMip8tp4t6A1j76J3JMbn5PjQUMIozVqtfKmtjFBaQK+J6EIkJSwALtiCd6NvWkI84S6wyH2al+ALsjm8/46WVKSrKiMEz6rkt0dW+nDrLb+jMByb5RElXxmKbctIQYKpW0nXkUvuPTv7q3t/A8fBXMxngRy1Y67DxuIO7emv7qRH0rBkW6j8g74mvMS2pLWDlXi6jKMF1XboaN6gs9DIrqd9MGTQy8dIh8Ekmrh8W8fHwmXcRg44T8Ce9bWWeXiJaQlsVfxZi7qtADtNLsPpxDSpBUjvtQ8utx6bVF9k04Grcrehym8Ai+6Oirw2fKojGTlL/CXq8ELU6AgFfn2tX+S7Xf2STZCsxb7ggfg6JNgXjB/Yl49qI75BU5UT/G+bqGjitQCQx+2X9HBF/N1xLS4nLNNZKZo3bA6t5IQa9v12xSu2Sxm48mahy/jz9/etxmfdKoS8nceOdbEsrXgIY8SxboeiAmKkLTuMO1savF4wodsWs8T1ulwFc0ZEc+05GGexyWrDFTbskM2VYdeFnlittLhtm+TbIUPIApG0XTqqTGDr70qnNpMPHDL0Snlddhy/eo/MJZPaVCWUvgUYOarUG2HB/XDhMp2s1Ww87oK9NyfJLuTnoWesT7CrHZFp/337puwc6sfk2oEnnRR8+BEPYIeKX+6NcVP/hTIsyEM8y7Ty9LXlPthLGO3rYX2ct2LdiQ1NDom1UOM3ZAMaSSkFwpXGjH2vbVZQX00St1EIGkQoA5ryqPQPzvt9rgmELp5rt61eAdqM6voeum/lAkXn1ujWaFSs+a+6iNTELGeWjGoiG6PTq8RtRSTTfIT8zZO9qdX7topD7oBhx/VO5cCO4t5AkdkT1HhkgZ8v7dQpbqcWxEr5lx1aw6fkfOrAOB4nG9vHHrb0iLiaqt8muzZ4RM3SdMTPQGqjLlqbreOe7fwRnFjkcGwIaIR12IYuSMhtdZmE9V/OoALZBp3MFvRgBp6PC5L3iWuqlvebzOc57balkBfpLfJ7O32PjDU2k2yorZMRHUpYM6WpDN/uz5HwICo3TD0Ux3AAAAAElFTkSuQmCC");
+    border-radius 3px
+
+    & ul,
+    & li,
+    & ul li,
+    & h3,
+    & p
+        padding 0
+        margin 0
+        line-height auto
+
+    & ul li:before
+        display none
+
+    & &__item
+        font-size 13px
+
+        padding 25px 30px
+
+        white-space nowrap
+
+        border-bottom 1px solid #dbddbc
+
+    & &__item:last-child
+        border none
+
+    &__text,
+    &__start
+        display inline-block
+
+        box-sizing border-box
+
+        vertical-align middle
+
+    &__text
+        width 60%
+        padding-right 20px
+
+        white-space normal
+
+    &__start
+        width 40%
+        min-width 230px
+        text-align right
+
+    & &__title
+        font-family  secondary_font
+        font-size 18px
+
+        margin-bottom 10px
+
+        color: #b20000
+
+@media tablet
+    .quiz-selector
+
+        & &__item
+            padding-bottom 15px
+
+        &__text,
+        &__start
+            width auto
+            display block
+
+        &__start
+            text-align left
+            margin-top 15px
