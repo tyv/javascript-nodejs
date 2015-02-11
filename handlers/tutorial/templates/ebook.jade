@@ -1,12 +1,29 @@
 extends /layouts/main
 
+
+mixin children_list(children, num)
+  ul
+    each child in children
+      li
+        a(href="#toc-#{num++}") #{child.title}
+        if child.children && child.children.length > 0
+          mixin children_list(child.children, num)
+          - num += child.children.length
+
 block append variables
   - var layout_page_class = "page_ebook"
 
 block content
   script window.isEbook = true;
 
+  +children_list(topArticleInTree.children, 1)
+
+  .page-break
+
+  - var num = 0;
+
   each child in children
+
     != child.content
 
     if child.tasks.length
