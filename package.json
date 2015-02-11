@@ -53,7 +53,6 @@
     "koa-logger": "*",
     "koa-mount": "*",
     "koa-passport": "*",
-    "passport": "*",
     "koa-request": "*",
     "koa-router": "*",
     "koa-send": "*",

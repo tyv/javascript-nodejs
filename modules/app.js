@@ -75,7 +75,7 @@ app.requireHandler('conditional');
 
 app.requireHandler('session');
 
-app.requireHandler('passport');
+app.requireHandler('passportSession');
 
 app.requireHandler('csrf');
 
