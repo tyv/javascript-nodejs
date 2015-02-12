@@ -51,6 +51,7 @@ if [ "$TRAVIS_SECURE_ENV_VARS" = "true" ]; then
   #   ssh-add -K ~/.ssh/travis_key
   # 2) ssh
   #  ssh -p 2222 travis@stage.javascript.ru
+  # OR just add ssh_config to ~/.ssh/config and ssh travis
   if [[ ! -z $TRAVIS_DEBUG ]]; then
     # allow to SSH to travis via stage.javascript.ru:2222 port forwarding
     cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
@@ -78,11 +79,11 @@ fi
 
 # ===== Latest npm ==========
 # need latest npm (less bugs)
-#npm i -g npm
-#npm up -g
-#npm i -g mocha
-#npm i -g bunyan
-#npm i -g gulp
+# install global packages 1-by-1 for less bugs too
+npm i -g npm
+npm i -g mocha
+npm i -g bunyan
+npm i -g gulp
 
 
 # Turn off unneeded services to free some memory
