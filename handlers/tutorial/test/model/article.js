@@ -10,7 +10,7 @@ var Article = require('../../models/article');
 describe('Article', function() {
 
   before(function* () {
-    yield* dataUtil.loadModels(path.join(__dirname, '../fixture/article'));
+    yield* dataUtil.loadModels(path.join(__dirname, '../fixture/article'), {reset: true});
   });
 
 
