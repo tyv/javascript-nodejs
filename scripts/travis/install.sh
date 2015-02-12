@@ -48,9 +48,11 @@ if [ "$TRAVIS_SECURE_ENV_VARS" = "true" ]; then
 fi
 
 # ===== Latest npm ==========
-# need latest npm (less bugs, at time of writing 2.0.0 didn't work)
+# need latest npm (less bugs)
 npm i -g npm
 npm up -g
+npm i -g mocha bunyan gulp
+
 
 # Turn off unneeded services to free some memory
 sudo service mysql stop
