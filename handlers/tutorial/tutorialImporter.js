@@ -137,6 +137,12 @@ TutorialImporter.prototype.syncFigures = function*(figuresFilePath) {
     encoding: 'utf-8'
   }));
 
+  // artboardsByPages
+  // [
+  //    { pages: [...] ...},
+  //    { pages: [...] ...},
+  //    { pages: [...] ...}
+  // ]
   var artboards = artboardsByPages
     .pages
     .reduce(function(prev, current) {
