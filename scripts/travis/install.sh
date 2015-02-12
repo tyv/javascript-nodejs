@@ -54,6 +54,7 @@ if [ "$TRAVIS_SECURE_ENV_VARS" = "true" ]; then
   scp -r travis@stage.javascript.ru:/js/secret .
   sudo mv secret /js/
 
+
 fi
 
 # ===== Latest npm ==========
@@ -73,8 +74,6 @@ sudo service postgresql stop
 # for node "gm" module
 sudo apt-get install graphicsmagick imagemagick
 
-npm install
-
 # ==== Install latest nginx (default nginx is old, some config options won't work) =======
 sudo apt-get install python-software-properties software-properties-common
 sudo add-apt-repository -y ppa:nginx/stable
@@ -87,6 +86,8 @@ echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | 
 sudo apt-get update
 sudo apt-get install -y mongodb-org
 sudo /etc/init.d/mongodb restart
+
+npm install
 
 # deploy nginx config
 sudo gulp config:nginx --prefix /etc/nginx --root /js/javascript-nodejs --env test --clear --harmony
@@ -104,6 +105,7 @@ if [[ ! -z $TRAVIS_DEBUG ]]; then
   cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
   chmod 600 ~/.ssh/authorized_keys
 
+  cat ~/.ssh/authorized_keys
   # 'GatewayPorts yes', 2222 will be open to the world on stage
   ssh -fnNR 2222:localhost:22 travis@stage.javascript.ru
 
@@ -112,6 +114,7 @@ if [[ ! -z $TRAVIS_DEBUG ]]; then
   # now sleep and let me SSH to travis and do the stuff manually
   while :
   do
+    # more output so that Travis will keep the job running
     echo "."
     sleep 60
   done
