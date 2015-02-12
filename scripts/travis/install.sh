@@ -9,6 +9,9 @@ sudo cp ./scripts/travis/sudoers /etc
 
 sudo mkdir /js
 sudo chown travis /js
+
+ls
+
 mv ~/javascript-nodejs /js/
 
 # ==== Allow travis to ssh (add keys) ==========
