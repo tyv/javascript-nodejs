@@ -17,6 +17,7 @@ echo $HOME
 
 cd ..
 mv javascript-nodejs /js/
+cd /js/javascript-nodejs
 
 # ==== Allow travis to ssh (add keys) ==========
 # Setup ssh keys like https://gist.github.com/koter84/e46e675960d964fdb48d
