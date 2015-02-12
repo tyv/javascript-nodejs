@@ -19,9 +19,15 @@ describe("TaskRenderer", function() {
       "importance": 4,
       "solution":   "..."
     });
+
+
+    console.log(task);
+
     const renderer = new TaskRenderer();
 
     const result = yield renderer.renderContent(task, {});
+
+    console.log(result);
 
     result.replace(/\n/g, '').should.be.eql('<p>Content</p>');
   });
