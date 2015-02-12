@@ -21,6 +21,7 @@ describe("TaskRenderer", function() {
     });
 
 
+    console.log("!!!!!!!!!!!!!!");
     console.log(task);
 
     const renderer = new TaskRenderer();
