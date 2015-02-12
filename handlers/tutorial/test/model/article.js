@@ -37,7 +37,7 @@ describe('Article', function() {
     it("returns nested structure { children: [ ... ] }", function* () {
       var tree = yield Article.findTree();
       console.log(tree);
-      tree.children.length.should.be.eql(3);
+      tree.children.length.should.be.eql(2);
       tree.children[0].children.length.should.be.eql(2);
       tree.children[1].children.length.should.be.eql(1);
  //     console.log(treeUtil.flattenArray(tree));
