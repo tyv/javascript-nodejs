@@ -18,7 +18,11 @@ describe('facebook', function() {
   before(function*() {
     yield* db.loadModels(fixtures, {reset: true});
 
+    console.log("Fixtures loaded");
+
     yield* tunnel();
+
+    console.log("Tunnel established");
 
     driver = browser();
 
