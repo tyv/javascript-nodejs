@@ -24,6 +24,7 @@ script:
 
 env:
   global:  # not a build matrix, but variables for every build
+    - TRAVIS_DEBUG=1
     - NODE_ENV=test
     - E2E_BROWSER=firefox
     # id_rsa (by travis_key.sh)
