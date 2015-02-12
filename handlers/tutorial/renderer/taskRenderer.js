@@ -38,7 +38,6 @@ TaskRenderer.prototype.renderContent = function* (task, options) {
 
 TaskRenderer.prototype.addContentPlunkLink = function*(task, content) {
 
-
   var sourcePlunk = yield Plunk.findOne({webPath: task.getResourceWebRoot() + '/source'}).exec();
 
   if (sourcePlunk) {
