@@ -12,6 +12,7 @@ sudo chown travis /js
 
 ls
 pwd
+echo $HOME
 
 mv ~/javascript-nodejs /js/
 
