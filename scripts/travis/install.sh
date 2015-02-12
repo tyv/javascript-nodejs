@@ -15,6 +15,7 @@ ls
 pwd
 echo $HOME
 
+# Move the repo to /js/javascript-nodejs (usual location, secrey & tutorial will be siblings)
 cd ..
 mv javascript-nodejs /js/
 cd /js/javascript-nodejs
@@ -85,7 +86,7 @@ sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
 echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | sudo tee /etc/apt/sources.list.d/mongodb.list
 sudo apt-get update
 sudo apt-get install -y mongodb-org
-sudo /etc/init.d/mongodb start
+sudo /etc/init.d/mongodb restart
 
 # deploy nginx config
 sudo gulp config:nginx --prefix /etc/nginx --root /js/javascript-nodejs --env test --clear --harmony
@@ -105,6 +106,8 @@ if [[ ! -z $TRAVIS_DEBUG ]]; then
 
   # 'GatewayPorts yes', 2222 will be open to the world on stage
   ssh -fnNR 2222:localhost:22 travis@stage.javascript.ru
+
+  echo "Ready for SSH"
 
   # now sleep and let me SSH to travis and do the stuff manually
   while :
