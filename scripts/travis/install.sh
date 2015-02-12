@@ -11,6 +11,7 @@ sudo mkdir /js
 sudo chown travis /js
 
 ls
+pwd
 
 mv ~/javascript-nodejs /js/
 
