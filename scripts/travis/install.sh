@@ -10,11 +10,13 @@ sudo cp ./scripts/travis/sudoers /etc
 sudo mkdir /js
 sudo chown travis /js
 
+# Debug info
 ls
 pwd
 echo $HOME
 
-mv ~/javascript-nodejs /js/
+cd ..
+mv javascript-nodejs /js/
 
 # ==== Allow travis to ssh (add keys) ==========
 # Setup ssh keys like https://gist.github.com/koter84/e46e675960d964fdb48d
