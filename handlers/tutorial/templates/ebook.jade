@@ -2,12 +2,12 @@ extends /layouts/main
 
 
 mixin children_list(children)
-  ul
-    each child in children
-      li
-        a(href='#'+child.getUrl()) #{child.title}
-        if child.children && child.children.length > 0
-          mixin children_list(child.children)
+  if children && children.length
+    ul
+      each child in children
+        li
+          a(href='#'+child.getUrl()) #{child.title}
+            mixin children_list(child.children)
 
 block append variables
   - var layout_page_class = "page_ebook"
