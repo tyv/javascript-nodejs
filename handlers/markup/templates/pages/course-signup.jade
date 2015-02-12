@@ -123,23 +123,69 @@ block content
 
     +e.step._current
       +e.step-content
-        +b.pay-method.__pay-method
-          +e.methods
-            +e.method
-              +e('button').send(name="[payment-type]", value="webmoney")
-                +e('img').img(src="/img/pay-method__webmoney.png", width="184", height="98", alt="WebMoney")
-            +e.method
-              +e('button').send(name="[payment-type]", value="yamoney")
-                +e('img').img(src="/img/pay-method__yamoney.png", width="184", height="98", alt="Яндекс.Деньги")
-            +e.method
-              +e('button').send(name="[payment-type]", value="paypal")
-                +e('img').img(src="/img/pay-method__paypal.png", width="184", height="98", alt="Paypal")
-            +e.method
-              +e('button').send(name="[payment-type]", value="payanyway")
-                +e('img').img(src="/img/pay-method__payanyway.png", width="184", height="98", alt="Карта")
-            +e.method
-              +e('button').send(name="[payment-type]", value="interkassa")
-                +e('img').img(src="/img/pay-method__interkassa.png", width="184", height="98", alt="Терминалы и банки")
+        +b.pay-form
+          +e('h2').title.__step-title Оплата
+          +b.tabs
+            +e.toggles
+              +e('button').toggle Для физических лиц
+              +e('button').toggle Для юридических лиц
+            +e.tab
+              +b.pay-method.complex-form__pay-method
+                +e.methods
+                  +e.method
+                    +e('button').send(name="[payment-type]", value="webmoney")
+                      +e('img').img(src="/img/pay-method__webmoney.png", width="184", height="98", alt="WebMoney")
+                  +e.method
+                    +e('button').send(name="[payment-type]", value="yamoney")
+                      +e('img').img(src="/img/pay-method__yamoney.png", width="184", height="98", alt="Яндекс.Деньги")
+                  +e.method
+                    +e('button').send(name="[payment-type]", value="paypal")
+                      +e('img').img(src="/img/pay-method__paypal.png", width="184", height="98", alt="Paypal")
+                  +e.method
+                    +e('button').send(name="[payment-type]", value="payanyway")
+                      +e('img').img(src="/img/pay-method__payanyway.png", width="184", height="98", alt="Карта")
+                  +e.method
+                    +e('button').send(name="[payment-type]", value="interkassa")
+                      +e('img').img(src="/img/pay-method__interkassa.png", width="184", height="98", alt="Терминалы и банки")
+                +b.form-insert._left.__insert.__insert_bank_bill
+                  +b('button').close.__close(title="Закрыть") Close
+                  +e.item.__insert-item
+                    +e('label').label.__text-label(for="pay-form-name") ФИО Плательщика:
+                    +b('span').text-input._small
+                      +e('input').control#pay-form-name
+                  +e.item.__insert-item
+                    +e('label').label.__text-label(for="pay-form-address") Адрес плательщика:
+                    +b('span').text-input._small
+                      +e('input').control#pay-form-address
+                  +b('button').submit._small.__submit Сохранить и продолжить
+            +e.tab
+              +b.form-insert._notail.pay-form__insert_company
+                +e.item.pay-form__item
+                  +b('label').pay-form__label(for="pay-form-company") Название компании:
+                  +b('span').text-input._small.pay-form__company
+                    +e('input').control#pay-form-company
+                +e.item.pay-form__item
+                  +b('input').pay-form__cb#pay-form-contract(type="checkbox")
+                  +b('label').pay-form__cb-label(for="pay-form-contract")
+                    | Нужен договор
+                    +b('span').pay-form__cb-label-extra (Договор заключается с компанией зарегистрированной в РФ)
+                +e.item.pay-form__contract-info
+                  +b.pay-form__item
+                    +b('label').pay-form__label(for="pay-form-contract-head") Шапка (для акта и договора):
+                    +b('textarea').textarea-input.pay-form__textarea#pay-form-contract-head(cols="30", rows="10")
+                    +b.pay-form__note Например: Общество с ограниченной ответственностью «Лютики», именуемое в дальнейшем Заказчик, в лице Иванова Петра Сергеевича, действующего на основании Устава, с одной стороны
+                  +b.pay-form__item
+                    +b('label').pay-form__label(for="pay-form-company-address") Юридический адрес:
+                    +b('textarea').textarea-input.pay-form__textarea#pay-form-company-address(cols="30", rows="10")
+                  +b.pay-form__item
+                    +b('label').pay-form__label(for="pay-form-bank-details") Банковские реквизиты:
+                    +b('textarea').textarea-input.pay-form__textarea#pay-form-bank-details(cols="30", rows="10")
+                +b('button').submit-button._small.pay-form__submit Сохранить и продолжить
+              +e.foot-text или
+              +b.pay-hint.__pay-hint
+                +e('a').hint(href="hint")
+                  +b('img').flag.__flag(src="/img/flag/flag_ua.png")
+                    | Рекомендации по оплате не из России
     +b('ul').grayed-list.__next
       +e('li').item.__next-item Подтверждение
 
