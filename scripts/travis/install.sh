@@ -14,6 +14,8 @@ sudo chown travis /js
 ls
 pwd
 echo $HOME
+which node
+node -v
 
 # Move the repo to /js/javascript-nodejs (usual location, secrey & tutorial will be siblings)
 cd ..
@@ -34,9 +36,6 @@ if [ "$TRAVIS_SECURE_ENV_VARS" = "true" ]; then
   base64 --decode ~/.ssh/id_rsa_base64.pub > ~/.ssh/id_rsa.pub
   chmod 600 ~/.ssh/id_rsa.pub
 
-  # ==== Allow to ssh TO travis@stage.javascript.ru -p 2222 =========
-  # used for debugging purposes only
-
   # no questions please when ssh to remote test machine
   echo -e "Host stage.javascript.ru\n\tStrictHostKeyChecking no" >> ~/.ssh/config
 
@@ -44,6 +43,26 @@ if [ "$TRAVIS_SECURE_ENV_VARS" = "true" ]; then
   # add credentials to .netrc for private github repo access
   # travis env set CI_USER_TOKEN [github API token] --private -r iliakan/javascript-nodejs
   echo -e "machine github.com\nlogin $CI_USER_TOKEN" >> ~/.netrc
+
+
+  # ==== Allow to ssh TO travis@stage.javascript.ru -p 2222 =========
+  # used for debugging purposes only
+  # 1) store travis key in KeyChain
+  #   ssh-add -K ~/.ssh/travis_key
+  # 2) ssh
+  #  ssh -p 2222 travis@stage.javascript.ru
+  if [[ ! -z $TRAVIS_DEBUG ]]; then
+    # allow to SSH to travis via stage.javascript.ru:2222 port forwarding
+    cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+    chmod 600 ~/.ssh/authorized_keys
+
+    cat ~/.ssh/authorized_keys
+    # 'GatewayPorts yes' in sshd_config on stage, 2222 will be open to the world on stage
+    ssh -fnNR 2222:localhost:22 travis@stage.javascript.ru
+
+    echo "Ready for SSH"
+  fi
+
 
   # ===== Clone helper repo ============
   # will use login from .netrc for private repo
@@ -97,24 +116,16 @@ sudo /etc/init.d/nginx restart
 gulp build --harmony
 
 if [ -d /js/javascript-tutorial ]; then
-  gulp build tutorial:import --harmony --root /js/javascript-tutorial
+  gulp tutorial:import --harmony --root /js/javascript-tutorial
 fi
 
+echo "Install finished"
+
 if [[ ! -z $TRAVIS_DEBUG ]]; then
-  # allow to SSH to travis via stage.javascript.ru:2222 port forwarding
-  cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
-  chmod 600 ~/.ssh/authorized_keys
 
-  cat ~/.ssh/authorized_keys
-  # 'GatewayPorts yes', 2222 will be open to the world on stage
-  ssh -fnNR 2222:localhost:22 travis@stage.javascript.ru
-
-  echo "Ready for SSH"
-
-  # now sleep and let me SSH to travis and do the stuff manually
+  # more output for Travis to keep the job running
   while :
   do
-    # more output so that Travis will keep the job running
     echo "."
     sleep 60
   done
