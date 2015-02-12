@@ -36,10 +36,10 @@ describe('Article', function() {
 
     it("returns nested structure { children: [ ... ] }", function* () {
       var tree = yield Article.findTree();
-      console.log(tree);
+      console.log(tree.children);
       tree.children.length.should.be.eql(2);
       tree.children[0].children.length.should.be.eql(2);
-      tree.children[1].children.length.should.be.eql(1);
+      tree.children[1].children.length.should.be.eql(2);
  //     console.log(treeUtil.flattenArray(tree));
 //      console.log(util.inspect(tree, {depth:100}));
     });
