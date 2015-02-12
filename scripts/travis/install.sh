@@ -49,9 +49,11 @@ fi
 
 # ===== Latest npm ==========
 # need latest npm (less bugs)
-npm i -g npm
-npm up -g
-npm i -g mocha bunyan gulp
+#npm i -g npm
+#npm up -g
+#npm i -g mocha
+#npm i -g bunyan
+#npm i -g gulp
 
 
 # Turn off unneeded services to free some memory
