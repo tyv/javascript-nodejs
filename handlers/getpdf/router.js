@@ -9,6 +9,4 @@ var checkout = require('./controller/checkout');
 router.get('/:orderTemplate', order.get);
 router.get('/orders/:orderNumber(\\d+)', orders.get);
 
-//router.get('/pay-result/:orderNumber(\\d+)', payResult.get);
-
 router.post('/checkout', checkout.post);

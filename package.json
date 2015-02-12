@@ -53,7 +53,6 @@
     "koa-logger": "*",
     "koa-mount": "*",
     "koa-passport": "*",
-    "passport": "*",
     "koa-request": "*",
     "koa-router": "*",
     "koa-send": "*",
@@ -158,7 +157,7 @@
     "trace": "*"
   },
   "engines": {
-    "node": ">=0.11.13"
+    "node": ">=0.12"
   },
   "engineStrict": true,
   "repository": {

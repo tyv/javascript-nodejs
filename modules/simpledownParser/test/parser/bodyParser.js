@@ -134,7 +134,7 @@ describe("BodyParser", function() {
               children: [{
                 type:  'TagNode',
                 text:  'Достоинства',
-                tag:   'h3',
+                tag:   'div',
                 attrs: {class: 'balance__title'}
               },
                 {
@@ -161,7 +161,7 @@ describe("BodyParser", function() {
                 children: [{
                   type:  'TagNode',
                   text:  'Недостатки',
-                  tag:   'h3',
+                  tag:   'div',
                   attrs: {class: 'balance__title'}
                 },
                   {

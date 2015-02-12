@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 
-# Usage: 
-# NODE_ENV=development WATCH=1 ./gulp dev | perl -pe 's/\e\[?.*?[\@-~]//g' >log
+# Usage:
+# NODE_ENV=development WATCH=1 gulp dev --harmony | perl -pe 's/\e\[?.*?[\@-~]//g' >log
 use strict;
 use warnings;
 

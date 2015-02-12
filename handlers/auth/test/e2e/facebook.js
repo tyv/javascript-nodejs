@@ -16,7 +16,7 @@ describe('facebook', function() {
   var driver, server;
 
   before(function*() {
-    yield* db.loadModels(fixtures);
+    yield* db.loadModels(fixtures, {reset: true});
 
     yield* tunnel();
 

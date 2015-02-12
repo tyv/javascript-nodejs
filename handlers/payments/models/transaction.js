@@ -33,7 +33,7 @@ var schema = new Schema({
   paymentDetails: {
     type: {
       nextRetry: Number, // for Ya.Money processPayments
-      processing: Boolean, // for Ya.Money processPayments,
+      processing: Boolean, // for Ya.Money processPayments & Paypal PDT/IPN locking not to onSuccess twice,
       oauthToken: String, // for Ya.Money processPayments
       requestId: String //  for Ya.Money processPayments
     },
@@ -46,7 +46,8 @@ var schema = new Schema({
   number: {
     type: Number,
     default: function() {
-      return parseInt(crypto.randomBytes(4).toString('hex'), 16);
+      // webmoney requires transaction number to be a number 0 < LMI_PAYMENT_NO < 2147483647
+      return parseInt(crypto.randomBytes(4).toString('hex'), 16) % 2147483647;
     },
     unique: true
   },

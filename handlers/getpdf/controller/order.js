@@ -21,6 +21,8 @@ exports.get = function*() {
   // order.isNew = true!
   this.order = Order.createFromTemplate(orderTemplate, {
     module: 'getpdf',
+    itemUrl: '/getpdf/' + orderTemplate.slug,
+    user:   this.req.user && this.req.user._id,
     email: this.req.user ? this.req.user.email : ''
   });
 

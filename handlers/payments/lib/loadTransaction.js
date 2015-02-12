@@ -10,7 +10,7 @@ module.exports = function* (field, options) {
 
   var transactionNumber = this.request.body && this.request.body[field] || this.params[field] || this.query[field];
 
-  this.log.debug('tx number: ' + transactionNumber);
+  this.log.debug('loadTransaction number: ' + transactionNumber);
   if (!transactionNumber) {
     return;
   }

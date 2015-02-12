@@ -21,6 +21,7 @@ function TutorialMap(elem) {
   this.layoutSwitch.onchange = this.onLayoutSwitchChange.bind(this);
 
   this.filterInput.oninput = this.onFilterInput.bind(this);
+  this.filterInput.onkeydown = this.onFilterKeydown.bind(this);
 
   this.elem.querySelector('.close-button').onclick = () => {
     this.filterInput.value = '';
@@ -88,6 +89,14 @@ TutorialMap.prototype.updateShowTasks = function() {
 TutorialMap.prototype.onFilterInput = function(event) {
   this.showClearButton(event.target.value);
   this.throttleFilter(event.target.value);
+};
+
+TutorialMap.prototype.onFilterKeydown = function(event) {
+  if (event.keyCode == 27) { // escape
+    this.filterInput.value = '';
+    this.showClearButton(false);
+    this.filter('');
+  }
 };
 
 TutorialMap.prototype.showClearButton = function(show) {

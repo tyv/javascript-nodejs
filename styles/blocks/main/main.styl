@@ -13,16 +13,17 @@ $main-loud
 	&_width-limit
 		max-width max_width
 
-	&::before
+	&::before,
+	&__header::before
 		content ""
 		display table // убираем margin collapse
 
-	.breadcrumbs
-		margin 23px 0 15px
+	&__header .breadcrumbs
+		margin 0
 		padding 0
 
 	&__header
-		margin 20px 0 16px
+		margin 25px 0 15px 0
 
 	&__header_center
 		border 0
@@ -31,18 +32,13 @@ $main-loud
 	&__header_center .breadcrumbs
 		text-align center
 
-	&__header_search
-		border-bottom 0
-		margin-top 33px
-
 	& &__header-title
 		font 700 286%/100% secondary_font
-		margin 18px 0 12px
-		padding 0 0 14px
+		margin 15px 0 0 0
+		padding 0
 
-	&__header_search &__header-title
-		margin-bottom 0
-		padding-bottom 10px
+	& &__header-title:only-child
+		padding-bottom 5px
 
 	&__username
 		font-style inherit

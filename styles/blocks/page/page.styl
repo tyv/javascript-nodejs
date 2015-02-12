@@ -109,11 +109,13 @@
 			// ebook reader has smaller page width,
 			// so I make sure the code fits it
 			pre[class*="language-"], code[class*="language-"]
-				font 8px/10px fixed_width_font !important
+				font 10px/12px fixed_width_font !important
 
 		.toolbar
 			display none
 
+	.page-break
+		page-break-after always
 
 	// chrome/wk pdf
 	@media print
@@ -123,6 +125,7 @@
 
 				pre[class*="language-"], code[class*="language-"]
 					font 12px/14px fixed_width_font !important
+
 
 	@media tablet
 		&,

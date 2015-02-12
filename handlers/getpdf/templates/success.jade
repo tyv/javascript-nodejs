@@ -27,14 +27,11 @@ block content
     +e.step._current
       +b.order-confirm
         +e('h2').title__step-title Спасибо за покупку!
-        +e.accent В ближайшее время вам на электронный адрес придет ссылка на скачивание учебника.
+        +e.accent В ближайшее время на электронный адрес #{order.email} придёт подтверждение.
         +e.content
           +e.text
-            | Вы можете скачать его и прямо сейчас, по ссылке #{order.data.downloadLink}
-            | Если у вас возникли какие-либо вопросы, присылайте их на
-            =" "
-            a(href="mailto:mk@javascript.ru") mk@javascript.ru
-
+            p Вы можете скачать учебник прямо сейчас, по ссылке <a href="#{order.data.downloadLink}">#{order.data.downloadLink}</a>.
+            p Если у вас возникли какие-либо вопросы, присылайте их на <a href="mailto:orders@javascript.ru">orders@javascript.ru</a>.
 
   script(src=script("getpdf"))
   script getpdf.init();

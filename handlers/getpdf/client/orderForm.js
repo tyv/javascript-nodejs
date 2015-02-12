@@ -50,6 +50,8 @@ class OrderForm {
         new notification.Error("Ошибка на сервере, свяжитесь со <a href='mailto:orders@javascript.ru'>службой поддержки</a>.");
       }
     });
+
+    request.addEventListener('fail', onEnd);
   }
 
 

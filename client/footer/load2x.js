@@ -1,4 +1,4 @@
-export default function() {
+module.exports = function() {
 
   let figurePngs = document.querySelectorAll('figure img[src$=".png"]');
 
@@ -23,4 +23,4 @@ export default function() {
 
   }
 
-}
+};

@@ -15,6 +15,7 @@ var DEBUG = false;
 // throws error if conflict (another file or link by that name)
 function createSymlinkSync(linkSrc, linkDst) {
   var lstat;
+  // check same-named link
   try {
     lstat = fs.lstatSync(linkDst);
   } catch (e) {
@@ -29,8 +30,24 @@ function createSymlinkSync(linkSrc, linkDst) {
     if (oldDst == linkSrc) {
       return false; // already exists and is correct
     }
+
     // kill old link!
     fs.unlinkSync(linkDst);
+  }
+
+  // check same file/dir module
+  // if src is "module.js", check "module/"
+  // if src is "module/", check module.js
+
+  var conflictingName;
+  try {
+    conflictingName = linkDst.endsWith('.js') ? linkDst.slice(0, -3) : (linkDst + '.js');
+    lstat = fs.lstatSync(conflictingName);
+  } catch(e) {
+  }
+
+  if (lstat) {
+    throw new Error("Conflict: path exist: " + conflictingName);
   }
 
   fs.symlinkSync(linkSrc, linkDst);
