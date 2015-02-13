@@ -6,5 +6,9 @@
             +e("h3").title !{ item.title }
             !{ item.description }
           +e.start
-            +b("button").button._common
-              +e("span").text Пройти тестирование
+            +e.start-i
+              +b("button").button._common
+                +e("span").text Пройти тестирование
+              if item.result
+                +e.result Предыдущий результат: !{ item.result }
+
