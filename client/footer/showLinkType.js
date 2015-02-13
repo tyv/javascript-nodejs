@@ -57,7 +57,7 @@ module.exports = function() {
     tooltipSpan = null;
   }
 
-  var handler = hoverIntent(onOver, onOut, 'a');
+  var handler = hoverIntent(onOver, onOut);
   document.addEventListener('mouseover', function(event) {
     if (!event.target.closest('a')) return;
     handler.call(this, event);

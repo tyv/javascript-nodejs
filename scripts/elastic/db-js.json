@@ -11,8 +11,7 @@
           "filter":      [
             "lowercase",
             "russian_morphology",
-            "english_morphology",
-            "ru_en_stopwords"
+            "english_morphology"
           ]
         }
       },

@@ -7,7 +7,7 @@ var Article = require('tutorial').Article;
 // FIXME: many queries to MongoDB for parents (breadcrumbs) Cache them?
 var searchTypes = {
   articles: {
-    title: 'Учебник',
+    title: 'Статьи учебника',
     hit2url: function(hit) {
       return Article.getUrlBySlug(hit.fields.slug[0]);
     },

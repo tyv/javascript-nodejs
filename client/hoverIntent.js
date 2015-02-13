@@ -9,6 +9,8 @@ var handler = hoverIntent(function() {
  $('.codebox').addEventListener('mouseover', handler);
  $('.codebox').addEventListener('mouseout', handler);
 
+ TODO: refactor me.
+
  * @param handlerIn
  * @param handlerOut
  * @returns {Function}
