@@ -1,7 +1,11 @@
 +b.quiz-test
-  +e("h1").title !{ quiz.title }
-  +e("ul").variants
-    each variant in quiz.variants
-      +e("li").variant
-        +e("label").label
-          +e("input").input(type="radio" name="variant") !{ variant }
+  +e.body
+    +e("h1").title !{ quiz.title }
+    +e("ul").variants
+      each variant in quiz.variants
+        +e("li").variant
+          +e("label").label
+            +e("input").input(type="radio" name="variant") !{ variant }
+  +e.submit
+    +b("button").button._action
+      +e("span").text Продолжить
