@@ -2,23 +2,18 @@ extends /layouts/main
 
 block append variables
 
-    - var layout = {}
-    - layout.sitetoolbar = false
-    - layout.prevNext = false
-    - layout.sidebar = false
-    - layout.articleFoot = false
-    - layout.centeredHeader = false
-    - layout.tutorialMap = false
-    - layout.header = false
-    - layout.notificationPopup = false
-    - layout.notificationStripe = false
-    - layout.bodyClass = ""
+    - var layout_header_class = "main__header_center"
+    - var headTitle = 'Название теста'
+    - var title = false
+    - var breadcrumbs = [{ title: 'Учебник', url: '/tutorial' }, { title: 'JavaScript.ru', url: 'http://javascript.ru' }]
 
-    - var quizsLength = 15
+    - var contentWithMods = 'content_center'
 
     - var quiz = {}
-    - quiz.index = 5
-    - quiz.title = 'Что из этого не событие мыши?'
-
+    - quiz.title = 'Что из этого не событие мыши'
+    - quiz.variants = ['onmousescroll', 'onclick', 'onmousover', 'onmousemove', 'onmousewheel']
+    - quiz.current = 6
+    - quiz.total = 18
 
 block content
+    include ../blocks/quiz
