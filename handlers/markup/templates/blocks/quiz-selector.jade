@@ -1,0 +1,14 @@
++b.quiz-selector
+  +e("ul").list
+    each item, i in quiz.list
+      +e("li").item
+          +e.text
+            +e("h3").title !{ item.title }
+            !{ item.description }
+          +e.start
+            +e.start-i
+              +b("button").button._common
+                +e("span").text Пройти тестирование
+              if item.result
+                +e.result Предыдущий результат: !{ item.result }
+

@@ -1,0 +1,41 @@
++b.quiz-test
+  +e("form")(atcion="/").body
+    +e("h1").title !{ quiz.title }
+    +e("ul").variants
+      each variant in quiz.variants
+        +e("li").variant
+          +e("label").label
+            +e("input").input(type="radio" name="variant") !{ variant }
+  +e.submit
+    +b("button").button._action(disabled="disabled")
+      +e("span").text Продолжить
+
+
+  script.
+      (function() {
+        var isSpinner,
+            form = document.querySelector('.quiz-test__body'),
+            button = document.querySelector('.button_action');
+
+
+        button.addEventListener('click', function() {
+
+            this.classList.toggle('button_loading');
+
+            if (!isSpinner) {
+              this.insertAdjacentHTML(
+                'beforeend',
+                '<span class="spinner spinner_active spinner_small"><span class="spinner__dot spinner__dot_1"></span><span class="spinner__dot spinner__dot_2"></span><span class="spinner__dot spinner__dot_3"></span></span>'
+              );
+
+              isSpinner = true;
+            }
+        });
+
+        form.addEventListener('change', function() {
+
+          button.hasAttribute('disabled') &&
+            button.removeAttribute('disabled');
+
+        });
+      })()
