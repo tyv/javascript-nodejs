@@ -21,7 +21,10 @@ sftp-config.json
 Thumbs.db
 
 # private downloads
-download/*
+download/
+
+# database dump for tutorial export
+dump/
 
 # NPM packages folder.
 node_modules/
