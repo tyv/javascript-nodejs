@@ -1,0 +1,6 @@
+- var n = 0
+
++b.quiz-timeline
+  while n < quiz.total
+    - n++
+    +e("span")(class="number" + (n == quiz.current ? '_current' : '')) !{ n }
