@@ -22,15 +22,15 @@ block append variables
           +e("dd").percents !{ quizResult.position }%
           +e("dd").text респондентов
 
-    style
-      |  .quiz-results-indicator__indicator:after
-      |  {
-      |    -webkit-transform: rotate(!{ rotate });
-      |    -moz-transform: rotate(!{ rotate });
-      |    -ms-transform: rotate(!{ rotate });
-      |    -o-transform: rotate(!{ rotate });
-      |    transform: rotate(!{ rotate });
-      |  }
+    style.
+      .quiz-results-indicator__indicator:after
+      {
+        -webkit-transform: rotate(!{ rotate });
+        -moz-transform: rotate(!{ rotate });
+        -ms-transform: rotate(!{ rotate });
+        -o-transform: rotate(!{ rotate });
+        transform: rotate(!{ rotate });
+      }
 
     +e.center
       +b.quiz-results-indicator
