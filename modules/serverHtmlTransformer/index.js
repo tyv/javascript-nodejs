@@ -276,6 +276,10 @@ ServerHtmlTransformer.prototype.transformCodeTabsTag = function* (node) {
     plunkId: plunk.plunkId
   };
 
+  locals.external = {
+    href:    src + '/'
+  };
+
   var rendered = codeTabsTemplate(locals);
 
 //  console.log("---> height", height && (node.isTrusted() ? height : Math.max(height, 800)));

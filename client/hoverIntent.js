@@ -21,8 +21,8 @@ function hoverIntent(handlerIn, handlerOut) {
 
   // default configuration values
   var cfg = {
-    interval:    100,
-    sensitivity: 6,
+    interval:    150,
+    sensitivity: 8,
     timeout:     0,
     over:        handlerIn,
     out:         handlerOut

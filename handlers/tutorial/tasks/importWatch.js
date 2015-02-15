@@ -61,6 +61,8 @@ function watchTutorial(root) {
   function onTutorialModify(isDir, filePath) {
     if (~filePath.indexOf('___jb_')) return; // ignore JetBrains Webstorm tmp files
 
+    console.log("ImportWatch Modify " + filePath);
+
     co(function* () {
 
       var folder;
