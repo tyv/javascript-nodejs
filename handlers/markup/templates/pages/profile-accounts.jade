@@ -105,12 +105,14 @@ block content
             +e('img').linked-upic(src="/img/linked-upic.png")
             | Алексей Борматенко
           +e.linked-provider Vkontakte
+          +e('button').account-remove(title="Удалить аккаунт")
       +e.linked-account
         +e.account-content
           +e.linked-name(href='http://vk.com/alexbor')
             +e('img').linked-upic(src="/img/linked-upic.png")
             | Alexey Bormatenko
           +e.linked-provider Facebook
+          +e('button').account-remove(title="Удалить аккаунт")
       +e.providers
         +e.providers-content
           +e.providers-title Привязать:
