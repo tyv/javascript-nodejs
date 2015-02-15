@@ -5,6 +5,8 @@ $padding = ($padding-vertical)px ($padding-horizontal)px
 .button
     font bold 14px/33px 'Open Sans', sans
 
+    position relative
+
     padding $padding
 
     border-radius 4px
@@ -12,8 +14,17 @@ $padding = ($padding-vertical)px ($padding-horizontal)px
 
     cursor pointer
 
+
     &::-moz-focus-inner
         border 0
+
+    & .spinner_small
+        display none
+
+    &:disabled
+        pointer-events none
+
+        opacity 0.5
 
     &_common
         color #333939
@@ -61,3 +72,17 @@ $padding = ($padding-vertical)px ($padding-horizontal)px
         border 1px solid #488060
         background linear-gradient(to bottom, #5ea97f 0, #5ea97f 2px, #65b588 2px, #4faa76 100%)
         box-shadow none
+
+
+    &_loading .spinner_small
+        position absolute
+        left 0
+        top 50%
+
+        display block
+
+        width 100%
+        margin-top -6px
+
+    &_loading &__text
+        visibility hidden
