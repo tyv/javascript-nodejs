@@ -61,7 +61,7 @@ function watchTutorial(root) {
   function onTutorialModify(isDir, filePath) {
     if (~filePath.indexOf('___jb_')) return; // ignore JetBrains Webstorm tmp files
 
-    console.log("ImportWatch Modify " + filePath);
+    log.debug("ImportWatch Modify " + filePath);
 
     co(function* () {
 
@@ -75,7 +75,7 @@ function watchTutorial(root) {
       yield* importer.sync(folder);
 
     }).catch(function(err) {
-      throw err;
+      log.error(err);
     });
   }
 

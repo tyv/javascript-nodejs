@@ -34,7 +34,7 @@ TutorialImporter.prototype.sync = function* (directory) {
   var dir = fs.realpathSync(directory);
   var type;
   while (true) {
-    if (dir.endsWith('.view')) {
+    if (dir.endsWith('.view') && !dir.endsWith('/_js.view')) {
       type = 'View';
       break;
     }
@@ -63,8 +63,12 @@ TutorialImporter.prototype.sync = function* (directory) {
   var parentSlug = path.basename(parentDir);
   parentSlug = parentSlug.slice(parentSlug.indexOf('-') + 1);
 
-  var parent = yield Article.findOne({slug: parentSlug}).exec();
-
+  var parent;
+  if (fs.existsSync(path.join(parentDir, 'task.md'))) {
+    parent = yield Task.findOne({slug: parentSlug}).exec();
+  } else {
+    parent = yield Article.findOne({slug: parentSlug}).exec();
+  }
   yield* this['sync' + type](dir, parent);
 
 };
@@ -305,10 +309,11 @@ function* importImage(srcPath, dstDir) {
 
 function copySync(srcPath, dstPath) {
   if (checkSameMtime(srcPath, dstPath)) {
+    log.debug("copySync: same mtime %s = %s", srcPath, dstPath);
     return;
   }
 
-  log.debug("Copy %s to %s", srcPath, dstPath);
+  log.debug("copySync %s -> %s", srcPath, dstPath);
 
   fse.copySync(srcPath, dstPath);
 }
@@ -384,10 +389,8 @@ TutorialImporter.prototype.syncTask = function*(taskPath, parent) {
 
 TutorialImporter.prototype.syncView = function*(dir, parent) {
 
-  log.info("syncView", dir);
-
+  log.info("syncView: dir", dir);
   var pathName = path.basename(dir).replace('.view', '');
-
   if (pathName == '_js') {
     throw new Error("Must not syncView " + pathName);
   }
@@ -395,7 +398,6 @@ TutorialImporter.prototype.syncView = function*(dir, parent) {
   var webPath = parent.getResourceWebRoot() + '/' + pathName;
 
   log.debug("syncView webpath", webPath);
-
   var plunk = yield Plunk.findOne({webPath: webPath}).exec();
 
   if (plunk) {
