@@ -78,7 +78,7 @@ var testSrcs = ['{handlers,modules}/**/test/**/*.js'];
 // on Travis, keys are required for E2E Selenium tests
 // for PRs there are no keys, so we disable E2E
 if (process.env.CI && process.env.TRAVIS_SECURE_ENV_VARS=="false") {
-  testSrcs.push(['!{handlers,modules}/**/test/e2e/*.js']);
+  testSrcs.push('!{handlers,modules}/**/test/e2e/*.js');
 }
 
 gulp.task("test", lazyRequireTask('./tasks/test', {
