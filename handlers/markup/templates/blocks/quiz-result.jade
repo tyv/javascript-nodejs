@@ -7,6 +7,8 @@ block append variables
   -quizResult.levelText = 'средний'
   -quizResult.weakList = ['события', 'кроссбраузерность', 'замыкания']
 
+  -var rotate = parseInt((quizResult.percents * 1.8), 10) + 'deg'
+
 
 +b.quiz-result
   +e.layout
@@ -20,10 +22,19 @@ block append variables
           +e("dd").percents !{ quizResult.position }%
           +e("dd").text респондентов
 
+    style
+      |  .quiz-results-indicator__indicator:after
+      |  {
+      |    -webkit-transform: rotate(!{ rotate });
+      |    -moz-transform: rotate(!{ rotate });
+      |    -ms-transform: rotate(!{ rotate });
+      |    -o-transform: rotate(!{ rotate });
+      |    transform: rotate(!{ rotate });
+      |  }
 
     +e.center
       +b.quiz-results-indicator
-        +e.indicator(data-rotate=parseInt((quizResult.percents * 1.8), 10))
+        +e.indicator
         +e.text Ваш предположительный уровень&nbsp;—
         +e(class='quiz-results-indicator__level quiz-results-indicator__level_' + quizResult.level) !{ quizResult.levelText }
 

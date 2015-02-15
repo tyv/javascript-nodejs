@@ -23,10 +23,3 @@
         background #d8d8d8
 
         content: ""
-
-
-
-    for i in 0..180
-        i_str = '"' + i + '"'
-        &__indicator[data-rotate={i_str}]:after
-            transform rotate('%ddeg'%i)
