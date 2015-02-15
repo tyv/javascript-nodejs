@@ -10,7 +10,7 @@ block main
       if title
         h1.main__header-title!= title
 
-  .content
+  +b(class = (contentWithMods || "content"))
     block content
 
   if prev || next

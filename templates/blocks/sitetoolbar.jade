@@ -76,16 +76,15 @@ block append variables
     +e('form').search-content(method="GET", action="/search")
       +e.search-query-wrap
         +b.text-input.__search-query
-          +e('input').control(type="text")
+          +e('input').control(name="query" type="text")
       +e.search-submit-wrap
-        +b('button').submit-button.__search-submit
-          | Найти
+        +b('button').submit-button.__search-submit Найти
   if user
     +e.usermenu
       +e('ul').usermenu-items
         +e('li').usermenu-item
           +e('a').secondary-link.__usermenu-link(href="/profile") Профиль
         +e('li').usermenu-item
-          +e('a').secondary-link.__usermenu-link(href="/profile/account") Настройки аккаунта
+          +e('a').secondary-link.__usermenu-link(href="/profile/account") Аккаунт
         +e('li').usermenu-item
           +e('a').secondary-link.__usermenu-link(href="#" data-action-user-logout) Выйти

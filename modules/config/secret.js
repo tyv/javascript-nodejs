@@ -1,4 +1,4 @@
-// use env.SECRET_DIR/secret.js if exists OR ./secret.example
+  // use env.SECRET_DIR/secret.js if exists OR ./secret.example
 
 var path = require('path');
 var fs = require('fs');

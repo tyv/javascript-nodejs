@@ -1,6 +1,9 @@
 const config = require('config');
 const escapeHtml = require('escape-html');
 const _ = require('lodash');
+const path = require('path');
+
+var isDevelopment = process.env.NODE_ENV == 'development' && 0;
 
 function renderUserError(error) {
   /*jshint -W040 */
@@ -12,7 +15,8 @@ function renderUserError(error) {
   if (preferredType == 'json') {
     this.body = _.pick(error, ['message','status','statusCode']);
   } else {
-    this.body = this.render("/error", {error: error});
+    var templateName = ~[500, 401, 404, 403].indexOf(error.status) ? error.status : 500;
+    this.body = this.render(String(templateName), {error: error});
   }
 }
 
@@ -57,7 +61,7 @@ function renderError(err) {
 
     this.set('X-Content-Type-Options', 'nosniff');
 
-    if (process.env.NODE_ENV == 'development') {
+    if (isDevelopment) {
       renderDevError.call(this, err);
     } else {
       renderUserError.call(this, {status: 500, message: "Ошибка на стороне сервера"});
@@ -86,9 +90,12 @@ exports.init = function(app) {
     this.renderValidationError = renderValidationError;
 
     try {
+      this.templateDir = path.join(__dirname, 'templates');
       yield* next;
     } catch (err) {
       this.renderError(err);
+    } finally {
+      delete this.templateDir;
     }
 
   });
@@ -103,7 +110,7 @@ exports.init = function(app) {
 
       if (err.name == 'CastError') {
         // malformed or absent mongoose params
-        if (process.env.NODE_ENV != 'development') {
+        if (!isDevelopment) {
           this.throw(400);
         }
       }

@@ -1,0 +1,29 @@
+extends /layouts/main
+
+block append variables
+    - var title = 'Тестирование знания Javascript'
+    - var sitetoolbar = true
+    - var breadcrumbs = [{ title: 'Учебник', url: '/tutorial' }, { title: 'JavaScript.ru', url: 'http://javascript.ru' }]
+    - var layout_header_class = "main__header_center"
+
+    - var quiz = {}
+    - quiz.intro = 'На этой странице Вы можете протестировать свои знания Javascript, выбрав один из тестов'
+
+    - quiz.list = []
+    - quiz.list.push({ title: 'Основной Javascript', description: 'В тест включены вопросы по взаимодействию Javascript, DOM HTML, по синтаксису языка', url: '/123' })
+    - quiz.list.push({ title: 'Особенности и фишки Javascript', description: 'Особенности Javascript по сравнению с другими языками. Трюки и фишки DOM, браузеров', url: '/123', result: '42%' })
+    - quiz.list.push({ title: 'Коммуникация с сервером, AJAX, XMLHttpRequest', description: 'Различные аспекты работы с сервером из Javascript, транспорты и технологии', url: '/123' })
+
+
+    - quiz.explanations = { title: 'Некоторые пояснения', list: []}
+    - quiz.explanations.list.push('Полный список браузеров, на который рассчитаны тесты: Firefox, Opera, Safari, Konqueror не более чем годовой давности и Internet Explorer 6.0+.')
+    - quiz.explanations.list.push('Если в вопросе ничего не сказано, то все настройки браузера - по умолчанию.')
+    - quiz.explanations.list.push('Версия Javascript - самая распространенная на текущий день, т.е 1.5.')
+    - quiz.explanations.list.push('Многие вопросы неочевидны и требуют не только знаний, но и опыта. Удачи!')
+
+
+
+block content
+    +b.intro !{ quiz.intro }
+    include ../blocks/quiz-selector
+    include ../blocks/quiz-explanations

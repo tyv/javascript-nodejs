@@ -20,8 +20,6 @@ const TreeWalkerSync = require('simpledownParser').TreeWalkerSync;
 const HeaderTag = require('simpledownParser').HeaderTag;
 const log = require('log')();
 
-const execSync = require('child_process').execSync;
-
 // TODO: use htmlhint/jslint for html/js examples
 
 function TutorialImporter(options) {
@@ -36,6 +34,10 @@ TutorialImporter.prototype.sync = function* (directory) {
   var dir = fs.realpathSync(directory);
   var type;
   while (true) {
+    if (dir.endsWith('.view') && !dir.endsWith('/_js.view')) {
+      type = 'View';
+      break;
+    }
     if (fs.existsSync(path.join(dir, 'index.md'))) {
       type = 'Folder';
       break;
@@ -61,8 +63,12 @@ TutorialImporter.prototype.sync = function* (directory) {
   var parentSlug = path.basename(parentDir);
   parentSlug = parentSlug.slice(parentSlug.indexOf('-') + 1);
 
-  var parent = yield Article.findOne({slug: parentSlug}).exec();
-
+  var parent;
+  if (fs.existsSync(path.join(parentDir, 'task.md'))) {
+    parent = yield Task.findOne({slug: parentSlug}).exec();
+  } else {
+    parent = yield Article.findOne({slug: parentSlug}).exec();
+  }
   yield* this['sync' + type](dir, parent);
 
 };
@@ -119,111 +125,6 @@ TutorialImporter.prototype.destroyAll = function* () {
   yield Article.destroy({});
   yield Task.destroy({});
   yield Reference.destroy({});
-};
-
-TutorialImporter.prototype.syncFigures = function*(figuresFilePath) {
-
-  if (!fs.existsSync('/usr/local/bin/sketchtool')) {
-    log.info("No sketchtool");
-    return;
-  }
-
-  var outputDir = path.join(config.tmpRoot, 'sketchtool');
-
-  fse.removeSync(outputDir);
-  fse.mkdirsSync(outputDir);
-
-  var artboardsByPages = JSON.parse(execSync('/usr/local/bin/sketchtool list artboards "' + figuresFilePath + '"', {
-    encoding: 'utf-8'
-  }));
-
-  // artboardsByPages
-  // [
-  //    { pages: [...] ...},
-  //    { pages: [...] ...},
-  //    { pages: [...] ...}
-  // ]
-  var artboards = artboardsByPages
-    .pages
-    .reduce(function(prev, current) {
-      return prev.concat(current.artboards);
-    }, []);
-
-  var svgIds = [];
-  var pngIds = [];
-  var artboardsExported = [];
-
-  for (var i = 0; i < artboards.length; i++) {
-    var artboard = artboards[i];
-
-    // only allow artboards with extensions are exported
-    // others are temporary / helpers
-    var ext = path.extname(artboard.name).slice(1);
-    if (ext == 'png') {
-      pngIds.push(artboard.id);
-      artboardsExported.push(artboard);
-    }
-    if (ext == 'svg') {
-      svgIds.push(artboard.id);
-      artboardsExported.push(artboard);
-    }
-  }
-
-  // NB: Artboards are NOT trimmed (sketchtool doesn't do that yet)
-  execSync('/usr/local/bin/sketchtool export artboards "' + figuresFilePath + '" ' +
-  '--overwriting=YES --trimmed=YES --formats=png --scales=1,2 --output="' + outputDir + '" --items=' + pngIds.join(','), {
-    stdio: 'inherit',
-    encoding: 'utf-8'
-  });
-
-  // NB: Artboards are NOT trimmed (sketchtool doesn't do that yet)
-  execSync('/usr/local/bin/sketchtool export artboards "' + figuresFilePath + '" ' +
-  '--overwriting=YES --trimmed=YES --formats=svg --output="' + outputDir + '" --items=' + svgIds.join(','), {
-    stdio: 'inherit',
-    encoding: 'utf-8'
-  });
-
-  // files are exported as array-pop.svg.svg, metric-css.png@2x.png
-  // => remove first extension
-  var images = glob.sync(path.join(outputDir, '*.*'));
-  images.forEach(function(image) {
-    fs.renameSync(image, image.replace(/.(svg|png)/, ''));
-  });
-
-  var allFigureFilePaths = glob.sync(path.join(this.root, '**/*.{png,svg}'));
-
-  function findArtboardPath(artboard) {
-
-    for (var j = 0; j < allFigureFilePaths.length; j++) {
-      if (path.basename(allFigureFilePaths[j]) == artboard.name) {
-        return path.dirname(allFigureFilePaths[j]);
-      }
-    }
-
-  }
-
-  // copy should trigger folder resync on watch
-  // and that's right (img size changed, <img> must be rerendered)
-
-  for (var i = 0; i < artboardsExported.length; i++) {
-    var artboard = artboardsExported[i];
-    var artboardPath = findArtboardPath(artboard);
-    if (!artboardPath) {
-      log.error("Artboard path not found " + artboard.name);
-      continue;
-    }
-
-
-    log.info("syncFigure move " + artboard.name + " -> " + artboardPath);
-    fse.copySync(path.join(outputDir, artboard.name), path.join(artboardPath, artboard.name));
-    if (path.extname(artboard.name) == '.png') {
-      var x2Name = artboard.name.replace('.png', '@2x.png');
-      fse.copySync(path.join(outputDir, x2Name), path.join(artboardPath, x2Name));
-    }
-
-  }
-
-
 };
 
 TutorialImporter.prototype.syncFolder = function*(sourceFolderPath, parent) {
@@ -403,17 +304,16 @@ function* importImage(srcPath, dstDir) {
   const filename = path.basename(srcPath);
   const dstPath = path.join(dstDir, filename);
 
-  if (checkSameSizeFiles(srcPath, dstPath)) {
-    return; // copySync does the check, but here I skip retina resize too
-  }
-
   copySync(srcPath, dstPath);
 }
 
 function copySync(srcPath, dstPath) {
-  if (checkSameSizeFiles(srcPath, dstPath)) {
+  if (checkSameMtime(srcPath, dstPath)) {
+    log.debug("copySync: same mtime %s = %s", srcPath, dstPath);
     return;
   }
+
+  log.debug("copySync %s -> %s", srcPath, dstPath);
 
   fse.copySync(srcPath, dstPath);
 }
@@ -488,15 +388,16 @@ TutorialImporter.prototype.syncTask = function*(taskPath, parent) {
 };
 
 TutorialImporter.prototype.syncView = function*(dir, parent) {
-  var pathName = path.basename(dir).replace('.view', '');
 
+  log.info("syncView: dir", dir);
+  var pathName = path.basename(dir).replace('.view', '');
   if (pathName == '_js') {
     throw new Error("Must not syncView " + pathName);
   }
 
   var webPath = parent.getResourceWebRoot() + '/' + pathName;
 
-  log.debug("syncView", webPath);
+  log.debug("syncView webpath", webPath);
   var plunk = yield Plunk.findOne({webPath: webPath}).exec();
 
   if (plunk) {
@@ -522,7 +423,6 @@ TutorialImporter.prototype.syncView = function*(dir, parent) {
 
   fse.ensureDirSync(dst);
   fs.readdirSync(dir).forEach(function(dirFile) {
-    log.debug("Copy %s to %s", dir, dst);
     copySync(path.join(dir, dirFile), path.join(dst, dirFile));
   });
 };
@@ -640,7 +540,7 @@ function makeSolution(solutionJs, testJs) {
 }
 
 
-function checkSameSizeFiles(filePath1, filePath2) {
+function checkSameMtime(filePath1, filePath2) {
   if (!fs.existsSync(filePath2)) return false;
 
   const stat1 = fs.statSync(filePath1);
@@ -653,8 +553,7 @@ function checkSameSizeFiles(filePath1, filePath2) {
     throw new Error("not a file: " + filePath2);
   }
 
-  return stat1.size == stat2.size;
-
+  return stat1.mtime == stat2.mtime;
 }
 
 

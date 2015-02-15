@@ -12,6 +12,13 @@ include /bem
   +e('profile-field')(field-name="country" field-title="Страна" field-value="me.country")
     input.text-input__control(focus-on="editing" ng-model="editingValue" type="text" name='input')
 
+  // +e('profile-field')(field-name="country" field-title="Страна" field-value="me.country")
+       select(ng-model="editingValue" name="input")
+         - var countries = {Russia: 'Россия', Belorussia: 'Белоруссия'}
+         for title, key in countries
+           option(value=key)= title
+
+
   +e('profile-field')(field-name="town" field-title="Город" field-value="me.town")
     input.text-input__control(focus-on="editing" ng-model="editingValue" type="text" name='input')
 
