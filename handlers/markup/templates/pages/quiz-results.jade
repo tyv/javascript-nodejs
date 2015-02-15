@@ -1,0 +1,18 @@
+extends /layouts/main
+
+block append variables
+
+    - var layout_header_class = "main__header_center"
+    - var title = 'Результаты'
+    - var breadcrumbs = [{ title: 'Учебник', url: '/tutorial' }, { title: 'JavaScript.ru', url: 'http://javascript.ru' }]
+
+    - var contentWithMods = 'content_center'
+
+    - var quiz = {}
+    - quiz.title = 'Что из этого не событие мыши'
+    - quiz.variants = ['onmousescroll', 'onclick', 'onmousover', 'onmousemove', 'onmousewheel']
+    - quiz.current = 6
+    - quiz.total = 18
+
+block content
+    include ../blocks/quiz-result
