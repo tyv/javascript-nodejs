@@ -4,6 +4,7 @@
 
 server {
   listen 80;
+  listen 443;
 
   server_name nightly.javascript.ru nightly.javascript.info yuri.javascript.ru javascript.in;
 

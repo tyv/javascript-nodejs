@@ -10,6 +10,7 @@
 server {
 
   listen 80;
+  listen 443;
 
   server_name stage.javascript.ru;
 
