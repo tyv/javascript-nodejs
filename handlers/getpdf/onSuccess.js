@@ -9,10 +9,10 @@ const log = require('log')();
 module.exports = function* (order) {
 
   var downloadLink = new ExpiringDownloadLink({
-    relativePath: 'tutorial/book.zip'
+    relativePath: order.data.file
   });
 
-  downloadLink.linkId += "/book.zip";
+  downloadLink.linkId += "/" + path.basename(order.data.file);
 
   yield downloadLink.persist();
 

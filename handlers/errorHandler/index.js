@@ -90,14 +90,14 @@ exports.init = function(app) {
     this.renderValidationError = renderValidationError;
 
     try {
-      this.templateDir = path.join(__dirname, 'templates');
       yield* next;
     } catch (err) {
+      // this middleware is not like others, it is not endpoint
+      // so wrapHmvcMiddleware is of little use
+      this.templateDir = path.join(__dirname, 'templates');
       this.renderError(err);
-    } finally {
       delete this.templateDir;
     }
-
   });
 
   // this middleware handles error BEFORE ^^^

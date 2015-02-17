@@ -17,7 +17,7 @@ function HtmlTransformer(options) {
   this.resourceWebRoot = options.resourceWebRoot;
   this.staticHost = options.staticHost;
   this.linkHeaderTag = options.linkHeaderTag;
-  this.isEbook = options.ebook;
+  this.isEbook = options.isEbook;
 }
 
 HtmlTransformer.prototype.transform = function(node, isFinal) {

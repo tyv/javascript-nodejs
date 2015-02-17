@@ -12,7 +12,9 @@ block content
       +e.input-wrap._submit
         +b('button').submit-button.__submit(type="submit" name="type" value="articles") Найти
   +b.course-info
-    +e('h2').header Основной курс
+    +e.header
+      +e('h2').header-title Основной курс
+      +e('a').show-map(href="/tutorial/map", data-action="tutorial-map") Карта учебника
     +e.body.columns.columns_2
       +e.col.columns__col
         +e.content
@@ -43,3 +45,5 @@ block content
             +e('a').brick-title-link(href=folder.url)= folder.title
           +e.brick-content!= folder.content
 
+  script(src=script("tutorial"))
+  script tutorial.init();

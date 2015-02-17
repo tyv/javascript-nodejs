@@ -30,7 +30,8 @@ var schema = new Schema({
   created:     {
     type:    Date,
     default: Date.now
-  }
+  },
+  data: {}
 });
 
 module.exports = mongoose.model('OrderTemplate', schema);

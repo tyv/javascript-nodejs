@@ -17,6 +17,7 @@ var bem = require('bem-jade');
 var gm = require('gm');
 var thunkify = require('thunkify');
 var imageSize = thunkify(require('image-size'));
+var escapeHtml = require('escape-html');
 
 var codeTabsTemplate = require('./templates/codeTabs.jade');
 
@@ -234,7 +235,8 @@ ServerHtmlTransformer.prototype.transformCodeTabsTag = function* (node) {
   }
 
   if (this.isEbook) {
-    return '<p><a href="http://plnkr.co/edit/' + plunk.plunkId + '?p=preview">Открыть пример в интернете</a></p>';
+    var title = node.attrs.title || 'Смотреть пример онлайн';
+    return '<p><a href="http://plnkr.co/edit/' + plunk.plunkId + '?p=preview">' + escapeHtml(title) + '</a></p>';
   }
 
   var files = plunk.files;

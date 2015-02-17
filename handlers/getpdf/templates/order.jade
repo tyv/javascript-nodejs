@@ -26,7 +26,9 @@ block content
       +b.notification._warning._message.__warning
         +e.content
           p Уведомление от платёжной системы не получено.
-          p Если вы точно знаете, что оплата была - можно обновить эту страницу через 5 минут или написать в поддержку <a href="#{mailto}">orders@javascript.ru</a>.
+          p При получении оплаты вся информация будет выслана на указанный Вами email: #{order.email}.
+          p По вопросам, связанным с оплатой, вы можете обращаться в поддержку <a href="#{mailto}">orders@javascript.ru</a>.
+          p Если вы хотите выбрать другой способ оплаты &mdash; это можно сделать ниже.
 
     if (transaction && transaction.status == 'success')
       +b.notification._error._message.__error
@@ -52,7 +54,7 @@ block content
           +e('h2').alternate-title Укажите свой email
           +b.text-input.__email
             //+e('input').control(name="email", required, type="email" value=order.email)
-            +e('input').control(placeholder="my@email.com", name="email", required, type="email" value="tester@javascript.ru")
+            +e('input').control(placeholder="my@email.com", name="email", required, type="email" value=(order && order.email))
           +e.email-note После оплаты ссылка на скачивание учебника придет на этот адрес.
 
         +e('h2').alternate-title Выберите метод оплаты

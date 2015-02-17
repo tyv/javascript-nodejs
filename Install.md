@@ -77,13 +77,13 @@ npm install
 Инициализуйте базу сайта командой:
  
 ```
-gulp db:load --from fixture/init --harmony
+gulp db:load --from fixture/init --harmony --reset
 ```
 
 
 Репозитарий с учебником до окончания работы над первым релизом сайта приватный, можно импортировать "заглушки": 
 ```
-gulp db:load --from fixture/tutorial --harmony
+gulp db:load --from fixture/tutorial --harmony --reset
 ```
 
 Если есть доступ к учебнику, то клонируйте его, например, в `/js/javascript-tutorial` и импортируйте командой:

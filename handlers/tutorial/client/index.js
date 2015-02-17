@@ -8,6 +8,8 @@ exports.init = function() {
   initTaskButtons();
   initFolderList();
 
+  initSidebarHighlight();
+
   delegate(document, '[data-action="tutorial-map"]', 'click', function(event) {
     new TutorialMapModal();
     event.preventDefault();
@@ -23,6 +25,43 @@ exports.init = function() {
 };
 
 exports.TutorialMap = require('./tutorialMap');
+
+function initSidebarHighlight() {
+
+  function highlight() {
+
+    var current = document.getElementsByClassName('sidebar__navigation-link_active');
+    if (current[0]) current[0].classList.remove('sidebar__navigation-link_active');
+
+    var h2s = document.getElementsByTagName('h2');
+    for (var i = 0; i < h2s.length; i++) {
+      var h2 = h2s[i];
+      // first in-page header
+      if (h2.getBoundingClientRect().top > 0) break;
+    }
+    i--; // we need the one before it (currently reading)
+
+    if (i>=0) {
+      var href = h2s[i].firstElementChild && h2s[i].firstElementChild.getAttribute('href');
+      var li = document.querySelector('.sidebar__navigation-link a[href="' + href + '"]');
+      if (href && li) {
+        li.classList.add('sidebar__navigation-link_active');
+      }
+    }
+
+    console.log(i);
+
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    highlight();
+
+    window.addEventListener('scroll', highlight);
+  });
+
+
+}
+
 
 function initTaskButtons() {
   // solution button

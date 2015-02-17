@@ -19,16 +19,28 @@ class OrderForm {
 
   onPaymentMethodClick(e) {
 
+    var data = {
+      orderNumber:   window.orderNumber,
+      orderTemplate: window.orderTemplate,
+      paymentMethod: e.delegateTarget.value
+    };
+
+    if (this.elem.elements.email) {
+      if (!this.elem.elements.email.value) {
+        new notification.Error("Введите email");
+        this.elem.elements.email.focus();
+        return;
+      } else {
+        data.email = this.elem.elements.email.value;
+      }
+    }
+
+
     // response status must be 200
     var request = xhr({
       method: 'POST',
       url:    '/getpdf/checkout',
-      body:   {
-        orderNumber:   window.orderNumber,
-        orderTemplate: window.orderTemplate,
-        email:         this.elem.elements.email.value,
-        paymentMethod: e.delegateTarget.value
-      }
+      body:   data
     });
 
     var onEnd = this.startRequestIndication();
