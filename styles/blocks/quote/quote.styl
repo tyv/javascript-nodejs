@@ -1,2 +1,54 @@
+.main .quote p
+    margin 0
+
 .quote
-	font-style italic
+    @extend $clearfix
+
+    padding 28px
+
+    background #FCF8EC
+
+    &__i
+        float left
+
+        box-sizing border-box
+
+        width 75%
+        padding-right 70px
+
+    &__text
+        font italic 16px/20px Georgia, "serif"
+
+        color #AE8F4B
+
+    &__author
+        font-size 14px
+        line-height 20px
+        font-style normal
+
+    &__footer
+        float right
+
+        position relative
+
+        box-sizing border-box
+
+        width 25%
+
+    &__footer:before
+        font: italic 45px/33px Georgia, "serif"
+
+        position absolute
+        left -53px
+        top -11px
+
+        width 40px
+        height 40px
+
+        text-align center
+
+        color: #ccc
+        border-radius 40px
+        background #efebe0
+
+        content: "«"
