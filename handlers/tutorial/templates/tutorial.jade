@@ -1,5 +1,9 @@
 extends /layouts/main
 
+block append variables
+  - var layout_main_class = "main_width-limit-wide"
+  - var layout_header_class = "main__header_center"
+
 block content
   +b.intro
     | Перед вами учебник по JavaScript, начиная с основ, включающий в себя много
@@ -8,7 +12,7 @@ block content
     +e('form').form(action="/search/")
       +e.input-wrap._text
         +b.text-input.__query
-          +e('input').control(type="text" name="query")
+          +e('input').control(type="text" name="query" placeholder="Искать в учебнике" required)
       +e.input-wrap._submit
         +b('button').submit-button.__submit(type="submit" name="type" value="articles") Найти
   +b.course-info
