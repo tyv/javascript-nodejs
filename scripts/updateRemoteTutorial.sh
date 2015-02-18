@@ -7,4 +7,5 @@ mongodump -d js -c references &&
 ssh nightly 'rm -rf dump' &&
 scp -r -C dump nightly: &&
 ssh nightly 'mongorestore --drop' &&
+rsync -av /js/javascript-nodejs/public/ nightly:/js/javascript-nodejs/current/public/ &&
 echo "Tutorial updated"
