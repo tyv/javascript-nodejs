@@ -4,5 +4,5 @@ var markup = require('./controller/markup');
 
 var router = module.exports = new Router();
 
-router.get(/^\/([^.]*)$/, markup.get);
+router.get("/:path*", markup.get);
 
