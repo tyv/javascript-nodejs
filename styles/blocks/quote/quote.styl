@@ -36,7 +36,11 @@
         width 25%
 
     &__footer:before
-        font: italic 45px/33px Georgia, "serif"
+        @extend $font-ldquote
+
+        font-size 17px
+        line-height 40px
+
 
         position absolute
         left -53px
@@ -50,5 +54,3 @@
         color: #ccc
         border-radius 40px
         background #efebe0
-
-        content: "«"
