@@ -49,8 +49,6 @@ function initSidebarHighlight() {
       }
     }
 
-    console.log(i);
-
   }
 
   document.addEventListener('DOMContentLoaded', function() {
