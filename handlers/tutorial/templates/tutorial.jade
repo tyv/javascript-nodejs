@@ -14,7 +14,8 @@ block content
         +b.text-input.__query
           +e('input').control(type="text" name="query" placeholder="Искать в учебнике" required)
       +e.input-wrap._submit
-        +b('button').submit-button.__submit(type="submit" name="type" value="articles") Найти
+        +b("button").button._action(type="submit" name="type" value="articles")
+          +e("span").text Найти
   +b.course-info
     +e.header
       +e('h2').header-title Основной курс
