@@ -79,7 +79,7 @@ profile
     $scope.me = me;
 
   })
-  .controller('ProfileAccountCtrl', ($scope, $http, me) => {
+  .controller('ProfileAccountCtrl', ($scope, $http, me, Me) => {
 
     $scope.me = me;
 
@@ -105,6 +105,23 @@ profile
       });
     };
 
+    $scope.removeProvider = function(providerName) {
+
+      alert(providerName);
+      return;
+
+      $http({
+        method:  'POST',
+        url:     '/auth/disconnect/' + providerName,
+        tracker: this.loadingTracker
+      }).then( (response) => {
+        // refresh user
+        $scope.me = Me.get();
+      }, (response) => {
+        new notification.Error("Ошибка загрузки, статус " + response.status);
+      });
+
+    };
 
   })
   .filter('capitalize', () => function(str) {

@@ -11,12 +11,22 @@ angular.module('profile')
 
         scope.connect = function(providerName) {
           authPopup('/auth/connect/' + providerName, () => {
-
+            // refresh user
             scope.me = Me.get();
 
           }, () => {
-            console.log("fail", arguments);
+            console.error("fail", arguments);
           });
+        };
+
+        scope.connected = function(providerName) {
+          var connected = false;
+
+          scope.me.providers.forEach(function(provider) {
+            if (provider.name == providerName) connected = true;
+          });
+
+          return connected;
         };
       }
     };
