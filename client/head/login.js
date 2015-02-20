@@ -1,14 +1,13 @@
-var init = require('./init');
 var Modal = require('./modal');
 var Spinner = require('client/spinner');
 
-init.addHandler("login", function() {
+document.addEventListener("click", function(event) {
+  if (!event.target.hasAttribute('data-action-login')) {
+    return;
+  }
 
-  var button = document.querySelector('.sitetoolbar__login');
-  button.onclick = function(e) {
-    e.preventDefault();
-    login();
-  };
+  event.preventDefault();
+  login();
 
 });
 

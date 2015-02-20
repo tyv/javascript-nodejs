@@ -9,6 +9,8 @@ exports.post = function* (next) {
   var user = this.user;
 //  var user = this.req.user;
 
+  yield function(callback) {};
+
   for (var i = 0; i < user.providers.length; i++) {
     var provider = user.providers[i];
     if (provider.name == this.params.providerName) {

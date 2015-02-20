@@ -1,5 +1,5 @@
 
-export function thumb(url, width, height) {
+exports.thumb = function(url, width, height) {
   var pixelRatio = window.devicePixelRatio;
 
   // return pixelRatio times larger image for retina
@@ -12,5 +12,5 @@ export function thumb(url, width, height) {
         (width <= 1024 && height <= 1024) ? 'h' : '';
 
   return url.slice(0, url.lastIndexOf('.')) + modifier + url.slice(url.lastIndexOf('.'));
-}
+};
 

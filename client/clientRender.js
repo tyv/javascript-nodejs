@@ -1,5 +1,5 @@
 var bem = require('bem-jade')();
-import { thumb } from 'client/image';
+var thumb = require('client/image').thumb;
 
 module.exports = function(template, locals) {
   locals = locals ? Object.create(locals) : {};

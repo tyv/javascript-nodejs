@@ -1,6 +1,6 @@
-import notification from 'client/notification';
-import angular from 'angular';
-import moment from 'moment';
+var notification = require('client/notification');
+var angular = require('angular');
+var moment = require('moment');
 
 angular.module('profile')
   .directive('dateRangeValidator', function() {

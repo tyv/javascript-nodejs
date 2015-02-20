@@ -15,5 +15,5 @@ block content
 
   +b(ng-app="profile")
 
-    ui-view Загрузка...
+    +e('ui-view').view(progress="loadingTracker.active()" progress-overlay progress-spinner="{class:'profile__spinner'}") Загрузка...
 

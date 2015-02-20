@@ -1,17 +1,17 @@
-import angular from 'angular';
-import notification from 'client/notification';
-import moment from 'moment';
+var angular = require('angular');
+var notification = require('client/notification');
+var moment = require('moment');
 
 var profile = angular.module('profile', [
   'ui.router', 'ngResource', 'global403Interceptor', 'ajoslin.promise-tracker', 'progress', 'focusOn', 'ngMessages'
 ]);
 
-import './profileField';
-import './profilePhoto';
-import './profilePassword';
-import './profileAuthProviders';
-import './dateValidator';
-import './dateRangeValidator';
+require('./profileField');
+require('./profilePhoto');
+require('./profilePassword');
+require('./profileAuthProviders');
+require('./dateValidator');
+require('./dateRangeValidator');
 
 
 profile.factory('Me', ($resource) => {
@@ -59,6 +59,7 @@ profile
     //window.me = me;
     $scope.me = me;
 
+    $scope.loadingTracker = promiseTracker();
 
     $scope.states = $state.get()
       .filter((state) => {
@@ -91,7 +92,7 @@ profile
       $http({
         method:           'DELETE',
         url:              '/users/me',
-        tracker:          this.loadingTracker,
+        tracker:          $scope.loadingTracker,
         headers:          {'Content-Type': undefined},
         transformRequest: angular.identity,
         data:             new FormData()
@@ -106,9 +107,9 @@ profile
     };
 
     $scope.removeProvider = function(providerName) {
+      var isSure = confirm(`${providerName} - удалить привязку?`);
 
-      alert(providerName);
-      return;
+      if (!isSure) return;
 
       $http({
         method:  'POST',

@@ -1,141 +1,161 @@
 $profile-item
-	border-bottom 1px solid #e6e0d4
-	line-height 20px
-	padding 0 50px 0 40px
+    border-bottom 1px solid #e6e0d4
+    line-height 20px
+    padding 0 50px 0 40px
 
 $profile-item-content
-	padding 17px 0 17px
+    padding 17px 0 17px
 
 $profile-action-button
-	@extend $button-reset
-	font inherit
-	color #727272
-	&:hover
-		color link_hover_color
-		text-decoration underline
+    @extend $button-reset
+    font inherit
+    color #727272
+    &:hover
+        color link_hover_color
+        text-decoration underline
 
 .profile
-	&__tabs
-		display table
-		width 100%
-		table-layout fixed
-		border-collapse collapse
+    &__view
+        display block
+        position relative
 
-	&__tab
-		display table-cell
+    &__spinner
+        position fixed
+        left 50%
+        top 50%
+        margin -11px 0 0 -35px
+        background #fff
+        border-radius 12px
+        border 1px solid #e7e5e3
+        padding 2px
 
-	&__tab-content
-		border-right 1px solid #d7d3c8
-		text-align center
-		background #e7e3d9
-		font 15px/18px secondary_font
+    &__spinner .spinner__dot
+        background #999
 
-	&__tab:first-child &__tab-content
-		border-radius 4px 0 0
+    &__tabs
+        display table
+        width 100%
+        table-layout fixed
+        border-collapse collapse
 
-	&__tab:last-child &__tab-content
-		border-radius 0 4px 0 0
-		border-right 0
+    &__tab
+        display table-cell
 
-	&__tab_current &__tab-content,
-	&__content
-		background #f7f6ea
+    &__tab-content
+        border-right 1px solid #d7d3c8
+        text-align center
+        background #e7e3d9
+        font 15px/18px secondary_font
 
-	&__tab_current &__tab-link
-		color inherit
-		cursor inherit
-		text-decoration inherit
-		pointer-events none
+    &__tab:first-child &__tab-content
+        border-radius 4px 0 0
 
-	&__tab-link
-		display block
-		color #727272
-		padding 21px 20px
+    &__tab:last-child &__tab-content
+        border-radius 0 4px 0 0
+        border-right 0
 
-	&__tab_current &__tab-content,
-	&__tab-link:hover
-		color #BB1000
+    &__tab_current &__tab-content,
+    &__content
+        background #f7f6ea
 
-	&__title
-		@extend $profile-item
+    &__tab_current &__tab-link
+        color inherit
+        cursor inherit
+        text-decoration inherit
+        pointer-events none
 
-	&__title-content
-		@extend $profile-item-content
+    &__tab-link
+        display block
+        color #727272
+        padding 21px 20px
 
-	& &__inline-title
-		margin 25px 0 0
-		font-size 16px
-		line-height 18px
-		color #656565
+    &__tab_current &__tab-content,
+    &__tab-link:hover
+        color #BB1000
 
-	& &__note,
-	& &__inline-title
-		color #999
-		margin 0
+    &__title
+        @extend $profile-item
 
-	& &__note
-		margin-top 16px
+    &__title-content
+        @extend $profile-item-content
 
-	&__linked-account
-		@extend $profile-item
+    & &__inline-title
+        margin 25px 0 0
+        font-size 16px
+        line-height 18px
+        color #656565
 
-	&__linked-account:hover
-		background #f9f8f0
+    & &__note,
+    & &__inline-title
+        color #999
+        margin 0
 
-	&__account-content
-		padding 19px 0 14px 68px
-		min-height 48px
-		position relative
+    & &__note
+        margin-top 16px
 
-	&__linked-provider-remove
-		@extend $button-reset
+    &__linked-account
+        @extend $profile-item
 
-		font-size 14px
+    &__linked-account:hover
+        background #f9f8f0
 
-		position absolute
-		left 100%
-		top 31px
+    &__account-content
+        padding 19px 0 14px 68px
+        min-height 48px
+        position relative
 
-		display none
+    &__linked-provider-remove
+        @extend $button-reset
 
-		margin-left 7px
+        font-size 14px
 
-		color #727272
+        position absolute
+        left 100%
+        top 31px
 
-	&__linked-account:hover &__linked-provider-remove
-		display block
+        display none
 
-	&__linked-provider-remove::after
-		@extend $font-trash
+        margin-left 7px
 
-	&__linked-upic
-		position absolute
-		top 16px
-		left 0
-		width 48px
-		height 48px
+        color #727272
 
-	&__linked-name
-		font-weight 700
-		color #333
+    &__linked-provider-remove:active
+        position absolute
 
-	&__linked-provider
-		color #999
+    &__linked-account:hover &__linked-provider-remove
+        display block
 
-	&__action-item
-		@extend $profile-item
+    &__linked-provider-remove::after
+        @extend $font-trash
 
-	&__action-item:last-child
-		border 0
+    &__linked-upic
+        position absolute
+        top 16px
+        left 0
+        width 48px
+        height 48px
 
-	&__action-content
-		@extend $profile-item-content
+    &__linked-name
+        font-weight 700
+        color #333
 
-	&__action
-		@extend $profile-action-button
+    &__linked-provider
+        color #999
 
-	&__action_remove-account
-		margin-bottom 100px
+    &__action-item
+        @extend $profile-item
+
+    &__action-item:last-child
+        border 0
+
+    &__action-content
+        @extend $profile-item-content
+
+    &__action
+        @extend $profile-action-button
+
+    &__action_remove-account
+        margin-bottom 100px
 @require './profileField.styl'
 @require './profileProviders.styl'
 @require './profilePhoto.styl'
