@@ -1,14 +1,22 @@
-+b.quiz-test
++b(class="quiz-test "+( quiz.done ? (quiz.correct ? " _correct_true" : " _correct_false") : ""))
   +e("form")(atcion="/").body
     +e("h1").title !{ quiz.title }
     +e("ul").variants
-      each variant in quiz.variants
-        +e("li").variant
+
+      each variant, index in quiz.variants
+
+        +e("li")(class="variant " + ( quiz.correctNum == (index + 1) ? " _correct" : ""))
           +e("label").label
-            +e("input").input(type="radio" name="variant") !{ variant }
-  +e.submit
-    +b("button").button._action(disabled="disabled")
-      +e("span").text Продолжить
+            +e("input").input(type="radio" name="variant" disabled = quiz.done ? true : false checked = quiz.selected == (index + 1) ? true : false)
+            +e("span").input-text !{ variant }
+
+    if quiz.note
+      +e("p").note !{ quiz.note }
+
+  if !quiz.done
+    +e.submit
+      +b("button").button._action(disabled="disabled")
+        +e("span").text Продолжить
 
 
   script.
@@ -18,7 +26,7 @@
             button = document.querySelector('.button_action');
 
 
-        button.addEventListener('click', function() {
+        button && button.addEventListener('click', function() {
 
             this.classList.toggle('button_loading');
 
