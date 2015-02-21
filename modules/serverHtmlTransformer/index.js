@@ -75,7 +75,6 @@ function* resolveReference(value) {
 }
 
 
-
 ServerHtmlTransformer.prototype.transformCompositeTag = function* (node) {
   var labels = {};
   var html = '';
@@ -110,7 +109,7 @@ ServerHtmlTransformer.prototype.transformCompositeTag = function* (node) {
 ServerHtmlTransformer.prototype.transformEditTag = function*(node) {
   // load plunk from DB
   if (node.attrs.src) {
-    var plunk = yield Plunk.findOne({webPath: this.resourceWebRoot + '/' + node.attrs.src }).exec();
+    var plunk = yield Plunk.findOne({webPath: this.resourceWebRoot + '/' + node.attrs.src}).exec();
     if (!plunk) {
       throw new ParseError("div", "Нет такого plunk");
     }
@@ -156,7 +155,7 @@ ServerHtmlTransformer.prototype.transformLinkTag = function*(node) {
 ServerHtmlTransformer.prototype.transformIframeTag = function*(node) {
   // load plunk from DB
   if (node.attrs.edit) {
-    var plunk = yield Plunk.findOne({webPath: this.resourceWebRoot + '/' + node.attrs.src }).exec();
+    var plunk = yield Plunk.findOne({webPath: this.resourceWebRoot + '/' + node.attrs.src}).exec();
     if (!plunk) {
       throw new ParseError("div", "Нет такого plunk");
     }
@@ -246,8 +245,13 @@ ServerHtmlTransformer.prototype.transformCodeTabsTag = function* (node) {
   var prismLanguageMap = {
     html:   'markup',
     js:     'javascript',
+    json:   'javascript',
     coffee: 'coffeescript'
   };
+
+  var languagesSupported = 'markup css c javascript coffeescript http scss sql php python ruby java'.split(' ');
+
+  var hasServerJs = false;
 
   for (var i = 0; i < files.length; i++) {
     var file = files[i];
@@ -256,6 +260,8 @@ ServerHtmlTransformer.prototype.transformCodeTabsTag = function* (node) {
 
     var prismLanguage = prismLanguageMap[ext] || ext;
 
+    if (!~languagesSupported.indexOf(prismLanguage)) prismLanguage = 'none';
+
     var languageClass = 'language-' + prismLanguage + ' line-numbers';
 
     tabs.push({
@@ -263,28 +269,37 @@ ServerHtmlTransformer.prototype.transformCodeTabsTag = function* (node) {
       class:   languageClass,
       content: file.content
     });
+
+    if (file.filename == 'server.js') {
+      hasServerJs = true;
+    }
   }
 
-  var height = parseInt(node.attrs.height) || '';
+  var height = parseInt(node.attrs.height) || 200;
 
   var locals = {
     tabs:   tabs,
-    height: height && (node.isTrusted() ? height : Math.max(height, 800)),
+    height: node.isTrusted() ? height : Math.min(height, 800),
     src:    src + '/'
   };
 
-  locals.edit = {
-    href:    'http://plnkr.co/edit/' + plunk.plunkId + '?p=preview',
-    plunkId: plunk.plunkId
-  };
+  if (hasServerJs) {
+    locals.zip = {
+      href: '/tutorial/zipview/' + path.basename(src) + '.zip?plunkId=' + plunk.plunkId
+    };
+  } else {
+    locals.edit = {
+      href:    'http://plnkr.co/edit/' + plunk.plunkId + '?p=preview',
+      plunkId: plunk.plunkId
+    };
+  }
 
   locals.external = {
-    href:    src + '/'
+    href: src + '/'
   };
 
   var rendered = codeTabsTemplate(locals);
 
-//  console.log("---> height", height && (node.isTrusted() ? height : Math.max(height, 800)));
   return this.wrapTagAround('no-typography', {}, rendered);
 };
 

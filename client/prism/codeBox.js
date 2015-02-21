@@ -41,7 +41,8 @@ function CodeBox(elem) {
     };
   }
 
-  if (elem.dataset.autorun) {
+  // some code can't be executed by epub engine
+  if (elem.dataset.autorun && !(window.ebookFormat == 'epub' && elem.dataset.autorun == 'no-epub')) {
     setTimeout(run, 10);
   }
 

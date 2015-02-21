@@ -258,7 +258,8 @@ HtmlTransformer.prototype.transformSourceTag = function(node) {
   }
 
   if (node.attrs.autorun) {
-    attrs['data-autorun'] = '1';
+    // autorun may have "no-epub" value meaning that it shouldn't run on epub (code not supported)
+    attrs['data-autorun'] = node.attrs.autorun || '1';
   }
   if (node.attrs.refresh) {
     attrs['data-refresh'] = '1';
