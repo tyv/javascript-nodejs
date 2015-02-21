@@ -4,6 +4,7 @@
 server {
 
   listen 80;
+  listen 443 ssl;
   server_name js.cx static-nightly.javascript.ru static-nightly.javascript.info;
 
   root <%=root%>/public;

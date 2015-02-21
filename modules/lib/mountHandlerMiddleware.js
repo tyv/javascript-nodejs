@@ -29,15 +29,21 @@ module.exports = function(prefix, moduleDir) {
 
     apply();
 
-    yield* lazyRouterMiddleware.call(this, function* (){
-      // when middleware does yield next, undo changes
-      undo();
-      yield* next;
-      // ...then apply back, when control goes back after yield next
-      apply();
-    }());
+    try {
+      yield* lazyRouterMiddleware.call(this, function* () {
+        // when middleware does yield next, undo changes
+        undo();
+        try {
+          yield* next;
+        } finally {
+          // ...then apply back, when control goes back after yield next
+          apply();
+        }
+      }());
 
-    undo();
+    } finally {
+      undo();
+    }
 
   }
 

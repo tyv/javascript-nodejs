@@ -58,7 +58,7 @@ schema.statics.createFromTemplate = function(orderTemplate, body) {
     title:       orderTemplate.title,
     description: orderTemplate.description,
     amount:      orderTemplate.amount,
-    data: {}
+    data:       orderTemplate.data
   },  body || {});
 
   return new Order(data);

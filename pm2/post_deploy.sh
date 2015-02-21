@@ -5,6 +5,6 @@
 # start
 
 /usr/local/bin/pm2 startOrGracefulReload ecosystem.json --env production &&
- ./gulp cache:clean &&
- ./gulp config:nginx --prefix /etc/nginx --env production --root /js/javascript-nodejs/current --setPassword &&
+ gulp cache:clean --harmony &&
+ gulp config:nginx --prefix /etc/nginx --env production --root /js/javascript-nodejs/current --setPassword --harmony &&
  /etc/init.d/nginx reload

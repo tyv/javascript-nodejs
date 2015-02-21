@@ -1,5 +1,9 @@
 extends /layouts/main
 
+block append variables
+  - var layout_main_class = "main_width-limit-wide"
+  - var layout_header_class = "main__header_center"
+
 block content
   +b.intro
     | Перед вами учебник по JavaScript, начиная с основ, включающий в себя много
@@ -8,11 +12,13 @@ block content
     +e('form').form(action="/search/")
       +e.input-wrap._text
         +b.text-input.__query
-          +e('input').control(type="text" name="query")
+          +e('input').control(type="text" name="query" placeholder="Искать в учебнике" required)
       +e.input-wrap._submit
         +b('button').submit-button.__submit(type="submit" name="type" value="articles") Найти
   +b.course-info
-    +e('h2').header Основной курс
+    +e.header
+      +e('h2').header-title Основной курс
+      +e('a').show-map(href="/tutorial/map", data-action="tutorial-map") Карта учебника
     +e.body.columns.columns_2
       +e.col.columns__col
         +e.content
@@ -43,3 +49,5 @@ block content
             +e('a').brick-title-link(href=folder.url)= folder.title
           +e.brick-content!= folder.content
 
+  script(src=script("tutorial"))
+  script tutorial.init();

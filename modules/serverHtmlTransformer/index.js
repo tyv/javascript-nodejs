@@ -17,6 +17,7 @@ var bem = require('bem-jade');
 var gm = require('gm');
 var thunkify = require('thunkify');
 var imageSize = thunkify(require('image-size'));
+var escapeHtml = require('escape-html');
 
 var codeTabsTemplate = require('./templates/codeTabs.jade');
 
@@ -171,7 +172,8 @@ ServerHtmlTransformer.prototype.transformImgTag = function*(node) {
     throw new ParseError("div", "Неподдерживамое расширение, должно оканчиваться на png/jpg/gif/jpeg/svg: " + node.attrs.src);
   }
 
-  if (~node.attrs.src.indexOf('://')) {
+  // external srcs go "as is"
+  if (~node.attrs.src.indexOf('://') || node.attrs.src.startsWith('//')) {
     return HtmlTransformer.prototype.transformImgTag.call(this, node);
   }
 
@@ -232,10 +234,14 @@ ServerHtmlTransformer.prototype.transformCodeTabsTag = function* (node) {
     throw new ParseError('div', 'No such plunk');
   }
 
+  if (this.isEbook) {
+    var title = node.attrs.title || 'Смотреть пример онлайн';
+    return '<p><a href="http://plnkr.co/edit/' + plunk.plunkId + '?p=preview">' + escapeHtml(title) + '</a></p>';
+  }
+
   var files = plunk.files;
 
   var tabs = [];
-
 
   var prismLanguageMap = {
     html:   'markup',
@@ -270,6 +276,10 @@ ServerHtmlTransformer.prototype.transformCodeTabsTag = function* (node) {
   locals.edit = {
     href:    'http://plnkr.co/edit/' + plunk.plunkId + '?p=preview',
     plunkId: plunk.plunkId
+  };
+
+  locals.external = {
+    href:    src + '/'
   };
 
   var rendered = codeTabsTemplate(locals);

@@ -6,9 +6,12 @@ var User = require('users').User;
 exports.OrderTemplate = [
   {
     title:    "Основы JavaScript",
-    description: "500 стр, 10мб",
+    description: "600+ стр",
     slug:     "jsbasics",
-    amount:   1
+    amount:   10,
+    data: {
+      file:     "tutorial/jsbasics.zip"
+    }
   },
   {
     title:    "JS-DOM",

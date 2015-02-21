@@ -235,14 +235,15 @@ BbtagParser.prototype.parseIframe = function() {
 };
 
 BbtagParser.prototype.parseQuote = function() {
-  var children = new BodyParser(this.body, this.options).parse();
+  var children = new BodyParser('<div class="quote__i"><p class="quote__text">' + this.body + '</p></div>', this.options).parse();
 
   if (this.params.author) {
-    children.push(new TagNode('div', this.params.author, {'class': 'quote-author'}));
+    children.push(new CompositeTag('footer', [
+        new TagNode('cite', this.params.author, { "class": "quote__author" })
+      ], { "class": "quote__footer" }));
   }
 
-  var result = new CompositeTag('div', children, {'class': 'quote-author'});
-  return new CompositeTag('div', [result], {'class': 'quote'});
+  return new CompositeTag('blockquote', children, { "class": "quote" });
 };
 
 BbtagParser.prototype.parseHide = function() {

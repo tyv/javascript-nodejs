@@ -94,8 +94,8 @@ function* cancelPendingTransactions(order) {
 
 function* updateOrderFromBody(body, user, order) {
   if (!user) {
-    // a logged-in user always makes order for his email
-    // (can resend the goods to someone else if needed)
+    // a logged-in user always makes order for his email, no any other
+    // (he can resend the goods to someone else if needed)
     order.email = body.email;
   }
 

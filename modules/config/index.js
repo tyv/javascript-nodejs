@@ -21,9 +21,9 @@ module.exports = {
 
   test: {
     e2e: {
-      sshHost:  'stage.javascript.ru', // remote host for testing e2e callbacks
-      sshUser:  'tunnel',
-      siteHost: 'http://stage.javascript.ru',
+      sshHost:  secret.test.e2e.sshHost, // remote host for testing e2e callbacks
+      sshUser:  secret.test.e2e.sshUser,
+      siteHost: secret.test.e2e.siteHost,
       browser:  env.E2E_BROWSER || 'firefox'
     }
   },

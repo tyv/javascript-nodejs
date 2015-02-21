@@ -5,15 +5,9 @@
 
 Сайт работает под MacOS, Unix (протестировано на Ubuntu, Debian), но не Windows. Сам код сайта написан более-менее универсально, но под Windows криво работают некоторые сторонние модули.
 
-## 1. Поставьте Node.JS 0.11+
+## 1. Поставьте Node.JS 0.12
 
 Нужна именно последняя версия.
-
-Её можно найти по первой ссылке поисковика: [https://www.google.ru/search?q=node.js+latest+unstable]().
-
-Внизу страницы будет список всевозможных пакетов для разных ОС.
-
-*Если вы хотите одновременно иметь стабильную версию 0.10 и последнюю 0.11, можно использовать [NVM](https://github.com/creationix/nvm).*
 
 ## 2. Поставьте и запустите MongoDB.
 
@@ -59,7 +53,7 @@ sudo port load nginx
 
 Например:
 ```
-./gulp config:nginx --prefix /opt/local/etc/nginx --root /js/javascript-nodejs --env development --clear 
+gulp config:nginx --prefix /opt/local/etc/nginx --root /js/javascript-nodejs --env development --clear --harmony
 ```
 
 Здесь `--prefix` -- место для конфигов nginx, обычно `/etc/nginx`, в случае MacPorts это `/opt/local/etc/nginx`.
@@ -83,19 +77,19 @@ npm install
 Инициализуйте базу сайта командой:
  
 ```
-./gulp db:load --from fixture/init --harmony
+gulp db:load --from fixture/init --harmony --reset
 ```
 
 
 Репозитарий с учебником до окончания работы над первым релизом сайта приватный, можно импортировать "заглушки": 
 ```
-./gulp db:load --from fixture/tutorial --harmony
+gulp db:load --from fixture/tutorial --harmony --reset
 ```
 
 Если есть доступ к учебнику, то клонируйте его, например, в `/js/javascript-tutorial` и импортируйте командой:
 
 ```
-./gulp tutorial:import --root /js/javascript-tutorial
+gulp tutorial:import --root /js/javascript-tutorial
 ```
 
 ## 9. Запуск сайта

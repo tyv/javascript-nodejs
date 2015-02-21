@@ -76,7 +76,7 @@ exports.get = function *get(next) {
 
     section2.links.push({
       title: 'Комментарии',
-      url:   '#disqus_thread'
+      url:   '#comments'
     });
 
     sections.push(section2);

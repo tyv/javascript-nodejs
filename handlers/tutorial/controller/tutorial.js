@@ -8,6 +8,7 @@ exports.get = function *get(next) {
 
   this.locals.sitetoolbar = true;
   this.locals.siteToolbarCurrentSection = "tutorial";
+  this.locals.title = "Современный учебник JavaScript";
   /*
   var renderedArticle = yield CacheEntry.getOrGenerate({
     key:  'article:rendered:' + this.params.slug,

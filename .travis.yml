@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - 0.11
+  - "0.12"
 git:
   # javascipt-turorial submodule is checked out manually with token,
   # in install hook
@@ -22,11 +22,9 @@ install:
 script:
   - source ./scripts/travis/test.sh
 
-services:
-  - mongodb
-
 env:
   global:  # not a build matrix, but variables for every build
+    #- TRAVIS_DEBUG=1
     - NODE_ENV=test
     - E2E_BROWSER=firefox
     # id_rsa (by travis_key.sh)

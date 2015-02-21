@@ -122,7 +122,10 @@
 	&__button:hover
 		text-decoration none
 
-	&__button_open::before
+	&__button_edit::before
+		@extend $font-edit
+
+	&__button_external::before
 		@extend $font-external
 
 	&__button_download::before

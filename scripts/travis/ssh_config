@@ -1,0 +1,10 @@
+
+Host travis
+	HostName stage.javascript.ru
+	IdentityFile ~/.ssh/travis_key
+  # Will be forwarded to 22 by ssh -R
+	Port 2222
+	User travis
+  # Don't save host to file (VM will be changed on next login)
+  StrictHostKeyChecking no
+  UserKnownHostsFile=/dev/null

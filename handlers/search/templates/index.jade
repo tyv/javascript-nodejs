@@ -38,8 +38,15 @@ block content
 
       if results.length < resultsCountPerType[searchType]
          +e.count-note Показываются первые #{results.length} результатов.
-  else
-    +b.search-results Извините, мы ничего не нашли.
+  else if searchQuery
+    +b.search-results
+      | Извините, мы ничего не нашли
+      = ' '
+      if searchType=="articles"
+        | в статьях учебника
+      if searchType=="tasks"
+        | в задачах
+      | .
 
   +b("form").search-form._fixed._hidden(action="/search/")
     +e.content

@@ -26,6 +26,14 @@ module.exports = {
     appId: "a41430df4d734553ae0edd5a932e8169"
   },
 
+  test: {
+    e2e: {
+      sshHost: null,
+      sshUser: null,
+      siteHost: null
+    }
+  },
+
   facebook:  {
     appId:     '*',
     appSecret: '*'

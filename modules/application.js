@@ -89,12 +89,14 @@ Application.prototype.requireHandler = function(path) {
     });
   }
 
-  var serverModule = require(path);
+  var handler = require(path);
 
   // init is always sync, for tests to run fast
   // boot is async
-  if (serverModule.init) serverModule.init(this);
+  if (handler.init) {
+    handler.init(this);
+  }
 
-  this.handlers.push(serverModule);
+  this.handlers.push(handler);
 
 };

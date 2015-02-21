@@ -17,7 +17,7 @@ function HtmlTransformer(options) {
   this.resourceWebRoot = options.resourceWebRoot;
   this.staticHost = options.staticHost;
   this.linkHeaderTag = options.linkHeaderTag;
-  this.isEbook = options.ebook;
+  this.isEbook = options.isEbook;
 }
 
 HtmlTransformer.prototype.transform = function(node, isFinal) {
@@ -219,6 +219,7 @@ HtmlTransformer.prototype.transformLinkTag = function(node) {
 
 // on this stage the tag either contains this.src OR the resolved text
 HtmlTransformer.prototype.transformCodeTabsTag = function(node) {
+
   var text = 'Пример ' + node.attrs.src;
 
   return this.wrapTagAround('div', {}, text);
