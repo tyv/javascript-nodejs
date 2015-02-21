@@ -1,8 +1,9 @@
 .quiz-results-indicator
-    background #000
 
     &__indicator
         position relative
+
+        display inline-block
 
         width 197px
         height 98px
@@ -23,3 +24,30 @@
         background #d8d8d8
 
         content: ""
+
+    &__text
+        display inline-block
+
+        width 197px
+
+        margin-top 10px
+
+    &__level
+        font-weight bold
+
+    &__level_junior
+        color #FFC800
+
+    &__level_medium
+        color #ff7b00
+
+    &__level_senior
+        color #c20800
+
+
+    @media tablet
+        &__text,
+        &__indicator
+            display block
+            margin-left auto
+            margin-right auto
