@@ -9,10 +9,26 @@ block append variables
     - var contentWithMods = 'content_center'
 
     - var quiz = {}
+
     - quiz.title = 'Что из этого не событие мыши'
     - quiz.variants = ['onmousescroll', 'onclick', 'onmousover', 'onmousemove', 'onmousewheel']
-    - quiz.current = 6
-    - quiz.total = 18
+
+    - var quizes = [JSON.parse(JSON.stringify(quiz)), JSON.parse(JSON.stringify(quiz))]
+
+    - quizes[0].done = quizes[1].done = true
+
+    - quizes[0].correct = true
+    - quizes[1].correct = false
+
+    - quizes[0].selected = 1
+
+    - quizes[1].selected = 3
+    - quizes[1].correctNum = 1
+
+    - quizes[1].note = 'Пояснение результата'
 
 block content
     include ../blocks/quiz-result
+
+    each quiz in quizes
+        include ../blocks/quiz-test

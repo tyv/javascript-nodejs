@@ -14,7 +14,6 @@
     & ul li:before
         display none
 
-
     &__body
         padding 30px
 
@@ -40,5 +39,33 @@
     &__input
         margin-right 8px
 
+    &__input:checked + &__input-text
+        font-weight bold
+
+    & &__note
+        font-size 12px
+
+        margin-top 20px
+
+        color #666
+
     &__submit
         margin-top 25px
+
+
+    &_correct_true &__body
+        border-color #bbd4a5
+
+    &_correct_false &__body
+        border-color #eaaaad
+
+    &_correct_true &__input:checked + &__input-text
+        color #060
+
+    &_correct_false &__input:checked + &__input-text
+        color #d90000
+
+    &__variant_correct &__input-text
+        font-weight bold
+
+        color #060
