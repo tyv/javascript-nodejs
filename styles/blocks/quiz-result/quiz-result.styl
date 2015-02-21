@@ -1,0 +1,73 @@
+.quiz-result
+    display inline-block
+
+    margin-top 10px
+
+    .main & ul,
+    .main & li,
+    .main & dl,
+    .main & dt,
+    .main & dd,
+    .main & h1,
+    .main & p
+        margin 0
+        padding 0
+
+    .main & li:before
+        display none
+
+    &__try-num
+        color #c60800
+
+    &__layout
+        display table
+
+        padding 20px
+        margin-top 10px
+
+        border-radius 10px
+        background #222
+
+    &__left,
+    &__center,
+    &__right
+        display table-cell
+        box-sizing: border-box
+
+        width 35%
+        padding 10px 25px
+
+        border-right: 2px solid #3c3c3c
+
+        vertical-align top
+
+    &__right
+        width 30%
+
+        border 0
+
+    & .quiz-percents,
+    & .quiz-weak-list__title
+        color #7a7a7a
+
+    & .quiz-percents__percents,
+    & .quiz-weak-list__list,
+    & .quiz-results-indicator
+        color: #fff
+
+    @media tablet
+        &,
+        &__layout
+            display block
+
+        &__left,
+        &__center,
+        &__right
+            display block
+            box-sizing: border-box
+
+            width auto
+            margin-top 20px
+            padding 10px 25px
+
+            border: 0
