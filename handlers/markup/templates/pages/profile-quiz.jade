@@ -6,6 +6,12 @@ block append variables
   - var layout_main_class = "main_width-limit"
   - var sitetoolbar = true
 
+  - var profileTests = [];
+  - profileTests.push({ name: 'Основной Javascript', date: moment('2014-01-01T19:45').locale('ru').format('D MMMM YYYY в h:mm'), result: '36%', level: 'Новичек', try: 1, weakList: 'Кроссбраузерность, события, CSS' })
+  - profileTests.push({ name: 'Основной Javascript', date: moment('2014-02-04T19:45').locale('ru').format('D MMMM YYYY в h:mm'), result: '36%', level: 'Новичек', try: 2, weakList: 'Кроссбраузерность, события, CSS' })
+  - profileTests.push({ name: 'Основной Javascript', date: moment('2014-05-14T19:45').locale('ru').format('D MMMM YYYY в h:mm'), result: '42%', level: 'Новичек', try: 3, weakList: 'Кроссбраузерность, события, CSS' })
+  - profileTests.push({ name: 'Основной Javascript', date: moment('2015-03-02T19:45').locale('ru').format('D MMMM YYYY в h:mm'), result: '56%', level: 'Средний', try: 4, weakList: 'Кроссбраузерность, события, CSS' })
+
 block content
   +b.profile
 
@@ -14,9 +20,9 @@ block content
         +e.tab
           +e.tab-content
             +e('a').tab-link(href="#") Профиль
-        +e.tab._current
+        +e.tab
           +e.tab-content
-            | Аккаунт
+            +e('a').tab-link(href="#") Аккаунт
         +e.tab
           +e.tab-content
             +e('a').tab-link(href="#") Заказы
@@ -26,10 +32,8 @@ block content
         +e.tab
           +e.tab-content
             +e('a').tab-link(href="#") Уведомления
-        +e.tab
+        +e.tab._current
           +e.tab-content
-            +e('a').tab-link(href="#") Тесты
-      +e.title
-        +e.title-content
-          +e('h2').inline-title Тесты
+            | Тесты
 
+      include ../blocks/quiz-results-table
