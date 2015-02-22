@@ -1,20 +1,10 @@
 const koaCsrf = require('koa-csrf');
-const pathToRegexp = require('path-to-regexp');
+const PathListCheck = require('pathListCheck');
 
 function CsrfChecker() {
-  this.ignorePaths = [];
+  this.ignore = new PathListCheck();
 }
 
-// csrf.addIgnore adds a path into "disabled csrf" list
-CsrfChecker.prototype.addIgnorePath = function(path) {
-  if (path instanceof RegExp) {
-    this.ignorePaths.push(path);
-  } else if (typeof path == 'string') {
-    this.ignorePaths.push(pathToRegexp(path));
-  } else {
-    throw new Error("unsupported path type: " + path);
-  }
-};
 
 CsrfChecker.prototype.middleware = function() {
   var self = this;
@@ -26,14 +16,9 @@ CsrfChecker.prototype.middleware = function() {
     }
 
     var checkCsrf = true;
-    for (var i = 0; i < self.ignorePaths.length; i++) {
-      var path = self.ignorePaths[i];
-      this.log.debug("csrf ignore test " + this.path + " against " + path);
-      if (path.test(this.path)) {
-        this.log.debug("csrf ignore match found, disable csrf check");
-        checkCsrf = false;
-        break;
-      }
+
+    if (self.ignore.check(this.path)) {
+      checkCsrf = false;
     }
 
     // If test check CSRF only when "X-Test-Ignore-Csrf" header is set
@@ -45,6 +30,8 @@ CsrfChecker.prototype.middleware = function() {
 
     if (checkCsrf) {
       this.assertCSRF(this.request.body);
+    } else {
+      this.log.debug("csrf skip");
     }
 
     yield* next;

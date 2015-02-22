@@ -10,8 +10,8 @@ var map = require('./controller/map');
 
 var router = module.exports = new Router();
 
-router.get('/task/:slug/:view/:serverPath*', node.all);
-router.get('/article/:slug/:view/:serverPath*', node.all);
+router.all('/task/:slug/:view/:serverPath*', node.all);
+router.all('/article/:slug/:view/:serverPath*', node.all);
 
 router.get('/task/:slug', task.get);
 router.get('/tutorial/map', map.get);

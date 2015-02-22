@@ -36,7 +36,7 @@ function processEmdash(text) {
 }
 
 function processArrows(text) {
-  return text.replace(/<-/gi, '←').replace(/(\s)->/gi, '$1→');
+  return text.replace(/<->/gi, '↔').replace(/<-/gi, '←').replace(/(\s)->/gi, '$1→');
 }
 
 // ie < 10, ie<10 -> ie&lt;10
