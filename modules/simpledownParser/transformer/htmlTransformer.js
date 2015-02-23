@@ -383,17 +383,20 @@ HtmlTransformer.prototype.transformIframeTag = function(node) {
       href:    'http://plnkr.co/edit/' + node.attrs.plunkId + '?p=preview',
       plunkId: node.attrs.plunkId
     };
+
+    if (node.attrs.zip) {
+      var zipname = src.split('/').filter(Boolean).reverse()[0];
+      locals.zip = {
+        href: '/tutorial/zipview/' + zipname + '.zip?plunkId=' + node.attrs.plunkId
+      };
+    }
+
+
   }
 
   if (node.attrs.link) {
     locals.link = {
       href: locals.attrs.src
-    };
-  }
-
-  if (node.attrs.zip) {
-    locals.zip = {
-      href: '/zip' + locals.attrs.src
     };
   }
 

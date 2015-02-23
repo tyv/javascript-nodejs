@@ -55,12 +55,15 @@ ArticleRenderer.prototype._unmapLibsNames = function(libs) {
     case 'lodash':
       libsUnmapped.push("https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js");
       break;
+
     case 'd3':
       libsUnmapped.push("http://d3js.org/d3.v3.min.js");
       break;
+
     case 'domtree':
       libsUnmapped.push("domtree.css", "domtree.js");
       break;
+
     default:
       libsUnmapped.push(lib);
     }
