@@ -127,6 +127,7 @@ function* renderArticle(slug) {
   const tree = yield* Article.findTree();
   const articleInTree = tree.byId(article._id);
 
+  yield* renderProgress();
   yield* renderPrevNext();
   yield* renderBreadCrumb();
   yield* renderSiblings();
@@ -151,6 +152,40 @@ function* renderArticle(slug) {
         title: next.title
       };
     }
+  }
+
+  function* renderProgress() {
+    var parent = articleInTree.parent;
+    var bookRoot = articleInTree;
+    while (parent) {
+      bookRoot = tree.byId(parent);
+      parent = bookRoot.parent;
+    }
+
+    // now bookroot is 1st level tree item, book root, let's count items in it
+
+    //console.log(bookRoot);
+
+    var bookLeafCount = 0;
+    var bookChildNumber;
+    function countChildren(tree) {
+      if (tree == articleInTree) {
+        bookChildNumber = bookLeafCount + 1;
+      }
+
+      if (!tree.children) {
+        bookLeafCount++;
+      } else {
+        tree.children.forEach(countChildren);
+      }
+    }
+
+    countChildren(bookRoot);
+
+    rendered.bookLeafCount = bookLeafCount;
+    rendered.bookChildNumber = bookChildNumber;
+
+    //console.log(bookLeafCount, bookChildNumber);
   }
 
   function* renderBreadCrumb() {
