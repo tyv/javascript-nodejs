@@ -4,10 +4,14 @@ include /bem
 
   +e.title
     +e.title-content
-      +e('h2').inline-title О себе
+      //+e('h2').inline-title О себе
+      +e('p').note Информация о вас, которая будет видна другим посетителям.
 
   +e('profile-field')(field-name="realName" field-title="Имя" field-value="me.realName")
     input.text-input__control(focus-on="editing" placeholder="Иван Иванович" ng-model="editingValue" type="text" name="input")
+
+  +e('profile-field')(field-name="publicEmail" field-title="Публичный email" field-value="me.publicEmail")
+    input.text-input__control(focus-on="editing" ng-model="editingValue" type="email" name='input')
 
   +e('profile-field')(field-name="country" field-title="Страна" field-value="me.country")
     input.text-input__control(focus-on="editing" ng-model="editingValue" type="text" name='input')

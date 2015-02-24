@@ -43,7 +43,7 @@ profile
       })
       .state('root.aboutme', {
         url:         "/",
-        title:       'Профиль',
+        title:       'Публичный профиль',
         templateUrl: "templates/partials/aboutme",
         controller:  'ProfileAboutMeCtrl'
       })

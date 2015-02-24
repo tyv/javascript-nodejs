@@ -113,6 +113,7 @@ var UserSchema = new mongoose.Schema({
   photo:                     {/* { link: ..., } */}, // imgur data
   country:                   String,
   town:                      String,
+  publicEmail:               String,
   interests:                 String,
   deleted:                   { // private & login data is deleted
     type:    Boolean,
@@ -148,17 +149,18 @@ UserSchema.virtual('password')
   });
 
 // get all fields available to a visitor (except the secret/internal ones)
-UserSchema.methods.getAllPublicFields = function() {
-  return User.getAllPublicFields(this);
+UserSchema.methods.getInfoFields = function() {
+  return User.getInfoFields(this);
 };
 
 
-UserSchema.statics.getAllPublicFields = function(user) {
+UserSchema.statics.getInfoFields = function(user) {
   return {
     displayName:   user.displayName,
     gender:        user.gender,
     country:       user.country,
     town:          user.town,
+    publicEmail:          user.publicEmail,
     interests:     user.interests,
     email:         user.email,
     verifiedEmail: user.verifiedEmail,

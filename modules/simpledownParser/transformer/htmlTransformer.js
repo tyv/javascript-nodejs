@@ -376,7 +376,9 @@ HtmlTransformer.prototype.transformIframeTag = function(node) {
     src = this.staticHost + this.resourceWebRoot + '/' + src;
   }
 
-  locals.attrs.src = src + '/';
+  if (!~src.indexOf('.')) src += '/';
+
+  locals.attrs.src = src;
 
   if (node.attrs.plunkId) {
     locals.edit = {
