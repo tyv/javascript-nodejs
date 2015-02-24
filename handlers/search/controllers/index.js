@@ -69,14 +69,17 @@ exports.get = function *get(next) {
 
     var hits = result[searchType].hits.hits;
 
+
     // will show these results
     for (var i = 0; i < hits.length; i++) {
       var hit = hits[i];
 
       var hitFormatted = {
         url: searchTypes[hit._type].hit2url(hit),
+        // if no highlighted words in title, hit.highlight.title would be empty
         title: hit.highlight.title ? hit.highlight.title.join('… ') : hit.fields.title[0],
-        search: hit.highlight.search.join('… '),
+        // if no highlighted words in text, hit.highlight.search would be empty
+        search: hit.highlight.search ? hit.highlight.search.join('… ') : '…',
         breadcrumb: yield* searchTypes[hit._type].hit2breadcrumb(hit)
       };
 
