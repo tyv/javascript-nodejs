@@ -45,9 +45,17 @@ exports.init = function(app) {
   koaCsrf(app);
 
   app.use(function* setCsrfCookie(next) {
-    // this cookie name is used in angular by default
-    if (this.req.user && !this.cookies.get('XSRF-TOKEN')) {
-      this.cookies.set('XSRF-TOKEN', this.csrf, { httpOnly: false, signed: false });
+    // XSRF-TOKEN cookie name is used in angular by default
+    if (this.req.user) {
+
+      try {
+        // if this doesn't throw, the user has a valid token in cookie already
+        this.assertCsrf({_csrf: this.cookies.get('XSRF-TOKEN') });
+      } catch(e) {
+        // no token or invalid token (old session)
+        this.cookies.set('XSRF-TOKEN', this.csrf, { httpOnly: false, signed: false });
+      }
+
     }
     yield* next;
   });
