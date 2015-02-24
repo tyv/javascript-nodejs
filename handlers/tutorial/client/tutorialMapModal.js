@@ -39,8 +39,6 @@ function TutorialMapModal() {
     self.remove();
   });
 
-  request.send();
-
 }
 
 TutorialMapModal.prototype = Object.create(Modal.prototype);

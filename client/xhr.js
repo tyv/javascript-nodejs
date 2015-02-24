@@ -34,23 +34,17 @@ function xhr(options) {
   if (window.csrf) {
     url = addUrlParam(url, '_csrf', window.csrf);
   }
-/*
-  // defer send to let other handlers be assigned
-  request.onreadystatechange = function() {
-    if (this.readyState == 1) {
-      request.send(body);
-    }
-  };
-*/
-  request.open(method, url, true);
 
-//  request.method = method;
+  request.open(method, url, options.sync ? false : true);
+
+  request.method = method;
 
   if ({}.toString.call(body) == '[object Object]') {
     // must be OPENed to setRequestHeader
     request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     body = JSON.stringify(body);
   }
+
 
   if (!options.noGlobalEvents) {
     request.addEventListener('loadstart', event => {
@@ -76,8 +70,6 @@ function xhr(options) {
   if (options.json) { // means we want json
     request.setRequestHeader("Accept", "application/json");
   }
-
-  console.log(request.readyState);
 
   request.setRequestHeader('X-Requested-With', "XMLHttpRequest");
 
@@ -138,10 +130,9 @@ function xhr(options) {
     success(result, e);
   });
 
-
+  // defer to let other handlers be assigned
   setTimeout(function() {
-    console.log("before send", request.readyState); // 1
-    request.send(body); // Failed to execute 'send' on 'XMLHttpRequest': The object's state must be OPENED.
+    request.send(body);
   }, 0);
 
   return request;
