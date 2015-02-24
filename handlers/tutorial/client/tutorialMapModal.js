@@ -4,6 +4,7 @@ var delegate = require('client/delegate');
 var Modal = require('client/head/modal');
 var Spinner = require('client/spinner');
 var TutorialMap = require('./tutorialMap');
+var trackSticky = require('client/trackSticky');
 
 /**
  * Options:
@@ -32,6 +33,9 @@ function TutorialMapModal() {
     wrapper.innerHTML = event.result + '<button class="close-button tutorial-map-overlay__close"></button>';
     document.body.classList.add('tutorial-map_on');
     self.setContent(wrapper);
+
+    wrapper.addEventListener('scroll', trackSticky);
+
     new TutorialMap(self.contentElem.firstElementChild);
   });
 

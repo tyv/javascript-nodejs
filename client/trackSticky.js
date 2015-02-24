@@ -1,7 +1,4 @@
-module.exports = function() {
-  window.addEventListener('scroll', trackSticky);
-  trackSticky();
-};
+module.exports = trackSticky;
 
 
 function trackSticky() {
@@ -14,15 +11,23 @@ function trackSticky() {
     if (stickyElem.getBoundingClientRect().top < 0) {
       // become fixed
       if (stickyElem.style.cssText) {
-        throw new Error("data-sticky element may not have style");
+        // inertia: happens when scrolled fast too much to bottom
+        // http://ilyakantor.ru/screen/2015-02-24_1555.swf
+        return;
       }
 
+      var savedLeft = stickyElem.getBoundingClientRect().left;
       var placeholder = createPlaceholder(stickyElem);
-      
+
       stickyElem.parentNode.insertBefore(placeholder, stickyElem);
+
+      document.body.appendChild(stickyElem);
       stickyElem.style.position = 'fixed';
       stickyElem.style.top = 0;
-      stickyElem.style.zIndex = 1;
+      stickyElem.style.left = savedLeft + 'px';
+      // zIndex > 1001, because overlays have lower zindexes, and trackSticky is used in overlays too,
+      // e.g site map, and they have zindex 1000-10000
+      stickyElem.style.zIndex = 10001;
       stickyElem.style.background = 'white'; // non-transparent to cover the text
       stickyElem.style.margin = 0;
       stickyElem.style.width = placeholder.offsetWidth + 'px'; // keep same width as before
@@ -30,7 +35,9 @@ function trackSticky() {
     } else if (stickyElem.placeholder && stickyElem.placeholder.getBoundingClientRect().top > 0) {
       // become non-fixed
       stickyElem.style.cssText = '';
+      stickyElem.placeholder.parentNode.insertBefore(stickyElem, stickyElem.placeholder);
       stickyElem.placeholder.remove();
+
       stickyElem.placeholder = null;
     }
   }
