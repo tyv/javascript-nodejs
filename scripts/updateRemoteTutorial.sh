@@ -7,5 +7,6 @@ mongodump -d js -c references &&
 ssh nightly 'rm -rf dump' &&
 scp -r -C dump nightly: &&
 ssh nightly 'mongorestore --drop' &&
-rsync -av /js/javascript-nodejs/public/ nightly:/js/javascript-nodejs/current/public/ &&
+rsync -rlDv /js/javascript-nodejs/public/ nightly:/js/javascript-nodejs/current/public/ &&
+ssh nightly 'cd /js/javascript-nodejs/current/scripts/elastic; bash db' &&
 echo "Tutorial updated"
