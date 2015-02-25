@@ -22,6 +22,7 @@ function trackSticky() {
       stickyElem.parentNode.insertBefore(placeholder, stickyElem);
 
       document.body.appendChild(stickyElem);
+      stickyElem.classList.add('sticky');
       stickyElem.style.position = 'fixed';
       stickyElem.style.top = 0;
       stickyElem.style.left = savedLeft + 'px';
@@ -35,6 +36,7 @@ function trackSticky() {
     } else if (stickyElem.placeholder && stickyElem.placeholder.getBoundingClientRect().top > 0) {
       // become non-fixed
       stickyElem.style.cssText = '';
+      stickyElem.classList.remove('sticky');
       stickyElem.placeholder.parentNode.insertBefore(stickyElem, stickyElem.placeholder);
       stickyElem.placeholder.remove();
 
