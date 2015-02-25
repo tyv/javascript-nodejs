@@ -146,6 +146,9 @@ gulp.task('dev', function(callback) {
 });
 
 gulp.task('tutorial:import', ['cache:clean'], lazyRequireTask('tutorial/tasks/tutorialImport'));
+
+gulp.task('tutorial:remote:update', lazyRequireTask('tutorial/tasks/remoteUpdate'));
+
 gulp.task('figures:import', lazyRequireTask('tutorial/tasks/figuresImport'));
 
 gulp.task('tutorial:kill:content', ['cache:clean'], lazyRequireTask('tutorial/tasks/killContent'));
