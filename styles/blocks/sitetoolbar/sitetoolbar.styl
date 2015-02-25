@@ -175,15 +175,25 @@ sitetoolbar_secondary_link = #498CBE
 	&_user_open &__usermenu
 		display block
 
+	&__usermenu-wrap
+		position relative
+		width 100%
+
 	&__usermenu
+		font-size size
+		line-height lineheight
+
 		position absolute
-		top 100%
-		right 140px // приблизительно, лучше позиционировать из js
+		top 0
+		left 50%
+
+		transform translateX(-50%)
+
 		border 2px solid #e2e2e2
 		border-radius 4px
 		box-shadow 0 2px 10px rgba(0, 0, 0, .12)
 		background #fff
-		transform translateX(50%) // только для удобства позиционирования
+
 
 	&__usermenu::before
 		content ""
