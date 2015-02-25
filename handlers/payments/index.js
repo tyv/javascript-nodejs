@@ -31,8 +31,8 @@ exports.init = function(app) {
     app.use(mountHandlerMiddleware('/payments/' + name, path.join(__dirname, name)));
   }
 
-  app.csrfChecker.addIgnorePath('/payments/:any*');
-  app.verboseLogger.addPath('/payments/:any*');
+  app.csrfChecker.ignore.add('/payments/:any*');
+  app.verboseLogger.logPaths.add('/payments/:any*');
 };
 
 exports.populateContextMiddleware = function*(next) {

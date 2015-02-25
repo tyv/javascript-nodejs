@@ -20,7 +20,7 @@ module.exports = Application;
 
 function Application() {
   KoaApplication.apply(this, arguments);
-  this.handlers = [];
+  this.handlers = {};
   this.log = log;
 }
 
@@ -33,8 +33,9 @@ inherits(Application, KoaApplication);
 // for PROD, there is a reason: to check if DB is ok before taking a request
 Application.prototype.waitBoot = function* () {
 
-  for (var i = 0; i < this.handlers.length; i++) {
-    var handler = this.handlers[i];
+
+  for (var path in this.handlers) {
+    var handler = this.handlers[path];
     if (!handler.boot) continue;
     yield* handler.boot();
   }
@@ -66,8 +67,8 @@ Application.prototype.close = function*() {
 
   this.log.info("App connections are closed");
 
-  for (var i = 0; i < this.handlers.length; i++) {
-    var handler = this.handlers[i];
+  for (var path in this.handlers) {
+    var handler = this.handlers[path];
     if (!handler.close) continue;
     yield* handler.close();
   }
@@ -76,7 +77,6 @@ Application.prototype.close = function*() {
 };
 
 Application.prototype.requireHandler = function(path) {
-
 
   // if debug is on => will log the middleware travel chain
   if (process.env.NODE_ENV == 'development' || process.env.LOG_LEVEL) {
@@ -97,6 +97,6 @@ Application.prototype.requireHandler = function(path) {
     handler.init(this);
   }
 
-  this.handlers.push(handler);
+  this.handlers[path] = handler;
 
 };

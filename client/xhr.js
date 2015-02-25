@@ -20,7 +20,7 @@ var notification = require('client/notification');
 //    --> fail if error
 //
 // # CSRF
-//    --> requests get _csrf field from window.csrf
+//    --> requests sends header X-XSRF-TOKEN from cookie
 
 function xhr(options) {
 
@@ -31,13 +31,16 @@ function xhr(options) {
   var body = options.body;
   var url = options.url;
 
-  if (window.csrf) {
-    url = addUrlParam(url, '_csrf', window.csrf);
-  }
 
   request.open(method, url, options.sync ? false : true);
 
   request.method = method;
+
+  // token/header names same as angular $http for easier interop
+  var csrfCookie = document.cookie.match(/XSRF-TOKEN=([\w-]+)/);
+  if (csrfCookie && !options.skipCsrf) {
+    request.setRequestHeader("X-XSRF-TOKEN", csrfCookie[1]);
+  }
 
   if ({}.toString.call(body) == '[object Object]') {
     // must be OPENed to setRequestHeader

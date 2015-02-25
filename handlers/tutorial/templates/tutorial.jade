@@ -50,6 +50,9 @@ block content
           +e('h3').brick-title
             +e('a').brick-title-link(href=folder.url)= folder.title
           +e.brick-content!= folder.content
+          +e('ul')
+            each child in folder.children
+              li= child.title
 
   script(src=script("tutorial"))
   script tutorial.init();

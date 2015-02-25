@@ -22,7 +22,8 @@ exports.get = function *get(next) {
   }
 
   var locals = {
-    title: topArticle.title
+    title: topArticle.title,
+    ebookFormat: this.originalUrl.match(/\w+/)[0] // pdf or epub
   };
 
   locals.children = [renderedTop];

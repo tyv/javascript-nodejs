@@ -258,7 +258,8 @@ HtmlTransformer.prototype.transformSourceTag = function(node) {
   }
 
   if (node.attrs.autorun) {
-    attrs['data-autorun'] = '1';
+    // autorun may have "no-epub" value meaning that it shouldn't run on epub (code not supported)
+    attrs['data-autorun'] = node.attrs.autorun || '1';
   }
   if (node.attrs.refresh) {
     attrs['data-refresh'] = '1';
@@ -375,24 +376,29 @@ HtmlTransformer.prototype.transformIframeTag = function(node) {
     src = this.staticHost + this.resourceWebRoot + '/' + src;
   }
 
-  locals.attrs.src = src + '/';
+  if (!~src.indexOf('.')) src += '/';
+
+  locals.attrs.src = src;
 
   if (node.attrs.plunkId) {
     locals.edit = {
       href:    'http://plnkr.co/edit/' + node.attrs.plunkId + '?p=preview',
       plunkId: node.attrs.plunkId
     };
+
+    if (node.attrs.zip) {
+      var zipname = src.split('/').filter(Boolean).reverse()[0];
+      locals.zip = {
+        href: '/tutorial/zipview/' + zipname + '.zip?plunkId=' + node.attrs.plunkId
+      };
+    }
+
+
   }
 
   if (node.attrs.link) {
     locals.link = {
       href: locals.attrs.src
-    };
-  }
-
-  if (node.attrs.zip) {
-    locals.zip = {
-      href: '/zip' + locals.attrs.src
     };
   }
 

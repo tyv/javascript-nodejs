@@ -2,7 +2,7 @@ extends /layouts/main
 
 block append variables
   - var layout_header_class = "main__header_center"
-  - var layout_main_class = "main_width-limit"
+  - var layout_main_class = "main_width-limit-wide"
   - var sitetoolbar = true
 
 block append head
@@ -15,5 +15,5 @@ block content
 
   +b(ng-app="profile")
 
-    ui-view Загрузка...
+    +e('ui-view').view(progress="loadingTracker.active()" progress-overlay progress-spinner="{class:'profile__spinner'}") Загрузка...
 

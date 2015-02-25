@@ -32,6 +32,11 @@ server {
     include "partial/proxy_3000";
   }
 
+  # zip for plunk
+  location ^~ /tutorial/zipview/ {
+    include "partial/proxy_3000";
+  }
+
   # folder/ -> try folder/index.html first, then @node
   location ~ ^(?<uri_no_dot>[^.]*?)/$ {
     try_files $uri_no_dot/index.html @node;

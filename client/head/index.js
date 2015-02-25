@@ -2,7 +2,7 @@
 require('client/polyfill');
 require('./unready');
 
-exports.init = require('./init');
+//exports.init = require('./init');
 exports.login = require('./login');
 
 require('./logout');

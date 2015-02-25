@@ -12,6 +12,7 @@ function TutorialMap(elem) {
   this.showTasksCheckbox.onchange = this.updateShowTasks.bind(this);
 
   this.filterInput = this.elem.querySelector('[data-tutorial-map-filter]');
+  this.textInputBlock = this.elem.querySelector('.tutorial-map__filter .text-input');
 
   this.layoutSwitch = this.elem.querySelector('[data-tutorial-map-layout-switch]');
   var isMapSingleColumn = +localStorage.isMapSingleColumn;
@@ -100,11 +101,10 @@ TutorialMap.prototype.onFilterKeydown = function(event) {
 };
 
 TutorialMap.prototype.showClearButton = function(show) {
-  var textInputBlock = this.elem.querySelector('.tutorial-map__filter .text-input');
   if (show) {
-    textInputBlock.classList.add('text-input_clear-button');
+    this.textInputBlock.classList.add('text-input_clear-button');
   } else {
-    textInputBlock.classList.remove('text-input_clear-button');
+    this.textInputBlock.classList.remove('text-input_clear-button');
   }
 };
 

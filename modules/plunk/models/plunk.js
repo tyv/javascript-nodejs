@@ -5,7 +5,7 @@ var config = require('config');
 var Schema = mongoose.Schema;
 var _ = require('lodash');
 var log = require('log')();
-
+var zip = require('node-zip');
 
 var schema = new Schema({
   description: {
@@ -29,6 +29,17 @@ var schema = new Schema({
 
 schema.methods.getUrl = function() {
   return 'http://plnkr.co/edit/' + this.plunkId + '?p=preview';
+};
+
+schema.methods.getZip = function() {
+  var archive = new zip();
+
+  for (var i = 0; i < this.files.length; i++) {
+    var file = this.files[i];
+    archive.file(file.filename, file.content);
+  }
+
+  return archive.generate({base64:false,compression:'DEFLATE'});
 };
 
 /**

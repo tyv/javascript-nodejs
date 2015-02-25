@@ -53,7 +53,7 @@ angular.module('profile')
           }).then((response) => {
 
             if (this.name == 'displayName') {
-              new notification.Success("Изменение имени будет отражено в заголовках после перезагрузки.", 'slow');
+              new notification.Success("Изменение имени везде произойдёт после перезагрузки страницы.", 'slow');
             } else if (this.name == 'email') {
               new notification.Warning("Требуется подтвердить смену email, проверьте почту.", 'slow');
             } else {

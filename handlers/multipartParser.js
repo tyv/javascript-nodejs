@@ -1,23 +1,13 @@
-const pathToRegexp = require('path-to-regexp');
+const PathListCheck = require('pathListCheck');
 const multiparty = require('multiparty');
 const thunkify = require('thunkify');
 
 var log = require('log')();
 
 function MultipartParser() {
-  this.ignorePaths = [];
+  this.ignore = new PathListCheck();
 }
 
-// csrf.addIgnore adds a path into "disabled csrf" list
-MultipartParser.prototype.addIgnorePath = function(path) {
-  if (path instanceof RegExp) {
-    this.ignorePaths.push(path);
-  } else if (typeof path == 'string') {
-    this.ignorePaths.push(pathToRegexp(path));
-  } else {
-    throw new Error("unsupported path type: " + path);
-  }
-};
 
 MultipartParser.prototype.parse = thunkify(function(req, callback) {
 
@@ -68,22 +58,12 @@ MultipartParser.prototype.middleware = function() {
 
   return function*(next) {
     // skip these methods
-    if (!~['POST', 'PUT', 'PATCH'].indexOf(this.method) || !this.get('content-type').startsWith('multipart/form-data')) {
+    var contentType = this.get('content-type') || '';
+    if (!~['POST', 'PUT', 'PATCH'].indexOf(this.method) || !contentType.startsWith('multipart/form-data')) {
       return yield* next;
     }
 
-    var parse = true;
-    for (var i = 0; i < self.ignorePaths.length; i++) {
-      var path = self.ignorePaths[i];
-      this.log.debug("multipart test " + this.path + " against " + path);
-      if (path.test(this.path)) {
-        this.log.debug("multipart match found, disable parse");
-        parse = false;
-        break;
-      }
-    }
-
-    if (parse) {
+    if (!self.ignore.check(this.path)) {
       this.log.debug("multipart will parse");
 
       try {
@@ -96,6 +76,8 @@ MultipartParser.prototype.middleware = function() {
       }
 
       this.log.debug("multipart done parse");
+    } else {
+      this.log.debug("multipart skip");
     }
 
     yield* next;

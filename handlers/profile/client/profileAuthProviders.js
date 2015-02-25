@@ -1,5 +1,5 @@
-import notification from 'client/notification';
-import angular from 'angular';
+var notification = require('client/notification');
+var angular = require('angular');
 
 angular.module('profile')
   .directive('profileAuthProviders', function(promiseTracker, $http, authPopup, Me) {
@@ -11,12 +11,23 @@ angular.module('profile')
 
         scope.connect = function(providerName) {
           authPopup('/auth/connect/' + providerName, () => {
-
+            // refresh user
             scope.me = Me.get();
 
           }, () => {
-            console.log("fail", arguments);
+            console.error("fail", arguments);
           });
+        };
+
+        scope.connected = function(providerName) {
+          var connected = false;
+
+          if (!scope.me.providers) return false;
+          scope.me.providers.forEach(function(provider) {
+            if (provider.name == providerName) connected = true;
+          });
+
+          return connected;
         };
       }
     };

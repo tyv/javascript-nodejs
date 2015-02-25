@@ -12,7 +12,7 @@ function Spinner(options) {
   // any class to add to element (to hide it's content for instance)
   this.elemClass = options.elemClass;
 
-  if (this.size != 'medium' && this.size != 'small') {
+  if (this.size != 'medium' && this.size != 'small' && this.size != 'large') {
     throw new Error("Unsupported size: " + this.size);
   }
 

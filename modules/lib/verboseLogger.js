@@ -1,38 +1,16 @@
-const pathToRegexp = require('path-to-regexp');
+const PathListCheck = require('pathListCheck');
 
 function VerboseLogger() {
-  this.logPaths = [];
+  this.logPaths = new PathListCheck();
 }
 
-
-// csrf.addIgnore adds a path into "disabled csrf" list
-VerboseLogger.prototype.addPath = function(path) {
-  if (path instanceof RegExp) {
-    this.logPaths.push(path);
-  } else if (typeof path == 'string') {
-    this.logPaths.push(pathToRegexp(path));
-  } else {
-    throw new Error("unsupported path type: " + path);
-  }
-};
 
 VerboseLogger.prototype.middleware = function() {
   var self = this;
 
   return function*(next) {
 
-    var shouldLog = false;
-    for (var i = 0; i < self.logPaths.length; i++) {
-      var path = self.logPaths[i];
-      this.log.debug("verboseLogger test " + this.path + " against " + path);
-      if (path.test(this.path)) {
-        this.log.debug("verboseLogger match found, will log all");
-        shouldLog = true;
-        break;
-      }
-    }
-
-    if (shouldLog) {
+    if (self.logPaths.check(this.path)) {
       this.log.info({requestVerbose: this.request});
     }
 

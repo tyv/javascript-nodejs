@@ -1,5 +1,5 @@
-import angular from 'angular';
-import moment from 'moment';
+var angular = require('angular');
+var moment = require('moment');
 
 angular.module('profile')
   .directive('dateInput', function() {

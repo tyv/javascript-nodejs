@@ -1,41 +1,19 @@
-extends ../layouts/profile
+extends /layouts/main
 
-// - http://stackoverflow.com/questions/12646451/how-to-pass-variables-between-jade-templates
-block variables
-  - self.title = 'Кабинет пользователя Nakazator';
-
-  //- layout
-  - layout.header = true
-  - layout.breadcrumbs = true
-  - layout.centeredHeader = true
+block append variables
+  - var title = "Nazarkator";
+  - var layout_header_class = "main__header_center"
+  - var layout_main_class = "main_width-limit"
+  - var sitetoolbar = true
 
 block content
-  +b.profile._accounts
-    script.
-      document.addEventListener("DOMContentLoaded", function(e) {
-        var items = document.querySelectorAll('.profile__item_editable');
-        for (var i = 0; i < items.length; i++) {
-          items[i].addEventListener('click', function(e) {
-            this.classList.add('profile__item_editing');
-          });
-        }
-        document.querySelector('.profile').addEventListener('click', function(e) {
-          var elem;
-          if (e.target.classList.contains('profile__item-cancel')) {
-            elem = e.target;
-            while (elem && !elem.classList.contains('profile__item_editable')) {
-              elem = elem.parentNode;
-            }
-            elem.classList.remove('profile__item_editing');
-          }
-        })
-      });
-    include ../blocks/profile-upic
+  +b.profile
+
     +e.content
       +e.tabs
         +e.tab
           +e.tab-content
-            +e('a').tab-link(href="#") Профиль
+            +e('a').tab-link(href="#") Публичный профиль
         +e.tab._current
           +e.tab-content
             | Аккаунт

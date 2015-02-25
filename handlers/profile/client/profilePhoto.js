@@ -1,6 +1,6 @@
-import notification from 'client/notification';
-import angular from 'angular';
-import { thumb } from 'client/image';
+var notification = require('client/notification');
+var angular = require('angular');
+var thumb = require('client/image').thumb;
 
 
 angular.module('profile')

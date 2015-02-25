@@ -9,11 +9,11 @@ exports.init = function(app) {
   app.use( mountHandlerMiddleware('/auth', __dirname) );
 
   // no csrf check for guest endpoints (no generation of csrf for anon)
-  app.csrfChecker.addIgnorePath('/auth/login/:any*');
-  app.csrfChecker.addIgnorePath('/auth/register');
-  app.csrfChecker.addIgnorePath('/auth/reverify');
-  app.csrfChecker.addIgnorePath('/auth/forgot');
-  app.csrfChecker.addIgnorePath('/auth/forgot-recover');
+  app.csrfChecker.ignore.add('/auth/login/:any*');
+  app.csrfChecker.ignore.add('/auth/register');
+  app.csrfChecker.ignore.add('/auth/reverify');
+  app.csrfChecker.ignore.add('/auth/forgot');
+  app.csrfChecker.ignore.add('/auth/forgot-recover');
 
 };
 

@@ -1,20 +1,10 @@
 const koaCsrf = require('koa-csrf');
-const pathToRegexp = require('path-to-regexp');
+const PathListCheck = require('pathListCheck');
 
 function CsrfChecker() {
-  this.ignorePaths = [];
+  this.ignore = new PathListCheck();
 }
 
-// csrf.addIgnore adds a path into "disabled csrf" list
-CsrfChecker.prototype.addIgnorePath = function(path) {
-  if (path instanceof RegExp) {
-    this.ignorePaths.push(path);
-  } else if (typeof path == 'string') {
-    this.ignorePaths.push(pathToRegexp(path));
-  } else {
-    throw new Error("unsupported path type: " + path);
-  }
-};
 
 CsrfChecker.prototype.middleware = function() {
   var self = this;
@@ -26,14 +16,9 @@ CsrfChecker.prototype.middleware = function() {
     }
 
     var checkCsrf = true;
-    for (var i = 0; i < self.ignorePaths.length; i++) {
-      var path = self.ignorePaths[i];
-      this.log.debug("csrf test " + this.path + " against " + path);
-      if (path.test(this.path)) {
-        this.log.debug("csrf match found, disable csrf check");
-        checkCsrf = false;
-        break;
-      }
+
+    if (self.ignore.check(this.path)) {
+      checkCsrf = false;
     }
 
     // If test check CSRF only when "X-Test-Ignore-Csrf" header is set
@@ -45,6 +30,8 @@ CsrfChecker.prototype.middleware = function() {
 
     if (checkCsrf) {
       this.assertCSRF(this.request.body);
+    } else {
+      this.log.debug("csrf skip");
     }
 
     yield* next;
@@ -58,9 +45,17 @@ exports.init = function(app) {
   koaCsrf(app);
 
   app.use(function* setCsrfCookie(next) {
-    // this cookie name is used in angular by default
-    if (this.req.user && !this.cookies.get('XSRF-TOKEN')) {
-      this.cookies.set('XSRF-TOKEN', this.csrf, { httpOnly: false, signed: false });
+    // XSRF-TOKEN cookie name is used in angular by default
+    if (this.req.user) {
+
+      try {
+        // if this doesn't throw, the user has a valid token in cookie already
+        this.assertCsrf({_csrf: this.cookies.get('XSRF-TOKEN') });
+      } catch(e) {
+        // no token or invalid token (old session)
+        this.cookies.set('XSRF-TOKEN', this.csrf, { httpOnly: false, signed: false });
+      }
+
     }
     yield* next;
   });

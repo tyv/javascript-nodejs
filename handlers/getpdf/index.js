@@ -5,7 +5,7 @@ exports.init = function(app) {
   app.use(mountHandlerMiddleware('/getpdf', __dirname));
 
   // anon can do anything here
-  app.csrfChecker.addIgnorePath('/getpdf/:any*');
+  app.csrfChecker.ignore.add('/getpdf/:any*');
 
 };
 

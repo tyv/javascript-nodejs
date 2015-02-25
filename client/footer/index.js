@@ -1,7 +1,7 @@
 //require('./preventDocumentScroll');
 var showLinkType = require('./showLinkType');
 var load2x = require('./load2x');
-var trackSticky = require('./trackSticky');
+var trackSticky = require('client/trackSticky');
 
 exports.init = function() {
   showLinkType();
@@ -10,6 +10,8 @@ exports.init = function() {
     load2x();
   }
 
+  window.addEventListener('scroll', trackSticky);
   trackSticky();
-
 };
+
+exports.trackSticky = trackSticky;

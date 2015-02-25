@@ -1,4 +1,30 @@
 const bodyParser = require('koa-bodyparser');
+const PathListCheck = require('pathListCheck');
+
+function BodyParser() {
+  this.ignore = new PathListCheck();
+  this.parser = bodyParser();
+}
+
+BodyParser.prototype.middleware = function() {
+  var self = this;
+
+  return function*(next) {
+
+    if (!self.ignore.check(this.path)) {
+      this.log.debug("bodyParser will parse");
+
+      yield* self.parser.call(this, next);
+
+      this.log.debug("bodyParser done parse");
+    } else {
+      this.log.debug("bodyParser skip");
+    }
+
+    yield* next;
+  };
+};
+
 
 exports.init = function(app) {
   // default limits are:
@@ -7,6 +33,7 @@ exports.init = function(app) {
   // jsonLimit: limit of the json body.
   //   Default is 1mb
 
-  app.use(bodyParser());
 
+  app.bodyParser = new BodyParser();
+  app.use(app.bodyParser.middleware());
 };
