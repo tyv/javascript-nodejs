@@ -5,6 +5,8 @@ $padding = ($padding-vertical)px ($padding-horizontal)px
 .button
     font bold 14px/33px 'Open Sans', sans
 
+    display inline-block
+
     position relative
 
     padding $padding
@@ -26,12 +28,16 @@ $padding = ($padding-vertical)px ($padding-horizontal)px
 
         opacity 0.5
 
-    &_common
+    &_common,
+    &_common:link
         color #333939
+        text-decoration none
+
         border-color: #cfcecd
         background linear-gradient(to bottom, #ededed 0%, #cecece 100%)
 
     &_common:hover
+        color #333939
         background linear-gradient(to bottom, #f5f5f5 0%, #e6e6e6 100%)
 
     &_common:focus
@@ -47,14 +53,17 @@ $padding = ($padding-vertical)px ($padding-horizontal)px
         box-shadow none
 
 
-    &_action
+    &_action,
+    &_action:link
         padding ($padding-vertical + 1)px ($padding-horizontal + 1)px
         border 0
 
         color #fff
+        text-decoration none
         background linear-gradient(to bottom, #579b74 0%, #498161 100%)
 
     &_action:hover
+        color #fff
         background linear-gradient(to bottom, #67b689 0%, #4da975 100%)
 
     &_action:focus
