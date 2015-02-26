@@ -74,6 +74,35 @@ var UserSchema = new mongoose.Schema({
       message: "Неизвестное значение для пола."
     }
   },
+  profileName:              {
+    type: String,
+    default:  "", // need a value for validator to run
+    validate: [
+      {
+        validator: function uniqueAmongIdsAndProfileNames(value, callback) {
+          if (!this.profileName){
+            return callback(true);
+          }
+
+          User.findOne({
+            $and: [
+              {_id: {$ne: this._id}},
+              {
+                $or: [
+                  {_id: this.profileName},
+                  {profileName: this.profileNameparam}
+                ]
+              }
+            ]
+          }, function(err, value) {
+            if (err || value) return callback(false);
+            callback(true);
+          });
+        },
+        msg:       "Такое имя профиля уже занято."
+      }
+    ]
+  },
   realName:                  String,
   // not Date, because Date requires time zone,
   // so if I enter 18.04.1982 00:00:00 in GMT+3 zone, it will be 17.04.1982 21:00 actually (prbably wrong)
@@ -157,7 +186,9 @@ UserSchema.methods.getInfoFields = function() {
 UserSchema.statics.getInfoFields = function(user) {
   return {
     displayName:   user.displayName,
+    profileName:   user.profileName,
     gender:        user.gender,
+    birthday:        user.birthday,
     country:       user.country,
     town:          user.town,
     publicEmail:          user.publicEmail,
@@ -181,8 +212,11 @@ UserSchema.methods.softDelete = function(callback) {
   // delete this.email does not work
   // need to assign to undefined to $unset
   this.email = undefined;
+  this.realName = undefined;
   this.displayName = 'Аккаунт удалён';
   this.gender = undefined;
+  this.birthday = undefined;
+  this.profileName = undefined;
   this.verifyEmailToken = undefined;
   this.verifyEmailRedirect = undefined;
   this.passwordResetToken = undefined;
