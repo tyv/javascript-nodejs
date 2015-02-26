@@ -1,7 +1,7 @@
 block append variables
   - var siteToolbarSections = [ { slug: 'tutorial', title: 'Учебник' } ];
 
-+b.sitetoolbar
++b(class = 'sitetoolbar ' + (bookChildNumber ? '_tutorial' : ''))
   +e.content
     +e.logo-wrap
       +e('a').link._logo(href="/")
@@ -79,3 +79,6 @@ block append variables
           +e('input').control(name="query" type="text")
       +e.search-submit-wrap
         +b('button').submit-button.__search-submit Найти
+
+  if bookChildNumber && bookLeafCount
+    +b('progress').tutorial-progress(value = bookChildNumber max = bookLeafCount)
