@@ -11,10 +11,7 @@ exports.init = function(app) {
   app.multipartParser.ignore.add('/article/:any*');
   app.bodyParser.ignore.add('/task/:any*');
   app.bodyParser.ignore.add('/article/:any*');
-
-
 };
-
 
 exports.Article = require('./models/article');
 exports.Reference = require('./models/reference');

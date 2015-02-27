@@ -16,7 +16,9 @@ exports.get = function *get(next) {
   }, _.partial(renderArticle, this.params.slug));
 */
 
-  var locals = yield* renderTutorial();
+  var locals = {
+    chapters: yield* renderTutorial()
+  };
 
   this.body = this.render('tutorial', locals);
 };
@@ -35,25 +37,14 @@ function* renderTutorial() {
 
   var treeRendered = yield* renderTree(tree);
 
-  var result = {
-    js: treeRendered[0],
-    ui: treeRendered[1],
-    more: treeRendered[2]
-  };
-
   // render top-level content
-  for (var key in result) {
-    var child = result[key];
+  for (var i = 0; i < treeRendered.length; i++) {
+    var child = treeRendered[i];
     yield* populateContent(child);
   }
 
-  // and render 1 level down inside result.more content
-  for (var i = 0; i < result.more.children.length; i++) {
-    var child = result.more.children[i];
-    yield* populateContent(child);
-  }
 
-  return result;
+  return treeRendered;
 
 }
 
