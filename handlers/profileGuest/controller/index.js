@@ -17,6 +17,11 @@ exports.get = function* (next) {
     return;
   }
 
+  if (this.params.tab) {
+    // tabs are not for guests
+    this.throw(403);
+  }
+
   this.locals.title = user.displayName;
 
   this.body = this.render('index', {
