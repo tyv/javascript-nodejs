@@ -42,7 +42,8 @@ exports.post = function* (next) {
           e.errors.email.message += ' Если он ваш, то можно <a data-switch="login-form" href="#">войти</a> или <a data-switch="forgot-form" href="#">восстановить пароль</a>.';
         }
       } catch (ex) { /* e.errors.email is undefined, that's ok */ }
-      return this.renderValidationError(e);
+      this.renderError(e);
+      return;
     } else {
       this.throw(e);
     }

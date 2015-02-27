@@ -80,8 +80,15 @@ var UserSchema = new mongoose.Schema({
     validate: [
       {
         validator: function uniqueAmongIdsAndProfileNames(value, callback) {
-          if (!this.profileName){
+          if (!value){
             return callback(true);
+          }
+
+          var idValue;
+          try {
+            idValue = mongoose.Types.ObjectId.fromString(value);
+          } catch (e) {
+            idValue = null;
           }
 
           User.findOne({
@@ -89,17 +96,30 @@ var UserSchema = new mongoose.Schema({
               {_id: {$ne: this._id}},
               {
                 $or: [
-                  {_id: this.profileName},
-                  {profileName: this.profileNameparam}
+                  {_id: idValue},
+                  {profileName: value}
                 ]
               }
             ]
-          }, function(err, value) {
-            if (err || value) return callback(false);
+          }, function(err, user) {
+            console.log(err, user);
+            if (err || user) return callback(false);
             callback(true);
           });
         },
         msg:       "Такое имя профиля уже занято."
+      },
+      {
+        validator: function(value) {
+          return /^[a-z0-9-]*$/.test(value);
+        },
+        msg: "В имени профиля допустимы только буквы a-z, цифры и дефис."
+      },
+      {
+        validator: function(value) {
+          return value.length <= 64;
+        },
+        msg: "Максимальная длина имени профиля: 64 символа."
       }
     ]
   },

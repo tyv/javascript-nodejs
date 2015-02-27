@@ -5,90 +5,88 @@ const path = require('path');
 
 var isDevelopment = process.env.NODE_ENV == 'development' && 0;
 
-function renderUserError(error) {
-  /*jshint -W040 */
-  this.status = error.status || 500;
-  this.message = error.message;
-
-  var preferredType = this.accepts('html', 'json');
-
-  if (preferredType == 'json') {
-    this.body = _.pick(error, ['message','status','statusCode']);
-  } else {
-    var templateName = ~[500, 401, 404, 403].indexOf(error.status) ? error.status : 500;
-    this.body = this.render(String(templateName), {error: error});
-  }
-}
-
-function renderDevError(error) {
-  /*jshint -W040 */
-  this.status = 500;
-  this.message = error.message;
-
-  var preferredType = this.accepts('html', 'json');
-
-  var stack = (error.stack || '')
-    .split('\n').slice(1)
-    .map(function(v) {
-      return '<li>' + escapeHtml(v).replace(/  /g, ' &nbsp;') + '</li>';
-    }).join('');
-
-  if (preferredType == 'json') {
-    this.body = _.pick(error, ['message','status','statusCode']);
-    this.body.stack = stack;
-  } else {
-    this.type = 'text/html; charset=utf-8';
-    this.body = "<html><body><h1>" + error.message + "</h1><ul>" + stack + "</ul></body></html>";
-  }
-
-}
 
 function renderError(err) {
   /*jshint -W040 */
+  this.set('X-Content-Type-Options', 'nosniff');
 
-  if (err.expose) {
-    // user-level error
+  // don't pass just err, because for "stack too deep" errors it leads to logging problems
+  this.log.error({
+    message: err.message,
+    stack: err.stack,
+    status: err.status
+  });
 
-    // this.log.error({httpError: err});
+  var preferredType = this.accepts('html', 'json');
 
-    renderUserError.call(this, err);
-  } else {
+  if (err.name == 'ValidationError') {
+    this.status = 400;
 
-    // if error is "call stack too long", then log.error(err) is not verbose
-    // so I cast it to string
-    this.log.error(err.toString());
-    this.log.error(err.stack);
+    if (preferredType == 'json') {
+      var errors = {};
 
-    this.set('X-Content-Type-Options', 'nosniff');
+      for (var field in err.errors) {
+        errors[field] = err.errors[field].message;
+      }
 
-    if (isDevelopment) {
-      renderDevError.call(this, err);
+      this.body = {
+        errors: errors
+      };
     } else {
-      renderUserError.call(this, {status: 500, message: "Ошибка на стороне сервера"});
+      this.body = this.render("400", {error: err});
     }
-  }
-}
 
-function renderValidationError(error) {
-  /*jshint -W040 */
-  this.status = 400;
-  var errors = {};
-
-  for (var field in error.errors) {
-    errors[field] = error.errors[field].message;
+    return;
   }
 
-  this.body = {
-    errors: errors
-  };
+  if (isDevelopment) {
+    this.status = err.status || 500;
+
+    var stack = (err.stack || '')
+      .split('\n').slice(1)
+      .map(function(v) {
+        return '<li>' + escapeHtml(v).replace(/  /g, ' &nbsp;') + '</li>';
+      }).join('');
+
+    if (preferredType == 'json') {
+      this.body = {
+        message: err.message,
+        stack: stack
+      };
+      this.body.statusCode = err.statusCode || err.status;
+    } else {
+      this.type = 'text/html; charset=utf-8';
+      this.body = "<html><body><h1>" + err.message + "</h1><ul>" + stack + "</ul></body></html>";
+    }
+
+    return;
+  }
+
+  this.status = err.expose ? err.status : 500;
+
+  if (preferredType == 'json') {
+    this.body = {
+      message: err.message,
+      statusCode: err.status || err.statusCode
+    };
+  } else {
+    var templateName = ~[500, 401, 404, 403].indexOf(this.status) ? this.status : 500;
+    this.body = this.render(String(templateName), {error: err});
+  }
+
+
 }
+
 
 exports.init = function(app) {
 
   app.use(function*(next) {
     this.renderError = renderError;
+/*
     this.renderValidationError = renderValidationError;
-
+    // only 1 validation error rendered as a generic user error
+    this.renderSingleValidationError = renderSingleValidationError;
+*/
     try {
       yield* next;
     } catch (err) {

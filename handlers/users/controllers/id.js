@@ -10,7 +10,7 @@ var path = require('path');
 
 exports.get = function*(next) {
 
-  var fields = 'created displayName realName birthday email gender country town publicEmail'.split(' ');
+  var fields = 'created displayName realName birthday email gender country town profileName publicEmail'.split(' ');
 
   this.body = { };
   fields.forEach( function(field) {
@@ -117,7 +117,7 @@ exports.patch = function*(next) {
     }
   }
 
-  'displayName realName birthday gender photo country town interests publicEmail'.split(' ').forEach(function(field) {
+  'displayName realName birthday gender photo country town interests profileName publicEmail'.split(' ').forEach(function(field) {
     if (field in fields) {
       user[field] = fields[field];
     }
@@ -158,7 +158,13 @@ exports.patch = function*(next) {
     if (e.name != 'ValidationError') {
       throw e;
     } else {
-      this.renderValidationError(e);
+      // rethrow as a single ordinary error
+      var message;
+      for(var key in e.errors) {
+        message = e.errors[key].message;
+        break;
+      }
+      this.throw(400, message);
     }
     return;
   }
