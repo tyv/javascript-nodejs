@@ -65,7 +65,7 @@ var webpackConfig = {
       {
         test: /\.js$/,
         exclude: noProcessModulesRegExp,
-        loader: '6to5-loader?modules=common'}
+        loader: 'babel-loader'}
     ],
     noParse: [
       // regexp gets full path with loader like
