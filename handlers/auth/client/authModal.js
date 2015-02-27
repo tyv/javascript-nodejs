@@ -314,7 +314,7 @@ AuthModal.prototype.submitLoginForm = function(form) {
   }
 
   if (hasErrors) return;
-  
+
   var request = this.request({
     method: 'POST',
     url:    '/auth/login/local',

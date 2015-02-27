@@ -6,7 +6,7 @@ var thumb = require('client/image').thumb;
 angular.module('profile')
   .directive('profilePhoto', function(promiseTracker, $http, $timeout) {
     return {
-      templateUrl: 'templates/partials/profilePhoto',
+      templateUrl: '/profile/templates/partials/profilePhoto',
       scope: {
         photo: '='
       },

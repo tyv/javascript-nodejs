@@ -5,7 +5,7 @@ var angular = require('angular');
 angular.module('profile')
   .directive('profileField', function(promiseTracker, $http, $timeout) {
     return {
-      templateUrl: 'templates/partials/profileField',
+      templateUrl: '/profile/templates/partials/profileField',
       scope:       {
         title:       '@fieldTitle',
         name:        '@fieldName',

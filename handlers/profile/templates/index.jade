@@ -6,7 +6,7 @@ block append variables
   - var sitetoolbar = true
 
 block append head
-  base(href="/profile/")
+  base(href=user.getProfileUrl() + '/')
 
 block content
 

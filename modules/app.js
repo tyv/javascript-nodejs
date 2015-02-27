@@ -96,7 +96,7 @@ if (process.env.NODE_ENV == 'development') {
   endpoints.push('markup', 'dev');
 }
 
-endpoints.push('users', 'auth', 'getpdf', 'cache', 'search', 'profile', 'currencyRate', 'payments', 'download');
+endpoints.push('users', 'auth', 'getpdf', 'cache', 'search', 'profile', 'profileGuest', 'currencyRate', 'payments', 'download');
 
 // stick to bottom to detect any not-yet-processed /:slug
 endpoints.push('tutorial');

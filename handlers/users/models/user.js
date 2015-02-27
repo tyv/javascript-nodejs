@@ -74,19 +74,19 @@ var UserSchema = new mongoose.Schema({
       message: "Неизвестное значение для пола."
     }
   },
-  profileName:              {
-    type: String,
+  profileName:               {
+    type:     String,
     default:  "", // need a value for validator to run
     validate: [
       {
         validator: function uniqueAmongIdsAndProfileNames(value, callback) {
-          if (!value){
+          if (!value) {
             return callback(true);
           }
 
           var idValue;
           try {
-            idValue = mongoose.Types.ObjectId.fromString(value);
+            idValue = new mongoose.Types.ObjectId(value);
           } catch (e) {
             idValue = null;
           }
@@ -113,13 +113,13 @@ var UserSchema = new mongoose.Schema({
         validator: function(value) {
           return /^[a-z0-9-]*$/.test(value);
         },
-        msg: "В имени профиля допустимы только буквы a-z, цифры и дефис."
+        msg:       "В имени профиля допустимы только буквы a-z, цифры и дефис."
       },
       {
         validator: function(value) {
           return value.length <= 64;
         },
-        msg: "Максимальная длина имени профиля: 64 символа."
+        msg:       "Максимальная длина имени профиля: 64 символа."
       }
     ]
   },
@@ -208,10 +208,10 @@ UserSchema.statics.getInfoFields = function(user) {
     displayName:   user.displayName,
     profileName:   user.profileName,
     gender:        user.gender,
-    birthday:        user.birthday,
+    birthday:      user.birthday,
     country:       user.country,
     town:          user.town,
-    publicEmail:          user.publicEmail,
+    publicEmail:   user.publicEmail,
     interests:     user.interests,
     email:         user.email,
     verifiedEmail: user.verifiedEmail,
@@ -222,6 +222,10 @@ UserSchema.statics.getInfoFields = function(user) {
   };
 };
 
+
+UserSchema.methods.getProfileUrl = function() {
+  return '/profile/' + (this.profileName || this._id);
+};
 
 UserSchema.methods.checkPassword = function(password) {
   if (!password) return false; // empty password means no login by password
@@ -258,6 +262,24 @@ UserSchema.methods.softDelete = function(callback) {
 
 UserSchema.statics.photoDefault = "http://i.imgur.com/zSGftLc.png";
 UserSchema.statics.photoDeleted = "http://i.imgur.com/7KZD6XK.png";
+
+UserSchema.statics.findByProfileName = function(profileName) {
+
+  var idValue;
+  try {
+    idValue = new mongoose.Types.ObjectId(profileName);
+  } catch (e) {
+    idValue = null;
+  }
+
+  return User.findOne({
+    $or: [
+      {profileName: profileName},
+      {_id: idValue}
+    ]
+  });
+
+};
 
 UserSchema.methods.getPhotoUrl = function(width, height) {
   var url = this.deleted ? User.photoDeleted :

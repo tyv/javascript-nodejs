@@ -82,11 +82,7 @@ exports.init = function(app) {
 
   app.use(function*(next) {
     this.renderError = renderError;
-/*
-    this.renderValidationError = renderValidationError;
-    // only 1 validation error rendered as a generic user error
-    this.renderSingleValidationError = renderSingleValidationError;
-*/
+
     try {
       yield* next;
     } catch (err) {
