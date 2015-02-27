@@ -34,7 +34,7 @@ lessons-list-separator = 1px solid #ede8e0
 		border 0
 
 	&__lesson::before
-		content attr(data-section-number) '.' counter(lesson)
+		content counter(lesson) '.'
 		counter-increment lesson
 		font 16px/20px secondary_font
 		color #959595
@@ -44,6 +44,9 @@ lessons-list-separator = 1px solid #ede8e0
 		min-width 30px
 		min-height 22px
 		text-align right
+
+	&__lesson[data-section-number]::before
+		content attr(data-section-number) '.' counter(lesson)
 
 	&__link
 		color alternate_link_color

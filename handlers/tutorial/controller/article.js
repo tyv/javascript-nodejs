@@ -83,7 +83,6 @@ exports.get = function *get(next) {
 
   }
 
-
   locals.sidebar = {
     class: "sidebar_sticky-footer",
     sections: sections
@@ -133,6 +132,16 @@ function* renderArticle(slug) {
   yield* renderSiblings();
   yield* renderChildren();
   yield* renderTasks();
+
+
+  // strip / and /tutorial
+  rendered.level = rendered.breadcrumbs.length - 2; // starts at 0
+
+  if (articleInTree.isFolder) {
+    // levelMax is 2 for deep courses or 1 for plain courses
+    rendered.levelMax = articleInTree.children[0].isFolder ? rendered.level + 2 : rendered.level + 1;
+  }
+
 
   function* renderPrevNext() {
 
