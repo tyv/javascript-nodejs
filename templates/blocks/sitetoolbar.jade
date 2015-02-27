@@ -81,4 +81,4 @@ block append variables
         +b('button').submit-button.__search-submit Найти
 
   if bookChildNumber && bookLeafCount
-    +b('progress')(data-sticky).tutorial-progress(value = bookChildNumber max = bookLeafCount)
+    +b('progress').tutorial-progress(data-sticky, value=bookChildNumber, max= bookLeafCount, data-tooltip=("Глава " + bookChildNumber + " из " + bookLeafCount))
