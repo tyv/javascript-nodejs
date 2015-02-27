@@ -48,6 +48,7 @@ module.exports = function(options) {
       exec('scp /tmp/cmd.js ' + host + ':/tmp/');
       exec('ssh ' + host + ' "mongo js /tmp/cmd.js"');
 
+      exec('rsync -rlDv /js/javascript-nodejs/public/ ' + host + ':/js/javascript-nodejs/current/public/');
     });
   };
 };
