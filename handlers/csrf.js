@@ -17,6 +17,10 @@ CsrfChecker.prototype.middleware = function() {
 
     var checkCsrf = true;
 
+    if (!this.user) {
+      checkCsrf = false;
+    }
+
     if (self.ignore.check(this.path)) {
       checkCsrf = false;
     }

@@ -1,0 +1,14 @@
+extends /layouts/main
+
+block append variables
+
+    - var layout_header_class = "main__header_center"
+    - var breadcrumbs = [{ title: 'Тесты', url: '/quiz' }, { title: 'JavaScript.ru', url: 'http://javascript.ru' }]
+    - var content_class = 'content_center'
+    - var sitetoolbar = true
+    - var quiz = {}
+    - quiz.title = 'Что из этого не событие мыши'
+    - quiz.variants = ['onmousescroll', 'onclick', 'onmousover', 'onmousemove', 'onmousewheel']
+
+block content
+    include blocks/quiz

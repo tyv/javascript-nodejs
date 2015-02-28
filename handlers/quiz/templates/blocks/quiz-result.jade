@@ -1,0 +1,57 @@
+block append variables
+
+  -var quizResult = {};
+  -quizResult.resultsLink = '/123'
+  -quizResult.try = '3'
+  -quizResult.percents = '62'
+  -quizResult.position = '25'
+  -quizResult.level = 'medium' // juniour || senior
+  -quizResult.levelText = 'средний'
+  -quizResult.weakList = ['события', 'кроссбраузерность', 'замыкания']
+
+  -var rotate = parseInt((quizResult.percents * 1.8), 10) + 'deg'
+
+
++b.quiz-result
+
+  +e.try
+    +e("span").try-num Попытка №!{ quizResult.try }
+    span  (
+    +e("a").prev-results(href='/2') предыдущие результаты
+    span )
+
+  +e.layout
+    +e.left
+      +b.quiz-percents
+        +e("dl").result
+          +e("dt").text Ваш результат:
+          +e("dd")
+            +e("p").percents !{ quizResult.percents }%
+        +e("dl").position
+          +e("dt").text Вы прошли текст лушче, чем
+          +e("dd")
+            +e("p").percents !{ quizResult.position }%
+            +e("p").text респондентов
+
+    style.
+      .quiz-results-indicator__indicator:after
+      {
+        -webkit-transform: rotate(!{ rotate });
+        -moz-transform: rotate(!{ rotate });
+        -ms-transform: rotate(!{ rotate });
+        -o-transform: rotate(!{ rotate });
+        transform: rotate(!{ rotate });
+      }
+
+    +e.center
+      +b.quiz-results-indicator
+        +e.indicator
+        +e.text Ваш предположительный уровень&nbsp;—
+          span(class='quiz-results-indicator__level quiz-results-indicator__level_' + quizResult.level)  !{ quizResult.levelText }
+
+    +e.right
+      +b.quiz-weak-list
+        +e("h1").title Ваши слабые места:
+        +e("ul").list
+          for item in quizResult.weakList
+            +e("li").item !{ item }

@@ -1,4 +1,4 @@
-+b(class="quiz-test "+( quiz.done ? (quiz.correct ? " _correct_true" : " _correct_false") : ""))
++b(class="quiz-question "+( quiz.done ? (quiz.correct ? " _correct_true" : " _correct_false") : ""))
   +e("form")(atcion="/").body
     +e("h1").title !{ quiz.title }
     +e("ul").variants
@@ -22,7 +22,7 @@
   script.
       (function() {
         var isSpinner,
-            form = document.querySelector('.quiz-test__body'),
+            form = document.querySelector('.quiz-question__body'),
             button = document.querySelector('.button_action');
 
 

@@ -1,0 +1,16 @@
++b.quiz-selector
+  +e("ul").list
+    each quiz in quizzes
+      +e("li").item
+        +e.text
+          +e("h3").title!= quiz.title
+          != quiz.description
+        +e.start
+          +e.start-i
+            form(action="/quiz/start/#{quiz.slug}", method="POST")
+              input(type="hidden" name="_csrf" value=csrf)
+              +b("button").button._common
+                +e("span").text Пройти тестирование
+            if quiz.score
+              +e.result Предыдущий результат: !{ quiz.score }
+
