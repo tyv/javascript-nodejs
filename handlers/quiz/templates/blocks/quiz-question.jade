@@ -1,27 +1,28 @@
 +b(class="quiz-question")
-  +e("form")(action="/quiz/answer/#{quiz.slug}")
-    +e.body
-      +e("h1").title= question.title
+  input(type="hidden" name="type" value=question.type)
+  +e.body
+    +e("h1").title= question.title
 
-      if question.type == 'single'
-        +e("ul").variants
-          each answer in question.answers
-            +e("li")(class="variant")
-              +e("label").label
-                +e("input").input(type="radio" name="answer")
-                +e("span").input-text= answer
+    if question.type == 'single'
+      +e("ul").variants
+        each answer, num in question.answers
+          +e("li")(class="variant")
+            +e("label").label
+              +e("input").input(type="radio" value=num name="answer")
+              +e("span").input-text= answer
 
-      if question.type == 'multi'
-        +e("ul").variants
-          each answer in question.answers
-            +e("li")(class="variant")
-              +e("label").label
-                +e("input").input(type="checkbox" name="answer")
-                +e("span").input-text= answer
+    if question.type == 'multi'
+      +e("ul").variants
+        each answer, num in question.answers
+          +e("li")(class="variant")
+            +e("label").label
+              +e("input").input(type="checkbox" value=num name="answer")
+              +e("span").input-text= answer
 
-      if question.note
-        +e("p").note!= question.note
+    if question.note
+      +e("p").note!= question.note
 
-    +e.submit
-      +b("button").button._action
-        +e("span").text Продолжить
+  +e.submit
+    +b("button").button._action(type="submit" disabled)
+      +e("span").text Продолжить
+

@@ -9,17 +9,20 @@ function QuizImporter(options) {
 
 }
 
-QuizImporter.prototype.destroyAll = function*() {
-
-  yield Quiz.destroy({});
-
-};
-
 QuizImporter.prototype.import = function*() {
 
   var quizObj = yaml.safeLoad(fs.readFileSync(this.root, 'utf8'));
 
   var quiz = new Quiz(quizObj);
+  quiz.archived = false;
+
+  yield Quiz.update({
+    slug: quiz.slug
+  }, {
+    $set: {
+      archived: true
+    }
+  }).exec();
 
   try {
     yield quiz.persist();

@@ -3,13 +3,17 @@ const QuizResult = require('../models/quizResult');
 
 exports.get = function*() {
 
+  this.nocache();
+
 /*
   - quiz.list = []
   - quiz.list.push({ title: 'Основной Javascript', description: 'В тест включены вопросы по взаимодействию Javascript, DOM HTML, по синтаксису языка', url: '/123' })
   - quiz.list.push({ title: 'Особенности и фишки Javascript', description: 'Особенности Javascript по сравнению с другими языками. Трюки и фишки DOM, браузеров', url: '/123', result: '42%' })
   - quiz.list.push({ title: 'Коммуникация с сервером, AJAX, XMLHttpRequest', description: 'Различные аспекты работы с сервером из Javascript, транспорты и технологии', url: '/123' })
 */
-  var quizzes = yield Quiz.find({}).exec();
+  var quizzes = yield Quiz.find({
+    archived: false
+  }).exec();
 
   this.locals.quizzes = [];
 
@@ -18,7 +22,9 @@ exports.get = function*() {
   var quizResults = [];
   if (this.user) {
     this.locals.csrf = this.csrf;
-    quizResults = yield QuizResult.find({user: this.user._id}).exec();
+    quizResults = yield QuizResult.find({
+      user: this.user._id
+    }).exec();
   }
 
   for (var i = 0; i < quizzes.length; i++) {

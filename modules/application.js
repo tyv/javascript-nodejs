@@ -33,7 +33,6 @@ inherits(Application, KoaApplication);
 // for PROD, there is a reason: to check if DB is ok before taking a request
 Application.prototype.waitBoot = function* () {
 
-
   for (var path in this.handlers) {
     var handler = this.handlers[path];
     if (!handler.boot) continue;

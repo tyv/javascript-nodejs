@@ -21,9 +21,6 @@ module.exports = function(options) {
 
     return co(function* () {
 
-      yield* importer.destroyAll();
-
-
       yield* importer.import();
 
       log.info("DONE");

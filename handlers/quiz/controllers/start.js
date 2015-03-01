@@ -4,7 +4,10 @@ const _ = require('lodash');
 
 exports.post = function*() {
 
-  var quiz = yield Quiz.findOne({slug: this.params.slug}).exec();
+  var quiz = yield Quiz.findOne({
+    slug: this.params.slug,
+    archived: false
+  }).exec();
 
   if (!quiz) {
     this.throw(404);
@@ -16,7 +19,9 @@ exports.post = function*() {
 
   var sessionQuiz = {
     started: Date.now(),
-    questionsTaken: []
+    id: quiz._id,
+    questionsTaken: [],
+    answers: []
   };
 
   this.session.quizzes[quiz.slug] = sessionQuiz;

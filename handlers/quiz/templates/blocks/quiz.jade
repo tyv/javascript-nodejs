@@ -1,3 +1,5 @@
 +b.quiz
   include quiz-timeline
-  include quiz-question
+
+  form(action="/quiz/answer/#{quiz.slug}" data-quiz-question-form method="POST")
+    include quiz-question

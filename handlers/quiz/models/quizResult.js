@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// An attempt of quiz solving by a user
+// An attempt of quiz solving
 const schema = new Schema({
   user:        {
     type: Schema.Types.ObjectId,

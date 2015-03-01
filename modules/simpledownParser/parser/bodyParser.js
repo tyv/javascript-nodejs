@@ -25,6 +25,7 @@ var TextNode = require('../node/textNode');
 var ParseError = require('./parseError');
 var contextTypography = require('../typography/contextTypography');
 var charTypography = require('../typography/charTypography');
+var formatTitle = require('../typography/formatTitle');
 var ensureSafeUrl = require('./ensureSafeUrl');
 var stripTags = require('../util/stripTags');
 
@@ -177,7 +178,7 @@ BodyParser.prototype.parseNodes = function() {
  */
 BodyParser.prototype.parseHeader = function(token) {
   // no formatting/tags in headers, only typography
-  var titleHtml = contextTypography(charTypography(stripTags(token.title)), { noParagraphs: true });
+  var titleHtml = formatTitle(token.title);
 
   var level = token.level;
 
