@@ -1,0 +1,40 @@
+block append variables
+
+  - var quizResultLevel = quizResult.quizScore <= 40 ? 'junior' : quizResult.quizScore <= 80 ? 'medium' : 'senior';
+  - var quizResultLevelText = {junior: 'новичок', medium: 'средний', senior: 'профи'}[quizResultLevel];
+  - var rotate = parseInt((quizResult.quizScore * 1.8), 10) + 'deg'
+
+
++b.quiz-result
+
+  +e.layout
+    +e.left
+      +b.quiz-percents
+        +e("dl").result
+          +e("dt").text Ваш результат:
+          +e("dd")
+            +e("p").percents !{ quizResult.quizScore }%
+
+    style.
+      .quiz-results-indicator__indicator:after
+      {
+        -webkit-transform: rotate(!{ rotate });
+        -moz-transform: rotate(!{ rotate });
+        -ms-transform: rotate(!{ rotate });
+        -o-transform: rotate(!{ rotate });
+        transform: rotate(!{ rotate });
+      }
+
+    +e.center
+      +b.quiz-results-indicator
+        +e.indicator
+        +e.text Ваш предположительный уровень&nbsp;—
+          span(class='quiz-results-indicator__level quiz-results-indicator__level_' + quizResultLevel)= quizResultLevelText
+
+    +e.righ
+      +b.quiz-percents
+        +e("dl").position
+          +e("dt").text Вы прошли текст лушче, чем
+          +e("dd")
+            +e("p").percents !{ quizBelowPercentage }%
+            +e("p").text респондентов

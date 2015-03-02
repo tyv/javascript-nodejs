@@ -1,12 +1,16 @@
 var Spinner = require('client/spinner');
 var xhr = require('client/xhr');
 
+var prism = require('client/prism');
+
 function init() {
   var quizQuestionForm = document.querySelector('[data-quiz-question-form]');
 
   if (quizQuestionForm) {
     initQuizForm(quizQuestionForm);
   }
+
+  prism();
 }
 
 function initQuizForm(form) {
@@ -37,8 +41,7 @@ function initQuizForm(form) {
       method: 'POST',
       url:    form.action,
       body:   {
-        answer: value,
-        type:   form.elements.type.value
+        answer: value
       }
     });
 

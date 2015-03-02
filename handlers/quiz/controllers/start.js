@@ -20,13 +20,13 @@ exports.post = function*() {
   var sessionQuiz = {
     started: Date.now(),
     id: quiz._id,
-    questionsTaken: [],
+    questionsTakenIds: [],
     answers: []
   };
 
   this.session.quizzes[quiz.slug] = sessionQuiz;
 
-  sessionQuiz.questionCurrent = _.sample(quiz.questions, 1)[0].toObject();
+  sessionQuiz.questionCurrentId = _.sample(quiz.questions, 1)[0]._id;
 
   this.redirect(quiz.getUrl());
 };

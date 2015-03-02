@@ -28,7 +28,7 @@ block append variables
     - quizes[1].note = 'Пояснение результата'
 
 block content
-    include ../blocks/quiz-result
+    include blocks/result
 
     each quiz in quizes
-        include ../blocks/quiz-question
+        include block/question

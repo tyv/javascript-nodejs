@@ -1,14 +1,13 @@
-+b(class="quiz-question")
-  input(type="hidden" name="type" value=question.type)
++b(class=["quiz-question", quizResult && (quiz.correct ? "_correct_true" : "_correct_false")])
   +e.body
-    +e("h1").title= question.title
+    != question.contentRendered
 
     if question.type == 'single'
       +e("ul").variants
         each answer, num in question.answers
-          +e("li")(class="variant")
+          +e("li")(class=["variant", num == question.correctAnswer && "_correct"])
             +e("label").label
-              +e("input").input(type="radio" value=num name="answer")
+              +e("input").input(type="radio" value=num name="answer" disabled=quizResult checked=)
               +e("span").input-text= answer
 
     if question.type == 'multi'
@@ -18,9 +17,6 @@
             +e("label").label
               +e("input").input(type="checkbox" value=num name="answer")
               +e("span").input-text= answer
-
-    if question.note
-      +e("p").note!= question.note
 
   +e.submit
     +b("button").button._action(type="submit" disabled)

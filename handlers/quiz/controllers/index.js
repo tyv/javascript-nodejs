@@ -41,7 +41,6 @@ exports.get = function*() {
     });
 
     this.locals.quizzes.push(q);
-
   }
 
   this.body = this.render('index');

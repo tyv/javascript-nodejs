@@ -31,6 +31,9 @@ const schema = new Schema({
     required: true
   },
 
+  // better than XX% participants is not stored here,
+  // because it is not persistent
+
   created: {
     type: Date,
     required: true,

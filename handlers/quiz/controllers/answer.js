@@ -1,5 +1,6 @@
 const Quiz = require('../models/quiz');
 const QuizResult = require('../models/quizResult');
+const QuizStat = require('../models/quizStat');
 const QuizQuestion = require('../models/quizQuestion');
 const _ = require('lodash');
 
@@ -25,35 +26,43 @@ exports.post = function*() {
   }
 
   // save selected answers in the question and push to questionsTaken
-  var question = sessionQuiz.questionCurrent;
+  var question = quiz.questions.id(sessionQuiz.questionCurrentId);
 
-  // type is not same, maybe question was renewed?
-  if (this.request.body.type != question.type) {
-    this.log.debug("Wrong type", this.request.body.type, question);
-
-    this.throw(404);
-  }
-
-  sessionQuiz.questionsTaken.push(question);
+  sessionQuiz.questionsTakenIds.push(question._id);
   sessionQuiz.answers.push(this.request.body.answer);
 
-  if (sessionQuiz.questionsTaken.length == quiz.questionsToAskCount) {
+  if (sessionQuiz.questionsTakenIds.length == quiz.questionsToAskCount) {
 
     var totalScore = 0;
-    sessionQuiz.questionsTaken.forEach(function(question, i) {
-      question = new QuizQuestion(question);
-      totalScore += question.getAnswerScore(sessionQuiz.answers[i]);
+    sessionQuiz.questionsTakenIds.forEach(function(id, i) {
+      totalScore += quiz.questions.id(id).getAnswerScore(sessionQuiz.answers[i]);
     });
 
+    // percentage of solved
+    totalScore = Math.round(totalScore / quiz.questionsToAskCount * 100);
+
     var quizResult = new QuizResult({
-      user: this.user,
-      quizSlug: quiz.slug,
+      user:      this.user,
+      quizSlug:  quiz.slug,
       quizTitle: quiz.title,
       quizScore: totalScore,
-      quizTime: Date.now() - sessionQuiz.started
+      quizTime:  Date.now() - sessionQuiz.started
     });
 
     sessionQuiz.result = quizResult.toObject();
+
+
+    yield QuizStat.update({
+      slug:  quiz.slug,
+      score: totalScore
+    }, {
+      $inc: {
+        count: 1
+      }
+    }, {
+      upsert: true
+    }).exec();
+
 
     this.body = {
       reload: true
@@ -65,20 +74,20 @@ exports.post = function*() {
     var questionsAvailable = quiz.questions.filter(function(question) {
       // if a quiz.question is taken, exclude it from the list
       var found = false;
-      sessionQuiz.questionsTaken.forEach(function(q) {
-        if (String(q._id) == String(question._id)) found = true;
+      sessionQuiz.questionsTakenIds.forEach(function(id) {
+        if (String(id) == String(question._id)) found = true;
       });
 
       return !found;
     });
 
-    sessionQuiz.questionCurrent = _.sample(questionsAvailable, 1)[0].toObject();
+    sessionQuiz.questionCurrentId = _.sample(questionsAvailable, 1)[0]._id;
 
-    this.locals.question = sessionQuiz.questionCurrent;
+    this.locals.question = quiz.questions.id(sessionQuiz.questionCurrentId);
 
     this.body = {
-      html: this.render('partials/_question'),
-      questionNumber: sessionQuiz.questionsTaken.length
+      html:           this.render('partials/_question'),
+      questionNumber: sessionQuiz.questionsTakenIds.length
     };
 
 

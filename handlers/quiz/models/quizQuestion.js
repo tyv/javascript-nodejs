@@ -7,7 +7,7 @@ const _ = require('lodash');
 
 
 const schema = new Schema({
-  title: {
+  content: {
     type: String,
     required: true
   },
