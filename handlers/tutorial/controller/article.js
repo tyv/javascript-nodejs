@@ -191,8 +191,11 @@ function* renderArticle(slug) {
 
     countChildren(bookRoot);
 
-    rendered.bookLeafCount = bookLeafCount;
-    rendered.bookChildNumber = bookChildNumber;
+    if (!(bookChildNumber == 1 && rendered.isFolder)) {
+      // not on top level first chapters
+      rendered.bookLeafCount = bookLeafCount;
+      rendered.bookChildNumber = bookChildNumber;
+    }
 
     //console.log(bookLeafCount, bookChildNumber);
   }

@@ -7,10 +7,13 @@ function trackSticky() {
 
   for (var i = 0; i < stickyElems.length; i++) {
     var stickyElem = stickyElems[i];
+    var container = stickyElem.dataset.sticky ?
+      document.querySelector(stickyElem.dataset.sticky) : document.body;
 
     if (stickyElem.getBoundingClientRect().top < 0) {
       // become fixed
       if (stickyElem.style.cssText) {
+        // already fixed
         // inertia: happens when scrolled fast too much to bottom
         // http://ilyakantor.ru/screen/2015-02-24_1555.swf
         return;
@@ -21,7 +24,7 @@ function trackSticky() {
 
       stickyElem.parentNode.insertBefore(placeholder, stickyElem);
 
-      document.body.appendChild(stickyElem);
+      container.appendChild(stickyElem);
       stickyElem.classList.add('sticky');
       stickyElem.style.position = 'fixed';
       stickyElem.style.top = 0;
