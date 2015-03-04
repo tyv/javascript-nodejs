@@ -85,13 +85,16 @@ FiguresImporter.prototype.syncFigures = function*() {
 
   var allFigureFilePaths = glob.sync(path.join(this.root, '**/*.{png,svg}'));
 
-  function findArtboardPath(artboard) {
+  function findArtboardPaths(artboard) {
 
+    var paths = [];
     for (var j = 0; j < allFigureFilePaths.length; j++) {
       if (path.basename(allFigureFilePaths[j]) == artboard.name) {
-        return path.dirname(allFigureFilePaths[j]);
+        paths.push(path.dirname(allFigureFilePaths[j]));
       }
     }
+
+    return paths;
 
   }
 
@@ -100,18 +103,21 @@ FiguresImporter.prototype.syncFigures = function*() {
 
   for (var i = 0; i < artboardsExported.length; i++) {
     var artboard = artboardsExported[i];
-    var artboardPath = findArtboardPath(artboard);
-    if (!artboardPath) {
+    var artboardPaths = findArtboardPaths(artboard);
+    if (!artboardPaths.length) {
       log.error("Artboard path not found " + artboard.name);
       continue;
     }
 
+    for (var j = 0; j < artboardPaths.length; j++) {
+      var artboardPath = artboardPaths[j];
 
-    log.info("syncFigure move " + artboard.name + " -> " + artboardPath);
-    fse.copySync(path.join(outputDir, artboard.name), path.join(artboardPath, artboard.name));
-    if (path.extname(artboard.name) == '.png') {
-      var x2Name = artboard.name.replace('.png', '@2x.png');
-      fse.copySync(path.join(outputDir, x2Name), path.join(artboardPath, x2Name));
+      log.info("syncFigure move " + artboard.name + " -> " + artboardPath);
+      fse.copySync(path.join(outputDir, artboard.name), path.join(artboardPath, artboard.name));
+      if (path.extname(artboard.name) == '.png') {
+        var x2Name = artboard.name.replace('.png', '@2x.png');
+        fse.copySync(path.join(outputDir, x2Name), path.join(artboardPath, x2Name));
+      }
     }
 
   }
