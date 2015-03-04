@@ -57,7 +57,6 @@ function CodeBox(elem) {
 
   function runHTML() {
 
-    var hasHeight = false;
     var frame;
 
     if (htmlResult && elem.dataset.refresh) {
@@ -76,11 +75,9 @@ function CodeBox(elem) {
       if (elem.dataset.demoHeight === "0") {
         // this html has nothing to show
         frame.style.display = 'none';
-        hasHeight = true;
       } else if (elem.dataset.demoHeight) {
         var height = +elem.dataset.demoHeight;
         frame.style.height = height + 'px';
-        hasHeight = true;
       }
       htmlResult.appendChild(frame);
 
@@ -96,7 +93,7 @@ function CodeBox(elem) {
       doc.write(normalizeHtml(code));
       doc.close();
 
-      if (!hasHeight) {
+      if (elem.dataset.demoHeight === undefined) {
         resizeOnload.iframe(frame);
       }
 
@@ -126,7 +123,7 @@ function CodeBox(elem) {
       if (!(isFirstRun && elem.dataset.autorun)) {
         frame.onload = function() {
 
-          if (!hasHeight) {
+          if (elem.dataset.demoHeight === undefined) {
             resizeOnload.iframe(frame);
           }
 
