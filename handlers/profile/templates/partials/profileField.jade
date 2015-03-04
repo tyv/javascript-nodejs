@@ -9,13 +9,13 @@ include /bem
   ng-click="edit()"
   ng-class="{'profile-field_editing': editing}"
 )
-  +e.content
-    +e.name {{title}}:
-    +e.value(ng-bind="formatValue(value)")
-  +e.change(ng-show="editing")
-    +e.change-content
-      +e.labeled
-        +e('label').labeled-label {{title}}:
+
+  +e.name {{title}}:
+  +e.value
+    +e.value-i(ng-bind="formatValue(value)")
+
+    +e.change(ng-show="editing")
+      +e.change-content
         +b.text-input._small.__control(ng-class="{'text-input_invalid':form.$invalid}")
           div(control-transclude)
             //- ng-transclude comes here
@@ -27,7 +27,7 @@ include /bem
             +e(ng-message="date") Дата неверна, формат: дд.мм.гггг.
             +e(ng-message="dateRange") Такой даты здесь не может быть.
 
-    +e.ok-cancel
-      +b('button')(type="submit" progress="loadingTracker.active()" progress-spinner="{elemClass:'submit-button_progress',size:'small'}").submit-button._small.__save
-        +e('span').text Сохранить
-      +e('button').cancel(type="button" ng-click="cancel()") Отмена
+      +e.ok-cancel
+        +b('button')(type="submit" progress="loadingTracker.active()" progress-spinner="{elemClass:'submit-button_progress',size:'small'}").submit-button._small.__save
+          +e('span').text Сохранить
+        +e('button').cancel(type="button" ng-click="cancel()") Отмена

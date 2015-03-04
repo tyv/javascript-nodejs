@@ -6,22 +6,23 @@ include /bem
     +e.title-content
       +e('h2').inline-title Управление аккаунтом
 
-  +e('profile-field')(field-name="displayName" field-title="Имя пользователя" field-value="me.displayName")
-    input.text-input__control(type="text" name="input"
-      focus-on="editing"
-      required
-      ng-minlength="2"
-      ng-model="editingValue"
-      ng-model-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 0} }"
-    )
+  +e.fields
+    +e('profile-field')(field-name="displayName" field-title="Имя пользователя" field-value="me.displayName")
+      input.text-input__control(type="text" name="input"
+        focus-on="editing"
+        required
+        ng-minlength="2"
+        ng-model="editingValue"
+        ng-model-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 0} }"
+      )
 
-  +e('profile-field')(field-name="email" field-title="Email" field-value="me.email")
-    input.text-input__control(type="email" name="input"
-      focus-on="editing"
-      required
-      ng-model="editingValue"
-      ng-model-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 0} }"
-    )
+    +e('profile-field')(field-name="email" field-title="Email" field-value="me.email")
+      input.text-input__control(type="email" name="input"
+        focus-on="editing"
+        required
+        ng-model="editingValue"
+        ng-model-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 0} }"
+      )
 
 
   +e('profile-password')(has-password="me.hasPassword")
