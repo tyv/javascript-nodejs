@@ -42,7 +42,7 @@ function CodeBox(elem) {
   }
 
   // some code can't be executed by epub engine
-  if (elem.dataset.autorun && !(window.ebookFormat == 'epub' && elem.dataset.autorun == 'no-epub')) {
+  if (elem.dataset.autorun !== undefined && !(window.ebookFormat == 'epub' && elem.dataset.autorun == 'no-epub')) {
     setTimeout(run, 10);
   }
 

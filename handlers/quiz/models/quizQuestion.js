@@ -48,6 +48,7 @@ schema.methods.getAnswerScore = function(answer) {
   case 'single':
     return this.correctAnswer == answer ? 1 : 0;
   case 'multi':
+    console.log(answer, this.correctAnswer);
     assert(Array.isArray(answer));
     assert(Array.isArray(this.correctAnswer));
     /*

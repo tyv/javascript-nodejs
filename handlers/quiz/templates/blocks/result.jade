@@ -28,13 +28,13 @@ block append variables
     +e.center
       +b.quiz-results-indicator
         +e.indicator
-        +e.text Ваш предположительный уровень&nbsp;—
+        +e.text Ваш предположительный уровень&nbsp;—&nbsp;
           span(class='quiz-results-indicator__level quiz-results-indicator__level_' + quizResultLevel)= quizResultLevelText
 
-    +e.righ
+    +e.right
       +b.quiz-percents
-        +e("dl").position
-          +e("dt").text Вы прошли текст лушче, чем
+        +e("dl").result
+          +e("dt").text Вы прошли тест лучше, чем
           +e("dd")
             +e("p").percents !{ quizBelowPercentage }%
             +e("p").text респондентов

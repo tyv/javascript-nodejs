@@ -57,7 +57,9 @@ schema.statics.getBelowScorePercentage = function*(slug, score) {
     }
   ).exec();
 
-  return Math.round(belowCount[0].total / totalCount[0].total * 100);
+  belowCount = belowCount.length ? belowCount[0].total : 0;
+  totalCount = totalCount.length ? totalCount[0].total : 1;
+  return Math.round(belowCount / totalCount * 100);
 
 };
 

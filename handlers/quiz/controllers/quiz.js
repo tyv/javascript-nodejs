@@ -36,19 +36,17 @@ exports.get = function*() {
     this.locals.quizResult = sessionQuiz.result;
     this.locals.quizBelowPercentage = belowPercentage;
 
-    this.locals.quizQuestions = sessionQuiz.questionsTakenIds.map(function(id) {
+    this.locals.quizQuestions = sessionQuiz.questionsTakenIds.map(function(id, num) {
       var question = quiz.questions.id(id).toObject();
+      question.userAnswer = sessionQuiz.answers[num];
+      question.correct = quiz.questions.id(id).getAnswerScore(question.userAnswer);
+      question.contentRendered = renderSimpledown(question.content);
+      return question;
+    });
 
+    this.locals.title = formatTitle(quiz.title);
 
-      sessionQuiz.questionsTakenIds.push(question._id);
-      sessionQuiz.answers.push(this.request.body.answer);
-
-
-    })
-
-
-    console.log(belowPercentage);
-    // TODO: show result
+    this.body = this.render('results');
   } else {
     // show current question
     var questionCurrent = quiz.questions.id(sessionQuiz.questionCurrentId);

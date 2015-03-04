@@ -16,12 +16,20 @@ function init() {
 function initQuizForm(form) {
 
   function getValue() {
+    var type = form.elements.type.value;
+
     var answerElems = form.elements.answer;
 
     var value = [];
 
     for (var i = 0; i < answerElems.length; i++) {
-      if (answerElems[i].checked) value.push(answerElems[i].value);
+      if (answerElems[i].checked) {
+        value.push(+answerElems[i].value);
+      }
+    }
+
+    if (type == 'single') {
+      value = value[0];
     }
 
     return value;

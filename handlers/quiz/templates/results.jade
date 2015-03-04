@@ -2,33 +2,17 @@ extends /layouts/main
 
 block append variables
 
-    - var layout_header_class = "main__header_center"
-    - var title = 'Результаты'
-    - var breadcrumbs = [{ title: 'Учебник', url: '/tutorial' }, { title: 'JavaScript.ru', url: 'http://javascript.ru' }]
-
-    - var content_class = 'content_center'
-
-    - var quiz = {}
-
-    - quiz.title = 'Что из этого не событие мыши'
-    - quiz.variants = ['onmousescroll', 'onclick', 'onmousover', 'onmousemove', 'onmousewheel']
-
-    - var quizes = [JSON.parse(JSON.stringify(quiz)), JSON.parse(JSON.stringify(quiz))]
-
-    - quizes[0].done = quizes[1].done = true
-
-    - quizes[0].correct = true
-    - quizes[1].correct = false
-
-    - quizes[0].selected = 1
-
-    - quizes[1].selected = 3
-    - quizes[1].correctNum = 1
-
-    - quizes[1].note = 'Пояснение результата'
+  - var layout_header_class = "main__header_center"
+  - var breadcrumbs = [{ title: 'JavaScript.ru', url: 'http://javascript.ru' }, { title: 'Тесты', url: '/quiz' }]
+  - var sitetoolbar = true
+  - var content_class = 'content_center'
+  - var layout_main_class = "main_width-limit"
 
 block content
-    include blocks/result
+  include blocks/result
 
-    each quiz in quizes
-        include block/question
+  each question in quizQuestions
+    include blocks/question
+
+  script(src=script("quiz"))
+  script quiz.init();

@@ -29,7 +29,17 @@ exports.post = function*() {
   var question = quiz.questions.id(sessionQuiz.questionCurrentId);
 
   sessionQuiz.questionsTakenIds.push(question._id);
-  sessionQuiz.answers.push(this.request.body.answer);
+
+  if (question.type == 'single') {
+    sessionQuiz.answers.push(+this.request.body.answer);
+  } else if (question.type == 'multi') {
+    if (!Array.isArray(this.request.body.answer)) {
+      this.throw(400);
+    }
+    sessionQuiz.answers.push(this.request.body.answer.map(Number));
+  } else {
+    throw new Error("Unknown question type: " + question.type);
+  }
 
   if (sessionQuiz.questionsTakenIds.length == quiz.questionsToAskCount) {
 

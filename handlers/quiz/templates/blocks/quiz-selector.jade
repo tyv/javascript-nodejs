@@ -11,6 +11,7 @@
               input(type="hidden" name="_csrf" value=csrf)
               +b("button").button._common
                 +e("span").text Пройти тестирование
+            | TODO
             if quiz.score
               +e.result Предыдущий результат: !{ quiz.score }
 
