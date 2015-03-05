@@ -24,14 +24,14 @@ module.exports = function(options) {
 
     gutil.log("minify " + root);
 
-    return gulp.src(root + '/**/*.{png,jpg,gif}')
-    //return gulp.src(root + '/**/*.{svg,png,jpg,gif}')
+    //return gulp.src(root + '/**/*.{png,jpg,gif}')
+    return gulp.src(root + '/**/*.{svg,png,jpg,gif}')
       .pipe(gp.debug())
 
       .pipe(gp.imagemin({
         verbose: true,
         progressive: true,
-        svgoPlugins: [{removeViewBox: false}],
+      //  svgoPlugins: [{removeViewBox: false}],
         use:         [pngquant()]
       }))
       .pipe(gulp.dest(root));
