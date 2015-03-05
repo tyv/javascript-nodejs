@@ -45,6 +45,11 @@ function TutorialMap(elem) {
     this.showChaptersCollapsed();
   });
 
+  var activeLink = this.elem.querySelector('[href="' + location.pathname + '"]');
+  if (activeLink) {
+    activeLink.classList.add('tutorial-map__link_active');
+  }
+
 }
 
 

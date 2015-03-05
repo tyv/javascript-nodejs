@@ -11,6 +11,7 @@ const _ = require('lodash');
 const assert = require('assert');
 const i18n = require('i18next');
 const money = require('money');
+const url = require('url');
 
 require('lib/requireJade');
 
@@ -33,7 +34,7 @@ function addStandardHelpers(locals, ctx) {
 
   locals.moment = moment;
 
-  locals.url = ctx.protocol + '://' + ctx.host + ctx.originalUrl;
+  locals.url = url.parse(ctx.protocol + '://' + ctx.host + ctx.originalUrl);
   locals.context = ctx;
 
   locals.counterEnabled = (ctx.host == 'nightly.javascript.ru');
@@ -50,6 +51,8 @@ function addStandardHelpers(locals, ctx) {
   });
 
   locals.csrf = function() {
+    // function, not a property to prevent autogeneration
+    // jade touches all local properties
     return ctx.user ? ctx.csrf : null;
   };
 
