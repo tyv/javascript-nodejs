@@ -511,7 +511,7 @@ TutorialImporter.prototype.syncTaskJs = function*(jsPath, task) {
 function makeSource(sourceJs, testJs) {
   var source = "<!DOCTYPE HTML>\n<html>\n<head>\n  <meta charset=\"utf-8\">\n";
   if (testJs) {
-    source += "  <script src=\"http://js.cx/test/libs.js\"></script>\n";
+    source += "  <script src=\"https://js.cx/test/libs.js\"></script>\n";
     source += "  <script src=\"test.js\"></script>\n";
   }
   source += "</head>\n<body>\n\n  <script>\n\n";
@@ -526,7 +526,7 @@ function makeSource(sourceJs, testJs) {
 function makeSolution(solutionJs, testJs) {
   var solution = "<!DOCTYPE html>\n<html>\n<head>\n  <meta charset=\"utf-8\">\n";
   if (testJs) {
-    solution += "  <script src=\"http://js.cx/test/libs.js\"></script>\n";
+    solution += "  <script src=\"https://js.cx/test/libs.js\"></script>\n";
     solution += "  <script src=\"test.js\"></script>\n";
   }
   solution += "</head>\n<body>\n\n  <script>\n\n";

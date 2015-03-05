@@ -9,11 +9,11 @@ var HtmlTransformer = require('..').HtmlTransformer;
 var text = "TEST";
 
 console.log(text);
-var options = { 
-  staticHost: "http://js.cx",
+var options = {
+  staticHost: "https://js.cx",
   resourceWebRoot: '/task/hello-alert',
   metadata:                   {},
-  trusted:                    true 
+  trusted:                    true
 };
 
 var d = new Date();

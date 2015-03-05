@@ -79,7 +79,7 @@ ArticleRenderer.prototype._libsToJsCss = function(libs) {
 
   _.uniq(libs).forEach(function(lib) {
     if (!~lib.indexOf('://')) {
-      lib = 'http://js.cx/libs/' + lib;
+      lib = 'https://js.cx/libs/' + lib;
     }
 
     if (lib.slice(-3) == '.js') {
