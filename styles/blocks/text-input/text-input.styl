@@ -1,77 +1,77 @@
 .text-input
-	display: inline-block
+    display: inline-block
 
-	&__control
-		box-shadow inset 1px 1px 5px 0 #eee
-		box-sizing border-box
-		line-height 16px
-		font-size 16px
-		padding 8px 4px
-		border-radius 3px
-		border 1px solid #e7e7e7
-		width 100%
-		margin 0
-		height 34px // Safari
+    &__control
+        box-shadow inset 1px 1px 5px 0 #eee
+        box-sizing border-box
+        line-height 16px
+        font-size 16px
+        padding 8px 4px
+        border-radius 3px
+        border 1px solid #e7e7e7
+        width 100%
+        margin 0
+        height 34px // Safari
 
-	&_with-aside &__control
-		padding-right 85px
+    &_with-aside &__control
+        padding-right 85px
 
-	&_with-aside &__aside
-		position absolute
-		top 0
-		right 10px
+    &_with-aside &__aside
+        position absolute
+        top 0
+        right 10px
 
-	&_small &__control
-		height 32px
-		padding-top 6px
-		padding-bottom 6px
-		font-size 14px
+    &_small &__control
+        height 32px
+        padding-top 6px
+        padding-bottom 6px
+        font-size 14px
 
-	&__control:disabled
-		border-color #c6c6c6
-		background #f5f2f0
-		color #999
+    &__control:disabled
+        border-color #c6c6c6
+        background #f5f2f0
+        color #999
 
-	&__control:focus
-		border-color #8eb0d2
-		box-shadow inset 1px 1px 5px 0 #e1edf2
-		outline 0
+    &__control:focus
+        border-color #8eb0d2
+        box-shadow inset 1px 1px 5px 0 #e1edf2
+        outline 0
 
-	// to use clear we need to set parent block positioning to anything except static
-	// I don't set it by default, just remember it and set if necessarry
-	&__clear
-		position absolute
-		right 7px
-		top 6px
-		color #ccc
-		font-size 20px
-		line-height 20px
-		width 20px
-		height 20px
-		display none
+    // to use clear we need to set parent block positioning to anything except static
+    // I don't set it by default, just remember it and set if necessarry
+    &__clear
+        position absolute
+        right 7px
+        top 6px
+        color #ccc
+        font-size 20px
+        line-height 20px
+        width 20px
+        height 20px
+        display none
 
-	&__clear:active
-		position absolute
+    &__clear:active
+        position absolute
 
-	&_clear-button &__control
-		padding-right 30px
+    &_clear-button &__control
+        padding-right 30px
 
 
-	&_clear-button &__clear
-		display block
+    &_clear-button &__clear
+        display block
 
-	&__err
-		display block
-		visibility hidden
-		color #c55b4a
-		font-size 12px
-		padding 4px 0 0
+    &__err
+        display block
+        visibility hidden
+        color #c55b4a
+        font-size 12px
+        padding 4px 0 0
 
-	&_invalid &__control,
-	&__control.ng-invalid
-		border-color #cc5b4d
-		box-shadow inset 1px 1px 5px 0 #f2e7e7
+    &_invalid &__control,
+    &__control.ng-invalid
+        border-color #cc5b4d
+        box-shadow inset 1px 1px 5px 0 #f2e7e7
 
-	&_invalid &__err,
-	&__control.ng-invalid + &__err
-		visibility visible
+    &_invalid &__err,
+    &__control.ng-invalid + &__err
+        visibility visible

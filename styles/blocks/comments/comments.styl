@@ -1,47 +1,47 @@
 comment-reply-color = #00A3D9
 .comments
-	margin-top 35px
+    margin-top 35px
 
-	& &__header-title
-		border-bottom 0
-		display inline
-		margin-right 16px
-		color color
-		font 30px/36px secondary_font
+    & &__header-title
+        border-bottom 0
+        display inline
+        margin-right 16px
+        color color
+        font 30px/36px secondary_font
 
-	&__header-title::before
-		@extend $font-comment
-		display inline-block
-		line-height 1
-		font-size 80%
-		color #eee
-		margin-right 8px
-		min-width 26px
-		min-height 25px
+    &__header-title::before
+        @extend $font-comment
+        display inline-block
+        line-height 1
+        font-size 80%
+        color #eee
+        margin-right 8px
+        min-width 26px
+        min-height 25px
 
-	&__header-number
-		color #aaa
+    &__header-number
+        color #aaa
 
-	&__header-number::before
-		content "("
+    &__header-number::before
+        content "("
 
-	&__header-number::after
-		content ")"
+    &__header-number::after
+        content ")"
 
-	&__header-write:link
-		@extend $pseudo
-		color #666
-		font-size 12px
-		vertical-align .4em
-		position relative
-		display inline-block
-		line-height 1
+    &__header-write:link
+        @extend $pseudo
+        color #666
+        font-size 12px
+        vertical-align .4em
+        position relative
+        display inline-block
+        line-height 1
 
-	&__header-write::after
-		content "↓"
-		position absolute
-		margin-left 3px
-		vertical-align middle
+    &__header-write::after
+        content "↓"
+        position absolute
+        margin-left 3px
+        vertical-align middle
 
 // .comments__items {
 //     overflow-x: hidden;
@@ -51,8 +51,8 @@ comment-reply-color = #00A3D9
 // }
 
 // .comments__comment {
-// 	font-size: 92%;
-// 	line-height: 130%;
+//  font-size: 92%;
+//  line-height: 130%;
 //     position: relative;
 //     padding-top: 24px;
 // }
@@ -81,80 +81,80 @@ comment-reply-color = #00A3D9
 // }
 
 // .comments__comment-header {
-// 	@extend %clearfix;
-// 	border-bottom: 0;
-// 	padding-bottom: 0;
-// 	margin-bottom: $lineheight*.65;
+//  @extend %clearfix;
+//  border-bottom: 0;
+//  padding-bottom: 0;
+//  margin-bottom: $lineheight*.65;
 // }
 
 // .comments .comments__username {
-// 	color: #444;
+//  color: #444;
 // }
 
 // .comments .comments__username:hover,
 // .comments .comments__anchor:hover {
-// 	color: $link-hover-color;
+//  color: $link-hover-color;
 // }
 
 // .comments__userpic {
-// 	float: left;
+//  float: left;
 // }
 
 // .comments .comments__userpic {
-// 	margin: 0;
+//  margin: 0;
 // }
 
 // .comments__rating {
-// 	float: right;
+//  float: right;
 // }
 
 // .comments__info {
-// 	padding: 0 12px;
-// 	overflow: auto;
+//  padding: 0 12px;
+//  overflow: auto;
 // }
 
 // .comments__date::before {
-// 	display: none;
+//  display: none;
 // }
 
 // .comments__date,
 // .comments .comments__anchor {
-// 	color: #888;
-// 	font: 11px Arial, Helvetica, sans-serif;
-// 	margin-right: 5px;
+//  color: #888;
+//  font: 11px Arial, Helvetica, sans-serif;
+//  margin-right: 5px;
 // }
 
 // .comments__star::before {
-// 	@extend %font-star;
-// 	color: #bbb;
+//  @extend %font-star;
+//  color: #bbb;
 // }
 
 // .comments__comment pre {
-// 	font: 12px $fixed-width-font;
-// 	color: #400000;
+//  font: 12px $fixed-width-font;
+//  color: #400000;
 // }
 
 // .comments__footer {
-// 	margin: 12px 0 22px;
+//  margin: 12px 0 22px;
 // }
 
 // .comments .comments__reply {
-// 	@extend %button-reset;
+//  @extend %button-reset;
 
-// 	color: $comment-reply-color;
-// 	cursor: pointer;
-// 	text-decoration: none; // Тут может быть и ссылка, если будет якорь, или кнопка — если инлайн-форма
-// 	border-bottom: 1px dashed transparent;
-// 	font-size: 13px;
+//  color: $comment-reply-color;
+//  cursor: pointer;
+//  text-decoration: none; // Тут может быть и ссылка, если будет якорь, или кнопка — если инлайн-форма
+//  border-bottom: 1px dashed transparent;
+//  font-size: 13px;
 // }
 
 // .comments__reply:hover {
-// 	color: $link-hover-color;
-// 	border-bottom: 1px dashed transparentize($link-hover-color, .7);
+//  color: $link-hover-color;
+//  border-bottom: 1px dashed transparentize($link-hover-color, .7);
 // }
 
 // .comments__form {
-// 	margin: 33px 0;
+//  margin: 33px 0;
 // }
 
 // .comments__form-header {
@@ -163,33 +163,33 @@ comment-reply-color = #00A3D9
 // }
 
 // .comments .comments__form-title {
-// 	color: #888;
-// 	margin:  0;
-// 	float: left;
+//  color: #888;
+//  margin:  0;
+//  float: left;
 // }
 // .comments__form-title::before {
-// 	@extend %font-comment;
-// 	color: #ccc;
-// 	margin-right: 15px;
+//  @extend %font-comment;
+//  color: #ccc;
+//  margin-right: 15px;
 // }
 // .comments .comments__form-formatting {
-// 	@extend %pseudo;
-// 	float: right;
-// 	font-size: 12px;
+//  @extend %pseudo;
+//  float: right;
+//  font-size: 12px;
 //     line-height: 1;
-// 	margin-top: 8px;
-// 	color: #656565;
+//  margin-top: 8px;
+//  color: #656565;
 // }
 // .comments .comments__form-formatting:hover {
 //     color: $link-hover-color;
 // }
 // .comment-form__text {
 
-// 	width: 100%;
-// 	height: 144px;
-// 	margin: 16px 0;
-// 	display: block;
-// 	clear: both;
+//  width: 100%;
+//  height: 144px;
+//  margin: 16px 0;
+//  display: block;
+//  clear: both;
 // }
 
 // @media (min-width: $media-step-1) {
