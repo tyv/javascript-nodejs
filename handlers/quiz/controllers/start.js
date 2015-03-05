@@ -24,6 +24,7 @@ exports.post = function*() {
     answers: []
   };
 
+  // previous attempt will be automatically removed from the session
   this.session.quizzes[quiz.slug] = sessionQuiz;
 
   sessionQuiz.questionCurrentId = _.sample(quiz.questions, 1)[0]._id;

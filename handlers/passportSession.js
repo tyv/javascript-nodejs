@@ -10,7 +10,7 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-  User.findById(id, done);
+  User.findById(id, done); // callback version checks id validity automatically
 });
 
 // auto logs in X-Test-User-Id when testing

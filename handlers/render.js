@@ -49,6 +49,10 @@ function addStandardHelpers(locals, ctx) {
     }
   });
 
+  locals.csrf = function() {
+    return ctx.user ? ctx.csrf : null;
+  };
+
   // this.locals.debug causes jade to dump function
   /* jshint -W087 */
   locals.deb = function() {

@@ -3,6 +3,7 @@ extends ./base
 
 block html
   head
+    script window.currentUser = !{JSON.stringify(user ? user.getInfoFields() : null)};
     block variables
     include ../blocks/head
     block head

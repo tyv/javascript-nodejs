@@ -21,7 +21,6 @@ exports.get = function*() {
 
   var quizResults = [];
   if (this.user) {
-    this.locals.csrf = this.csrf;
     quizResults = yield QuizResult.find({
       user: this.user._id
     }).exec();

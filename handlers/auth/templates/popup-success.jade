@@ -7,6 +7,6 @@ body
     if (window.opener && window.opener.authModal) {
       window.opener.focus();
 
-      window.opener.authModal.onAuthSuccess();
+      window.opener.authModal.onAuthSuccess(!{JSON.stringify(user.getInfoFields())});
     }
     window.close();

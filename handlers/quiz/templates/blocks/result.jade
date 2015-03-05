@@ -6,8 +6,15 @@ block append variables
 
 
 +b.quiz-result
+  +e.save-result
+
+    +e('form').bottom(data-quiz-result-save-form action="/quiz/save/#{quiz.slug}" method="POST")
+      input(type="hidden", name="_csrf", value=csrf())
+      +b('button')(type="submit").submit-button.__save
+        +e('span').text Сохранить результат в профиле
 
   +e.layout
+
     +e.left
       +b.quiz-percents
         +e("dl").result
@@ -16,14 +23,7 @@ block append variables
             +e("p").percents !{ quizResult.quizScore }%
 
     style.
-      .quiz-results-indicator__indicator:after
-      {
-        -webkit-transform: rotate(!{ rotate });
-        -moz-transform: rotate(!{ rotate });
-        -ms-transform: rotate(!{ rotate });
-        -o-transform: rotate(!{ rotate });
-        transform: rotate(!{ rotate });
-      }
+      .quiz-results-indicator__indicator:after { -webkit-transform: rotate(!{ rotate }); transform: rotate(!{ rotate }); }
 
     +e.center
       +b.quiz-results-indicator

@@ -198,6 +198,7 @@ UserSchema.virtual('password')
   });
 
 // get all fields available to a visitor (except the secret/internal ones)
+// normally in-page JS has access to these
 UserSchema.methods.getInfoFields = function() {
   return User.getInfoFields(this);
 };

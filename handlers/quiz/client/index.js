@@ -1,6 +1,6 @@
 var Spinner = require('client/spinner');
 var xhr = require('client/xhr');
-
+var getCsrfCookie = require('client/getCsrfCookie');
 var prism = require('client/prism');
 
 function init() {
@@ -10,8 +10,57 @@ function init() {
     initQuizForm(quizQuestionForm);
   }
 
+  var quizResultSaveForm = document.querySelector('[data-quiz-result-save-form]');
+
+  if (quizResultSaveForm) {
+    initQuizResultSaveForm(quizResultSaveForm);
+  }
+
+
   prism();
 }
+
+function initQuizResultSaveForm(form) {
+  form.onsubmit = function(e) {
+
+    if (window.currentUser) {
+      // normal submit => profile
+      return;
+    }
+
+    e.preventDefault();
+
+    authAndSubmit();
+  };
+
+  function authAndSubmit() {
+
+    // let's authorize first
+    var submitButton = form.querySelector('[type="submit"]');
+
+    var spinner = new Spinner({
+      elem:      submitButton,
+      size:      'small',
+      class:     'submit-button__spinner',
+      elemClass: 'submit-button_progress'
+    });
+    spinner.start();
+
+    require.ensure('auth/client', function() {
+      spinner.stop();
+      var AuthModal = require('auth/client').AuthModal;
+      new AuthModal({
+        callback: function() {
+          var csrf = getCsrfCookie();
+          form.elements._csrf.value = csrf;
+          form.submit();
+        }
+      });
+    }, 'authClient');
+
+  }
+}
+
 
 function initQuizForm(form) {
 

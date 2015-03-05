@@ -330,7 +330,7 @@ AuthModal.prototype.submitLoginForm = function(form) {
       return;
     }
 
-    self.onAuthSuccess();
+    self.onAuthSuccess(event.result.user);
   });
 
 };
@@ -350,7 +350,8 @@ AuthModal.prototype.openAuthPopup = function(url) {
  все обработчики авторизации (включая Facebook из popup-а и локальный)
  в итоге триггерят один из этих каллбэков
  */
-AuthModal.prototype.onAuthSuccess = function() {
+AuthModal.prototype.onAuthSuccess = function(user) {
+  window.currentUser = user;
   this.options.callback();
 };
 

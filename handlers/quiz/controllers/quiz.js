@@ -29,6 +29,9 @@ exports.get = function*() {
     this.throw(404);
   }
 
+  this.locals.quiz = quiz;
+  this.locals.title = formatTitle(quiz.title);
+
   if (sessionQuiz.result) {
 
     var belowPercentage = yield QuizStat.getBelowScorePercentage(quiz.slug, sessionQuiz.result.quizScore);
@@ -44,16 +47,11 @@ exports.get = function*() {
       return question;
     });
 
-    this.locals.title = formatTitle(quiz.title);
-
     this.body = this.render('results');
   } else {
     // show current question
     var questionCurrent = quiz.questions.id(sessionQuiz.questionCurrentId);
 
-    this.locals.title = formatTitle(quiz.title);
-
-    this.locals.quiz = quiz;
     this.locals.question = questionCurrent;
 
     this.locals.question.contentRendered = renderSimpledown(questionCurrent.content);

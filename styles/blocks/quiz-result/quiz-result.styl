@@ -1,5 +1,7 @@
 .quiz-result
     display inline-block
+    position relative
+    height 290px
 
     margin-top 10px
 
@@ -21,6 +23,7 @@
 
     &__layout
         display table
+        position relative
 
         padding 20px
         margin-top 10px
@@ -34,17 +37,31 @@
         display table-cell
         box-sizing: border-box
 
-        width 35%
-        padding 10px 25px
+        width 33%
+        padding 10px 15px
 
         border-right: 2px solid #3c3c3c
 
         vertical-align top
 
     &__right
-        width 30%
+        width 33%
 
         border 0
+
+
+    &__save-result
+        background #4C4B4B
+        position absolute
+        bottom 0
+        left 0
+        right 0
+        height 80px
+        border-radius 10px
+
+    &__bottom
+        margin auto
+        padding-top 24px
 
     & .quiz-percents,
     & .quiz-weak-list__title
