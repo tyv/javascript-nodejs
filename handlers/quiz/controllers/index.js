@@ -35,7 +35,7 @@ exports.get = function*() {
     };
     quizResults.forEach(function(quizResult) {
       if (quizResult.slug == quiz.slug) {
-        q.score = quizResult.quizScore;
+        q.quizResultScore = quizResult.quizScore;
       }
     });
 

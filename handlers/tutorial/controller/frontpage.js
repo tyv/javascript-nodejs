@@ -3,21 +3,22 @@ const Article = require('../models/article');
 const Task = require('../models/task');
 const _ = require('lodash');
 const ArticleRenderer = require('../renderer/articleRenderer');
+const CacheEntry = require('cache').CacheEntry;
 
 exports.get = function *get(next) {
 
   this.locals.sitetoolbar = true;
   this.locals.siteToolbarCurrentSection = "tutorial";
   this.locals.title = "Современный учебник JavaScript";
-  /*
-  var renderedArticle = yield CacheEntry.getOrGenerate({
-    key:  'article:rendered:' + this.params.slug,
+
+  var tutorial = yield CacheEntry.getOrGenerate({
+    key:  'tutorial:frontpage',
     tags: ['article']
-  }, _.partial(renderArticle, this.params.slug));
-*/
+  }, renderTutorial);
+
 
   var locals = {
-    chapters: yield* renderTutorial()
+    chapters: tutorial
   };
 
   this.body = this.render('tutorial', locals);

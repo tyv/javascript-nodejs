@@ -44,9 +44,21 @@ function addStandardHelpers(locals, ctx) {
   // (anon users may stop on varnish anyway)
   locals.session = ctx.session;
 
+  //locals.renderSimpledown = renderSimpledown;
+
   Object.defineProperty(locals, "user", {
     get: function() {
       return ctx.req.user;
+    }
+  });
+
+  var renderSimpledown;
+  Object.defineProperty(locals, "renderSimpledown", {
+    get: function() {
+      if (!renderSimpledown) {
+        renderSimpledown = require('renderSimpledown');
+      }
+      return renderSimpledown; // attach at 1st use
     }
   });
 

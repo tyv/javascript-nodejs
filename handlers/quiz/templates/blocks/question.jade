@@ -1,22 +1,21 @@
 +b(class=["quiz-question", quizResult && (question.correct ? "_correct_true" : "_correct_false")])
   input(type="hidden" name="type" value=question.type)
   +e.body
-    != question.contentRendered
+    != renderSimpledown(question.content)
 
     if question.type == 'single'
       +e("ul").variants
         each answer, num in question.answers
           - var variantCorrect = (num == question.correctAnswer);
           - var variantSelected = question.userAnswer !== undefined && (question.userAnswer == num);
-
           +e("li")(class=[
             "variant",
             quizResult && variantCorrect && "_correct_true",
             quizResult && variantSelected && !variantCorrect && "_correct_false"
           ])
             +e("label").label
-              +e("input").input(type="radio" value=num name="answer" disabled=quizResult checked=variantSelected ? true : undefined)
-              +e("span").input-text= answer
+              +e("input").input(type="radio" value=num name=(!quizResult && "answer") disabled=!!quizResult checked=(variantSelected ? "checked" : undefined))
+              +e("span").input-text!= renderSimpledown(answer, {applyContextTypography: false})
 
     if question.type == 'multi'
       +e("ul").variants
@@ -29,8 +28,8 @@
             quizResult && variantSelected && !variantCorrect && "_correct_false"
           ])
             +e("label").label
-              +e("input").input(type="checkbox" value=num name="answer" disabled=quizResult checked=variantSelected ? true : undefined)
-              +e("span").input-text= answer
+              +e("input").input(type="checkbox" value=num name=(!quizResult && "answer") disabled=!!quizResult checked=(variantSelected ? "checked" : undefined))
+              +e("span").input-text!= renderSimpledown(answer, {applyContextTypography: false})
 
   if !quizResult
     +e.submit

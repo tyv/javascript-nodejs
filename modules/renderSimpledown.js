@@ -13,12 +13,17 @@ module.exports = function(text, options) {
   if (options.trusted === undefined) {
     options.trusted = true;
   }
+
+  if (options.applyContextTypography === undefined) {
+    options.applyContextTypography = true;
+  }
+
   const node = new BodyParser(text, options).parseAndWrap();
 
   const transformer = new HtmlTransformer({
     staticHost:      config.server.staticHost
   });
 
-  return transformer.transform(node, true);
+  return transformer.transform(node, options.applyContextTypography);
 
 };

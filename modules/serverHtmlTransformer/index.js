@@ -28,7 +28,7 @@ function ServerHtmlTransformer(options) {
 
 inherits(ServerHtmlTransformer, HtmlTransformer);
 
-ServerHtmlTransformer.prototype.transform = function*(node, isFinal) {
+ServerHtmlTransformer.prototype.transform = function*(node, applyContextTypography) {
 
   var method = this['transform' + node.getType()];
 
@@ -52,7 +52,7 @@ ServerHtmlTransformer.prototype.transform = function*(node, isFinal) {
   }
 
 
-  if (isFinal) {
+  if (applyContextTypography) {
     html = this.applyContextTypography(html);
   }
 

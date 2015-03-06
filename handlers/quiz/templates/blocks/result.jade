@@ -8,10 +8,16 @@ block append variables
 +b.quiz-result
   +e.save-result
 
-    +e('form').bottom(data-quiz-result-save-form action="/quiz/save/#{quiz.slug}" method="POST")
-      input(type="hidden", name="_csrf", value=csrf())
-      +b('button')(type="submit").submit-button.__save
-        +e('span').text Сохранить результат в профиле
+    +e.bottom
+      +e('form').retry-form(data-quiz-result-retry-form action="/quiz/start/#{quiz.slug}" method="POST")
+        input(type="hidden", name="_csrf", value=csrf())
+        +b('button').button_common.__retry-button(type="submit")
+          +e('span').text Пройти ещё раз
+      +e('form').save-form(data-quiz-result-save-form action="/quiz/save/#{quiz.slug}" method="POST")
+        input(type="hidden", name="_csrf", value=csrf())
+        +b('button')(type="submit").submit-button.__save-button
+          +e('span').text Сохранить результат в профиле
+
 
   +e.layout
 

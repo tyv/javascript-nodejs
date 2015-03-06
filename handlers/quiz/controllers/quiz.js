@@ -10,6 +10,7 @@ exports.get = function*() {
   this.nocache();
 
   if (!this.session.quizzes) {
+    // fixme: start a new quiz
     this.redirect('/quiz');
     return;
   }
@@ -43,18 +44,13 @@ exports.get = function*() {
       var question = quiz.questions.id(id).toObject();
       question.userAnswer = sessionQuiz.answers[num];
       question.correct = quiz.questions.id(id).getAnswerScore(question.userAnswer);
-      question.contentRendered = renderSimpledown(question.content);
       return question;
     });
 
     this.body = this.render('results');
   } else {
     // show current question
-    var questionCurrent = quiz.questions.id(sessionQuiz.questionCurrentId);
-
-    this.locals.question = questionCurrent;
-
-    this.locals.question.contentRendered = renderSimpledown(questionCurrent.content);
+    this.locals.question = quiz.questions.id(sessionQuiz.questionCurrentId);
 
     this.locals.progressNow = sessionQuiz.questionsTakenIds.length + 1;
     this.locals.progressTotal = quiz.questionsToAskCount;

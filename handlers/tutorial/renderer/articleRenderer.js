@@ -53,11 +53,11 @@ ArticleRenderer.prototype._unmapLibsNames = function(libs) {
   libs.forEach(function(lib) {
     switch (lib) {
     case 'lodash':
-      libsUnmapped.push("https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js");
+      libsUnmapped.push("https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.3.1/lodash.min.js");
       break;
 
     case 'd3':
-      libsUnmapped.push("http://d3js.org/d3.v3.min.js");
+      libsUnmapped.push("https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js");
       break;
 
     case 'domtree':

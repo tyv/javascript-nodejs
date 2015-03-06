@@ -42,7 +42,7 @@ block content
               +e('li').item
                 +e('a').link(href=folder.url)= folder.title
 
-  +b.bricks
+  +b.course-bricks
     //- отдельные полноценные книги, в каждой свой progress
     +e('h2').title Дополнительно
     +e.container
@@ -53,9 +53,10 @@ block content
           +e('h3').brick-title
             +e('a').brick-title-link(href=chapter.url)= chapter.title
           +e.brick-content!= chapter.content
-          +e('ul')
+          +e('ul').chapters-list
             each child in chapter.children
-              li= child.title
+              +e('li').item
+                +e('a').link(href=child.url)= child.title
 
   script(src=script("tutorial"))
   script tutorial.init();

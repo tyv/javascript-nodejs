@@ -20,7 +20,7 @@ function HtmlTransformer(options) {
   this.isEbook = options.isEbook;
 }
 
-HtmlTransformer.prototype.transform = function(node, isFinal) {
+HtmlTransformer.prototype.transform = function(node, applyContextTypography) {
   var method = 'transform' + node.getType();
 
   if (!this[method]) {
@@ -29,7 +29,7 @@ HtmlTransformer.prototype.transform = function(node, isFinal) {
 
   var html = this[method](node);
 
-  if (isFinal) {
+  if (applyContextTypography) {
     html = this.applyContextTypography(html);
   }
   return html;

@@ -17,7 +17,7 @@ function init() {
   }
 
 
-  prism();
+  prism.init();
 }
 
 function initQuizResultSaveForm(form) {
@@ -87,7 +87,16 @@ function initQuizForm(form) {
   form.onchange = function() {
     var value = getValue();
 
-    form.querySelector('[type="submit"]').disabled = value.length ? false : true;
+    switch(form.elements.type.value) {
+    case 'single':
+      form.querySelector('[type="submit"]').disabled = (value === undefined);
+      break;
+    case 'multi':
+      form.querySelector('[type="submit"]').disabled = value.length ? false : true;
+      break;
+    default:
+      throw new Error("unknown type");
+    }
   };
 
   form.onsubmit = function(event) {
@@ -128,6 +137,7 @@ function initQuizForm(form) {
           .classList.add('quiz-timeline__number_current');
 
         form.innerHTML = event.result.html;
+        prism.highlight(form);
       } else {
         console.error("Bad response", event.result);
       }
