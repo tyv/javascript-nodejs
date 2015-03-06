@@ -23,7 +23,7 @@ exports.get = function*() {
   if (this.user) {
     quizResults = yield QuizResult.find({
       user: this.user._id
-    }).exec();
+    }).sort({created: 1}).exec();
   }
 
   for (var i = 0; i < quizzes.length; i++) {

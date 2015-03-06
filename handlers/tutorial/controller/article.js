@@ -9,7 +9,12 @@ const makeAnchor = require('textUtil/makeAnchor');
 
 exports.get = function *get(next) {
 
-  var renderedArticle = yield* renderArticle.call(this, this.params.slug);
+
+  var renderedArticle = yield* CacheEntry.getOrGenerate({
+    key:  'tutorial:article:' + this.params.slug,
+    tags: ['article']
+  }, renderArticle.bind(this, this.params.slug));
+
 
   if (!renderedArticle) {
     yield* next;
