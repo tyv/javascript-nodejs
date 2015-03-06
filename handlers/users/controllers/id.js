@@ -10,7 +10,7 @@ var path = require('path');
 
 exports.get = function*(next) {
 
-  var fields = 'created displayName realName birthday email gender country town profileName publicEmail'.split(' ');
+  var fields = 'created displayName realName birthday email gender country town interests profileName publicEmail'.split(' ');
 
   this.body = { };
   fields.forEach( function(field) {

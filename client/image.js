@@ -1,5 +1,8 @@
 
 exports.thumb = function(url, width, height) {
+  // sometimes this may be called without url
+  if (!url) return url;
+
   var pixelRatio = window.devicePixelRatio;
 
   // return pixelRatio times larger image for retina

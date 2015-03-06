@@ -43,6 +43,7 @@ angular.module('profile')
           }).then((response) => {
             new notification.Success("Пароль обновлён.");
             this.editing = false;
+            scope.hasPassword = true;
           }, (response) => {
             if (response.status == 400) {
               new notification.Error(response.data.message || response.data.errors.password);

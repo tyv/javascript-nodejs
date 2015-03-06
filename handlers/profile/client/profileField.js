@@ -68,7 +68,7 @@ angular.module('profile')
             this.editingValue = '';
 
           }, (response) => {
-            console.log(response);
+            //console.log(response);
             if (response.status == 400) {
 
               new notification.Error(response.data.message);
