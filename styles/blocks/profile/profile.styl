@@ -1,5 +1,9 @@
-$profile-item
+$profile-item-border
     border-bottom 1px solid #e6e0d4
+
+$profile-item
+    @extend $profile-item-border
+
     line-height 20px
     padding 0 50px 0 40px
 
@@ -15,6 +19,7 @@ $profile-action-button
         text-decoration underline
 
 .profile
+
     &__view
         display block
         position relative
@@ -154,6 +159,13 @@ $profile-action-button
 
     &__action_remove-account
         margin-bottom 100px
+
+    &__fields
+        display table
+
+        width 100%
+        padding-bottom 15px
+
 @require './profileField.styl'
 @require './profileProviders.styl'
 @require './profilePhoto.styl'

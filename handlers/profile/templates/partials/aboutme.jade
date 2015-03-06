@@ -7,27 +7,28 @@ include /bem
       //+e('h2').inline-title О себе
       +e('p').note Информация о вас, которая будет видна другим посетителям.
 
-  +e('profile-field')(field-name="realName" field-title="Имя" field-value="me.realName")
-    input.text-input__control(focus-on="editing" placeholder="Иван Иванович" ng-model="editingValue" type="text" name="input")
+  +e.fields
+    +e('profile-field')(field-name="realName" field-title="Имя" field-value="me.realName")
+      input.text-input__control(focus-on="editing" placeholder="Иван Иванович" ng-model="editingValue" type="text" name="input")
 
-  +e('profile-field')(field-name="publicEmail" field-title="Публичный email" field-value="me.publicEmail")
-    input.text-input__control(focus-on="editing" ng-model="editingValue" type="email" name='input')
+    +e('profile-field')(field-name="publicEmail" field-title="Публичный email" field-value="me.publicEmail")
+      input.text-input__control(focus-on="editing" ng-model="editingValue" type="email" name='input')
 
-  +e('profile-field')(field-name="country" field-title="Страна" field-value="me.country")
-    input.text-input__control(focus-on="editing" ng-model="editingValue" type="text" name='input')
+    +e('profile-field')(field-name="country" field-title="Страна" field-value="me.country")
+      input.text-input__control(focus-on="editing" ng-model="editingValue" type="text" name='input')
 
-  // +e('profile-field')(field-name="country" field-title="Страна" field-value="me.country")
-       select(ng-model="editingValue" name="input")
-         - var countries = {Russia: 'Россия', Belorussia: 'Белоруссия'}
-         for title, key in countries
-           option(value=key)= title
+    // +e('profile-field')(field-name="country" field-title="Страна" field-value="me.country")
+         select(ng-model="editingValue" name="input")
+           - var countries = {Russia: 'Россия', Belorussia: 'Белоруссия'}
+           for title, key in countries
+             option(value=key)= title
 
 
-  +e('profile-field')(field-name="town" field-title="Город" field-value="me.town")
-    input.text-input__control(focus-on="editing" ng-model="editingValue" type="text" name='input')
+    +e('profile-field')(field-name="town" field-title="Город" field-value="me.town")
+      input.text-input__control(focus-on="editing" ng-model="editingValue" type="text" name='input')
 
-  +e('profile-field')(field-name="birthday" field-title="Дата рождения" field-value="me.birthday")
-    input.text-input__control(focus-on="editing" date-validator date-range-validator="01.01.1900-" placeholder="30.12.2000" ng-model="editingValue" type="text" name="input")
+    +e('profile-field')(field-name="birthday" field-title="Дата рождения" field-value="me.birthday")
+      input.text-input__control(focus-on="editing" date-validator date-range-validator="01.01.1900-" placeholder="30.12.2000" ng-model="editingValue" type="text" name="input")
 
-  +e('profile-field')(field-name="interests" field-title="Интересы" field-value="me.interests")
-    input.text-input__control(focus-on="editing" ng-model="editingValue" type="text")
+    +e('profile-field')(field-name="interests" field-title="Интересы" field-value="me.interests")
+      input.text-input__control(focus-on="editing" ng-model="editingValue" type="text")
