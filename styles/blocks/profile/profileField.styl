@@ -1,3 +1,6 @@
+$left-cell-padding = 17px 25px 17px 40px
+$right-cell-padding = 17px 50px 17px 0
+
 .profile-field
 	@extend $profile-item
 
@@ -11,15 +14,6 @@
 		background #f9f8f0
 		cursor pointer
 
-	&:last-child
-		border 0
-
-	&:last-child &__content
-		padding-bottom 32px
-
-	&:last-child &__change
-		padding-bottom 26px
-
 	& &__inline-title
 		margin 25px 0 0
 		font-size 16px
@@ -31,38 +25,36 @@
 
 		display none
 
-		padding 11px 0
-
-		width 100%
-
-	&__name,
-	&__value
+	&__lcell,
+	&__rcell
 		@extend $profile-item-border
 
 		display table-cell
 
+		vertical-align top
+
+		height 20px
+
 		white-space nowrap
 
-	&__value-i,
-	&__name
-		box-sizing border-box
+	.profile__fields:last-child &:last-child &__lcell,
+	.profile__fields:last-child &:last-child &__rcell
+		border 0
 
-		position relative
-		overflow auto
-
+	&__rcell
 		width 100%
-		padding 17px 50px 17px 40px
+		padding $right-cell-padding
 
+	&__lcell
+		padding $left-cell-padding
 
-	&__name
-		width 1px
-
-	&_editable &__value-i::after
+	&_editable &__value::after,
+	&_editable &__edit-empty::after
 		@extend $font-pencil
 
 		position absolute
-		right 20px
-		top 20px
+		right 0
+		top 0
 
 		display none
 
@@ -73,29 +65,40 @@
 
 		color #727272
 
-	&:hover &__value-i::after
+	&:hover &__value::after,
+	&:hover &__edit-empty::after
 		display block
 
-	&_editing &__value-i
+	&__name
+		color #727272
+
+	&__value,
+	&__edit-empty
+		box-sizing border-box
+
+		position relative
+		overflow auto
+
+	&__value:empty::before
+		content "—"
+
+	&__edit-empty:empty::before
+		content "\a0" //&npsp
+
+	&_editing &__value,
+	&_editing &__edit-empty
 		display none
 
 	&_editing &__change
 		display table
 		width 100%
 
-	&__value-i:empty::before
-		content "—"
+	&_editing &__rcell
+		padding-top 10px
+		padding-bottom 8px
 
-	&__labeled
-		display table
-		width 100%
-
-	&__labeled-label,
 	&__control
-		display table-cell
-
-	&__labeled-label
-
+		display block
 
 	&__control
 		font-size 14px

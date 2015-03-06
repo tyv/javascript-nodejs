@@ -10,10 +10,11 @@ include /bem
   ng-class="{'profile-field_editing': editing}"
 )
 
-  +e.name {{title}}:
-  +e.value
-    +e.value-i(ng-bind="formatValue(value)")
+  +e.lcell
+    +e.name {{title}}:
 
+  +e.rcell
+    +e.value(ng-bind="formatValue(value)")
     +e.change(ng-show="editing")
       +e.change-content
         +b.text-input._small.__control(ng-class="{'text-input_invalid':form.$invalid}")
