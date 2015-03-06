@@ -10,7 +10,7 @@
   "precommit": "NODE_ENV=development node --harmony `which gulp` pre-commit",
   "//": "EJS 2.0 breaks include in nginx configs, so EJS 1.x is used",
   "dependencies": {
-    "6to5-loader": "*",
+    "babel-loader": "*",
     "MD5": "*",
     "angular": "*",
     "angular-cookies": "*",

@@ -38,19 +38,19 @@ profile
         resolve:     {
           me: (Me) => Me.get()
         },
-        templateUrl: "templates/partials/root",
+        templateUrl: "/profile/templates/partials/root",
         controller:  'ProfileRootCtrl'
       })
       .state('root.aboutme', {
         url:         "/",
         title:       'Публичный профиль',
-        templateUrl: "templates/partials/aboutme",
+        templateUrl: "/profile/templates/partials/aboutme",
         controller:  'ProfileAboutMeCtrl'
       })
       .state('root.account', {
         url:   '/account',
         title: 'Аккаунт',
-        templateUrl: "templates/partials/account",
+        templateUrl: "/profile/templates/partials/account",
         controller:  'ProfileAccountCtrl'
       });
   })

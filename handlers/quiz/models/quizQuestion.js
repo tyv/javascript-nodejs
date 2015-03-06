@@ -1,10 +1,13 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const _ = require('lodash');
+const config = require('config');
+const path = require('path');
 const assert = require('assert');
+const _ = require('lodash');
+
 
 const schema = new Schema({
-  title: {
+  content: {
     type: String,
     required: true
   },
@@ -18,18 +21,51 @@ const schema = new Schema({
     default: 'single',
     enum: ['single', 'multi']
   },
-  answers: [{}], // array of generic answer variants
-  correctAnswer: {}, // generic correct answer,
+  answers: [{}], // array of generic answer variants, e.g. [String]
+  correctAnswer: {}, // generic correct answer, e.g Number or [Number] for multi
   correctAnswerComment: String // why is the answer correct, optional comment
 });
 
-Schema.methods.checkAnswer = function(answer) {
+schema.path('correctAnswer').validate(function (value) {
+  if (this.type == 'single') {
+    // 1 number
+    return typeof value == 'number';
+  }
+
+  if (this.type == 'multi') {
+    // array of numbers
+    return Array.isArray(value) && !value.filter(function(v) {
+        return typeof v != 'number';
+      }).length;
+  }
+
+}, 'Invalid color');
+
+
+schema.methods.getAnswerScore = function(answer) {
+
   switch (this.type) {
   case 'single':
-    return this.correctAnswer == answer;
+    return this.correctAnswer == answer ? 1 : 0;
   case 'multi':
+    console.log(answer, this.correctAnswer);
     assert(Array.isArray(answer));
-    return _.isEqual( this.correctAnswer.sort(), answer.sort());
+    assert(Array.isArray(this.correctAnswer));
+    /*
+     var correctCount = 0;
+
+     for(var i=0; i<this.answers.length; i++) {
+     // if i-th answer is correct and included get +1
+     if (~this.correctAnswer.indexOf(i)) {
+     if (~answer.indexOf(i)) correctCount++;
+     }
+     }
+     this.correctAnswer.forEach(function(correctAnswerItem) {
+     // for each correct answer check if
+     if ()
+     });
+     */
+    return _.isEqual( this.correctAnswer.sort(), answer.sort()) ? 1 : 0;
   }
 
 };

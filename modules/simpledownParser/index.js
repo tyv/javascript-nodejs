@@ -19,3 +19,5 @@ exports.BodyParser = require('./parser/bodyParser');
 exports.HtmlTransformer = require('./transformer/htmlTransformer');
 exports.ParseError = require('./parser/parseError');
 exports.TreeWalkerSync = require('./transformer/treeWalkerSync');
+
+exports.formatTitle = require('./typography/formatTitle');

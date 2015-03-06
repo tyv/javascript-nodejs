@@ -19,37 +19,44 @@ Prism.tokenTag = 'code'; // for iBooks to use monospace font
 var CodeBox = require('./codeBox');
 var CodeTabsBox = require('./codeTabsBox');
 
-function initCodeBoxes() {
+function initCodeBoxes(container) {
 
   // highlight inline
-  var codeExampleElems = document.getElementsByClassName('code-example');
+  var codeExampleElems = container.querySelectorAll('.code-example:not([data-prism-done])');
 
   for (var i = 0; i < codeExampleElems.length; i++) {
     var codeExampleElem = codeExampleElems[i];
     new CodeBox(codeExampleElem);
+    codeExampleElem.setAttribute('data-prism-done', '1');
   }
 
 }
 
 
-function initCodeTabsBox() {
+function initCodeTabsBox(container) {
 
-  var elems = document.querySelectorAll('div.code-tabs');
+  var elems = container.querySelectorAll('div.code-tabs:not([data-prism-done])');
 
   for (var i = 0; i < elems.length; i++) {
     new CodeTabsBox(elems[i]);
+    elems[i].setAttribute('data-prism-done', '1');
   }
 
 }
 
-module.exports = function () {
+exports.init = function () {
 
   document.removeEventListener('DOMContentLoaded', Prism.highlightAll);
 
   document.addEventListener('DOMContentLoaded', function() {
-    initCodeBoxes();
-    initCodeTabsBox();
+    highlight(document);
   });
 
 };
 
+function highlight(elem) {
+  initCodeBoxes(elem);
+  initCodeTabsBox(elem);
+}
+
+exports.highlight = highlight;

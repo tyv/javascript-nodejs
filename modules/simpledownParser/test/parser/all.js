@@ -9,7 +9,7 @@ describe("BodyParser", function() {
 
 
   var options = {
-    staticHost:      'http://js.cx',
+    staticHost:      'https://js.cx',
     resourceWebRoot: '/data',
     metadata:        {}
   };

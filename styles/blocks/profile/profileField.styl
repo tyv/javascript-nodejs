@@ -2,221 +2,221 @@ $left-cell-padding = 17px 25px 17px 40px
 $right-cell-padding = 17px 50px 17px 0
 
 .profile-field
-	@extend $profile-item
+    @extend $profile-item
 
-	padding 0
-	display table-row
+    padding 0
+    display table-row
 
-	&_editable
-		position relative //- for overlay
+    &_editable
+        position relative //- for overlay
 
-	&_editable:not(&_editing):hover
-		background #f9f8f0
-		cursor pointer
+    &_editable:not(&_editing):hover
+        background #f9f8f0
+        cursor pointer
 
-	& &__inline-title
-		margin 25px 0 0
-		font-size 16px
-		line-height 18px
-		color #656565
+    & &__inline-title
+        margin 25px 0 0
+        font-size 16px
+        line-height 18px
+        color #656565
 
-	&__change
-		position relative
+    &__change
+        position relative
 
-		display none
+        display none
 
-	&__lcell,
-	&__rcell
-		@extend $profile-item-border
+    &__lcell,
+    &__rcell
+        @extend $profile-item-border
 
-		display table-cell
+        display table-cell
 
-		vertical-align top
+        vertical-align top
 
-		height 20px
+        height 20px
 
-		white-space nowrap
+        white-space nowrap
 
-	.profile__fields:last-child &:last-child &__lcell,
-	.profile__fields:last-child &:last-child &__rcell
-		border 0
+    .profile__fields:last-child &:last-child &__lcell,
+    .profile__fields:last-child &:last-child &__rcell
+        border 0
 
-	&__rcell
-		width 100%
-		padding $right-cell-padding
+    &__rcell
+        width 100%
+        padding $right-cell-padding
 
-	&__lcell
-		padding $left-cell-padding
+    &__lcell
+        padding $left-cell-padding
 
-	&_editable &__value::after,
-	&_editable &__edit-empty::after
-		@extend $font-pencil
+    &_editable &__value::after,
+    &_editable &__edit-empty::after
+        @extend $font-pencil
 
-		position absolute
-		right 0
-		top 0
+        position absolute
+        right 0
+        top 0
 
-		display none
+        display none
 
-		font-size 15px
+        font-size 15px
 
-		min-height 20px
-		min-width 20px
+        min-height 20px
+        min-width 20px
 
-		color #727272
+        color #727272
 
-	&:hover &__value::after,
-	&:hover &__edit-empty::after
-		display block
+    &:hover &__value::after,
+    &:hover &__edit-empty::after
+        display block
 
-	&__name
-		color #727272
+    &__name
+        color #727272
 
-	&__value,
-	&__edit-empty
-		box-sizing border-box
+    &__value,
+    &__edit-empty
+        box-sizing border-box
 
-		position relative
-		overflow auto
+        position relative
+        overflow auto
 
-	&__value:empty::before
-		content "—"
+    &__value:empty::before
+        content "—"
 
-	&__edit-empty:empty::before
-		content "\a0" //&npsp
+    &__edit-empty:empty::before
+        content "\a0" //&npsp
 
-	&_editing &__value,
-	&_editing &__edit-empty
-		display none
+    &_editing &__value,
+    &_editing &__edit-empty
+        display none
 
-	&_editing &__change
-		display table
-		width 100%
+    &_editing &__change
+        display table
+        width 100%
 
-	&_editing &__rcell
-		padding-top 10px
-		padding-bottom 8px
+    &_editing &__rcell
+        padding-top 10px
+        padding-bottom 8px
 
-	&__control
-		display block
+    &__control
+        display block
 
-	&__control
-		font-size 14px
+    &__control
+        font-size 14px
 
-	&_accounts &__control
-		width calc(100% - 125px)
+    &_accounts &__control
+        width calc(100% - 125px)
 
-	//- using id for styling as an exception,
-	//- theese id's won't appear anywhere else
-	//- and we use them just to set size
-	#profile-birth-day
-		min-width 0
-		width 50px
-		margin-right 10px
+    //- using id for styling as an exception,
+    //- theese id's won't appear anywhere else
+    //- and we use them just to set size
+    #profile-birth-day
+        min-width 0
+        width 50px
+        margin-right 10px
 
-	#profile-birth-month
-		min-width 0
-		width 90px
-		margin-right 10px
+    #profile-birth-month
+        min-width 0
+        width 90px
+        margin-right 10px
 
-	#profile-birth-year
-		min-width 0
-		width 70px
+    #profile-birth-year
+        min-width 0
+        width 70px
 
-	#profile-tz
-		width 230px
+    #profile-tz
+        width 230px
 
-	#profile-about
-		height 100px
+    #profile-about
+        height 100px
 
-	&__pass-change
-		display inline-block
-		margin-right 18px
+    &__pass-change
+        display inline-block
+        margin-right 18px
 
-	&__pass
-		width 150px
+    &__pass
+        width 150px
 
-	&__change-content,
-	&__ok-cancel
-		display table-cell
-		vertical-align top
+    &__change-content,
+    &__ok-cancel
+        display table-cell
+        vertical-align top
 
-	&__change-content
-		padding-right 15px
+    &__change-content
+        padding-right 15px
 
-	&__ok-cancel
-		width 1%
-		white-space nowrap
+    &__ok-cancel
+        width 1%
+        white-space nowrap
 
-	&__save
-		margin 0 0 -1px // убираем смещение соседних пунктов в момент показа в Fx
-		height 32px
+    &__save
+        margin 0 0 -1px // убираем смещение соседних пунктов в момент показа в Fx
+        height 32px
 
-	&__cancel
-		@extend $button-reset
-		color #568DCA
-		font-size inherit
-		margin-left 10px
+    &__cancel
+        @extend $button-reset
+        color #568DCA
+        font-size inherit
+        margin-left 10px
 
-	&__cancel:hover
-		color link_hover_color
-		text-decoration underline
+    &__cancel:hover
+        color link_hover_color
+        text-decoration underline
 
-	&__action
-		@extend $profile-action-button
+    &__action
+        @extend $profile-action-button
 
-	&__tests
-		display table
-		width 100%
+    &__tests
+        display table
+        width 100%
 
-	&__test
-		display table-row
+    &__test
+        display table-row
 
-	&__test-name,
-	&__test-score,
-	&__test-level,
-	&__test-weaks
-		display table-cell
-		vertical-align top
-		padding 20px 15px 20px 0
-		border-top 1px solid #E4DDD2
+    &__test-name,
+    &__test-score,
+    &__test-level,
+    &__test-weaks
+        display table-cell
+        vertical-align top
+        padding 20px 15px 20px 0
+        border-top 1px solid #E4DDD2
 
-	&__test:first-child &__test-name,
-	&__test:first-child &__test-score,
-	&__test:first-child &__test-level,
-	&__test:first-child &__test-weaks
-		padding-top 34px
-		border 0
+    &__test:first-child &__test-name,
+    &__test:first-child &__test-score,
+    &__test:first-child &__test-level,
+    &__test:first-child &__test-weaks
+        padding-top 34px
+        border 0
 
-	&__test:last-child &__test-name,
-	&__test:last-child &__test-score,
-	&__test:last-child &__test-level,
-	&__test:last-child &__test-weaks
-		padding-bottom 30px
+    &__test:last-child &__test-name,
+    &__test:last-child &__test-score,
+    &__test:last-child &__test-level,
+    &__test:last-child &__test-weaks
+        padding-bottom 30px
 
-	&__test-name
-		padding-left 23px
-		width 33%
+    &__test-name
+        padding-left 23px
+        width 33%
 
-	&__test-score
-		width 21%
+    &__test-score
+        width 21%
 
-	&__test-level
-		width 15%
+    &__test-level
+        width 15%
 
-	&__test-weaks
-		padding-right 23px
+    &__test-weaks
+        padding-right 23px
 
-	&__test-legend
-		font-size 12px
-		color #727272
-		margin-bottom 1px
+    &__test-legend
+        font-size 12px
+        color #727272
+        margin-bottom 1px
 
-	&__test-title
-		font 18px/22px secondary_font
-		margin 4px 0 4px
+    &__test-title
+        font 18px/22px secondary_font
+        margin 4px 0 4px
 
-	&__test-percent
-		font-size 28px
-		color #4C906B
-		margin 7px 0 0 3px
+    &__test-percent
+        font-size 28px
+        color #4C906B
+        margin 7px 0 0 3px

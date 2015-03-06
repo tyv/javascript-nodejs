@@ -5,9 +5,9 @@
 
 Сайт работает под MacOS, Unix (протестировано на Ubuntu, Debian), но не Windows. Сам код сайта написан более-менее универсально, но под Windows криво работают некоторые сторонние модули.
 
-## 1. Поставьте Node.JS 0.12
+## 1. Поставьте IO.JS 0.12
 
-Нужна именно последняя версия.
+Нужна именно последняя версия [IO.JS](https://iojs.org/en/index.html).
 
 ## 2. Поставьте и запустите MongoDB.
 
@@ -53,7 +53,7 @@ sudo port load nginx
 
 Например:
 ```
-gulp config:nginx --prefix /opt/local/etc/nginx --root /js/javascript-nodejs --env development --clear --harmony
+gulp config:nginx --prefix /opt/local/etc/nginx --root /js/javascript-nodejs --env development --clear 
 ```
 
 Здесь `--prefix` -- место для конфигов nginx, обычно `/etc/nginx`, в случае MacPorts это `/opt/local/etc/nginx`.
@@ -84,13 +84,13 @@ npm install
 Инициализуйте базу сайта командой:
  
 ```
-gulp db:load --from fixture/init --harmony --reset
+gulp db:load --from fixture/init --reset
 ```
 
 
 Репозитарий с учебником до окончания работы над первым релизом сайта приватный, можно импортировать "заглушки": 
 ```
-gulp db:load --from fixture/tutorial --harmony --reset
+gulp db:load --from fixture/tutorial --reset
 ```
 
 Если есть доступ к учебнику, то клонируйте его, например, в `/js/javascript-tutorial` и импортируйте командой:
@@ -108,7 +108,7 @@ gulp tutorial:import --root /js/javascript-tutorial
 
 Это поднимет сразу и сайт и механизмы автосборки стилей-скриптов и livereload.
 
-Обратите внимание: ходить на сайт нужно через Nginx (обычно порт 80), не напрямую в Node.JS (не будет статики).
+Обратите внимание: ходить на сайт нужно через Nginx (обычно порт 80), не напрямую в IO.JS (не будет статики).
 
 Если в `/etc/hosts` есть строка `127.0.0.1 javascript.in`, то адрес будет http://javascript.in/
 

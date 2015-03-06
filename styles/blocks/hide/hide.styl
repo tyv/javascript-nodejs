@@ -1,33 +1,33 @@
 .hide-open,
 .hide-closed
-	margin round(lineheight*.65) 0
+    margin round(lineheight*.65) 0
 
 .hide-closed .hide-content
-	display none
+    display none
 
 .hide-open .hide-link,
 .hide-closed .hide-link,
 .hide-open .hide-link u,
 .hide-closed .hide-link u
-	text-decoration none
-	color link_color
+    text-decoration none
+    color link_color
 
 .hide-link:hover u
-	border-bottom 1px dashed
+    border-bottom 1px dashed
 
 .hide-link code
-	font inherit
-	color inherit
+    font inherit
+    color inherit
 
 .hide-link::after
-	margin-left 8px
-	min-width 9px
-	min-height 14px
-	display inline-block
-	vertical-align top
+    margin-left 8px
+    min-width 9px
+    min-height 14px
+    display inline-block
+    vertical-align top
 
 .hide-closed .hide-link::after
-	@extend $font-open
+    @extend $font-open
 
 .hide-open .hide-link::after
-	@extend $font-close
+    @extend $font-close

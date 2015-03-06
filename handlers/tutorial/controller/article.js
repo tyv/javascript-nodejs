@@ -9,7 +9,12 @@ const makeAnchor = require('textUtil/makeAnchor');
 
 exports.get = function *get(next) {
 
-  var renderedArticle = yield* renderArticle.call(this, this.params.slug);
+
+  var renderedArticle = yield* CacheEntry.getOrGenerate({
+    key:  'tutorial:article:' + this.params.slug,
+    tags: ['article']
+  }, renderArticle.bind(this, this.params.slug));
+
 
   if (!renderedArticle) {
     yield* next;
@@ -83,7 +88,6 @@ exports.get = function *get(next) {
 
   }
 
-
   locals.sidebar = {
     class: "sidebar_sticky-footer",
     sections: sections
@@ -134,6 +138,16 @@ function* renderArticle(slug) {
   yield* renderChildren();
   yield* renderTasks();
 
+
+  // strip / and /tutorial
+  rendered.level = rendered.breadcrumbs.length - 2; // starts at 0
+
+  if (articleInTree.isFolder) {
+    // levelMax is 2 for deep courses or 1 for plain courses
+    rendered.levelMax = articleInTree.children[0].isFolder ? rendered.level + 2 : rendered.level + 1;
+  }
+
+
   function* renderPrevNext() {
 
     var prev = tree.byId(articleInTree.prev);
@@ -182,8 +196,11 @@ function* renderArticle(slug) {
 
     countChildren(bookRoot);
 
-    rendered.bookLeafCount = bookLeafCount;
-    rendered.bookChildNumber = bookChildNumber;
+    if (!(bookChildNumber == 1 && rendered.isFolder)) {
+      // not on top level first chapters
+      rendered.bookLeafCount = bookLeafCount;
+      rendered.bookChildNumber = bookChildNumber;
+    }
 
     //console.log(bookLeafCount, bookChildNumber);
   }

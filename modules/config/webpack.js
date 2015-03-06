@@ -49,6 +49,7 @@ var webpackConfig = {
     tutorial: 'tutorial/client',
     profile:  'profile/client',
     search:   'search/client',
+    quiz:     'quiz/client',
     getpdf:   'getpdf/client',
     footer:   'client/footer'
   },
@@ -63,9 +64,10 @@ var webpackConfig = {
     loaders: [
       {test: /\.jade$/, loader: "jade?root=" + config.projectRoot + '/templates'},
       {
-        test: /\.js$/,
+        test:    /\.js$/,
         exclude: noProcessModulesRegExp,
-        loader: '6to5-loader?modules=common'}
+        loader:  'babel-loader'
+      }
     ],
     noParse: [
       // regexp gets full path with loader like

@@ -25,34 +25,37 @@ block content
       +e.col.columns__col
         +e.content
           +e.title-note Часть первая
-          +e('h3').title= js.title
-          != js.content
+          +e('h3').title= chapters[0].title
+          != chapters[0].content
           +b('ul').special-links-list
-            - each folder in js.children
+            - each folder in chapters[0].children
               +e('li').item
                 +e('a').link(href=folder.url)= folder.title
 
       +e.col.columns__col
         +e.content
           +e.title-note Часть вторая
-          +e('h3').title= ui.title
-          != ui.content
+          +e('h3').title= chapters[1].title
+          != chapters[1].content
           +b('ul').special-links-list
-            - each folder in ui.children
+            - each folder in chapters[1].children
               +e('li').item
                 +e('a').link(href=folder.url)= folder.title
 
-  +b.bricks
-    +e('h2').title= more.title
+  +b.course-bricks
+    //- отдельные полноценные книги, в каждой свой progress
+    +e('h2').title Дополнительно
     +e.container
-      - each folder in more.children
+      - var i = 1
+      while ++i < chapters.length
+        - var chapter = chapters[i]
         +e.brick
-          +e('h3').brick-title
-            +e('a').brick-title-link(href=folder.url)= folder.title
-          +e.brick-content!= folder.content
-          +e('ul')
-            each child in folder.children
-              li= child.title
+          +e('h3').brick-title= chapter.title
+          +e.brick-content!= chapter.content
+          +e('ul').chapters-list
+            each child in chapter.children
+              +e('li').item
+                +e('a').link(href=child.url)= child.title
 
   script(src=script("tutorial"))
   script tutorial.init();

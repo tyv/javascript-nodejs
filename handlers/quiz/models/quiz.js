@@ -2,8 +2,18 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const config = require('config');
 const path = require('path');
+const assert = require('assert');
+const _ = require('lodash');
+const QuizQuestion = require('./quizQuestion');
 
-const schema = new Schema({
+
+const quizSchema = new Schema({
+  // when a new quiz is imported, the current one gets archived: false,
+  // but still remains in db for some time, to those people who are passing it in the moment of update
+  archived: {
+    type: Boolean,
+    required: true
+  },
   title: {
     type: String,
     required: true
@@ -14,40 +24,28 @@ const schema = new Schema({
   },
   slug: {
     type:     String,
-    unique:   true,
     required: true,
     index:    true
-  }
+  },
+  questionsToAskCount: {
+    type: Number,
+    required: true
+  },
+  created: {
+    type: Date,
+    required: true,
+    default: Date.now
+  },
+  questions: [QuizQuestion.schema]
 });
 
-
-// all resources are here
-schema.statics.resourceFsRoot = path.join(config.publicRoot, 'quiz');
-
-schema.statics.getResourceFsRootBySlug = function(slug) {
-  return path.join(schema.statics.resourceFsRoot, slug);
-};
-
-schema.statics.getResourceWebRootBySlug = function(slug) {
+quizSchema.statics.getUrlBySlug = function(slug) {
   return '/quiz/' + slug;
 };
 
-schema.statics.getUrlBySlug = function(slug) {
-  return '/' + slug;
-};
-
-schema.methods.getResourceFsRoot = function() {
-  return schema.statics.getResourceFsRootBySlug(this.get('slug'));
+quizSchema.methods.getUrl = function() {
+  return quizSchema.statics.getUrlBySlug(this.get('slug'));
 };
 
 
-schema.methods.getResourceWebRoot = function() {
-  return schema.statics.getResourceWebRootBySlug(this.get('slug'));
-};
-
-schema.methods.getUrl = function() {
-  return schema.statics.getUrlBySlug(this.get('slug'));
-};
-
-
-module.exports = mongoose.model('Quiz', schema);
+module.exports = mongoose.model('Quiz', quizSchema);

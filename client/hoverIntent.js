@@ -1,103 +1,70 @@
-/**
- * Usage:
-var handler = hoverIntent(function() {
-  console.log("in", this);
-}, function() {
-  console.log("out", this);
-});
 
- $('.codebox').addEventListener('mouseover', handler);
- $('.codebox').addEventListener('mouseout', handler);
+var lastPageX = Infinity, lastPageY = Infinity, lastTime = Date.now();
 
- TODO: refactor me.
+var elementOver;
 
- * @param handlerIn
- * @param handlerOut
- * @returns {Function}
- */
+var elementHoverOver;
+
+var speedTolerance = 0.2;
+
+var handlers = {};
+
+function hoverIntent(selector, over, out) {
+  handlers[selector] = {over: over, out: out};
+}
 
 
-function hoverIntent(handlerIn, handlerOut) {
+document.addEventListener('mousemove', mousemove);
+document.addEventListener('mouseout', mouseout);
 
-  // default configuration values
-  var cfg = {
-    interval:    150,
-    sensitivity: 8,
-    timeout:     0,
-    over:        handlerIn,
-    out:         handlerOut
-  };
+function mousemove(event) {
+  if (elementHoverOver) return;
 
-  // instantiate variables
-  // cX, cY = current X and Y position of mouse, updated by mousemove event
-  // pX, pY = previous X and Y position of mouse, set by mouseover and polling interval
-  var cX, cY, pX, pY;
+  var distance = Math.sqrt(Math.pow(event.pageX - lastPageX, 2) + Math.pow(event.pageY - lastPageY, 2));
+  var speed = distance / (Date.now() - lastTime);
 
-  // A private function for getting mouse position
-  function track(event) {
-    cX = event.pageX;
-    cY = event.pageY;
+  // slow down => call over(), get the element of interest,
+  // then out() when leaving it
+  if (speed < speedTolerance) {
+    //console.log("speed", speed);
+    var elem = document.elementFromPoint(event.clientX, event.clientY);
+    if (elem != elementOver) {
+      for (var selector in handlers) {
+        var closest = elem.closest(selector);
+        if (closest) {
+          //console.log("over ", closest);
+          elementHoverOver = { elem: closest, out: handlers[selector].out};
+          handlers[selector].over(event);
+        }
+      }
+      elementOver = elem;
+    }
   }
 
-  // A private function for comparing current and previous mouse position
-  function compare(event, elem) {
-    elem.hoverIntentTimer = clearTimeout(elem.hoverIntentTimer);
-    // compare mouse positions to see if they've crossed the threshold
-    if (Math.sqrt((pX - cX) * (pX - cX) + (pY - cY) * (pY - cY)) < cfg.sensitivity) {
-      elem.removeEventListener("mousemove", track);
-      // set hoverIntent state to true (so mouseOut can be called)
-      elem.hoverIntentState = true;
-      cfg.over.call(elem, event);
-      return;
-    }
-
-    // set previous coordinates for next time
-    pX = cX;
-    pY = cY;
-    // use self-calling timeout, guarantees intervals are spaced out properly (avoids JavaScript timer bugs)
-    elem.hoverIntentTimer = setTimeout(function() {
-      compare(event, elem);
-    }, cfg.interval);
-  }
-
-
-  // A private function for handling mouse 'hovering'
-  return function(event) {
-
-    // cancel hoverIntent timer if it exists
-    if (this.hoverIntentTimer) {
-      clearTimeout(this.hoverIntentTimer);
-      delete this.hoverIntentTimer;
-    }
-
-    // if e.type === "mouseenter"
-    if (event.type === "mouseover") {
-      // set "previous" X and Y position based on initial entry point
-      pX = event.pageX;
-      pY = event.pageY;
-      this.addEventListener('mousemove', track);
-
-      // start polling interval (self-calling timeout) to compare mouse coordinates over time
-      if (!this.hoverIntentState) {
-        this.hoverIntentTimer = setTimeout(function() {
-          compare(event, this);
-        }.bind(this), cfg.interval);
-      }
-
-      // else e.type == "mouseleave"
-    } else {
-      // unbind expensive mousemove event
-      this.removeEventListener('mousemove', track);
-      // if hoverIntent state is true, then call the mouseOut function after the specified delay
-      if (this.hoverIntentState) {
-        this.hoverIntentTimer = setTimeout(function() {
-          this.hoverIntentState = false;
-          cfg.out.call(this, event);
-        }.bind(this), cfg.timeout);
-      }
-    }
-  };
+  lastPageX = event.pageX;
+  lastPageY = event.pageY;
+  lastTime = Date.now();
 
 }
 
-module.exports = (document.ontouchstart === undefined) ? hoverIntent : function() { return function() {}; };
+function mouseout(event) {
+  if (!elementHoverOver) return;
+
+  var parent = event.relatedTarget;
+  while(parent) {
+    if (parent == elementHoverOver.elem) {
+      //console.log("mouseout false", event.target, elementHoverOver.elem);
+      // still under elementHoverOver
+      return;
+    }
+    parent = parent.parentElement;
+  }
+
+
+  var out = elementHoverOver.out;
+  elementHoverOver = null;
+  out(event);
+
+}
+
+module.exports = hoverIntent;

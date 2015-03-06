@@ -3,20 +3,23 @@ const Article = require('../models/article');
 const Task = require('../models/task');
 const _ = require('lodash');
 const ArticleRenderer = require('../renderer/articleRenderer');
+const CacheEntry = require('cache').CacheEntry;
 
 exports.get = function *get(next) {
 
   this.locals.sitetoolbar = true;
   this.locals.siteToolbarCurrentSection = "tutorial";
   this.locals.title = "Современный учебник JavaScript";
-  /*
-  var renderedArticle = yield CacheEntry.getOrGenerate({
-    key:  'article:rendered:' + this.params.slug,
-    tags: ['article']
-  }, _.partial(renderArticle, this.params.slug));
-*/
 
-  var locals = yield* renderTutorial();
+  var tutorial = yield CacheEntry.getOrGenerate({
+    key:  'tutorial:frontpage',
+    tags: ['article']
+  }, renderTutorial);
+
+
+  var locals = {
+    chapters: tutorial
+  };
 
   this.body = this.render('tutorial', locals);
 };
@@ -35,25 +38,14 @@ function* renderTutorial() {
 
   var treeRendered = yield* renderTree(tree);
 
-  var result = {
-    js: treeRendered[0],
-    ui: treeRendered[1],
-    more: treeRendered[2]
-  };
-
   // render top-level content
-  for (var key in result) {
-    var child = result[key];
+  for (var i = 0; i < treeRendered.length; i++) {
+    var child = treeRendered[i];
     yield* populateContent(child);
   }
 
-  // and render 1 level down inside result.more content
-  for (var i = 0; i < result.more.children.length; i++) {
-    var child = result.more.children[i];
-    yield* populateContent(child);
-  }
 
-  return result;
+  return treeRendered;
 
 }
 

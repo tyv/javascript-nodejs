@@ -5,7 +5,7 @@ var angular = require('angular');
 angular.module('profile')
   .directive('profilePassword', function(promiseTracker, $http, $timeout) {
     return {
-      templateUrl: 'templates/partials/profilePassword',
+      templateUrl: '/profile/templates/partials/profilePassword',
       scope:       {
         hasPassword: '='
       },

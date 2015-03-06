@@ -1,31 +1,33 @@
-.tutorial-map-overlay
-	position fixed
-	background rgba(255, 255, 255, .98)
-	top 0
-	right 0
-	bottom 0
-	left 0
-	z-index 9
-	// transition top animation_duration, right animation_duration, left animation_duration
-	overflow auto
 
-	&__close,
-	&__close:active
-		position absolute
-		top 15px
-		right 24px
+.tutorial-map-overlay
+    position fixed
+    background rgba(0, 0, 0, .70)
+    top 0
+    right 0
+    bottom 0
+    left 0
+    z-index 9
+    box-shadow 0 2px 4px 4px rgba(0,0,0,.5);
+    // transition top animation_duration, right animation_duration, left animation_duration
+    overflow auto
+
+    &__close,
+    &__close:active
+        position absolute
+        top 7px
+        right 7px
 
 .tutorial-map_on
-	overflow hidden
+    overflow hidden
 
-	.modal::before
-		background none
+    .modal::before
+        background none
 
-	.modal .spinner__dot
-		background #999
+    .modal .spinner__dot
+        background #999
 
-	.modal-dialog
-		transform none
-		// позиционирование менять не обязательно, потому что .tutorial-map-overlay
-		// позиционирован как fixed, а transform убираем, чтобы position fixed
-		// у .tutorial-map-overlay отсчитывался от окна
+    .modal-dialog
+        transform none
+        // позиционирование менять не обязательно, потому что .tutorial-map-overlay
+        // позиционирован как fixed, а transform убираем, чтобы position fixed
+        // у .tutorial-map-overlay отсчитывался от окна

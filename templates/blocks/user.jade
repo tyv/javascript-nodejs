@@ -9,8 +9,8 @@
     +e.usermenu
       +e('ul').usermenu-items
         +e('li').usermenu-item
-          +e('a').secondary-link.__usermenu-link(href="/profile") Публичный профиль
+          +e('a').secondary-link.__usermenu-link(href=user.getProfileUrl()) Публичный профиль
         +e('li').usermenu-item
-          +e('a').secondary-link.__usermenu-link(href="/profile/account") Аккаунт
+          +e('a').secondary-link.__usermenu-link(href=user.getProfileUrl() + "/account") Аккаунт
         +e('li').usermenu-item
           +e('a').secondary-link.__usermenu-link(href="#" data-action-user-logout) Выйти

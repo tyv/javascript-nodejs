@@ -71,7 +71,16 @@ function* renderMap() {
 
   var treeRendered = yield* renderTree(tree);
 
-  return treeRendered;
+
+  return [
+    treeRendered[0],
+    treeRendered[1],
+    {
+      url:      '#',
+      title:    'Дополнительно',
+      children: treeRendered.slice(2)
+    }
+  ];
 
 }
 

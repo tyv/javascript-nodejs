@@ -16,6 +16,8 @@ server {
   charset utf-8;
   root         <%=root%>/public;
 
+  add_header X-Frame-Options SAMEORIGIN;
+
 <% if (setPassword) { %>
   auth_basic "Administrator Login";
   auth_basic_user_file /etc/nginx.passwd;

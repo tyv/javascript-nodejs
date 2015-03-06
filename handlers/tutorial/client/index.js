@@ -15,7 +15,7 @@ exports.init = function() {
     event.preventDefault();
   });
 
-  prism();
+  prism.init();
 
   if (window.isEbook) {
     require.ensure('./ebook', function() {

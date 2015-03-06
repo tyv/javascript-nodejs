@@ -9,11 +9,6 @@ server {
 
   root <%=root%>/public;
 
-<% if (setPassword) { %>
-  auth_basic "Administrator Login";
-  auth_basic_user_file /etc/nginx.passwd;
-<% } %>
-
   access_log  /var/log/nginx/js.cx.log main;
   charset utf-8;
 

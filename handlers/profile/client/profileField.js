@@ -5,7 +5,7 @@ var angular = require('angular');
 angular.module('profile')
   .directive('profileField', function(promiseTracker, $http, $timeout) {
     return {
-      templateUrl: 'templates/partials/profileField',
+      templateUrl: '/profile/templates/partials/profileField',
       scope:       {
         title:       '@fieldTitle',
         name:        '@fieldName',
@@ -56,6 +56,9 @@ angular.module('profile')
               new notification.Success("Изменение имени везде произойдёт после перезагрузки страницы.", 'slow');
             } else if (this.name == 'email') {
               new notification.Warning("Требуется подтвердить смену email, проверьте почту.", 'slow');
+            } else if (this.name == 'profileName') {
+              new notification.Success("Ваш профиль доступен по новому адресу, страница будет перезагружена");
+              window.location.href = '/profile/' + this.editingValue + '/account';
             } else {
               new notification.Success("Информация обновлена.");
             }
@@ -65,7 +68,9 @@ angular.module('profile')
             this.editingValue = '';
 
           }, (response) => {
+            console.log(response);
             if (response.status == 400) {
+
               new notification.Error(response.data.message);
             } else if (response.status == 409) {
               new notification.Error(response.data.message);

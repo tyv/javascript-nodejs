@@ -8,5 +8,5 @@ block content
   +b.error
     +e('h1').type Ошибка на сервере
     +e.code 500
-    - var subject = encodeURIComponent("Ошибка 500 на " + url)
+    - var subject = encodeURIComponent("Ошибка 500 на " + url.href)
     +e.text Мы анализируем и исправляем возникающие ошибки, но вы можете ускорить этот процесс, сообщив подробности на <a href="mailto:mk@javascript.ru?subject=#{subject}">mk@javascript.ru</a>.

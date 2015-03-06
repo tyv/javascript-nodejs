@@ -26,7 +26,7 @@ router.post('/login/local', function*(next) {
       ctx.body = info;
     } else {
       yield ctx.login(user);
-      ctx.body = "";
+      ctx.body = {user: user.getInfoFields() };
     }
   }).call(this, next);
 });

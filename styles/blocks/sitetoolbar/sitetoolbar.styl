@@ -9,417 +9,420 @@ sitetoolbar_secondary_link = #498CBE
 // или препроцессора
 
 .sitetoolbar
-	box-shadow 0 2px 3px -2px rgba(0, 0, 0, .3)
-	width 100%
-	z-index 1
-	position relative
-	background #fff
-
-	&__content
-		display table
-		width 100%
-		font-size 16px
-		border-collapse collapse
-
-	&__logo-wrap,
-	&__sections,
-	&__user-wrap,
-	&__login-wrap,
-	&__search-wrap
-		display table-cell
-		vertical-align top
-		text-align left
-		white-space nowrap
-		line-height 26px
-
-	&__nav-toggle-wrap
-		display none
-
-	&__logo-wrap
-		padding-right 30px
-
-	&__logo-wrap,
-	&__user-wrap,
-	&__login-wrap
-		width .1%
-
-	&__search-wrap
-		width .1%
-		padding-right 19px
-
-	&__link_logo,
-	&__logo-handler,
-	&__logo
-		vertical-align bottom
-
-	&__logo
-		width 121px
-		height 40px
-
-	&__link_logo
-		position relative
-
-	&__logo,
-	&__link_logo
-		margin 4px 0 0 30px
-		outline 0
-
-	&__link_logo &__logo
-		margin 0
-
-	&__sections
-		padding 17px 0 0
-		height 30px
-
-	&__sections-list
-		height 30px
-		overflow hidden
-
-	&__section
-		display inline-block
-		margin-right 20px
-
-	&__section_current,
-	&__section_current &__link
-		color secondary_color
-
-	&__link
-		color navigation_link_color
-		display inline-block
-
-	&__link:hover
-		text-decoration none
-
-	&__user,
-	&__login
-		@extend $button-reset
-		font 16px font
-		color sitetoolbar_color
-		line-height inherit
-		height 60px
-		padding 0 17px
-
-	&__user:hover,
-	&__login:hover
-		color hoverize(sitetoolbar_color)
-
-	&__user::after
-		@extend $font-open
-		padding-left 7px
-		display inline-block
-		min-width 15px
-		color #C4C2C0
-		font-size 14px
-		vertical-align bottom
-		position relative
-		top 2px
-
-	&__user
-		white-space nowrap
-		padding-left 47px
-		position relative
-
-	&__userpic
-		position absolute
-		left 0
-		top 50%
-		margin-top -19px
-
-	&__user-text
-		display inline-block
-		max-width 200px
-		overflow hidden
-		text-overflow ellipsis
-		vertical-align bottom
-
-	&__search-toggle
-		@extend $button-reset
-		color sitetoolbar_color
-		margin 17px 0
-		height 60px
-		width 60px
-		margin 0
-
-	&__search-toggle:hover
-		color hoverize(sitetoolbar_color)
-
-	&__search-toggle::before
-		@extend $font-search
-		font-size 23px
-
-	&__spinner
-		position absolute
-		left 50%
-		margin -11px 0 0 -35px
-		background #fff
-		border-radius 12px
-		border 1px solid #e7e5e3
-		padding 2px
-
-	&__spinner .spinner__dot
-		background #d7d7d7
-
-	&__nav-toggle:focus,
-	&__user:focus,
-	&__login:focus,
-	&__search:focus
-		outline 0
-
-	&__tablet-menu,
-	&__search,
-	&__usermenu
-		display none
-
-	&_menu_open &__tablet-menu,
-	&_search_open &__search,
-	&_user_open &__usermenu
-		display block
-
-	&__usermenu-wrap
-		position relative
-		width 100%
-
-	&__usermenu
-		font-size size
-		line-height lineheight
-
-		position absolute
-		top 0
-		left 50%
-
-		transform translateX(-50%)
-
-		border 2px solid #e2e2e2
-		border-radius 4px
-		box-shadow 0 2px 10px rgba(0, 0, 0, .12)
-		background #fff
-
-
-	&__usermenu::before
-		content ""
-		position absolute
-		left 50%
-		margin-left -5px
-		top -7px
-		width 12px
-		height 12px
-		background #fff
-		border solid #e2e2e2
-		border-width: 1px 0 0 1px
-		transform rotate(45deg)
-
-	&__usermenu-items
-		margin 15px 18px
-
-	&__usermenu-item
-		margin 7px 0
-
-	&__secondary-link
-		color #000
-
-	&__secondary-link:hover
-		text-decoration none
-
-	&__search
-		background sitetoolbar_secondary_bg
-		position absolute
-		width 400px
-		top auto
-		right 0
-		left auto
-		border 0
-		border-radius 0
-		box-shadow 0 2px 3px -2px rgba(0, 0, 0, .3)
-
-	&__search-content
-		display table
-		width 100%
-		border-top 1px solid #e7e5e3
-
-	&__search-query-wrap,
-	&__search-submit-wrap
-		display table-cell
-		height 60px
-		vertical-align middle
-
-	&__search-query-wrap
-		padding 0 0 0 20px
-		width 100%
-
-	&__search-query
-		width 100%
-
-	&__search-query .text-input__control
-		-moz-appearance textfield // если вдруг появится поддержка type search
-		-webkit-appearance textfield
-		// height
-
-	&__search-submit-wrap
-		padding 0 20px 0 12px
-
-	&__search-submit
-		min-width 140px
-		height 34px
-		line-height 27px
-
-	&_search_open &__search-toggle
-		background sitetoolbar_secondary_bg
-
-	@media (max-width: 970px)
-		&__user::before
-			padding 0
-
-		&__user::after,
-		&__user-text
-			display none
-
-		&__usermenu
-			right 128px // лучше позиционировать с помощью js
-
-	@media tablet
-		&__logo-wrap
-			width 0
-			padding 0
-
-		&__link_logo,
-		&__logo
-			position absolute
-			left 50%
-			margin-left -61px // ширина / -2
-
-		&__userpic
-			left 50%
-			margin-left -18px
-
-		&__user-text
-			max-width 130px
-
-		&__nav-toggle-wrap
-			display table-cell
-
-		// TODO: попытаться переделать аккуратнее, ячейчка __logo-wrap
-		// не во всех браузерах скрывается полностью, остается место сбоку
-		// от кнопки, ставим ее как надо принудительно
-		&__nav-toggle,
-		&__nav-toggle:active
-			position absolute
-			left 0
-
-		&__sections-list
-			display none
-
-		&__nav-toggle
-			@extend $button-reset
-			color sitetoolbar_color
-			height 60px
-			width 60px
-			text-align center
-
-		&__nav-toggle:hover, &__nav-toggle.hover
-			color hoverize(sitetoolbar_color)
-
-		&__nav-toggle::before
-			@extend $font-menu
-			font-size 22px
-
-		&__search-wrap
-			padding-right 0
-
-		&__search-toggle
-			height 60px
-			width 60px
-			margin 0
-
-		&__tablet-menu,
-		&__usermenu
-			background sitetoolbar_secondary_bg
-			position absolute
-			width 100%
-			top auto
-			right auto
-			left auto
-			border 0
-			border-radius 0
-			box-shadow 0 2px 3px -2px rgba(0, 0, 0, .3)
-
-		& &__usermenu
-			transform none
-
-		&__usermenu::before
-			display none
-
-		&__usermenu-items,
-		&__usermenu-item
-			margin 0
-
-		&__tablet-menu-line
-			display table
-			width 100%
-			border-top 1px solid #e7e5e3
-
-		&__tablet-menu-title,
-		&__tablet-menu-content,
-		&__tablet-menu-aside
-			display table-cell
-			height 60px
-			vertical-align middle
-
-		&__tablet-menu-header
-			color sitetoolbar_color
-			white-space nowrap
-			padding 0 10px 0 20px
-
-		&__tablet-menu-title
-			min-width 155px
-
-		&__tablet-menu-content
-			width 100%
-			padding 0 20px 0 10px
-
-		&__tablet-menu-aside
-			white-space nowrap
-			padding 0 20px 0 0
-
-		&__tablet-menu-nav
-			width 100%
-
-		&__secondary-link:link,
-		&__secondary-link:visited
-			color sitetoolbar_secondary_link
-
-		&__secondary-link:hover
-			text-decoration none
-			color link_hover_color
-
-		&__tablet-menu-share
-			margin 5px 20px 0 0
-
-		&__usermenu-item
-			line-height 60px
-			border-top 1px solid #e7e5e3
-
-		&__usermenu-link
-			display block
-			padding 0 20px
-			text-align center
-			font-size 16px
-
-		&_menu_open &__nav-toggle,
-		&_user_open &__user
-			background sitetoolbar_secondary_bg
-
-	// подвинем логотип при очень узком окне, чтобы никуда не накладывался
-	// экономим несколько пикселей ширины
-	@media (max-width: 690px)
-		&__link_logo,
-		&__logo
-			left 90px
-			margin-left 0
-
-		&__link_logo &__logo
-			left 0
-
-	@media (max-width: 480px)
-		&__logo,
-		&__link_logo
-			display none
+    box-shadow 0 2px 3px -2px rgba(0, 0, 0, .3)
+    width 100%
+    z-index 1
+    position relative
+    background #fff
+
+    &_tutorial
+        box-shadow none
+
+    &__content
+        display table
+        width 100%
+        font-size 16px
+        border-collapse collapse
+
+    &__logo-wrap,
+    &__sections,
+    &__user-wrap,
+    &__login-wrap,
+    &__search-wrap
+        display table-cell
+        vertical-align top
+        text-align left
+        white-space nowrap
+        line-height 26px
+
+    &__nav-toggle-wrap
+        display none
+
+    &__logo-wrap
+        padding-right 30px
+
+    &__logo-wrap,
+    &__user-wrap,
+    &__login-wrap
+        width .1%
+
+    &__search-wrap
+        width .1%
+        padding-right 19px
+
+    &__link_logo,
+    &__logo-handler,
+    &__logo
+        vertical-align bottom
+
+    &__logo
+        width 121px
+        height 40px
+
+    &__link_logo
+        position relative
+
+    &__logo,
+    &__link_logo
+        margin 4px 0 0 30px
+        outline 0
+
+    &__link_logo &__logo
+        margin 0
+
+    &__sections
+        padding 17px 0 0
+        height 30px
+
+    &__sections-list
+        height 30px
+        overflow hidden
+
+    &__section
+        display inline-block
+        margin-right 20px
+
+    &__section_current,
+    &__section_current &__link
+        color secondary_color
+
+    &__link
+        color navigation_link_color
+        display inline-block
+
+    &__link:hover
+        text-decoration none
+
+    &__user,
+    &__login
+        @extend $button-reset
+        font 16px font
+        color sitetoolbar_color
+        line-height inherit
+        height 60px
+        padding 0 17px
+
+    &__user:hover,
+    &__login:hover
+        color hoverize(sitetoolbar_color)
+
+    &__user::after
+        @extend $font-open
+        padding-left 7px
+        display inline-block
+        min-width 15px
+        color #C4C2C0
+        font-size 14px
+        vertical-align bottom
+        position relative
+        top 2px
+
+    &__user
+        white-space nowrap
+        padding-left 47px
+        position relative
+
+    &__userpic
+        position absolute
+        left 0
+        top 50%
+        margin-top -19px
+
+    &__user-text
+        display inline-block
+        max-width 200px
+        overflow hidden
+        text-overflow ellipsis
+        vertical-align bottom
+
+    &__search-toggle
+        @extend $button-reset
+        color sitetoolbar_color
+        margin 17px 0
+        height 60px
+        width 60px
+        margin 0
+
+    &__search-toggle:hover
+        color hoverize(sitetoolbar_color)
+
+    &__search-toggle::before
+        @extend $font-search
+        font-size 23px
+
+    &__spinner
+        position absolute
+        left 50%
+        margin -11px 0 0 -35px
+        background #fff
+        border-radius 12px
+        border 1px solid #e7e5e3
+        padding 2px
+
+    &__spinner .spinner__dot
+        background #d7d7d7
+
+    &__nav-toggle:focus,
+    &__user:focus,
+    &__login:focus,
+    &__search:focus
+        outline 0
+
+    &__tablet-menu,
+    &__search,
+    &__usermenu
+        display none
+
+    &_menu_open &__tablet-menu,
+    &_search_open &__search,
+    &_user_open &__usermenu
+        display block
+
+    &__usermenu-wrap
+        position relative
+        width 100%
+
+    &__usermenu
+        font-size size
+        line-height lineheight
+
+        position absolute
+        top 0
+        left 50%
+
+        transform translateX(-50%)
+
+        border 2px solid #e2e2e2
+        border-radius 4px
+        box-shadow 0 2px 10px rgba(0, 0, 0, .12)
+        background #fff
+
+
+    &__usermenu::before
+        content ""
+        position absolute
+        left 50%
+        margin-left -5px
+        top -7px
+        width 12px
+        height 12px
+        background #fff
+        border solid #e2e2e2
+        border-width: 1px 0 0 1px
+        transform rotate(45deg)
+
+    &__usermenu-items
+        margin 15px 18px
+
+    &__usermenu-item
+        margin 7px 0
+
+    &__secondary-link
+        color #000
+
+    &__secondary-link:hover
+        text-decoration none
+
+    &__search
+        background sitetoolbar_secondary_bg
+        position absolute
+        width 400px
+        top auto
+        right 0
+        left auto
+        border 0
+        border-radius 0
+        box-shadow 0 2px 3px -2px rgba(0, 0, 0, .3)
+
+    &__search-content
+        display table
+        width 100%
+        border-top 1px solid #e7e5e3
+
+    &__search-query-wrap,
+    &__search-submit-wrap
+        display table-cell
+        height 60px
+        vertical-align middle
+
+    &__search-query-wrap
+        padding 0 0 0 20px
+        width 100%
+
+    &__search-query
+        width 100%
+
+    &__search-query .text-input__control
+        -moz-appearance textfield // если вдруг появится поддержка type search
+        -webkit-appearance textfield
+        // height
+
+    &__search-submit-wrap
+        padding 0 20px 0 12px
+
+    &__search-submit
+        min-width 140px
+        height 34px
+        line-height 27px
+
+    &_search_open &__search-toggle
+        background sitetoolbar_secondary_bg
+
+    @media (max-width: 970px)
+        &__user::before
+            padding 0
+
+        &__user::after,
+        &__user-text
+            display none
+
+        &__usermenu
+            right 128px // лучше позиционировать с помощью js
+
+    @media tablet
+        &__logo-wrap
+            width 0
+            padding 0
+
+        &__link_logo,
+        &__logo
+            position absolute
+            left 50%
+            margin-left -61px // ширина / -2
+
+        &__userpic
+            left 50%
+            margin-left -18px
+
+        &__user-text
+            max-width 130px
+
+        &__nav-toggle-wrap
+            display table-cell
+
+        // TODO: попытаться переделать аккуратнее, ячейчка __logo-wrap
+        // не во всех браузерах скрывается полностью, остается место сбоку
+        // от кнопки, ставим ее как надо принудительно
+        &__nav-toggle,
+        &__nav-toggle:active
+            position absolute
+            left 0
+
+        &__sections-list
+            display none
+
+        &__nav-toggle
+            @extend $button-reset
+            color sitetoolbar_color
+            height 60px
+            width 60px
+            text-align center
+
+        &__nav-toggle:hover, &__nav-toggle.hover
+            color hoverize(sitetoolbar_color)
+
+        &__nav-toggle::before
+            @extend $font-menu
+            font-size 22px
+
+        &__search-wrap
+            padding-right 0
+
+        &__search-toggle
+            height 60px
+            width 60px
+            margin 0
+
+        &__tablet-menu,
+        &__usermenu
+            background sitetoolbar_secondary_bg
+            position absolute
+            width 100%
+            top auto
+            right auto
+            left auto
+            border 0
+            border-radius 0
+            box-shadow 0 2px 3px -2px rgba(0, 0, 0, .3)
+
+        & &__usermenu
+            transform none
+
+        &__usermenu::before
+            display none
+
+        &__usermenu-items,
+        &__usermenu-item
+            margin 0
+
+        &__tablet-menu-line
+            display table
+            width 100%
+            border-top 1px solid #e7e5e3
+
+        &__tablet-menu-title,
+        &__tablet-menu-content,
+        &__tablet-menu-aside
+            display table-cell
+            height 60px
+            vertical-align middle
+
+        &__tablet-menu-header
+            color sitetoolbar_color
+            white-space nowrap
+            padding 0 10px 0 20px
+
+        &__tablet-menu-title
+            min-width 155px
+
+        &__tablet-menu-content
+            width 100%
+            padding 0 20px 0 10px
+
+        &__tablet-menu-aside
+            white-space nowrap
+            padding 0 20px 0 0
+
+        &__tablet-menu-nav
+            width 100%
+
+        &__secondary-link:link,
+        &__secondary-link:visited
+            color sitetoolbar_secondary_link
+
+        &__secondary-link:hover
+            text-decoration none
+            color link_hover_color
+
+        &__tablet-menu-share
+            margin 5px 20px 0 0
+
+        &__usermenu-item
+            line-height 60px
+            border-top 1px solid #e7e5e3
+
+        &__usermenu-link
+            display block
+            padding 0 20px
+            text-align center
+            font-size 16px
+
+        &_menu_open &__nav-toggle,
+        &_user_open &__user
+            background sitetoolbar_secondary_bg
+
+    // подвинем логотип при очень узком окне, чтобы никуда не накладывался
+    // экономим несколько пикселей ширины
+    @media (max-width: 690px)
+        &__link_logo,
+        &__logo
+            left 90px
+            margin-left 0
+
+        &__link_logo &__logo
+            left 0
+
+    @media (max-width: 480px)
+        &__logo,
+        &__link_logo
+            display none

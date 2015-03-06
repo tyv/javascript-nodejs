@@ -53,6 +53,7 @@ var schema = new Schema({
     required: true,
     index:    true
   }
+
 });
 
 // all resources are here

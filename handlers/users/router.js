@@ -33,7 +33,7 @@ function* loadUserByReq(next) {
 function* loadUserById(next) {
 
   try {
-    mongoose.Types.ObjectId.fromString(this.params.id);
+    new mongoose.Types.ObjectId(this.params.id);
   } catch (e) {
     // cast error (invalid id)
     this.throw(404);

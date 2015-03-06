@@ -1,5 +1,5 @@
 var notification = require('client/notification');
-
+var getCsrfCookie = require('client/getCsrfCookie');
 // Wrapper about XHR
 // # Global Events
 // triggers document.loadstart/loadend on communication start/end
@@ -37,9 +37,9 @@ function xhr(options) {
   request.method = method;
 
   // token/header names same as angular $http for easier interop
-  var csrfCookie = document.cookie.match(/XSRF-TOKEN=([\w-]+)/);
+  var csrfCookie = getCsrfCookie()
   if (csrfCookie && !options.skipCsrf) {
-    request.setRequestHeader("X-XSRF-TOKEN", csrfCookie[1]);
+    request.setRequestHeader("X-XSRF-TOKEN", csrfCookie);
   }
 
   if ({}.toString.call(body) == '[object Object]') {

@@ -6,4 +6,3 @@ export STATIC_HOST=http://stage.javascript.ru
 ssh -f -nNT -R 1212:localhost:80 ilia@stage.javascript.ru
 
 NODE_ENV=development WATCH=1 gulp dev --harmony | bunyan -o short -l debug
-fra

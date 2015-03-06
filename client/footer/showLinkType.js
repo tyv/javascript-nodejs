@@ -26,22 +26,21 @@ module.exports = function() {
 
   // we show tooltip element for any link hover, but few of them actually get styled
   function onOver(event) {
-    var link = event.target.closest('a');
+    var target = event.target.closest('a, [data-tooltip]');
 
-    if (!link) return;
+    if (!target) return;
 
     // links inside toolbars need no tooltips
-    if (link.closest('.toolbar')) return;
+    if (target.tagName == 'A' && target.closest('.toolbar')) return;
 
     tooltipSpan = document.createElement('span');
     tooltipSpan.className = 'link__type';
 
-    if (link.getAttribute('data-tooltip')) {
-      tooltipSpan.setAttribute('data-tooltip', link.getAttribute('data-tooltip'));
+    if (target.getAttribute('data-tooltip')) {
+      tooltipSpan.setAttribute('data-tooltip', target.getAttribute('data-tooltip'));
     } else {
-      tooltipSpan.setAttribute('data-url', link.getAttribute('href'));
+      tooltipSpan.setAttribute('data-url', target.getAttribute('href'));
     }
-
 
     document.body.appendChild(tooltipSpan);
     updatePosition(event);
@@ -57,12 +56,6 @@ module.exports = function() {
     tooltipSpan = null;
   }
 
-  var handler = hoverIntent(onOver, onOut);
-  document.addEventListener('mouseover', function(event) {
-    if (!event.target.closest('a')) return;
-    handler.call(this, event);
-  });
-  document.addEventListener('mouseout', handler);
-
+  hoverIntent('a,[data-tooltip]', onOver, onOut);
 
 };

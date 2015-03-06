@@ -4,7 +4,7 @@ var angular = require('angular');
 angular.module('profile')
   .directive('profileAuthProviders', function(promiseTracker, $http, authPopup, Me) {
     return {
-      templateUrl: 'templates/partials/profileAuthProviders',
+      templateUrl: '/profile/templates/partials/profileAuthProviders',
       replace: true,
 
       link: function(scope) {

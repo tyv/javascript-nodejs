@@ -1,0 +1,20 @@
+extends /layouts/main
+
+block append variables
+    - var sitetoolbar = true
+    - var layout_main_class = "main_width-limit"
+    - var layout_header_class = "main__header_center"
+
+block content
+    +b.intro На этой странице Вы можете протестировать свои знания Javascript, выбрав один из тестов.
+
+    include blocks/quiz-selector
+
+    +b.quiz-explanations
+      +e("h4").title Если не оговорено особо, то...
+      +e("ul")
+        +e('li') Тесты предполагают современные браузеры.
+        +e('li') Все настройки браузера - по умолчанию.
+        +e('li') Версия Javascript - самая распространенная на текущий день, т.е ES5.
+        +e('li')  Многие вопросы неочевидны и требуют не только знаний, но и опыта. Удачи!
+

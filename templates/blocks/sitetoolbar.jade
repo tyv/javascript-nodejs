@@ -1,7 +1,7 @@
 block append variables
-  - var siteToolbarSections = [ { slug: 'tutorial', title: 'Учебник' } ];
+  - var siteToolbarSections = [ { slug: 'tutorial', title: 'Учебник' }, { url: 'http://javascript.ru/forum', title: 'Форум' }, { url: 'http://es5.javascript.ru', title: 'ES5' }, { url: 'http://javascript.ru/courses', title: 'Курсы' }, { url: 'http://javascript.ru/manual', title: 'Справочник' },  { slug: '#', title: 'Node.JS' }, { slug: '#', title: 'Тесты знаний' } ];
 
-+b.sitetoolbar
++b(class = 'sitetoolbar ' + (bookChildNumber ? '_tutorial' : ''))
   +e.content
     +e.logo-wrap
       +e('a').link._logo(href="/")
@@ -32,18 +32,8 @@ block append variables
     +e('nav').sections
       +e('ul').sections-list
          each section in siteToolbarSections
-          +e('li')(class="section" + ((siteToolbarCurrentSection == section.slug) ? ' _current' : ''))
-            +e('a').link(href="/"+section.slug)= section.title
-        //-
-          =' '
-          +e('li').section
-            +e('a').link(href="/courses") Курсы
-          =' '
-          +e('li').section
-            +e('a').link(href="/spec") Стандарт ES5
-          =' '
-          +e('li').section
-            +e('a').link(href="/tests") Тестирование
+          +e('li')(class=["section", session.slug && siteToolbarCurrentSection == section.slug && ' _current'])
+            +e('a').link(href=section.slug ? ('/' + section.slug) : section.url)= section.title
     if user
       include ./user
     else
@@ -79,3 +69,6 @@ block append variables
           +e('input').control(name="query" type="text")
       +e.search-submit-wrap
         +b('button').submit-button.__search-submit Найти
+
+  if bookChildNumber && bookLeafCount
+    +b('progress').tutorial-progress(data-sticky, value=bookChildNumber, max= bookLeafCount, data-tooltip=("Урок " + bookChildNumber + " из " + bookLeafCount))

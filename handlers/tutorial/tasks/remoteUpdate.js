@@ -34,9 +34,11 @@ module.exports = function(options) {
 
       // copy/overwrite collections from js_sync to js and then remove non-existing ids
       fs.writeFileSync("/tmp/cmd.js", collections.map(function(coll) {
-        var cmd = "db.getSiblingDB('js_sync').C.copyTo(db.C); \n\
+        // copyTo does not work
+        // also see https://jira.mongodb.org/browse/SERVER-732
+        var cmd = "db.getSiblingDB('js_sync').C.find().forEach(function(d) { db.C.insert(d) }) \n\
           vals = db.getSiblingDB('js_sync').C.find({}, {id:1}).map(function(a){return a._id;}); \n\
-          db.C.remove({_id: {$nin: vals}})".replace(/C/g, coll);
+          db.C.remove({_id: {$nin: vals}});".replace(/C/g, coll);
 
         return cmd;
 
@@ -48,6 +50,7 @@ module.exports = function(options) {
       exec('scp /tmp/cmd.js ' + host + ':/tmp/');
       exec('ssh ' + host + ' "mongo js /tmp/cmd.js"');
 
+      exec('rsync -rlDv /js/javascript-nodejs/public/ ' + host + ':/js/javascript-nodejs/current/public/');
     });
   };
 };

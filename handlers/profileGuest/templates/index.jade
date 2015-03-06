@@ -1,0 +1,54 @@
+extends /layouts/main
+
+block append variables
+  - var layout_header_class = "main__header_center"
+  - var layout_main_class = "main_width-limit-wide"
+  - var sitetoolbar = true
+
+block content
+
+  +b.profile
+
+    +b.profile-photo
+      +e.upic(style="background-image: url('" + profileUser.getPhotoUrl(146, 146) + "')")
+
+
+    +e.content
+
+      if profileUser.realName
+        +b.profile-field
+          +e.content
+            +e.name Имя
+            +e.value= profileUser.realName
+
+      if profileUser.country
+        +b.profile-field
+          +e.content
+            +e.name Страна
+            +e.value= profileUser.country
+
+      if profileUser.town
+        +b.profile-field
+          +e.content
+            +e.name Город
+            +e.value= profileUser.town
+
+      if profileUser.publicEmail
+        +b.profile-field
+          +e.content
+            +e.name E-Mail
+            +e.value= profileUser.publicEmail
+
+      if profileUser.interests
+        +b.profile-field
+          +e.content
+            +e.name Интересы
+            +e.value= profileUser.interests
+
+
+      if profileUser.birthday
+        +b.profile-field
+          +e.content
+            +e.name Дата рождения
+            +e.value= profileUser.birthday
+
