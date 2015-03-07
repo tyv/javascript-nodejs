@@ -50,6 +50,8 @@ function TutorialMap(elem) {
     activeLink.classList.add('tutorial-map__link_active');
   }
 
+  this.focus();
+
 }
 
 
@@ -113,8 +115,10 @@ TutorialMap.prototype.showClearButton = function(show) {
   }
 };
 
+// focus on the map itself, to allow immediate scrolling with arrow up/down keys
 TutorialMap.prototype.focus = function() {
-  this.filterInput.focus();
+  this.elem.tabIndex = -1;
+  this.elem.focus();
 };
 
 TutorialMap.prototype.filter = function(value) {

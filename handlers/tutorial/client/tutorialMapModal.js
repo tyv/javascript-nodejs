@@ -31,7 +31,6 @@ function TutorialMapModal() {
     var wrapper = document.createElement('div');
     wrapper.className = 'tutorial-map-overlay';
     wrapper.innerHTML = event.result + '<button class="close-button tutorial-map-overlay__close"></button>';
-    console.log(wrapper.innerHTML)
     document.body.classList.add('tutorial-map_on');
     self.setContent(wrapper);
 
