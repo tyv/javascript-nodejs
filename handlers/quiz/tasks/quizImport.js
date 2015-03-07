@@ -5,6 +5,7 @@ var log = require('log')();
 var gutil = require('gulp-util');
 var glob = require('glob');
 var QuizImporter = require('../quizImporter');
+var Quiz = require('../models/quiz');
 
 module.exports = function(options) {
 
@@ -20,6 +21,10 @@ module.exports = function(options) {
     return co(function* () {
 
       var files = glob.sync(path.join(root, '*.yml'));
+
+      if (args.reset) {
+        yield Quiz.destroy({});
+      }
 
       for (var i = 0; i < files.length; i++) {
         var yml = files[i];
