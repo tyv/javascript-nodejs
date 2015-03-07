@@ -5,7 +5,9 @@ var path = require('path');
 exports.get = function *get(next) {
   var templatePath = this.params.path;
 
-  if (!fs.existsSync(path.join(__dirname, 'templates', templatePath))) {
+  var fullPath = path.join(this.templateDir, templatePath) + '.jade';
+
+  if (!fs.existsSync(fullPath)) {
     this.throw(404);
   }
 
