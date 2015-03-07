@@ -42,7 +42,7 @@ module.exports = function(options) {
 
         return cmd;
 
-      }).join("\n\n"));
+      }).concat('db.cacheentries.remove({});').join("\n\n"));
 
       exec('scp -r -C dump ' + host + ':');
       exec('ssh ' + host + ' "mongorestore --drop"');
