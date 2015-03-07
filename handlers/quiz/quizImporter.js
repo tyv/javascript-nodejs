@@ -33,7 +33,6 @@ QuizImporter.prototype.import = function*() {
 
   var quiz = new Quiz(quizObj);
 
-
   quiz.archived = false;
 
   yield Quiz.update({
