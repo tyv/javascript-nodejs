@@ -7,7 +7,7 @@ include /bem
       //+e('h2').inline-title О себе
       +e('p').note Информация о вас, которая будет видна другим посетителям.
 
-  +e.fields
+  +e.fields._about
     +e('profile-field')(field-name="realName" field-title="Имя" field-value="me.realName")
       input.text-input__control(focus-on="editing" placeholder="Иван Иванович" ng-model="editingValue" type="text" name="input")
 

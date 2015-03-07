@@ -6,7 +6,7 @@ include /bem
     +e.title-content
       +e('h2').inline-title Управление аккаунтом
 
-  +e.fields
+  +e.fields._account
     +e('profile-field')(field-name="displayName" field-title="Имя пользователя" field-value="me.displayName")
       input.text-input__control(type="text" name="input"
         focus-on="editing"
@@ -34,7 +34,7 @@ include /bem
       )
 
 
-    +e('profile-password')(has-password="me.hasPassword")
+  +e('profile-password')(has-password="me.hasPassword")
 
   +e.title
     +e.title-content
