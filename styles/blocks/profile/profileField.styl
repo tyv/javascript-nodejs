@@ -49,12 +49,12 @@ $right-cell-padding = 17px 50px 17px 0
         padding $left-cell-padding
 
     &_editable &__value::after,
-    &_editable &__edit-empty::after
+    &_editable&_password::after
         @extend $font-pencil
 
         position absolute
-        right 0
         top 0
+        right 0
 
         display none
 
@@ -65,15 +65,27 @@ $right-cell-padding = 17px 50px 17px 0
 
         color #727272
 
+    &_editable&_password::after
+        top 17px
+        right 50px
+
     &:hover &__value::after,
-    &:hover &__edit-empty::after
+    &:hover&_editable&_password::after
         display block
+
+    &_editing&_password::after
+        display none !important
+
+    &_editing&_password .text-input_invalid
+        padding-bottom 20px
+
+    &_editing&_password .text-input__err
+        position absolute
 
     &__name
         color #727272
 
-    &__value,
-    &__edit-empty
+    &__value
         box-sizing border-box
 
         position relative
@@ -82,11 +94,7 @@ $right-cell-padding = 17px 50px 17px 0
     &__value:empty::before
         content "—"
 
-    &__edit-empty:empty::before
-        content "\a0" //&npsp
-
-    &_editing &__value,
-    &_editing &__edit-empty
+    &_editing &__value
         display none
 
     &_editing &__change
@@ -96,6 +104,10 @@ $right-cell-padding = 17px 50px 17px 0
     &_editing &__rcell
         padding-top 10px
         padding-bottom 8px
+
+    &_editing&_password
+        padding-top 12px
+        padding-bottom 10px
 
     &__control
         display block
@@ -129,13 +141,6 @@ $right-cell-padding = 17px 50px 17px 0
     #profile-about
         height 100px
 
-    &__pass-change
-        display inline-block
-        margin-right 18px
-
-    &__pass
-        width 150px
-
     &__change-content,
     &__ok-cancel
         display table-cell
@@ -147,6 +152,31 @@ $right-cell-padding = 17px 50px 17px 0
     &__ok-cancel
         width 1%
         white-space nowrap
+
+    &_password
+        position relative
+
+        display block
+        box-sizing border-box
+
+        height auto
+        min-height 20px
+        padding $left-cell-padding
+
+    &_password &__change-content
+        width 1%
+        white-space nowrap
+
+    &_password &__ok-cancel
+        width auto
+
+    &_password &__labeled,
+    &_password &__labeled-label
+        display inline-block
+        margin-right 20px
+
+    &__pass
+        width 150px
 
     &__save
         margin 0 0 -1px // убираем смещение соседних пунктов в момент показа в Fx
