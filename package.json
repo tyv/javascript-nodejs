@@ -10,7 +10,6 @@
   "precommit": "NODE_ENV=development node --harmony `which gulp` pre-commit",
   "//": "EJS 2.0 breaks include in nginx configs, so EJS 1.x is used",
   "dependencies": {
-    "babel-loader": "*",
     "MD5": "*",
     "angular": "*",
     "angular-cookies": "*",
@@ -20,6 +19,7 @@
     "angular-ui-router": "*",
     "assert-plus": "*",
     "async": "*",
+    "babel-loader": "*",
     "bem-jade": "*",
     "bluebird": "*",
     "browser-pack": "*",
@@ -40,6 +40,7 @@
     "inherits": "*",
     "jade": "git://github.com/visionmedia/jade",
     "jade-loader": "*",
+    "js-yaml": "^3.2.7",
     "juice2": "*",
     "koa": "*",
     "koa-bodyparser": "*",
