@@ -32,6 +32,10 @@ module.exports = function(options) {
       exec('mv dump/js dump/js_sync');
       exec('ssh ' + args.host + ' "rm -rf dump"');
 
+      yield function(callback) {
+        setTimeout(callback, 3000);
+      };
+
       // copy/overwrite collections from js_sync to js and then remove non-existing ids
       fs.writeFileSync("/tmp/cmd.js", collections.map(function(coll) {
         // copyTo does not work

@@ -2,7 +2,7 @@ const webmoneyConfig = require('config').payments.modules.webmoney;
 const mongoose = require('mongoose');
 const Order = require('../../models/order');
 const Transaction = require('../../models/transaction');
-const md5 = require('MD5');
+const sha256 = require('sha256');
 
 // ONLY ACCESSED from WEBMONEY SERVER
 exports.prerequest = function* (next) {
@@ -61,7 +61,7 @@ exports.post = function* (next) {
 
 function checkSignature(body) {
 
-  var signature = md5(body.LMI_PAYEE_PURSE + body.LMI_PAYMENT_AMOUNT + body.LMI_PAYMENT_NO +
+  var signature = sha256(body.LMI_PAYEE_PURSE + body.LMI_PAYMENT_AMOUNT + body.LMI_PAYMENT_NO +
     body.LMI_MODE + body.LMI_SYS_INVS_NO + body.LMI_SYS_TRANS_NO + body.LMI_SYS_TRANS_DATE +
     webmoneyConfig.secretKey + body.LMI_PAYER_PURSE + body.LMI_PAYER_WM).toUpperCase();
 

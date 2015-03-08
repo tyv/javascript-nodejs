@@ -56,6 +56,9 @@ var schema = new Schema({
     required: true,
     default: Date.now
   },
+  modified:       {
+    type:    Date
+  },
   status:        {
     type: String,
     required: true
@@ -94,6 +97,10 @@ schema.pre('save', function logChanges(next) {
   });
 });
 
+schema.pre('save', function(next){
+  this.modified = new Date();
+  next();
+});
 
 // allow many failed transactions
 // forbid many pending/successful

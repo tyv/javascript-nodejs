@@ -18,6 +18,10 @@ function clean(pathOrPiece) {
 
 
 exports.all = function*() {
+  // bad path: http://javascript.in/task/capslock-warning-field/solution
+  if (this.params.serverPath === undefined) {
+    this.throw(404);
+  }
 
   // for /article/ajax-xmlhttprequest/xhr/test: xhr/test
   var serverPath = clean(this.params.serverPath);

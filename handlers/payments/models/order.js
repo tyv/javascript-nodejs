@@ -48,7 +48,16 @@ var schema = new Schema({
   created:     {
     type:    Date,
     default: Date.now
+  },
+  modified:       {
+    type:    Date
   }
+
+});
+
+schema.pre('save', function(next){
+  this.modified = new Date();
+  next();
 });
 
 schema.statics.createFromTemplate = function(orderTemplate, body) {
@@ -73,6 +82,8 @@ schema.statics.STATUS_PENDING = 'pending';
 
 schema.statics.STATUS_CANCEL = 'cancel';
 
+// maximal time for onsuccess hook to finish
+schema.statics.MAX_ONSUCCESS_TIME = 5000;
 
 module.exports = mongoose.model('Order', schema);
 

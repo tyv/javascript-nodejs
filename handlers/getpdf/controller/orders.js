@@ -4,11 +4,44 @@ var OrderTemplate = payments.OrderTemplate;
 var Transaction = payments.Transaction;
 var assert = require('assert');
 
+function* reloadOrderUntilSuccessFinish() {
+
+  var lastTransaction = yield Transaction.findOne({
+    order: this.order._id
+  }).sort({modified: -1}).limit(1).exec();
+
+  if (lastTransaction.status == Transaction.STATUS_SUCCESS &&
+    this.order.status == Order.STATUS_PENDING) {
+    // PENDING order, but Transaction.STATUS_SUCCESS?
+    // means that order onSuccess failed to finalize the job
+    // OR just did not finish it yet
+    var datediff = new Date() - new Date(lastTransaction.modified);
+    while(datediff < Order.MAX_ONSUCCESS_TIME) {
+      // give it a second to finish and retry, up to max 5 seconds
+      this.log.debug("tx success, but order pending => wait 1s until onSuccess hook (maybe?) finishes");
+      yield function(callback) {
+        setTimeout(callback, 1000);
+      };
+      datediff += 1000;
+      yield* this.loadOrder({reload: true});
+    }
+  }
+
+}
+
 // Existing order page
 exports.get = function*() {
-  this.nocache();
 
   yield* this.loadOrder();
+
+  // order.onSuccess may take some time
+  // it happens that the transaction is already SUCCESS, but the order is still PENDING
+  // in this case reload the order
+
+  yield* reloadOrderUntilSuccessFinish.call(this);
+
+  this.nocache();
+
 
   this.locals.sitetoolbar = true;
   this.locals.title = 'Заказ №' + this.order.number;
@@ -64,6 +97,7 @@ function* renderPending() {
 
   // PENDING order, but Transaction.STATUS_SUCCESS?
   // means that order onSuccess failed to finalize the job
+  // (we must have given it the time in reloadOrderUntilSuccessFinish)
   if (successfulTansaction) {
     this.locals.transaction = successfulTansaction;
     this.body = this.render('order');

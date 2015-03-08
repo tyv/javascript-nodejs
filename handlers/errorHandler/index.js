@@ -14,6 +14,7 @@ function renderError(err) {
   this.log.error({
     message: err.message,
     stack: err.stack,
+    errors: err.errors, // for validation errors
     status: err.status
   });
 

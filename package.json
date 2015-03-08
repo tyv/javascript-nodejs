@@ -92,6 +92,7 @@
     "request": "*",
     "sanitize-html": "*",
     "send": "*",
+    "sha256": "^0.1.1",
     "styliner": "*",
     "stylus": "*",
     "svgutils": "*",
