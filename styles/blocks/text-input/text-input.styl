@@ -67,11 +67,14 @@
         font-size 12px
         padding 4px 0 0
 
+    /* don't show errors in an untouched control?
+    can be modified for a particular block
+    */
     &_invalid &__control,
-    &__control.ng-invalid
+    &__control.ng-invalid.ng-dirty
         border-color #cc5b4d
         box-shadow inset 1px 1px 5px 0 #f2e7e7
 
     &_invalid &__err,
-    &__control.ng-invalid + &__err
+    &__control.ng-invalid.ng-dirty + &__err
         visibility visible

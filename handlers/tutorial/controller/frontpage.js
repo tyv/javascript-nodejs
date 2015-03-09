@@ -21,7 +21,7 @@ exports.get = function *get(next) {
     chapters: tutorial
   };
 
-  this.body = this.render('tutorial', locals);
+  this.body = this.render('frontpage', locals);
 };
 
 // content

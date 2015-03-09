@@ -1,8 +1,15 @@
 .course-bricks
     & &__title
-        font 193% secondary_font
+        font 200% font
+        font-weight bold
         text-align center
-        margin 39px 0 15px
+        margin 39px 0 0
+
+    & &__title ~ p
+        color #999
+        text-align center
+        margin-top 0
+        margin-bottom 36px
 
     &__container
         -webkit-columns 200px 3
@@ -23,8 +30,9 @@
         margin 0 0 0 18px
 
     & &__brick-title
-        font 18px secondary_font
-        margin 0 0 -8px
+        font 18px font
+        font-weight bold
+        margin-top 0
 
     & &__brick-title-link
         color alternate_link_color
@@ -34,8 +42,6 @@
         text-decoration: underline
 
     &__brick-content
-        font-size: 12px
-        line-height: 1.3
         margin 12px 0
 
         p

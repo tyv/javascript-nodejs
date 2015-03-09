@@ -21,6 +21,7 @@ include /bem
         focus-on="editing"
         ng-pattern="/^[a-z0-9-]*$/"
         ng-maxlength="64"
+        ng-minlength="2"
         ng-model="editingValue"
         ng-model-options="{ updateOn: 'default blur', debounce: {'default': 0, 'blur': 0} }"
       )

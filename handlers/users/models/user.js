@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var hash = require('../lib/hash');
 var troop = require('mongoose-troop');
 var _ = require('lodash');
+var crypto = require('crypto');
 
 var ProviderSchema = new mongoose.Schema({
   name:    String,
@@ -76,39 +77,13 @@ var UserSchema = new mongoose.Schema({
   },
   profileName:               {
     type:     String,
-    default:  "", // need a value for validator to run
+    default: function() {
+      // 6-7 random alphanumeric chars
+      return parseInt(crypto.randomBytes(4).toString('hex'), 16).toString(36);
+    },
+    unique: true,
+    required: true,
     validate: [
-      {
-        validator: function uniqueAmongIdsAndProfileNames(value, callback) {
-          if (!value) {
-            return callback(true);
-          }
-
-          var idValue;
-          try {
-            idValue = new mongoose.Types.ObjectId(value);
-          } catch (e) {
-            idValue = null;
-          }
-
-          User.findOne({
-            $and: [
-              {_id: {$ne: this._id}},
-              {
-                $or: [
-                  {_id: idValue},
-                  {profileName: value}
-                ]
-              }
-            ]
-          }, function(err, user) {
-            console.log(err, user);
-            if (err || user) return callback(false);
-            callback(true);
-          });
-        },
-        msg:       "Такое имя профиля уже занято."
-      },
       {
         validator: function(value) {
           return /^[a-z0-9-]*$/.test(value);
@@ -120,6 +95,12 @@ var UserSchema = new mongoose.Schema({
           return value.length <= 64;
         },
         msg:       "Максимальная длина имени профиля: 64 символа."
+      },
+      {
+        validator: function(value) {
+          return value.length >= 2;
+        },
+        msg:       "Минимальная длина имени профиля: 2 символа."
       }
     ]
   },
@@ -225,13 +206,15 @@ UserSchema.statics.getInfoFields = function(user) {
 
 
 UserSchema.methods.getProfileUrl = function() {
-  return '/profile/' + (this.profileName || this._id);
+  return '/profile/' + this.profileName;
 };
+
 
 UserSchema.methods.checkPassword = function(password) {
   if (!password) return false; // empty password means no login by password
   return hash.createHashSlow(password, this.salt) == this.passwordHash;
 };
+
 
 UserSchema.methods.softDelete = function(callback) {
   // delete this.email does not work
@@ -263,24 +246,6 @@ UserSchema.methods.softDelete = function(callback) {
 
 UserSchema.statics.photoDefault = "http://i.imgur.com/zSGftLc.png";
 UserSchema.statics.photoDeleted = "http://i.imgur.com/7KZD6XK.png";
-
-UserSchema.statics.findByProfileName = function(profileName) {
-
-  var idValue;
-  try {
-    idValue = new mongoose.Types.ObjectId(profileName);
-  } catch (e) {
-    idValue = null;
-  }
-
-  return User.findOne({
-    $or: [
-      {profileName: profileName},
-      {_id: idValue}
-    ]
-  });
-
-};
 
 UserSchema.methods.getPhotoUrl = function(width, height) {
   var url = this.deleted ? User.photoDeleted :

@@ -10,19 +10,13 @@ exports.get = function* (next) {
     return;
   }
 
-  var user = yield User.findByProfileName(this.params.profileName).exec();
+  var user = yield User.findOne({profileName: this.params.profileName}).exec();
 
   if (!user) {
     this.throw(404);
   }
 
-  if (user.profileName && this.params.profileName != user.profileName) {
-    // access by id
-    // for a user with profileName => redirect to the new profile url
-    this.redirect(user.getProfileUrl());
-    return;
-  }
-
+  // if the visitor is the profile owner
   if (String(this.user._id) == String(user._id)) {
 
     this.locals.title = this.user.displayName;

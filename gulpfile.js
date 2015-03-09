@@ -26,7 +26,7 @@ const mongoose = require('lib/mongoose');
 //require('clarify');
 
 process.on('uncaughtException', function(err) {
-  console.error(err.message, err.stack);
+  console.error(err.message, err.stack, err.errors);
   process.exit(255);
 });
 

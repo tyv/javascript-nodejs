@@ -22,9 +22,9 @@ MultipartParser.prototype.parse = thunkify(function(req, callback) {
 
   // multipart file must be the last
   form.on('part', function(part) {
-    if (part.filename != null) {
-      // FIXME: use createError from multiparty here
-      callback(new Error('Files are not allowed here'));
+    if (part.filename !== null) {
+      // error is made the same way as multiparty uses
+      callback(createError(400, 'Files are not allowed here'));
     } else {
       throw new Error("Must never reach this line (field event parses all fields)");
     }
@@ -64,16 +64,11 @@ MultipartParser.prototype.middleware = function() {
     }
 
     if (!self.ignore.check(this.path)) {
+      console.log("NO IGNORE ", self.ignore.paths[0], this.path);
       this.log.debug("multipart will parse");
 
-      try {
-        this.request.body = yield self.parse(this.req);
-      } catch (e) {
-        // form parsing error is always 400 :/
-        // I hope that's really a parse error and not a programming error
-        // (multiparty module should be rewritten here)
-        this.throw(400, e.message);
-      }
+      // this may throw an error w/ status 400 or 415 or...
+      this.request.body = yield self.parse(this.req);
 
       this.log.debug("multipart done parse");
     } else {
@@ -89,3 +84,12 @@ exports.init = function(app) {
   app.multipartParser = new MultipartParser();
   app.use(app.multipartParser.middleware());
 };
+
+
+function createError(status, message) {
+  var error = new Error(message);
+  Error.captureStackTrace(error, createError);
+  error.status = status;
+  error.statusCode = status;
+  return error;
+}

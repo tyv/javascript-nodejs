@@ -108,8 +108,15 @@ function *loadModel(Model, data) {
     }
     var model = new Model(data[i]);
 
-    log.debug("save", data[i]);
-    yield model.persist();
+    log.debug("persist", data[i]);
+    try {
+      yield model.persist();
+    } catch (e) {
+      if (e.name == 'ValidationError') {
+        log.error("loadModel persist validation error", e, e.errors);
+      }
+      throw e;
+    }
   }
 
   log.debug("loadModel is done");
