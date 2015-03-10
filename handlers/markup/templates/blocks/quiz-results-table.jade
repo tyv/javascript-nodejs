@@ -7,7 +7,9 @@
         +e("th").test-info
           +e("time").time !{ result.date }
           +e("h1").name !{ result.name }
-          +e("p").try Попытка №!{ result.try }
+
+          // Отложено до следующей версии
+          // +e("p").try Попытка №!{ result.try }
 
         +e("td").precents
           +e("dl").precents-info
@@ -19,6 +21,11 @@
           +e("h1").title Уровень:
           +e("p").level-info !{ result.level }
 
-        +e("td").weak-list
-          +e("h1").title Слабые места:
-          +e("p").weak-list-info !{ result.weakList }
+        // Отложено до следующей версии
+        //- +e("td").weak-list
+        //-   +e("h1").title Слабые места:
+        //-   +e("p").weak-list-info !{ result.weakList }
+
+        +e("td").time-spent
+          +e("h1").title Время прохождения:
+          +e("p").time-spent-info !{ result.time }
