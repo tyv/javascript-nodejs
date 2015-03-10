@@ -9,6 +9,10 @@ block body
       if (localStorage.noSidebar) {
         document.querySelector('.page').classList.remove('page_sidebar_on');
       }
+      setTimeout(function() {
+        document.querySelector('.page').classList.add('page_sidebar-animation-on');
+      }, 0);
+
     //- основное содержимое статьи идёт до сайдбара (пользователь увидит его первым)
     .page__inner
       main.main(class=layout_main_class ? ' ' + layout_main_class : '')

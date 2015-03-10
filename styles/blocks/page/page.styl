@@ -2,7 +2,6 @@
     position: relative
     z-index: 0
     padding 0
-    transition padding animation_duration
 
     &_sidebar_on
         padding-left sidebar_width
@@ -18,9 +17,16 @@
     &__inner
         margin 0
         padding 0 120px
+
+    // анимация включается после аналаза localStorage.noSidebar
+    // и установке изначальных отступов, чтобы они не анимировались при этом
+    &_sidebar-animation-on
+        transition padding animation_duration
+
+    &_sidebar-animation-on &__inner
         transition margin-top animation_duration
 
-    &__sidebar
+    &_sidebar-animation-on &__sidebar
         transition transform animation_duration
 
     // для отображения/скрытия сайдбара переключаем класс .page_sidebar_on у блока .page

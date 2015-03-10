@@ -20,7 +20,9 @@ module.exports = function() {
       [
         '--start-url=http://javascript.in/tutorial/map',
         '--required-values=http://javascript.in',
+        '--skipped-values=http://disqus.com',
         '--file-location=./tmp/',
+        '--engine=slimerjs',
         'node_modules/casperjs-spider/spider.js'
       ],
       {

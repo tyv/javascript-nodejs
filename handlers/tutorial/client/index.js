@@ -5,6 +5,7 @@ var TutorialMapModal = require('./tutorialMapModal');
 
 exports.init = function() {
 
+
   initTaskButtons();
   initFolderList();
 
@@ -91,4 +92,3 @@ function initFolderList() {
   });
 }
 
-//window.tutorial = module.exports;

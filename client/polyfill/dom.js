@@ -1,3 +1,5 @@
+//require('./casperjs');
+
 // http://dom.spec.whatwg.org/#mutation-method-macro
 function mutation(nodes) {
   if (!nodes.length) {

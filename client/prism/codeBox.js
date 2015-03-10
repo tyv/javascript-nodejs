@@ -42,8 +42,12 @@ function CodeBox(elem) {
   }
 
   // some code can't be executed by epub engine
-  if (elem.dataset.autorun !== undefined && !(window.ebookFormat == 'epub' && elem.dataset.autorun == 'no-epub')) {
-    setTimeout(run, 10);
+  if (elem.dataset.autorun !== undefined) {
+    if(window.ebookFormat == 'epub' && elem.dataset.autorun == 'no-epub') {
+      elem.querySelector('iframe').remove();
+    } else {
+      setTimeout(run, 10);
+    }
   }
 
   function postJSFrame() {
@@ -65,6 +69,12 @@ function CodeBox(elem) {
     }
 
     if (!htmlResult) {
+      // take from HTML if exists there (in markup when autorun is specified)
+      htmlResult = elem.querySelector('.code-result');
+    }
+
+    if (!htmlResult) {
+      // otherwise create (or recreate if refresh)
       htmlResult = document.createElement('div');
       htmlResult.className = "code-result code-example__result";
 
@@ -97,7 +107,7 @@ function CodeBox(elem) {
         resizeOnload.iframe(frame);
       }
 
-      if (!(isFirstRun && elem.dataset.autorun)) {
+      if (!(isFirstRun && elem.dataset.autorun !== undefined)) {
         if (!isScrolledIntoView(htmlResult)) {
           htmlResult.scrollIntoView(false);
         }
@@ -247,6 +257,7 @@ function CodeBox(elem) {
     if (isJS) {
       runJS();
     } else {
+      debugger;
       runHTML();
     }
     isFirstRun = false;

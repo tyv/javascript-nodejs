@@ -3,7 +3,7 @@
         font 200% font
         font-weight bold
         text-align center
-        margin 39px 0 0
+        margin 39px 0 4px
 
     & &__title ~ p
         color #999
@@ -21,6 +21,10 @@
         -webkit-column-break-inside avoid
         page-break-inside avoid // Fx uses this for columns too
         break-inside avoid
+
+    &__chapters-list &__item
+        margin .3em 0
+        line-height 18px
 
 
     &__col:first-child &__brick

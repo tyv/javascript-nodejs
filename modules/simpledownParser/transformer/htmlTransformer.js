@@ -260,7 +260,12 @@ HtmlTransformer.prototype.transformSourceTag = function(node) {
   if (node.attrs.autorun) {
     // autorun may have "no-epub" value meaning that it shouldn't run on epub (code not supported)
     attrs['data-autorun'] = node.attrs.autorun || '1';
+    // must be demo-height
+    if (!attrs['data-demo-height']) attrs['data-demo-height'] = 200;
+    locals.autorun = true;
+    locals.demoHeight = attrs['data-demo-height'];
   }
+
   if (node.attrs.refresh) {
     attrs['data-refresh'] = '1';
   }
@@ -285,6 +290,9 @@ HtmlTransformer.prototype.transformSourceTag = function(node) {
   text = highlight.text;
 
   locals.text = text;
+  locals.isEbook = this.isEbook;
+
+
 
   return this.wrapTagAround('no-typography', {}, codeBoxTemplate(locals));
 };
