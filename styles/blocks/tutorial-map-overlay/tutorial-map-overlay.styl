@@ -13,9 +13,32 @@
 
     &__close,
     &__close:active
-        position absolute
+        position fixed
         top 7px
         right 7px
+        z-index 2
+
+    & .tutorial-map
+        padding-top 140px
+
+    & .tutorial-map__filter
+        padding-top 55px
+
+    & .tutorial-map__filter:before
+        position absolute
+        left 0
+        top 0
+        right 0
+
+        height 25px
+
+        background #4b4b4b;
+
+        content ""
+
+    & .tutorial-map__filter-t
+        padding 0 40px
+        box-sizing border-box
 
 .tutorial-map_on
     overflow hidden
