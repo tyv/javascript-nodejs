@@ -74,6 +74,10 @@ gulp.task("tutorial:import:watch", lazyRequireTask('tutorial/tasks/importWatch',
   root: process.env.TUTORIAL_ROOT
 }));
 
+gulp.task("tutorial:beautify", lazyRequireTask('tutorial/tasks/beautify', {
+  root: process.env.TUTORIAL_ROOT
+}));
+
 var testSrcs = ['{handlers,modules}/**/test/**/*.js'];
 // on Travis, keys are required for E2E Selenium tests
 // for PRs there are no keys, so we disable E2E
