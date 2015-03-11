@@ -1,6 +1,74 @@
 comment-reply-color = #00A3D9
 .comments
     margin-top 35px
+    padding-bottom 30px
+
+    border-bottom 2px solid #eee
+
+    &__header
+        position relative
+
+    &__read-before
+        position absolute
+        top 0
+        right 0
+
+        transform translateY(50%)
+
+    &__read-before-link
+        position relative
+        z-index 9999
+        cursor pointer
+
+        color #999
+
+    &__read-before-link:hover
+        color #C13335
+
+    &__read-before-popup
+        position fixed
+        left 3000px
+        z-index 9998
+
+        opacity 0
+
+        min-width 590px
+        padding-top 45px
+
+        transition opacity 0.2s ease-out 0.2s
+
+    &__read-before-popup-i
+        position relative
+
+        padding 20px
+
+        box-shadow 0 2px 5px rgba(0,0,0,0.3)
+        background #f7f6ea
+
+    &__read-before-popup-i:after
+        position absolute
+        right 70px
+        top -7px
+
+        width 15px
+        height 15px
+
+        background #f7f6ea
+
+        transform rotate(55deg) skew(25deg)
+
+        content: ''
+
+    &__read-before-popup ul
+        margin 0
+
+    &__read-before:hover &__read-before-popup
+        position absolute
+        left auto
+        right 0
+        top 0
+
+        opacity 1
 
     & &__header-title
         border-bottom 0
@@ -42,6 +110,42 @@ comment-reply-color = #00A3D9
         position absolute
         margin-left 3px
         vertical-align middle
+
+    @media tablet
+
+        &__read-before
+            position static
+
+            transform none
+
+        &__read-before-link
+            display none
+
+        &__read-before-popup
+            position static
+
+            opacity 1
+
+            min-width none
+            padding-top 0
+
+            transition none
+
+        &__read-before-popup-i
+            position static
+
+            padding 20px
+
+            box-shadow none
+            background #fff
+
+        &__read-before-popup-i:after
+            content: none
+
+        &__read-before:hover &__read-before-popup
+            position static
+
+
 
 // .comments__items {
 //     overflow-x: hidden;
