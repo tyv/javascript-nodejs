@@ -1,17 +1,21 @@
-.comments#comments
-  .comments__header
-    h2.comments__header-title
++b.comments(id="comments")
+  +e.header
+    +e("h2").header-title
       a(href="#comments" name="comments") Комментарии
-    ul
-      li Приветствуются комментарии, содержащие дополнения и вопросы по статье, и ответы на них.
-      li
-        | Для кода внутри строки используйте тег
-        <code>&lt;code&gt;</code>
-        | , для блока кода&nbsp;&mdash; тег
-        <code>&lt;pre&gt;</code>
-        | , если больше 10 строк&nbsp;&mdash; ссылку на песочницу (<a href="http://plnkr.co/edit/?p=preview">plnkr</a>, <a href="http://jsfiddle.net">jsfiddle</a>, <a href="http://codepen.io">codepen</a>...)
-        | .
-      li Если что-то непонятно&nbsp;&mdash; пишите, что именно и с какого места.
+    +e.read-before
+      +e("span").read-before-link перед тем как писать&hellip;
+      +e.read-before-popup
+        +e.read-before-popup-i
+          ul
+            li Приветствуются комментарии, содержащие дополнения и вопросы по статье, и ответы на них.
+            li
+              | Для кода внутри строки используйте тег
+              <code>&lt;code&gt;</code>
+              | , для блока кода&nbsp;&mdash; тег
+              <code>&lt;pre&gt;</code>
+              | , если больше 10 строк&nbsp;&mdash; ссылку на песочницу (<a href="http://plnkr.co/edit/?p=preview">plnkr</a>, <a href="http://jsfiddle.net">jsfiddle</a>, <a href="http://codepen.io">codepen</a>...)
+              | .
+            li Если что-то непонятно&nbsp;&mdash; пишите, что именно и с какого места.
 
 
 #disqus_thread
