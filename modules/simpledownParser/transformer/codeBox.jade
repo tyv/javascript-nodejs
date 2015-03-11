@@ -11,8 +11,7 @@ include /bem
           +e('a')(href="#" title="открыть в песочнице" data-action="edit").button_edit
     +e.code(data-code="1")
       pre(class="line-numbers language-#{language}")
-        code(class="language-#{language}")
-          = text
+        code(class="language-#{language}")= text
   //- iframe must be in HTML with the right height
   //- otherwise page sizes will be wrong and autorun leads to resizes/jumps
   if autorun
