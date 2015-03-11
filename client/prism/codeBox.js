@@ -46,7 +46,8 @@ function CodeBox(elem) {
     if(window.ebookFormat == 'epub' && elem.dataset.autorun == 'no-epub') {
       elem.querySelector('iframe').remove();
     } else {
-      setTimeout(run, 10);
+      // timeout should be small, around 10ms, or remove it to make crawler process the autorun
+      setTimeout(run, 1000);
     }
   }
 
@@ -117,7 +118,7 @@ function CodeBox(elem) {
       var form = document.createElement('form');
       form.style.display = 'none';
       form.method = 'POST';
-      form.enctype = "application/x-www-form-urlencoded";
+      form.enctype = "multipart/form-data";
       form.action = "http://ru.lookatcode.com/showhtml";
       form.target = frame.name;
 
@@ -130,7 +131,7 @@ function CodeBox(elem) {
       form.submit();
       form.remove();
 
-      if (!(isFirstRun && elem.dataset.autorun)) {
+      if (!(isFirstRun && elem.dataset.autorun !== undefined)) {
         frame.onload = function() {
 
           if (elem.dataset.demoHeight === undefined) {
@@ -257,7 +258,6 @@ function CodeBox(elem) {
     if (isJS) {
       runJS();
     } else {
-      debugger;
       runHTML();
     }
     isFirstRun = false;

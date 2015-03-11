@@ -8,9 +8,9 @@ block main
         +b("ol").breadcrumbs
           include ../blocks/breadcrumbs
       if title
-        h1.main__header-title!= title
+        h1.main__header-title= title
 
-  +b(class="content" + (content_class ? ' ' + content_class : ''))
+  +b(class=["content", content_class])
     block content
 
   if prev || next

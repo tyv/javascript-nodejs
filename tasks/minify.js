@@ -24,8 +24,10 @@ module.exports = function(options) {
 
     gutil.log("minify " + root);
 
-    //return gulp.src(root + '/**/*.{png,jpg,gif}')
-    return gulp.src(root + '/**/*.{svg,png,jpg,gif}')
+    // When enable: CHECK demo.svg (!!!)
+    // it has JS inside!!! svgo breaks it by removing t-template-path
+    return gulp.src(root + '/**/*.{png,jpg,gif}')
+    //return gulp.src(root + '/**/*.{svg,png,jpg,gif}')
       .pipe(gp.debug())
 
       .pipe(gp.imagemin({

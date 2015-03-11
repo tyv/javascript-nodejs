@@ -13,8 +13,8 @@ include /bem
       pre(class="line-numbers language-#{language}")
         code(class="language-#{language}")
           = text
-  // iframe must be in HTML with the right height
-  // otherwise page sizes will be wrong and autorun leads to resizes/jumps
+  //- iframe must be in HTML with the right height
+  //- otherwise page sizes will be wrong and autorun leads to resizes/jumps
   if autorun
     +b.code-result.__result
       +e('iframe').iframe(name="code-result-#{(Math.random()*1e9 ^ 0).toString(36)}", style="height:#{demoHeight}px")
