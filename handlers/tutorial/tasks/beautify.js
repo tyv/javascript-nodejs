@@ -71,7 +71,7 @@ function beautifyMd(content, mdFile, options) {
   var contentNew;
 
   contentNew = content.replace(/```(js|html|css)\n([\s\S]*?)\n```/gim, function(match, lang, code) {
-    var codeOpts = code.match(/^\/\/\+.*\n/) || code.match(/^<!--\+.*\n/) || code.match(new RegExp('^/*\\+.*\\n'));
+    var codeOpts = code.match(/^\/\/\+.*\n/) || code.match(/^<!--\+.*\n/) || code.match(/^\/\*\+.*\n/);
     if (!codeOpts) codeOpts = ''; // for str methods to work
 
     var codeNoOpts;
