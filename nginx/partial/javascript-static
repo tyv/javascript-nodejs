@@ -1,3 +1,7 @@
+#
+# !!! No add_header directives here
+# otherwise they won't be inherited from the outer context
+
 index index.html;
 
 # If no favicon exists return a 204 (no content error).
@@ -5,7 +9,6 @@ location = /favicon.ico {
     try_files $uri =204;
     log_not_found off;
     access_log off;
-    add_header Cache-Control public;
     expires max;
 }
 
@@ -14,7 +17,6 @@ location = /robots.txt {
     allow all;
     log_not_found off;
     access_log off;
-    add_header Cache-Control public;
     expires max;
 }
 
@@ -32,7 +34,5 @@ location ~ \.v.*?\. {
 location ~ \.\w+$ {
   access_log   off;
   expires      max;
-  add_header Cache-Control public;
-
   include "partial/args_limit";
 }

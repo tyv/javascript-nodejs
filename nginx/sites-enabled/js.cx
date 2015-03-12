@@ -14,5 +14,6 @@ server {
 
   include "partial/javascript-static";
 
+  add_header Cache-Control public;
   add_header Access-Control-Allow-Origin *;
 }
