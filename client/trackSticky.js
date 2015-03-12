@@ -29,7 +29,8 @@ function trackSticky() {
       stickyElem.style.position = 'fixed';
       stickyElem.style.top = 0;
       stickyElem.style.left = savedLeft + 'px';
-      // zIndex < 1000, because it must not be over an overlay, e.g. sitemap
+      // zIndex < 1000, because it must be under an overlay,
+      // e.g. sitemap must show over the progress bar
       stickyElem.style.zIndex = 101;
       stickyElem.style.background = 'white'; // non-transparent to cover the text
       stickyElem.style.margin = 0;
