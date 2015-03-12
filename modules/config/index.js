@@ -7,6 +7,7 @@ env.NODE_ENV = env.NODE_ENV || 'development';
 env.SITE_HOST = env.SITE_HOST || (env.NODE_ENV == 'test' ? 'http://stage.javascript.ru' : '');
 env.STATIC_HOST = env.STATIC_HOST || (env.NODE_ENV == 'test' ? 'http://stage.javascript.ru' : '');
 
+
 if (env.DEV_TRACE) require('./trace');
 
 var secret = require('./secret');

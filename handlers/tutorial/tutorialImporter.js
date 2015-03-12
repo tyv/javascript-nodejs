@@ -77,19 +77,8 @@ TutorialImporter.prototype.sync = function* (directory) {
  * Call this after all import is complete to generate caches/searches for ElasticSearch to consume
  */
 TutorialImporter.prototype.generateCaches = function*() {
-  var articles = yield Article.find({}).exec();
-
-  for (var i = 0; i < articles.length; i++) {
-    var article = articles[i];
-    yield* (new ArticleRenderer()).renderWithCache(article);
-  }
-
-  var tasks = yield Task.find({}).exec();
-
-  for (var i = 0; i < tasks.length; i++) {
-    var task = tasks[i];
-    yield* (new TaskRenderer()).renderWithCache(task);
-  }
+  yield ArticleRenderer.regenerateCaches();
+  yield TaskRenderer.regenerateCaches();
 };
 
 TutorialImporter.prototype.extractHeader = function(parsed) {

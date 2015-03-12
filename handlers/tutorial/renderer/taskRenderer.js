@@ -4,6 +4,7 @@ const ServerHtmlTransformer = require('serverHtmlTransformer');
 const CompositeTag = require('simpledownParser').CompositeTag;
 const config = require('config');
 const Plunk = require('plunk').Plunk;
+const Task = require('../models/task');
 
 /**
  * Can render many articles, keeping metadata
@@ -161,6 +162,17 @@ TaskRenderer.prototype.addSolutionPlunkLink = function*(task, solution) {
 
   return solution;
 };
+
+
+TaskRenderer.regenerateCaches = function*() {
+  var articles = yield Task.find({}).exec();
+
+  for (var i = 0; i < articles.length; i++) {
+    var article = articles[i];
+    yield* (new TaskRenderer()).renderWithCache(article, {refreshCache: true});
+  }
+};
+
 
 function stripTags(text) {
   return text.replace(/<\/?[a-z].*?>/gim, '');

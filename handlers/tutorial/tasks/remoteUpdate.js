@@ -25,6 +25,8 @@ module.exports = function(options) {
     var host = args.host;
     return co(function* () {
 
+      exec('rsync -rlDv /js/javascript-nodejs/public/ ' + host + ':/js/javascript-nodejs/current/public/');
+
       del.sync('dump');
       collections.forEach(function(coll) {
         exec('mongodump -d js -c ' + coll);
@@ -46,14 +48,12 @@ module.exports = function(options) {
 
         return cmd;
 
-      }).concat('db.cacheentries.remove({});').join("\n\n"));
+      }).join("\n\n"));
 
 
       exec('scp /tmp/cmd.js ' + host + ':/tmp/');
 
-      exec('ssh ' + host + ' "mongo js /tmp/cmd.js; mongo js /tmp/cmd.js"');
-
-      exec('rsync -rlDv /js/javascript-nodejs/public/ ' + host + ':/js/javascript-nodejs/current/public/');
+      exec('ssh ' + host + ' "cd /js/javascript-nodejs/current && gulp cache:clean"');
     });
   };
 };

@@ -3,6 +3,7 @@ const config = require('config');
 const BodyParser = require('simpledownParser').BodyParser;
 const ServerHtmlTransformer = require('serverHtmlTransformer');
 const log = require('log')();
+const Article = require('../models/article');
 
 // Порядок библиотек на странице
 // - встроенный CSS
@@ -175,6 +176,16 @@ ArticleRenderer.prototype.renderWithCache = function*(article, options) {
   yield article.persist();
 
   return rendered;
+};
+
+
+ArticleRenderer.regenerateCaches = function*() {
+  var articles = yield Article.find({}).exec();
+
+  for (var i = 0; i < articles.length; i++) {
+    var article = articles[i];
+    yield* (new ArticleRenderer()).renderWithCache(article, {refreshCache: true});
+  }
 };
 
 
