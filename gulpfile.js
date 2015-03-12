@@ -159,9 +159,9 @@ gulp.task('figures:import', lazyRequireTask('tutorial/tasks/figuresImport'));
 
 gulp.task('tutorial:kill:content', ['cache:clean'], lazyRequireTask('tutorial/tasks/killContent'));
 
-gulp.task('tutorial:cache:clean', lazyRequireTask('tutorial/tasks/cacheClean'));
+gulp.task('tutorial:cache:regenerate', lazyRequireTask('tutorial/tasks/cacheRegenerate'));
 
-gulp.task('cache:clean', ['tutorial:cache:clean'], lazyRequireTask('./tasks/cacheClean'));
+gulp.task('cache:clean', lazyRequireTask('./tasks/cacheClean'));
 
 gulp.task('test:spider', lazyRequireTask('./tasks/testSpider'));
 

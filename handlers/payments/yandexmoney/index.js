@@ -1,5 +1,5 @@
 const config = require('config');
-const jade = require('jade');
+const jade = require('lib/serverJade');
 const path = require('path');
 const Transaction = require('../models/transaction');
 

@@ -1,4 +1,3 @@
-require('lib/requireJade');
 var co = require('co');
 var Article = require('../models/article');
 var Task = require('../models/task');

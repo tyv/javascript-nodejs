@@ -49,7 +49,7 @@ describe('Authorization', function() {
         });
     });
 
-    it('returns errors if a required field is empty or invalid', function(done) {
+    it('returns not all errors, but only one error if a field is wrong', function(done) {
       request(server)
         .patch('/users/me')
         .set('X-Test-User-Id', fixtures.User[0]._id)
@@ -58,9 +58,10 @@ describe('Authorization', function() {
         .field('email', Math.random() + "@mail.com")
         .field('gender', 'invalid')
         .end(function(err, res) {
+          //console.log(res.body);
           if (err) return done(err);
-          res.body.errors.displayName.should.exist;
-          res.body.errors.gender.should.exist;
+          res.body.statusCode.should.equal(400);
+          res.body.message.should.exist;
           done();
         });
     });

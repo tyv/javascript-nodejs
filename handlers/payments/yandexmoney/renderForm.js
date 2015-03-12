@@ -1,4 +1,4 @@
-const jade = require('jade');
+const jade = require('lib/serverJade');
 const config = require('config');
 const path = require('path');
 const assert = require('assert');

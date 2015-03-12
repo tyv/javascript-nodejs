@@ -4,7 +4,7 @@ var fs = require('fs');
 var path = require('path');
 var thunkify = require('thunkify');
 var _ = require('lodash');
-var jade = require('jade');
+var jade = require('lib/serverJade');
 var logoBase64 = fs.readFileSync(path.join(config.projectRoot, 'assets/img/logo.png')).toString('base64');
 var log = require('log')();
 

@@ -6,15 +6,12 @@ const path = require('path');
 const config = require('config');
 const fs = require('fs');
 const log = require('log')();
-const jade = require('jade');
+const jade = require('lib/serverJade');
 const _ = require('lodash');
 const assert = require('assert');
 const i18n = require('i18next');
 const money = require('money');
 const url = require('url');
-
-require('lib/requireJade');
-require('lib/jadeFilterSimpledown');
 
 // public.versions.json is regenerated and THEN node is restarted on redeploy
 // so it loads a new version.

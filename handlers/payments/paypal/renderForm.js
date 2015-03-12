@@ -1,4 +1,4 @@
-const jade = require('jade');
+const jade = require('lib/serverJade');
 const config = require('config');
 const paypalConfig = config.payments.modules.paypal;
 const path = require('path');

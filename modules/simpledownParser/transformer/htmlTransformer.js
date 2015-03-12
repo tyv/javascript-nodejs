@@ -1,3 +1,4 @@
+require('lib/serverJade'); // must require to process require.jade
 var NO_WRAP_TAGS_SET = require('../consts').NO_WRAP_TAGS_SET;
 var sanitize = require('../util/sanitize');
 var charTypography = require('../typography/charTypography');
@@ -6,6 +7,7 @@ var escapeHtmlText = require('textUtil/escapeHtmlText');
 var escapeHtmlAttr = require('textUtil/escapeHtmlAttr');
 var stripIndents = require('textUtil/stripIndents');
 var TextNode = require('simpledownParser').TextNode;
+
 var extractHighlight = require('../util/source/extractHighlight');
 
 var iframeBoxTemplate = require('./iframeBox.jade');

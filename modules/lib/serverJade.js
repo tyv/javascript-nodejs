@@ -29,3 +29,7 @@ require.extensions['.jade'] = function(module, filename) {
 //  console.log("---------------> HERE", fs.readFileSync(filename, 'utf-8'), module.exports);
 
 };
+
+require('./jadeFilterSimpledown');
+
+module.exports = jade;

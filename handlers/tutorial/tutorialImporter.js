@@ -5,9 +5,6 @@ const fse = require('fs-extra');
 const path = require('path');
 const config = require('config');
 const mongoose = require('lib/mongoose');
-const glob = require("glob");
-
-require('lib/requireJade');
 
 const Article = require('tutorial').Article;
 const Reference = require('tutorial').Reference;

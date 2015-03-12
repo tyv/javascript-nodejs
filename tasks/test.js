@@ -4,7 +4,6 @@ const assert = require('assert');
 
 require('should');
 require('co-mocha');
-require('lib/requireJade');
 
 module.exports = function(options) {
 

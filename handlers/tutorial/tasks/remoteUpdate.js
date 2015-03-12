@@ -53,7 +53,7 @@ module.exports = function(options) {
 
       exec('scp /tmp/cmd.js ' + host + ':/tmp/');
 
-      exec('ssh ' + host + ' "cd /js/javascript-nodejs/current && gulp cache:clean"');
+      exec('ssh ' + host + ' "cd /js/javascript-nodejs/current && gulp tutorial:cache:regenerate cache:clean"');
     });
   };
 };

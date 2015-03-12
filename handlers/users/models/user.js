@@ -81,28 +81,33 @@ var UserSchema = new mongoose.Schema({
       // 6-7 random alphanumeric chars
       return parseInt(crypto.randomBytes(4).toString('hex'), 16).toString(36);
     },
-    unique: true,
-    required: true,
+
     validate: [
       {
         validator: function(value) {
-          return /^[a-z0-9-]*$/.test(value);
+          return this.deleted || /^[a-z0-9-]*$/.test(value);
         },
         msg:       "В имени профиля допустимы только буквы a-z, цифры и дефис."
       },
       {
         validator: function(value) {
-          return value.length <= 64;
+          return this.deleted || value.length <= 64;
         },
         msg:       "Максимальная длина имени профиля: 64 символа."
       },
       {
         validator: function(value) {
-          return value.length >= 2;
+          return this.deleted || value.length >= 2;
         },
         msg:       "Минимальная длина имени профиля: 2 символа."
       }
-    ]
+    ],
+
+    index:    {
+      unique:       true,
+      sparse:       true,
+      errorMessage: "Такое имя профиля уже используется."
+    }
   },
   realName:                  String,
   // not Date, because Date requires time zone,
