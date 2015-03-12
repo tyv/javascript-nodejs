@@ -10,7 +10,12 @@ if (process.env.NODE_ENV == 'production') {
   // only log.error in prod, otherwise just die
   process.on('uncaughtException', function(err) {
     // let bunyan handle the error
-    app.log.error(err);
+    app.log.error({
+      message: err.message,
+      name: err.name,
+      errors: err.errors,
+      stack: err.stack
+    });
     process.exit(255);
   });
 
@@ -96,7 +101,10 @@ if (process.env.NODE_ENV == 'development') {
   endpoints.push('markup', 'dev');
 }
 
-endpoints.push('users', 'auth', 'getpdf', 'cache', 'search', 'profile', 'profileGuest', 'quiz', 'currencyRate', 'payments', 'download');
+endpoints.push(
+  'users', 'auth', 'getpdf', 'cache', 'search', 'profile',
+  'profileGuest', 'quiz', 'currencyRate', 'payments', 'download', 'staticPage'
+);
 
 // stick to bottom to detect any not-yet-processed /:slug
 endpoints.push('tutorial');

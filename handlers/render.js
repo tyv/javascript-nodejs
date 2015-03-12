@@ -14,6 +14,7 @@ const money = require('money');
 const url = require('url');
 
 require('lib/requireJade');
+require('lib/jadeFilterSimpledown');
 
 // public.versions.json is regenerated and THEN node is restarted on redeploy
 // so it loads a new version.
