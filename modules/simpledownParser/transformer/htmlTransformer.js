@@ -381,10 +381,9 @@ HtmlTransformer.prototype.transformIframeTag = function(node) {
   // otherwise we want a dynamic service e.g
   //    [iframe src="/ajax/service"]
   if (src[0] != '/' && !~src.indexOf('://')) {
+    if (!~src.indexOf('.')) src += '/';
     src = this.staticHost + this.resourceWebRoot + '/' + src;
   }
-
-  if (!~src.indexOf('.')) src += '/';
 
   locals.attrs.src = src;
 
