@@ -45,7 +45,7 @@ module.exports = function(options) {
       fs.writeFileSync("/tmp/cmd.js", collections.map(function(coll) {
         // copyTo does not work
         // also see https://jira.mongodb.org/browse/SERVER-732
-        var cmd = "db.getSiblingDB('js_sync').C.find().forEach(function(d) { db.C.insert(d) }) \n\
+        var cmd = "db.getSiblingDB('js_sync').C.find().forEach(function(d) { db.C.insert(d) }); \n\
           vals = db.getSiblingDB('js_sync').C.find({}, {id:1}).map(function(a){return a._id;}); \n\
           db.C.remove({_id: {$nin: vals}});".replace(/C/g, coll);
 
@@ -55,6 +55,10 @@ module.exports = function(options) {
 
 
       exec('scp /tmp/cmd.js ' + host + ':/tmp/');
+
+      // most reliable way to execute
+      // mongo js /tmp/cmd.js didn't work stable for some reason (?)
+      exec('ssh ' + host + ' "mongo js --eval \\"load(\'/tmp/cmd.js\')\\""');
 
       /* jshint -W106 */
       var env = ecosystem.apps[0].env_production;
