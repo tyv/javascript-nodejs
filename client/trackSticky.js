@@ -29,9 +29,8 @@ function trackSticky() {
       stickyElem.style.position = 'fixed';
       stickyElem.style.top = 0;
       stickyElem.style.left = savedLeft + 'px';
-      // zIndex > 1001, because overlays have lower zindexes, and trackSticky is used in overlays too,
-      // e.g site map, and they have zindex 1000-10000
-      stickyElem.style.zIndex = 10001;
+      // zIndex < 1000, because it must not be over an overlay, e.g. sitemap
+      stickyElem.style.zIndex = 101;
       stickyElem.style.background = 'white'; // non-transparent to cover the text
       stickyElem.style.margin = 0;
       stickyElem.style.width = placeholder.offsetWidth + 'px'; // keep same width as before
