@@ -25,9 +25,9 @@ CsrfChecker.prototype.middleware = function() {
       checkCsrf = false;
     }
 
-    // If test check CSRF only when "X-Test-Ignore-Csrf" header is set
+    // If test check CSRF only when "X-Test-Csrf" header is set
     if (process.env.NODE_ENV == 'test') {
-      if (!this.get('X-Test-Ignore-Csrf')) {
+      if (!this.get('X-Test-Csrf')) {
         checkCsrf = false;
       }
     }

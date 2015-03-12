@@ -111,6 +111,7 @@ describe('Authorization', function() {
       request(server)
         .post('/auth/register')
         .send(userData)
+        .set('Accept', 'application/json')
         .end(function(err, res) {
           if (err) return done(err);
           res.status.should.be.eql(400);
