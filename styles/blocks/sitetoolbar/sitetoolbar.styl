@@ -93,6 +93,9 @@ sitetoolbar_secondary_link = #498CBE
     &__link:hover
         text-decoration none
 
+    &__user
+        display block
+
     &__user,
     &__login
         @extend $button-reset
@@ -137,6 +140,8 @@ sitetoolbar_secondary_link = #498CBE
 
     &__search-toggle
         @extend $button-reset
+
+        display block
         color sitetoolbar_color
         margin 17px 0
         height 60px
@@ -173,7 +178,6 @@ sitetoolbar_secondary_link = #498CBE
     &__usermenu
         display none
 
-    &_menu_open &__tablet-menu,
     &_search_open &__search,
     &_user_open &__usermenu
         display block
@@ -280,6 +284,17 @@ sitetoolbar_secondary_link = #498CBE
             right 128px // лучше позиционировать с помощью js
 
     @media tablet
+
+        &__usermenu-wrap
+            position absolute
+            left 0
+            z-index 1
+
+            width 100%
+
+        &_menu_open &__tablet-menu
+            display block
+
         &__logo-wrap
             width 0
             padding 0
@@ -337,13 +352,26 @@ sitetoolbar_secondary_link = #498CBE
         &__usermenu
             background sitetoolbar_secondary_bg
             position absolute
+
+            border 0
+            border-radius 0
+
+        &__usermenu
+            left auto
+            right auto
+
             width 100%
+
+            box-shadow 0 2px 3px -2px rgba(0, 0, 0, .3)
+
+        &__tablet-menu
             top auto
             right auto
             left auto
-            border 0
-            border-radius 0
-            box-shadow 0 2px 3px -2px rgba(0, 0, 0, .3)
+
+            width 100%
+
+            box-shadow 0 3px 8px -1px rgba(0, 0, 0, 0.2)
 
         & &__usermenu
             transform none
@@ -368,12 +396,9 @@ sitetoolbar_secondary_link = #498CBE
             vertical-align middle
 
         &__tablet-menu-header
-            color sitetoolbar_color
+            color #C4C2C0
             white-space nowrap
             padding 0 10px 0 20px
-
-        &__tablet-menu-title
-            min-width 155px
 
         &__tablet-menu-content
             width 100%
@@ -396,6 +421,8 @@ sitetoolbar_secondary_link = #498CBE
 
         &__tablet-menu-share
             margin 5px 20px 0 0
+
+            color #7E7E7E
 
         &__usermenu-item
             line-height 60px
