@@ -10,6 +10,9 @@ var log = require('log')();
 var del = require('del');
 var gutil = require('gulp-util');
 var execSync = require('child_process').execSync;
+var config = require('config');
+
+var ecosystem = require(path.join(config.projectRoot, 'ecosystem.json'));
 
 module.exports = function(options) {
 
@@ -53,7 +56,10 @@ module.exports = function(options) {
 
       exec('scp /tmp/cmd.js ' + host + ':/tmp/');
 
-      exec('ssh ' + host + ' "cd /js/javascript-nodejs/current && gulp tutorial:cache:regenerate cache:clean"');
+      /* jshint -W106 */
+      var env = ecosystem.apps[0].env_production;
+
+      exec('ssh ' + host + ' "cd /js/javascript-nodejs/current && SITE_HOST=' + env.SITE_HOST+ ' STATIC_HOST=' + env.STATIC_HOST + ' gulp tutorial:cache:regenerate cache:clean"');
     });
   };
 };
