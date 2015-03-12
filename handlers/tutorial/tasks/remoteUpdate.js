@@ -59,7 +59,7 @@ module.exports = function(options) {
       /* jshint -W106 */
       var env = ecosystem.apps[0].env_production;
 
-      exec('ssh ' + host + ' "cd /js/javascript-nodejs/current && SITE_HOST=' + env.SITE_HOST+ ' STATIC_HOST=' + env.STATIC_HOST + ' gulp tutorial:cache:regenerate cache:clean"');
+      exec('ssh ' + host + ' "cd /js/javascript-nodejs/current && SITE_HOST=' + env.SITE_HOST+ ' STATIC_HOST=' + env.STATIC_HOST + ' gulp tutorial:cache:regenerate && gulp cache:clean"');
     });
   };
 };
