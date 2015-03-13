@@ -6,7 +6,10 @@ block append variables
 
 block content
   +b.error
-    +e('h1').type Доступ к этой странице закрыт
+    +e('h1').type Доступ запрещён
     +e.code 403
     +e.text
-      | Возможно, вам нужно войти под нужным пользователем?
+      if error.description
+        != error.description
+      else
+        | Возможно, вам нужно войти под нужным пользователем?

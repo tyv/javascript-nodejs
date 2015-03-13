@@ -70,11 +70,13 @@ function renderError(err) {
       message: err.message,
       statusCode: err.status || err.statusCode
     };
+    if (err.description) {
+      this.body.description = err.description;
+    }
   } else {
     var templateName = ~[500, 401, 404, 403].indexOf(this.status) ? this.status : 500;
     this.body = this.render(String(templateName), {error: err});
   }
-
 
 }
 

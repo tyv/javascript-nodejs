@@ -23,7 +23,7 @@ exports.post = function*(next) {
 
     // No many waiting transactions.
     // The old one must had been cancelled before this.
-    yield* cancelPendingTransactions(this.order);
+    yield* this.order.cancelPendingTransactions();
 
     yield* updateOrderFromBody(this.request.body, this.req.user, this.order);
 
@@ -72,24 +72,6 @@ exports.post = function*(next) {
 
 };
 
-
-// order must have only 1 pending transaction at 1 time.
-// finish one payment then create another
-// UI does not allow to create multiple pending transaction
-//  that's to easily find/cancel a pending method
-// Here I guard against hand-made POST requests (just to be sure)
-// P.S. it is ok to create a transaction if a SUCCESS one exists (maybe split payment?)
-function* cancelPendingTransactions(order) {
-
-  yield Transaction.findOneAndUpdate({
-    order: order._id,
-    status: Transaction.STATUS_PENDING_ONLINE
-  }, {
-    status: Transaction.STATUS_FAIL,
-    statusMessage: "смена способа оплаты."
-  }).exec();
-
-}
 
 
 function* updateOrderFromBody(body, user, order) {

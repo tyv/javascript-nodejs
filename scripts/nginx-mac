@@ -1,5 +1,5 @@
 #!/bin/bash
-sudo gulp config:nginx --prefix /opt/local/etc/nginx --env development --root /js/javascript-nodejs
+sudo gulp config:nginx --prefix /opt/local/etc/nginx --env development --root /js/javascript-nodejs --sslEnabled
 sudo port unload nginx
 sudo pkill -9 nginx
 sudo port load nginx

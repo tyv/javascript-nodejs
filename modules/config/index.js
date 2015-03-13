@@ -38,6 +38,8 @@ module.exports = {
   imgur:    secret.imgur,
   adminKey: secret.adminKey,
 
+  certDir: path.join(secret.dir, 'cert'),
+
   openexchangerates: {
     appId: secret.openexchangerates.appId
   },

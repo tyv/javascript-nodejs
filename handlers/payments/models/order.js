@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var autoIncrement = require('mongoose-auto-increment');
 var OrderTemplate = require('./orderTemplate');
+var Transaction = require('./transaction');
 var _ = require('lodash');
 
 var schema = new Schema({
@@ -45,6 +46,7 @@ var schema = new Schema({
     type: String,
     required: true
   },
+
   created:     {
     type:    Date,
     default: Date.now
@@ -74,6 +76,25 @@ schema.statics.createFromTemplate = function(orderTemplate, body) {
 
 };
 
+// order must have only 1 pending transaction at 1 time.
+// finish one payment then create another
+// UI does not allow to create multiple pending transaction
+//  that's to easily find/cancel a pending method
+// Here I guard against hand-made POST requests (just to be sure)
+// P.S. it is ok to create a transaction if a SUCCESS one exists (maybe split payment?)
+schema.methods.cancelPendingTransactions = function*() {
+
+  yield Transaction.findOneAndUpdate({
+    order: this._id,
+    status: Transaction.STATUS_PENDING_ONLINE
+  }, {
+    status: Transaction.STATUS_FAIL,
+    statusMessage: "смена способа оплаты."
+  }).exec();
+
+};
+
+
 schema.plugin(autoIncrement.plugin, {model: 'Order', field: 'number', startAt: 1});
 
 schema.statics.STATUS_SUCCESS = 'success';
@@ -81,9 +102,6 @@ schema.statics.STATUS_SUCCESS = 'success';
 schema.statics.STATUS_PENDING = 'pending';
 
 schema.statics.STATUS_CANCEL = 'cancel';
-
-// maximal time for onsuccess hook to finish
-schema.statics.MAX_ONSUCCESS_TIME = 5000;
 
 module.exports = mongoose.model('Order', schema);
 

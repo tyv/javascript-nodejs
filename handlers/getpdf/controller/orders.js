@@ -4,44 +4,15 @@ var OrderTemplate = payments.OrderTemplate;
 var Transaction = payments.Transaction;
 var assert = require('assert');
 
-function* reloadOrderUntilSuccessFinish() {
-
-  var lastTransaction = yield Transaction.findOne({
-    order: this.order._id
-  }).sort({modified: -1}).limit(1).exec();
-
-  if (lastTransaction.status == Transaction.STATUS_SUCCESS &&
-    this.order.status == Order.STATUS_PENDING) {
-    // PENDING order, but Transaction.STATUS_SUCCESS?
-    // means that order onSuccess failed to finalize the job
-    // OR just did not finish it yet
-    var datediff = new Date() - new Date(lastTransaction.modified);
-    while(datediff < Order.MAX_ONSUCCESS_TIME) {
-      // give it a second to finish and retry, up to max 5 seconds
-      this.log.debug("tx success, but order pending => wait 1s until onSuccess hook (maybe?) finishes");
-      yield function(callback) {
-        setTimeout(callback, 1000);
-      };
-      datediff += 1000;
-      yield* this.loadOrder({reload: true});
-    }
-  }
-
-}
 
 // Existing order page
 exports.get = function*() {
 
-  yield* this.loadOrder();
-
-  // order.onSuccess may take some time
-  // it happens that the transaction is already SUCCESS, but the order is still PENDING
-  // in this case reload the order
-
-  yield* reloadOrderUntilSuccessFinish.call(this);
+  yield* this.loadOrder({
+    ensureSuccessTimeout: 5000
+  });
 
   this.nocache();
-
 
   this.locals.sitetoolbar = true;
   this.locals.title = 'Заказ №' + this.order.number;
@@ -89,7 +60,9 @@ function* renderSuccess() {
 
 function* renderPending() {
 
-
+  // try to find a success transaction
+  // it is possible that it is not the last one
+  // e.g. the user chooses method 1, then method 2 (tx 1 cancelled, but he doesn't care!), then pays method 1
   var successfulTansaction = yield Transaction.findOne({
     order: this.order._id,
     status: Transaction.STATUS_SUCCESS
@@ -103,7 +76,6 @@ function* renderPending() {
     this.body = this.render('order');
     return;
   }
-
 
   // NO CALLBACK from online-system, but the user is back?
   // probably he just pressed the "back" button

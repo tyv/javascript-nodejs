@@ -4,9 +4,15 @@
 
 server {
   listen 80;
+
+<% if (sslEnabled) { %>
   listen 443 ssl;
 
-  server_name nightly.javascript.ru nightly.javascript.info yuri.javascript.ru javascript.in;
+  ssl_certificate		<%=certDir%>/learn.javascript.ru/ssl.pem;
+  ssl_certificate_key	<%=certDir%>/learn.javascript.ru/ssl.key;
+<% } %>
+
+  server_name nightly.javascript.ru learn.javascript.ru nightly.javascript.info yuri.javascript.ru javascript.in;
 
   access_log  /var/log/nginx/nightly.javascript.ru.log main;
 
@@ -22,6 +28,7 @@ server {
   auth_basic "Administrator Login";
   auth_basic_user_file /etc/nginx.passwd;
 <% } %>
+
 
   # ^~ don't check regexps locations if prefix matches
   location ^~ /_download/ {

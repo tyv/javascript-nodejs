@@ -11,5 +11,7 @@ if (fs.existsSync(path.join(secretDir, 'secret.js'))) {
   module.exports = require('./secret.dev');
 }
 
+module.exports.dir = secretDir;
+
 
 

@@ -4,7 +4,14 @@
 server {
 
   listen 80;
+
+<% if (sslEnabled) { %>
   listen 443 ssl;
+
+  ssl_certificate		<%=certDir%>/js.cx/ssl.pem;
+  ssl_certificate_key	<%=certDir%>/js.cx/ssl.key;
+<% } %>
+
   server_name js.cx static-nightly.javascript.ru static-nightly.javascript.info;
 
   root <%=root%>/public;

@@ -1,0 +1,21 @@
+if transaction.status == 'fail'
+  +b.notification._error._message.__error
+    +e.content
+      p Оплата не прошла, попробуйте ещё раз.
+        if transaction.statusMessage
+          div Ошибка:&nbsp;
+            em= transaction.statusMessage
+      p По вопросам, касающимся оплаты, пишите на <a href="#{mailto}">orders@javascript.ru</a>.
+if transaction.status == 'pending_online'
+  +b.notification._warning._message.__warning
+    +e.content
+      p Уведомление от платёжной системы не получено.
+      p При получении оплаты вся информация будет выслана на указанный Вами email: #{order.email}.
+      p По вопросам, связанным с оплатой, вы можете обращаться в поддержку <a href="#{mailto}">orders@javascript.ru</a>.
+      p Если вы хотите выбрать другой способ оплаты &mdash; это можно сделать ниже.
+if transaction.status == 'success'
+  +b.notification._error._message.__error
+    +e.content
+      // transaction success, but pending order => onSuccess was an error
+      p При обработке вашего заказа поизошла ошибка. Мы обязательно её исправим.
+      p Обратитесь в поддержку <a href="#{mailto}">orders@javascript.ru</a>, указав в теме "Заказ #{order.number}".

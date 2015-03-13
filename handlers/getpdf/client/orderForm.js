@@ -27,7 +27,7 @@ class OrderForm {
 
     if (this.elem.elements.email) {
       if (!this.elem.elements.email.value) {
-        new notification.Error("Введите email");
+        new notification.Error("Введите email.");
         this.elem.elements.email.focus();
         return;
       } else {
@@ -40,12 +40,21 @@ class OrderForm {
     var request = xhr({
       method: 'POST',
       url:    '/getpdf/checkout',
-      body:   data
+      normalStatuses: [200, 403],
+      body:   data,
+      json: true
     });
 
     var onEnd = this.startRequestIndication();
 
     request.addEventListener('success', function(event) {
+
+      if (this.status == 403) {
+        new notification.Error("<p>" + (event.result.description || event.result.message) + "</p><p>Пожалуйста, начните оформление заново.</p><p>Если вы считаете, что на сервере ошибка &mdash; свяжитесь со <a href='mailto:orders@javascript.ru'>службой поддержки</a>.</p>");
+        onEnd();
+        return;
+      }
+
       var result = event.result;
 
       if (result.form) {
