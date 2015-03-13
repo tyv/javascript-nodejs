@@ -7,7 +7,7 @@ block append variables
     - var title = false
     - var breadcrumbs = [{ title: 'Учебник', url: '/tutorial' }, { title: 'JavaScript.ru', url: 'http://javascript.ru' }]
 
-    - var contentWithMods = 'content_center'
+    - var content_class = '_center'
 
     - var quiz = {}
     - quiz.title = 'Что из этого не событие мыши'
@@ -15,5 +15,13 @@ block append variables
     - quiz.current = 6
     - quiz.total = 18
 
+    - quiz.explanations = { title: 'Некоторые пояснения', list: []}
+    - quiz.explanations.list.push('Полный список браузеров, на который рассчитаны тесты: Firefox, Opera, Safari, Konqueror не более чем годовой давности и Internet Explorer 6.0+.')
+    - quiz.explanations.list.push('Если в вопросе ничего не сказано, то все настройки браузера - по умолчанию.')
+    - quiz.explanations.list.push('Версия Javascript - самая распространенная на текущий день, т.е 1.5.')
+    - quiz.explanations.list.push('Многие вопросы неочевидны и требуют не только знаний, но и опыта. Удачи!')
+
 block content
+    include ../blocks/quiz-start
+    include ../blocks/quiz-explanations
     include ../blocks/quiz

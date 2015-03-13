@@ -42,8 +42,6 @@ block append variables
       +e('button').search-toggle
   +e.tablet-menu
     +e.tablet-menu-line
-      +e.tablet-menu-header
-        +e.tablet-menu-title Навигация по сайту:
       +e.tablet-menu-content
         //- TODO: use bemto syntax when https://github.com/kizu/bemto/issues/35 is fixed
         +e('select').tablet-menu-nav.input-select
@@ -55,13 +53,12 @@ block append variables
       +e.tablet-menu-aside
         +e('a').secondary-link(href="/tutorial/map") Полное содержание
     +e.tablet-menu-line
-      +e.tablet-menu-header
-        +e.tablet-menu-title Поделиться
       +e.tablet-menu-content
-        +b('a').share._tw.sitetoolbar__tablet-menu-share(href="https://twitter.com/share?url="+escape(url))
-        +b('a').share._fb.sitetoolbar__tablet-menu-share(href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]="+escape(url))
-        +b('a').share._gp.sitetoolbar__tablet-menu-share(href="https://plus.google.com/share?url="+escape(url))
-        +b('a').share._vk.sitetoolbar__tablet-menu-share(href="http://vkontakte.ru/share.php?url="+escape(url))
+        +b.share-icons
+          +e('span').title Поделиться
+          include ../blocks/social-icons
+
+
   +e.search
     +e('form').search-content(method="GET", action="/search")
       +e.search-query-wrap
