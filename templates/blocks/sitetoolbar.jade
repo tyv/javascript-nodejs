@@ -42,7 +42,6 @@ block append variables
       +e('button').search-toggle
   +e.tablet-menu
     +e.tablet-menu-line
-      +e.tablet-menu-header
       +e.tablet-menu-content
         //- TODO: use bemto syntax when https://github.com/kizu/bemto/issues/35 is fixed
         +e('select').tablet-menu-nav.input-select
@@ -54,10 +53,11 @@ block append variables
       +e.tablet-menu-aside
         +e('a').secondary-link(href="/tutorial/map") Полное содержание
     +e.tablet-menu-line
-      +e.tablet-menu-header
-        +e.tablet-menu-title Поделиться
       +e.tablet-menu-content
-        include social-icons
+        +b.share-icons
+          +e('span').title Поделиться
+          include ../blocks/social-icons
+
 
   +e.search
     +e('form').search-content(method="GET", action="/search")

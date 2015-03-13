@@ -24,7 +24,7 @@
         @extend $button-reset
 
     & &__toggle,
-    & &__show-map
+    & .map
         position absolute
         top 12px
         left 100%
@@ -34,7 +34,7 @@
         border-radius 50%
         cursor pointer
 
-    & &__show-map
+    & .map
         text-align center
         line-height 44px
         top 80px
@@ -44,27 +44,21 @@
         position absolute
 
     &__toggle:focus,
-    &__show-map:focus
+    & .map:focus
         outline 0
 
     //- класс вместо псевдокласса для мобильных
     &__toggle.hover,
-    &__show-map.hover
+    & .map.hover
         background #f4f4f4
 
-    &__show-map.hover
-        text-decoration none
-
-    &__toggle::before,
-    &__show-map::before
+    &__toggle::before
         font-size 22px
         color #8B8987
 
     &__toggle::before
         @extend $font-menu
 
-    &__show-map::before
-        @extend $font-sitemap
 
     &__section
         margin 22px 0

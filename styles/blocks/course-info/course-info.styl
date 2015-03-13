@@ -32,7 +32,7 @@
         text-align center
         font-size 12px
 
-    &__show-map
+    & .map
         position absolute
         top 8px
         right 20px
@@ -40,19 +40,6 @@
         color alternate_link_color
         font-size 14px
         vertical-align middle
-
-    &__show-map:hover
-        text-decoration none
-
-    &__show-map::before
-        @extend $font-sitemap
-        color #8B8987
-        font-size 22px
-        margin-right 14px
-        white-space nowrap
-        line-height 44px
-        vertical-align middle
-
 
     & &__title
         font 700 22px/1.2 font
@@ -70,5 +57,5 @@
             display block
             width auto
 
-        &__show-map-text
+        & .map__text
             display none
