@@ -1,4 +1,5 @@
 const Transaction = require('../../models/transaction');
+const Order = require('../../models/order');
 const request = require('koa-request');
 const config = require('config');
 const qs = require('querystring');
@@ -77,8 +78,13 @@ exports.get = function* (next) {
       statusMessage: 'Paypal подтвердил оплату'
     });
 
-    this.log.debug("will call order onSuccess module=" + this.order.module);
-    yield* require(this.order.module).onSuccess(this.order);
+    yield this.order.persist({
+      status: Order.STATUS_PAID
+    });
+
+
+    this.log.debug("will call order onPaid module=" + this.order.module);
+    yield* require(this.order.module).onPaid(this.order);
   }
 
   this.redirectToOrder();

@@ -30,35 +30,26 @@ module.exports = function* (options) {
   }
 
 
-  // order.onSuccess may take some time
-  // it happens that the transaction is already SUCCESS, but the order is still PENDING
+  // order.module.onPaid hook may take some time
+  // it happens that the transaction is already SUCCESS, but the order is still PAID, not SUCCESS
   // in this case reload the order
-  if (order.status == Order.STATUS_PENDING && options.ensureSuccessTimeout) {
+  if (order.status == Order.STATUS_PAID && options.ensureSuccessTimeout) {
 
-    var transactionSuccess = yield Transaction.findOne({
-      order: this.order._id,
-      status: Transaction.STATUS_SUCCESS
-    }).sort({modified: -1}).limit(1).exec();
-
-    if (transactionSuccess) {
-      // PENDING order, but Transaction.STATUS_SUCCESS?
-      // means that order onSuccess failed to finalize the job
-      // OR just did not finish it yet
-      var datediff = new Date() - new Date(transactionSuccess.modified);
-      while (datediff < options.ensureSuccessTimeout) {
-        // give it a second to finish and retry, usually up to max 5 seconds
-        this.log.debug("tx success, but order pending => wait 1s until onSuccess hook (maybe?) finishes");
-        yield function(callback) {
-          setTimeout(callback, 1000);
-        };
-        datediff += 1000;
-        order = yield findOrder();
-      }
+    // let the onPaid hook to finish
+    var datediff = new Date() - new Date(order.modified);
+    while (datediff < options.ensureSuccessTimeout) {
+      // give it a second to finish and retry, usually up to max 5 seconds
+      this.log.debug("tx success, but order pending => wait 1s until onPaid hook (maybe?) finishes");
+      yield function(callback) {
+        setTimeout(callback, 1000);
+      };
+      datediff += 1000;
+      order = yield findOrder();
     }
   }
 
 
-  var belongsToUser = this.req.user && this.req.user._id == order.user;
+  var belongsToUser = this.req.user && (this.req.user._id == order.user);
 
   var orderInSession = this.session.orders && this.session.orders.indexOf(order.number) != -1;
 
@@ -67,7 +58,7 @@ module.exports = function* (options) {
   if (!orderInSession && !belongsToUser) {
     this.throw(403, 'Access denied', {
       message: 'Доступ запрещён',
-      description: 'Возможно, этот заказ не ваш или сессия истекла.'
+      description: 'Возможно, этот заказ не Ваш, Вы не авторизованы, или сессия истекла.'
     });
   }
 
@@ -94,12 +85,12 @@ function* reloadOrderUntilSuccessFinish() {
   if (lastTransaction.status == Transaction.STATUS_SUCCESS &&
     this.order.status == Order.STATUS_PENDING) {
     // PENDING order, but Transaction.STATUS_SUCCESS?
-    // means that order onSuccess failed to finalize the job
+    // means that order onPaid failed to finalize the job
     // OR just did not finish it yet
     var datediff = new Date() - new Date(lastTransaction.modified);
     while(datediff < Order.MAX_ONSUCCESS_TIME) {
       // give it a second to finish and retry, up to max 5 seconds
-      this.log.debug("tx success, but order pending => wait 1s until onSuccess hook (maybe?) finishes");
+      this.log.debug("tx success, but order pending => wait 1s until onPaid hook (maybe?) finishes");
       yield function(callback) {
         setTimeout(callback, 1000);
       };

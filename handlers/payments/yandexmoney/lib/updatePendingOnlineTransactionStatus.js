@@ -1,12 +1,13 @@
 
 const request = require('koa-request');
 const Transaction = require('../../models/transaction');
+const Order = require('../../models/order');
 const assert = require('assert');
 
 // update order status if possible, check transactions
 /* jshint -W106 */
 module.exports = function*(transaction) {
-  assert(transaction.status == Transaction.STATUS_PENDING_ONLINE);
+  assert(transaction.status == Transaction.STATUS_PENDING);
 
   // to avoid race condition with regular update
   // not really atomic locking, but much safer than w/o it
@@ -48,7 +49,12 @@ module.exports = function*(transaction) {
   if (transaction.status == Transaction.STATUS_SUCCESS) {
     // success!
     var orderModule = require(order.module);
-    yield* orderModule.onSuccess(order);
+
+    yield order.persist({
+      status: Order.STATUS_PAID
+    });
+
+    yield* orderModule.onPaid(order);
   }
 
 };

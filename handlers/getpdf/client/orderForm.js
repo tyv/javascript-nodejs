@@ -15,6 +15,13 @@ class OrderForm {
     // many buttons with paymentMethods, onSubmit doesn't give a way to learn which one is pressed
     // so I listen to onclick
     this.delegate('[name="paymentMethod"]', 'click', (e) => this.onPaymentMethodClick(e));
+
+    this.delegate('[data-order-payment-change]', 'click', function(e) {
+      e.preventDefault();
+      this.elem.querySelector('[data-order-form-step-payment]').style.display = 'block';
+      this.elem.querySelector('[data-order-form-step-confirm]').style.display = 'none';
+      this.elem.querySelector('[data-order-form-step-receipt]').style.display = 'none';
+    });
   }
 
   onPaymentMethodClick(e) {
@@ -39,7 +46,7 @@ class OrderForm {
     // response status must be 200
     var request = xhr({
       method: 'POST',
-      url:    '/getpdf/checkout',
+      url:    '/payments/common/checkout',
       normalStatuses: [200, 403],
       body:   data,
       json: true

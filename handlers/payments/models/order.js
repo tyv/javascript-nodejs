@@ -22,8 +22,8 @@ var schema = new Schema({
     type: String
   },
   status:      {
-    type: String,
-    enum: ['success', 'cancel', 'pending'],
+    type:    String,
+    enum:    ['success', 'cancel', 'pending', 'paid'],
     default: 'pending'
   },
 
@@ -36,45 +36,25 @@ var schema = new Schema({
     ref:  'User'
   },
 
-  data:      {
-    type: Schema.Types.Mixed,
+  data: {
+    type:    Schema.Types.Mixed,
     default: {}
   },
 
-  // the url to order this item
-  itemUrl: {
-    type: String,
-    required: true
-  },
-
-  created:     {
+  created:  {
     type:    Date,
     default: Date.now
   },
-  modified:       {
-    type:    Date
+  modified: {
+    type: Date
   }
 
 });
 
-schema.pre('save', function(next){
+schema.pre('save', function(next) {
   this.modified = new Date();
   next();
 });
-
-schema.statics.createFromTemplate = function(orderTemplate, body) {
-  var Order = this;
-
-  var data = _.assign({
-    title:       orderTemplate.title,
-    description: orderTemplate.description,
-    amount:      orderTemplate.amount,
-    data:       orderTemplate.data
-  },  body || {});
-
-  return new Order(data);
-
-};
 
 // order must have only 1 pending transaction at 1 time.
 // finish one payment then create another
@@ -85,23 +65,28 @@ schema.statics.createFromTemplate = function(orderTemplate, body) {
 schema.methods.cancelPendingTransactions = function*() {
 
   yield Transaction.findOneAndUpdate({
-    order: this._id,
-    status: Transaction.STATUS_PENDING_ONLINE
+    order:  this._id,
+    status: Transaction.STATUS_PENDING
   }, {
-    status: Transaction.STATUS_FAIL,
+    status:        Transaction.STATUS_FAIL,
     statusMessage: "смена способа оплаты."
   }).exec();
 
 };
 
-
 schema.plugin(autoIncrement.plugin, {model: 'Order', field: 'number', startAt: 1});
 
+// order is ready for delivery, hooks finished
 schema.statics.STATUS_SUCCESS = 'success';
 
+// payment received, but the order hooks did not finish yet
+schema.statics.STATUS_PAID = 'paid';
+
+// awaiting payment
 schema.statics.STATUS_PENDING = 'pending';
 
+// not awaiting payment any more
 schema.statics.STATUS_CANCEL = 'cancel';
 
-module.exports = mongoose.model('Order', schema);
+var Order = module.exports = mongoose.model('Order', schema);
 

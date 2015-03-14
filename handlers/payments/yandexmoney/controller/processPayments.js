@@ -16,7 +16,7 @@ exports.get = function* () {
 
   var transactions = yield Transaction.find({
     order:                       this.order._id,
-    status:                      Transaction.STATUS_PENDING_ONLINE,
+    status:                      Transaction.STATUS_PENDING,
     paymentMethod:               'yandexmoney',
     'paymentDetails.nextRetry':  {
       $gte: Date.now()

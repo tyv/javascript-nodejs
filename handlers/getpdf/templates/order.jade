@@ -5,47 +5,96 @@ block append variables
 
 block content
 
-  script var orderNumber = #{order.isNew ? 'null' : order.number};
-  script var orderTemplate = "#{orderTemplate}";
-  script var status = "#{status}";
+  - var mailto = "mailto:orders@javascript.ru?subject=" + encodeURIComponent('Заказ ' + order.number);
 
-  +b("form").complex-form(data-order-form, data-new=(order.isNew ? "1" : "0"))
+  script var orderNumber = #{order.number}
 
-    - var mailto = "mailto:orders@javascript.ru?subject=" + encodeURIComponent('Заказ ' + order.number);
+  +b('form').complex-form(data-order-form data-order-info-status=orderInfo.status)
 
-    if transaction
-      include blocks/transaction-status
+    if orderInfo.status == 'fail'
+      +b.notification._error._message.__error
+        +e.content
+          p Оплата не прошла, попробуйте ещё раз.
+            if orderInfo.transaction && orderInfo.transaction.statusMessage
+              div Причина:&nbsp;
+                em= orderInfo.transaction.statusMessage
+          p По вопросам, касающимся оплаты, пишите на <a href="#{mailto}">orders@javascript.ru</a>.
 
-    +e.step._current
-      +e.step-content
-        +b.extract._small.__extract
-          +e.wrap
-            +e.content
-              +e('h5').title!= order.title
-              +e.info!= order.description
-            +e.aside._price._center
-              | Стоимость
-              +b.price.__price
-                | #{order.amount + 'р.'}
-                +e('span').secondary (≈&nbsp;#{currencyConvertRound(order.amount, "RUB", "USD")}$)
+    if !~['fail'].indexOf(orderInfo.status)
+      +b.receipts.__receipts(data-order-form-step-receipt)
+        +e.receipt
+          +e.receipt-body
+            +e.receipt-content
+              +e.type Заказ:
+              +e.title!= order.title
+              +e.note!= order.description
+            +e.receipt-aside
+              +e.price #{order.amount + 'р.'}
+        if ~['paid', 'success', 'pending'].indexOf(orderInfo.status)
+          +e.receipt
+            +e.receipt-body
+              +e.receipt-content
+                +e.type Оплата:
+                if (orderInfo.status == 'paid' || orderInfo.status == 'success')
+                  +e.status._ok Осуществлена успешно
+                else if (orderInfo.status == 'pending')
+                  +e.status._ok Ожидается подтверждение
+              +e.receipt-aside
+                +e(class=["pay-method", "_" + paymentMethods[orderInfo.transaction.paymentMethod].name])
 
-        if (!user)
-          +e('h2').alternate-title Укажите свой email
-          +b.text-input.__email
-            //+e('input').control(name="email", required, type="email" value=order.email)
-            +e('input').control(placeholder="my@email.com", name="email", required, type="email" value=(order && order.email))
-          +e.email-note После оплаты ссылка на скачивание учебника придет на этот адрес.
 
-        +e('h2').alternate-title Выберите метод оплаты
-        +b.pay-method.__pay-method
-          +e.methods
-            each paymentMethod in paymentMethods
-              +e.method
-                // classes get prefix automatically from dynamic mixins
-                +e('button')(class=("send " + "_"+paymentMethod.name),  name="paymentMethod", value=paymentMethod.name)
+    if ~['fail', 'pending'].indexOf(orderInfo.status)
+      +e.step._current(data-order-form-step-payment)
+        +e.step-content
+          +b.extract._small.__extract
+            +e.wrap
+              +e.content
+                +e('h5').title!= order.title
+                +e.info!= order.description
+              +e.aside._price._center
+                | Стоимость
+                +b.price.__price
+                  | #{order.amount + 'р.'}
+                  +e('span').secondary (≈&nbsp;#{currencyConvertRound(order.amount, "RUB", "USD")}$)
 
-    +b('ul').grayed-list.__next
-      +e('li').item.__next-item Подтверждение
+          if orderInfo.status == 'fail'
+            +e('h2').alternate-title Выберите метод оплаты
+          else if orderInfo.status == 'pending'
+            +e('h2').alternate-title Выберите другой метод оплаты
+            p Не оплачивайте дважды. Меняйте метод оплаты лишь если уверены, что оплата не произошла.
+
+          +b.pay-method.__pay-method
+            +e.methods
+              each paymentMethod in paymentMethods
+                +e.method
+                  +e('button')(class=["send", "_"+paymentMethod.name],  name="paymentMethod", value=paymentMethod.name)
+
+          p Если у вас возникли какие-либо вопросы, присылайте их на <a href="#{mailto}">orders@javascript.ru</a>.
+
+
+    if orderInfo.status == 'success'
+      +e.step._current(data-order-form-step-confirm)
+        +b.order-confirm
+          +e('h2').title__step-title Спасибо за покупку!
+          +e.accent._ok В ближайшее время на электронный адрес #{order.email} придёт подтверждение.
+          +e.content
+            +e.text
+              p Вы можете скачать учебник прямо сейчас, по ссылке <a href="#{order.data.downloadLink}">#{order.data.downloadLink}</a>.
+              p Если у вас возникли какие-либо вопросы, присылайте их на <a href="#{mailto}">orders@javascript.ru</a>.
+
+    else if ~['error', 'cancel', 'pending', 'paid'].indexOf(orderInfo.status)
+      +e.step._current(data-order-form-step-confirm)
+        +b.order-confirm
+          +e('h2').title__step-title!= orderInfo.title
+          if orderInfo.accent
+            +e.accent!= orderInfo.accent
+          if orderInfo.description
+          +e.content
+            +e.text!= orderInfo.description
+
+    if ~['fail'].indexOf(orderInfo.status)
+      +b('ul').grayed-list.__next
+        +e('li').item.__next-item Подтверждение
 
   script(src=script("getpdf"))
   script getpdf.init();

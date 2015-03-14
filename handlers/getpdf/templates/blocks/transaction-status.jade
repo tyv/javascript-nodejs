@@ -16,6 +16,6 @@ if transaction.status == 'pending_online'
 if transaction.status == 'success'
   +b.notification._error._message.__error
     +e.content
-      // transaction success, but pending order => onSuccess was an error
+      // transaction success, but pending order => onPaid was an error
       p При обработке вашего заказа поизошла ошибка. Мы обязательно её исправим.
       p Обратитесь в поддержку <a href="#{mailto}">orders@javascript.ru</a>, указав в теме "Заказ #{order.number}".

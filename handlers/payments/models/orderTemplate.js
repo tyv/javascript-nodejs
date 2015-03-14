@@ -17,11 +17,11 @@ var schema = new Schema({
   description: {
     type: String
   },
-  // when a user visits /order/slug, the new order is created from this template
+  // on checkout /order/slug, the new order is created from this template
   slug:        {
     type:     String,
     required: true,
-    index:    true
+    unique:   true
   },
   amount:      {
     type:     Number,
@@ -31,7 +31,11 @@ var schema = new Schema({
     type:    Date,
     default: Date.now
   },
-  data: {}
+  module:      {
+    type:     String,
+    required: true
+  },
+  data:        {}
 });
 
 module.exports = mongoose.model('OrderTemplate', schema);

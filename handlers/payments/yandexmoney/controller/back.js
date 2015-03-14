@@ -2,7 +2,7 @@ const config = require('config');
 const Order = require('../../models/order');
 const Transaction = require('../../models/transaction');
 const request = require('koa-request');
-
+const log = require('log')();
 
 var updatePendingOnlineTransactionStatus = require('../lib/updatePendingOnlineTransactionStatus');
 
@@ -68,10 +68,9 @@ exports.get = function* () {
     self.transaction.status = Transaction.STATUS_FAIL;
     self.transaction.statusMessage = reason;
 
-    console.log(self.transaction.toObject());
+    self.log.debug("fail transaction", self.transaction.toObject());
     yield self.transaction.persist();
 
-    console.log("???");
     self.redirectToOrder();
   }
 

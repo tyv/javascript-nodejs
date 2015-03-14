@@ -9,7 +9,7 @@ exports.createTransaction = function*(order) {
   var transaction = new Transaction({
     order:  order._id,
     amount: order.amount,
-    status: Transaction.STATUS_PENDING_ONLINE,
+    status: Transaction.STATUS_PENDING,
     paymentMethod: path.basename(__dirname)
   });
 

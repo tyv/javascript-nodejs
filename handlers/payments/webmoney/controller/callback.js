@@ -45,15 +45,17 @@ exports.post = function* (next) {
     this.throw(404, "transaction data doesn't match the POST body");
   }
 
-  if (!this.request.body.LMI_SIM_MODE || this.request.body.LMI_SIM_MODE == '0') {
-    this.transaction.status = Transaction.STATUS_SUCCESS;
-    yield this.transaction.persist();
-  }
+  yield this.transaction.persist({
+    status: Transaction.STATUS_SUCCESS
+  });
 
-  var order = this.transaction.order;
-  this.log.debug("will call order onSuccess module=" + order.module);
+  yield this.order.persist({
+    status: Order.STATUS_PAID
+  });
 
-  yield* require(order.module).onSuccess(order);
+  this.log.debug("will call order onPaid module=" + this.order.module);
+
+  yield* require(this.order.module).onPaid(this.order);
 
   this.body = 'OK';
 

@@ -33,7 +33,7 @@ var schema = new Schema({
   paymentDetails: {
     type: {
       nextRetry: Number, // for Ya.Money processPayments
-      processing: Boolean, // for Ya.Money processPayments & Paypal PDT/IPN locking not to onSuccess twice,
+      processing: Boolean, // for Ya.Money processPayments & Paypal PDT/IPN locking not to onPaid twice,
       oauthToken: String, // for Ya.Money processPayments
       requestId: String //  for Ya.Money processPayments
     },
@@ -70,10 +70,8 @@ var schema = new Schema({
 
 // Awaiting for the payment system callback,
 // when the user opens the order, let him wait and refresh the page
-schema.statics.STATUS_PENDING_ONLINE = 'pending_online';
-
-// Awaiting for the payment offline, there's no reason to wait
-schema.statics.STATUS_PENDING_OFFLINE = 'pending_offline';
+// we don't know if it's an offline payment or not
+schema.statics.STATUS_PENDING = 'pending';
 
 schema.statics.STATUS_SUCCESS = 'success';
 
@@ -109,8 +107,7 @@ schema.pre('validate', function ensureSingleTransactionPerOrder(next) {
     order: this.order,
     status: {
       $in: [
-        Transaction.STATUS_PENDING_ONLINE,
-        Transaction.STATUS_PENDING_OFFLINE,
+        Transaction.STATUS_PENDING,
         Transaction.STATUS_SUCCESS // enforce payment with a single tx
       ]
     },

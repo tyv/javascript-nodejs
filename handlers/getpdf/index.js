@@ -9,4 +9,5 @@ exports.init = function(app) {
 
 };
 
-exports.onSuccess = require('./onSuccess');
+exports.onPaid = require('./lib/onPaid');
+exports.createOrderFromTemplate = require('./lib/createOrderFromTemplate');
