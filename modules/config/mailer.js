@@ -4,7 +4,7 @@ module.exports = {
   senders: {
     default: {
       email:     'JavaScript.ru <inform@javascript.ru>',
-      signature: "<p>Yours, robot</p>"
+      signature: "<p>С уважением, javascript.ru</p>"
     }
   },
   ses:     {

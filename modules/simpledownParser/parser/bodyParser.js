@@ -192,8 +192,12 @@ BodyParser.prototype.parseHeader = function(token) {
 
   var headers = this.options.metadata.headers;
 
+
   if (headers.length === 0 && level != 1) {
-    throw new ParseError('div', "Первый заголовок должен иметь уровень 1, а не " + level);
+    // в jade можно включить другие :simpledown-файлы
+    // заголовки в них могут быть сразу с уровня 2 или даже 3, если это часть
+    // поэтому первый заголовок может быть не 1
+    // throw new ParseError('div', "Первый заголовок должен иметь уровень 1, а не " + level);
   }
 
   if (headers.length > 0) {

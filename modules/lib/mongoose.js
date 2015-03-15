@@ -47,6 +47,8 @@ mongoose.plugin(function(schema) {
 
         if (err && err.code == 11000) {
 
+          log.debug("error", err);
+          log.debug("will look for indexName in message", err.message);
           var indexName = err.message.match(/\$(\w+)/)[1];
 
           model.collection.getIndexes(function(err2, indexes) {

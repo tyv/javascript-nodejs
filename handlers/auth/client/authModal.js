@@ -169,7 +169,7 @@ AuthModal.prototype.initEventHandlers = function() {
     request.addEventListener('success', function(event) {
 
       if (this.status == 200) {
-        self.showFormMessage("Письмо-подтверждение отправлено.", 'success');
+        self.showFormMessage("Письмо-подтверждение отправлено ещё раз.", 'success');
       } else {
         self.showFormMessage(event.result, 'error');
       }

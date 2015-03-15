@@ -66,7 +66,7 @@ block content
           +b.pay-method.__pay-method
             +e.methods
               each paymentMethod in paymentMethods
-                +e.method
+                +e.method(data-add-class-on-hover)
                   +e('button')(class=["send", "_"+paymentMethod.name],  name="paymentMethod", value=paymentMethod.name)
 
           p Если у вас возникли какие-либо вопросы, присылайте их на <a href="#{mailto}">orders@javascript.ru</a>.

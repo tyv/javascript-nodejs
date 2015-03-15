@@ -103,7 +103,7 @@ if (process.env.NODE_ENV == 'development') {
 
 endpoints.push(
   'users', 'auth', 'getpdf', 'cache', 'search', 'profile',
-  'profileGuest', 'quiz', 'currencyRate', 'payments', 'download', 'staticPage'
+  'profileGuest', 'quiz', 'currencyRate', 'payments', 'download', 'staticPage', 'newsletter'
 );
 
 // stick to bottom to detect any not-yet-processed /:slug

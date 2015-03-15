@@ -41,8 +41,12 @@ document.addEventListener('touchend', function(event) {
 });
 
 document.addEventListener('mouseout', function(event) {
-  var target = event.target.closest('[data-add-class-on-hover]');
-  if (target == currentHoverElem) return;
+  if (!currentHoverElem) return;
+
+  if (currentHoverElem.contains(event.relatedTarget)) {
+    return;
+  }
+
   currentHoverElem.classList.remove('hover');
   currentHoverElem = null;
 });

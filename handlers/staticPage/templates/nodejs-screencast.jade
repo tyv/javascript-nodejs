@@ -1,0 +1,32 @@
+extends /layouts/main
+
+block append variables
+  - var sitetoolbar = true
+  - var title = "Node.JS скринкаст и курсы"
+  - var layout_main_class = "main_width-limit"
+
+block content
+
+  include:simpledown nodejs-screencast.md
+
+  form(data-newsletter-subscribe-form action="/newsletter/subscriptions" method="POST")
+    input(type="hidden" value="nodejs" name="slug")
+    if user
+      input(type="hidden" value=user.email name="email")
+    else
+      input(type="email" placeholder="me@mail.com" name="email" required)
+
+    input(type="submit" value='Подписаться')
+
+  script.
+    (function() {
+      var lis = document.querySelectorAll('li[mnemo]');
+
+      for (var i = 0; i < lis.length; i++) {
+        var li = lis[i];
+        var mnemo = li.getAttribute('mnemo');
+
+        li.insertAdjacentHTML("beforeEnd", '<a title="Скачать в низком качестве" href="/nodejs-screencast/nodejs-mp4-low/' + mnemo + '.mp4"><img src="/clipart/download_lq.png" style="height:12px;margin-left:5px"></a>');
+        li.insertAdjacentHTML("beforeEnd", '<a title="Скачать в высоком качестве" href="/nodejs-screencast/nodejs-mp4/' + mnemo + '.mp4"><img src="/clipart/download.png" style="height:12px;margin-left:5px"></a>');
+      }
+    })();

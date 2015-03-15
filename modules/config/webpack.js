@@ -44,14 +44,14 @@ var webpackConfig = {
   devtool: isDevelopment ? "inline-source-map" : '',
 
   entry: {
-    angular:  'client/angular',
-    head:     'client/head',
-    tutorial: 'tutorial/client',
-    profile:  'profile/client',
-    search:   'search/client',
-    quiz:     'quiz/client',
-    getpdf:   'getpdf/client',
-    footer:   'client/footer'
+    angular:    'client/angular',
+    head:       'client/head',
+    tutorial:   'tutorial/client',
+    profile:    'profile/client',
+    search:     'search/client',
+    quiz:       'quiz/client',
+    getpdf:     'getpdf/client',
+    footer:     'client/footer'
   },
 
   externals: {
