@@ -15,9 +15,16 @@ var log = require('log')();
 // mail can be sent outside of request context
 module.exports = function* sendMail(options) {
 
+  var sender = config.mailer.senders[options.from || 'default'];
+  if (!sender) {
+    throw new Error("Unknown sender:" + options.from);
+  }
+
   var locals = Object.create(options);
   _.assign(locals, config.jade);
+
   locals.logoBase64 = logoBase64;
+  locals.signature = sender.signature;
 
   var templatePath = options.templatePath;
   if (!templatePath.endsWith('.jade')) templatePath += '.jade';
@@ -26,11 +33,12 @@ module.exports = function* sendMail(options) {
 
   letter = yield mailer.inlineCss(letter);
 
-  var info = yield thunkify(mailer.transport.sendMail.bind(mailer.transport))({
-    to:      options.to,
-    subject: options.subject,
-    html:    letter
-  });
+  locals.html = letter;
+  locals.from = sender.from;
+
+  var sendMailMethod = mailer.transport.sendMail.bind(mailer.transport);
+
+  var info = yield thunkify(sendMailMethod)(locals);
 
   log.debug(info.envelope, letter);
 

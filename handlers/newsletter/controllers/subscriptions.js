@@ -1,7 +1,6 @@
 const path = require('path');
 const Newsletter = require('../models/newsletter');
 const Subscription = require('../models/subscription');
-const crypto = require('crypto');
 const sendMail = require('sendMail');
 const config = require('config');
 

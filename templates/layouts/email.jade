@@ -42,7 +42,10 @@ html
                   table#templateFooter(border='0', cellpadding='0', cellspacing='0', width='100%')
                     tr
                       td.footerContent(valign='top', style='padding-top: 20px;')
-                        em
-                          | С уважением,
-                          br
-                          | Илья Кантор
+                        != signature
+                        if unsubscribeUrl
+                          p
+                            | Кликните
+                            = ' '
+                            a(href=unsubscribeUrl) здесь
+                            | , чтобы отписаться.

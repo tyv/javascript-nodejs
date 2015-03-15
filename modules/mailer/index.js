@@ -22,6 +22,7 @@ if (process.env.NODE_ENV == 'test') {
   }));
 }
 
+/*
 // add default "From"
 // triggers before email is sent
 transport.use('compile', function(mail, callback){
@@ -29,12 +30,12 @@ transport.use('compile', function(mail, callback){
     mail.data.from = 'default';
   }
   var sender = config.mailer.senders[mail.data.from];
-  log.debug(sender);
+//  log.debug(sender);
   mail.data.from = sender.email;
-//  mail.data.html = mail.data.html.replace('</body></html>', sender.signature + '</body></html>');
 
   callback();
 });
+*/
 
 exports.transport = transport;
 exports.inlineCss = require('./inlineCss');
