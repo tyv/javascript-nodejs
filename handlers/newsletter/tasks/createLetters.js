@@ -16,7 +16,11 @@ module.exports = function(options) {
 
     var args = require('yargs')
       .usage("Slug is required.")
-      .demand(['slug'])
+      .example("gulp newsletter:createLetters --slug nodejs --templatePath ./mail.jade --subject 'Тема письма'")
+      .describe('slug', 'Название рассылки NewsLetter')
+      .describe('templatePath', 'Шаблон для рассылки')
+      .describe('subject', 'Тема письма')
+      .demand(['slug', 'templatePath', 'subject'])
       .argv;
 
     return co(function* () {
@@ -43,14 +47,14 @@ module.exports = function(options) {
         var subscription = subscriptions[i];
         var unsubscribeUrl = (config.server.siteHost || 'http://javascript.in') + '/newsletter/remove/' + subscription.accessKey;
         yield* mailer.createLetter({
-          from:   'informer',
-          templatePath:   path.join(__dirname, '../templates/test-email'),
-          to: subscription.email,
-          subject: "Тест рассылки",
-          unsubscribeUrl: unsubscribeUrl,
+          from:              'informer',
+          templatePath:      args.templatePath,
+          to:                subscription.email,
+          subject:           args.subject,
+          unsubscribeUrl:    unsubscribeUrl,
           newsletterRelease: release._id,
-          headers:        {
-            Precedence: 'bulk',
+          headers:           {
+            Precedence:         'bulk',
             'List-ID':          '<' + newsletter.slug + '.list-id.javascript.ru>',
             'List-Unsubscribe': '<' + unsubscribeUrl + '>'
           }

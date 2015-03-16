@@ -9,18 +9,13 @@ exports.get = function*() {
 
   this.nocache();
 
-  if (!this.session.quizzes) {
-    // fixme: start a new quiz
-    this.redirect('/quiz');
-    return;
-  }
-
   // session may have many quiz at the same time
   // take the current one
-  var sessionQuiz = this.session.quizzes[this.params.slug];
+  var sessionQuiz = this.session.quizzes && this.session.quizzes[this.params.slug];
 
   if (!sessionQuiz) {
-    this.redirect('/quiz');
+    // let the user start a new quiz here
+    this.body = this.render('quiz-start');
     return;
   }
 
