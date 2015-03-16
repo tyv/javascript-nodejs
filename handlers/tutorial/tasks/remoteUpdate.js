@@ -41,8 +41,12 @@ module.exports = function(options) {
 
       exec('ssh ' + host + ' "mongorestore --drop"');
 
+      var file = fs.openSync("/tmp/cmd.js", "w");
+
+      fs.writeSync(file, 'mongo js --eval "db.articles.find().length()";\n');
+
       // copy/overwrite collections from js_sync to js and then remove non-existing ids
-      fs.writeFileSync("/tmp/cmd.js", collections.map(function(coll) {
+      fs.writeSync(file, collections.map(function(coll) {
         // copyTo does not work
         // also see https://jira.mongodb.org/browse/SERVER-732
         var cmd = "db.getSiblingDB('js_sync').C.find().forEach(function(d) { db.C.insert(d) }); \n\
@@ -53,6 +57,10 @@ module.exports = function(options) {
 
       }).join("\n\n"));
 
+
+      fs.writeSync(file, 'mongo js --eval "db.articles.find().length()";\n');
+
+      fs.closeSync(file);
 
       exec('scp /tmp/cmd.js ' + host + ':/tmp/');
 
