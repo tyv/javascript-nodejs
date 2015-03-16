@@ -43,30 +43,41 @@ module.exports = function(options) {
 
       var file = fs.openSync("/tmp/cmd.js", "w");
 
-      fs.writeSync(file, 'mongo js --eval "db.articles.find().length()";\n');
+      fs.writeFileSync("/tmp/check.sh", 'mongo js --eval "db.articles.find().length()";\n');
 
       // copy/overwrite collections from js_sync to js and then remove non-existing ids
       fs.writeSync(file, collections.map(function(coll) {
         // copyTo does not work
         // also see https://jira.mongodb.org/browse/SERVER-732
-        var cmd = "db.getSiblingDB('js_sync').C.find().forEach(function(d) { db.C.insert(d) }); \n\
-          vals = db.getSiblingDB('js_sync').C.find({}, {id:1}).map(function(a){return a._id;}); \n\
-          db.C.remove({_id: {$nin: vals}});".replace(/C/g, coll);
+
+
+        var cmd = `
+        db.COLL.find({}, {id:1}).forEach(function(d) {
+          var cursor = db.getSiblingDB('js_sync').COLL.find({_id:d._id}, {id:1});
+
+          if (!cursor.hasNext()) {
+            db.articles.remove({_id: d._id});
+          }
+        });
+
+        db.getSiblingDB('js_sync').COLL.find().forEach(function(d) { db.COLL.insert(d) });
+        `.replace(/COLL/g, coll);
 
         return cmd;
 
       }).join("\n\n"));
 
 
-      fs.writeSync(file, 'mongo js --eval "db.articles.find().length()";\n');
-
       fs.closeSync(file);
 
       exec('scp /tmp/cmd.js ' + host + ':/tmp/');
+      exec('scp /tmp/check.sh ' + host + ':/tmp/');
 
       // most reliable way to execute
       // mongo js /tmp/cmd.js didn't work stable for some reason (?)
-      exec('ssh ' + host + ' "mongo js --eval \\"load(\'/tmp/cmd.js\')\\""');
+      exec('ssh ' + host + ' "bash /tmp/check.sh"');
+      exec('ssh ' + host + ' "mongo js /tmp/cmd.js"');
+      exec('ssh ' + host + ' "bash /tmp/check.sh"');
 
       /* jshint -W106 */
       var env = ecosystem.apps[0].env_production;
