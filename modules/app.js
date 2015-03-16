@@ -86,7 +86,7 @@ app.requireHandler('csrf');
 
 app.requireHandler('paymentsMethods');
 
-app.requireHandler('sendMail');
+//app.requireHandler('sendMail');
 
 // right before endpoints
 // so that the error won't fall through the handlers above

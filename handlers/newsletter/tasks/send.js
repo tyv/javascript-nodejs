@@ -6,8 +6,8 @@ var glob = require('glob');
 const path = require('path');
 const Newsletter = require('../models/newsletter');
 const Subscription = require('../models/subscription');
-const Letter = require('../models/letter');
-const sendMail = require('sendMail');
+const Letter = require('../../../modules/mailer/models/letter');
+const mailer = require('mailer');
 const config = require('config');
 
 
@@ -18,19 +18,22 @@ module.exports = function(options) {
     return co(function* () {
 
       var letters = yield Letter.find({
-        sent: false
+        sent: false,
+        // only newsletter emails, not transient ones
+        'data.newsletterRelease': {
+          $exists: true
+        }
       }).exec();
 
       for (var i = 0; i < letters.length; i++) {
         var letter = letters[i];
 
-        yield sendMail(letter.data);
-
-        letter.sent = true;
-        yield letter.persist();
+        yield mailer.sendLetter(letter);
+        gutil.log("Sent to " + letter.data.to);
       }
 
     });
+
   };
 };
 

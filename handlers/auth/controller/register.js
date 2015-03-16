@@ -2,7 +2,7 @@ var User = require('users').User;
 var jade = require('lib/serverJade');
 var path = require('path');
 var config = require('config');
-var sendMail = require('sendMail');
+var sendMail = require('mailer').send;
 
 // Регистрация пользователя.
 exports.post = function* (next) {

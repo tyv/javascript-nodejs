@@ -48,8 +48,7 @@ class OrderForm {
       method: 'POST',
       url:    '/payments/common/checkout',
       normalStatuses: [200, 403],
-      body:   data,
-      json: true
+      body:   data
     });
 
     var onEnd = this.startRequestIndication();

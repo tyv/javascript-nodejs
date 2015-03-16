@@ -5,11 +5,10 @@ var gutil = require('gulp-util');
 var glob = require('glob');
 const path = require('path');
 const Newsletter = require('../models/newsletter');
+const NewsletterRelease = require('../models/newsletterRelease');
 const Subscription = require('../models/subscription');
-const Letter = require('../models/letter');
-const sendMail = require('sendMail');
+const mailer = require('mailer');
 const config = require('config');
-
 
 module.exports = function(options) {
 
@@ -19,8 +18,6 @@ module.exports = function(options) {
       .usage("Slug is required.")
       .demand(['slug'])
       .argv;
-
-    var packCreated = new Date();
 
     return co(function* () {
 
@@ -32,38 +29,37 @@ module.exports = function(options) {
         throw new Error("No newsletter with slug: " + args.slug);
       }
 
+      var release = yield NewsletterRelease.create({
+        newsletter: newsletter._id
+      });
+
       var subscriptions = yield Subscription.find({
         newsletter: newsletter._id,
         confirmed:  true
       }, {email: true, accessKey: true, _id: false}).exec();
 
-      // TMP
-      yield Letter.destroy({});
 
       for (var i = 0; i < subscriptions.length; i++) {
         var subscription = subscriptions[i];
         var unsubscribeUrl = (config.server.siteHost || 'http://javascript.in') + '/newsletter/remove/' + subscription.accessKey;
-        yield Letter.create({
-          email:       subscription.email,
-          newsletter:  newsletter._id,
-          packCreated: packCreated,
-          sent:        false,
-          data:        {
-            templatePath:   path.join(__dirname, '../templates/test-email'),
-            subject:        "Тест рассылки",
-            to:             'iliakan@gmail.com', //subscription.email,
-            unsubscribeUrl: unsubscribeUrl,
-            headers:        {
-              Precedence: 'bulk',
-              'List-ID':          '<' + newsletter.slug + '.list-id.javascript.ru>',
-              'List-Unsubscribe': '<a@b.javascript.ru>'
-            }
+        yield* mailer.createLetter({
+          from:   'informer',
+          templatePath:   path.join(__dirname, '../templates/test-email'),
+          to: subscription.email,
+          subject: "Тест рассылки",
+          unsubscribeUrl: unsubscribeUrl,
+          newsletterRelease: release._id,
+          headers:        {
+            Precedence: 'bulk',
+            'List-ID':          '<' + newsletter.slug + '.list-id.javascript.ru>',
+            'List-Unsubscribe': '<' + unsubscribeUrl + '>'
           }
         });
+
       }
 
     });
+
+
   };
 };
-
-

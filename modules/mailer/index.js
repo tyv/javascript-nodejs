@@ -1,41 +1,102 @@
-var co = require('co');
+var transport = require('./transport');
+var inlineCss = require('./inlineCss');
 var config = require('config');
-var nodemailer = require('nodemailer');
-var ses = require('nodemailer-ses-transport');
-var stubTransport = require('nodemailer-stub-transport');
+var fs = require('fs');
+var path = require('path');
+var thunkify = require('thunkify');
+var _ = require('lodash');
+var jade = require('lib/serverJade');
+var logoBase64 = fs.readFileSync(path.join(config.projectRoot, 'assets/img/logo.png')).toString('base64');
 var log = require('log')();
+var Letter = require('./models/letter');
 
-// Transport:
-// --> In test env stub, otherwise SES
-// --> From header by default from config
-// --> sendMail logs
+// some clients don't allow svg
+// var logoSrc = yield fs.readFile(path.join(config.projectRoot, 'assets/img/logo.svg'));
 
-var transport;
+// not middleware, cause can be used in CRON-based runs, from onPaid callback
+// mail can be sent outside of request context
 
-if (process.env.NODE_ENV == 'test') {
-  transport = nodemailer.createTransport(stubTransport());
-} else {
-  transport = nodemailer.createTransport(ses({
-    accessKeyId:     config.mailer.ses.accessKeyId,
-    secretAccessKey: config.mailer.ses.secretAccessKey,
-    rateLimit:       1 // do not send more than 1 message in a second
-  }));
+/**
+ * create & save a letter object
+ * we save it to db to track delivery status
+ *
+ * Doesn't send the letter
+ * Can use to send it letter
+ * @param options
+ * @returns {Letter}
+ */
+function* createLetter(options) {
+  var letterData = {};
+
+  var sender = config.mailer.senders[options.from || 'default'];
+  if (!sender) {
+    throw new Error("Unknown sender:" + options.from);
+  }
+
+  var locals = Object.create(options);
+  _.assign(locals, config.jade);
+
+  locals.logoBase64 = logoBase64;
+  locals.signature = sender.signature;
+
+  var templatePath = options.templatePath;
+  if (!templatePath.endsWith('.jade')) templatePath += '.jade';
+
+  var letterHtml = jade.renderFile(templatePath, locals);
+  letterHtml = yield inlineCss(letterHtml);
+
+  letterData.html = letterHtml;
+  letterData.from = sender.from;
+
+  ['subject', 'to', 'headers', 'attachments', 'newsletterRelease'].forEach(function(field) {
+    if (options[field]) {
+      letterData[field] = options[field];
+    }
+  });
+
+  var letter = new Letter({
+    data: letterData
+  });
+
+  yield letter.persist();
+
+  return letter;
 }
 
-/*
-// add default "From"
-// triggers before email is sent
-transport.use('compile', function(mail, callback){
-  if (!mail.data.from) {
-    mail.data.from = 'default';
-  }
-  var sender = config.mailer.senders[mail.data.from];
-//  log.debug(sender);
-  mail.data.from = sender.email;
+/**
+ * A shortcut to send a letter
+ * E.g send({to: ..., subject: ..., templatePath: ... })
+ * @param options
+ * @returns {*}
+ */
+function* send(options) {
 
-  callback();
-});
-*/
+  var letter = yield* createLetter(options);
 
-exports.transport = transport;
-exports.inlineCss = require('./inlineCss');
+  return yield* sendLetter(letter);
+}
+
+/**
+ * Send an existing letter
+ * @param letter
+ * @returns {*}
+ */
+function* sendLetter(letter) {
+
+  var sendMailMethod = transport.sendMail.bind(transport);
+
+  letter.transportResponse = yield thunkify(sendMailMethod)(letter.data);
+  letter.sent = true;
+
+  log.debug("sent ", letter.toObject());
+
+  yield letter.persist();
+
+  return letter;
+}
+
+
+exports.Letter = require('./models/letter');
+exports.send = send;
+exports.createLetter = createLetter;
+exports.sendLetter = sendLetter;

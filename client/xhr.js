@@ -14,7 +14,7 @@ var getCsrfCookie = require('client/getCsrfCookie');
 //
 // # JSON
 //    --> send(object) calls JSON.stringify
-//    --> options.json adds Accept: json (we want json)
+//    --> adds Accept: json (we want json) by default, unless options.raw
 // if options.json or server returned json content type
 //    --> autoparse json
 //    --> fail if error
@@ -30,7 +30,6 @@ function xhr(options) {
 
   var body = options.body;
   var url = options.url;
-
 
   request.open(method, url, options.sync ? false : true);
 
@@ -70,7 +69,7 @@ function xhr(options) {
     });
   }
 
-  if (options.json) { // means we want json
+  if (!options.raw) { // means we want json
     request.setRequestHeader("Accept", "application/json");
   }
 

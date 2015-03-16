@@ -1,7 +1,7 @@
 var Router = require('koa-router');
 
 var confirm = require('./controllers/confirm');
-var letters = require('./controllers/subscriptions');
+var subscriptions = require('./controllers/subscriptions');
 var remove = require('./controllers/remove');
 
 var router = module.exports = new Router();

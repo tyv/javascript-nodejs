@@ -1,7 +1,7 @@
 const path = require('path');
 const Newsletter = require('../models/newsletter');
 const Subscription = require('../models/subscription');
-const sendMail = require('sendMail');
+const sendMail = require('mailer').send;
 const config = require('config');
 
 exports.post = function*() {
@@ -37,7 +37,7 @@ exports.post = function*() {
       templatePath: path.join(this.templateDir, 'confirm-email'),
       subject:      "Подтверждение: " + newsletter.title,
       to:           this.request.body.email,
-      link:         config.server.siteHost + '/newsletter/confirm/' + subscription.accessKey
+      link:         (config.server.siteHost || 'http://javascript.in') + '/newsletter/confirm/' + subscription.accessKey
     });
 
     this.body = {

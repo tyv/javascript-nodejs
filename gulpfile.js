@@ -168,6 +168,8 @@ gulp.task('cache:clean', lazyRequireTask('./tasks/cacheClean'));
 
 gulp.task('test:spider', lazyRequireTask('./tasks/testSpider'));
 
+gulp.task('mailer:track', lazyRequireTask('mailer/tasks/track'));
+
 gulp.task('config:nginx', lazyRequireTask('./tasks/configNginx'));
 
 // when queue finished successfully or aborted, close db

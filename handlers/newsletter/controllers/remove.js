@@ -1,7 +1,7 @@
 const path = require('path');
 const Newsletter = require('../models/newsletter');
 const Subscription = require('../models/subscription');
-const sendMail = require('sendMail');
+const sendMail = require('mailer').send;
 const config = require('config');
 
 exports.get = function*() {

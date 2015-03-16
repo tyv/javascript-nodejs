@@ -5,7 +5,7 @@ var multiparty = require('multiparty');
 var co = require('co');
 var thunkify = require('thunkify');
 var config = require('config');
-var sendMail = require('sendMail');
+var sendMail = require('mailer').send;
 var path = require('path');
 
 exports.get = function*(next) {
