@@ -1,12 +1,23 @@
+/*
+var isDevelopment = (process.env.NODE_ENV === 'development');
+var isProduction = (process.env.NODE_ENV === 'production');
+*/
+var isDevelopment = true;
+var isProduction = false;
+
+
 var fs = require('fs');
 var path = require('path');
 var config = require('config');
-var isDevelopment = (process.env.NODE_ENV === 'development');
-var isProduction = (process.env.NODE_ENV === 'production');
+
+
 var webpack = require('webpack');
 var CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin");
 var WriteVersionsPlugin = require('lib/webpack/writeVersionsPlugin');
 var ngAnnotatePlugin = require('ng-annotate-webpack-plugin');
+
+
+
 
 var del = require('del');
 
@@ -116,7 +127,7 @@ if (isProduction) {
       // thus removing unchanged files
       // => use this plugin only in normal run
       this.plugin('run', clear);
-    }/*,
+    },
 
     new ngAnnotatePlugin({ // add angular annotations with ng-strict-di to ensure it's correct
       add: true
@@ -129,7 +140,7 @@ if (isProduction) {
         drop_console: true,
         unsafe:       true
       }
-    })*/
+    })
   );
 }
 
