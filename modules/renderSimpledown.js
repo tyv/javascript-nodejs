@@ -24,6 +24,13 @@ module.exports = function(text, options) {
     staticHost:      config.server.staticHost
   });
 
-  return transformer.transform(node, options.applyContextTypography);
+  var result = transformer.transform(node, options.applyContextTypography);
+
+  // if typography is not applied, we need to strip local <no-typography> tags which prevent it
+  if (!options.applyContextTypography) {
+    result = result.replace(/<\/?no-typography>/g, '');
+  }
+
+  return result;
 
 };

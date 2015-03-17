@@ -13,6 +13,8 @@ exports.post = function*() {
     this.throw(404);
   }
 
+  this.log.debug("Starting quiz ", quiz.toObject());
+
   if (!this.session.quizzes) {
     this.session.quizzes = {};
   }

@@ -9,7 +9,10 @@ exports.get = function*() {
 
   this.nocache();
 
-  var quiz = yield Quiz.findOne({ slug: this.params.slug }).exec();
+  var quiz = yield Quiz.findOne({
+    slug: this.params.slug,
+    archived: false
+  }).exec();
 
   if (!quiz) {
     this.throw(404);
@@ -28,7 +31,6 @@ exports.get = function*() {
     this.body = this.render('quiz-start');
     return;
   }
-
 
   if (sessionQuiz.result) {
 
@@ -52,6 +54,7 @@ exports.get = function*() {
     this.locals.progressNow = sessionQuiz.questionsTakenIds.length + 1;
     this.locals.progressTotal = quiz.questionsToAskCount;
 
+    console.log(this.locals);
     this.body = this.render('quiz');
   }
 };

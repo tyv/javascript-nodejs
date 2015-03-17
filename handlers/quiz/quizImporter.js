@@ -41,6 +41,8 @@ QuizImporter.prototype.import = function*() {
     $set: {
       archived: true
     }
+  }, {
+    multi: true
   }).exec();
 
   try {
