@@ -1,14 +1,20 @@
 +b(class="quiz-question "+( quiz.done ? (quiz.correct ? " _correct_true" : " _correct_false") : ""))
-  +e("form")(atcion="/").body
+  +e("form")(action="/asd").body
     +e("h1").title !{ quiz.title }
     +e("ul").variants
 
       each variant, index in quiz.variants
 
+        - var id = Math.floor((Math.random() * 100) + 1)
+
         +e("li")(class="variant " + ( quiz.correctNum == (index + 1) ? " _correct" : ""))
-          +e("label").label
-            +e("input").input(type="radio" name="variant" disabled = quiz.done ? true : false checked = quiz.selected == (index + 1) ? true : false)
-            +e("span").input-text !{ variant }
+          +e("input").input(id=id type="radio" name="variant" disabled = quiz.done ? true : false checked = quiz.selected == (index + 1) ? true : false)
+          +e.input-content
+            if variant.block
+              !{ variant.content }
+            else
+              +e("label").input-text(for=id) !{ variant }
+
 
     if quiz.note
       +e("p").note !{ quiz.note }
@@ -23,7 +29,7 @@
       (function() {
         var isSpinner,
             form = document.querySelector('.quiz-question__body'),
-            button = document.querySelector('.button_action');
+            button = document.querySelectorAll('.button_action')[1];
 
 
         button && button.addEventListener('click', function() {
@@ -39,6 +45,7 @@
               isSpinner = true;
             }
         });
+
 
         form.addEventListener('change', function() {
 
