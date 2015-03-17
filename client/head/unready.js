@@ -14,8 +14,8 @@ document.addEventListener("click", function(event) {
 });
 
 // cancel submits of <form class="unready">
-document.addEventListener("submit", function(e) {
-  if (e.target.className.match(/_unready\b/)) {
+document.addEventListener("submit", function(event) {
+  if (event.target.className.match(/_unready\b/)) {
     event.preventDefault();
   }
 });

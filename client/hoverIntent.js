@@ -28,6 +28,7 @@ function mousemove(event) {
   if (speed < speedTolerance) {
     //console.log("speed", speed);
     var elem = document.elementFromPoint(event.clientX, event.clientY);
+    if (!elem) return; // out of bounds (happens)
     if (elem != elementOver) {
       for (var selector in handlers) {
         var closest = elem.closest(selector);
