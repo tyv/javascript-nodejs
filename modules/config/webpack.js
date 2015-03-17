@@ -1,16 +1,10 @@
-/*
+
 var isDevelopment = (process.env.NODE_ENV === 'development');
 var isProduction = (process.env.NODE_ENV === 'production');
-*/
-var isDevelopment = true;
-var isProduction = false;
-
 
 var fs = require('fs');
 var path = require('path');
 var config = require('config');
-
-
 var webpack = require('webpack');
 var CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin");
 var WriteVersionsPlugin = require('lib/webpack/writeVersionsPlugin');
@@ -52,7 +46,7 @@ var webpackConfig = {
   watchDelay: 10,
   watch:      isDevelopment,
 
-  devtool: isDevelopment ? "inline-source-map" : '',
+  devtool: "inline-source-map",
 
   entry: {
     angular:    'client/angular',
@@ -127,7 +121,8 @@ if (isProduction) {
       // thus removing unchanged files
       // => use this plugin only in normal run
       this.plugin('run', clear);
-    },
+    }
+    /*,
 
     new ngAnnotatePlugin({ // add angular annotations with ng-strict-di to ensure it's correct
       add: true
@@ -138,9 +133,10 @@ if (isProduction) {
         // don't show unreachable variables etc
         warnings:     false,
         drop_console: true,
-        unsafe:       true
+        unsafe:       true,
+        screw_ie8: true
       }
-    })
+    })*/
   );
 }
 
