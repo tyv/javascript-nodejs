@@ -2,6 +2,7 @@ include /bem
 
 +b.login-form(data-form="login")
   +e('form').form(action="#")
+    +b('button').close-button.__close(type="button", title="закрыть")
     +e.line.__header
       +e('h4').title Вход в систему
       +e.header-aside
@@ -20,5 +21,4 @@ include /bem
         +b('button').submit-button._small.__submit(type="submit")
           +e('span').text Войти
     include login-form-footer
-    +b('button').close-button.__close(type="button", title="закрыть")
 
