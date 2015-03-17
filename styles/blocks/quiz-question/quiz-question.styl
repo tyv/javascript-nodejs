@@ -16,8 +16,6 @@
         margin-bottom 1em
         line-height auto
 
-
-
     & ul li:before
         display none
 
@@ -39,14 +37,17 @@
         font-size 14px
 
         margin-top 4px
-
-    &__label
-        cursor pointer
+        padding-left 20px
 
     &__input
-        margin-right 8px
+        position absolute
 
-    &__input:checked + &__input-text
+        margin-left -20px
+
+    &__input-text
+        cursor pointer
+
+    &__input:checked + &__input-content &__input-text
         font-weight bold
 
     & &__note
@@ -66,10 +67,11 @@
     &_correct_false &__body
         border-color #eaaaad
 
-    &__variant_correct_true &__input-text
+
+    &_correct_true &__variant_correct &__input-text,
+    &_correct_false &__variant_correct &__input-text
         font-weight bold
         color #060
 
-    &__variant_correct_false &__input-text
-        font-weight bold
+    &_correct_false &__input:checked + &__input-content &__input-text
         color #d90000

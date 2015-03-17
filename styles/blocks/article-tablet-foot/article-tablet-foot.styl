@@ -2,7 +2,15 @@
 
     &__layout
         display flex
-        justify-content space-between
+        flex-wrap: wrap
         align-items baseline
 
         white-space nowrap
+
+    & .share-icons
+        flex-grow 1
+
+
+    &__map .map,
+    &__map .map__text
+        vertical-align baseline
