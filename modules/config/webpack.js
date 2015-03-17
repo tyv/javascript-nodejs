@@ -116,7 +116,7 @@ if (isProduction) {
       // thus removing unchanged files
       // => use this plugin only in normal run
       this.plugin('run', clear);
-    },
+    }/*,
 
     new ngAnnotatePlugin({ // add angular annotations with ng-strict-di to ensure it's correct
       add: true
@@ -129,7 +129,7 @@ if (isProduction) {
         drop_console: true,
         unsafe:       true
       }
-    })
+    })*/
   );
 }
 
