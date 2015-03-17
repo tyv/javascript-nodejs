@@ -50,14 +50,15 @@ block append variables
           //-+e('option') Курсы
           //-+e('option') Стандарт ES5
           //-+e('option') Тестирование
-      +e.tablet-menu-aside
-        +e('a').secondary-link(href="/tutorial/map") Полное содержание
+    +e.tablet-menu-line
+      +e.tablet-menu-content
+        include /blocks/map-with-title
+
     +e.tablet-menu-line
       +e.tablet-menu-content
         +b.share-icons
           +e('span').title Поделиться
           include ../blocks/social-icons
-
 
   +e.search
     +e('form').search-content(method="GET", action="/search")
