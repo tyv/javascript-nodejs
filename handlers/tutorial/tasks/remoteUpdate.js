@@ -46,11 +46,13 @@ module.exports = function(options) {
       fs.writeFileSync("/tmp/check.sh", 'mongo js --eval "db.articles.find().length()";\n');
 
       // copy/overwrite collections from js_sync to js and then remove non-existing ids
+      // without destroy! (elasticsearch river breaks)
       fs.writeSync(file, collections.map(function(coll) {
         // copyTo does not work
         // also see https://jira.mongodb.org/browse/SERVER-732
 
-
+        // remove non-existing articles
+        // insert (replace) synced ones
         var cmd = `
         db.COLL.find({}, {id:1}).forEach(function(d) {
           var cursor = db.getSiblingDB('js_sync').COLL.find({_id:d._id}, {id:1});
@@ -73,8 +75,6 @@ module.exports = function(options) {
       exec('scp /tmp/cmd.js ' + host + ':/tmp/');
       exec('scp /tmp/check.sh ' + host + ':/tmp/');
 
-      // most reliable way to execute
-      // mongo js /tmp/cmd.js didn't work stable for some reason (?)
       exec('ssh ' + host + ' "bash /tmp/check.sh"');
       exec('ssh ' + host + ' "mongo js /tmp/cmd.js"');
       exec('ssh ' + host + ' "bash /tmp/check.sh"');

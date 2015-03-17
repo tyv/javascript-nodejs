@@ -9,7 +9,7 @@
           +e.start-i
             form(action="/quiz/start/#{quiz.slug}", method="POST")
               input(type="hidden", name="_csrf", value=csrf())
-              +b("button").button._common
+              +b("button")(type="submit").button._common
                 +e("span").text Пройти тестирование
             // the past score may be 0
             if (quiz.quizResultScore !== undefined)

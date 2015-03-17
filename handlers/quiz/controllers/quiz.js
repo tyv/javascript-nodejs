@@ -9,17 +9,7 @@ exports.get = function*() {
 
   this.nocache();
 
-  // session may have many quiz at the same time
-  // take the current one
-  var sessionQuiz = this.session.quizzes && this.session.quizzes[this.params.slug];
-
-  if (!sessionQuiz) {
-    // let the user start a new quiz here
-    this.body = this.render('quiz-start');
-    return;
-  }
-
-  var quiz = yield Quiz.findById(sessionQuiz.id).exec();
+  var quiz = yield Quiz.findOne({ slug: this.params.slug }).exec();
 
   if (!quiz) {
     this.throw(404);
@@ -27,6 +17,18 @@ exports.get = function*() {
 
   this.locals.quiz = quiz;
   this.locals.title = formatTitle(quiz.title);
+
+  // session may have many quiz at the same time
+  // take the current one
+  var sessionQuiz = this.session.quizzes && this.session.quizzes[this.params.slug];
+
+  if (!sessionQuiz) {
+    // let the user start a new quiz here
+
+    this.body = this.render('quiz-start');
+    return;
+  }
+
 
   if (sessionQuiz.result) {
 
