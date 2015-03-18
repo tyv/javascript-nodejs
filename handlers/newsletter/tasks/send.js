@@ -29,7 +29,7 @@ module.exports = function(options) {
         var letter = letters[i];
 
         yield mailer.sendLetter(letter);
-        gutil.log("Sent to " + letter.data.to);
+        gutil.log("Sent to " + letter.message.to);
       }
 
     });

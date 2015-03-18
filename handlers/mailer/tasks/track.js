@@ -46,7 +46,7 @@ module.exports = function(options) {
           continue;
         }
 
-        gutil.log(notificationBody.notificationType + " for " + letter.data.to);
+        gutil.log(notificationBody.notificationType + " for " + letter.message.to);
 
         var notificationType = notificationBody.notificationType.toLowerCase();
         if (!letter.notification) letter.notification = {};

@@ -11,7 +11,12 @@ const schema = new Schema({
     type: Date,
     default: Date.now
   },
-  data: {},
+
+  newsletterReleaseId: {
+    type: Schema.Types.ObjectId
+  },
+
+  message: {},
   // Transport responds with that
   transportResponse: {},
   // SQS notifies of that

@@ -1,11 +1,10 @@
-var transport = require('./transport');
 var inlineCss = require('./inlineCss');
 var config = require('config');
 var fs = require('fs');
 var path = require('path');
-var thunkify = require('thunkify');
 var _ = require('lodash');
 var jade = require('lib/serverJade');
+var mandrill = require('./mandrill');
 var logoBase64 = fs.readFileSync(path.join(config.projectRoot, 'assets/img/logo.png')).toString('base64');
 var log = require('log')();
 var Letter = require('./models/letter');
@@ -26,7 +25,7 @@ var Letter = require('./models/letter');
  * @returns {Letter}
  */
 function* createLetter(options) {
-  var letterData = {};
+  var message = {};
 
   var sender = config.mailer.senders[options.from || 'default'];
   if (!sender) {
@@ -45,17 +44,21 @@ function* createLetter(options) {
   var letterHtml = jade.renderFile(templatePath, locals);
   letterHtml = yield inlineCss(letterHtml);
 
-  letterData.html = letterHtml;
-  letterData.from = sender.from;
+  message.html = letterHtml;
+  message.subject = options.subject;
+  message.from_email = sender.fromEmail;
+  message.from_name = sender.fromName;
 
-  ['subject', 'to', 'headers', 'attachments', 'newsletterRelease'].forEach(function(field) {
-    if (options[field]) {
-      letterData[field] = options[field];
-    }
-  });
+  message.to = (typeof options.to == 'string') ? [{email: options.to}] : options.to;
+  message.headers = options.headers;
+
+  message.track_opens = true;//options.track_opens;
+  message.track_clicks = true;//options.track_clicks;
+  message.async = false;
 
   var letter = new Letter({
-    data: letterData
+    message:             message,
+    newsletterReleaseId: options.newsletterReleaseId
   });
 
   yield letter.persist();
@@ -83,9 +86,11 @@ function* send(options) {
  */
 function* sendLetter(letter) {
 
-  var sendMailMethod = transport.sendMail.bind(transport);
 
-  letter.transportResponse = yield thunkify(sendMailMethod)(letter.data);
+  letter.transportResponse = yield mandrill.messages.send({
+      message: letter.message
+  });
+
   letter.sent = true;
 
   log.debug("sent ", letter.toObject());
@@ -94,6 +99,15 @@ function* sendLetter(letter) {
 
   return letter;
 }
+
+
+var mountHandlerMiddleware = require('lib/mountHandlerMiddleware');
+
+exports.init = function(app) {
+  app.verboseLogger.logPaths.add('/mailer/:any*');
+  app.use(mountHandlerMiddleware('/mailer', __dirname));
+};
+
 
 
 exports.Letter = require('./models/letter');
