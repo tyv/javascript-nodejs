@@ -48,6 +48,7 @@ gulp.task('lint-or-die', lazyRequireTask('./tasks/lint', { src: jsSources, dieOn
 // usage: gulp db:load --from fixture/init --harmony
 gulp.task('db:load', lazyRequireTask('./tasks/dbLoad'));
 gulp.task('db:clear', lazyRequireTask('./tasks/dbClear'));
+gulp.task('migrate:play', lazyRequireTask('./tasks/migratePlay'));
 
 
 gulp.task("nodemon", lazyRequireTask('./tasks/nodemon', {

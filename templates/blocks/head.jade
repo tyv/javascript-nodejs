@@ -15,5 +15,10 @@ if next
 
 script(src=script("head"))
 
+if env.NODE_ENV == 'production'
+  script(src=script("trackjs"))
+
+
+
 //- head из конкретной статьи
 !=head

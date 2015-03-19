@@ -42,6 +42,9 @@ function addStandardHelpers(locals, ctx) {
   // (anon users may stop on varnish anyway)
   locals.session = ctx.session;
 
+
+  locals.env = process.env;
+
   //locals.renderSimpledown = renderSimpledown;
 
   Object.defineProperty(locals, "user", {

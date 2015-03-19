@@ -145,6 +145,7 @@
     "js-beautify": "*",
     "lazypipe": "*",
     "mocha": "*",
+    "mysql": "^2.5.5",
     "ng-annotate-webpack-plugin": "*",
     "node-notifier": "*",
     "nodemailer-stub-transport": "*",

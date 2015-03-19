@@ -85,7 +85,7 @@ function* send(options) {
  * @returns {*}
  */
 function* sendLetter(letter) {
-  
+
   if (process.env.NODE_ENV == 'test') {
     letter.transportResponse = [];
   } else {

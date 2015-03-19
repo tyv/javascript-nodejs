@@ -157,7 +157,8 @@ AuthModal.prototype.initEventHandlers = function() {
     event.preventDefault();
 
     var payload = new FormData();
-    payload.append("email", event.delegateTarget.dataset.actionVerifyEmail);
+    var email = event.delegateTarget.dataset.actionVerifyEmail;
+    payload.append("email", email);
 
     var request = this.request({
       method: 'POST',
@@ -169,7 +170,10 @@ AuthModal.prototype.initEventHandlers = function() {
     request.addEventListener('success', function(event) {
 
       if (this.status == 200) {
-        self.showFormMessage("Письмо-подтверждение отправлено ещё раз.", 'success');
+        self.showFormMessage(`
+        <p>Письмо-подтверждение отправлено ещё раз.</p>
+        <p><a href='#' data-action-verify-email='${email}'>перезапросить подтверждение.</a></p>"
+        `, 'success');
       } else {
         self.showFormMessage(event.result, 'error');
       }
@@ -225,6 +229,7 @@ AuthModal.prototype.submitRegisterForm = function(form) {
     }
 
     if (this.status == 400) {
+      debugger;
       for (var field in event.result.errors) {
         self.showInputError(form.elements[field], event.result.errors[field]);
       }

@@ -49,7 +49,20 @@ mongoose.plugin(function(schema) {
 
           log.debug("error", err);
           log.debug("will look for indexName in message", err.message);
-          var indexName = err.message.match(/\$(\w+)/)[1];
+          var indexName = err.message.match(/\$(\w+)/);
+          if (indexName) {
+            indexName = indexName[1];
+          } else {
+            // FIXME: MONGO 3.0.2 gives index name
+            // TEMPORARY WORKAROUND FOR EMAIL
+            var valError = new ValidationError(err);
+            var field = model.email ? 'email' : "unknown";
+            // err = { path="email", message="Email is not unique", type="notunique", value=model.email }
+            valError.errors[field] = new ValidatorError(field, "Не уникален " + field, 'notunique', model[field]);
+
+            valError.code = err.code; // if (err.code == 11000) in the outer code will still work
+            return callback(valError);
+          }
 
           model.collection.getIndexes(function(err2, indexes) {
             if (err2) return callback(err);

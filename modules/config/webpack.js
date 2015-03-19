@@ -56,7 +56,8 @@ var webpackConfig = {
     search:     'search/client',
     quiz:       'quiz/client',
     getpdf:     'getpdf/client',
-    footer:     'client/footer'
+    footer:     'client/footer',
+    trackjs:     'client/trackjs'
   },
 
   externals: {
