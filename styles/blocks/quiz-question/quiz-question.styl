@@ -47,13 +47,14 @@
     &__input-text
         cursor pointer
 
-    &__input:checked + &__input-content &__input-text
+    &__input:checked + &__input-text
         font-weight bold
 
     & &__note
         font-size 12px
 
-        margin-top 20px
+        margin 20px
+        margin-bottom 0
 
         color #666
 
@@ -73,5 +74,5 @@
         font-weight bold
         color #060
 
-    &_correct_false &__input:checked + &__input-content &__input-text
+    &_correct_false &__input:checked + &__input-text
         color #d90000
