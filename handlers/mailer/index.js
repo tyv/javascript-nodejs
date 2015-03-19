@@ -8,6 +8,7 @@ var mandrill = require('./mandrill');
 var logoBase64 = fs.readFileSync(path.join(config.projectRoot, 'assets/img/logo.png')).toString('base64');
 var log = require('log')();
 var Letter = require('./models/letter');
+var capitalizeKeys = require('lib/capitalizeKeys');
 
 // some clients don't allow svg
 // var logoSrc = yield fs.readFile(path.join(config.projectRoot, 'assets/img/logo.svg'));
@@ -52,9 +53,8 @@ function* createLetter(options) {
   message.to = (typeof options.to == 'string') ? [{email: options.to}] : options.to;
   message.headers = options.headers;
 
-  message.track_opens = true;//options.track_opens;
-  message.track_clicks = true;//options.track_clicks;
-  message.async = false;
+  message.track_opens = options.track_opens;
+  message.track_clicks = options.track_clicks;
 
   var letter = new Letter({
     message:             message,
@@ -85,11 +85,16 @@ function* send(options) {
  * @returns {*}
  */
 function* sendLetter(letter) {
-
-
-  letter.transportResponse = yield mandrill.messages.send({
+  
+  if (process.env.NODE_ENV == 'test') {
+    letter.transportResponse = [];
+  } else {
+    letter.transportResponse = yield mandrill.messages.send({
       message: letter.message
-  });
+    });
+
+    letter.transportResponse = capitalizeKeys(letter.transportResponse);
+  }
 
   letter.sent = true;
 

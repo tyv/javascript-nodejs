@@ -2,6 +2,7 @@ var path = require('path');
 var MandrillEvent = require('../models/mandrillEvent');
 var config = require('config');
 var crypto = require('crypto');
+var capitalizeKeys = require('lib/capitalizeKeys');
 
 exports.post = function*() {
 
@@ -42,29 +43,7 @@ function generateMandrillSignature(body) {
     signedData += keys[i] + body[keys[i]];
   }
 
-  var check = crypto.createHmac('sha1', config.mailer.mandrill.webhookKey).update(signedData, 'utf8', 'binary').digest('base64');
-
-  return check;
+  return crypto.createHmac('sha1', config.mailer.mandrill.webhookKey).update(signedData, 'utf8', 'binary').digest('base64');
 }
 
-
-function capitalizeKeys(obj) {
-  if (Array.isArray(obj)) {
-    return obj.map(capitalizeKeys);
-  }
-
-  var output = {};
-
-  for (var key in obj) {
-    var keyCapitalized = key.replace(/_(\w)/g, function(match, letter) {
-      return letter.toUpperCase();
-    });
-    if (Object.prototype.toString.apply(obj[key]) === '[object Object]') {
-      output[keyCapitalized] = capitalizeKeys(obj[key]);
-    } else {
-      output[keyCapitalized] = obj[key];
-    }
-  }
-  return output;
-}
 
