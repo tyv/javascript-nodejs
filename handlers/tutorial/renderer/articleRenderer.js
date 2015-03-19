@@ -184,6 +184,7 @@ ArticleRenderer.regenerateCaches = function*() {
 
   for (var i = 0; i < articles.length; i++) {
     var article = articles[i];
+    log.debug("regenerate article", article._id);
     yield* (new ArticleRenderer()).renderWithCache(article, {refreshCache: true});
   }
 };

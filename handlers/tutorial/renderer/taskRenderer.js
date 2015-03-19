@@ -5,6 +5,7 @@ const CompositeTag = require('simpledownParser').CompositeTag;
 const config = require('config');
 const Plunk = require('plunk').Plunk;
 const Task = require('../models/task');
+const log = require('log')();
 
 /**
  * Can render many articles, keeping metadata
@@ -165,11 +166,12 @@ TaskRenderer.prototype.addSolutionPlunkLink = function*(task, solution) {
 
 
 TaskRenderer.regenerateCaches = function*() {
-  var articles = yield Task.find({}).exec();
+  var tasks = yield Task.find({}).exec();
 
-  for (var i = 0; i < articles.length; i++) {
-    var article = articles[i];
-    yield* (new TaskRenderer()).renderWithCache(article, {refreshCache: true});
+  for (var i = 0; i < tasks.length; i++) {
+    var task = tasks[i];
+    log.debug("regenerate task", task._id);
+    yield* (new TaskRenderer()).renderWithCache(task, {refreshCache: true});
   }
 };
 
