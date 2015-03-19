@@ -2,6 +2,7 @@ var HtmlTransformer = require('simpledownParser').HtmlTransformer;
 var ParseError = require('simpledownParser').ParseError;
 var inherits = require('inherits');
 const Reference = require('tutorial/models/reference');
+const log = require('log')();
 const Article = require('tutorial/models/article');
 const Plunk = require('plunk').Plunk;
 const Task = require('tutorial/models/task');
@@ -62,6 +63,9 @@ ServerHtmlTransformer.prototype.transform = function*(node, applyContextTypograp
 function* resolveReference(value) {
   if (value[0] == '#') {
     var ref = yield Reference.findOne({anchor: value.slice(1)}).populate('article', 'slug title').exec();
+    if (!ref.article) {
+      log.error("No article for reference", ref.toObject());
+    }
     return ref && {title: ref.article.title, url: ref.getUrl()};
   }
 
