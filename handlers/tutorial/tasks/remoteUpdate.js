@@ -30,7 +30,24 @@ module.exports = function(options) {
 
       exec('rsync -rlDv /js/javascript-nodejs/public/ --exclude js --exclude css ' + host + ':/js/javascript-nodejs/current/public/');
 
+
       del.sync('dump');
+
+
+      exec('mkdir dump');
+
+      /*
+      monngoexport/import instead of mongodump => for better debug
+      collections.forEach(function(coll) {
+        exec('mongoexport --out dump/'+coll+'.json -d js -c ' + coll);
+      });
+
+      exec('ssh ' + args.host + ' "rm -rf dump"');
+      exec('scp -r -C dump ' + host + ':');
+
+      collections.forEach(function(coll) {
+        exec('ssh ' + host + ' "mongoimport --db js_sync --drop --file dump/'+coll+'.json"');
+      });*/
       collections.forEach(function(coll) {
         exec('mongodump -d js -c ' + coll);
       });
@@ -40,6 +57,8 @@ module.exports = function(options) {
       exec('scp -r -C dump ' + host + ':');
 
       exec('ssh ' + host + ' "mongorestore --drop"');
+
+
 
       var file = fs.openSync("/tmp/cmd.js", "w");
 
@@ -58,12 +77,14 @@ module.exports = function(options) {
           var cursor = db.getSiblingDB('js_sync').COLL.find({_id:d._id}, {id:1});
 
           if (!cursor.hasNext()) {
-            db.articles.remove({_id: d._id});
+            db.COLL.remove({_id: d._id});
           }
         });
 
-        db.getSiblingDB('js_sync').COLL.find().forEach(function(d) { db.COLL.insert(d) });
+        db.getSiblingDB('js_sync').COLL.find().forEach(function(d) { db.COLL.update({_id:d._id}, d, { upsert: true}) });
         `.replace(/COLL/g, coll);
+        // db.getSiblingDB('js_sync').COLL.find().forEach(function(d) { print(db.COLL.update({_id:d._id}, d, { upsert: true})  ) });
+
 
         return cmd;
 
