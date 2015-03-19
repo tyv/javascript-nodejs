@@ -1,34 +1,14 @@
-.page-footer
-  .page-footer__inner
-    .page-footer__contents
-      nav.page-footer__col
-        h3.page-footer__title Обучение
-        ul.page-footer__list.small
-          li.page-footer__list-item: a(href="#a1") Учебник
-          li.page-footer__list-item: a(href="#a2") Тесты знаний
-          li.page-footer__list-item: a(href="#a3") Курсы Javascript
-      nav.page-footer__col
-        h3.page-footer__title Справочник
-        ul.page-footer__list.small
-          li.page-footer__list-item: a(href="#es5") Стандарт ES5
-          li.page-footer__list-item: a(href="#ref") Справочник
-          li.page-footer__list-item: a(href="#php") PHP-функции
-          li.page-footer__list-item: a(href="#books") Книги
-      nav.page-footer__col
-        ul.page-footer__list
-          li.page-footer__list-item: a(href="#blogs") Блоги
-          li.page-footer__list-item: a(href="#qa") Вопрос/Ответ
-          li.page-footer__list-item: a(href="#events") События
-          li.page-footer__list-item: a(href="#job") Работа
-      nav.page-footer__col
-        ul.page-footer__list
-          li.page-footer__list-item: a(href="#chat") Чат
-          li.page-footer__list-item: a(href="#sandbox") Песочница
-    address.page-footer__copy
-      span.page-footer__line.author &copy;2007&mdash;2012 Илья Кантор
-      =" "
-      span.page-footer__line: a(href="/feedback/") Обратная связь
-      =" "
-      span.page-footer__line
-        a(href="/about/") О проекте
-      =" "
++b.page-footer
+  +e.left
+    +e("ul").list
+      - var year = new Date().getFullYear()
+      +e("li").item ©&nbsp;2007—!{year} Илья Кантор
+      +e("li").item
+        +e("a")(href="/aaa").link обратная связь
+      +e("li").item
+        +e("a")(href="/aaa").link о проекте
+
+  +e.right
+    +e("ul").list
+      +e("li").item сделано на
+        +e("a")(href="/aaa").link  io.js

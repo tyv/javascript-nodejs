@@ -5,15 +5,13 @@
 
       each variant, index in quiz.variants
 
-        - var id = Math.floor((Math.random() * 100) + 1)
-
         +e("li")(class="variant " + ( quiz.correctNum == (index + 1) ? " _correct" : ""))
-          +e("input").input(id=id type="radio" name="variant" disabled = quiz.done ? true : false checked = quiz.selected == (index + 1) ? true : false)
-          +e.input-content
-            if variant.block
-              !{ variant.content }
-            else
-              +e("label").input-text(for=id) !{ variant }
+          +e("label").input-text
+            +e("input").input(type="radio" name="variant" disabled = quiz.done ? true : false checked = quiz.selected == (index + 1) ? true : false)
+            +e("span").input-text !{ variant.title }
+          if variant.description
+            +e.description !{ variant.description }
+
 
 
     if quiz.note
