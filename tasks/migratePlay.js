@@ -1,4 +1,5 @@
 var fs = require('fs');
+var fse = require('fs-extra');
 var co = require('co');
 var path = require('path');
 var gutil = require('gulp-util');
@@ -15,33 +16,54 @@ module.exports = function() {
     return co(function*() {
 
       var connection = mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
+        host:     'localhost',
+        user:     'root',
         database: 'js'
       });
 
       connection.connect();
 
       var plays = yield function(callback) {
-        connection.query('SELECT * FROM play_save where name="demo"', function(err, rows, fields) {
+        connection.query('SELECT * FROM play_save', function(err, rows, fields) {
           callback(err, rows);
         });
       };
 
       plays = plays.map(function(play) {
+        try {
+          play.content = JSON.parse(play.content);
+        } catch(e) {
+          console.log("BAD CONTENT", play.name, e.message);
+          // probably content over 64K
+          return null;
+        }
         return {
-          id: play.id,
-          name: play.name,
-          url: 'http://learn.javascript.ru/play/' + play.name,
-          content: JSON.parse(play.content)
+          id:      play.id,
+          name:    play.name,
+          url:     'http://learn.javascript.ru/play/' + play.name,
+          content: play.content
         };
-      });
+      }).filter(Boolean);
 
       for (var i = 0; i < plays.length; i++) {
         var play = plays[i];
-        yield* exportPlay(connection, play);
+        var file;
+        try {
+          file = yield* exportPlay(connection, play);
+        } catch(e) {
+          if (e.code == 'ENOENT') {
+            console.log("ENOENT", play.name);
+            // no such file
+            continue;
+          } else {
+            throw e;
+          }
+        }
+        console.log("done", play.name);
+        var dir = `/js/play/${play.name.slice(0,2)}/${play.name.slice(2,4)}`;
+        fse.ensureDirSync(dir);
+        fs.writeFileSync(`${dir}/${play.name}.zip`, file, 'binary');
       }
-      console.log(plays[0].content);
 
       connection.end();
 
@@ -76,10 +98,11 @@ function* exportPlay(db, play) {
 
   for (var i = 0; i < play.content.files.length; i++) {
     var file = play.content.files[i];
-    archive.file(file.name, fs.readFileSync('/var/site/js/www/files/play/' + file.fs_name));
+    var filepath = `/var/site/js/www/files/play/${file.fs_name.slice(0, 2)}/${file.fs_name.slice(2, 4)}/${file.fs_name}`;
+    archive.file(file.name, fs.readFileSync(filepath));
   }
 
-  return archive.generate({base64:false,compression:'DEFLATE'});
+  return archive.generate({base64: false, compression: 'DEFLATE'});
 
 
 }

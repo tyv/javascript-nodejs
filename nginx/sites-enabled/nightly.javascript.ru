@@ -16,7 +16,7 @@ server {
 
   access_log  /var/log/nginx/nightly.javascript.ru.log main;
 
-  error_page 404 /404.html;
+  error_page   404 /404.html;
   error_page   500 502 503 504  /50x.html;
 
   charset utf-8;
@@ -29,7 +29,6 @@ server {
   auth_basic_user_file /etc/nginx.passwd;
 <% } %>
 
-
   # ^~ don't check regexps locations if prefix matches
   location ^~ /_download/ {
     internal;
@@ -41,10 +40,12 @@ server {
     include "partial/proxy_3000";
   }
 
+
   # zip for plunk
   location ^~ /tutorial/zipview/ {
     include "partial/proxy_3000";
   }
+
 
   # folder/ -> try folder/index.html first, then @node
   location ~ ^(?<uri_no_dot>[^.]*?)/$ {
@@ -59,6 +60,12 @@ server {
   location @node {
     include "partial/proxy_3000";
   }
+
+  # project-root play directory has old plays
+  location ~ ^/play/(.*\.zip)$ {
+    alias   <%=root%>/play/$1;
+  }
+
 
   include "partial/javascript-static";
 

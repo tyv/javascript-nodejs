@@ -1,0 +1,15 @@
+extends /layouts/main
+
+block append variables
+  - var layout_header_class = "main__header_center"
+  - var title = "Песочница"
+  - var sitetoolbar = true
+
+block content
+
+  p Извините, этот сервис на сайте больше не предоставляется.
+
+  p Вы можете скачать содержимое этой песочницы в виде архива:
+    = ' '
+    a(href=play.url)= play.title
+    | .
