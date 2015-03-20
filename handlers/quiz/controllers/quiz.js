@@ -42,7 +42,7 @@ exports.get = function*() {
     this.locals.quizQuestions = sessionQuiz.questionsTakenIds.map(function(id, num) {
       var question = quiz.questions.id(id).toObject();
       question.userAnswer = sessionQuiz.answers[num];
-      question.correct = quiz.questions.id(id).getAnswerScore(question.userAnswer);
+      question.correct = quiz.questions.id(id).checkAnswer(question.userAnswer);
       return question;
     });
 

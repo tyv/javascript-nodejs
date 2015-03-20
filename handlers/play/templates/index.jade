@@ -4,11 +4,15 @@ block append variables
   - var layout_header_class = "main__header_center"
   - var title = "Песочница"
   - var sitetoolbar = true
+  - var layout_main_class = "main_width-limit"
 
 block content
 
-  p Извините, этот сервис на сайте больше не предоставляется.
+  +b.notification._message._warning
+    +e.content
 
-  p Все сохранённые пользователями примеры доступны для скачивания по тем же ссылкам, но создавать новые песочницы нельзя.
+      p Извините, этот сервис на сайте больше не предоставляется.
 
-  p В качестве альтернативы можно использовать <a href="http://plnkr.co/edit/?p=preview">plnkr.co</a>, <a href="http://codepen.io/pen/">codepen.io</a> или <a href="http://jsfiddle.net/">jsfiddle.net</a>.
+      p Все сохранённые пользователями примеры доступны для скачивания по тем же ссылкам, но создавать новые песочницы нельзя.
+
+      p В качестве альтернативы можно использовать <a href="http://plnkr.co/edit/?p=preview">plnkr.co</a>, <a href="http://codepen.io/pen/">codepen.io</a> или <a href="http://jsfiddle.net/">jsfiddle.net</a>.

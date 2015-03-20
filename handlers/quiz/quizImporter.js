@@ -5,8 +5,6 @@ var path = require('path');
 
 function QuizImporter(options) {
   this.fileContent = fs.realpathSync(options.yml);
-
-
 }
 
 
@@ -22,14 +20,29 @@ QuizImporter.prototype.import = function*() {
 
   var quizObj = yaml.safeLoad(fs.readFileSync(this.fileContent, 'utf8'));
 
-  for (var i = 0; i < quizObj.length; i++) {
-    var questions = quizObj[i].questions;
+  /*
+  for (var i = 0; i < quizObj.questions.length; i++) {
+    var questions = quizObj.questions[i];
+    console.log("HERE");
 
     for (var j = 0; j < questions.length; j++) {
       questions[j] = this.addDot(questions[j]);
     }
 
+  }*/
+
+  for (var i = 0; i < quizObj.questions.length; i++) {
+    var question = quizObj.questions[i];
+
+    for (var j = 0; j < question.answers.length; j++) {
+      var answer = question.answers[j];
+      if (typeof answer == 'string') {
+        question.answers[j] = { title: answer };
+      }
+    }
+
   }
+
 
   var quiz = new Quiz(quizObj);
 

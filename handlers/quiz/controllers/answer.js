@@ -45,7 +45,7 @@ exports.post = function*() {
 
     var totalScore = 0;
     sessionQuiz.questionsTakenIds.forEach(function(id, i) {
-      totalScore += quiz.questions.id(id).getAnswerScore(sessionQuiz.answers[i]);
+      totalScore += quiz.questions.id(id).checkAnswer(sessionQuiz.answers[i]);
     });
 
     // percentage of solved

@@ -21,7 +21,7 @@ const schema = new Schema({
     default: 'single',
     enum: ['single', 'multi']
   },
-  answers: [{}], // array of generic answer variants, e.g. [String]
+  answers: [{}], // array of generic answer variants, e.g. [{title: String, desc: String}]
   correctAnswer: {}, // generic correct answer, e.g Number or [Number] for multi
   correctAnswerComment: String // why is the answer correct, optional comment
 });
@@ -42,7 +42,7 @@ schema.path('correctAnswer').validate(function (value) {
 }, 'Invalid color');
 
 
-schema.methods.getAnswerScore = function(answer) {
+schema.methods.checkAnswer = function(answer) {
 
   switch (this.type) {
   case 'single':
@@ -51,20 +51,7 @@ schema.methods.getAnswerScore = function(answer) {
     console.log(answer, this.correctAnswer);
     assert(Array.isArray(answer));
     assert(Array.isArray(this.correctAnswer));
-    /*
-     var correctCount = 0;
 
-     for(var i=0; i<this.answers.length; i++) {
-     // if i-th answer is correct and included get +1
-     if (~this.correctAnswer.indexOf(i)) {
-     if (~answer.indexOf(i)) correctCount++;
-     }
-     }
-     this.correctAnswer.forEach(function(correctAnswerItem) {
-     // for each correct answer check if
-     if ()
-     });
-     */
     return _.isEqual( this.correctAnswer.sort(), answer.sort()) ? 1 : 0;
   }
 
