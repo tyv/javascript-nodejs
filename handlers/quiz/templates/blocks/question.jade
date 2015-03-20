@@ -15,7 +15,10 @@
           ])
             +e("label").label
               +e("input").input(type="radio" value=num name=(!quizResult && "answer") disabled=!!quizResult checked=(variantSelected ? "checked" : undefined))
-              +e("span").input-text!= renderSimpledown(answer, {applyContextTypography: false})
+              +e("span").input-text!= renderSimpledown(answer.title, {applyContextTypography: false})
+            if answer.description
+              +e.description!= renderSimpledown(answer.description, {applyContextTypography: false})
+
 
     if question.type == 'multi'
       +e("ul").variants
@@ -29,7 +32,10 @@
           ])
             +e("label").label
               +e("input").input(type="checkbox" value=num name=(!quizResult && "answer") disabled=!!quizResult checked=(variantSelected ? "checked" : undefined))
-              +e("span").input-text!= renderSimpledown(answer, {applyContextTypography: false})
+              +e("span").input-text!= renderSimpledown(answer.title, {applyContextTypography: false})
+            if answer.description
+              +e.description!= renderSimpledown(answer.description, {applyContextTypography: false})
+
 
   if !quizResult
     +e.submit

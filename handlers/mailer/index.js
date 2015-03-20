@@ -53,6 +53,7 @@ function* createLetter(options) {
   message.to = (typeof options.to == 'string') ? [{email: options.to}] : options.to;
   message.headers = options.headers;
 
+  // auto generate text by default (spamassassin wants that)
   message.auto_text = "auto_text" in options ? options.auto_text : true;
 
   message.track_opens = options.track_opens;

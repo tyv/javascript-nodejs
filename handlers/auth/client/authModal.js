@@ -172,7 +172,7 @@ AuthModal.prototype.initEventHandlers = function() {
       if (this.status == 200) {
         self.showFormMessage(`
         <p>Письмо-подтверждение отправлено ещё раз.</p>
-        <p><a href='#' data-action-verify-email='${email}'>перезапросить подтверждение.</a></p>"
+        <p><a href='#' data-action-verify-email='${email}'>перезапросить подтверждение.</a></p>
         `, 'success');
       } else {
         self.showFormMessage(event.result, 'error');
