@@ -51,7 +51,8 @@ block content
       while ++i < chapters.length
         - var chapter = chapters[i]
         +e.brick
-          +e('h3').brick-title= chapter.title
+          +e('h3').brick-title
+            +e('a')(href=chapter.url).brick-title-link= chapter.title
           +e.brick-content!= chapter.content
           +e('ul').chapters-list
             each child in chapter.children
@@ -60,3 +61,4 @@ block content
 
   script(src=script("tutorial"))
   script tutorial.init();
+
