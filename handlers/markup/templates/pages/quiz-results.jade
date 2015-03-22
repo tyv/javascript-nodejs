@@ -11,6 +11,7 @@ block append variables
     - var quiz = {}
 
     - quiz.title = 'Что из этого не событие мыши'
+    - quiz.type = 'checkbox' // radio
     - quiz.variants = [{ title: 'onmousescroll' }, { title: 'onclick' }, { title: 'onmousover' }, { title: 'onmousemove' }, { title: 'onmousewheel' }, { title: 'some title', description: '<div>some BLOCK content</div>' }]
 
     - var quizes = [JSON.parse(JSON.stringify(quiz)), JSON.parse(JSON.stringify(quiz))]
