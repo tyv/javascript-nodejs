@@ -15,7 +15,9 @@ function renderError(err) {
     message: err.message,
     stack: err.stack,
     errors: err.errors, // for validation errors
-    status: err.status
+    status: err.status,
+    referer: this.get('referer'),
+    cookie: this.get('cookie')
   });
 
   var preferredType = this.accepts('html', 'json');
