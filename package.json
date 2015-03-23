@@ -102,7 +102,7 @@
     "through": "*",
     "through2": "*",
     "thunkify": "*",
-    "uglify-js": "*",
+    "uglify-js": "^2.4.17",
     "uglifyify": "*",
     "vinyl": "*",
     "vinyl-fs": "*",

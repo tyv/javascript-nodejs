@@ -5,34 +5,51 @@
     +e.slogan Умная JavaScript IDE<br>Скачать
   +e('a')(href='#' onclick="localStorage.bannerBottomDisabled=1;this.parentNode.remove();return false").disable не показывать
 
-script.
-  (function() {
-    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-      return;
-    }
+script
+  :uglify
+    (function() {
+      if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        return;
+      }
 
-    if (screen.width < 1024) {
-      return;
-    }
+      // small screen means it's not a desktop => the user will not download webstorm
+      if (screen.width < 1024) {
+        return;
+      }
 
-    if (!/banner/.test(location.search)) {
-      return;
-    }
+      if (!/banner/.test(location.search)) {
+        return;
+      }
 
-    /*
-    if ("bannerBottomDisabled" in localStorage) {
-      return;
-    }*/
+      /*
+      if ("bannerBottomDisabled" in localStorage) {
+        return;
+      }*/
 
-    if (!localStorage.bannerBottomShownCount) {
-      localStorage.bannerBottomShownCount = 1;
-    }
+      if (!localStorage.bannerBottomShownCount) {
+        localStorage.bannerBottomShownCount = 1;
+      }
 
-    // 1.4, 1, 0.8, 0.7, 0.6, 0.5 -> lower chance to see every time
-    var showProbability = Math.sqrt(2 / localStorage.bannerBottomShownCount);
-    var show = Math.random() < showProbability;
-    if (show || 1) {
-      localStorage.bannerBottomShownCount++;
+      // 1.4, 1, 0.8, 0.7, 0.6, 0.5 -> lower chance to see every time
+      var showProbability = Math.sqrt(2 / localStorage.bannerBottomShownCount);
+      var show = Math.random() < showProbability;
+      if (!show) {
+        return;
+      }
+
+      // show counted
+      var showCounted = false;
       document.querySelector('.banner-bottom').style.display = 'block';
-    }
-  }());
+      countShow();
+
+      window.addEventListener('scroll', countShow);
+      function countShow() {
+        if (showCounted) return;
+        var coords = document.querySelector('.banner-bottom').getBoundingClientRect();
+        if (coords.top < 0) return;
+        if (coords.bottom > document.documentElement.clientHeight) return;
+        localStorage.bannerBottomShownCount++;
+        showCounted = true;
+      }
+
+    }());

@@ -30,6 +30,8 @@ require.extensions['.jade'] = function(module, filename) {
 
 };
 
-require('./jadeFilterSimpledown');
+require('./filterSimpledown');
+
+require('./filterUglify');
 
 module.exports = jade;

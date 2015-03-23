@@ -8,9 +8,12 @@ block append variables
 
 block content
 
-  p Извините, этот сервис на сайте больше не предоставляется.
+  +b.notification._message._warning
+    +e.content
 
-  p Вы можете скачать содержимое этой песочницы в виде архива:
-    = ' '
-    a(href=play.url)= play.title
-    | .
+      p Извините, этот сервис на сайте больше не предоставляется.
+
+      p Вы можете скачать содержимое этой песочницы в виде архива
+        = ' '
+        a(href=play.url)= play.title
+        | .

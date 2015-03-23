@@ -6,24 +6,25 @@ block append variables
     +e.logo-wrap
       +e('a').link._logo(href="/")
         +e('img').logo(src=t("/i/sitetoolbar__logo.svg"))
-        script.
-          (function() {
-            /* chrome renders embed.svg with a delay,
-             this loads embed later to prevent flickering */
-            var logo = document.querySelector('img.sitetoolbar__logo')
-            var embed = document.createElement('object');
-            embed.type='image/svg+xml';
+        script
+          :uglify
+            (function() {
+              /* chrome renders embed.svg with a delay,
+               this loads embed later to prevent flickering */
+              var logo = document.querySelector('img.sitetoolbar__logo')
+              var embed = document.createElement('object');
+              embed.type='image/svg+xml';
 
-            embed.className = logo.className;
-            embed.style.cssText = 'left:0;top:0;position:absolute';
+              embed.className = logo.className;
+              embed.style.cssText = 'left:0;top:0;position:absolute';
 
-            embed.onload = function() {
-              embed.onload = null;
-              logo.style.visibility = 'hidden';
-            };
-            embed.data = logo.src;
-            logo.parentNode.insertBefore(embed, logo);
-          })();
+              embed.onload = function() {
+                embed.onload = null;
+                logo.style.visibility = 'hidden';
+              };
+              embed.data = logo.src;
+              logo.parentNode.insertBefore(embed, logo);
+            })();
     +e.nav-toggle-wrap
       //- todo: implement me
       //- эта кнопка видна только на узком экране
