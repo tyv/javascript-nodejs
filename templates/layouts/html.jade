@@ -7,7 +7,11 @@ block html
     block variables
     include ../blocks/head
     block head
-
+    //- Counters only on production
+    if counterEnabled || true
+      include ../blocks/ga
+      include ../blocks/metrika
+      
   body.no-icons
     script head.fontTest();
 
@@ -15,7 +19,3 @@ block html
 
     script(src=script("footer"))
     script footer.init();
-
-    //- Yandex.Metrika only on production
-    if counterEnabled
-      script (function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter27297488 = new Ya.Metrika({ id:27297488, webvisor:true, ut:"noindex" }); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.async = true; s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks");
