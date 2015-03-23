@@ -37,8 +37,9 @@ block content
               +e.title-wrap
                 // task must not be h3, because h3 participates in ToC (AKA outline)
                 +e.title= task.title
-              +e.header-note
-                +e('span').importance(title="Насколько эта задача важна для освоения материала, от 1 до 5") важность: #{task.importance}
+              if task.importance
+                +e.header-note
+                  +e('span').importance(title="Насколько эта задача важна для освоения материала, от 1 до 5") важность: #{task.importance}
 
               +e.content
                 != task.content

@@ -14,7 +14,8 @@ block main
         +e.title-wrap
           +e('h2').title= task.title
         +e.header-note
-          +e('span').importance(title="Насколько эта задача важна для освоения материала, от 1 до 5") важность: #{task.importance}
+          if task.importance
+            +e('span').importance(title="Насколько эта задача важна для освоения материала, от 1 до 5") важность: #{task.importance}
           +e('button').solution(type="button") решение
       include _task_content
 
