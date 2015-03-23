@@ -25,15 +25,14 @@ function *createEmptyDb() {
 
     var collectionNames = collections
       .map(function(collection) {
-        var collectionName = collection.name.slice(db.databaseName.length + 1);
-        if (collectionName.indexOf('system.') === 0) {
+        console.log(collection.name);
+        //var collectionName = collection.name.slice(db.databaseName.length + 1);
+        if (collection.name.indexOf('system.') === 0) {
           return null;
         }
-        return collectionName;
+        return collection.name;
       })
-      .filter(function(name) {
-        return name;
-      });
+      .filter(Boolean);
 
     yield collectionNames.map(function(name) {
       log.debug("drop ", name);

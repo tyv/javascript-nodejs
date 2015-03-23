@@ -19,6 +19,7 @@
     "angular-ui-router": "*",
     "assert-plus": "*",
     "async": "*",
+    "babel-core": "*",
     "babel-loader": "*",
     "bem-jade": "*",
     "bluebird": "*",

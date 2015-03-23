@@ -15,9 +15,9 @@ module.exports = {
   payanyway:   {},
 
   // dev credentials
-  imgur: {
-    url: 'https://api.imgur.com/3/',
-    clientId: '658726429918c83',
+  imgur:       {
+    url:          'https://api.imgur.com/3/',
+    clientId:     '658726429918c83',
     clientSecret: '9195ed91c629b9c933187d3eba8a4d0567ba4644'
   },
 
@@ -28,10 +28,16 @@ module.exports = {
 
   test: {
     e2e: {
-      sshHost: null,
-      sshUser: null,
+      sshHost:  null,
+      sshUser:  null,
       siteHost: null
     }
+  },
+
+  mandrill: {
+    apiKey:     'no mail please',
+    webhookKey: 'no hooks for dev',
+    webhookUrl: 'no hooks for dev'
   },
 
   facebook:  {
