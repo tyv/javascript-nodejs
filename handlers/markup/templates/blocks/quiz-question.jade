@@ -6,8 +6,8 @@
       each variant, index in quiz.variants
 
         +e("li")(class="variant " + ( quiz.correctNum == (index + 1) ? " _correct" : ""))
-          +e("label").input-text
-            +e("input").input(type="radio" name="variant" disabled = quiz.done ? true : false checked = quiz.selected == (index + 1) ? true : false)
+          +e("label").label
+            +e("input").input(type=quiz.type name="variant" disabled = quiz.done ? true : false checked = quiz.selected == (index + 1) ? true : false)
             +e("span").input-text !{ variant.title }
           if variant.description
             +e.description !{ variant.description }
