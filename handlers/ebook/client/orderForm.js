@@ -42,7 +42,6 @@ class OrderForm {
       }
     }
 
-
     // response status must be 200
     var request = xhr({
       method: 'POST',
