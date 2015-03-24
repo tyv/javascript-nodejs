@@ -38,8 +38,9 @@ block append variables
       include ./user
     else
       include ./guest
-    +e.search-wrap
-      +e('button').search-toggle
+
+    include ./search
+
   +e.tablet-menu
     +e.tablet-menu-line
       +e.tablet-menu-content
@@ -59,14 +60,6 @@ block append variables
         +b.share-icons
           +e('span').title Поделиться
           include ../blocks/social-icons
-
-  +e.search
-    +e('form').search-content(method="GET", action="/search")
-      +e.search-query-wrap
-        +b.text-input.__search-query
-          +e('input').control(name="query" type="text")
-      +e.search-submit-wrap
-        +b('button').submit-button.__search-submit Найти
 
   if bookChildNumber && bookLeafCount
     +b('progress').tutorial-progress(data-sticky, value=bookChildNumber, max= bookLeafCount, data-tooltip=("Урок " + bookChildNumber + " из " + bookLeafCount))

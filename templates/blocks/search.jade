@@ -1,0 +1,9 @@
++e.search-wrap
+  +e.search-content
+
+    +e('form').search(method="GET", action="/search")
+      +e('button').search-toggle
+      +e.search-input
+        +b.text-input
+          +e('input').control(name="query" placeholder="Искать на Javascript.ru" )
+        +e('button').find Найти
