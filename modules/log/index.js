@@ -18,9 +18,6 @@ var serializers = exports.serializers = {
   httpError:  httpErrorSerializer
 };
 
-// we may want development logging in test mode
-var env = process.env.NODE_ENV;
-
 // if no name, then name is a parent module filename (or it's directory if index)
 // options.bufferLowLevel enables ring buffer for <= warn records
 module.exports = function(name, options) {
@@ -44,7 +41,7 @@ module.exports = function(name, options) {
     ];
   } else {
 
-    switch (env) {
+    switch (process.env.NODE_ENV) {
     case 'development':
       streams = [
         {
@@ -56,6 +53,7 @@ module.exports = function(name, options) {
     case 'test':
       streams = [/* don't log anything, set LOG_ENV if want to see errors */];
       break;
+    case 'ebook':
     case 'production':
       // normally I see only info, but look in error in case of problems
       streams = [

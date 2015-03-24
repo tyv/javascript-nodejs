@@ -12,24 +12,17 @@ block content
     +e.step._current
       +e.step-content
         +b.extract._small.__extract
-          +e.wrap
-            +e.content
-              +e('h5').title!= orderTemplate.title
-              +e.info!= orderTemplate.description
-            +e.aside._price._center
-              | Стоимость
-              +b.price.__price
-                | #{orderTemplate.amount + 'р.'}
-                +e('span').secondary (≈&nbsp;#{currencyConvertRound(orderTemplate.amount, "RUB", "USD")}$)
-          +e.wrap
-            +e.content
-              +e('h5').title!= orderTemplate.title
-              +e.info!= orderTemplate.description
-            +e.aside._price._center
-              | Стоимость
-              +b.price.__price
-                | #{orderTemplate.amount + 'р.'}
-                +e('span').secondary (≈&nbsp;#{currencyConvertRound(orderTemplate.amount, "RUB", "USD")}$)
+          each orderTemplate, i in orderTemplates
+            +e.wrap
+              +e.content
+                +e('input')(type="radio" name="orderTemplate" value=orderTemplate.slug, checked=(i==0))
+                +e('h5').title!= orderTemplate.title
+                +e.info!= orderTemplate.description
+              +e.aside._price._center
+                | Стоимость
+                +b.price.__price
+                  | #{orderTemplate.amount + 'р.'}
+                  +e('span').secondary (≈&nbsp;#{currencyConvertRound(orderTemplate.amount, "RUB", "USD")}$)
 
         if (!user)
           +e('h2').alternate-title Укажите свой email

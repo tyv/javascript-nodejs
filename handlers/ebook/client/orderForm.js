@@ -28,7 +28,7 @@ class OrderForm {
 
     var data = {
       orderNumber:   window.orderNumber,
-      orderTemplate: window.orderTemplate,
+      orderTemplate: this.elem.querySelector('input[name="orderTemplate"]:checked').value,
       paymentMethod: e.delegateTarget.value
     };
 

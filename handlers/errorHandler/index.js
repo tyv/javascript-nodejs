@@ -3,7 +3,7 @@ const escapeHtml = require('escape-html');
 const _ = require('lodash');
 const path = require('path');
 
-var isDevelopment = process.env.NODE_ENV == 'development' && 0;
+var isDevelopment = process.env.NODE_ENV == 'development';
 
 
 function renderError(err) {

@@ -77,7 +77,7 @@ exports.get = function *get(next) {
 
   //console.log(require('util').inspect(locals, {depth: 7}));
 
-  this.body = this.render("ebook", locals);
+  this.body = this.render("bookify", locals);
 
 };
 

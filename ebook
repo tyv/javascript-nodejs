@@ -1,7 +1,7 @@
 #!/bin/bash
 
 export ASSET_VERSIONING=none
-export NODE_ENV=production
+export NODE_ENV=ebook
 
 gulp client:compile-css --harmony
 node --harmony ./bin/server

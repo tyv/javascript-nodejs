@@ -11,10 +11,20 @@ mixin children_list(children)
 
 block append variables
   - var layout_page_class = "page_ebook"
+  - var footer = false
 
 block content
   script window.isEbook = true;
   script window.ebookFormat = "#{ebookFormat}";
+
+  h2 Бета-версия от #{moment().locale('ru').format('LL')}
+
+  p Последняя версия учебника находится на сайте <a href="https://nightly.javascript.ru">nightly.javascript.ru</a>.
+
+  p Недоработки и проблемы учебника присылайте на <a href="mailto:iliakan@javascript.ru">iliakan@javascript.ru</a>.
+  //- p Сборка от #{moment().locale('ru').format('LL')}
+
+  //- p Последняя версия учебника находится на сайте <a href="http://learn.javascript.ru">learn.javascript.ru</a>.
 
   +children_list(topArticleInTree.children, 1)
 
@@ -76,6 +86,32 @@ block content
 
   script(src=script("tutorial"))
   script tutorial.init();
+  script.
+    // replace #/task/url -> #-task-url, otherwise ebook-convert ignores the hash
+    var links = document.querySelectorAll('a[href^="#"]');
+    var processed = {};
+    [].forEach.call(links, function(link) {
+      //if (i++ > 100) return;
+      var hash = link.getAttribute('href').slice(1);
+      if (!hash) return; // href='#'
+      if (processed[hash]) return;
+      processed[hash] = true;
+      var newHash = hash.replace(/\//g, '-');
+      link.setAttribute('href', '#' + newHash);
+      var elem = document.getElementById(hash);
+      if (elem) {
+        elem.setAttribute('id', newHash);
+      }
+      var elems = document.querySelectorAll('[name="' + hash + '"]');
+      for (var i = 0; i < elems.length; i++) {
+        elems[i].setAttribute('name', newHash);
+      }
+      if (!elem && !elems.length) {
+        console.log("NOT FOUND", link);
+      } else {
+        // console.log("REPLACED", link);
+      }
+    });
 
 
 

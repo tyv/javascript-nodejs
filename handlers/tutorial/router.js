@@ -2,7 +2,7 @@ var Router = require('koa-router');
 
 var task = require('./controller/task');
 var article = require('./controller/article');
-var ebook = require('./controller/ebook');
+var bookify = require('./controller/bookify');
 var frontpage = require('./controller/frontpage');
 var node = require('./controller/node');
 var zipview = require('./controller/zipview');
@@ -18,6 +18,6 @@ router.get('/tutorial/map', map.get);
 router.get('/tutorial/zipview/:name', zipview.get);
 router.get('/tutorial', frontpage.get);
 router.get('/:slug', article.get);
-router.get('/pdf/:slug', ebook.get);
-router.get('/epub/:slug', ebook.get);
+router.get('/pdf/:slug', bookify.get);
+router.get('/epub/:slug', bookify.get);
 

@@ -1,5 +1,3 @@
-var isDevelopment = (process.env.NODE_ENV === 'development');
-var isProduction = (process.env.NODE_ENV === 'production');
 
 var fs = require('fs');
 var path = require('path');
@@ -41,9 +39,9 @@ var webpackConfig = {
     // the setting below does not work with CommonsChunkPlugin
     library:       '[name]'
   },
-  cache:      isDevelopment,
+  cache:      process.env.NODE_ENV == 'development',
   watchDelay: 10,
-  watch:      isDevelopment,
+  watch:      process.env.NODE_ENV == 'development',
 
   devtool: "inline-source-map",
 
@@ -109,7 +107,7 @@ var webpackConfig = {
 };
 
 
-if (isProduction) {
+if (process.env.NODE_ENV != 'development') { // production, ebook
   webpackConfig.plugins.push(
     function clearBeforeRun() {
       function clear(compiler, callback) {

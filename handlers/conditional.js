@@ -18,8 +18,8 @@ exports.init = function(app) {
     if (!this.expires) return;
 
     if (process.env.NODE_ENV == 'development') {
-      // override any value with 3 secs, we don't need long expires to block our changes in dev
-      this.expires = 3;
+      // override any value with 2 secs, we don't need long expires to block our changes in dev
+      this.expires = 2;
     }
     this.set('Expires', new Date(Date.now() + this.expires*1e3).toUTCString());
   });

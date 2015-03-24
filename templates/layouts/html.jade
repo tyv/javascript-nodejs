@@ -7,11 +7,7 @@ block html
     block variables
     include ../blocks/head
     block head
-    //- Counters only on production
-    if counterEnabled || true
-      include ../blocks/ga
-      include ../blocks/metrika
-      
+
   body.no-icons
     script head.fontTest();
 

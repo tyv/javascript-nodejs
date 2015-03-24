@@ -17,7 +17,7 @@ block content
           p Оплата не прошла, попробуйте ещё раз.
             if orderInfo.transaction && orderInfo.transaction.statusMessage
               div Причина:&nbsp;
-                em= orderInfo.transaction.statusMessage
+                +e('span').cause= orderInfo.transaction.statusMessage
           p По вопросам, касающимся оплаты, пишите на <a href="#{mailto}">orders@javascript.ru</a>.
 
     if !~['fail'].indexOf(orderInfo.status)

@@ -6,9 +6,9 @@ var User = require('users').User;
 
 exports.OrderTemplate = [
   {
-    title:       "Основы JavaScript",
+    title:       "Язык JavaScript",
     description: "600+ стр, PDF + EPUB (10Mb)",
-    slug:        "jsbasics",
+    slug:        "js",
     module:      'ebook',
     amount:      10,
     data:        {
@@ -16,18 +16,18 @@ exports.OrderTemplate = [
     }
   },
   {
-    title:       "JS-DOM",
-    description: "400 стр, 8мб",
-    slug:        "dom",
+    title:       "Документ, события, интерфейсы",
+    description: "380+ стр, PDF + EPUB (8Mb)",
+    slug:        "ui",
     module:      'ebook',
-    amount:      1
+    amount:      10
   },
   {
     title:       "Две книги сразу",
-    description: "500 стр, 8мб",
-    slug:        "api",
+    description: "2 PDF + 2 EPUB, (18Mb)",
+    slug:        "js-ui",
     module:      'ebook',
-    amount:      1
+    amount:      15
   }
 ];
 

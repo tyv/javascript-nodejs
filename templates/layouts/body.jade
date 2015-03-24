@@ -25,4 +25,5 @@ block body
           +e.content
             block sidebar
 
-  include ../blocks/page-footer
+  if footer || (footer === undefined)
+    include ../blocks/page-footer

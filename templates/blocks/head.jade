@@ -13,10 +13,14 @@ if prev
 if next
   link(rel="next" href=next.url)
 
+//- Counters only on production
+if analyticsEnabled
+  include ../blocks/ga
+  include ../blocks/metrika
+  script(src=script("trackjs") async)
+
 script(src=script("head"))
 
-if env.NODE_ENV == 'production'
-  script(src=script("trackjs"))
 
 
 
