@@ -17,7 +17,8 @@ server {
   access_log  /var/log/nginx/nightly.javascript.ru.log main;
 
   error_page   404 /404.html;
-  error_page   500 502 503 504  /50x.html;
+  error_page   500 502 504  /50x.html;
+  error_page   503 /error-nginx/503.html;
 
   charset utf-8;
   root         <%=root%>/public;
@@ -54,6 +55,9 @@ server {
 
   # no / in url => @node
   location ~ ^[^.]*$ {
+    if (-f <%=root%>/service) {
+      return 503;
+    }
     include "partial/proxy_3000";
   }
 

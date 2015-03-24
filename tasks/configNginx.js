@@ -62,7 +62,7 @@ module.exports = function() {
           this.emit('error', new gp.util.PluginError('configNginx', err));
         }
 
-        gp.util.log("Copy ", file.path);
+        gp.util.log("Copy,", file.path, args.prefix);
         this.push(file);
         cb();
       }))
