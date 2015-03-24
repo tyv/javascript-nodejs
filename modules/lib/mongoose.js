@@ -53,8 +53,9 @@ mongoose.plugin(function(schema) {
           if (indexName) {
             indexName = indexName[1];
           } else {
-            // FIXME: MONGO 3.0.2 gives index name
-            // TEMPORARY WORKAROUND FOR EMAIL
+            // FIXME: MONGO <=3.0.1 does not give index name
+            // TEMPORARY WORKAROUND
+            // unused cause of downgrade to 2.6
             var valError = new ValidationError(err);
             var field = model.email ? 'email' : "unknown";
             // err = { path="email", message="Email is not unique", type="notunique", value=model.email }
