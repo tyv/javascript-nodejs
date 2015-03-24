@@ -27,13 +27,20 @@ class OrderForm {
   onPaymentMethodClick(e) {
 
     var data = {
-      orderNumber:   window.orderNumber,
-      orderTemplate: this.elem.querySelector('input[name="orderTemplate"]:checked').value,
       paymentMethod: e.delegateTarget.value
     };
 
+    if (window.orderNumber) {
+      data.orderNumber = window.orderNumber;
+    } else {
+      var chooser = this.elem.querySelector('input[name="orderTemplate"]:checked');
+      data.orderTemplate = chooser.value;
+      data.amount = chooser.dataset.amount; // for stats
+    }
+
     if (this.elem.elements.email) {
       if (!this.elem.elements.email.value) {
+        window.ga('send', 'event', 'payment', 'checkout-no-email', 'ebook');
         new notification.Error("Введите email.");
         this.elem.elements.email.focus();
         return;
@@ -44,11 +51,28 @@ class OrderForm {
 
     // response status must be 200
     var request = xhr({
-      method: 'POST',
-      url:    '/payments/common/checkout',
+      method:         'POST',
+      url:            '/payments/common/checkout',
       normalStatuses: [200, 403],
-      body:   data
+      body:           data
     });
+
+    if (data.orderTemplate) {
+      window.ga('ec:addProduct', {
+        id:       'ebook',
+        variant:  data.orderTemplate,
+        price:    data.amount,
+        quantity: 1
+      });
+    }
+
+    window.ga('ec:setAction', 'checkout', {
+      step: 1,
+      option: data.paymentMethod
+    });
+
+    window.ga('send', 'event', 'payment', 'checkout', 'ebook');
+    window.ga('send', 'event', 'payment', 'checkout-method-' + data.paymentMethod, 'ebook');
 
     var onEnd = this.startRequestIndication();
 
@@ -65,11 +89,21 @@ class OrderForm {
       if (result.form) {
         // don't stop the spinner while submitting the form to the payment system!
         // (still in progress)
+
+        window.ga('ec:setAction', 'purchase', {
+          id: result.orderNumber
+        });
+
         var container = document.createElement('div');
         container.hidden = true;
         container.innerHTML = result.form;
         document.body.appendChild(container);
-        container.firstChild.submit();
+
+        window.ga('send', 'event', 'payment', 'purchase', 'ebook', {
+          hitCallback: function() {
+            container.firstChild.submit();
+          }
+        });
       } else {
         console.error(result);
         onEnd();

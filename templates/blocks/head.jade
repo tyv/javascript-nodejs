@@ -16,6 +16,10 @@ if next
 //- Counters only on production
 if analyticsEnabled
   include ../blocks/ga
+  //- let page specify more data to send w/ pageview
+  block ga
+  script ga('send', 'pageview');
+
   include ../blocks/metrika
   script(src=script("trackjs") async)
 

@@ -3,11 +3,20 @@ extends /layouts/main
 block append variables
   - var layout_header_class = "main__header_center"
 
+block append ga
+  script ga('require', 'ec');
+
+  if orderInfo.status == 'fail'
+    script window.ga('ec:setAction', 'refund', { id: #{order.number} });
+
+  script window.ga('send', 'event', 'payment', 'return-#{orderInfo.status}', 'ebook');
+
+
 block content
 
-  - var mailto = "mailto:orders@javascript.ru?subject=" + encodeURIComponent('Заказ ' + order.number);
+  script var orderNumber = #{order.number};
 
-  script var orderNumber = #{order.number}
+  - var mailto = "mailto:orders@javascript.ru?subject=" + encodeURIComponent('Заказ ' + order.number);
 
   +b('form').complex-form(data-order-form data-order-info-status=orderInfo.status)
 
@@ -67,7 +76,7 @@ block content
             +e.methods
               each paymentMethod in paymentMethods
                 +e.method(data-add-class-on-hover)
-                  +e('button')(class=["send", "_"+paymentMethod.name],  name="paymentMethod", value=paymentMethod.name)
+                  +e('button')(type="button" class=["send", "_"+paymentMethod.name]  name="paymentMethod" value=paymentMethod.name)
 
           p Если у вас возникли какие-либо вопросы, присылайте их на <a href="#{mailto}">orders@javascript.ru</a>.
 

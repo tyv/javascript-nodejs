@@ -3,6 +3,16 @@ extends /layouts/main
 block append variables
   - var layout_header_class = "main__header_center"
 
+block append ga
+  script.
+    ga('require', 'ec')
+    ga('set', '&cu', 'RUB');
+
+    ga('ec:addProduct', {
+      id: 'ebook'
+    });
+    ga('ec:setAction', 'click');
+
 block content
 
   script var status = "#{status}";
@@ -15,7 +25,7 @@ block content
           each orderTemplate, i in orderTemplates
             +e.wrap
               +e.content
-                +e('input')(type="radio" name="orderTemplate" value=orderTemplate.slug, checked=(i==0))
+                +e('input')(type="radio" name="orderTemplate" value=orderTemplate.slug data-price=orderTemplate.amount checked=(i==0))
                 +e('h5').title(style="display:inline;padding-left:6px")!= orderTemplate.title
                 +e.info!= orderTemplate.description
               +e.aside._price._center

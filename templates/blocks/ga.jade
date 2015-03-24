@@ -9,7 +9,6 @@ script
       window.ga.l = Date.now();
 
       ga('create', 'UA-2056213-18', 'auto');
-      ga('send', 'pageview');
 
       if (window.currentUser) {
         // User-Id в GA
@@ -17,13 +16,14 @@ script
       }
 
       window.addEventListener('error', function(e) {
+        var src = (e.filename || e.errorUrl) + ': ' + (e.lineno || e.errorLine);
+        var stack = e.stack || (e.error && e.error.stack);
         ga('send', 'exception', {
-          exDescription: e.message,
-          exFatal: true,
-          src: (e.filename || e.errorUrl) + ': ' + (e.lineno || e.errorLine),
-          stack: e.stack || (e.error && e.error.stack)
+          exDescription: e.message + ' ' + src + ' ' + stack,
+          exFatal: true
         });
       });
     })();
 
 script(src="//www.google-analytics.com/analytics.js" async)
+

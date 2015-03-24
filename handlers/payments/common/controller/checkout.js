@@ -59,7 +59,10 @@ exports.post = function*(next) {
 
   yield* transaction.log('form', form);
 
-  this.body = {form: form};
+  this.body = {
+    form: form,
+    orderNumber: this.order.number
+  };
 
 };
 
