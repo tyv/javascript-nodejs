@@ -36,7 +36,7 @@ function xhr(options) {
   request.method = method;
 
   // token/header names same as angular $http for easier interop
-  var csrfCookie = getCsrfCookie()
+  var csrfCookie = getCsrfCookie();
   if (csrfCookie && !options.skipCsrf) {
     request.setRequestHeader("X-XSRF-TOKEN", csrfCookie);
   }
@@ -134,13 +134,21 @@ function xhr(options) {
 
   // defer to let other handlers be assigned
   setTimeout(function() {
+    var timeStart = Date.now();
+
     request.send(body);
+
+    request.addEventListener('loadend', function() {
+      window.ga('send', 'timing', 'xhr', method + ' ' + url, Date.now() - timeStart);
+    });
   }, 0);
+
+
+
 
   return request;
 
 }
-
 
 function addUrlParam(url, name, value) {
   var param = encodeURIComponent(name) + '=' + encodeURIComponent(value);

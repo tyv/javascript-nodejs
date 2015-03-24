@@ -1,4 +1,3 @@
-
 var isDevelopment = (process.env.NODE_ENV === 'development');
 var isProduction = (process.env.NODE_ENV === 'production');
 
@@ -9,8 +8,6 @@ var webpack = require('webpack');
 var CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin");
 var WriteVersionsPlugin = require('lib/webpack/writeVersionsPlugin');
 var ngAnnotatePlugin = require('ng-annotate-webpack-plugin');
-
-
 
 
 var del = require('del');
@@ -31,6 +28,8 @@ var webpackConfig = {
     // fs path
     path:       './public/js',
     // path as js sees it
+    // if I use another domain here, need enable Allow-Access-.. header there
+    // and add  crossorigin="anonymous" to scripts, to let error handler track errors
     publicPath: '/js/',
     // в dev-режиме файлы будут вида [name].js, но обращения - через [name].js?[hash], т.е. версия учтена
     // в prod-режиме не можем ?, т.к. CDN его обрезают, поэтому [hash] в имени
@@ -49,15 +48,15 @@ var webpackConfig = {
   devtool: "inline-source-map",
 
   entry: {
-    angular:    'client/angular',
-    head:       'client/head',
-    tutorial:   'tutorial/client',
-    profile:    'profile/client',
-    search:     'search/client',
-    quiz:       'quiz/client',
-    getpdf:     'getpdf/client',
-    footer:     'client/footer',
-    trackjs:     'client/trackjs'
+    angular:  'client/angular',
+    head:     'client/head',
+    tutorial: 'tutorial/client',
+    profile:  'profile/client',
+    search:   'search/client',
+    quiz:     'quiz/client',
+    getpdf:   'getpdf/client',
+    footer:   'client/footer',
+    trackjs:  'client/trackjs'
   },
 
   externals: {
@@ -125,19 +124,19 @@ if (isProduction) {
     }
     /*,
 
-    new ngAnnotatePlugin({ // add angular annotations with ng-strict-di to ensure it's correct
-      add: true
-    }),
+     new ngAnnotatePlugin({ // add angular annotations with ng-strict-di to ensure it's correct
+     add: true
+     }),
 
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        // don't show unreachable variables etc
-        warnings:     false,
-        drop_console: true,
-        unsafe:       true,
-        screw_ie8: true
-      }
-    })*/
+     new webpack.optimize.UglifyJsPlugin({
+     compress: {
+     // don't show unreachable variables etc
+     warnings:     false,
+     drop_console: true,
+     unsafe:       true,
+     screw_ie8: true
+     }
+     })*/
   );
 }
 
