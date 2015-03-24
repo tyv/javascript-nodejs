@@ -9,7 +9,7 @@ exports.OrderTemplate = [
     title:       "Основы JavaScript",
     description: "600+ стр, PDF + EPUB (10Mb)",
     slug:        "jsbasics",
-    module:      'getpdf',
+    module:      'ebook',
     amount:      10,
     data:        {
       file: "tutorial/jsbasics.zip"
@@ -19,14 +19,14 @@ exports.OrderTemplate = [
     title:       "JS-DOM",
     description: "400 стр, 8мб",
     slug:        "dom",
-    module:      'getpdf',
+    module:      'ebook',
     amount:      1
   },
   {
     title:       "Две книги сразу",
     description: "500 стр, 8мб",
     slug:        "api",
-    module:      'getpdf',
+    module:      'ebook',
     amount:      1
   }
 ];

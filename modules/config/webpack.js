@@ -54,7 +54,7 @@ var webpackConfig = {
     profile:  'profile/client',
     search:   'search/client',
     quiz:     'quiz/client',
-    getpdf:   'getpdf/client',
+    ebook:    'ebook/client',
     footer:   'client/footer',
     trackjs:  'client/trackjs'
   },

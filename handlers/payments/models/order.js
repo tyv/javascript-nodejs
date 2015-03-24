@@ -10,7 +10,7 @@ var schema = new Schema({
     type:     Number,
     required: true
   },
-  module:      { // module so that transaction handler knows where to go back e.g. 'getpdf'
+  module:      { // module so that transaction handler knows where to go back e.g. 'ebook'
     type:     String,
     required: true
   },

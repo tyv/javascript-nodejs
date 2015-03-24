@@ -5,15 +5,9 @@ var createOrderFromTemplate = require('../lib/createOrderFromTemplate');
 exports.get = function*() {
   this.nocache();
 
-  var orderTemplate = yield OrderTemplate.findOne({
-    slug: this.params.orderTemplate
-  }).exec();
+  var orderTemplates = yield OrderTemplate.find({}).exec();
 
-  if (!orderTemplate) {
-    this.throw(404);
-  }
-
-  this.locals.orderTemplate = orderTemplate;
+  this.locals.orderTemplates = orderTemplates;
 
   this.locals.sitetoolbar = true;
   this.locals.title = "Покупка учебника JavaScript";

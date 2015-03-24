@@ -20,10 +20,10 @@ script
         ga('send', 'exception', {
           exDescription: e.message,
           exFatal: true,
-          src: (e.filename || e.errorUrl) + ': ' + (e.lineno || e.errorLine)
+          src: (e.filename || e.errorUrl) + ': ' + (e.lineno || e.errorLine),
           stack: e.stack || (e.error && e.error.stack)
         });
-      }
+      });
     })();
 
 script(src="//www.google-analytics.com/analytics.js" async)

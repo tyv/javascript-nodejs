@@ -5,7 +5,6 @@ block append variables
 
 block content
 
-  script var orderTemplate = "#{orderTemplate.slug}";
   script var status = "#{status}";
 
   +b("form").complex-form(data-order-form)
@@ -13,6 +12,15 @@ block content
     +e.step._current
       +e.step-content
         +b.extract._small.__extract
+          +e.wrap
+            +e.content
+              +e('h5').title!= orderTemplate.title
+              +e.info!= orderTemplate.description
+            +e.aside._price._center
+              | Стоимость
+              +b.price.__price
+                | #{orderTemplate.amount + 'р.'}
+                +e('span').secondary (≈&nbsp;#{currencyConvertRound(orderTemplate.amount, "RUB", "USD")}$)
           +e.wrap
             +e.content
               +e('h5').title!= orderTemplate.title
@@ -40,5 +48,5 @@ block content
     +b('ul').grayed-list.__next
       +e('li').item.__next-item Подтверждение
 
-  script(src=script("getpdf"))
-  script getpdf.init();
+  script(src=script("ebook"))
+  script ebook.init();
