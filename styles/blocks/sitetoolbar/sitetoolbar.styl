@@ -46,6 +46,9 @@ sitetoolbar_secondary_link = #498CBE
     &__login-wrap
         width .1%
 
+    &__user-wrap
+        transition opacity 0.3s ease-out
+
     &__search-wrap
         width .1%
         padding-right 19px
@@ -156,12 +159,14 @@ sitetoolbar_secondary_link = #498CBE
 
         opacity 0
 
-        transition left 0.3s ease-out, opacity 0.4s ease-out
+        transition left 0.3s ease-out 0.1s, opacity 0.4s ease-out
 
     &__search-toggle
         @extend $button-reset
 
         display block
+
+        position relative
 
         height 60px
         width 60px
@@ -248,6 +253,11 @@ sitetoolbar_secondary_link = #498CBE
     &_search_open &__search-toggle::before
         position absolute
         left -250px
+
+    &_search_open &__user-wrap
+        opacity 0
+        pointer-events none
+
     // Search (end)
 
 
@@ -339,6 +349,9 @@ sitetoolbar_secondary_link = #498CBE
 
     @media tablet
 
+        &
+            position relative
+
         &__usermenu-wrap
             position absolute
             left 0
@@ -393,14 +406,6 @@ sitetoolbar_secondary_link = #498CBE
         &__nav-toggle::before
             @extend $font-menu
             font-size 22px
-
-        &__search-wrap
-            padding-right 0
-
-        &__search-toggle
-            height 60px
-            width 60px
-            margin 0
 
         &__tablet-menu,
         &__usermenu
@@ -489,6 +494,40 @@ sitetoolbar_secondary_link = #498CBE
         &_user_open &__user
             background sitetoolbar_secondary_bg
 
+        &__search-input
+            transition opacity 0.4s ease-out
+
+        &__search-toggle::before
+            transition none
+
+        &_search_open &__search-content,
+        &_search_open &__search-toggle
+            position static
+
+        &__search-input
+            right 20px
+            left 50px
+
+        &__search-paranja
+            position fixed
+            z-index 10
+
+            left 0
+            right 0
+            bottom 0
+
+            background #000
+            opacity 0.6
+
+        &_search_open &__search-input
+            left 60px
+
+        &_search_open &__search-toggle::before
+            left 50px
+
+        &_search_open &__logo-wrap
+            visibility hidden
+
     // подвинем логотип при очень узком окне, чтобы никуда не накладывался
     // экономим несколько пикселей ширины
     @media (max-width: 690px)
@@ -504,3 +543,14 @@ sitetoolbar_secondary_link = #498CBE
         &__logo,
         &__link_logo
             display none
+
+         &_search_open &__nav-toggle-wrap
+            visibility hidden
+
+        &_search_open &__search-input
+            left 20px
+
+        &_search_open &__search-toggle::before
+            left 10px
+
+

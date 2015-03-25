@@ -1,5 +1,4 @@
 
-
 document.addEventListener('click', onSearchClick);
 
 
@@ -14,13 +13,23 @@ function onSearchClick(event) {
 }
 
 function toggle() {
-  var sitetoolbar = document.querySelector('.sitetoolbar');
+  var paranja,
+      sitetoolbar = document.querySelector('.sitetoolbar');
+
   sitetoolbar.classList.toggle('sitetoolbar_search_open');
 
   var input = sitetoolbar.querySelector('.sitetoolbar__search-input input');
 
   if (sitetoolbar.classList.contains('sitetoolbar_search_open')) {
+
     input.focus();
+
+    paranja = document.createElement('div');
+    paranja.className = 'sitetoolbar sitetoolbar__search-paranja';
+    paranja.style.top = sitetoolbar.offsetHeight + 'px';
+
+    document.body.appendChild(paranja);
+
 
     if (!input.onkeydown) {
       input.onkeydown = function(e) {
@@ -36,5 +45,10 @@ function toggle() {
         toggle()
       };
     }
+  } else {
+
+    paranja = document.querySelector('.sitetoolbar__search-paranja');
+    paranja.parentNode.removeChild(paranja);
+
   }
 }
