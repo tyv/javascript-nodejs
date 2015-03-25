@@ -43,7 +43,7 @@ var webpackConfig = {
   watchDelay: 10,
   watch:      process.env.NODE_ENV == 'development',
 
-  devtool: "inline-source-map",
+  devtool: process.env.NODE_ENV == 'production' ? 'source-map' : "inline-source-map",
 
   entry: {
     angular:  'client/angular',
@@ -130,6 +130,7 @@ if (process.env.NODE_ENV != 'development') { // production, ebook
      compress: {
      // don't show unreachable variables etc
      warnings:     false,
+     semicolons:   false, // need -b too?
      drop_console: true,
      unsafe:       true,
      screw_ie8: true
