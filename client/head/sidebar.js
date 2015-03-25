@@ -16,7 +16,7 @@ function toggle() {
 }
 
 function onClick(event) {
-  if (event.target.dataset.sidebarToggle === undefined) return;
+  if (event.target.dataset && event.target.dataset.sidebarToggle === undefined) return;
 
   toggle();
 }
