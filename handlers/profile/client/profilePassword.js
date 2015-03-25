@@ -12,7 +12,8 @@ angular.module('profile')
       replace:     true,
       link:        function(scope, element, attrs, noCtrl, transclude) {
 
-        scope.password = scope.passwordOld = '';
+        scope.password = '';
+        scope.passwordOld = '';
 
         scope.loadingTracker = promiseTracker();
 
@@ -27,7 +28,7 @@ angular.module('profile')
         };
 
         scope.submit = function() {
-          if (this.form.$invalid) return;
+          if (scope.form.$invalid) return;
 
           var formData = new FormData();
           formData.append("password", this.password);
@@ -42,9 +43,15 @@ angular.module('profile')
             data:             formData
           }).then((response) => {
             new notification.Success("Пароль обновлён.");
-            this.editing = false;
+            scope.editing = false;
             // now have password for sure
             scope.hasPassword = true;
+
+            // and clean password fields
+            scope.password = '';
+            scope.passwordOld = '';
+            scope.form.$setPristine();
+
           }, (response) => {
             if (response.status == 400) {
               new notification.Error(response.data.message || response.data.errors.password);
