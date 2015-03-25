@@ -4,10 +4,11 @@ document.addEventListener('click', onSearchClick);
 
 // toggle search on/off, autofocus on input when "on"
 function onSearchClick(event) {
-  event.preventDefault();
 
   var searchToggle = event.target.closest('.sitetoolbar__search-toggle');
+
   if (searchToggle) {
+    event.preventDefault();
     toggle();
   }
 }
