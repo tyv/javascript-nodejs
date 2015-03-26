@@ -1,16 +1,37 @@
 
 document.addEventListener('click', onSearchClick);
 
+var initialized = false;
 
 // toggle search on/off, autofocus on input when "on"
 function onSearchClick(event) {
+  if (!event.target.closest) return; // svg
 
   var searchToggle = event.target.closest('.sitetoolbar__search-toggle');
 
   if (searchToggle) {
-    event.preventDefault();
+    if (!initialized) initialize();
     toggle();
   }
+}
+
+function initialize() {
+  var sitetoolbar = document.querySelector('.sitetoolbar');
+
+  var input = sitetoolbar.querySelector('.sitetoolbar__search-input input');
+
+  input.onkeydown = function(e) {
+    if (e.keyCode == 27) {
+      this.value = "";
+      toggle();
+    }
+  };
+
+  input.onblur = function(e) {
+    toggle();
+  };
+
+  initialized = true;
 }
 
 function toggle() {
@@ -31,21 +52,6 @@ function toggle() {
 
     document.body.appendChild(paranja);
 
-
-    if (!input.onkeydown) {
-      input.onkeydown = function(e) {
-        if (e.keyCode == 27) {
-          this.value = "";
-          toggle();
-        }
-      };
-    }
-
-    if (!input.onblur) {
-      input.onblur = function(e) {
-        toggle()
-      };
-    }
   } else {
 
     paranja = document.querySelector('.sitetoolbar__search-paranja');

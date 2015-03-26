@@ -66,7 +66,10 @@ var webpackConfig = {
 
   module: {
     loaders: [
-      {test: /\.jade$/, loader: "jade?root=" + config.projectRoot + '/templates'},
+      {
+        test: /\.jade$/,
+        loader: "jade?root=" + config.projectRoot + '/templates'
+      },
       {
         test:    /\.js$/,
         exclude: noProcessModulesRegExp,
