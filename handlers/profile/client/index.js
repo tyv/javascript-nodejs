@@ -73,10 +73,10 @@ profile
         templateUrl: "/profile/templates/partials/account",
         controller:  'ProfileAccountCtrl'
       },
-      'root.quizresults': {
-        url:         '/quizresults',
+      'root.quiz': {
+        url:         '/quiz',
         title:       'Тесты',
-        templateUrl: "/profile/templates/partials/quizresults",
+        templateUrl: "/profile/templates/partials/quiz",
         controller:  'ProfileQuizResultsCtrl',
         resolve:     {
           quizResults: (QuizResults) => QuizResults.query()

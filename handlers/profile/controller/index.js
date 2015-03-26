@@ -22,7 +22,7 @@ exports.get = function* (next) {
   var quizResult = yield QuizResult.findOne({user: user._id}).exec();
 
   if (quizResult) {
-    this.locals.profileStatesEnabled.push('root.quizresults');
+    this.locals.profileStatesEnabled.push('root.quiz');
   }
 
 

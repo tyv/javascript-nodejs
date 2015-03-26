@@ -1,6 +1,7 @@
 var config = require('config');
 var User = require('users').User;
 var mongoose = require('mongoose');
+var QuizResult = require('quiz').QuizResult;
 
 // skips the request if it's the owner
 exports.get = function* (next) {
@@ -17,14 +18,46 @@ exports.get = function* (next) {
     return;
   }
 
-  if (this.params.tab) {
-    // tabs are not for guests
-    this.throw(403);
+  this.locals.tabs = {
+    aboutme: {
+      url:   '/profile/' + user.profileName,
+      title: 'Публичный профиль'
+    }
+  };
+
+
+  var quizResults = yield QuizResult.find({user: user._id}).sort('-created').exec();
+
+  quizResults = quizResults.map(function(result) {
+    return {
+      created: result.created,
+      quizTitle: result.quizTitle,
+      score: result.score,
+      level: result.level,
+      levelTitle: result.levelTitle,
+      time: result.time
+    };
+  });
+
+  if (quizResults) {
+    this.locals.tabs.quiz = {
+      url: `/profile/${user.profileName}/quiz`,
+      title: 'Тесты'
+    };
   }
+  this.locals.quizResults = quizResults;
 
   this.locals.title = user.displayName;
 
-  this.body = this.render('index', {
+  var tabName = this.params.tab || 'aboutme';
+
+  if (!this.locals.tabs[tabName]) {
+    this.throw(404);
+  }
+
+  this.locals.tabs[tabName].active = true;
+
+  this.body = this.render(tabName, {
     profileUser: user
   });
 

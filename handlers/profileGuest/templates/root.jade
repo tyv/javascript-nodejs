@@ -1,0 +1,29 @@
+extends /layouts/main
+
+block append variables
+  - var layout_header_class = "main__header_center"
+  - var layout_main_class = "main_width-limit-wide"
+  - var sitetoolbar = true
+
+block content
+
+  +b.profile
+
+    +b.profile-photo
+      +e.upic(style="background-image: url('" + profileUser.getPhotoUrl(146, 146) + "')")
+
+
+    +e.content
+
+      if tabs.length == 1
+        +e.single-tab-header
+      else
+        +e.tabs
+          each tab in tabs
+            +e(class=['tab', tab.active && '_current'])
+              +e.tab-content
+                +e('a').tab-link(href=tab.url)= tab.title
+
+      +e.fields
+
+        block profileContent
