@@ -3,7 +3,16 @@ script
     (function() {
       window.yandex_metrika_callbacks = [function() {
         try {
-          window.yaCounter27297488 = new Ya.Metrika({id: 27297488, webvisor: true, ut: "noindex"});
+          window.metrika = new Ya.Metrika({
+            id: 27297488,
+            webvisor: true,
+            clickmap: true,
+            params: {
+              user: window.currentUser && window.currentUser.id
+            },
+            ut: "noindex" // TODO:remove when goes prod
+          });
+          metrika.trackLinks({delay: 150});
         } catch (e) {
         }
       }];

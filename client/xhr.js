@@ -48,26 +48,28 @@ function xhr(options) {
   }
 
 
-  if (!options.noGlobalEvents) {
-    request.addEventListener('loadstart', event => {
-      var e = wrapEvent('xhrstart', event);
-      document.dispatchEvent(e);
-    });
-    request.addEventListener('loadend', event => {
-      var e = wrapEvent('xhrend', event);
-      document.dispatchEvent(e);
-    });
-    request.addEventListener('success', event => {
-      var e = wrapEvent('xhrsuccess', event);
-      e.result = event.result;
-      document.dispatchEvent(e);
-    });
-    request.addEventListener('fail', event => {
-      var e = wrapEvent('xhrfail', event);
-      e.reason = event.reason;
-      document.dispatchEvent(e);
-    });
-  }
+  request.addEventListener('loadstart', event => {
+    sendStat(event.type);
+    var e = wrapEvent('xhrstart', event);
+    document.dispatchEvent(e);
+  });
+  request.addEventListener('loadend', event => {
+    sendStat(event.type);
+    var e = wrapEvent('xhrend', event);
+    document.dispatchEvent(e);
+  });
+  request.addEventListener('success', event => {
+    sendStat(event.type);
+    var e = wrapEvent('xhrsuccess', event);
+    e.result = event.result;
+    document.dispatchEvent(e);
+  });
+  request.addEventListener('fail', event => {
+    sendStat(event.type);
+    var e = wrapEvent('xhrfail', event);
+    e.reason = event.reason;
+    document.dispatchEvent(e);
+  });
 
   if (!options.raw) { // means we want json
     request.setRequestHeader("Accept", "application/json");
@@ -76,6 +78,15 @@ function xhr(options) {
   request.setRequestHeader('X-Requested-With', "XMLHttpRequest");
 
   var normalStatuses = options.normalStatuses || [200];
+
+  function sendStat(name) {
+    window.metrika.reachGoal('XHR-' + name.toUpperCase(), {
+      time: Date.now() - request.timeStart,
+      method: request.method,
+      url: request.url,
+      status: request.status
+    });
+  }
 
   function wrapEvent(name, e) {
     var event = new CustomEvent(name);
@@ -134,13 +145,10 @@ function xhr(options) {
 
   // defer to let other handlers be assigned
   setTimeout(function() {
-    var timeStart = Date.now();
+    request.timeStart = Date.now();
 
     request.send(body);
 
-    request.addEventListener('loadend', function() {
-      window.ga('send', 'timing', 'xhr', method + ' ' + url, Date.now() - timeStart);
-    });
   }, 0);
 
 
