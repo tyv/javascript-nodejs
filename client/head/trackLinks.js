@@ -12,12 +12,8 @@ document.addEventListener('click', function(e) {
   // cancel event and record outbound link
   e.preventDefault();
   var href = link.href;
-  window.ga('send', {
-    'hitType': 'event',
-    'eventCategory': 'outbound',
-    'eventAction': 'link',
-    'eventLabel': href,
-    'hitCallback': loadPage
+  window.ga('send', 'event', 'outbound', 'click', href, {
+    hitCallback: loadPage
   });
 
   // redirect after one second if recording takes too long
