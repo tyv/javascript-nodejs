@@ -70,7 +70,7 @@
     "moment": "*",
     "money": "*",
     "mongoose": "~3.8.0",
-    "mongoose-auto-increment": "3.2.2",
+    "mongoose-auto-increment": "3.2.1",
     "mongoose-troop": "git://github.com/iliakan/mongoose-troop",
     "mongoose-unique-validator": "git://github.com/iliakan/mongoose-unique-validator",
     "multiparty": "*",
