@@ -11,6 +11,12 @@ exports.get = function* (next) {
     return;
   }
 
+  // /profile -> /profile/iliakan
+  if (!this.params.profileName) {
+    this.redirect(`/profile/${this.user.profileName}`, 301);
+    return;
+  }
+
   var user = yield User.findOne({profileName: this.params.profileName}).exec();
 
   if (!user) {

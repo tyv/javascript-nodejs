@@ -23,12 +23,14 @@ exports.get = function*() {
     this.throw(403);
   }
 
-  var results = yield QuizResult.find({user: user._id}).sort('-created').exec();
+
+  var results = yield* QuizResult.getLastAttemptsForUser(user._id);
 
   results = results.map(function(result) {
     return {
       created: result.created,
       quizTitle: result.quizTitle,
+      quizUrl: result.quiz && result.quiz.getUrl(),
       score: result.score,
       level: result.level,
       levelTitle: result.levelTitle,

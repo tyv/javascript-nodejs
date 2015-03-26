@@ -15,9 +15,7 @@ exports.get = function*() {
 
   var quizResults = [];
   if (this.user) {
-    quizResults = yield QuizResult.find({
-      user: this.user._id
-    }).sort({created: 1}).exec();
+    quizResults = yield* QuizResult.getLastAttemptsForUser(this.user._id);
   }
 
   for (var i = 0; i < quizzes.length; i++) {

@@ -38,7 +38,10 @@ module.exports = function() {
       }) );
       */
 
+      /*
+      For webpack analyse
       require('fs').writeFileSync('/tmp/webpack.json', JSON.stringify(stats.toJson()));
+      */
 
       gp.util.log('[webpack]', stats.toString({
         hash: false,

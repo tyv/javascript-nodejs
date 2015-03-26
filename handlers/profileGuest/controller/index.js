@@ -26,7 +26,7 @@ exports.get = function* (next) {
   };
 
 
-  var quizResults = yield QuizResult.find({user: user._id}).sort('-created').exec();
+  var quizResults = yield* QuizResult.getLastAttemptsForUser(user._id);
 
   quizResults = quizResults.map(function(result) {
     return {
@@ -35,6 +35,7 @@ exports.get = function* (next) {
       score: result.score,
       level: result.level,
       levelTitle: result.levelTitle,
+      quizUrl: result.quiz && result.quiz.getUrl(),
       time: result.time
     };
   });

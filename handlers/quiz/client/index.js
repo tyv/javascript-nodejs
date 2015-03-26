@@ -2,6 +2,7 @@ var Spinner = require('client/spinner');
 var xhr = require('client/xhr');
 var getCsrfCookie = require('client/getCsrfCookie');
 var prism = require('client/prism');
+var notification = require('client/notification');
 
 function init() {
   var quizQuestionForm = document.querySelector('[data-quiz-question-form]');
@@ -16,24 +17,22 @@ function init() {
     initQuizResultSaveForm(quizResultSaveForm);
   }
 
-
   prism.init();
 }
 
 function initQuizResultSaveForm(form) {
   form.onsubmit = function(e) {
+    e.preventDefault();
 
     if (window.currentUser) {
-      // normal submit => profile
+      saveResult();
       return;
     }
 
-    e.preventDefault();
-
-    authAndSubmit();
+    authAndSaveResult();
   };
 
-  function authAndSubmit() {
+  function authAndSaveResult() {
 
     // let's authorize first
     var submitButton = form.querySelector('[type="submit"]');
@@ -50,13 +49,39 @@ function initQuizResultSaveForm(form) {
       spinner.stop();
       var AuthModal = require('auth/client').AuthModal;
       new AuthModal({
-        callback: function() {
-          var csrf = getCsrfCookie();
-          form.elements._csrf.value = csrf;
-          form.submit();
-        }
+        callback: saveResult
       });
     }, 'authClient');
+
+  }
+
+  function saveResult() {
+
+    var request = xhr({
+      method: 'POST',
+      url:    form.action
+    });
+
+    var submitButton = form.querySelector('[type="submit"]');
+
+    var spinner = new Spinner({
+      elem:      submitButton,
+      size:      'small',
+      elemClass: 'button_loading'
+    });
+    spinner.start();
+    submitButton.disabled = true;
+
+    function onEnd() {
+      spinner.stop();
+      submitButton.disabled = false;
+    }
+
+    request.addEventListener('loadend', onEnd);
+
+    request.addEventListener('success', (event) => {
+      new notification.Success("Результат сохранён в профиле! <a href='/profile'>Перейти в профиль</a>.", 'slow');
+    });
 
   }
 }
@@ -121,15 +146,18 @@ function initQuizForm(form) {
     spinner.start();
     submitButton.disabled = true;
 
-    request.addEventListener('loadend', ()=> {
+    // stop spinned on success/fail, but not when window is going to be reloaded
+    function onEnd() {
       spinner.stop();
-    });
+      submitButton.disabled = false;
+    }
 
-    request.addEventListener('fail', () => submitButton.disabled = false);
+    request.addEventListener('fail', onEnd);
     request.addEventListener('success', (event) => {
       if (event.result.reload) {
         window.location.reload();
       } else if (event.result.html) {
+        onEnd();
         document.querySelector('.quiz-timeline .quiz-timeline__number_current')
           .classList.remove('quiz-timeline__number_current');
 
@@ -139,7 +167,8 @@ function initQuizForm(form) {
         form.innerHTML = event.result.html;
         prism.highlight(form);
       } else {
-        console.error("Bad response", event.result);
+        onEnd();
+        console.error(`Bad response: ${event.result}`);
       }
     });
 

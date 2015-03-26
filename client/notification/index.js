@@ -117,8 +117,8 @@ delegate.delegateMixin(Notification.prototype);
 
 class Info extends Notification {
 
-  constructor(html) {
-    super(html, 'info');
+  constructor(html, timeout) {
+    super(html, 'info', timeout);
   }
 
 }
@@ -127,8 +127,8 @@ exports.Info = Info;
 
 class Warning extends Notification {
 
-  constructor(html) {
-    super(html, 'warning');
+  constructor(html, timeout) {
+    super(html, 'warning', timeout);
   }
 
 }
@@ -137,8 +137,8 @@ exports.Warning = Warning;
 
 class Success extends Notification {
 
-  constructor(html) {
-    super(html, 'success');
+  constructor(html, timeout) {
+    super(html, 'success', timeout);
   }
 
 }
@@ -147,8 +147,8 @@ exports.Success = Success;
 
 export class Error extends Notification {
 
-  constructor(html) {
-    super(html, 'error');
+  constructor(html, timeout) {
+    super(html, 'error', timeout);
   }
 
 
@@ -161,6 +161,7 @@ export class Error extends Notification {
 
 exports.Error = Error;
 
+/*
 export class Test extends Notification {
 
   constructor(html) {
@@ -176,3 +177,4 @@ export class Test extends Notification {
 }
 
 exports.Test = Test;
+*/
