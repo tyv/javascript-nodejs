@@ -15,6 +15,7 @@ require('./sidebar');
 require('./navigationArrows');
 require('./hover');
 require('./runDemo');
+require('./trackLinks');
 
 // must use CommonsChunkPlugin
 // to ensure that other modules use exactly this (initialized) client/notify

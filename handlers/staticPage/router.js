@@ -15,4 +15,9 @@ files.forEach(function(relPath) {
   });
 });
 
-
+/*
+router.get('/go/webstorm', function() {
+  this.status = 301;
+  this.redirect('https://www.jetbrains.com/webstorm/?utm_source=javascript.ru&utm_medium=banner2&utm_campaign=webstorm');
+});
+  */

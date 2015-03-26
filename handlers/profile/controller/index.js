@@ -13,7 +13,8 @@ exports.get = function* (next) {
 
   // /profile -> /profile/iliakan
   if (!this.params.profileName) {
-    this.redirect(`/profile/${this.user.profileName}`, 301);
+    this.status = 301;
+    this.redirect(`/profile/${this.user.profileName}`);
     return;
   }
 
