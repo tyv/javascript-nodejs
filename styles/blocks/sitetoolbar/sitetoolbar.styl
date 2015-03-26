@@ -46,6 +46,9 @@ sitetoolbar_secondary_link = #498CBE
     &__login-wrap
         width .1%
 
+    &__user-wrap
+        transition opacity 0.3s ease-out
+
     &__search-wrap
         width .1%
         padding-right 19px
@@ -138,22 +141,125 @@ sitetoolbar_secondary_link = #498CBE
         text-overflow ellipsis
         vertical-align bottom
 
+    // Search (begin)
+
+    &__search-content
+        position relative
+
+        width 60px
+        height 60px
+
+    &__search-input
+        position absolute
+        top 50%
+        right 0
+        left 100%
+        transform translateY(-50%)
+        overflow hidden
+
+        opacity 0
+
+        transition left 0.3s ease-out 0.1s, opacity 0.4s ease-out
+
     &__search-toggle
         @extend $button-reset
 
         display block
-        color sitetoolbar_color
-        margin 17px 0
+
+        position relative
+
         height 60px
         width 60px
         margin 0
 
+        color sitetoolbar_color
+
     &__search-toggle:hover
         color hoverize(sitetoolbar_color)
+
+    &__search-toggle:active
+        color sitetoolbar_color
 
     &__search-toggle::before
         @extend $font-search
         font-size 23px
+
+        position absolute
+        top 50%
+        left 0
+        z-index 1
+
+        transform: translateY(-50%)
+
+        width 60px
+        line-height 60px
+
+        text-align center
+
+        transition left 0.3s ease-out
+
+    &__search .text-input
+        display block
+
+    &__search .text-input__control
+        padding-left 37px
+        padding-right 93px
+
+    // we MUST repeat theese rules for each selector to make it work
+    &__search .text-input__control::-webkit-input-placeholder
+        font-size 13px
+        line-height 18px
+
+    &__search .text-input__control::-moz-placeholder
+        font-size 13px
+        line-height 18px
+
+    &__search .text-input__control:-ms-input-placeholder
+        font-size 13px
+        line-height 18px
+
+    &__find
+        font bold 12px 'Open Sans', sans
+
+        position absolute
+        right 1px
+        top 1px
+        bottom 1px
+
+        width 89px
+        margin 0
+        padding 0
+
+        border: none
+        border-left 1px solid #8eb0d2
+        border-radius 0 4px 4px 0
+        background sitetoolbar_secondary_bg
+
+        color #333
+
+        cursor pointer
+
+    &_search_open &__search-toggle:hover
+        color sitetoolbar_color
+
+    &_search_open &__search-toggle
+        pointer-events none
+
+    &_search_open &__search-input
+        left -240px
+
+        opacity 1
+
+    &_search_open &__search-toggle::before
+        position absolute
+        left -250px
+
+    &_search_open &__user-wrap
+        opacity 0
+        pointer-events none
+
+    // Search (end)
+
 
     &__spinner
         position absolute
@@ -169,16 +275,13 @@ sitetoolbar_secondary_link = #498CBE
 
     &__nav-toggle:focus,
     &__user:focus,
-    &__login:focus,
-    &__search:focus
+    &__login:focus
         outline 0
 
     &__tablet-menu,
-    &__search,
     &__usermenu
         display none
 
-    &_search_open &__search,
     &_user_open &__usermenu
         display block
 
@@ -227,50 +330,6 @@ sitetoolbar_secondary_link = #498CBE
     &__secondary-link:hover
         text-decoration none
 
-    &__search
-        background sitetoolbar_secondary_bg
-        position absolute
-        width 400px
-        top auto
-        right 0
-        left auto
-        border 0
-        border-radius 0
-        box-shadow 0 2px 3px -2px rgba(0, 0, 0, .3)
-
-    &__search-content
-        display table
-        width 100%
-        border-top 1px solid #e7e5e3
-
-    &__search-query-wrap,
-    &__search-submit-wrap
-        display table-cell
-        height 60px
-        vertical-align middle
-
-    &__search-query-wrap
-        padding 0 0 0 20px
-        width 100%
-
-    &__search-query
-        width 100%
-
-    &__search-query .text-input__control
-        -moz-appearance textfield // если вдруг появится поддержка type search
-        -webkit-appearance textfield
-        // height
-
-    &__search-submit-wrap
-        padding 0 20px 0 12px
-
-    &__search-submit
-        min-width 140px
-        height 34px
-        line-height 27px
-
-    &_search_open &__search-toggle
-        background sitetoolbar_secondary_bg
 
     @media (max-width: 970px)
         &__user::before
@@ -283,7 +342,15 @@ sitetoolbar_secondary_link = #498CBE
         &__usermenu
             right 128px // лучше позиционировать с помощью js
 
+    @media (max-width: 920px)
+        &__section
+          font-size 15px
+          margin-right 10px
+
     @media tablet
+
+        &
+            position relative
 
         &__usermenu-wrap
             position absolute
@@ -339,14 +406,6 @@ sitetoolbar_secondary_link = #498CBE
         &__nav-toggle::before
             @extend $font-menu
             font-size 22px
-
-        &__search-wrap
-            padding-right 0
-
-        &__search-toggle
-            height 60px
-            width 60px
-            margin 0
 
         &__tablet-menu,
         &__usermenu
@@ -435,6 +494,40 @@ sitetoolbar_secondary_link = #498CBE
         &_user_open &__user
             background sitetoolbar_secondary_bg
 
+        &__search-input
+            transition opacity 0.4s ease-out
+
+        &__search-toggle::before
+            transition none
+
+        &_search_open &__search-content,
+        &_search_open &__search-toggle
+            position static
+
+        &__search-input
+            right 20px
+            left 50px
+
+        &__search-paranja
+            position fixed
+            z-index 10
+
+            left 0
+            right 0
+            bottom 0
+
+            background #000
+            opacity 0.6
+
+        &_search_open &__search-input
+            left 60px
+
+        &_search_open &__search-toggle::before
+            left 50px
+
+        &_search_open &__logo-wrap
+            visibility hidden
+
     // подвинем логотип при очень узком окне, чтобы никуда не накладывался
     // экономим несколько пикселей ширины
     @media (max-width: 690px)
@@ -450,3 +543,14 @@ sitetoolbar_secondary_link = #498CBE
         &__logo,
         &__link_logo
             display none
+
+         &_search_open &__nav-toggle-wrap
+            visibility hidden
+
+        &_search_open &__search-input
+            left 20px
+
+        &_search_open &__search-toggle::before
+            left 10px
+
+
