@@ -3,7 +3,7 @@ var baseURI = window.location.host;
 
 document.addEventListener('click', function(e) {
 
-  if (e.isDefaultPrevented()) return;
+  if (e.defaultPrevented) return;
 
   // abandon if no active link or link within domain
   var link = e.target.closest("a");
