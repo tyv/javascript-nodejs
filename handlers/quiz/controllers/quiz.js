@@ -46,7 +46,7 @@ exports.get = function*() {
 
   if (sessionQuiz.result) {
 
-    var belowPercentage = yield QuizStat.getBelowScorePercentage(quiz.slug, sessionQuiz.result.quizScore);
+    var belowPercentage = yield QuizStat.getBelowScorePercentage(quiz.slug, sessionQuiz.result.score);
 
     this.locals.quizResult = sessionQuiz.result;
     this.locals.quizBelowPercentage = belowPercentage;

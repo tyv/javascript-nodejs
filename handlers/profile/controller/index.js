@@ -1,6 +1,7 @@
 var config = require('config');
 var User = require('users').User;
 var mongoose = require('mongoose');
+var QuizResult = require('quiz').QuizResult;
 
 // skips the request unless it's the owner
 exports.get = function* (next) {
@@ -15,6 +16,15 @@ exports.get = function* (next) {
   if (!user) {
     this.throw(404);
   }
+
+  this.locals.profileStatesEnabled = ['root.aboutme', 'root.account'];
+
+  var quizResult = yield QuizResult.findOne({user: user._id}).exec();
+
+  if (quizResult) {
+    this.locals.profileStatesEnabled.push('root.quizresults');
+  }
+
 
   // if the visitor is the profile owner
   if (String(this.user._id) == String(user._id)) {

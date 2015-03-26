@@ -1,6 +1,6 @@
 'use strict';
 
-const moment = require('moment');
+const moment = require('momentWithLocale');
 const util = require('util');
 const path = require('path');
 const config = require('config');

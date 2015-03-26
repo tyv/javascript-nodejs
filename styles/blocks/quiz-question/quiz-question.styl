@@ -83,10 +83,12 @@
     &_correct_false &__body
         border-color #eaaaad
 
-    &_correct_true &__variant_correct &__input-text,
-    &_correct_false &__variant_correct &__input-text
+
+    //- coloring logic is here: https://github.com/iliakan/javascript-nodejs/issues/293
+    &__variant_correct_true &__input-text
         font-weight bold
         color #060
 
-    &_correct_false &__input:checked + &__input-text
+    &__variant_correct_false&__variant_selected &__input-text
+        font-weight bold
         color #d90000

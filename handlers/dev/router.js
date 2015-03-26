@@ -37,6 +37,6 @@ router.get('/die', function*() {
 var d = new Date() + '';
 
 router.get('/test', function*() {
-  this.body = d;
+  this.body = '<script src="/js/head.js"></script><script src="/js/mom.js"></script>';
 });
 

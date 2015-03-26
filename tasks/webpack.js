@@ -27,6 +27,19 @@ module.exports = function() {
         return;
       }
 
+      /*
+      Log profile
+      console.log( stats.toJson().modules.map(function(mod) {
+        return {
+          identifier: mod.identifier,
+          name: mod.name,
+          profile: mod.profile
+        };
+      }) );
+      */
+
+      require('fs').writeFileSync('/tmp/webpack.json', JSON.stringify(stats.toJson()));
+
       gp.util.log('[webpack]', stats.toString({
         hash: false,
         version: false,
@@ -37,6 +50,23 @@ module.exports = function() {
         cached: true,
         colors: true
       }));
+
+      /*
+      Log profile and all details
+       gp.util.log('[webpack]', stats.toString({
+       hash: false,
+       version: false,
+       timings: true,
+       assets: true,
+       chunks: true,
+       chunkModules: true,
+       modules: true,
+       cached: true,
+       colors: true,
+       profile: true
+       }));
+
+       */
 
       if (!config.watch) callback();
     });

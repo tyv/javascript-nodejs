@@ -1,0 +1,27 @@
+include /bem
+
++b.profile
+
+  +b.quiz-results-table
+    +e("table").results
+
+      //- [{"created":"2015-03-25T15:44:09.907Z","quizTitle":"Второй тест","score":0,"level":"junior","levelTitle":"новичок","time":2286}]
+      +e("tr").result(ng-repeat="result in quizResults")
+
+        +e("th").test-info
+          +e("time").time {{result.created | quizDate}}
+          +e("h1").name {{result.quizTitle}}
+
+        +e("td").precents
+          +e("dl").precents-info
+            +e("dt").title
+              +e("h1").title-head Результат:
+            +e("dd").precents-value {{result.score}}%
+
+        +e("td").level
+          +e("h1").title Уровень:
+          +e("p").level-info {{result.levelTitle}}
+
+        +e("td").time-spent
+          +e("h1").title Время прохождения:
+          +e("p").time-spent-info {{result.time | quizDuration}}

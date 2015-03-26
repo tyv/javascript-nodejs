@@ -14,7 +14,7 @@ var del = require('del');
 // no webpack dependencies inside
 // no es6 (for 6to5 processing) inside
 // NB: includes angular-*
-var noProcessModulesRegExp = /node_modules\/(angular|moment|prismjs)/;
+var noProcessModulesRegExp = /node_modules\/(angular|prismjs)/;
 
 function filenameTemplate(name) {
   return config.assetVersioning == 'query' ? name + ".js?[hash]" :
@@ -45,6 +45,8 @@ var webpackConfig = {
 
   devtool: process.env.NODE_ENV == 'production' ? 'source-map' : "inline-source-map",
 
+  profile: true,
+
   entry: {
     angular:  'client/angular',
     head:     'client/head',
@@ -53,8 +55,7 @@ var webpackConfig = {
     search:   'search/client',
     quiz:     'quiz/client',
     ebook:    'ebook/client',
-    footer:   'client/footer',
-    trackjs:  'client/trackjs'
+    footer:   'client/footer'
   },
 
   externals: {
@@ -77,7 +78,12 @@ var webpackConfig = {
       // '/js/javascript-nodejs/node_modules/client/angular.js'
       // or even
       // '/js/javascript-nodejs/node_modules/6to5-loader/index.js?modules=commonInterop!/js/javascript-nodejs/node_modules/client/head/index.js'
-      noProcessModulesRegExp
+      {
+        test: function(path) {
+          //console.log(path);
+          return noProcessModulesRegExp.test(path);
+        }
+      }
     ]
   },
 
@@ -100,6 +106,11 @@ var webpackConfig = {
     new webpack.ProvidePlugin({
       _: 'lodash'
     }),
+
+    // prevent autorequire all moment locales
+    // https://github.com/webpack/webpack/issues/198
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+
     // any common chunks from entries go to head
     new CommonsChunkPlugin("head", filenameTemplate("head")),
     new WriteVersionsPlugin(path.join(config.manifestRoot, "js.versions.json")),

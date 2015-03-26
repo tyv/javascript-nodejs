@@ -10,6 +10,7 @@ block append head
 
 block content
 
+  script var profileStatesEnabled = !{JSON.stringify(profileStatesEnabled)};
   script(src=script("angular"))
   script(src=script("profile"))
 

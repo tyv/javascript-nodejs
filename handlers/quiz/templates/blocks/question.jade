@@ -10,8 +10,9 @@
           - var variantSelected = question.userAnswer !== undefined && (question.userAnswer == num);
           +e("li")(class=[
             "variant",
-            quizResult && variantCorrect && "_correct_true",
-            quizResult && variantSelected && !variantCorrect && "_correct_false"
+            variantSelected && "_selected" || undefined,
+            quizResult && variantCorrect && "_correct_true" || undefined,
+            quizResult && variantSelected && !variantCorrect && "_correct_false" || undefined
           ])
             +e("label").label
               +e("input").input(type="radio" value=num name=(!quizResult && "answer") disabled=!!quizResult checked=(variantSelected ? "checked" : undefined))
@@ -27,8 +28,9 @@
           - var variantSelected = question.userAnswer !== undefined && ~question.userAnswer.indexOf(num);
           +e("li")(class=[
             "variant",
-            quizResult && variantCorrect && "_correct_true",
-            quizResult && variantSelected && !variantCorrect && "_correct_false"
+            variantSelected && "_selected" || undefined,
+            quizResult && variantCorrect && "_correct_true" || undefined,
+            quizResult && variantSelected && !variantCorrect && "_correct_false" || undefined
           ])
             +e("label").label
               +e("input").input(type="checkbox" value=num name=(!quizResult && "answer") disabled=!!quizResult checked=(variantSelected ? "checked" : undefined))

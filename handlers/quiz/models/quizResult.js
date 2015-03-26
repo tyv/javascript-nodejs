@@ -21,12 +21,18 @@ const schema = new Schema({
     required: true
   },
 
-  quizScore: {
+  level:     {
+    type: String,
+    enum: ['junior','medium', 'senior'],
+    required: true
+  },
+
+  score: {
     type: Number,
     required: true
   },
 
-  quizTime: {
+  time: {
     type: Number,
     required: true
   },
@@ -39,6 +45,10 @@ const schema = new Schema({
     required: true,
     default: Date.now
   }
+});
+
+schema.virtual('levelTitle').get(function() {
+  return {junior: 'новичок', medium: 'средний', senior: 'профи'}[this.level];
 });
 
 module.exports = mongoose.model('QuizResult', schema);

@@ -1,8 +1,6 @@
 block append variables
 
-  - var quizResultLevel = quizResult.quizScore <= 40 ? 'junior' : quizResult.quizScore <= 80 ? 'medium' : 'senior';
-  - var quizResultLevelText = {junior: 'новичок', medium: 'средний', senior: 'профи'}[quizResultLevel];
-  - var rotate = parseInt((quizResult.quizScore * 1.8), 10) + 'deg'
+  - var rotate = parseInt((quizResult.score * 1.8), 10) + 'deg'
 
 
 +b.quiz-result
@@ -26,16 +24,15 @@ block append variables
         +e("dl").result
           +e("dt").text Ваш результат:
           +e("dd")
-            +e("p").percents !{ quizResult.quizScore }%
+            +e("p").percents #{quizResult.score}%
 
-    style.
-      .quiz-results-indicator__indicator:after { -webkit-transform: rotate(!{ rotate }); transform: rotate(!{ rotate }); }
+    style .quiz-results-indicator__indicator:after { -webkit-transform: rotate(!{ rotate }); transform: rotate(!{ rotate }); }
 
     +e.center
       +b.quiz-results-indicator
         +e.indicator
         +e.text Ваш предположительный уровень&nbsp;—&nbsp;
-          span(class='quiz-results-indicator__level quiz-results-indicator__level_' + quizResultLevel)= quizResultLevelText
+          span(class='quiz-results-indicator__level quiz-results-indicator__level_' + quizResult.level)= quizResult.levelTitle
 
     +e.right
       +b.quiz-percents

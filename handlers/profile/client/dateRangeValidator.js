@@ -1,6 +1,6 @@
 var notification = require('client/notification');
 var angular = require('angular');
-var moment = require('moment');
+var moment = require('momentWithLocale');
 
 angular.module('profile')
   .directive('dateRangeValidator', function() {

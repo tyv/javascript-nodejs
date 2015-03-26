@@ -55,8 +55,9 @@ exports.post = function*() {
       user:      this.user,
       quizSlug:  quiz.slug,
       quizTitle: quiz.title,
-      quizScore: totalScore,
-      quizTime:  Date.now() - sessionQuiz.started
+      score: totalScore,
+      level:  totalScore <= 40 ? 'junior' : totalScore <= 80 ? 'medium' : 'senior',
+      time:  Date.now() - sessionQuiz.started
     });
 
     sessionQuiz.result = quizResult.toObject();

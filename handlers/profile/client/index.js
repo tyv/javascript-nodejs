@@ -1,6 +1,6 @@
 var angular = require('angular');
 var notification = require('client/notification');
-var moment = require('moment');
+var moment = require('momentWithLocale');
 
 var profile = angular.module('profile', [
   'ui.router', 'ngResource', 'global403Interceptor', 'ajoslin.promise-tracker', 'progress', 'focusOn', 'ngMessages'
@@ -27,6 +27,24 @@ profile.factory('Me', ($resource) => {
   });
 });
 
+profile.factory('QuizResults', ($resource) => {
+  return $resource('/quiz/results/user/' + window.currentUser.id, {}, {
+    query: {
+      method: 'GET',
+      isArray: true,
+      transformResponse: function(data, headers){
+
+        data = JSON.parse(data);
+        data.forEach(function(result) {
+          result.created = new Date(result.created);
+        });
+        console.log(data);
+        return data;
+      }
+    }
+  });
+});
+
 
 profile
   .config(($locationProvider, $stateProvider) => {
@@ -40,19 +58,40 @@ profile
         },
         templateUrl: "/profile/templates/partials/root",
         controller:  'ProfileRootCtrl'
-      })
-      .state('root.aboutme', {
+      });
+
+    var states = {
+      'root.aboutme': {
         url:         "/",
         title:       'Публичный профиль',
         templateUrl: "/profile/templates/partials/aboutme",
         controller:  'ProfileAboutMeCtrl'
-      })
-      .state('root.account', {
-        url:   '/account',
-        title: 'Аккаунт',
+      },
+      'root.account': {
+        url:         '/account',
+        title:       'Аккаунт',
         templateUrl: "/profile/templates/partials/account",
         controller:  'ProfileAccountCtrl'
-      });
+      },
+      'root.quizresults': {
+        url:         '/quizresults',
+        title:       'Тесты',
+        templateUrl: "/profile/templates/partials/quizresults",
+        controller:  'ProfileQuizResultsCtrl',
+        resolve:     {
+          quizResults: (QuizResults) => QuizResults.query()
+        }
+      }
+    };
+
+    // enabled states depend on user, are set to global variable in index.jade
+    for(var key in states) {
+      if (~window.profileStatesEnabled.indexOf(key)) {
+        $stateProvider.state(key, states[key]);
+      }
+    }
+
+
   })
   .controller('ProfileRootCtrl', ($scope, $state, $timeout, $http, me, promiseTracker) => {
 
@@ -78,6 +117,11 @@ profile
   .controller('ProfileAboutMeCtrl', ($scope, me) => {
 
     $scope.me = me;
+
+  })
+  .controller('ProfileQuizResultsCtrl', ($scope, quizResults) => {
+
+    $scope.quizResults = quizResults;
 
   })
   .controller('ProfileAccountCtrl', ($scope, $http, me, Me) => {
@@ -127,6 +171,12 @@ profile
   })
   .filter('capitalize', () => function(str) {
     return str[0].toUpperCase() + str.slice(1);
+  })
+  .filter('quizDate', () => function(date) {
+    return moment(date).format('D MMMM YYYY в LT');
+  })
+  .filter('quizDuration', () => function(seconds) {
+    return moment.duration(seconds, 'seconds').humanize();
   });
 
 
