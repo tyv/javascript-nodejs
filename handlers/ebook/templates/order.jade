@@ -11,10 +11,11 @@ block append ga
 
   script window.ga('send', 'event', 'payment', 'return-#{orderInfo.status}', 'ebook');
 
-
 block content
 
   script var orderNumber = #{order.number};
+
+  script window.metrika.reachGoal('ORDER', { product: 'ebook', status: '#{orderInfo.status}', number: '#{orderInfo.number}' });
 
   - var mailto = "mailto:orders@javascript.ru?subject=" + encodeURIComponent('Заказ ' + order.number);
 

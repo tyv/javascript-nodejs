@@ -85,7 +85,7 @@ function xhr(options) {
       time: Date.now() - request.timeStart,
       method: request.method,
       url: request.url,
-      status: request.status
+      status: String(request.status)
     });
   }
 

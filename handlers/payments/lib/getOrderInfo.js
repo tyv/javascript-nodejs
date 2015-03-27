@@ -32,6 +32,7 @@ module.exports =  function*(order) {
     // it is possible that there is no transaction at all
     // (if order status is set manually)
     return {
+      number: order.number,
       status: "success",
       transaction: transaction
       // no title/accent/description, because the action on success is order-module-dependant
@@ -45,6 +46,7 @@ module.exports =  function*(order) {
     }).exec();
 
     return {
+      number: order.number,
       status: "paid",
       transaction: transaction,
       title: "Спасибо за заказ!",
@@ -71,7 +73,8 @@ module.exports =  function*(order) {
         transaction: transaction,
         title: "Произошла ошибка.",
         accent: "При обработке платежа произошла ошибка.",
-        description: `<p>Пожалуйста, напишите в поддержку ${mailUrl}.</p>`
+        description: `<p>Пожалуйста, напишите в поддержку ${mailUrl}.</p>`,
+        number: order.number
       };
     }
 
@@ -91,6 +94,7 @@ module.exports =  function*(order) {
     if (transaction) {
       // Waiting for payment
       return {
+        number: order.number,
         status: "pending",
         transaction: transaction,
         title: "Спасибо за заказ!",
@@ -110,6 +114,7 @@ module.exports =  function*(order) {
     log.debug("findOne failed transaction: ", transaction && transaction.toObject());
 
     return {
+      number: order.number,
       status: "fail",
       title: "Оплата не прошла.",
       transaction: transaction,
@@ -124,6 +129,7 @@ module.exports =  function*(order) {
 
   if (order.status == Order.STATUS_CANCEL) {
     return {
+      number: order.number,
       status: "cancel",
       title: "Заказ отменён.",
       description: `<p>По вопросам, касающимся заказа, пишите на ${mailUrl}.</p>.`

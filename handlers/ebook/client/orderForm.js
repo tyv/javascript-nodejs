@@ -41,6 +41,7 @@ class OrderForm {
     if (this.elem.elements.email) {
       if (!this.elem.elements.email.value) {
         window.ga('send', 'event', 'payment', 'checkout-no-email', 'ebook');
+        window.metrika.reachGoal('CHECKOUT-NO-EMAIL', { product: 'ebook'});
         new notification.Error("Введите email.");
         this.elem.elements.email.focus();
         return;
@@ -69,6 +70,12 @@ class OrderForm {
     window.ga('ec:setAction', 'checkout', {
       step: 1,
       option: data.paymentMethod
+    });
+
+    window.metrika.reachGoal('CHECKOUT', {
+      product: 'ebook',
+      method:  data.paymentMethod,
+      price: data.amount
     });
 
     window.ga('send', 'event', 'payment', 'checkout', 'ebook');
@@ -104,6 +111,16 @@ class OrderForm {
             container.firstChild.submit();
           }
         });
+
+
+        window.metrika.reachGoal('PURCHASE', {
+          product: 'ebook',
+          method:  data.paymentMethod,
+          price: data.amount,
+          number: result.orderNumber
+        });
+
+
       } else {
         console.error(result);
         onEnd();
