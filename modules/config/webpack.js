@@ -1,4 +1,3 @@
-
 var fs = require('fs');
 var path = require('path');
 var config = require('config');
@@ -67,7 +66,7 @@ var webpackConfig = {
   module: {
     loaders: [
       {
-        test: /\.jade$/,
+        test:   /\.jade$/,
         loader: "jade?root=" + config.projectRoot + '/templates'
       },
       {
@@ -133,23 +132,22 @@ if (process.env.NODE_ENV != 'development') { // production, ebook
       // thus removing unchanged files
       // => use this plugin only in normal run
       this.plugin('run', clear);
-    }
-    /*,
+    },
 
-     new ngAnnotatePlugin({ // add angular annotations with ng-strict-di to ensure it's correct
-     add: true
-     }),
+    new ngAnnotatePlugin({ // add angular annotations with ng-strict-di to ensure it's correct
+      add: true
+    }),
 
-     new webpack.optimize.UglifyJsPlugin({
-     compress: {
-     // don't show unreachable variables etc
-     warnings:     false,
-     semicolons:   false, // need -b too?
-     drop_console: true,
-     unsafe:       true,
-     screw_ie8: true
-     }
-     })*/
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        // don't show unreachable variables etc
+        warnings:     false,
+        semicolons:   false, // need -b too?
+        drop_console: true,
+        unsafe:       true,
+        screw_ie8:    true
+      }
+    })
   );
 }
 
