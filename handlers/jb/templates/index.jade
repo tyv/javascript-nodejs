@@ -1,0 +1,57 @@
+
+extends /layouts/main
+
+block append variables
+  - var sitetoolbar = true
+  - var title = "Jetbrains для участников курса"
+  - var layout_main_class = "main_width-limit"
+
+block content
+
+  if error
+    +b.notification._message._error
+      +e.content!= error
+      +e('button').close(title="Закрыть")
+
+
+  p Выберите редактор и введите данные, чтобы получить скидку 30% на персональную лицензию.
+
+  form(method="POST" action="/jb" name="jb")
+    table
+      tr
+        td Редактор:
+        td
+          +b('select').input-select(name="product")
+            each title, value in products
+              +e('option')(value=value selected=(form && form.product == value))= title
+
+      tr
+        td Email:
+        td
+          +b(class=['text-input', errors && errors.email && '_invalid'])
+            +e('input').control(type="email" name="email" required placeholder="email@gmail.com" value=form && form.email)
+            if errors && errors.email
+              +e.err= errors.email
+
+      tr
+        td Имя Фамилия (на английском)
+        td
+          +b(class=['text-input', errors && errors.name && '_invalid'])
+            +e('input').control(type="text" pattern="^\\s*[a-zA-Z ]+\\s+[a-zA-Z ]+\\s*$" required name="name" placeholder="Ilya Kantor" value=form && form.name)
+            if errors && errors.name
+              +e.err= errors.name
+
+
+    +b('button').submit-button._small.__item-save(type="submit") Запросить
+
+
+  script.
+    document.forms.jb.onsubmit = function() {
+      return confirm('Проверьте запрос на лицензию:' +
+      '\nРедактор: ' + this.elements.product.value +
+      '\nEmail:    ' + this.elements.email.value +
+      '\nИмя:      ' + this.elements.name.value +
+      '\nВсё верно, отправлять?');
+    };
+
+

@@ -7,11 +7,7 @@ module.exports = {
 
   webmoney:    {},
   yandexmoney: {},
-  paypal:      {
-    myCertPath:     __dirname,
-    myKeyPath:      __dirname,
-    paypalCertPath: __dirname
-  },
+  paypal:      {},
   payanyway:   {},
 
   // dev credentials
@@ -40,6 +36,9 @@ module.exports = {
     webhookUrl: 'no hooks for dev'
   },
 
+  jb: {
+
+  },
   facebook:  {
     appId:     '*',
     appSecret: '*'
@@ -60,7 +59,6 @@ module.exports = {
     appId:     '*',
     appSecret: '*'
   },
-  amazonSes: {},
   sauceLabs: {}
 
 };

@@ -1,0 +1,15 @@
+
+extends /layouts/main
+
+block append variables
+  - var sitetoolbar = true
+  - var title = "Запрос отправлен!"
+  - var layout_main_class = "main_width-limit"
+
+block content
+
+  +b.notification._message._success
+    +e.content
+      p Ссылка на покупку со скидкой придёт на указанный вами email.
+      p Если возникнут какие-то вопросы и сложности -- пишите <a href="mailto:orders@javascript.ru">orders@javascript.ru</a>.
+

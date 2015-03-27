@@ -44,6 +44,7 @@ module.exports = {
     appId: secret.openexchangerates.appId
   },
 
+  jb: secret.jb,
   lang:    env.NODE_LANG || 'ru',
   elastic: {
     host: 'localhost:9200'
