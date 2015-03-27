@@ -13,6 +13,14 @@ script
             ut: "noindex" // TODO:remove when goes prod
           });
           metrika.trackLinks({delay: 150});
+
+          window.addEventListener('error', function(e) {
+            window.metrika.reachGoal('JSERROR', {
+              src: (e.filename || e.errorUrl) + ': ' + (e.lineno || e.errorLine),
+              stack: e.stack || (e.error && e.error.stack),
+              message: e.message
+            });
+          });
         } catch (e) {
         }
       }];

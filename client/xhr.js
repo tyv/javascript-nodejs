@@ -49,6 +49,7 @@ function xhr(options) {
 
 
   request.addEventListener('loadstart', event => {
+    request.timeStart = Date.now();
     sendStat(event.type);
     var e = wrapEvent('xhrstart', event);
     document.dispatchEvent(e);
@@ -145,10 +146,7 @@ function xhr(options) {
 
   // defer to let other handlers be assigned
   setTimeout(function() {
-    request.timeStart = Date.now();
-
     request.send(body);
-
   }, 0);
 
 
