@@ -142,7 +142,6 @@ if (process.env.NODE_ENV != 'development') { // production, ebook
       compress: {
         // don't show unreachable variables etc
         warnings:     false,
-        semicolons:   false, // need -b too?
         drop_console: true,
         unsafe:       true,
         screw_ie8:    true
