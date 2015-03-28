@@ -161,6 +161,25 @@ function spider(url) {
 
     var baseUrl = this.getGlobal('location').origin;
 
+    var formatErrors = casper.evaluate(function() {
+      var errors = [];
+      __utils__.findAll('.format_error').forEach(function(elem) {
+        errors.push(elem.innerHTML);
+      });
+      return errors;
+    });
+
+    if (formatErrors.length) {
+      var error = {
+        errors: formatErrors,
+        url: url
+      };
+
+      dataObj.errors.push(error);
+
+      casper.log('FORMAT ERRORS: ' + formatErrors, 'error');
+    }
+
     // Find links on the current page
     var localLinks = helpers.findLinks(this);
 

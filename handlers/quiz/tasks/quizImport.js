@@ -28,6 +28,10 @@ module.exports = function(options) {
 
       for (var i = 0; i < files.length; i++) {
         var yml = files[i];
+        if (path.basename(yml)[0] == '_') {
+          gutil.log("Skip unfinished " + yml);
+          continue;
+        }
 
         gutil.log("Importing " + yml);
 
