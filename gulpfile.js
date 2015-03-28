@@ -97,6 +97,8 @@ gulp.task("test", lazyRequireTask('./tasks/test', {
 
 gulp.task('watch', lazyRequireTask('./tasks/watch', {
   root:        __dirname,
+  // for performance, watch only these dirs under root
+  dirs: ['assets', 'styles'],
   taskMapping: [
     {
       watch: 'assets/**',
@@ -140,6 +142,8 @@ gulp.task('client:resize-retina-images', lazyRequireTask('./tasks/resizeRetinaIm
 
 gulp.task('client:webpack', lazyRequireTask('./tasks/webpack'));
 
+gulp.task('spawn:client:webpack', lazyRequireTask('./tasks/spawnWebpack'));
+
 gulp.task('build', function(callback) {
   runSequence("client:sync-resources", 'client:compile-css', 'client:sync-css-images', 'client:webpack', callback);
 });
@@ -148,8 +152,9 @@ gulp.task('server', lazyRequireTask('./tasks/server'));
 
 gulp.task('edit', ['build', 'tutorial:import:watch', "client:sync-resources", 'client:livereload', 'server']);
 
+
 gulp.task('dev', function(callback) {
-  runSequence("client:sync-resources", 'client:compile-css', 'client:sync-css-images', ['nodemon', 'client:livereload', 'client:webpack', 'watch'], callback);
+  runSequence("client:sync-resources", 'client:compile-css', 'client:sync-css-images', ['nodemon', 'client:livereload', 'spawn:client:webpack', 'watch'], callback);
 });
 
 gulp.task('tutorial:import', ['cache:clean'], lazyRequireTask('tutorial/tasks/tutorialImport'));

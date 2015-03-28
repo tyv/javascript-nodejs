@@ -7,6 +7,8 @@ var minimatch = require("minimatch");
 var chokidar = require('chokidar');
 var fs = require('fs');
 var runSequence = require('run-sequence');
+var glob = require('glob');
+var path = require('path');
 
 var taskQueue = [];
 var taskRunning = '';
@@ -102,7 +104,11 @@ function onModify(filePath) {
 module.exports = function(options) {
 
   return function(callback) {
-    var watcher = chokidar.watch(options.root, {ignoreInitial: true});
+    var dirs = options.dirs.map(function(dir) {
+      return path.join(options.root, dir);
+    });
+
+    var watcher = chokidar.watch(dirs, {ignoreInitial: true});
 
     watcher.root = options.root;
     watcher.taskMapping = options.taskMapping;
