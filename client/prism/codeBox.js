@@ -57,7 +57,7 @@ function CodeBox(elem) {
       alert("Извините, запуск кода требует более современный браузер");
       return;
     }
-    win.postMessage(code, 'http://ru.lookatcode.com/showjs');
+    win.postMessage(code, '//ru.lookatcode.com/showjs');
   }
 
   function runHTML() {
@@ -119,7 +119,7 @@ function CodeBox(elem) {
       form.style.display = 'none';
       form.method = 'POST';
       form.enctype = "multipart/form-data";
-      form.action = "http://ru.lookatcode.com/showhtml";
+      form.action = "//ru.lookatcode.com/showhtml";
       form.target = frame.name;
 
       var textarea = document.createElement('textarea');
@@ -170,7 +170,7 @@ function CodeBox(elem) {
         // create iframe for js
         jsFrame = document.createElement('iframe');
         jsFrame.className = 'js-frame';
-        jsFrame.src = 'http://ru.lookatcode.com/showjs';
+        jsFrame.src = '//ru.lookatcode.com/showjs';
         jsFrame.style.width = 0;
         jsFrame.style.height = 0;
         jsFrame.style.border = 'none';

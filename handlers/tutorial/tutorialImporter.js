@@ -101,6 +101,7 @@ TutorialImporter.prototype.checkIfErrorsInParsed = function(parsed) {
       errors.push(node.text);
     }
   });
+
   if (errors.length) {
     throw new Error("Errors: " + errors.join());
   }

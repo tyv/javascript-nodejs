@@ -44,7 +44,7 @@ var webpackConfig = {
 
   devtool: process.env.NODE_ENV == 'production' ? 'source-map' : "inline-source-map",
 
-  profile: true,
+  //profile: true,
 
   entry: {
     angular:  'client/angular',
