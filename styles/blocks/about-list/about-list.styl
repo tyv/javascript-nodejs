@@ -1,0 +1,45 @@
+.about-list
+    position absolute
+    bottom 30px
+
+    width 100%
+
+    &__list
+        display table
+        width 100%
+
+    &__item
+        display table-cell
+
+        padding 0 10px
+
+        text-align center
+
+    &__num
+        font-size 2.8vw
+        line-height 2.8vw
+        font-weight bold
+
+    &__description
+        margin 10px 0 0 0
+
+        opacity 0.6
+
+
+    @media tablet
+        &__num
+            font-size 16px
+
+        &__description
+            font-size 12px
+
+    @media (max-width: 690px)
+        &__list
+            display block
+
+            text-align center
+
+        &__item
+            display inline-block
+
+            margin-top 20px

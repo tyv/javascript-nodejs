@@ -1,0 +1,138 @@
+extends ../layouts/base
+
+// - http://stackoverflow.com/questions/12646451/how-to-pass-variables-between-jade-templates
+block variables
+  - self.headTitle = 'Современный учебник Javascript';
+
+  //- layout
+  - layout.sitetoolbar = true
+  - layout.header = true
+  - layout.custom = true
+
+block content
+  +b.about-banner
+    +e("header").header
+      +e("h1").title
+        проект
+        br
+        +e("span").name Javascript.ru
+
+      +e("hr").line
+
+    +b.about-list
+      +e("ul").list
+        +e("li").item
+          +e("h2").num 2
+          +e("p").description
+            | конференции
+            br
+            | JS. Talks
+
+        +e("li").item
+          +e("h2").num 4940
+          +e("p").description
+            | участников очных
+            br
+            | JS. Talks
+
+        +e("li").item
+          +e("h2").num 1255
+          +e("p").description
+            | участников
+            br
+            | дистанционного обучения
+
+        +e("li").item
+          +e("h2").num >282000
+          +e("p").description
+            | посетителей в месяц
+            br
+            | (на основе последнего года)
+
+        +e("li").item
+          +e("h2").num >24000
+          +e("p").description
+            | строк на js в
+            br
+            | open-source коде сайта
+
+        +e("li").item
+          +e("h2").num >93000
+          +e("p").description
+            | строк в учебнике
+            br
+            | Javascript
+
+  +b.about-layout.columns.columns_2
+
+    +b.about-text.about-layout__left.columns__col
+      +e('h1').title О проекте
+      +e.body
+        p Javascript.ru был запущен в 2007 году и с тех пор стал одним из крупнейших русскоязычных порталов по JavaScript. Сегодня основные цели проекта это:
+        +e('ol').list
+          +e('li').item Предоставлять грамотную и актуальную информацию по JavaScript и смежным технологиям.
+          +e('li').item Популяризировать современные фронтенд-технологии
+          +e('li').item Проводить онлайн и оффлайн-мероприятия по обучению JavaScript.
+          +e('li').item Создание сообщества JS-разработчиков и обмен знаниями
+        p
+          | Код этого сайта и содержимое учебника по Javascript находиться в open-source доступе и его можно посмотреть на&nbsp;
+          a(href="/123") github
+
+
+    +b.about-text.about-layout__right.columns__col
+      +e('h1').title Люди
+      +e.body
+        +e('ul').humans
+
+          +e('li').human
+            +e('i').human-userpic
+              +e('img').human-userpic-i(src="/about/iliakan.jpg")
+            +e('h3').human-title Илья Кантор
+            +e('p').human-role Главный координатор, лектор, JS-разработчик
+
+          +e('li').human
+            +e('i').human-userpic
+              +e('img').human-userpic-i(src="/about/bezart.jpg")
+            +e('h3').human-title Артем Безценный
+            +e('p').human-role UX-дизайнер
+
+          +e('li').human
+            +e('i').human-userpic
+              +e('img').human-userpic-i(src="/about/tyv.jpg")
+            +e('h3').human-title Юрий Ткаченко
+            +e('p').human-role На дуде игрец
+
+          +e('li').human
+            +e('i').human-userpic
+              +e('img').human-userpic-i(src="/about/amax.jpg")
+            +e('h3').human-title Алексей Максимов
+            +e('p').human-role Админ
+
+
+  +b.about-map
+    +e('h1').title География офлайн событий
+    +e('h1').map-container
+
+
+  +b.about-layout.columns.columns_2
+
+    +b.about-text.about-layout__left.columns__col
+      +e('h1').title Принять участие в проекте
+      +e.body
+        p
+          | Если у вас есть идеи по улучшению работы сайта либо содержимого учебника по Javascript, не стесняйтесь присылать их нам либо заходите на наш&nbsp;
+          a(href="/123") github
+
+
+    +b.about-text.about-layout__right.columns__col
+      +e('h1').title Обратная связь
+      +e.body._center
+        p
+          | Илья Кантор
+        p
+          a(href="mailto:iliakan@javascript.ru")
+            iliakan@javascript.ru
+          br
+          | +79035419441
+
+
