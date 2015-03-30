@@ -123,6 +123,14 @@
     .page-break
         page-break-after always
 
+
+    &_contains_header &__inner
+        padding 0
+
+    &_contains_header .main_width-limit
+        max-width initial
+
+
     // chrome/wk pdf
     @media print
 
@@ -246,6 +254,8 @@
             color #333
 
             white-space nowrap
+
+
 
 
     @media (max-width: 480px)

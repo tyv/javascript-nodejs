@@ -23,7 +23,7 @@
 
 Каждую запись можно просмотреть или скачать в низком и хорошем качестве.
 
-<div class="lessons-list">
+<div class="lessons-list lessons-list_screencast">
 <ol class="lessons-list__lessons">
 <li class="lessons-list__lesson" mnemo="intro-1-about">[Введение в Node.JS, об этом скринкасте](http://www.youtube.com/watch?v=ILpS4Fq3lmw)</li>
 <li class="lessons-list__lesson" mnemo="intro-2-whatisnode">[Что такое Node.JS? Почему Node.JS?](http://www.youtube.com/watch?v=N-4p2_NEr9w)</li>
@@ -109,9 +109,9 @@
 
 ## Скачать
 
-Видео-файл с интересующим вас выпуском вы сможете скачать, 
+Видео-файл с интересующим вас выпуском вы сможете скачать,
 нажав на иконку справа от имени: <img src="/clipart/download_lq.png"> -- низкое качество, <img src="/clipart/download.png"> -- высокое .
-Вы также можете скачать архив со всеми выпусками в низком качестве: <a href="/nodejs-screencast/nodejs-mp4-low.zip">nodejs-mp4-low.zip (228MB)</a> 
+Вы также можете скачать архив со всеми выпусками в низком качестве: <a href="/nodejs-screencast/nodejs-mp4-low.zip">nodejs-mp4-low.zip (228MB)</a>
 или в высоком качестве <a href="/nodejs-screencast/nodejs-mp4.zip">nodejs-mp4.zip (4Gb)</a>.
 
 ## Код
