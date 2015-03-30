@@ -29,21 +29,20 @@ html
       if layout.sitetoolbar
         include ../blocks/sitetoolbar
         //- include ../blocks/sitetoolbar-login-loaders
-      if !layout.custom
-        .page
-          if layout.prevNext
-            include ../blocks/page-nav
-          if layout.sidebar
-            include ../blocks/sidebar
-          .page__inner
-            .main.main_width-limit
-              //- отключается только на странице задачи, по возможности отрефакторить
-              if layout.header
-                header.main__header(class= layout.centeredHeader == true ? "main__header_center" : undefined)
-                  if layout.breadcrumbs
-                    include ../blocks/breadcrumbs
-                  h1.main__header-title!= self.tibasetle
-      block content
+      .page(class=[sidebar && 'page_sidebar_on', layout_page_class])
+        if layout.prevNext
+          include ../blocks/page-nav
+        if layout.sidebar
+          include ../blocks/sidebar
+        .page__inner
+          main(class=(mainclass ? mainclass : 'main') + ' ' + [layout_main_class])
+            //- отключается только на странице задачи, по возможности отрефакторить
+            if layout.header
+              header.main__header(class= layout.centeredHeader == true ? "main__header_center" : undefined)
+                if layout.breadcrumbs
+                  include ../blocks/breadcrumbs
+                h1.main__header-title!= self.title
+            block content
       if layout.articleFoot
         include ../blocks/article-foot
         include ../blocks/corrector
