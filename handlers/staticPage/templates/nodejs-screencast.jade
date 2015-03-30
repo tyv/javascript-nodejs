@@ -1,43 +1,34 @@
 extends /layouts/main
 
 block append variables
-  - var headTitle = 'Современный учебник Javascript';
-
-  //- layout
   - var sitetoolbar = true
-  - var header = true
-  - var custom_layout = true
-
+  - var title = "Node.JS скринкаст и курсы"
+  - var layout_main_class = "main_width-limit"
 
 block content
 
-  include ./nodejs-screencast-header
+  include:simpledown nodejs-screencast.md
 
-  main.main(class='main_width-limit-wide').nodejs-screencast-content
+  form(data-newsletter-subscribe-form action="/newsletter/subscriptions" method="POST")
+    input(type="hidden" value="nodejs" name="slug")
+    if user
+      input(type="hidden" value=user.email name="email")
+    else
+      input(type="email" placeholder="me@mail.com" name="email" required)
 
+    input(type="submit" value='Подписаться')
 
-    include:simpledown nodejs-screencast.md
+  script.
+    (function() {
+      var lis = document.querySelectorAll('li[mnemo]');
 
-    form(data-newsletter-subscribe-form action="/newsletter/subscriptions" method="POST")
-      input(type="hidden" value="nodejs" name="slug")
-      if user
-        input(type="hidden" value=user.email name="email")
-      else
-        input(type="email" placeholder="me@mail.com" name="email" required)
+      for (var i = 0; i < lis.length; i++) {
+        var li = lis[i];
+        var mnemo = li.getAttribute('mnemo');
 
-      input(type="submit" value='Подписаться')
+        li.insertAdjacentHTML("beforeEnd", '<a title="Скачать в низком качестве" href="/nodejs-screencast/nodejs-mp4-low/' + mnemo + '.mp4"><img src="/clipart/download_lq.png" style="height:12px;margin-left:5px"></a>');
+        li.insertAdjacentHTML("beforeEnd", '<a title="Скачать в высоком качестве" href="/nodejs-screencast/nodejs-mp4/' + mnemo + '.mp4"><img src="/clipart/download.png" style="height:12px;margin-left:5px"></a>');
+      }
+    })();
 
-    script.
-      (function() {
-        var lis = document.querySelectorAll('li[mnemo]');
-
-        for (var i = 0; i < lis.length; i++) {
-          var li = lis[i];
-          var mnemo = li.getAttribute('mnemo');
-
-          li.insertAdjacentHTML("beforeEnd", '<a title="Скачать в низком качестве" href="/nodejs-screencast/nodejs-mp4-low/' + mnemo + '.mp4"><img src="/clipart/download_lq.png" style="height:12px;margin-left:5px"></a>');
-          li.insertAdjacentHTML("beforeEnd", '<a title="Скачать в высоком качестве" href="/nodejs-screencast/nodejs-mp4/' + mnemo + '.mp4"><img src="/clipart/download.png" style="height:12px;margin-left:5px"></a>');
-        }
-      })();
-
-    include /blocks/comments
+  include /blocks/comments
