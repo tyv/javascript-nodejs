@@ -146,7 +146,7 @@ if (process.env.NODE_ENV != 'development') { // production, ebook
         unsafe:       true,
         screw_ie8:    true
       },
-      beautify: true, // for error reporting
+      beautify: false, // for error reporting
       indent_level: 0
     })
   );
