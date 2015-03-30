@@ -1,13 +1,14 @@
 extends ../layouts/base
 
 // - http://stackoverflow.com/questions/12646451/how-to-pass-variables-between-jade-templates
-block variables
+block append variables
   - self.headTitle = 'Современный учебник Javascript';
 
   //- layout
   - layout.sitetoolbar = true
-  - layout.header = true
-  - layout.custom = true
+  - layout.header = false
+  - var layout_page_class = "page_contains_header"
+  - var mainclass = "main-headered"
 
 block content
   +b.about-banner

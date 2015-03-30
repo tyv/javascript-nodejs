@@ -6,14 +6,15 @@ block append variables
   //- layout
   - var sitetoolbar = true
   - var header = true
-  - var custom_layout = true
+  - var layout_page_class = "page_contains_header"
+  - var mainclass = "main-headered"
 
 
 block content
 
   include ./nodejs-screencast-header
 
-  main.main(class='main_width-limit-wide').nodejs-screencast-content
+  .main(class='main_width-limit-wide').nodejs-screencast-content
 
 
     include:simpledown nodejs-screencast.md
@@ -35,8 +36,25 @@ block content
           var li = lis[i];
           var mnemo = li.getAttribute('mnemo');
 
-          li.insertAdjacentHTML("beforeEnd", '<a title="Скачать в низком качестве" href="/nodejs-screencast/nodejs-mp4-low/' + mnemo + '.mp4"><img src="/clipart/download_lq.png" style="height:12px;margin-left:5px"></a>');
-          li.insertAdjacentHTML("beforeEnd", '<a title="Скачать в высоком качестве" href="/nodejs-screencast/nodejs-mp4/' + mnemo + '.mp4"><img src="/clipart/download.png" style="height:12px;margin-left:5px"></a>');
+          li.insertAdjacentHTML(
+            'beforeEnd',
+
+            '<div class="lessons-list__download">' +
+              '<div class="lessons-list__popup">' +
+                '<ul class="lessons-list__popup-list">' +
+                  '<li class="lessons-list__popup-item">' +
+                    '<a href="/nodejs-screencast/nodejs-mp4-low/' +
+                        mnemo + '.mp4">Компактный размер</a>'+
+                  '</li>' +
+
+                  '<li class="lessons-list__popup-item">' +
+                    '<a href="/nodejs-screencast/nodejs-mp4/' +
+                        mnemo + '.mp4">Высокое качество</a>' +
+                  '</li>' +
+                '</ul>' +
+              '</div>' +
+            '</div>'
+          );
         }
       })();
 
