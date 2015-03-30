@@ -2,30 +2,29 @@
 extends ./html
 
 block body
-  if footer || (footer === undefined)
-    .page-wrapper
-      if sitetoolbar
-        include ../blocks/sitetoolbar
-      .page(class=[sidebar && 'page_sidebar_on', layout_page_class])
-        script.
-          if (localStorage.noSidebar) {
-            document.querySelector('.page').classList.remove('page_sidebar_on');
-          }
-          setTimeout(function() {
-            document.querySelector('.page').classList.add('page_sidebar-animation-on');
-          }, 0);
+  if sitetoolbar
+    include ../blocks/sitetoolbar
 
-        //- основное содержимое статьи идёт до сайдбара (пользователь увидит его первым)
-        .page__inner
-          main.main(class=[layout_main_class])
-            block main
-        if sidebar
-          +b(class="sidebar page__sidebar #{sidebar.class}")
-            +e('button').toggle(data-sidebar-toggle data-add-class-on-hover)
-            include ../blocks/map
-            +e.inner
-              +e.content
-                block sidebar
+  if !custom_layout
+    .page(class=[sidebar && 'page_sidebar_on', layout_page_class])
+      script.
+        if (localStorage.noSidebar) {
+          document.querySelector('.page').classList.remove('page_sidebar_on');
+        }
+        setTimeout(function() {
+          document.querySelector('.page').classList.add('page_sidebar-animation-on');
+        }, 0);
 
-    if footer || (footer === undefined)
-      include ../blocks/page-footer
+      //- основное содержимое статьи идёт до сайдбара (пользователь увидит его первым)
+      .page__inner
+        main.main(class=[layout_main_class])
+          block main
+      if sidebar
+        +b(class="sidebar page__sidebar #{sidebar.class}")
+          +e('button').toggle(data-sidebar-toggle data-add-class-on-hover)
+          include ../blocks/map
+          +e.inner
+            +e.content
+              block sidebar
+  else
+    block content
