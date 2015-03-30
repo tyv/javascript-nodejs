@@ -32,8 +32,17 @@
         +e('img').userpic(src="/img/markup/sitetoolbar-userpic.png", alt="Very very long nickname with spaces", width="36", height="36")
         +e('span').user-text
           | Very very long nickname with spaces
+
     +e.search-wrap
-      +e('button').search-toggle(onclick="document.querySelector('.sitetoolbar').classList.toggle('sitetoolbar_search_open')")
+      +e.search-content
+
+        +e('form').search(method="GET", action="/search")
+          +e('button').search-toggle(type="button")
+          +e.search-input
+            +b.text-input
+              +e('input').control(name="query" placeholder="Искать на Javascript.ru" )
+            +e('button').find(type="submit") Найти
+
   +e.tablet-menu
     +e.tablet-menu-line
       +e.tablet-menu-header
@@ -54,14 +63,7 @@
         +b('a').share._fb.sitetoolbar__tablet-menu-share(href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=http://design.javascript.ru/intro")
         +b('a').share._gp.sitetoolbar__tablet-menu-share(href="https://plus.google.com/share?url=http://design.javascript.ru/intro")
         +b('a').share._vk.sitetoolbar__tablet-menu-share(href="http://vkontakte.ru/share.php?url=http://design.javascript.ru/intro")
-  +e.search
-    +e('form').search-content(method="GET", action="/search")
-      +e.search-query-wrap
-        +b.text-input.__search-query
-          +e('input').control(type="text")
-      +e.search-submit-wrap
-        +b('button').submit-button.__search-submit
-          | Найти
+
   +e.usermenu
     +e('ul').usermenu-items
       +e('li').usermenu-item
