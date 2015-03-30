@@ -12,7 +12,7 @@ var seleniumServer, seleniumServerAddress;
 // (sauceLabs doesn't use it, because it gives full log on-site)
 if (+process.env.SELENIUM_LOCAL) {
 
-  var pathToJar = require.resolve('lib/selenium/selenium-server-standalone-2.44.0.jar');
+  var pathToJar = require.resolve('lib/selenium/selenium-server-standalone-2.45.0.jar');
 
   // stdio goes to child_process.spawn()
   // must be an array of file descriptors or stream which have file descriptors or ...

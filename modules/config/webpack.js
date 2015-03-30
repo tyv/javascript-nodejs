@@ -44,7 +44,7 @@ var webpackConfig = {
 
   devtool: process.env.NODE_ENV == 'production' ? 'source-map' : "inline-source-map",
 
-  profile: true,
+  //profile: true,
 
   entry: {
     angular:  'client/angular',
@@ -145,6 +145,11 @@ if (process.env.NODE_ENV != 'development') { // production, ebook
         drop_console: true,
         unsafe:       true,
         screw_ie8:    true
+      },
+      beautify: true,
+      output: {
+        indent_level: 0 // for error reporting, to see which line actually has the problem
+        // source maps actually didn't work in QBaka that's why I put it here
       }
     })
   );

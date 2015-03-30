@@ -90,7 +90,7 @@ TutorialImporter.prototype.extractHeader = function(parsed) {
 };
 
 
-// todo with incremental import: move to separate task?
+// maybe move to separate task?
 TutorialImporter.prototype.checkIfErrorsInParsed = function(parsed) {
   log.debug("checking errors in parsed");
   const walker = new TreeWalkerSync(parsed);
@@ -101,6 +101,7 @@ TutorialImporter.prototype.checkIfErrorsInParsed = function(parsed) {
       errors.push(node.text);
     }
   });
+
   if (errors.length) {
     throw new Error("Errors: " + errors.join());
   }

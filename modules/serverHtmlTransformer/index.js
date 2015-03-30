@@ -115,7 +115,7 @@ ServerHtmlTransformer.prototype.transformEditTag = function*(node) {
   if (node.attrs.src) {
     var plunk = yield Plunk.findOne({webPath: this.resourceWebRoot + '/' + node.attrs.src}).exec();
     if (!plunk) {
-      throw new ParseError("div", "Нет такого plunk");
+      throw new ParseError("div", "Нет такого plunk.");
     }
     node.attrs.plunkId = plunk.plunkId;
   }
@@ -161,7 +161,7 @@ ServerHtmlTransformer.prototype.transformIframeTag = function*(node) {
   if (node.attrs.edit) {
     var plunk = yield Plunk.findOne({webPath: this.resourceWebRoot + '/' + node.attrs.src}).exec();
     if (!plunk) {
-      throw new ParseError("div", "Нет такого plunk");
+      throw new ParseError("div", "Нет такого plunk.");
     }
     node.attrs.plunkId = plunk.plunkId;
   }
