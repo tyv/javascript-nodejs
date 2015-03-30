@@ -149,6 +149,7 @@ if (process.env.NODE_ENV != 'development') { // production, ebook
       beautify: true,
       output: {
         indent_level: 0 // for error reporting, to see which line actually has the problem
+        // source maps actually didn't work in QBaka that's why I put it here
       }
     })
   );
