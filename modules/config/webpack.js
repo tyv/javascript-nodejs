@@ -144,7 +144,9 @@ if (process.env.NODE_ENV != 'development') { // production, ebook
         warnings:     false,
         drop_console: true,
         unsafe:       true,
-        screw_ie8:    true
+        screw_ie8:    true,
+        beautify: true, // for error reporting
+        indent_level: 0
       }
     })
   );
