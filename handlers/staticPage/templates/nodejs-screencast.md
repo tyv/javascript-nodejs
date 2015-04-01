@@ -83,7 +83,7 @@
 [/smart]
 
 <no-typography>
-<div class="lessons-list">
+<div class="lessons-list lessons-list_screencast">
 <ol class="lessons-list__lessons">
 <li class="lessons-list__lesson" mnemo="chat-1">[Создаём костяк сайта / Express: основы и Middleware](http://youtu.be/2Xp9yj3UIAg)</li>
 <li class="lessons-list__lesson" mnemo="chat-2">[Улучшаем костяк сайта / Логгер, конфигурация, шаблонка для HTML](http://youtu.be/FKBkVr7FtbA)</li>
@@ -116,17 +116,3 @@
 
 ## Код
 Код к большинству выпусков находится в здесь: [](https://github.com/iliakan/nodejs-screencast), его также можно скачать и в виде [zip-файла](https://github.com/iliakan/nodejs-screencast/archive/master.zip).
-
-Ответы на частые вопросы:
-<dl>
-<dt>У меня Windows, пытаюсь запустить скрипт в `cmd`, набираю `node server.js` -- выдаёт ошибку, что делать?</dt>
-<dd>Перейдите в нужную директорию командой `CD <директория, в которой у вас находится server.js>`. Например: `CD C:\node`. Оттуда и запускайте.</dd>
-<dt>Пробую запускать в FAR, но не вижу вывода скрипта.</dt>
-<dd>Нажмите `Ctrl + O`, это отключит панели FAR и вы сможете всё видеть. Нажмите ещё раз -- и панели снова появятся. </dd>
-</dl>
-
-## Курс по Node.JS
-
-Если получится, будет курс в режиме вебинара по Node.JS, с решением задач, обратной связью, ответами на вопросы и прочим необходимым для полноценного обучения.
-Напишу уведомление, когда будет открыта запись.
-
