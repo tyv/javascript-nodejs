@@ -21,17 +21,18 @@ block content
 
   +b("form").jetbrains-form(method="POST" action="/jb" name="jb")
     +e.line
-      +e("label").label Имя и фамилия (англ.):
+      +e("label").label(for="name") Имя и фамилия (англ.):
       +b("span")(class=['text-input', errors && errors.name && '_invalid'])
-        +e("input").control(type="text" pattern="^\\s*[a-zA-Z ]+\\s+[a-zA-Z ]+\\s*$" required name="name" value=form && form.name)
+        +e("input").control(type="text" pattern="^\\s*[a-zA-Z ]+\\s+[a-zA-Z ]+\\s*$" required name="name" id="name" value=form && form.name)
 
     +e.line
-      +e("label").label Email:
+      +e("label").label(for="email") Email:
       +b("span")(class=['text-input', errors && errors.email && '_invalid'])
-        +e("input").control(type="email" name="email" required value=form && form.email)
+        +e("input").control(type="email" name="email" id="email" required value=form && form.email)
 
     +e.line
-      +b('select').input-select(name="product")
+      +e("label").label(for="product") Редактор:
+      +b('select').input-select(name="product" id="product")
         each title, value in products
           +e('option')(value=value selected=(form && form.product == value))= title
 
