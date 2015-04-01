@@ -35,8 +35,9 @@ block content
         each title, value in products
           +e('option')(value=value selected=(form && form.product == value))= title
 
-    +b("button").button._action(type="submit")
-      +e("span").text Отправить
+    +e.line
+      +b("button").button._action(type="submit")
+        +e("span").text Отправить
 
   script.
     document.forms.jb.onsubmit = function() {

@@ -1,14 +1,28 @@
 .jetbrains-form
 
+    display inline-block
+
+
+    min-width 350px
     padding 25px
     margin-top 30px
+
+    text-align left
 
     border-radius 3px
     background #eee
 
+    & .text-input,
+    & .input-select
+        width 100%
+
     &__line
         margin-top 25px
 
+    &__line:first-child
+        margin-top 0
+
     &__label
+        display block
         color #666
 
