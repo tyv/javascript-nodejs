@@ -5,6 +5,9 @@ block append variables
   - var sitetoolbar = true
   - var title = "Jetbrains для участников курса"
   - var layout_main_class = "main_width-limit"
+  - var layout_header_class = "main__header_center"
+
+  - var content_class = '_center'
 
 block content
 
@@ -14,36 +17,26 @@ block content
       +e('button').close(title="Закрыть")
 
 
-  p Выберите редактор и введите данные, чтобы получить скидку 30% на персональную лицензию.
+  p Заполните форму и получите 30% скидку на один из редакторов Jetbrains.
 
-  form(method="POST" action="/jb" name="jb")
-    table
-      tr
-        td Редактор:
-        td
-          +b('select').input-select(name="product")
-            each title, value in products
-              +e('option')(value=value selected=(form && form.product == value))= title
+  +b("form").jetbrains-form(method="POST" action="/jb" name="jb")
+    +e.line
+      +e("label").label Имя и фамилия (англ.):
+      +b("span")(class=['text-input', errors && errors.name && '_invalid'])
+        +e("input").control(type="text" pattern="^\\s*[a-zA-Z ]+\\s+[a-zA-Z ]+\\s*$" required name="name" value=form && form.name)
 
-      tr
-        td Email:
-        td
-          +b(class=['text-input', errors && errors.email && '_invalid'])
-            +e('input').control(type="email" name="email" required placeholder="email@gmail.com" value=form && form.email)
-            if errors && errors.email
-              +e.err= errors.email
+    +e.line
+      +e("label").label Email:
+      +b("span")(class=['text-input', errors && errors.email && '_invalid'])
+        +e("input").control(type="email" name="email" required value=form && form.email)
 
-      tr
-        td Имя Фамилия (на английском)
-        td
-          +b(class=['text-input', errors && errors.name && '_invalid'])
-            +e('input').control(type="text" pattern="^\\s*[a-zA-Z ]+\\s+[a-zA-Z ]+\\s*$" required name="name" placeholder="Ilya Kantor" value=form && form.name)
-            if errors && errors.name
-              +e.err= errors.name
+    +e.line
+      +b('select').input-select(name="product")
+        each title, value in products
+          +e('option')(value=value selected=(form && form.product == value))= title
 
-
-    +b('button').submit-button._small.__item-save(type="submit") Запросить
-
+    +b("button").button._action(type="submit")
+      +e("span").text Отправить
 
   script.
     document.forms.jb.onsubmit = function() {
