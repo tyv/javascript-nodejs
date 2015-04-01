@@ -8,28 +8,28 @@ block profileContent
       +b.profile-field
         +e.lcell
           +e.name Имя
-        +e.lcell
+        +e.rcell
           +e.value= profileUser.realName
 
     if profileUser.country
       +b.profile-field
         +e.lcell
           +e.name Страна
-        +e.lcell
+        +e.rcell
           +e.value= profileUser.country
 
     if profileUser.town
       +b.profile-field
         +e.lcell
           +e.name Город
-        +e.lcell
+        +e.rcell
           +e.value= profileUser.town
 
     if profileUser.publicEmail
       +b.profile-field
         +e.lcell
           +e.name E-Mail
-        +e.lcell
+        +e.rcell
           +e.value= profileUser.publicEmail
 
 
@@ -37,13 +37,13 @@ block profileContent
       +b.profile-field
         +e.lcell
           +e.name Интересы
-        +e.lcell
+        +e.rcell
           +e.value= profileUser.interests
 
     if profileUser.birthday
       +b.profile-field
         +e.lcell
           +e.name Дата рождения
-        +e.lcell
+        +e.rcell
           +e.value= profileUser.birthday
 
