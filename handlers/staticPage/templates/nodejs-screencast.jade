@@ -19,14 +19,46 @@ block content
 
     include:simpledown nodejs-screencast.md
 
-    form(data-newsletter-subscribe-form action="/newsletter/subscriptions" method="POST")
-      input(type="hidden" value="nodejs" name="slug")
-      if user
-        input(type="hidden" value=user.email name="email")
-      else
-        input(type="email" placeholder="me@mail.com" name="email" required)
+    +b.faq-cite
+      +e("h2").title Ответы на частые вопросы:
+      +e.list
+        +e('dl')
+              dt У меня Windows, пытаюсь запустить скрипт в `cmd`, набираю `node server.js` -- выдаёт ошибку, что делать?
+                dd Перейдите в нужную директорию командой `CD <директория, в которой у вас находится server.js>`. Например: `CD C:\node`. Оттуда и запускайте.
+              dt Пробую запускать в FAR, но не вижу вывода скрипта.
+                dd Нажмите `Ctrl + O`, это отключит панели FAR и вы сможете всё видеть. Нажмите ещё раз -- и панели снова появятся.
 
-      input(type="submit" value='Подписаться')
+        +b.course-form
+          +e("h3").title Курс по Node.JS
+          +e("p").text
+            | Если получится, будет курс в режиме вебинара по Node.JS, с решением задач, обратной связью, ответами на вопросы и прочим необходимым для полноценного обучения.
+            | Напишу уведомление, когда будет открыта запись.
+          +e("form").form(data-newsletter-subscribe-form action="/newsletter/subscriptions" method="POST")
+            input(type="hidden" value="nodejs" name="slug")
+            if user
+              input(type="hidden" value=user.email name="email")
+            else
+              +b.text-input
+                +e('input').control(type="email" placeholder="me@mail.com" name="email" required)
+
+            +b("button").button._action(type="submit")
+              +e("span").text Уведомить о курсах
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     script.
       (function() {

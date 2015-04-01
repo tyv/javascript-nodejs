@@ -1,4 +1,6 @@
 .about-layout
+    max-width 1200px
+    margin 0 auto
 
     & .columns__col
         padding 40px 30px
@@ -7,3 +9,11 @@
         padding-left 85px
 
         border-right 1px solid #eee
+
+    @media tablet
+        & .columns__col
+            display block
+
+            width auto
+            margin-top 20px
+            border none

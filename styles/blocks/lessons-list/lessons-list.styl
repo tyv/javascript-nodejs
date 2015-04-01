@@ -23,10 +23,6 @@ lessons-list-separator = 1px solid #ede8e0
         padding 16px 20px 14px 55px
         border-bottom lessons-list-separator
 
-    // используется в nodejs-screencast
-    &__lesson_section-end
-        border-bottom-color #333
-
     &__lessons &__lessons
         max-height 0
         overflow hidden
@@ -81,7 +77,7 @@ lessons-list-separator = 1px solid #ede8e0
         content counters(lesson, '.')
         left 35px
 
-    &__download
+    &_screencast &__download
         position absolute
         right 25px
         top 50%
@@ -93,14 +89,14 @@ lessons-list-separator = 1px solid #ede8e0
         opacity 0
         transition opacity 0.4s
 
-    &__download:before
+    &_screencast &__download:before
         @extend $font-install
 
         font-size 20px
 
         color #7e7e7e
 
-    &__lesson:hover &__download
+    &_screencast &__lesson:hover &__download
         opacity 1
 
     &_screencast &__popup
@@ -152,8 +148,6 @@ lessons-list-separator = 1px solid #ede8e0
 
         list-style none !important
 
-        text-align center
-
         margin 0 !important
         padding 0 !important
 
@@ -168,7 +162,7 @@ lessons-list-separator = 1px solid #ede8e0
     &_screencast &__popup-item:before
         display none
 
-    &_screencast &__lesson a:before
+    &_screencast &__lesson > a:before
         @extend $font-run
 
         position absolute
@@ -198,6 +192,19 @@ lessons-list-separator = 1px solid #ede8e0
 
     &_screencast &__lesson a:hover:before
         color #C13335
+
+    @media (max-width: 1100px)
+        &_screencast &__download
+            right 30px
+
+        &_screencast &__popup
+            position absolute
+            right -20px
+
+        &_screencast &__popup-list:before
+            left auto
+            right 20px
+            top -7px
 
     @media tablet
         &__lesson::before
