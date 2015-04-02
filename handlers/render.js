@@ -108,14 +108,24 @@ function addStandardHelpers(locals, ctx) {
   };
 
 
-  locals.pack = function(name, index) {
+  locals.pack = function(name, ext) {
     var versions = JSON.parse(
       fs.readFileSync(path.join(config.manifestRoot, 'pack.versions.json'), {encoding: 'utf-8'})
     );
     var versionName = versions[name];
-    // e.g style = [ style.js, style.css ]
-    if (index !== undefined) versionName = versionName[index];
+    // e.g style = [ style.js, style.js.map, style.css, style.css.map ]
 
+    if (!Array.isArray(versionName)) return versionName;
+
+    var extTestReg = new RegExp(`.${ext}\\b`);
+
+    for (var i = 0; i < versionName.length; i++) {
+      var versionNameItem = versionName[i]; // style.css
+      if (/\.map/.test(versionNameItem)) continue;
+      if (extTestReg.test(versionNameItem)) return versionNameItem;
+    }
+
+    throw new Error(`Not found pack name:${name} ext:${ext}`);
     /*
     if (process.env.NODE_ENV == 'development') {
       // webpack-dev-server url
