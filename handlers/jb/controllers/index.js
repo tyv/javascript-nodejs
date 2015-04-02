@@ -4,7 +4,7 @@ var path = require('path');
 var config = require('config');
 
 var products = {
-  "WebStorm":      "WebStorm (JavaScript)",
+  "WebStorm":      "WebStorm (JavaScript/HTML/CSS)",
   "PhpStorm":      "PhpStorm (PHP)",
   "RubyMine":      "RubyMine (Ruby)",
   "IntelliJ IDEA": "IntelliJ IDEA Ultimate (Java)",

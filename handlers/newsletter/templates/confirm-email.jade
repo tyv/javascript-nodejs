@@ -2,12 +2,11 @@ extends /layouts/email
 
 block body
     h1= subject
-    p Вы выразили желание получать уведомления на тему "#{newsletterTitle}" на этот email?
+    p Вы запрашивали уведомления на тему "#{newsletterTitle}" на этот email?
 
     p Если да &mdash; подтвердите это, перейдя по ссылке
       = ' '
       a(href=link)= link
       | .
 
-    p Если вы не понимаете о чём речь, просто игнорируйте это письмо.
 

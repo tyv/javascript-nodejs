@@ -65,9 +65,14 @@ server {
     include "partial/proxy_3000";
   }
 
-  # project-root play directory has old plays
+  # play directory has old plays (big, so moved out of project)
   location ~ ^/play/(.*\.zip)$ {
     alias   <%=root%>/play/$1;
+  }
+
+  # nodejs-screencast for download (big, so moved out of project)
+  location ~ ^/nodejs-screencast/(.*)$ {
+    alias   <%=root%>/nodejs-screencast/$1;
   }
 
 

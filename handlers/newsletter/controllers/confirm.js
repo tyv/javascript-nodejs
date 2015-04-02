@@ -17,6 +17,6 @@ exports.get = function*() {
   subscription.confirmed = true;
   yield subscription.persist();
 
-  this.body = "Спасибо, подписка подтверждена.";
+  this.body = this.render('confirm');
 
 };

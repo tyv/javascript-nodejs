@@ -5,6 +5,7 @@ const sendMail = require('mailer').send;
 const config = require('config');
 
 exports.post = function*() {
+
   const newsletter = yield Newsletter.findOne({
     slug: this.request.body.slug
   }).exec();
@@ -13,7 +14,7 @@ exports.post = function*() {
     this.throw(404, "Нет такой рассылки");
   }
 
-  if (this.req.user && this.req.user.email == this.request.email.slug) {
+  if (this.req.user && this.req.user.email == this.request.body.email) {
 
     var existingSubscription = yield Subscription.findOne({
       email:      this.request.body.email,
@@ -22,15 +23,19 @@ exports.post = function*() {
 
     if (existingSubscription) {
       if (existingSubscription.confirmed) {
+
         this.body = {
           message: `Вы уже подписаны.`
         };
         return;
       } else {
-        yield* sendConfirmationLetter.call(this, existingSubscription);
+        // unconfirmed subscription to same email => confirm instantly for a logged-in user
+        yield existingSubscription.persist({
+          confirmed: true
+        });
 
         this.body = {
-          message: `Письмо-подтверждение отправлено заново на адрес ${existingSubscription.email}.`
+          message: `Вы успешно подписаны, ждите писем на адрес ${existingSubscription.email}.`
         };
         return;
       }
@@ -62,7 +67,7 @@ exports.post = function*() {
 
         console.log(existingSubscription);
 
-        yield* sendConfirmationLetter.call(this, existingSubscription);
+        yield* sendConfirmationLetter.call(this, existingSubscription, newsletter);
 
         this.body = {
           message: `Письмо-подтверждение отправлено заново на адрес ${existingSubscription.email}.`
@@ -78,20 +83,23 @@ exports.post = function*() {
       confirmed: false
     });
 
-    yield* sendConfirmationLetter.call(this, subscription);
+    yield* sendConfirmationLetter.call(this, subscription, newsletter);
 
     this.body = {
       message: `Проверьте почту ${subscription.email} и подтвердите подписку, перейдя по ссылке в письме.`
     };
   }
+
+
 };
 
-function* sendConfirmationLetter(subscription) {
+
+function* sendConfirmationLetter(subscription, newsletter) {
 
   yield sendMail({
     templatePath: path.join(this.templateDir, 'confirm-email'),
-    newsletterTitle:   subscription.newsletter.title,
-    subject:      "Подтверждение: " + subscription.newsletter.title,
+    newsletterTitle:   newsletter.title,
+    subject:      "Подтверждение: " + newsletter.title,
     to:           subscription.email,
     link:         (config.server.siteHost || 'http://javascript.in') + '/newsletter/confirm/' + subscription.accessKey
   });

@@ -59,7 +59,8 @@ var webpackConfig = {
     search:   'search/client',
     quiz:     'quiz/client',
     ebook:    'ebook/client',
-    footer:   'client/footer'
+    footer:   'client/footer',
+    nodejsScreencast:   'nodejsScreencast/client'
   },
 
   externals: {

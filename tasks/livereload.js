@@ -14,16 +14,17 @@ module.exports = function(options) {
 
     // reload once after all scripts are rebuit
     livereload.changedSoon = _.throttle(livereload.changed, 500, {leading: false});
-    livereload.changedVerySoon = _.throttle(livereload.changed, 100, {leading: false});
+    //livereload.changedVerySoon = _.throttle(livereload.changed, 100, {leading: false});
 
     setTimeout(function() {
-      gutil.log("livereload: deferred listen on change " + options.watch);
+      gutil.log("livereload: listen on change " + options.watch);
 
       gulp.watch(options.watch).on('change', function(changed) {
         if (changed.path.match(/\.(js|map)/)) {
+          // full page reload
           livereload.changedSoon(changed);
         } else {
-          livereload.changedVerySoon(changed);
+          livereload.changed(changed);
         }
       });
 

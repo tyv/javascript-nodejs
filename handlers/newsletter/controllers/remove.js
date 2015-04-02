@@ -17,6 +17,6 @@ exports.get = function*() {
 
   yield subscription.destroy();
 
-  this.body = "Подписка удалена из базы.";
+  this.body = this.render("remove");
 
 };

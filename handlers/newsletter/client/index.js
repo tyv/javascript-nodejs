@@ -3,6 +3,7 @@ var xhr = require('client/xhr');
 var notification = require('client/notification');
 
 function init() {
+
   document.onsubmit = function(e) {
     if (e.target.hasAttribute("data-newsletter-subscribe-form")) {
       e.preventDefault();
@@ -17,6 +18,11 @@ function submitSubscribeForm(form) {
   if (!form.elements.email.value) {
     return;
   }
+
+  window.metrika.reachGoal('NEWSLETTER-SUBSCRIBE-' + name.toUpperCase(), {
+    form: form.getAttribute('data-newsletter-subscribe-form')
+  });
+  window.ga('send', 'event', 'newsletter', 'subscribe', form.getAttribute('data-newsletter-subscribe-form'));
 
   const request = xhr({
     method: 'POST',
@@ -44,12 +50,11 @@ function submitSubscribeForm(form) {
 
   request.addEventListener('success', function(event) {
     if (this.status == 200) {
-      new notification.Success(event.result.message);
+      new notification.Success(event.result.message, 'slow');
     } else {
       new notification.Error(event.result.message);
     }
   });
-
 
 }
 

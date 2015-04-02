@@ -3,12 +3,12 @@
     +e("ul").list
       +e("li").item ©&nbsp;2007—!{new Date().getFullYear()} Илья Кантор
       +e("li").item
-        +e("a")(href="javascript:alert('todo')").link обратная связь
+        +e("a")(href="/about#contact-us").link связаться с нами
       +e("li").item
-        +e("a")(href="javascript:alert('todo')").link о проекте
+        +e("a")(href="/about").link о проекте
 
   +e.right
     +e("ul").list
       +e("li").item powered by
         = ' '
-        +e("a")(href="http://iojs.org").link io.js
+        +e("a")(rel="nofollow" href="http://iojs.org").link io.js

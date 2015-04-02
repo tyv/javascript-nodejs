@@ -1,6 +1,4 @@
 
-Всем привет!
-
 Вашему вниманию предлагается скринкаст по Node.JS на русском языке.
 
 Его целью не является разбор всех-всех возможностей и модулей Node.JS, ведь многие из них используются очень редко.
@@ -12,10 +10,6 @@
 
 Конечно, даже на английском много всего устаревшего, приходится порыться, но на русском -- всё гораздо хуже.
 Многого просто нет. Хотелось бы поменять эту ситуацию, хотя бы в плане Node.JS.
-
-[smart]
-Если вы где-то выкладываете этот скринкаст (торрент и т.п.), то обязательно давайте ссылку на эту страницу, так как все обновления и важные изменения я публикую здесь.
-[/smart]
 
 ## Часть 1: Изучаем Node.JS
 
@@ -102,17 +96,15 @@
 </div>
 
 Дополнительно:
-<ul style="margin-top:0">
-<li mnemo="mongo-install">[Установка MongoDB для Windows, пример работы](http://youtu.be/fugXo7A5sNE)</li>
-</ul>
+
+<no-typography>
+<div class="lessons-list lessons-list_screencast">
+<ol class="lessons-list__lessons">
+<li class="lessons-list__lesson" mnemo="mongo-install">[Установка MongoDB для Windows, пример работы](http://youtu.be/fugXo7A5sNE)</li>
+</ol>
+</div>
 </no-typography>
 
-## Скачать
-
-Видео-файл с интересующим вас выпуском вы сможете скачать,
-нажав на иконку справа от имени: <img src="/clipart/download_lq.png"> -- низкое качество, <img src="/clipart/download.png"> -- высокое .
-Вы также можете скачать архив со всеми выпусками в низком качестве: <a href="/nodejs-screencast/nodejs-mp4-low.zip">nodejs-mp4-low.zip (228MB)</a>
-или в высоком качестве <a href="/nodejs-screencast/nodejs-mp4.zip">nodejs-mp4.zip (4Gb)</a>.
-
 ## Код
+
 Код к большинству выпусков находится в здесь: [](https://github.com/iliakan/nodejs-screencast), его также можно скачать и в виде [zip-файла](https://github.com/iliakan/nodejs-screencast/archive/master.zip).
