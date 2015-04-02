@@ -4,8 +4,8 @@ var env = process.env;
 // NODE_ENV = development || test || production
 env.NODE_ENV = env.NODE_ENV || 'development';
 
-if (!env.SITE_HOST) throw new Error("env.SITE_HOST is not set");
-if (!env.STATIC_HOST) throw new Error("env.STATIC_HOST is not set");
+//if (!env.SITE_HOST) throw new Error("env.SITE_HOST is not set");
+//if (!env.STATIC_HOST) throw new Error("env.STATIC_HOST is not set");
 
 var secret = require('./secret');
 

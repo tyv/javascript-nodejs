@@ -17,10 +17,6 @@ linkModules({
 const config = require('config');
 const mongoose = require('lib/mongoose');
 
-//Error.stackTraceLimit = Infinity;
-//require('trace');
-//require('clarify');
-
 process.on('uncaughtException', function(err) {
   console.error(err.message, err.stack, err.errors);
   process.exit(255);
@@ -65,7 +61,15 @@ gulp.task("nodemon", lazyRequireTask('./tasks/nodemon', {
 gulp.task("client:livereload", lazyRequireTask("./tasks/livereload", {
   // watch files *.*, not directories, no need to reload for new/removed files,
   // we're only interested in changes
-  watch: "public/{i,img,js,styles}/**/*.*"
+
+  watch: [
+    "public/pack/**/*.*",
+    // not using this file, using only styles.css (extracttextplugin)
+    "!public/pack/styles.js",
+    // this file changes every time we update styles
+    // don't watch it, so that the page won't reload fully on style change
+    "!public/pack/head.js"
+  ]
 }));
 
 gulp.task("tutorial:import:watch", lazyRequireTask('tutorial/tasks/importWatch', {
@@ -127,10 +131,7 @@ gulp.task('client:minify', lazyRequireTask('./tasks/minify'));
 gulp.task('client:resize-retina-images', lazyRequireTask('./tasks/resizeRetinaImages'));
 
 gulp.task('client:webpack', lazyRequireTask('./tasks/webpack'));
-gulp.task('client:webpack-dev-server', lazyRequireTask('./tasks/webpackDevServer'));
-
-// not needed any more
-//gulp.task('spawn:client:webpack', lazyRequireTask('./tasks/spawnWebpack'));
+//gulp.task('client:webpack-dev-server', lazyRequireTask('./tasks/webpackDevServer'));
 
 
 gulp.task('build', function(callback) {

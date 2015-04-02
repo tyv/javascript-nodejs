@@ -6,7 +6,7 @@ var webpack = require('webpack');
 var CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin");
 var WriteVersionsPlugin = require('lib/webpack/writeVersionsPlugin');
 var ngAnnotatePlugin = require('ng-annotate-webpack-plugin');
-//var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 var del = require('del');
 
@@ -30,7 +30,7 @@ var webpackConfig = {
     // path as js sees it
     // if I use another domain here, need enable Allow-Access-.. header there
     // and add  crossorigin="anonymous" to scripts, to let error handler track errors
-    publicPath: process.env.NODE_ENV == 'development' ? (process.env.STATIC_HOST + ':3001/pack/') : '/pack/',
+    publicPath: '/pack/',
     // в dev-режиме файлы будут вида [name].js, но обращения - через [name].js?[hash], т.е. версия учтена
     // в prod-режиме не можем ?, т.к. CDN его обрезают, поэтому [hash] в имени
     //  (какой-то [hash] здесь необходим, иначе к chunk'ам типа 3.js, которые генерируются require.ensure,
@@ -48,13 +48,12 @@ var webpackConfig = {
   devtool: process.env.NODE_ENV == 'production' ? 'source-map' : "eval", // try "inline-source-map" ?
   //devtool: process.env.NODE_ENV == 'production' ? 'source-map' : "inline-source-map",
 
-  //profile: true,
+  profile: true,
 
   entry: {
     styles:   'styles',
     angular:  'client/angular',
-    head:     process.env.NODE_ENV == 'development' ?
-                ['webpack/hot/dev-server', `webpack-dev-server/client?${process.env.STATIC_HOST}:3001`, 'client/head'] : 'client/head',
+    head:     'client/head',
     tutorial: 'tutorial/client',
     profile:  'profile/client',
     search:   'search/client',
@@ -86,8 +85,8 @@ var webpackConfig = {
       {
         test:   /\.styl$/,
         // ExtractTextPlugin breaks HMR for CSS
-        //loader: ExtractTextPlugin.extract('style-loader', 'css-loader!autoprefixer-loader?browsers=last 2 version!stylus-loader?linenos=true')
-        loader: 'style-loader!css-loader!autoprefixer-loader?browsers=last 2 version!stylus-loader?linenos=true'
+        loader: ExtractTextPlugin.extract('style-loader', 'css-loader!autoprefixer-loader?browsers=last 2 version!stylus-loader?linenos=true')
+        //loader: 'style-loader!css-loader!autoprefixer-loader?browsers=last 2 version!stylus-loader?linenos=true'
       },
       {
         test:   /\.(png|jpg|gif|woff|eot|otf|ttf|svg)$/,
@@ -142,18 +141,18 @@ var webpackConfig = {
     new CommonsChunkPlugin("head", extHash("head", 'js')),
     new WriteVersionsPlugin(path.join(config.manifestRoot, "pack.versions.json")),
 
-    //new ExtractTextPlugin(extHash('[name]', 'css', '[contenthash]'), {allChunks: true})
+    new ExtractTextPlugin(extHash('[name]', 'css', '[contenthash]'), {allChunks: true})
   ],
 
   recordsPath: path.join(config.tmpRoot, 'webpack.json'),
-  devServer: {
-    port: 3001, // dev server itself does not use it, but outer tasks do
+  devServer:   {
+    port:               3001, // dev server itself does not use it, but outer tasks do
     historyApiFallback: true,
-    hot: true,
-    watchDelay: 10,
+    hot:                true,
+    watchDelay:         10,
     //noInfo: true,
-    publicPath: process.env.STATIC_HOST + ':3001/pack/',
-    contentBase: config.publicRoot
+    publicPath:         process.env.STATIC_HOST + ':3001/pack/',
+    contentBase:        config.publicRoot
   }
 };
 
@@ -190,10 +189,6 @@ if (process.env.NODE_ENV != 'development') { // production, ebook
         // source maps actually didn't work in QBaka that's why I put it here
       }
     })
-  );
-} else {
-  webpackConfig.plugins.push(
-    new webpack.HotModuleReplacementPlugin()
   );
 }
 

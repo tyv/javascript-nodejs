@@ -6,7 +6,7 @@ meta(name="apple-mobile-web-app-capable" content="yes")
 script if (window.devicePixelRatio > 1) document.cookie = 'pixelRatio=' + window.devicePixelRatio + ';path=/;expires=Tue, 19 Jan 2038 03:14:07 GMT';
 link(href='//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700|Open+Sans+Condensed:700&subset=latin,latin-ext,cyrillic,cyrillic-ext' rel='stylesheet')
 
-//link(href=pack('styles', 1) rel='stylesheet')
+link(href=pack('styles', 1) rel='stylesheet')
 
 if prev
   link(rel="prev" href=prev.url)
@@ -33,7 +33,7 @@ else
   script window.metrika = { reachGoal: function() {} };
 
 script(src=pack("head") crossorigin="anonymous")
-script(src=pack("styles") crossorigin="anonymous")
+//script(src=pack("styles") crossorigin="anonymous")
 
 //- head из конкретной статьи
 !=head

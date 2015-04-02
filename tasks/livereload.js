@@ -13,16 +13,17 @@ module.exports = function(options) {
     livereload.listen();
 
     // reload once after all scripts are rebuit
-    livereload.changedThrottle = _.throttle(livereload.changed, 500, {leading: false});
+    livereload.changedSoon = _.throttle(livereload.changed, 500, {leading: false});
+    livereload.changedVerySoon = _.throttle(livereload.changed, 100, {leading: false});
 
     setTimeout(function() {
       gutil.log("livereload: deferred listen on change " + options.watch);
 
       gulp.watch(options.watch).on('change', function(changed) {
         if (changed.path.match(/\.(js|map)/)) {
-          livereload.changedThrottle(changed);
+          livereload.changedSoon(changed);
         } else {
-          livereload.changed(changed);
+          livereload.changedVerySoon(changed);
         }
       });
 
