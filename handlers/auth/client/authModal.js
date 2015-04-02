@@ -308,9 +308,9 @@ AuthModal.prototype.submitLoginForm = function(form) {
   this.clearFormMessages();
 
   var hasErrors = false;
-  if (!form.elements.login.value) {
+  if (!form.elements.email.value) {
     hasErrors = true;
-    this.showInputError(form.elements.login, 'Введите, пожалуста, имя или email.');
+    this.showInputError(form.elements.email, 'Введите, пожалуста, email.');
   }
 
   if (!form.elements.password.value) {

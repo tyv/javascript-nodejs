@@ -1,2 +1,2 @@
 #!/bin/bash
-NODE_ENV=development node --debug-brk --harmony `which gulp` $*
+NODE_ENV=development node --debug-brk `which gulp` $*

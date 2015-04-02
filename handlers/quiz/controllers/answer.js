@@ -96,6 +96,8 @@ exports.post = function*() {
 
     this.locals.question = quiz.questions.id(sessionQuiz.questionCurrentId);
 
+    console.log(this.locals.question, sessionQuiz.questionCurrentId);
+
     this.body = {
       html:           this.render('partials/_question'),
       questionNumber: sessionQuiz.questionsTakenIds.length

@@ -11,14 +11,19 @@ function renderError(err) {
   this.set('X-Content-Type-Options', 'nosniff');
 
   // don't pass just err, because for "stack too deep" errors it leads to logging problems
-  this.log.error({
+  var report = {
     message: err.message,
     stack: err.stack,
     errors: err.errors, // for validation errors
     status: err.status,
     referer: this.get('referer'),
     cookie: this.get('cookie')
-  });
+  };
+  if (!err.expose) { // dev error
+    report.requestVerbose = this.request;
+  }
+
+  this.log.error(report);
 
   var preferredType = this.accepts('html', 'json');
 

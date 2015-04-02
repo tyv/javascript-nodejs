@@ -48,23 +48,36 @@ CsrfChecker.prototype.middleware = function() {
 exports.init = function(app) {
   koaCsrf(app);
 
-  app.use(function* setCsrfCookie(next) {
-    // XSRF-TOKEN cookie name is used in angular by default
-    if (this.req.user) {
+  app.use(function*(next) {
 
-      try {
-        // if this doesn't throw, the user has a valid token in cookie already
-        this.assertCsrf({_csrf: this.cookies.get('XSRF-TOKEN') });
-      } catch(e) {
-        // no token or invalid token (old session)
-        this.cookies.set('XSRF-TOKEN', this.csrf, { httpOnly: false, signed: false });
+    try {
+      // first, do the middleware, maybe authorize user in the process
+      yield* next;
+    } finally {
+      // then if we have a user, set XSRF token
+      if (this.req.user) {
+        setCsrfCookie.call(this);
       }
-
     }
-    yield* next;
+
   });
 
   app.csrfChecker = new CsrfChecker();
 
   app.use(app.csrfChecker.middleware());
 };
+
+
+// XSRF-TOKEN cookie name is used in angular by default
+function setCsrfCookie() {
+
+  try {
+    // if this doesn't throw, the user has a valid token in cookie already
+    this.assertCsrf({_csrf: this.cookies.get('XSRF-TOKEN') });
+  } catch(e) {
+    // error occurs if no token or invalid token (old session)
+    // then we set a new (valid) one
+    this.cookies.set('XSRF-TOKEN', this.csrf, { httpOnly: false, signed: false });
+  }
+
+}

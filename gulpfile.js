@@ -11,7 +11,7 @@ const runSequence = require('run-sequence');
 const linkModules = require('./modules/linkModules');
 
 linkModules({
-  src: ['client', 'modules/*', 'handlers/*']
+  src: ['client', 'styles', 'modules/*', 'handlers/*']
 });
 
 const config = require('config');
@@ -56,7 +56,7 @@ gulp.task("nodemon", lazyRequireTask('./tasks/nodemon', {
   // so I have to restart server to pickup the template change
   ext:    "js,jade",
 
-  nodeArgs: ['--debug', '--harmony'],
+  nodeArgs: ['--debug'],
   script: "./bin/server",
   ignore: '**/client/', // ignore handlers' client code
   watch:  ["handlers", "modules"]
@@ -103,14 +103,6 @@ gulp.task('watch', lazyRequireTask('./tasks/watch', {
     {
       watch: 'assets/**',
       task:  'client:sync-resources'
-    },
-    {
-      watch: 'styles/**/*.{png,svg,gif,jpg,woff}',
-      task:  'client:sync-css-images'
-    },
-    {
-      watch: "styles/**/*.styl",
-      task:  'client:compile-css'
     }
   ]
 }));
@@ -119,18 +111,12 @@ gulp.task("client:sync-resources", lazyRequireTask('./tasks/syncResources', {
   assets: 'public'
 }));
 
-
-gulp.task("client:sync-css-images", lazyRequireTask('./tasks/syncCssImages', {
-  src: 'styles/**/*.{png,svg,gif,jpg,woff}',
-  dst: 'public/i'
-}));
-
 // Show errors if encountered
 gulp.task('client:compile-css',
   lazyRequireTask('./tasks/compileCss', {
     src: './styles/base.styl',
     dst: './public/styles',
-    publicDst: config.server.staticHost + '/styles/',  // from browser point of view
+    publicDst: process.env.STATIC_HOST + '/styles/',  // from browser point of view
     manifest: path.join(config.manifestRoot, 'styles.versions.json'),
     assetVersioning: config.assetVersioning
   })
@@ -141,8 +127,11 @@ gulp.task('client:minify', lazyRequireTask('./tasks/minify'));
 gulp.task('client:resize-retina-images', lazyRequireTask('./tasks/resizeRetinaImages'));
 
 gulp.task('client:webpack', lazyRequireTask('./tasks/webpack'));
+gulp.task('client:webpack-dev-server', lazyRequireTask('./tasks/webpackDevServer'));
 
-gulp.task('spawn:client:webpack', lazyRequireTask('./tasks/spawnWebpack'));
+// not needed any more
+//gulp.task('spawn:client:webpack', lazyRequireTask('./tasks/spawnWebpack'));
+
 
 gulp.task('build', function(callback) {
   runSequence("client:sync-resources", 'client:compile-css', 'client:sync-css-images', 'client:webpack', callback);
@@ -154,7 +143,7 @@ gulp.task('edit', ['build', 'tutorial:import:watch', "client:sync-resources", 'c
 
 
 gulp.task('dev', function(callback) {
-  runSequence("client:sync-resources", 'client:compile-css', 'client:sync-css-images', ['nodemon', 'client:livereload', 'spawn:client:webpack', 'watch'], callback);
+  runSequence("client:sync-resources", ['nodemon', 'client:livereload', 'client:webpack', 'watch'], callback);
 });
 
 gulp.task('tutorial:import', ['cache:clean'], lazyRequireTask('tutorial/tasks/tutorialImport'));
@@ -183,4 +172,5 @@ gulp.on('stop', function() {
 gulp.on('err', function() {
   mongoose.disconnect();
 });
+
 

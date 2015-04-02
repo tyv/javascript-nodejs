@@ -2,6 +2,7 @@ var yaml = require('js-yaml');
 var fs = require('fs');
 var Quiz = require('./models/quiz');
 var path = require('path');
+var log = require('log')();
 
 function QuizImporter(options) {
   this.fileContent = fs.realpathSync(options.yml);
@@ -9,7 +10,12 @@ function QuizImporter(options) {
 
 
 QuizImporter.prototype.addDot = function(question) {
-  var question = question.trim();
+  // numbers have no dot (looks better)
+  if (/^\d+$/.test(question)) return question;
+
+  // do not wrap code
+  if (/^`[^`]+`$/.test(question)) return question;
+
   if (!/[.!?)]$/.test(question)) {
     question += '.';
   }
@@ -20,25 +26,24 @@ QuizImporter.prototype.import = function*() {
 
   var quizObj = yaml.safeLoad(fs.readFileSync(this.fileContent, 'utf8'));
 
-  /*
-  for (var i = 0; i < quizObj.questions.length; i++) {
-    var questions = quizObj.questions[i];
-    console.log("HERE");
-
-    for (var j = 0; j < questions.length; j++) {
-      questions[j] = this.addDot(questions[j]);
-    }
-
-  }*/
 
   for (var i = 0; i < quizObj.questions.length; i++) {
     var question = quizObj.questions[i];
 
     for (var j = 0; j < question.answers.length; j++) {
       var answer = question.answers[j];
-      if (typeof answer == 'string') {
-        question.answers[j] = { title: answer };
+      // all primitive values become titles w/o description
+      if (typeof answer != 'object') {
+        answer = question.answers[j] = {
+          title: answer
+        };
+      } else {
+        if (!answer.title) {
+          log.error("No title for answer", question);
+        }
       }
+      // convert title to string, cause string methods will be called on it
+      answer.title = this.addDot(String(answer.title).trim());
     }
 
   }

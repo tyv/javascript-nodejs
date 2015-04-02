@@ -7,7 +7,7 @@ exports.get = function*() {
 
   var quizzes = yield Quiz.find({
     archived: false
-  }).exec();
+  }).sort({weight: 1}).exec();
 
   this.locals.quizzes = [];
 

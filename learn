@@ -5,4 +5,4 @@ export STATIC_HOST=https://learn.javascript.ru
 #ssh -R 1212:localhost:80 ilia@stage.javascript.ru &
 ssh -f -nNT -R 1213:localhost:80 root@host.learn.javascript.ru
 
-NODE_ENV=development WATCH=1 gulp dev --harmony | bunyan -o short -l debug
+NODE_ENV=development WATCH=1 gulp dev | bunyan -o short -l debug

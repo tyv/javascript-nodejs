@@ -1,2 +1,2 @@
 #!/bin/bash
-node --prof --harmony run.js
+node --prof run.js

@@ -8,7 +8,12 @@ block profileContent
         +e("tr").result(ng-repeat="result in quizResults")
           +e("th").test-info
             +e("time").time= moment(result.created).format('D MMMM YYYY в LT')
-            +e("h1").name= result.quizTitle
+            +e("h1").name
+              if result.quizUrl
+                a(href=result.quizUrl)= result.quizTitle
+              else
+                = result.quizTitle
+
           +e("td").precents
             +e("dl").precents-info
               +e("dt").title

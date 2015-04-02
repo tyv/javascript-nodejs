@@ -1,8 +1,8 @@
+var transliterate = require('textUtil/transliterate');
 var mongoose = require('mongoose');
 var hash = require('../lib/hash');
 var troop = require('mongoose-troop');
 var _ = require('lodash');
-var crypto = require('crypto');
 
 var ProviderSchema = new mongoose.Schema({
   name:    String,
@@ -77,11 +77,7 @@ var UserSchema = new mongoose.Schema({
   },
   profileName:               {
     type:     String,
-    default: function() {
-      // 6-7 random alphanumeric chars
-      return parseInt(crypto.randomBytes(4).toString('hex'), 16).toString(36);
-    },
-
+    required: true,
     validate: [
       {
         validator: function(value) {
@@ -267,6 +263,31 @@ UserSchema.methods.getPhotoUrl = function(width, height) {
   return url.slice(0, url.lastIndexOf('.')) + modifier + url.slice(url.lastIndexOf('.'));
 
 };
+
+UserSchema.methods.generateProfileName = function*() {
+  var profileName = this.displayName.trim()
+    .replace(/<\/?[a-z].*?>/gim, '')  // strip tags, leave /<DIGIT/ like: "IE<123"
+    .replace(/[ \t\n!"#$%&'()*+,\-.\/:;<=>?@[\\\]^_`{|}~]/g, '-') // пунктуация, пробелы -> дефис
+    .replace(/[^a-zа-яё0-9-]/gi, '') // убрать любые символы, кроме [слов цифр дефиса])
+    .replace(/-+/gi, '-') // слить дефисы вместе
+    .replace(/^-|-$/g, ''); // убрать дефисы с концов
+
+  profileName = transliterate(profileName);
+  profileName = profileName.toLowerCase();
+
+  var existingUser;
+  while(true) {
+    existingUser = yield User.findOne({profileName: profileName}).exec();
+
+    if (!existingUser) break;
+    // add a one more random digit and retry the search
+    profileName += Math.random() * 10 ^ 0;
+  }
+
+  this.profileName = profileName;
+};
+
+
 
 UserSchema.plugin(troop.timestamp, {useVirtual: false});
 

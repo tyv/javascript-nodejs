@@ -6,16 +6,19 @@ function WriteVersionsPlugin(file) {
 
 WriteVersionsPlugin.prototype.writeStats = function(compiler, stats) {
   stats = stats.toJson();
-  //console.log(stats.assetsByChunkName);
   var assetsByChunkName = stats.assetsByChunkName;
 
   for (var name in assetsByChunkName) {
     if (assetsByChunkName[name] instanceof Array) {
-      assetsByChunkName[name] = assetsByChunkName[name][0];
+      assetsByChunkName[name] = assetsByChunkName[name].map(function(path) {
+        return compiler.options.output.publicPath + path;
+      });
+    } else {
+      assetsByChunkName[name] = compiler.options.output.publicPath + assetsByChunkName[name];
     }
-    assetsByChunkName[name] = compiler.options.output.publicPath + assetsByChunkName[name];
   }
 
+  //console.log(assetsByChunkName);
   fs.writeFileSync(this.file, JSON.stringify(assetsByChunkName));
 };
 

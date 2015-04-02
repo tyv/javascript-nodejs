@@ -4,11 +4,8 @@ var env = process.env;
 // NODE_ENV = development || test || production
 env.NODE_ENV = env.NODE_ENV || 'development';
 
-env.SITE_HOST = env.SITE_HOST || (env.NODE_ENV == 'test' ? 'http://stage.javascript.ru' : '');
-env.STATIC_HOST = env.STATIC_HOST || (env.NODE_ENV == 'test' ? 'http://stage.javascript.ru' : '');
-
-
-if (env.DEV_TRACE) require('./trace');
+if (!env.SITE_HOST) throw new Error("env.SITE_HOST is not set");
+if (!env.STATIC_HOST) throw new Error("env.STATIC_HOST is not set");
 
 var secret = require('./secret');
 
@@ -58,6 +55,7 @@ module.exports = {
     env.ASSET_VERSIONING == 'query' ? 'query' : null,
 
   mailer: require('./mailer'),
+
   jade:   {
     basedir: path.join(process.cwd(), 'templates'),
     cache:   env.NODE_ENV != 'development'
@@ -87,4 +85,7 @@ module.exports = {
   manifestRoot:         path.join(process.cwd(), 'manifest')
 };
 
+// webpack config uses general config
+// we have a loop dep here
+module.exports.webpack = require('./webpack');
 require('./i18n');

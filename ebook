@@ -3,5 +3,5 @@
 export ASSET_VERSIONING=none
 export NODE_ENV=ebook
 
-gulp client:compile-css --harmony
-node --harmony ./bin/server
+gulp client:compile-css
+node  ./bin/server

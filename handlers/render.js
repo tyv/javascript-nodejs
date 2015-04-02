@@ -108,23 +108,24 @@ function addStandardHelpers(locals, ctx) {
   };
 
 
-  locals.script = function(name) {
+  locals.pack = function(name, index) {
     var versions = JSON.parse(
-      fs.readFileSync(path.join(config.manifestRoot, 'js.versions.json'), {encoding: 'utf-8'})
+      fs.readFileSync(path.join(config.manifestRoot, 'pack.versions.json'), {encoding: 'utf-8'})
     );
     var versionName = versions[name];
+    // e.g style = [ style.js, style.css ]
+    if (index !== undefined) versionName = versionName[index];
+
+    /*
+    if (process.env.NODE_ENV == 'development') {
+      // webpack-dev-server url
+      versionName = process.env.STATIC_HOST + ':' + config.webpack.devServer.port + versionName;
+    }*/
 
     return versionName;
   };
 
-  locals.style = function(name) {
-    var versions = JSON.parse(
-      fs.readFileSync(path.join(config.manifestRoot, 'styles.versions.json'), {encoding: 'utf-8'})
-    );
-    var versionName = versions[name];
 
-    return versionName;
-  };
 
   locals._hasStandardHelpers = true;
 }

@@ -22,6 +22,10 @@ const quizSchema = new Schema({
     type: String,
     required: true
   },
+  weight: {
+    type: Number,
+    required: true
+  },
   slug: {
     type:     String,
     required: true,

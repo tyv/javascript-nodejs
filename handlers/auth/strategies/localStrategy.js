@@ -12,16 +12,16 @@ function UserAuthError(message) {
 // OR
 // done(null, false, { message: <error message> })  <- 3rd arg format is from built-in messages of strategies
 module.exports = new LocalStrategy({
-  usernameField: 'login',
+  usernameField: 'email',
   passwordField: 'password'
-}, function(login, password, done) {
+}, function(email, password, done) {
 
   co(function*() {
 
-    if (!login) throw new UserAuthError('Укажите email.');
+    if (!email) throw new UserAuthError('Укажите email.');
     if (!password) throw new UserAuthError('Укажите пароль.');
 
-    var user = yield User.findOne({email: login}).exec();
+    var user = yield User.findOne({email: email}).exec();
 
     if (!user) {
       throw new UserAuthError('Нет такого пользователя.');

@@ -110,14 +110,14 @@ sudo /etc/init.d/mongodb restart
 npm install
 
 # deploy nginx config
-sudo gulp config:nginx --prefix /etc/nginx --root /js/javascript-nodejs --env test --clear --harmony
+sudo gulp config:nginx --prefix /etc/nginx --root /js/javascript-nodejs --env test --clear
 
 sudo /etc/init.d/nginx restart
 
-gulp build --harmony
+gulp build
 
 if [ -d /js/javascript-tutorial ]; then
-  gulp tutorial:import --harmony --root /js/javascript-tutorial
+  gulp tutorial:import --root /js/javascript-tutorial
 fi
 
 echo "Install finished"

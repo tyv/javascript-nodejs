@@ -112,8 +112,23 @@ block content
 
   +b.about-map
     +e('h1').title География офлайн событий
-    +e('h1').map-container
+    +e('h1').map-container#map
+    style.
+      .leaflet-map-pane {
+        z-index: 2 !important;
+      }
 
+      .leaflet-google-layer {
+        z-index: 1 !important;
+      }
+    link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css")
+
+    script(src="https://maps.googleapis.com/maps/api/js?v=3.exp")
+
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js")
+
+    script
+      include circles2.js
 
   +b.about-layout.columns.columns_2
 

@@ -1,11 +1,12 @@
 var fs = require('fs');
+var nib = require('nib');
 var path = require('path');
 var config = require('config');
 var webpack = require('webpack');
 var CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin");
 var WriteVersionsPlugin = require('lib/webpack/writeVersionsPlugin');
 var ngAnnotatePlugin = require('ng-annotate-webpack-plugin');
-
+//var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 var del = require('del');
 
@@ -15,26 +16,28 @@ var del = require('del');
 // NB: includes angular-*
 var noProcessModulesRegExp = /node_modules\/(angular|prismjs)/;
 
-function filenameTemplate(name) {
-  return config.assetVersioning == 'query' ? name + ".js?[hash]" :
-    config.assetVersioning == 'file' ? name + ".[hash].js" : name + ".js";
+function extHash(name, ext, hash) {
+  if (!hash) hash = '[hash]';
+  return config.assetVersioning == 'query' ? `${name}.${ext}?${hash}` :
+    config.assetVersioning == 'file' ? `${name}.${hash}.${ext}` :
+      `${name}.${ext}`;
 }
 
 var webpackConfig = {
   output:     {
     // fs path
-    path:       './public/js',
+    path:       path.join(config.publicRoot, 'pack'),
     // path as js sees it
     // if I use another domain here, need enable Allow-Access-.. header there
     // and add  crossorigin="anonymous" to scripts, to let error handler track errors
-    publicPath: '/js/',
+    publicPath: process.env.NODE_ENV == 'development' ? (process.env.STATIC_HOST + ':3001/pack/') : '/pack/',
     // в dev-режиме файлы будут вида [name].js, но обращения - через [name].js?[hash], т.е. версия учтена
     // в prod-режиме не можем ?, т.к. CDN его обрезают, поэтому [hash] в имени
     //  (какой-то [hash] здесь необходим, иначе к chunk'ам типа 3.js, которые генерируются require.ensure,
     //  будет обращение без хэша при загрузке внутри сборки. при изменении - барузерный кеш их не подхватит)
-    filename:   filenameTemplate("[name]"),
+    filename:   extHash("[name]", 'js'),
 
-    chunkFilename: filenameTemplate("[id]"),
+    chunkFilename: extHash("[name]-[id]", 'js'),
     // the setting below does not work with CommonsChunkPlugin
     library:       '[name]'
   },
@@ -42,13 +45,16 @@ var webpackConfig = {
   watchDelay: 10,
   watch:      process.env.NODE_ENV == 'development',
 
-  devtool: process.env.NODE_ENV == 'production' ? 'source-map' : "inline-source-map",
+  devtool: process.env.NODE_ENV == 'production' ? 'source-map' : "eval", // try "inline-source-map" ?
+  //devtool: process.env.NODE_ENV == 'production' ? 'source-map' : "inline-source-map",
 
   //profile: true,
 
   entry: {
+    styles:   'styles',
     angular:  'client/angular',
-    head:     'client/head',
+    head:     process.env.NODE_ENV == 'development' ?
+                ['webpack/hot/dev-server', `webpack-dev-server/client?${process.env.STATIC_HOST}:3001`, 'client/head'] : 'client/head',
     tutorial: 'tutorial/client',
     profile:  'profile/client',
     search:   'search/client',
@@ -71,8 +77,21 @@ var webpackConfig = {
       },
       {
         test:    /\.js$/,
-        exclude: noProcessModulesRegExp,
+        // babel-loader shouldn't process webpack, because it contains ws/browser.js,
+        // which must not be run in strict mode (global becomes undefined)
+        // babel-loader would make all modules strict
+        exclude: /node_modules\/(angular|prismjs|webpack)/,
         loader:  'babel-loader'
+      },
+      {
+        test:   /\.styl$/,
+        // ExtractTextPlugin breaks HMR for CSS
+        //loader: ExtractTextPlugin.extract('style-loader', 'css-loader!autoprefixer-loader?browsers=last 2 version!stylus-loader?linenos=true')
+        loader: 'style-loader!css-loader!autoprefixer-loader?browsers=last 2 version!stylus-loader?linenos=true'
+      },
+      {
+        test:   /\.(png|jpg|gif|woff|eot|otf|ttf|svg)$/,
+        loader: extHash('file?name=[path][name]', '[ext]')
       }
     ],
     noParse: [
@@ -89,8 +108,14 @@ var webpackConfig = {
     ]
   },
 
+  stylus: {
+    use: [nib()]
+  },
+
   resolve: {
-    alias: {
+    // allow require('styles') which looks for styles/index.styl
+    extensions: ['', '.js', '.styl'],
+    alias:      {
       lodash:          'lodash/dist/lodash',
       angular:         'angular/angular',
       angularRouter:   'angular-ui-router/release/angular-ui-router',
@@ -114,9 +139,22 @@ var webpackConfig = {
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
 
     // any common chunks from entries go to head
-    new CommonsChunkPlugin("head", filenameTemplate("head")),
-    new WriteVersionsPlugin(path.join(config.manifestRoot, "js.versions.json")),
-  ]
+    new CommonsChunkPlugin("head", extHash("head", 'js')),
+    new WriteVersionsPlugin(path.join(config.manifestRoot, "pack.versions.json")),
+
+    //new ExtractTextPlugin(extHash('[name]', 'css', '[contenthash]'), {allChunks: true})
+  ],
+
+  recordsPath: path.join(config.tmpRoot, 'webpack.json'),
+  devServer: {
+    port: 3001, // dev server itself does not use it, but outer tasks do
+    historyApiFallback: true,
+    hot: true,
+    watchDelay: 10,
+    //noInfo: true,
+    publicPath: process.env.STATIC_HOST + ':3001/pack/',
+    contentBase: config.publicRoot
+  }
 };
 
 
@@ -147,11 +185,15 @@ if (process.env.NODE_ENV != 'development') { // production, ebook
         screw_ie8:    true
       },
       beautify: true,
-      output: {
+      output:   {
         indent_level: 0 // for error reporting, to see which line actually has the problem
         // source maps actually didn't work in QBaka that's why I put it here
       }
     })
+  );
+} else {
+  webpackConfig.plugins.push(
+    new webpack.HotModuleReplacementPlugin()
   );
 }
 

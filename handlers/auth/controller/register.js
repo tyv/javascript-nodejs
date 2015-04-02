@@ -19,6 +19,8 @@ exports.post = function* (next) {
     verifyEmailRedirect: this.request.body.successRedirect
   });
 
+  yield user.generateProfileName();
+
   try {
 
     yield sendMail({
@@ -29,7 +31,7 @@ exports.post = function* (next) {
     });
 
   } catch(e) {
-    this.log.error({err: e}, "Registration failed" );
+    this.log.error("Registration failed", {err: e});
     this.throw(500, "Ошибка отправки email.");
   }
 

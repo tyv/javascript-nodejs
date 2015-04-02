@@ -10,7 +10,9 @@ include /bem
 
         +e("th").test-info
           +e("time").time {{result.created | quizDate}}
-          +e("h1").name {{result.quizTitle}}
+          +e("h1").name(ng-if="result.quizUrl")
+            a(href="{{result.quizUrl}}") {{result.quizTitle}}
+          +e("h1").name(ng-if="!result.quizUrl") {{result.quizTitle}}
 
         +e("td").precents
           +e("dl").precents-info

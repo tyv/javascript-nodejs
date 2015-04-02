@@ -1,0 +1,32 @@
+extends ../layouts/base
+
+// - http://stackoverflow.com/questions/12646451/how-to-pass-variables-between-jade-templates
+block variables
+  - self.headTitle = 'Современный учебник Javascript';
+
+  //- layout
+  - layout.sitetoolbar = true
+  - layout.header = true
+  - layout.custom = true
+
+block content
+  div#map(style="height:400px")
+
+  style.
+    .leaflet-map-pane {
+      z-index: 2 !important;
+    }
+
+    .leaflet-google-layer {
+      z-index: 1 !important;
+    }
+
+  link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css")
+
+  script(src="https://maps.googleapis.com/maps/api/js?v=3.exp")
+
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js")
+
+
+  script
+    include l.js

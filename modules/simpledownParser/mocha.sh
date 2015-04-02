@@ -6,7 +6,7 @@
 # OR
 #    ./mocha.sh test/unit/model/user.js
 
-# tried also gulp-mocha and node --harmony `which gulp` test,
+# tried also gulp-mocha and node `which gulp` test,
 # but it hangs after tests, not sure why, mocha.sh works fine so leave it as is
-NODE_ENV=test NODE_PATH=. mocha --harmony $*
+NODE_ENV=test NODE_PATH=. mocha $*
 

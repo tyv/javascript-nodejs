@@ -47,6 +47,7 @@ exports.Newsletter = [
 exports.User = [{
   email:         "mk@javascript.ru",
   displayName:   "Tester",
+  profileName:   'tester',
   password:      "123456",
   verifiedEmail: true
 }];

@@ -10,7 +10,7 @@ module.exports = function() {
   return function() {
 
     var args = require('yargs')
-      .usage("gulp db:load --from fixture/init --harmony --reset")
+      .usage("gulp db:load --from fixture/init --reset")
       .demand(['from'])
       .describe('from', 'file to import')
       .describe('reset', 'kill all existing models of each kind')

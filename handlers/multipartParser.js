@@ -64,7 +64,6 @@ MultipartParser.prototype.middleware = function() {
     }
 
     if (!self.ignore.check(this.path)) {
-      console.log("NO IGNORE ", self.ignore.paths[0], this.path);
       this.log.debug("multipart will parse");
 
       // this may throw an error w/ status 400 or 415 or...

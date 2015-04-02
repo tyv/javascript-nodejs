@@ -3,7 +3,6 @@
     {
       "name":           "Javascript.ru",
       "script":         "bin/server",
-      "node_args":      "--harmony",
       "instances":      "1",
       "exec_mode":      "cluster_mode",
       "env":            {
