@@ -5,7 +5,8 @@ block append variables
   +e.content
     +e.logo-wrap
       +e('a').link._logo(href="/")
-        +e('img').logo(src=t("/i/sitetoolbar__logo.svg"))
+
+        +e('img').logo(src=siteLogo)
         script
           :uglify
             (function() {

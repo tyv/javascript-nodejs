@@ -75,6 +75,8 @@ function addStandardHelpers(locals, ctx) {
     debugger;
   };
 
+
+  locals.siteLogo = ctx.query.logo2 ? "/img/sitetoolbar__logo2.svg" : "/img/sitetoolbar__logo.svg";
   locals.t = i18n.t;
   locals.bem = require('bem-jade')();
 
@@ -91,22 +93,6 @@ function addStandardHelpers(locals, ctx) {
     return Math.round(money.convert(amount, {from: from, to: to}));
   };
 
-  locals.asset = function(publicPath) {
-    if (publicPath[0] != '/') {
-      throw new Error("asset needs an /absolute/path");
-    }
-    var version = getPublicVersion(publicPath);
-    if (!version) {
-      version = Math.random().toString().slice(2);
-      log.error("No version for " + publicPath);
-    }
-
-    var versionedPath = (config.assetVersioning == 'file') ? publicPath.replace('.', '.v' + version + '.') :
-      config.assetVersioning == 'query' ? (publicPath + '?' + version) : publicPath;
-
-    return config.server.staticHost + versionedPath;
-  };
-
 
   locals.pack = function(name, ext) {
     var versions = JSON.parse(
@@ -119,9 +105,10 @@ function addStandardHelpers(locals, ctx) {
 
     var extTestReg = new RegExp(`.${ext}\\b`);
 
+    // select right .js\b extension from files
     for (var i = 0; i < versionName.length; i++) {
-      var versionNameItem = versionName[i]; // style.css
-      if (/\.map/.test(versionNameItem)) continue;
+      var versionNameItem = versionName[i]; // e.g. style.css.map
+      if (/\.map/.test(versionNameItem)) continue; // we never need a map
       if (extTestReg.test(versionNameItem)) return versionNameItem;
     }
 
@@ -132,7 +119,6 @@ function addStandardHelpers(locals, ctx) {
       versionName = process.env.STATIC_HOST + ':' + config.webpack.devServer.port + versionName;
     }*/
 
-    return versionName;
   };
 
 
