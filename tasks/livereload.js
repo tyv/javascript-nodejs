@@ -13,7 +13,7 @@ module.exports = function(options) {
     livereload.listen();
 
     // reload once after all scripts are rebuit
-    livereload.changedSoon = _.throttle(livereload.changed, 500, {leading: false});
+    livereload.changedSoon = _.throttle(livereload.changed, 1000, {leading: false});
     //livereload.changedVerySoon = _.throttle(livereload.changed, 100, {leading: false});
 
     setTimeout(function() {

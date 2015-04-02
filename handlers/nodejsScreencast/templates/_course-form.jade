@@ -1,15 +1,16 @@
+
 +b.course-form
   +e("h3").title Курс по Node.JS
-  +e("p").text
-    | Время от времени проходит онлайн-курс по Node.JS / IO.JS. Курс &ndash; это конкретная практика, задачи, обучение в контакте с опытным разработчиком. И, конечно, самые последние и грамотные технологии.
-    | Пришлю уведомление, когда будет открыта запись.
-  +e("form").form(data-newsletter-subscribe-form="nodejs-bottom" action="/newsletter/subscriptions" method="POST")
+  +e("p").text Время от времени проходит онлайн-курс по Node.JS / IO.JS.
+  +e("p") Курс &mdash; это конкретная практика, задачи, обучение в контакте с опытным разработчиком. И, конечно, самые последние и грамотные технологии.
+  +e("p") Пришлю уведомление, когда будет открыта запись.
+  +e("form").form(data-newsletter-subscribe-form="nodejs-bottom" onsubmit="return false" action="/newsletter/subscriptions" method="POST")
     input(type="hidden" value="nodejs" name="slug")
     if user
       input(type="hidden" value=user.email name="email")
     else
       +b.text-input
-        +e('input').control(type="email" placeholder="me@mail.com" name="email" required)
+        +e('input').control(type="email" placeholder="me@mail.com" name="email" data-modal-autofocus required)
 
     +b("button").button._action(type="submit")
       +e("span").text Уведомить о курсах

@@ -3,7 +3,7 @@ var showLinkType = require('./showLinkType');
 var load2x = require('./load2x');
 var trackSticky = require('client/trackSticky');
 
-require('newsletter/client').init();
+//require('newsletter/client').init();
 
 exports.init = function() {
   showLinkType();

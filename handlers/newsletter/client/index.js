@@ -4,25 +4,14 @@ var notification = require('client/notification');
 
 function init() {
 
-  document.onsubmit = function(e) {
-    if (e.target.hasAttribute("data-newsletter-subscribe-form")) {
-      e.preventDefault();
-      submitSubscribeForm(e.target);
-    }
-  };
 
 }
 
-function submitSubscribeForm(form) {
+function submitSubscribeForm(form, onSuccess) {
 
   if (!form.elements.email.value) {
     return;
   }
-
-  window.metrika.reachGoal('NEWSLETTER-SUBSCRIBE-' + name.toUpperCase(), {
-    form: form.getAttribute('data-newsletter-subscribe-form')
-  });
-  window.ga('send', 'event', 'newsletter', 'subscribe', form.getAttribute('data-newsletter-subscribe-form'));
 
   const request = xhr({
     method: 'POST',
@@ -48,10 +37,25 @@ function submitSubscribeForm(form) {
     submitButton.disabled = false;
   });
 
+  var formLabel = form.getAttribute('data-newsletter-subscribe-form');
+
   request.addEventListener('success', function(event) {
     if (this.status == 200) {
+
+      window.metrika.reachGoal('NEWSLETTER-SUBSCRIBE', {
+        form: formLabel
+      });
+      window.ga('send', 'event', 'newsletter', 'subscribe', formLabel);
+
       new notification.Success(event.result.message, 'slow');
+      onSuccess && onSuccess();
     } else {
+
+      window.metrika.reachGoal('NEWSLETTER-SUBSCRIBE-FAIL', {
+        form: formLabel
+      });
+      window.ga('send', 'event', 'newsletter', 'subscribe-fail', formLabel);
+
       new notification.Error(event.result.message);
     }
   });
@@ -59,3 +63,4 @@ function submitSubscribeForm(form) {
 }
 
 exports.init = init;
+exports.submitSubscribeForm = submitSubscribeForm;
