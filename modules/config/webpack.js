@@ -77,17 +77,17 @@ var webpackConfig = {
       },
       {
         test:    /\.js$/,
-        // babel-loader shouldn't process webpack, because it contains ws/browser.js,
+        // babel shouldn't process webpack, because it contains ws/browser.js,
         // which must not be run in strict mode (global becomes undefined)
-        // babel-loader would make all modules strict
+        // babel would make all modules strict
         exclude: /node_modules\/(angular|prismjs)/,
-        loader:  'babel-loader'
+        loader:  'babel'
       },
       {
         test:   /\.styl$/,
         // ExtractTextPlugin breaks HMR for CSS
-        loader: ExtractTextPlugin.extract('style-loader', 'css-loader!autoprefixer-loader?browsers=last 2 version!stylus-loader?linenos=true')
-        //loader: 'style-loader!css-loader!autoprefixer-loader?browsers=last 2 version!stylus-loader?linenos=true'
+        loader: ExtractTextPlugin.extract('style', 'css!autoprefixer?browsers=last 2 version!stylus?linenos=true')
+        //loader: 'style!css!autoprefixer?browsers=last 2 version!stylus?linenos=true'
       },
       {
         test:   /\.(png|jpg|gif|woff|eot|otf|ttf|svg)$/,
