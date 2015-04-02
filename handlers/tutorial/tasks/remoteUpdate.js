@@ -28,7 +28,7 @@ module.exports = function(options) {
     var host = args.host;
     return co(function* () {
 
-      exec('rsync -rlDv /js/javascript-nodejs/public/ --exclude js --exclude css ' + host + ':/js/javascript-nodejs/current/public/');
+      exec('rsync -rlDv /js/javascript-nodejs/public/ --exclude pack ' + host + ':/js/javascript-nodejs/current/public/');
 
 
       del.sync('dump');
