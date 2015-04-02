@@ -29,7 +29,7 @@ var webpackConfig = {
     path:       path.join(config.publicRoot, 'pack'),
     // path as js sees it
     // if I use another domain here, need enable Allow-Access-.. header there
-    // and add  crossorigin="anonymous" to scripts, to let error handler track errors
+    // and add  to scripts, to let error handler track errors
     publicPath: '/pack/',
     // в dev-режиме файлы будут вида [name].js, но обращения - через [name].js?[hash], т.е. версия учтена
     // в prod-режиме не можем ?, т.к. CDN его обрезают, поэтому [hash] в имени
