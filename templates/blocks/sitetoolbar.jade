@@ -1,5 +1,5 @@
 block append variables
-  - var siteToolbarSections = [ { slug: 'tutorial', title: 'Учебник' }, { url: 'http://javascript.ru/forum', title: 'Форум' }, { url: 'http://es5.javascript.ru', title: 'ES5' }, { url: 'http://javascript.ru/courses', title: 'Курсы' }, { url: 'http://javascript.ru/manual', title: 'Справочник' },  { slug: '#', title: 'Node.JS' }, { slug: '#', title: 'Тесты знаний' } ];
+  - var siteToolbarSections = [ { slug: 'tutorial', title: 'Учебник' }, { url: 'http://javascript.ru/forum', title: 'Форум' }, { url: 'http://es5.javascript.ru', title: 'ES5' }, { url: 'http://javascript.ru/courses', title: 'Курсы' }, { url: 'http://javascript.ru/manual', title: 'Справочник' },  { slug: '/nodejs-screencast', title: 'Node.JS' }, { slug: '/quiz', title: 'Тесты знаний' } ];
 
 +b(class = 'sitetoolbar ' + (bookChildNumber ? '_tutorial' : ''))
   +e.content

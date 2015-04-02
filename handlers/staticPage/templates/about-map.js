@@ -339,6 +339,7 @@ var map = new L.Map('map', {
   center: new L.LatLng(54.231473, 37.734144),
   zoom: 5,
   attributionControl: false,
+  scrollWheelZoom: false,
   markerZoomAnimation: false
 });
 var googleLayer = new L.Google('TERRAIN');
