@@ -15,49 +15,44 @@ var trackSticky = require('client/trackSticky');
  *       - after registration for "confirm email" link
  */
 function TutorialMapModal() {
-  Modal.apply(this, arguments);
-
+  var modal = new Modal({hasClose: false});
   var spinner = new Spinner();
-  this.setContent(spinner.elem);
+  modal.setContent(spinner.elem);
   spinner.start();
 
-  var request = this.request({
+  var request = xhr({
     url: '/tutorial/map'
   });
 
-  var self = this;
+  request.addEventListener('success', (event) => {
+    modal.remove();
+    document.body.insertAdjacentHTML('beforeEnd', '<div class="tutorial-map-overlay"></div>');
+    this.elem = document.body.lastChild;
+    this.elem.innerHTML = event.result +  '<button class="close-button tutorial-map-overlay__close"></button>';
 
-  request.addEventListener('success', function(event) {
-    var wrapper = document.createElement('div');
-    wrapper.className = 'tutorial-map-overlay';
-    wrapper.innerHTML = event.result + '<button class="close-button tutorial-map-overlay__close"></button>';
+    this.elem.addEventListener('click', (e) => {
+      if (e.target.classList.contains('tutorial-map-overlay__close')) {
+        this.remove();
+      }
+    });
+
     document.body.classList.add('tutorial-map_on');
-    self.setContent(wrapper);
 
-    wrapper.addEventListener('scroll', trackSticky);
+    this.elem.addEventListener('scroll', trackSticky);
 
-    new TutorialMap(self.contentElem.firstElementChild);
+    new TutorialMap(this.elem.firstElementChild);
   });
 
-  request.addEventListener('fail', function() {
-    self.remove();
-  });
+  request.addEventListener('fail', () => modal.remove());
 
 }
-
-TutorialMapModal.prototype = Object.create(Modal.prototype);
 
 delegate.delegateMixin(TutorialMapModal.prototype);
 
 TutorialMapModal.prototype.remove = function() {
-  Modal.prototype.remove.apply(this, arguments);
+  this.elem.remove();
   document.body.classList.remove('tutorial-map_on');
 };
 
-TutorialMapModal.prototype.request = function(options) {
-  var request = xhr(options);
-
-  return request;
-};
 
 module.exports = TutorialMapModal;
