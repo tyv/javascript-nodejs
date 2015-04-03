@@ -75,8 +75,6 @@ function addStandardHelpers(locals, ctx) {
     debugger;
   };
 
-
-  locals.siteLogo = (ctx.query.logo2 !== undefined) ? "/img/sitetoolbar__logo2.svg" : "/img/sitetoolbar__logo.svg";
   locals.t = i18n.t;
   locals.bem = require('bem-jade')();
 
