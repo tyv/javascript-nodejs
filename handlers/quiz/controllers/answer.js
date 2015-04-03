@@ -5,7 +5,7 @@ const QuizQuestion = require('../models/quizQuestion');
 const _ = require('lodash');
 
 exports.post = function*() {
-
+  var self = this;
   if (!this.session.quizzes) {
     this.log.debug("No session quizzes");
     this.throw(404);
@@ -88,7 +88,7 @@ exports.post = function*() {
       sessionQuiz.questionsTakenIds.forEach(function(id) {
 
         if (String(id) == String(question._id)) {
-          console.log("Excluding " + id);
+          self.log.debug("Excluding " + id);
           found = true;
         }
       });
@@ -96,12 +96,12 @@ exports.post = function*() {
       return !found;
     });
 
-    console.log(questionsAvailable);
+    self.log.debug(questionsAvailable);
     sessionQuiz.questionCurrentId = _.sample(questionsAvailable, 1)[0]._id;
 
     this.locals.question = quiz.questions.id(sessionQuiz.questionCurrentId);
 
-    console.log(this.locals.question, sessionQuiz.questionCurrentId);
+    self.log.debug(this.locals.question, sessionQuiz.questionCurrentId);
 
     this.body = {
       html:           this.render('partials/_question'),

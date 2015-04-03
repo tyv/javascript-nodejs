@@ -65,7 +65,7 @@ exports.post = function*() {
         return;
       } else {
 
-        console.log(existingSubscription);
+        //console.log(existingSubscription);
 
         yield* sendConfirmationLetter.call(this, existingSubscription, newsletter);
 

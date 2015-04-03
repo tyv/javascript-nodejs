@@ -35,7 +35,7 @@ document.documentElement.addEventListener('wheel', function(event) {
       foundScrollable = true;
 
       // got a scrollable element!
-      console.log(target, event.deltaY, target.scrollTop, target.clientHeight + target.scrollTop,  target.scrollHeight);
+      //console.log(target, event.deltaY, target.scrollTop, target.clientHeight + target.scrollTop,  target.scrollHeight);
 
 
       // can scroll in this direction?
