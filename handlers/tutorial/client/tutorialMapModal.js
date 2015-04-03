@@ -20,6 +20,8 @@ function TutorialMapModal() {
   modal.setContent(spinner.elem);
   spinner.start();
 
+  this.onDocumentKeyDown = this.onDocumentKeyDown.bind(this);
+
   var request = xhr({
     url: '/tutorial/map'
   });
@@ -35,6 +37,8 @@ function TutorialMapModal() {
         this.remove();
       }
     });
+
+    document.addEventListener("keydown", this.onDocumentKeyDown);
 
     document.body.classList.add('tutorial-map_on');
 
@@ -52,6 +56,14 @@ delegate.delegateMixin(TutorialMapModal.prototype);
 TutorialMapModal.prototype.remove = function() {
   this.elem.remove();
   document.body.classList.remove('tutorial-map_on');
+  document.removeEventListener("keydown", this.onDocumentKeyDown);
+};
+
+TutorialMapModal.prototype.onDocumentKeyDown = function(event) {
+  if (event.keyCode == 27) {
+    event.preventDefault();
+    this.remove();
+  }
 };
 
 
