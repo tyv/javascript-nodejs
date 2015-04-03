@@ -23,6 +23,7 @@ exports.get = function*() {
     }).exec();
 
     if (!quiz) {
+      this.log.debug("No quiz: " + this.params.slug);
       this.throw(404);
     }
 
@@ -32,11 +33,17 @@ exports.get = function*() {
     return;
   }
 
-  // may be archived! (user started it before the update)
+  // we have a session quiz, but it may be archived! (user started it before the update)
+  // so let's look by id
   var quiz = yield Quiz.findById(sessionQuiz.id).exec();
 
   if (!quiz) {
-    this.throw(404);
+    // invalid id in sessionQuiz, probably db was cleared
+    this.log.debug("No quiz with id: " + sessionQuiz.id);
+    // invalid quiz in session, delete and go /quiz
+    delete this.session.quizzes[this.params.slug];
+    this.redirect('/quiz');
+    return;
   }
 
   this.locals.quiz = quiz;
@@ -66,7 +73,6 @@ exports.get = function*() {
     this.locals.progressNow = sessionQuiz.questionsTakenIds.length + 1;
     this.locals.progressTotal = quiz.questionsToAskCount;
 
-    console.log(this.locals);
     this.body = this.render('quiz');
   }
 };

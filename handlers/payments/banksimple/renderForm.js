@@ -2,13 +2,13 @@ const jade = require('lib/serverJade');
 const config = require('config');
 const path = require('path');
 
-module.exports = function* (transaction) {
+module.exports = function* (transaction, order) {
 
-  return jade.renderFile(path.join(__dirname, 'templates', 'form.jade'), {
-    amount: transaction.amount,
-    number: transaction.number,
-    webmoney:  config.payments.modules.webmoney
+  var form = jade.renderFile(path.join(__dirname, 'templates/form.jade'), {
+    orderNumber: order.number
   });
+
+  return form;
 
 };
 

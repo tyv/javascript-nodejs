@@ -26,17 +26,17 @@ block content
     p.note
       | Если вам нужен только JavaScript/HTML/CSS &ndash; выбирайте WebStorm.
       br
-      | Другие редакторы кроме них поддерживают дополнительные языки, указанные в списке.
+      | Другие редакторы в дополнение к JS/HTML/CSS поддерживают язык, указанный в списке.
     +e.form
       +e.line
         +e("label").label(for="name") Имя и фамилия (англ.):
         +b("span")(class=['text-input', errors && errors.name && '_invalid'])
-          +e("input").control(type="text" pattern="^\\s*[a-zA-Z ]+\\s+[a-zA-Z ]+\\s*$" required name="name" id="name" value=form && form.name)
+          +e("input").control(type="text", pattern="^\\s*[a-zA-Z ]+\\s+[a-zA-Z ]+\\s*$", required, name="name", id="name", value=form && form.name, placeholder="John Smith" autofocus)
 
       +e.line
         +e("label").label(for="email") Email:
         +b("span")(class=['text-input', errors && errors.email && '_invalid'])
-          +e("input").control(type="email" name="email" id="email" required value=form && form.email)
+          +e("input").control(type="email", name="email", id="email", required, value=form && form.email, placeholder="my@mail.com")
 
       +e.line
         +e("label").label(for="product") Редактор:

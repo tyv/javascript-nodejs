@@ -93,6 +93,21 @@ module.exports =  function*(order) {
 
     if (transaction) {
       // Waiting for payment
+      if (transaction.paymentMethod == 'banksimple') {
+        return {
+          number: order.number,
+          status: "pending",
+          transaction: transaction,
+          title: "Спасибо за заказ!",
+          accent: `Скачайте, пожалуйста, <a href="/payments/banksimple/${transaction.number}/invoice.docx">квитанцию для оплаты через банк</a>.`,
+          description:
+            `<p><a href="/payments/banksimple/${transaction.number}/invoice.docx"><img src="/img/invoice.png" width="100" height="100"></a></p>
+            <p>Квитанция действительна три дня. Оплатить можно в любом банке, где у вас есть счёт или в Сбербанке, который берёт комиссию 3%.</p>
+            <p>После оплаты в течение двух рабочих дней банк уведомит нас, и мы вышлем вам всю необходимую информацию на адрес ${order.email}.</p>
+            <p>Если у вас возникли какие-либо вопросы, присылайте их на ${mailUrl}.</p>
+            `
+        };
+      }
       return {
         number: order.number,
         status: "pending",

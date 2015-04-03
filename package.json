@@ -29,6 +29,7 @@
     "co": "*",
     "css-loader": "^0.9.1",
     "del": "*",
+    "docxtemplater": "^1.0.5",
     "elasticsearch": "*",
     "escape-html": "*",
     "event-stream": "*",

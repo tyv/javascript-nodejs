@@ -22,6 +22,8 @@ module.exports = {
       secret: secret.payanyway.secret
     },
 
+    banksimple: secret.banksimple,
+
     paypal: {
       email:    secret.paypal.email,
       pdtToken: secret.paypal.pdtToken

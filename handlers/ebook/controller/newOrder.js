@@ -1,6 +1,5 @@
 const payments = require('payments');
 var OrderTemplate = payments.OrderTemplate;
-var createOrderFromTemplate = require('../lib/createOrderFromTemplate');
 
 exports.get = function*() {
   this.nocache();
@@ -17,6 +16,7 @@ exports.get = function*() {
   this.locals.paymentMethods = {};
   for(var key in payments.methods) {
     this.locals.paymentMethods[key] = { name: key, title: payments.methods[key].title };
+    delete this.locals.paymentMethods.banksimple; // not for ebook
   }
 
   this.body = this.render('new-order');

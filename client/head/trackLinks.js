@@ -17,7 +17,7 @@ document.addEventListener('click', function(e) {
   });
 
   // redirect after one second if recording takes too long
-  setTimeout(loadPage, 1000);
+  setTimeout(loadPage, 500);
 
   // redirect to outbound page
   function loadPage() {

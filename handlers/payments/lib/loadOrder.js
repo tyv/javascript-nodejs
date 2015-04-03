@@ -58,7 +58,7 @@ module.exports = function* (options) {
   if (!orderInSession && !belongsToUser) {
     this.throw(403, 'Access denied', {
       message: 'Доступ запрещён',
-      description: 'Возможно, этот заказ не Ваш, Вы не авторизованы, или сессия истекла.'
+      description: 'Возможно, этот заказ не ваш, вы не авторизованы, или сессия истекла.'
     });
   }
 
@@ -75,7 +75,7 @@ module.exports = function* (options) {
 
 };
 
-
+/*
 function* reloadOrderUntilSuccessFinish() {
 
   var lastTransaction = yield Transaction.findOne({
@@ -100,3 +100,4 @@ function* reloadOrderUntilSuccessFinish() {
   }
 
 }
+*/

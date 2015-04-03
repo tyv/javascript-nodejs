@@ -86,12 +86,17 @@ exports.post = function*() {
       // if a quiz.question is taken, exclude it from the list
       var found = false;
       sessionQuiz.questionsTakenIds.forEach(function(id) {
-        if (String(id) == String(question._id)) found = true;
+
+        if (String(id) == String(question._id)) {
+          console.log("Excluding " + id);
+          found = true;
+        }
       });
 
       return !found;
     });
 
+    console.log(questionsAvailable);
     sessionQuiz.questionCurrentId = _.sample(questionsAvailable, 1)[0]._id;
 
     this.locals.question = quiz.questions.id(sessionQuiz.questionCurrentId);

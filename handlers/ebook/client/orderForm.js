@@ -106,11 +106,19 @@ class OrderForm {
         container.innerHTML = result.form;
         document.body.appendChild(container);
 
-        window.ga('send', 'event', 'payment', 'purchase', 'ebook', {
-          hitCallback: function() {
+
+        // submit form after GA or after 500ms, which one comes sooner
+        var submitForm = function() {
+          if (!submitForm.called) {
+            submitForm.called = true;
             container.firstChild.submit();
           }
+        };
+
+        window.ga('send', 'event', 'payment', 'purchase', 'ebook', {
+          hitCallback: submitForm
         });
+        setTimeout(submitForm, 500);
 
 
         window.metrika.reachGoal('PURCHASE', {
