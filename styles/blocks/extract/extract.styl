@@ -1,5 +1,4 @@
 .extract
-    background #f5f2f0
     text-align left
     padding 0 0 30px
     border-radius 3px
@@ -10,6 +9,9 @@
         line-height 19px
         border-radius 0
 
+    &__item
+        position relative
+
     & &__header
         background #dddddd
         text-align center
@@ -19,15 +21,17 @@
         padding 7px 27px 14px
         border-radius 3px 3px 0 0
 
-    &__title
+    h3&__title
         color secondary_color
-        font 18px secondary_font
+        font 17px secondary_font
+
+        margin 0
+
+    &__title label
+        cursor pointer
 
     &__dates
         font-weight 700
-
-    &__dates,
-    &__info
         margin 0 27px
         line-height 26px
 
@@ -37,20 +41,49 @@
 
     &__wrap
         display table
+
         width 100%
+        margin-top 5px
+
+        background #f5f2f0
+
+    &__input
+        position absolute
+        top 50%
+        left 10px
+
+        transform translateY(-50%)
 
     &__content,
-    &__aside
+    &__aside,
+    &__input-wrap
         display table-cell
         vertical-align middle
-        padding 7px 0
+        padding 15px 0
+        border-top 2px solid transparent
+        border-bottom 2px solid transparent
+
+    &__aside
+        border-right 2px solid transparent
+
+    &__input:checked ~ &__wrap &__content,
+    &__input:checked ~ &__wrap &__aside,
+    &__input:checked ~ &__wrap &__input-wrap
+        border-color #e7e5e3
+
+    &__input:checked ~ &__wrap &__input-wrap
+        background #e7e5e3
 
     &__content
-        width 100%
+        padding-left 20px
 
     &__aside_price
+        width .1%
         padding-right 4em
         font-size 14px
+
+    &__input-wrap
+        width 36px
 
     &__aside_price .price__secondary
         position absolute
