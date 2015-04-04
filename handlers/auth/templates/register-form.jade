@@ -22,6 +22,12 @@ include /bem
     +e.line.__footer
         +b('button').submit-button._small.submit(type="submit")
           +e('span').text Зарегистрироваться
+
+    +e.line.__agreement
+        | Регистрируясь, вы принимаете
+        = ' '
+        a(href="/agreement") пользовательское соглашение
+        | .
     include login-form-footer
 
 
