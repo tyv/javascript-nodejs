@@ -35,6 +35,9 @@ block append variables
          each section in siteToolbarSections
           +e('li')(class=["section", session.slug && siteToolbarCurrentSection == section.slug && ' _current'])
             +e('a').link(href=section.slug ? ('/' + section.slug) : section.url)= section.title
+
+    include ./buy-book
+
     if user
       include ./user
     else

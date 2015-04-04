@@ -28,7 +28,8 @@ sitetoolbar_secondary_link = #498CBE
     &__sections,
     &__user-wrap,
     &__login-wrap,
-    &__search-wrap
+    &__search-wrap,
+    &__book-wrap
         display table-cell
         vertical-align top
         text-align left
@@ -43,7 +44,8 @@ sitetoolbar_secondary_link = #498CBE
 
     &__logo-wrap,
     &__user-wrap,
-    &__login-wrap
+    &__login-wrap,
+    &__book-wrap
         width .1%
 
     &__user-wrap
@@ -99,6 +101,11 @@ sitetoolbar_secondary_link = #498CBE
     &__user
         display block
 
+    &__book-wrap
+        padding-right 10px
+
+        vertical-align middle
+
     &__user,
     &__login
         @extend $button-reset
@@ -107,6 +114,18 @@ sitetoolbar_secondary_link = #498CBE
         line-height inherit
         height 60px
         padding 0 17px
+
+    &__login
+        width 60px
+        padding 0
+
+        text-align center
+
+    &__login:after
+        @extend $font-user
+
+        font-size 23px
+
 
     &__user:hover,
     &__login:hover
@@ -342,10 +361,12 @@ sitetoolbar_secondary_link = #498CBE
         &__usermenu
             right 128px // лучше позиционировать с помощью js
 
-    @media (max-width: 920px)
+    @media (max-width: 1100px)
+
         &__section
             font-size 15px
             margin-right 10px
+
 
     @media tablet
 
