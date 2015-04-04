@@ -21,11 +21,16 @@ function *createEmptyDb() {
 
   function *clearDatabase() {
 
-    var collections = yield thunk(db.collectionNames)();
+    var collections = yield new Promise(function(resolve, reject) {
+      db.listCollections().toArray(function(err, items) {
+        if (err) return reject(err);
+        resolve(items);
+      });
+    });
 
     var collectionNames = collections
       .map(function(collection) {
-        console.log(collection.name);
+        //console.log(collection.name);
         //var collectionName = collection.name.slice(db.databaseName.length + 1);
         if (collection.name.indexOf('system.') === 0) {
           return null;

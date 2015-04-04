@@ -11,10 +11,11 @@ const assert = require('better-assert');
 describe('Authorization', function() {
 
   var server;
-  before(function * () {
+  before(function* () {
+
     yield* db.loadModels(fixtures);
 
-    // app.listen() uses a random port,
+    // APP.LISTEN() USES A RANDOM PORT,
     // which superagent gets as server.address().port
     // so that every run will get it's own port
     server = app.listen();
@@ -27,7 +28,7 @@ describe('Authorization', function() {
       request(server)
         .post('/auth/login/local')
         .send({
-          login:    fixtures.User[2].email,
+          email:    fixtures.User[2].email,
           password: fixtures.User[2].password
         })
         .expect(401, done);
@@ -45,7 +46,7 @@ describe('Authorization', function() {
       agent
         .post('/auth/login/local')
         .send({
-          login:    fixtures.User[0].email,
+          email:    fixtures.User[0].email,
           password: fixtures.User[0].password
         })
         .expect(200, done);
@@ -74,9 +75,9 @@ describe('Authorization', function() {
     });
 
     var userData = {
-      email: Math.random() + "@gmail.com",
+      email:       Math.random() + "@gmail.com",
       displayName: "Random guy",
-      password: "somepass"
+      password:    "somepass"
     };
 
     it('should create a new user', function(done) {
@@ -99,13 +100,13 @@ describe('Authorization', function() {
      res.body.displayName.should.be.eql(userData.displayName);
      done(err);
      });
-    it('should be log in the new user', function(done) {
-      request(server)
-        .post('/auth/login/local')
-        .send({email: userData.email, password: userData.password})
-        .expect(200, done);
-    });
-*/
+     it('should be log in the new user', function(done) {
+     request(server)
+     .post('/auth/login/local')
+     .send({email: userData.email, password: userData.password})
+     .expect(200, done);
+     });
+     */
 
     it('should fail to create a new user with same email', function(done) {
       request(server)

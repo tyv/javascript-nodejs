@@ -15,6 +15,7 @@ describe('User', function() {
     var user = new User({
       email: "BAD",
       displayName: "John",
+      profileName: "bad",
       password: "1234"
     });
 
@@ -27,13 +28,16 @@ describe('User', function() {
 
   // TEST FAILS, @see https://github.com/LearnBoost/mongoose/issues/2446
   // does not require password, because social login does not use it
-  it('requires email & displayName', function() {
+  it('requires email & displayName & profileName', function() {
     [
       {
         email: "my@gmail.com"
       },
       {
         displayName: "John"
+      },
+      {
+        profileName: "profile"
       }
     ].map(function(data) {
         var user = new User(data);

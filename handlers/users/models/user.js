@@ -77,8 +77,14 @@ var UserSchema = new mongoose.Schema({
   },
   profileName:               {
     type:     String,
-    required: true,
     validate: [
+      {
+        validator: function(value) {
+          // also checks required
+          return this.deleted || value && value.length >= 2;
+        },
+        msg:       "Минимальная длина имени профиля: 2 символа."
+      },
       {
         validator: function(value) {
           return this.deleted || /^[a-z0-9-]*$/.test(value);
@@ -87,15 +93,10 @@ var UserSchema = new mongoose.Schema({
       },
       {
         validator: function(value) {
-          return this.deleted || value.length <= 64;
+          // if no value, this validator passes (another one triggers the error)
+          return this.deleted || !value || value.length <= 64;
         },
         msg:       "Максимальная длина имени профиля: 64 символа."
-      },
-      {
-        validator: function(value) {
-          return this.deleted || value.length >= 2;
-        },
-        msg:       "Минимальная длина имени профиля: 2 символа."
       }
     ],
 

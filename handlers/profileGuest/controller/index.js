@@ -40,7 +40,7 @@ exports.get = function* (next) {
     };
   });
 
-  if (quizResults) {
+  if (quizResults.length) {
     this.locals.tabs.quiz = {
       url: `/profile/${user.profileName}/quiz`,
       title: 'Тесты'
