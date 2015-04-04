@@ -49,8 +49,8 @@ html
       .tutorial-map-overlay
         include ../blocks/map
         +b('button').close-button.tutorial-map-overlay__close
-    script(src=pack("footer"))
+    script(src=pack("footer", "js"))
     script footer.init();
 
-    script(src=pack("tutorial"))
+    script(src=pack("tutorial", "js"))
     script tutorial.init();

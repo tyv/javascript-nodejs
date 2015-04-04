@@ -9,19 +9,35 @@
 // modal-overlay implies position: relative
 // other styles may want to override this
 
-.modal:before
-  content ""
-  display block
-  background rgba(0, 0, 0, 0.6)
-  position fixed
-  top 0
-  left 0
-  right 0
-  bottom 0
-  z-index 1001
+.modal
+  &:before
+    content ""
+    display block
+    background rgba(0, 0, 0, 0.6)
+    position fixed
+    top 0
+    left 0
+    right 0
+    bottom 0
+    z-index 1001
+
+  &__dialog
+    position fixed
+    top 50%
+    left 50%
+    transform translate(-50%, -50%)
+    z-index 9999
+
+  &__close
+    position absolute
+    top -15px
+    right -15px
+    display none
+
+  &__has-close &__close
+    display block
 
 
-// todo: also hide closing button
 // usage: .modal-overlay_dark for translucent black background or
 //        .modal-overlay_light for translucent white background
 $modal-overlay-after
@@ -43,9 +59,3 @@ $modal-overlay-after
   background black
   opacity 0.2
 
-.modal-dialog
-  position fixed
-  top 50%
-  left 50%
-  transform: translate(-50%, -50%);
-  z-index 9999

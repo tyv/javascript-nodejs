@@ -32,7 +32,7 @@ exports.init = function(app) {
 exports.populateContextMiddleware = function*(next) {
   this.redirectToOrder = function(order) {
     order = order || this.order;
-    this.redirect('/' + order.module + '/orders/' + order.number);
+    this.redirect(order.getUrl());
   };
   this.loadOrder = exports.loadOrder;
   this.loadTransaction = exports.loadTransaction;

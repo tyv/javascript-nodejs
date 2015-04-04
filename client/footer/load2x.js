@@ -12,7 +12,7 @@ module.exports = function() {
 
       let png2x = new Image();
       png2x.onload = function() {
-        console.log(this.src);
+        //console.log(this.src);
         if (this.width && this.height) {
           png.src = this.src;
         }

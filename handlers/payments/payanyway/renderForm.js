@@ -9,7 +9,7 @@ module.exports = function* (transaction) {
     number: transaction.number,
     currency: config.payments.currency,
     id:     config.payments.modules.payanyway.id,
-    limitIds: ''//process.env.NODE_ENV == 'development' ? '' : '843858,248362,822360,545234,1028,499669'
+    limitIds: process.env.NODE_ENV == 'development' ? '' : '843858,248362,822360,545234,1028,499669'
   });
 
   return form;

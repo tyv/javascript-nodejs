@@ -12,7 +12,7 @@ exports.OrderTemplate = [
     module:      'ebook',
     amount:      10,
     data:        {
-      file: "tutorial/1.zip"
+      file: "tutorial/js.zip"
     }
   },
   {
@@ -22,17 +22,17 @@ exports.OrderTemplate = [
     module:      'ebook',
     amount:      10,
     data:        {
-      file: "tutorial/2.zip"
+      file: "tutorial/ui.zip"
     }
   },
   {
     title:       "Две книги сразу",
-    description: "2 PDF + 2 EPUB, (18Mb)",
+    description: "2xPDF + 2xEPUB, (18Mb)",
     slug:        "js-ui",
     module:      'ebook',
     amount:      15,
     data:        {
-      file: "tutorial/12.zip"
+      file: "tutorial/js-ui.zip"
     }
   }
 ];
@@ -41,6 +41,14 @@ exports.Newsletter = [
   {
     title: "Курс Node.JS",
     slug:  "nodejs"
+  },
+  {
+    title: "Курс JavaScript / DOM / Интерфейсы",
+    slug:  "js"
+  },
+  {
+    title: "Продвинутые курсы, мастер-классы и конференции по JavaScript",
+    slug:  "advanced"
   }
 ];
 

@@ -50,23 +50,19 @@ function xhr(options) {
 
   request.addEventListener('loadstart', event => {
     request.timeStart = Date.now();
-    sendStat(event.type);
     var e = wrapEvent('xhrstart', event);
     document.dispatchEvent(e);
   });
   request.addEventListener('loadend', event => {
-    sendStat(event.type);
     var e = wrapEvent('xhrend', event);
     document.dispatchEvent(e);
   });
   request.addEventListener('success', event => {
-    sendStat(event.type);
     var e = wrapEvent('xhrsuccess', event);
     e.result = event.result;
     document.dispatchEvent(e);
   });
   request.addEventListener('fail', event => {
-    sendStat(event.type);
     var e = wrapEvent('xhrfail', event);
     e.reason = event.reason;
     document.dispatchEvent(e);
@@ -79,15 +75,6 @@ function xhr(options) {
   request.setRequestHeader('X-Requested-With', "XMLHttpRequest");
 
   var normalStatuses = options.normalStatuses || [200];
-
-  function sendStat(name) {
-    window.metrika.reachGoal('XHR-' + name.toUpperCase(), {
-      time: Date.now() - request.timeStart,
-      method: request.method,
-      url: request.url,
-      status: String(request.status)
-    });
-  }
 
   function wrapEvent(name, e) {
     var event = new CustomEvent(name);

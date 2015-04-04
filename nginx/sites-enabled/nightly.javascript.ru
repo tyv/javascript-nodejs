@@ -48,6 +48,13 @@ server {
   }
 
 
+  # payments and dynamically generated invoices
+  # no static used (yet)
+  location ^~ /payments/ {
+    include "partial/proxy_3000";
+  }
+
+
   # folder/ -> try folder/index.html first, then @node
   location ~ ^(?<uri_no_dot>[^.]*?)/$ {
     try_files $uri_no_dot/index.html @node;

@@ -9,6 +9,7 @@ module.exports = {
   yandexmoney: {},
   paypal:      {},
   payanyway:   {},
+  banksimple:  {},
 
   // dev credentials
   imgur:       {

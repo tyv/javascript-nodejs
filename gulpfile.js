@@ -135,7 +135,7 @@ gulp.task('client:webpack', lazyRequireTask('./tasks/webpack'));
 
 
 gulp.task('build', function(callback) {
-  runSequence("client:sync-resources", 'client:compile-css', 'client:sync-css-images', 'client:webpack', callback);
+  runSequence("client:sync-resources", 'client:webpack', callback);
 });
 
 gulp.task('server', lazyRequireTask('./tasks/server'));

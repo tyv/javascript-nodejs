@@ -12,7 +12,7 @@ document.addEventListener("click", function(event) {
 });
 
 function login() {
-  var modal = new Modal();
+  var modal = new Modal({hasClose: false});
   var spinner = new Spinner();
   modal.setContent(spinner.elem);
   spinner.start();

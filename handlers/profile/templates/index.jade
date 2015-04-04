@@ -11,8 +11,8 @@ block append head
 block content
 
   script var profileStatesEnabled = !{JSON.stringify(profileStatesEnabled)};
-  script(src=pack("angular"))
-  script(src=pack("profile"))
+  script(src=pack("angular", "js"))
+  script(src=pack("profile", "js"))
 
   +b(ng-app="profile")
 

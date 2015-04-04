@@ -11,7 +11,7 @@ exports.get = function*() {
 
     var playPath = playId.slice(0,2) + '/' + playId.slice(2,4) + '/' + playId + '.zip';
 
-    console.log(playPath);
+    //console.log(playPath);
 
     var exists = yield fs.exists(path.join(config.projectRoot, 'play', playPath));
     if (!exists) {

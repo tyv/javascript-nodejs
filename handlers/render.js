@@ -91,38 +91,32 @@ function addStandardHelpers(locals, ctx) {
     return Math.round(money.convert(amount, {from: from, to: to}));
   };
 
-  locals.asset = function(publicPath) {
-    if (publicPath[0] != '/') {
-      throw new Error("asset needs an /absolute/path");
-    }
-    var version = getPublicVersion(publicPath);
-    if (!version) {
-      version = Math.random().toString().slice(2);
-      log.error("No version for " + publicPath);
-    }
 
-    var versionedPath = (config.assetVersioning == 'file') ? publicPath.replace('.', '.v' + version + '.') :
-      config.assetVersioning == 'query' ? (publicPath + '?' + version) : publicPath;
-
-    return config.server.staticHost + versionedPath;
-  };
-
-
-  locals.pack = function(name, index) {
+  locals.pack = function(name, ext) {
     var versions = JSON.parse(
       fs.readFileSync(path.join(config.manifestRoot, 'pack.versions.json'), {encoding: 'utf-8'})
     );
     var versionName = versions[name];
-    // e.g style = [ style.js, style.css ]
-    if (index !== undefined) versionName = versionName[index];
+    // e.g style = [ style.js, style.js.map, style.css, style.css.map ]
 
+    if (!Array.isArray(versionName)) return versionName;
+
+    var extTestReg = new RegExp(`.${ext}\\b`);
+
+    // select right .js\b extension from files
+    for (var i = 0; i < versionName.length; i++) {
+      var versionNameItem = versionName[i]; // e.g. style.css.map
+      if (/\.map/.test(versionNameItem)) continue; // we never need a map
+      if (extTestReg.test(versionNameItem)) return versionNameItem;
+    }
+
+    throw new Error(`Not found pack name:${name} ext:${ext}`);
     /*
     if (process.env.NODE_ENV == 'development') {
       // webpack-dev-server url
       versionName = process.env.STATIC_HOST + ':' + config.webpack.devServer.port + versionName;
     }*/
 
-    return versionName;
   };
 
 

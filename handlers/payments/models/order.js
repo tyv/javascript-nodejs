@@ -88,5 +88,9 @@ schema.statics.STATUS_PENDING = 'pending';
 // not awaiting payment any more
 schema.statics.STATUS_CANCEL = 'cancel';
 
+schema.methods.getUrl = function() {
+  return '/' + this.module + '/orders/' + this.number;
+};
+
 var Order = module.exports = mongoose.model('Order', schema);
 
