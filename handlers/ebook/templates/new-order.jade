@@ -34,7 +34,7 @@ block content
                 +e.aside._price._center
                   | Стоимость
                   +b.price.__price
-                    | #{orderTemplate.amount + 'RUB'}
+                    | #{orderTemplate.amount + '000 RUB'}
                     +e('span').secondary (≈&nbsp;#{currencyConvertRound(orderTemplate.amount, "RUB", "USD")}$)
 
         if (!user)

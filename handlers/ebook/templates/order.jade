@@ -64,7 +64,7 @@ block content
               +e.aside._price._center
                 | Стоимость
                 +b.price.__price
-                  | #{order.amount + 'р.'}
+                  | #{order.amount + ' RUB'}
                   +e('span').secondary (≈&nbsp;#{currencyConvertRound(order.amount, "RUB", "USD")}$)
 
           if orderInfo.status == 'fail'
