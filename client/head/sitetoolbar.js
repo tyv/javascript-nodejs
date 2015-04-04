@@ -51,11 +51,14 @@ function toggle() {
     paranja.style.top = sitetoolbar.offsetHeight + 'px';
 
     document.body.appendChild(paranja);
+    document.body.classList.add('paranja-open');
+
 
   } else {
 
     paranja = document.querySelector('.sitetoolbar__search-paranja');
     paranja.parentNode.removeChild(paranja);
+    document.body.classList.remove('paranja-open');
 
   }
 }

@@ -53,15 +53,21 @@ sitetoolbar_secondary_link = #498CBE
 
     &__search-wrap
         width .1%
-        padding-right 19px
+        padding-right 20px
 
     &__link_logo,
     &__logo-handler,
     &__logo
         vertical-align bottom
 
-    &__logo
+    &__logo_normal
         width 160px
+        height 60px
+
+    &__logo_small
+        display none
+
+        width 59px
         height 60px
 
     &__link_logo
@@ -102,7 +108,7 @@ sitetoolbar_secondary_link = #498CBE
         display block
 
     &__book-wrap
-        padding-right 10px
+        padding-right 20px
 
         vertical-align middle
 
@@ -116,8 +122,7 @@ sitetoolbar_secondary_link = #498CBE
         padding 0 17px
 
     &__login
-        width 60px
-        padding 0
+        padding 0 10px 0 0
 
         text-align center
 
@@ -125,6 +130,12 @@ sitetoolbar_secondary_link = #498CBE
         @extend $font-user
 
         font-size 23px
+
+        display inline-block
+
+        width 30px
+
+        text-align left
 
 
     &__user:hover,
@@ -165,7 +176,6 @@ sitetoolbar_secondary_link = #498CBE
     &__search-content
         position relative
 
-        width 60px
         height 60px
 
     &__search-input
@@ -183,12 +193,12 @@ sitetoolbar_secondary_link = #498CBE
     &__search-toggle
         @extend $button-reset
 
-        display block
+        display inline-block
 
         position relative
 
         height 60px
-        width 60px
+        width 30px
         margin 0
 
         color sitetoolbar_color
@@ -210,7 +220,7 @@ sitetoolbar_secondary_link = #498CBE
 
         transform: translateY(-50%)
 
-        width 60px
+        width 30px
         line-height 60px
 
         text-align center
@@ -265,15 +275,16 @@ sitetoolbar_secondary_link = #498CBE
         pointer-events none
 
     &_search_open &__search-input
-        left -240px
+        left -260px
 
         opacity 1
 
     &_search_open &__search-toggle::before
         position absolute
-        left -250px
+        left -256px
 
-    &_search_open &__user-wrap
+    &_search_open &__user-wrap,
+    &_search_open &__book-wrap
         opacity 0
         pointer-events none
 
@@ -350,7 +361,34 @@ sitetoolbar_secondary_link = #498CBE
         text-decoration none
 
 
-    @media (max-width: 970px)
+    @media (max-width: 1100px)
+
+        &__logo_normal
+            display none
+
+        &__logo_small
+            display inline
+
+        &__section
+            font-size 14px
+            margin-right 10px
+
+        &__book-wrap .buy-book-button
+            font-size 14px
+
+        &__sections-list
+            display table
+            width 85%
+
+        &__section
+            display table-cell
+            margin 0
+            padding-right 10px
+
+            text-align center
+
+    @media (max-width: 840px)
+
         &__user::before
             padding 0
 
@@ -360,12 +398,6 @@ sitetoolbar_secondary_link = #498CBE
 
         &__usermenu
             right 128px // лучше позиционировать с помощью js
-
-    @media (max-width: 1100px)
-
-        &__section
-            font-size 15px
-            margin-right 10px
 
 
     @media tablet
@@ -386,6 +418,12 @@ sitetoolbar_secondary_link = #498CBE
         &__logo-wrap
             width 0
             padding 0
+
+        &__logo_normal
+            display inline
+
+        &__logo_small
+            display none
 
         &__link_logo,
         &__logo
@@ -543,7 +581,7 @@ sitetoolbar_secondary_link = #498CBE
             left 60px
 
         &_search_open &__search-toggle::before
-            left 50px
+            left 65px
 
         &_search_open &__logo-wrap
             visibility hidden
@@ -559,10 +597,13 @@ sitetoolbar_secondary_link = #498CBE
         &__link_logo &__logo
             left 0
 
-    @media (max-width: 480px)
-        &__logo,
-        &__link_logo
+    @media (max-width: 568px)
+
+        &__logo_normal
             display none
+
+        &__logo_small
+            display inline
 
          &_search_open &__nav-toggle-wrap
             visibility hidden
@@ -571,6 +612,4 @@ sitetoolbar_secondary_link = #498CBE
             left 20px
 
         &_search_open &__search-toggle::before
-            left 10px
-
-
+            left 25px
