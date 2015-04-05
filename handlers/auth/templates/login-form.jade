@@ -17,7 +17,8 @@ include /bem
         +e('input').control#auth-password(type="password", name="password")
         +e('button').aside.__forgot.__button-link(type="button" data-switch="forgot-form") Забыли?
     +e.line.__footer
-        +b('button').submit-button._small.__submit(type="submit")
+        +b('button').button._action(type="submit")
           +e('span').text Войти
+        +e('a').close-link.tablet-only.modal__close Отмена
     include login-form-footer
 

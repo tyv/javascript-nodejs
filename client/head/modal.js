@@ -24,6 +24,7 @@ Modal.prototype.render = function() {
   document.body.insertAdjacentHTML('beforeEnd',
     '<div class="modal"><div class="modal__dialog"><button class="close-button modal__close" title="закрыть"></button><div class="modal__content"></div></div></div>'
   );
+  document.body.classList.add('paranja-open');
   this.elem = document.body.lastChild;
   this.contentElem = this.elem.querySelector('.modal__content');
 };
@@ -64,6 +65,7 @@ Modal.prototype.setContent = function(htmlOrNode) {
 };
 
 Modal.prototype.remove = function() {
+  document.body.classList.remove('paranja-open');
   document.body.removeChild(this.elem);
   document.removeEventListener("keydown", this.onDocumentKeyDown);
 };

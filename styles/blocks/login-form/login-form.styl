@@ -6,8 +6,12 @@ $login-form-additional-info
 
 .login-form
     width 410px
-    background background
-    padding-top 20px
+    background #EEE
+
+    &__form
+        padding-top 20px
+
+        background background
 
     &__line
         padding 0 30px
@@ -126,3 +130,34 @@ $login-form-additional-info
     & p
         margin 10px 0
 
+    @media tablet
+        &
+            position absolute
+            top 0
+            left 0
+            right 0
+            bottom 0
+
+            width auto
+
+        & &__close-link,
+        &__close-link:visited
+            position static
+            display inline-block
+            margin-left 20px
+
+            color link_color
+
+
+        &__header-aside
+            padding-top 7px
+
+            vertical-align top
+
+        &__social-login.social-login
+            font-size 14px
+
+            min-width 115px
+
+        &__social-login.social-login:before
+            padding 0 2px
