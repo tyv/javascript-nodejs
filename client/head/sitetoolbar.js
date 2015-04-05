@@ -5,6 +5,7 @@ var initialized = false;
 
 // toggle search on/off, autofocus on input when "on"
 function onSearchClick(event) {
+
   if (!event.target.closest) return; // svg
 
   var searchToggle = event.target.closest('.sitetoolbar__search-toggle');
@@ -19,6 +20,13 @@ function initialize() {
   var sitetoolbar = document.querySelector('.sitetoolbar');
 
   var input = sitetoolbar.querySelector('.sitetoolbar__search-input input');
+  var find = sitetoolbar.querySelector('.sitetoolbar__find');
+
+  var possibleSubmit;
+
+  find.onmousedown = function(e) {
+    possibleSubmit = true
+  };
 
   input.onkeydown = function(e) {
     if (e.keyCode == 27) {
@@ -28,13 +36,14 @@ function initialize() {
   };
 
   input.onblur = function(e) {
-    toggle();
+    !possibleSubmit && toggle()
   };
 
   initialized = true;
 }
 
 function toggle() {
+
   var paranja,
       sitetoolbar = document.querySelector('.sitetoolbar');
 
