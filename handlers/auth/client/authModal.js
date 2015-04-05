@@ -48,6 +48,11 @@ AuthModal.prototype = Object.create(Modal.prototype);
 
 delegate.delegateMixin(AuthModal.prototype);
 
+AuthModal.prototype.render = function() {
+  Modal.prototype.render.apply(this, arguments);
+  this.elem.classList.add('login-form-modal');
+};
+
 AuthModal.prototype.successRedirect = function() {
   if (window.location.href == this.options.successRedirect) {
     window.location.reload();
