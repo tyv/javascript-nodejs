@@ -47,3 +47,15 @@ block profileContent
         +e.rcell
           +e.value= profileUser.birthday
 
+    +b.profile-field
+      +e.lcell
+        +e.name Зарегистрирован
+      +e.rcell
+        +e.value= moment(profileUser.created).format('DD.MM.YY в LT')
+
+    +b.profile-field
+      +e.lcell
+        +e.name Активность
+      +e.rcell
+        +e.value Последняя активность #{moment(profileUser.lastActivity || profileUser.created).format('DD.MM.YY в LT')}
+

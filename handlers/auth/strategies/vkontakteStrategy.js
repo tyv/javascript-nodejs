@@ -16,8 +16,8 @@ result:
 */
 
 module.exports = new VkontakteStrategy({
-    clientID:          config.authProviders.vkontakte.appId,
-    clientSecret:      config.authProviders.vkontakte.appSecret,
+    clientID:          config.auth.providers.vkontakte.appId,
+    clientSecret:      config.auth.providers.vkontakte.appSecret,
     callbackURL:       config.server.siteHost + "/auth/callback/vkontakte",
     passReqToCallback: true
   },

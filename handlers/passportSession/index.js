@@ -32,6 +32,8 @@ exports.init = function(app) {
     yield* next;
   });
 
+
+
   app.use(passport.initialize());
   app.use(passport.session());
 

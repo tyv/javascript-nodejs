@@ -26,9 +26,11 @@ router.post('/login/local', function*(next) {
       ctx.body = info;
     } else {
       yield ctx.login(user);
+      yield ctx.rememberMe();
       ctx.body = {user: user.getInfoFields() };
     }
   }).call(this, next);
+
 });
 
 router.post('/logout', mustBeAuthenticated, logout.post);
@@ -46,8 +48,10 @@ router.post('/forgot-recover', forgotRecover.post);
 
 router.post('/reverify', reverify.post);
 
-for (var providerName in config.authProviders) {
-  var provider = config.authProviders[providerName];
+Object.keys(config.auth.providers).forEach(addProviderRoute);
+
+function addProviderRoute(providerName) {
+  var provider = config.auth.providers[providerName];
 
   // login
   router.get('/login/' + providerName, passport.authenticate(providerName, provider.passportOptions));
@@ -55,13 +59,43 @@ for (var providerName in config.authProviders) {
   // connect with existing profile
   router.get('/connect/' + providerName, mustBeAuthenticated, passport.authorize(providerName, provider.passportOptions));
 
+
   // http://stage.javascript.ru/auth/callback/facebook?error=access_denied&error_code=200&error_description=Permissions+error&error_reason=user_denied#_=_
+
+  router.get('/callback/' + providerName, function*(next) {
+    var ctx = this;
+
+    yield passport.authenticate(providerName, function*(err, user, info) {
+      if (err) {
+        // throw err would get swallowed (!!!)
+        // so I must render error here
+        ctx.renderError(err);
+        return;
+      }
+
+      if (user) {
+        yield ctx.login(user);
+        yield ctx.rememberMe();
+        ctx.body = ctx.render('popup-success');
+        return;
+      }
+
+      var reason = info.message || info;
+
+      ctx.body = ctx.render('popup-failure', { reason: reason });
+
+    }).call(this, next);
+
+    yield* next;
+  });
+  /*
   router.get('/callback/' + providerName, passport.authenticate(providerName, {
       failureMessage:  true,
       successRedirect: '/auth/popup-success',
       failureRedirect: '/auth/popup-failure'
     })
-  );
+
+  );*/
 }
 
 // disconnect with existing profile
@@ -88,6 +122,8 @@ router.post('/disconnect/:providerName', mustBeAuthenticated, disconnect.post);
  *       }
  { successRedirect: '/auth/popup-success', failureRedirect: '/auth/popup-failure' })*/
 
+/*
+
 router.get('/popup-success', function*() {
   this.body = this.render('popup-success');
 });
@@ -98,3 +134,4 @@ router.get('/popup-failure', function*() {
 
   this.body = this.render('popup-failure', { reason: reason });
 });
+*/

@@ -145,6 +145,6 @@ module.exports = function(req, profile, done) {
     } else {
       done(err);
     }
-  })
+  });
 
 };

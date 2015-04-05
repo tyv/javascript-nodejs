@@ -9,3 +9,4 @@ passport.use(require('./yandexStrategy'));
 passport.use(require('./githubStrategy'));
 passport.use(require('./vkontakteStrategy'));
 
+

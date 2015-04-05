@@ -82,6 +82,10 @@ app.requireHandler('session');
 
 app.requireHandler('passportSession');
 
+app.requireHandler('passportRememberMe');
+
+app.requireHandler('lastActivity');
+
 app.requireHandler('csrf');
 
 app.requireHandler('paymentsMethods');

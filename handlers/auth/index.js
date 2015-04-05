@@ -6,6 +6,8 @@ var mountHandlerMiddleware = require('lib/mountHandlerMiddleware');
 
 exports.init = function(app) {
 
+  require('./strategies');
+
   app.use( mountHandlerMiddleware('/auth', __dirname) );
 
   // no csrf check for guest endpoints (no generation of csrf for anon)

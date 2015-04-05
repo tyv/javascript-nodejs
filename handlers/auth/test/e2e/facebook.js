@@ -42,8 +42,8 @@ describe('facebook', function() {
 
     driver.wait(until.elementLocated(By.id('pass')));
 
-    driver.findElement(By.id('email')).sendKeys(config.authProviders.facebook.testCredentials.email);
-    driver.findElement(By.id('pass')).sendKeys(config.authProviders.facebook.testCredentials.pass);
+    driver.findElement(By.id('email')).sendKeys(config.auth.providers.facebook.testCredentials.email);
+    driver.findElement(By.id('pass')).sendKeys(config.auth.providers.facebook.testCredentials.pass);
     driver.findElement(By.id('pass')).sendKeys(webdriver.Key.RETURN);
 
     // after login there are 2 possibilities

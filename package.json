@@ -44,7 +44,7 @@
     "imagemin": "*",
     "imagemin-svgo": "*",
     "inherits": "*",
-    "jade": "git://github.com/visionmedia/jade",
+    "jade": "*",
     "jade-loader": "*",
     "js-yaml": "*",
     "juice2": "*",

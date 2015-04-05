@@ -19,7 +19,7 @@ exports.post = function* (next) {
     verifyEmailRedirect: this.request.body.successRedirect
   });
 
-  yield user.generateProfileName();
+  //yield user.generateProfileName();
 
   try {
 

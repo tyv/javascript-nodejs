@@ -27,8 +27,35 @@ module.exports = {
   },
 
   mongoose: require('./mongoose'),
-  session:  {
-    keys: [secret.sessionKey]
+
+  appKeys: [secret.sessionKey],
+  auth:  {
+    session: {
+      key: 'sid',
+      prefix: 'sess:',
+      cookie: {
+        httpOnly: true,
+        path: '/',
+        overwrite: true,
+        signed: true,
+        maxAge: 3600 * 4 * 1e3 // session expires in 4 hours, remember me lives longer
+      },
+      // touch session.updatedAt in DB & reset cookie on every visit to prolong the session
+      // koa-session-mongoose resaves the session as a whole, not just a single field
+      rolling: true
+    },
+    rememberMe: {
+      key:    'remember',
+      cookie: {
+        httpOnly:  true,
+        path:      '/',
+        overwrite: true,
+        signed:    true,
+        maxAge:    7 * 3600 * 24 * 1e3 // 7days
+      }
+    },
+
+    providers: require('./authProviders')
   },
   payments: require('./payments'),
 
@@ -46,8 +73,6 @@ module.exports = {
   elastic: {
     host: 'localhost:9200'
   },
-
-  authProviders: require('./authProviders'),
 
   plnkrAuthId: secret.plnkrAuthId,
 

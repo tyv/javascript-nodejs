@@ -69,8 +69,8 @@ Result example:
 */
 
 module.exports = new GithubStrategy({
-    clientID:     config.authProviders.github.appId,
-    clientSecret: config.authProviders.github.appSecret,
+    clientID:     config.auth.providers.github.appId,
+    clientSecret: config.auth.providers.github.appSecret,
     callbackURL:  config.server.siteHost + "/auth/callback/github",
     passReqToCallback: true
   },
