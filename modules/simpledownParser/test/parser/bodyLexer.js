@@ -143,7 +143,12 @@ describe("BodyLexer", function() {
   describe("consumeCode", function() {
 
     it('`my code`', function() {
-      this.test.lexer.consumeCode().should.be.eql({ type: 'code', body: 'my code' });
+      this.test.lexer.consumeCode().should.be.eql({ type: 'code', codeClass: '', body: 'my code' });
+      this.test.lexer.isEof().should.be.true;
+    });
+
+    it('``codeClass`my code`', function() {
+      this.test.lexer.consumeCode().should.be.eql({ type: 'code', codeClass: 'codeClass', body: 'my code' });
       this.test.lexer.isEof().should.be.true;
     });
 

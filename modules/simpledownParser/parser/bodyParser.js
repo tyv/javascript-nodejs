@@ -27,7 +27,6 @@ var contextTypography = require('../typography/contextTypography');
 var charTypography = require('../typography/charTypography');
 var formatTitle = require('../typography/formatTitle');
 var ensureSafeUrl = require('./ensureSafeUrl');
-var stripTags = require('../util/stripTags');
 
 /**
  * BodyParser creates node objects from general text.
@@ -134,6 +133,7 @@ BodyParser.prototype.parseNodes = function() {
     token = this.lexer.consumeLink() || this.lexer.consumeBbtagSelfClose() || this.lexer.consumeBbtagNeedClose();
     break;
   case '`':
+    // ``pattern`code` or just `code` OR ```js\n...```
     token = this.lexer.consumeSource() || this.lexer.consumeCode();
     break;
   case '~':
@@ -319,7 +319,7 @@ BodyParser.prototype.parseStrike = function(token) {
 };
 
 BodyParser.prototype.parseCode = function(token) {
-  return new EscapedTag("code", token.body);
+  return new EscapedTag("code", token.body, token.codeClass ? {class: token.codeClass} : undefined);
 };
 
 BodyParser.prototype.parseComment = function(token) {

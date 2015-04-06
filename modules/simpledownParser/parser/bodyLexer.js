@@ -9,14 +9,45 @@ inherits(BodyLexer, Lexer);
 
 Lexer.prototype.consumeCode = function() {
   if (this.text[this.position] != '`') return null;
-  if (this.isWhiteSpaceCode(this.text.charCodeAt(this.position + 1))) return null;
 
-  var startPosition = this.position + 1;
-  var position = startPosition;
+  var position = this.position + 1;
   // found
+  // `
+  //  ^
+
+  // check class
+  var codeClassPositionStart, codeClassPositionEnd;
+  if (this.text[position] == '`') {
+    //if (this.text[position+1] == '`') return null; // ignore ```
+    position++;
+    // found
+    // ``
+    //   ^
+    codeClassPositionStart = position;
+
+    while (this.isWordlyCode(this.text.charCodeAt(position))) {
+      position++;
+    }
+    // found
+    // ``word
+    //       ^
+    if (this.text[position] != '`') return null;
+    codeClassPositionEnd = position;
+
+    position++;
+  }
+
+
+  if (this.isWhiteSpaceCode(this.text.charCodeAt(position))) return null;
+
+  // found
+  // ``word`\S
+  //        ^
+  // of
   // `\S
   //  ^
 
+  var codeStartPosition = position;
   var endPosition;
   while (true) {
     endPosition = this.findCharNoNewline('`', position);
@@ -28,19 +59,23 @@ Lexer.prototype.consumeCode = function() {
     }
   }
 
-  if (startPosition == endPosition) {
+  /*
+  if (codeStartPosition == endPosition) {
     // found ``, ignore it
     return null;
   }
+  */
 
   // found
   // `\S...\S`
   //         ^
 
+  //console.log(codeClassPositionStart, codeClassPositionStart, codeStartPosition, endPosition);
   this.setPosition(endPosition + 1);
   return {
     type: 'code',
-    body: this.text.slice(startPosition, endPosition)
+    codeClass: codeClassPositionStart ? this.text.slice(codeClassPositionStart, codeClassPositionEnd) : '',
+    body: this.text.slice(codeStartPosition, endPosition)
   };
 };
 

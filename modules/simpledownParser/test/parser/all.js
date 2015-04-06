@@ -177,6 +177,10 @@ describe("BodyParser", function() {
         (format('`code`')).should.be.eql('<code>code</code>');
       });
 
+      it("converts ``codeClass`code` to code with class codeClass", function() {
+        (format('text ``codeClass`code`')).should.be.eql('text <code class="codeClass">code</code>');
+      });
+
       it("doesn't apply typography inside code", function() {
         (format('`$("div.my)"`')).should.be.eql('<code>$("div.my)"</code>');
       });
