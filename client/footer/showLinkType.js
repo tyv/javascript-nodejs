@@ -26,6 +26,7 @@ module.exports = function() {
 
   // we show tooltip element for any link hover, but few of them actually get styled
   function onOver(event) {
+    if (!event.target.closest) return; // over svg
     var target = event.target.closest('a, [data-tooltip]');
 
     if (!target) return;

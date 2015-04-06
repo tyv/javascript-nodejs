@@ -7,7 +7,7 @@ var escapeHtmlText = require('textUtil/escapeHtmlText');
 var escapeHtmlAttr = require('textUtil/escapeHtmlAttr');
 var stripIndents = require('textUtil/stripIndents');
 var TextNode = require('simpledownParser').TextNode;
-
+var _ = require('lodash');
 var extractHighlight = require('../util/source/extractHighlight');
 
 var iframeBoxTemplate = require('./iframeBox.jade');
@@ -369,7 +369,7 @@ HtmlTransformer.prototype.transformIframeTag = function(node) {
 
   var locals = {
     'data-trusted': node.isTrusted() ? 1 : false,
-    attrs:          {}
+    attrs:          node.isTrusted() ? _.cloneDeep(node.attrs) : {}
   };
 
   var height = parseInt(node.attrs.height) || 300;

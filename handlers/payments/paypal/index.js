@@ -16,6 +16,7 @@ exports.createTransaction = function*(order) {
   yield transaction.persist();
 
   return transaction;
+
 };
 
 exports.title = "PayPal";

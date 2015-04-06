@@ -50,7 +50,7 @@ function TutorialMap(elem) {
     activeLink.classList.add('tutorial-map__link_active');
   }
 
-  this.focus();
+  this.filterInput.focus();
 
 }
 

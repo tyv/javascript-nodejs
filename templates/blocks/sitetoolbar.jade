@@ -33,9 +33,6 @@ block append variables
                   });
             })();
     +e.nav-toggle-wrap
-      //- todo: implement me
-      //- эта кнопка видна только на узком экране
-      //- при начале скролла тут же исчезает, для этого body += .sitetoolbar_hidden
       +e('button').nav-toggle(onclick="document.querySelector('.sitetoolbar').classList.toggle('sitetoolbar_menu_open')" type="button")
     +e('nav').sections
       +e('ul').sections-list
@@ -55,13 +52,13 @@ block append variables
   +e.tablet-menu
     +e.tablet-menu-line
       +e.tablet-menu-content
-        //- TODO: use bemto syntax when https://github.com/kizu/bemto/issues/35 is fixed
-        +e('select').tablet-menu-nav.input-select
-          +e('option') Учебник
-          +e('option') --- в работе ---
-          //-+e('option') Курсы
-          //-+e('option') Стандарт ES5
-          //-+e('option') Тестирование
+        +e('select')(onchange="window.location=href=this.value").tablet-menu-nav.input-select
+          each section in siteToolbarSections
+            +e('option')(
+              value=(section.slug ? ('/' + section.slug) : section.url)
+              selected = (session.slug && siteToolbarCurrentSection == section.slug)
+            )= section.title
+
     +e.tablet-menu-line
       +e.tablet-menu-content
         include /blocks/map-with-title

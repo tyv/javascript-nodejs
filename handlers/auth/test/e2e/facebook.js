@@ -91,8 +91,8 @@ describe('facebook', function() {
 
   });
 
+  // callback after makes sure that the browser actually closed
   after(function(callback) {
-    // callback after makes sure that the browser actually closed
     driver.quit().then(callback);
   });
 
