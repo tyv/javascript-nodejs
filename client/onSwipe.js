@@ -7,7 +7,7 @@ function onSwipe(elem, options) {
       dist,
       onRight = options.onRight || function() {},
       onLeft = options.onLeft || function(){},
-      tolerance = options.tolerance || 100, // maximum vertical distance
+      tolerance = options.tolerance || 50, // maximum vertical distance
       threshold = options.threshold || 150, //required min distance traveled to be considered swipe
       allowedTime = options.allowedTime || 500, // maximum time allowed to travel that distance
       elapsedTime,
@@ -20,7 +20,7 @@ function onSwipe(elem, options) {
     startY = touchobj.pageY;
     //console.log("start", startX, startY);
     startTime = Date.now(); // record time when finger first makes contact with surface
-  }, false);
+  });
 
   elem.addEventListener('touchend', function(e) {
     var touchobj = e.changedTouches[0];
@@ -48,7 +48,7 @@ function onSwipe(elem, options) {
       //console.log("left");
       onLeft(e);
     }
-  }, false)
+  });
 
 }
 
