@@ -1,4 +1,5 @@
 {
+  "//": "to preserve special chars: http://www.fullscale.co/blog/2013/03/04/preserving_specific_characters_during_tokenizing_in_elasticsearch.html",
   "settings": {
     "number_of_shards":   1,
     "number_of_replicas": 0,
@@ -6,7 +7,14 @@
       "analyzer": {
         "default": {
           "type":        "custom",
-          "char_filter": ["html_strip"],
+          "char_filter": [
+            "delimit-dot-inside-word",
+            "make-all-headers-sentences",
+            "remove-pre-code",
+            "remove-style",
+            "remove-script",
+            "html_strip"
+          ],
           "tokenizer":   "standard",
           "filter":      [
             "lowercase",
@@ -15,8 +23,40 @@
           ]
         }
       },
+      "//": "char_filter applied before tokenization",
+      "//": "see the result: curl 'localhost:9200/js/_analyze?analyzer=default&pretty=true' -d 'win.resizeBy'",
+      "char_filter": {
+        "delimit-dot-inside-word" : {
+          "//": "win.resizeBy usually a single word, make it 2 words",
+          "type" : "pattern_replace",
+          "pattern" : "(\\S)\\.(\\S)",
+          "replacement" : "$1. $2"
+        },
+        "make-all-headers-sentences": {
+          "//": "<h1>text</h1> will get <h1> & <h2> removed, need to add dot at the end to make it look like a sentence",
+          "type": "pattern_replace",
+          "pattern": "(?i)([^.])(</h\\d>)",
+          "replacement": "$1.$2"
+        },
+        "remove-pre-code": {
+          "type": "pattern_replace",
+          "pattern": "(?si)<pre class=\"(line-numbers|language-).*?</pre>",
+          "replacement": ""
+        },
+        "remove-style": {
+          "type": "pattern_replace",
+          "pattern": "(?si)<style(\\s|>).*?</style>",
+          "replacement": ""
+        },
+        "remove-script": {
+          "type": "pattern_replace",
+          "pattern": "(?si)<script(\\s|>).*?</script>",
+          "replacement": ""
+        }
+      },
+      "//": "not using stopwords, they help performance, but make search phrases with them impossible",
       "filter":   {
-        "ru_en_stopwords": {
+        "ru_en_stopwords_unused": {
           "type":      "stop",
           "stopwords": "а,без,более,бы,был,была,были,было,быть,в,вам,вас,весь,во,вот,все,всего,всех,вы,где,да,даже,для,до,его,ее,если,есть,еще,же,за,здесь,и,из,или,им,их,к,как,ко,когда,кто,ли,либо,мне,может,мы,на,надо,наш,не,него,нее,нет,ни,них,но,ну,о,об,однако,он,она,они,оно,от,очень,по,под,при,с,со,так,также,такой,там,те,тем,то,того,тоже,той,только,том,ты,у,уже,хотя,чего,чей,чем,что,чтобы,чье,чья,эта,эти,это,я,a,an,and,are,as,at,be,but,by,for,if,in,into,is,it,no,not,of,on,or,such,that,the,their,then,there,these,they,this,to,was,will,with"
         }
