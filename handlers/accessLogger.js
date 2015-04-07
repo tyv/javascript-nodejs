@@ -12,7 +12,7 @@ exports.init = function(app) {
       method: req.method,
       url: req.url,
       referer: this.request.get('referer'),
-      ua: this.request.get('user-agentsid')
+      ua: this.request.get('user-agent')
     });
 
     try {
