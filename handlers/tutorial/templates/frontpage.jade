@@ -63,3 +63,14 @@ block content
   script(src=pack("tutorial", "js"))
   script tutorial.init();
 
+  script(type="application/ld+json").
+    {
+       "@context": "http://schema.org",
+       "@type": "WebSite",
+       "url": "https://learn.javascript.ru/",
+       "potentialAction": {
+         "@type": "SearchAction",
+         "target": "https://learn.javascript.ru/search?query={search_term_string}",
+         "query-input": "required name=search_term_string"
+       }
+    }
