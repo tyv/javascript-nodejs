@@ -1,10 +1,10 @@
 # Main host
 # For home dev I use in DNS: javascript.in
-# For prod it's nightly.javascript.ru
+# For prod it's learn.javascript.ru
 
 server {
   listen 80;
-  server_name nightly.javascript.ru;
+  server_name learn.javascript.ru;
   rewrite ^ https://learn.javascript.ru$request_uri? permanent;
 }
 
@@ -19,9 +19,9 @@ server {
   ssl_certificate_key	<%=certDir%>/learn.javascript.ru/ssl.key;
 <% } %>
 
-  server_name learn.javascript.ru nightly.javascript.info yuri.javascript.ru javascript.in;
+  server_name learn.javascript.ru yuri.javascript.ru javascript.in;
 
-  access_log  /var/log/nginx/nightly.javascript.ru.log main;
+  access_log  /var/log/nginx/learn.javascript.ru.log main;
 
   error_page   404 /404.html;
   error_page   500 502 504  /50x.html;
