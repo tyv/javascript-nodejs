@@ -1,5 +1,5 @@
 module.exports = {
-  "uri": "mongodb://localhost/" + (process.env.NODE_ENV == 'test' ? "js_test" : "js"),
+  "uri":     "mongodb://localhost/" + (process.env.NODE_ENV == 'test' ? "js_test" : "js"),
   "options": {
     "server": {
       "socketOptions": {

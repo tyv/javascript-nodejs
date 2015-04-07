@@ -63,6 +63,9 @@ ServerHtmlTransformer.prototype.transform = function*(node, applyContextTypograp
 function* resolveReference(value) {
   if (value[0] == '#') {
     var ref = yield Reference.findOne({anchor: value.slice(1)}).populate('article', 'slug title').exec();
+    if (!ref) {
+      return null;
+    }
     if (!ref.article) {
       log.error("No article for reference", ref.toObject());
     }
