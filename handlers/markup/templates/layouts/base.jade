@@ -22,7 +22,7 @@ html
     block variables
     include ../blocks/head
   body.no-icons(class= layout.bodyClass != "" ? layout.bodyClass : undefined)
-    .page-wrapper
+    .page-wrapper(class=[sidebar && 'page-wrapper_sidebar_on'])
       script head.fontTest();
       if layout.notificationPopup
         include ../blocks/notification-popup

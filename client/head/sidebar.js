@@ -5,7 +5,10 @@ document.addEventListener('keydown', onKeyDown);
 
 function toggle() {
 
+  var pageWrapper = document.querySelector('.page-wrapper');
+
   document.querySelector('.page').classList.toggle('page_sidebar_on');
+  pageWrapper && pageWrapper.classList.toggle('page-wrapper_sidebar_on');
 
   if (document.querySelector('.page').classList.contains('page_sidebar_on')) {
     delete localStorage.noSidebar;
