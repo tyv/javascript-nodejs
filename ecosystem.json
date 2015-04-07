@@ -13,7 +13,7 @@
       },
       "env_production": {
         "NODE_ENV":    "production",
-        "SITE_HOST":   "https://nightly.javascript.ru",
+        "SITE_HOST":   "https://learn.javascript.ru",
         "STATIC_HOST": "https://js.cx",
         "ASSET_VERSIONING":  "file"
       }
