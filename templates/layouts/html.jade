@@ -12,7 +12,7 @@ block html
     script head.fontTest();
 
   if footer || (footer === undefined)
-    .page-wrapper
+    .page-wrapper(class=[sidebar && 'page-wrapper_sidebar_on'])
       block body
     include ../blocks/page-footer
   else
