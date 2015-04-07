@@ -353,6 +353,7 @@ for (var city in citymap) (function(city) {
     stroke: false,
     opacity: 1,
     fill: true,
+    clickable: false,
     fillColor:     '#C13335',
     fillOpacity: 1
   });
