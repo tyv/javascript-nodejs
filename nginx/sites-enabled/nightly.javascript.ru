@@ -4,7 +4,7 @@
 
 server {
   listen 80;
-  server_name learn.javascript.ru;
+  server_name nightly.javascript.ru;
   rewrite ^ https://learn.javascript.ru$request_uri? permanent;
 }
 
