@@ -11,11 +11,8 @@ exports.get = function*() {
   this.locals.sitetoolbar = true;
   this.locals.title = "Покупка учебника JavaScript";
 
-  var paymentMethods = this.locals.paymentMethods = {};
+  this.locals.paymentMethods = require('../lib/paymentMethods');
 
-  ['webmoney', 'yandexmoney', 'payanyway', 'paypal'].forEach(function(key) {
-    paymentMethods[key] = {name: key, title: payments.methods[key].title};
-  });
 
   this.body = this.render('new-order');
 };

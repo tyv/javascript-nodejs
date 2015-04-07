@@ -22,13 +22,9 @@ exports.get = function*() {
 
   this.locals.user = this.req.user;
 
-  this.locals.paymentMethods = {};
-  for(var key in payments.methods) {
-    this.locals.paymentMethods[key] = { name: key, title: payments.methods[key].title };
-  }
+  this.locals.paymentMethods = require('../lib/paymentMethods');
 
   this.locals.orderInfo = yield* getOrderInfo(this.order);
-
 
   this.body = this.render('order');
 

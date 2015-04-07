@@ -80,7 +80,7 @@ var webpackConfig = {
         // babel shouldn't process webpack, because it contains ws/browser.js,
         // which must not be run in strict mode (global becomes undefined)
         // babel would make all modules strict
-        exclude: /node_modules\/(angular|prismjs)/,
+        exclude: /node_modules\/(angular|prismjs|moment)/,
         loader:  'babel'
       },
       {
