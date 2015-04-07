@@ -4,6 +4,12 @@
 
 server {
   listen 80;
+  server_name nightly.javascript.ru;
+  rewrite ^ https://learn.javascript.ru$request_uri? permanent;
+}
+
+server {
+  listen 80;
 
 <% if (sslEnabled) { %>
   listen 443 ssl;
@@ -12,7 +18,7 @@ server {
   ssl_certificate_key	<%=certDir%>/learn.javascript.ru/ssl.key;
 <% } %>
 
-  server_name nightly.javascript.ru learn.javascript.ru nightly.javascript.info yuri.javascript.ru javascript.in;
+  server_name learn.javascript.ru nightly.javascript.info yuri.javascript.ru javascript.in;
 
   access_log  /var/log/nginx/nightly.javascript.ru.log main;
 
