@@ -8,6 +8,7 @@ server {
   rewrite ^ https://learn.javascript.ru$request_uri? permanent;
 }
 
+
 server {
   listen 80;
 

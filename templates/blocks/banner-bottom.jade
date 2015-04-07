@@ -8,8 +8,8 @@
 script
   :uglify
     (function() {
-      var debug = true;
-
+      var debug = false;
+      
       if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
         return;
       }
@@ -18,11 +18,6 @@ script
       if (screen.width < 1024) {
         return;
       }
-
-      if (!/banner/.test(location.search)) {
-        return;
-      }
-
 
       if (!debug && "bannerBottomDisabled" in localStorage) {
         return;
