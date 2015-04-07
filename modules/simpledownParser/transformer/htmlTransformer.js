@@ -384,7 +384,7 @@ HtmlTransformer.prototype.transformIframeTag = function(node) {
   //    [iframe src="/ajax/service"]
   if (src[0] != '/' && !~src.indexOf('://')) {
     if (!~src.indexOf('.')) src += '/';
-    src = this.staticHost + this.resourceWebRoot + '/' + src;
+    src = (node.isTrusted() && node.attrs.samedomain ? '' : this.staticHost) + this.resourceWebRoot + '/' + src;
   }
 
   locals.attrs.src = src;
