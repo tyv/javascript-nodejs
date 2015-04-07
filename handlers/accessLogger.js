@@ -7,27 +7,20 @@ exports.init = function(app) {
     var req = this.req;
 
     var start = Date.now();
-    this.log.info({event: "request-start", method: req.method, url: req.url},
-      "--> %s %s", req.method, req.url);
+    this.log.info("--> %s %s", req.method, req.url, {
+      event: "request-start",
+      method: req.method,
+      url: req.url,
+      referer: this.request.get('referer'),
+      ua: this.request.get('user-agentsid')
+    });
 
     try {
       yield next;
     } catch (err) {
       // log uncaught downstream errors
-      log(this, start, null, err);
+      log(this, start, err);
       throw err;
-    }
-
-    // calculate the length of a streaming response
-    // by intercepting the stream with a counter.
-    // only necessary if a content-length header is currently not set.
-    var length = this.responseLength;
-    var body = this.body;
-    var counter;
-    if (null === length && body && body.readable) {
-      this.body = body
-        .pipe(counter = new Counter())
-        .on('error', this.onerror);
     }
 
     // log when the response is finished or closed,
@@ -44,28 +37,28 @@ exports.init = function(app) {
     function done(event) {
       res.removeListener('finish', onfinish);
       res.removeListener('close', onclose);
-      log(ctx, start, counter ? counter.length : length, null, event);
+      log(ctx, start, null, event);
     }
 
     /**
      * Log helper.
      */
 
-    function log(ctx, start, len, err, event) {
+    function log(ctx, start, err, event) {
       // get the status code of the response
       var status = err ? (err.status || 500) : (ctx.status || 404);
 
       // set the color of the status code;
       var s = status / 100 | 0;
 
-      ctx.log[err ? 'error' : 'info']({
+      ctx.log[err ? 'error' : 'info'](
+        "<-- %s %s", ctx.method, ctx.url, {
         event:    "request-end",
         method:   ctx.method,
-        url:      req.originalUrl,
+        url:      req.url,
         status:   status,
-        timeDuration: Date.now() - start,
-        length:   len
-      }, "<-- %s %s", ctx.method, ctx.originalUrl);
+        timeDuration: Date.now() - start
+      });
     }
 
   });
