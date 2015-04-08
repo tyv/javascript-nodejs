@@ -1,7 +1,0 @@
-#!/bin/bash
-
-export ASSET_VERSIONING=none
-export NODE_ENV=ebook
-
-gulp client:compile-css
-node  ./bin/server
