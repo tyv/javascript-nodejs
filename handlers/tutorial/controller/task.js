@@ -19,7 +19,7 @@ exports.get = function *get(next) {
 
   this.locals.siteToolbarCurrentSection = "tutorial";
 
-  this.locals.title = "Задача: " + task.title;
+  this.locals.title = task.title;
   this.locals.task = {
     title:      task.title,
     importance: task.importance,
