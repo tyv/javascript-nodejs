@@ -86,7 +86,6 @@
     "nodemailer": "*",
     "nodemailer-ses-transport": "*",
     "nodemon": "*",
-    "passport": "*",
     "passport-facebook": "*",
     "passport-github": "*",
     "passport-google-oauth": "git://github.com/iliakan/passport-google-oauth",
@@ -169,17 +168,14 @@
     "supertest": "*",
     "time-require": "*"
   },
-  "engines": {
-    "node": ">=0.12"
-  },
   "engineStrict": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/iliakan/javascript-nodejs.git"
+    "url": "https://github.com/iliakan/javascript.git"
   },
-  "author": "Ilya Kantor and other contributors in git repo",
+  "author": "Ilya Kantor",
   "license": "CC BY-NC-SA 3.0",
   "bugs": {
-    "url": "https://github.com/iliakan/javascript-nodejs/issues"
+    "url": "https://github.com/iliakan/javascript/issues"
   }
 }

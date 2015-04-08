@@ -106,6 +106,8 @@ module.exports = {
   // private files, for expiring links, not directly accessible
   downloadRoot:         path.join(process.cwd(), 'download'),
   tmpRoot:              path.join(process.cwd(), 'tmp'),
+  // extra handlers from outside of the main repo
+  extraHandlersRoot:          path.join(process.cwd(), 'extra'),
   // js/css build versions
   manifestRoot:         path.join(process.cwd(), 'manifest')
 };

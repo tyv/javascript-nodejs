@@ -99,14 +99,14 @@ app.requireHandler('paymentsMethods');
 
 // ======== Endpoint services that actually generate something ==========
 
-var endpoints = ['frontpage'];
+var endpoints = [];
 
 if (process.env.NODE_ENV == 'development') {
   endpoints.push('markup', 'dev');
 }
 
 endpoints.push(
-  'users', 'auth', 'ebook', 'cache', 'search', 'profile', 'jb', 'play', 'nodejsScreencast',
+  'users', 'auth', 'frontpage', 'ebook', 'cache', 'search', 'profile', 'jb', 'play', 'nodejsScreencast',
   'profileGuest', 'quiz', 'currencyRate', 'payments', 'download', 'staticPage', 'newsletter', 'mailer'
 );
 
@@ -117,6 +117,11 @@ endpoints.push('404');
 
 endpoints.forEach(function(name) {
   app.requireHandler(name);
+});
+
+require('fs').readdirSync(config.extraHandlersRoot).forEach(function(extraHandler) {
+  if (extraHandler[0] == '.') return;
+  app.requireHandler(extraHandler);
 });
 
 

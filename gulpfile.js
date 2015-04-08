@@ -11,7 +11,7 @@ const runSequence = require('run-sequence');
 const linkModules = require('./modules/linkModules');
 
 linkModules({
-  src: ['client', 'styles', 'modules/*', 'handlers/*']
+  src: ['client', 'styles', 'modules/*', 'handlers/*', 'extra/*']
 });
 
 const config = require('config');

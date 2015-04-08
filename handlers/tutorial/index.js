@@ -20,5 +20,7 @@ function addNodeIgnores(app) {
 
 
 exports.Article = require('./models/article');
+exports.ArticleRenderer = require('./renderer/articleRenderer');
 exports.Reference = require('./models/reference');
 exports.Task = require('./models/task');
+exports.TaskRenderer = require('./renderer/taskRenderer');
