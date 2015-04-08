@@ -2,7 +2,7 @@
 
 [![Join the chat at https://gitter.im/iliakan/javascript-nodejs](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/iliakan/javascript-nodejs)
 
-## powered by Node.js 
+## Powered by IO.js 
 
 Всем привет!
 
