@@ -18,6 +18,9 @@ router.get('/tutorial/map', map.get);
 router.get('/tutorial/zipview/:name', zipview.get);
 router.get('/tutorial', frontpage.get);
 router.get('/:slug', article.get);
-router.get('/pdf/:slug', bookify.get);
-router.get('/epub/:slug', bookify.get);
+
+if (process.env.NODE_ENV == 'ebook') {
+  router.get('/pdf/:slug', bookify.get);
+  router.get('/epub/:slug', bookify.get);
+}
 

@@ -384,6 +384,8 @@ HtmlTransformer.prototype.transformIframeTag = function(node) {
   //    [iframe src="/ajax/service"]
   if (src[0] != '/' && !~src.indexOf('://')) {
     if (!~src.indexOf('.')) src += '/';
+    // samedomain means we keep iframe on current domain
+    // for using js between it and the main window (see travel/ in tutorial)
     src = (node.isTrusted() && node.attrs.samedomain ? '' : this.staticHost) + this.resourceWebRoot + '/' + src;
   }
 

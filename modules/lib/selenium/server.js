@@ -1,9 +1,8 @@
 const log = require('log')();
 const SeleniumServer = require('selenium-webdriver/remote').SeleniumServer;
-const webdriver = require('selenium-webdriver');
 const config = require('config');
 
-var seleniumServer, seleniumServerAddress;
+var seleniumServer;
 
 // SELENIUM_LOCAL means using local selenium server + browser
 // otherwise sauceLabs

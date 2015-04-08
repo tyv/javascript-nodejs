@@ -28,6 +28,7 @@ describe('facebook', function() {
 
   it('logs in', function*() {
 
+    var i = 0;
     driver.get(config.test.e2e.siteHost + '/folder');
 
     driver.findElement(By.css('button.sitetoolbar__login')).click();
