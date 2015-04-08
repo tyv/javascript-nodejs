@@ -45,8 +45,8 @@ var webpackConfig = {
   watchDelay: 10,
   watch:      process.env.NODE_ENV == 'development',
 
-  devtool: process.env.NODE_ENV == 'production' ? 'source-map' : "eval", // try "inline-source-map" ?
-  //devtool: process.env.NODE_ENV == 'production' ? 'source-map' : "inline-source-map",
+  devtool: process.env.NODE_ENV=='development' ? "eval" : // try "inline-source-map" ?
+             process.env.NODE_ENV == 'production' ? 'source-map' : "",
 
   profile: true,
 
