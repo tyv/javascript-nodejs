@@ -25,7 +25,7 @@ block body
     if sidebar
       +b(class="sidebar page__sidebar #{sidebar.class}")
         +e('button').toggle(data-sidebar-toggle data-add-class-on-hover)
-        include ../blocks/map
+        +b("a").map(href="/tutorial/map", data-action="tutorial-map", data-tooltip="Карта учебника" data-add-class-on-hover)
         +e.inner
           +e.content
             block sidebar
