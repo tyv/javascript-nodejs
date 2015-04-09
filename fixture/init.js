@@ -10,7 +10,7 @@ exports.OrderTemplate = [
     description: "600+ стр, PDF + EPUB (10Mb)",
     slug:        "js",
     module:      'ebook',
-    amount:      100,
+    amount:      10,
     data:        {
       file: "tutorial/js.zip"
     }
@@ -20,7 +20,7 @@ exports.OrderTemplate = [
     description: "380+ стр, PDF + EPUB (8Mb)",
     slug:        "ui",
     module:      'ebook',
-    amount:      100,
+    amount:      10,
     data:        {
       file: "tutorial/ui.zip"
     }
@@ -30,7 +30,7 @@ exports.OrderTemplate = [
     description: "2xPDF + 2xEPUB, (18Mb)",
     slug:        "js-ui",
     module:      'ebook',
-    amount:      150,
+    amount:      15,
     data:        {
       file: "tutorial/js-ui.zip"
     }

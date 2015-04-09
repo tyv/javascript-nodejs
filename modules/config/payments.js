@@ -16,8 +16,7 @@ module.exports = {
       purse:        secret.yandexmoney.purse
     },
 
-    // todo: fix signature calculation
-    payanyway:   {
+    payanyway: {
       id:     secret.payanyway.id,
       secret: secret.payanyway.secret
     },
@@ -27,6 +26,11 @@ module.exports = {
     paypal: {
       email:    secret.paypal.email,
       pdtToken: secret.paypal.pdtToken
+    },
+
+    interkassa: {
+      id:     secret.interkassa.id,
+      secret: secret.interkassa.secret
     }
   }
 };

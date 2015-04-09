@@ -153,6 +153,7 @@ schema.methods.getStatusDescription = function() {
 */
 
 schema.methods.logRequest = function*(event, request) {
+  request.log.debug(event);
   yield this.log(event, {url: request.originalUrl, body: request.body});
 };
 

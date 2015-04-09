@@ -1,0 +1,8 @@
+
+form(method="POST" name="payment" action="https://sci.interkassa.com/" accept-charset="UTF-8")
+  input(type="hidden",name="ik_co_id",value=id)
+  input(type="hidden",name="ik_pm_no",value=number)
+  input(type="hidden",name="ik_cur",value=currency)
+  input(type="hidden",name="ik_am",value=amount)
+  input(type="hidden",name="ik_desc",value="Оплата по счёту #{number}")
+  input(type="submit",value="Оплатить")

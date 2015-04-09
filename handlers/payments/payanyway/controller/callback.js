@@ -53,18 +53,3 @@ function checkSignature(body) {
 
   return signature == body.MNT_SIGNATURE;
 }
-
-/*
-var body ={ MNT_ID: '31873866',
- MNT_TRANSACTION_ID: '12',
- MNT_OPERATION_ID: '55923826',
- MNT_AMOUNT: '1.00',
- MNT_CURRENCY_CODE: 'RUB',
- MNT_TEST_MODE: '0',
- MNT_SIGNATURE: 'ebf8d4b9fa10301b858cc314b356cc41',
- 'paymentSystem.unitId': '822360',
- MNT_CORRACCOUNT: '15598507',
- qiwiphone: '9035419441' }
-
-console.log(+checkSignature(body));
-*/

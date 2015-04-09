@@ -47,6 +47,10 @@ class OrderForm {
         window.ga('send', 'event', 'payment', 'checkout-no-email', 'ebook');
         window.metrika.reachGoal('CHECKOUT-NO-EMAIL', {product: 'ebook'});
         new notification.Error("Введите email.");
+        this.elem.elements.email.scrollIntoView();
+        setTimeout(function() {
+          window.scrollBy(0, -200);
+        }, 0);
         this.elem.elements.email.focus();
         return;
       } else {
