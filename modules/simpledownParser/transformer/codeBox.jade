@@ -8,7 +8,7 @@ include /bem
           - var title = (language == "javascript") ? "выполнить" : "показать"
           +e('a')(href="#" title=title data-action="run").button_run
         +e.tool
-          +e('a')(href="#" title="открыть в песочнице" data-action="edit").button_edit
+          +e('a')(href="#" title="открыть в песочнице" target="_blank" data-action="edit").button_edit
     +e.code(data-code="1")
       pre(class="line-numbers language-#{language}")
         code(class="language-#{language}")= text

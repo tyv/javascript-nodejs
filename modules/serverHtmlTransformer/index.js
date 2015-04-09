@@ -242,7 +242,7 @@ ServerHtmlTransformer.prototype.transformCodeTabsTag = function* (node) {
 
   if (this.isEbook) {
     var title = node.attrs.title || 'Смотреть пример онлайн';
-    return '<p><a href="http://plnkr.co/edit/' + plunk.plunkId + '?p=preview">' + escapeHtml(title) + '</a></p>';
+    return '<p><a target="_blank" href="http://plnkr.co/edit/' + plunk.plunkId + '?p=preview">' + escapeHtml(title) + '</a></p>';
   }
 
   var files = plunk.files;

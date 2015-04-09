@@ -324,7 +324,8 @@ HtmlTransformer.prototype.transformEditTag = function(node) {
 
   var attrs = {
     "class": "edit",
-    href:    "http://plnkr.co/edit/" + node.attrs.plunkId + "?p=preview"
+    href:    "http://plnkr.co/edit/" + node.attrs.plunkId + "?p=preview",
+    target: "_blank"
   };
 
   return this.wrapTagAround('a', attrs, html);
@@ -394,7 +395,8 @@ HtmlTransformer.prototype.transformIframeTag = function(node) {
   if (node.attrs.plunkId) {
     locals.edit = {
       href:    'http://plnkr.co/edit/' + node.attrs.plunkId + '?p=preview',
-      plunkId: node.attrs.plunkId
+      plunkId: node.attrs.plunkId,
+      target: "_blank"
     };
 
     if (node.attrs.zip) {

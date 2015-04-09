@@ -6,7 +6,7 @@ document.addEventListener('click', function(e) {
   if (e.defaultPrevented) return;
 
   // abandon if no active link or link within domain
-  var link = e.target.closest("a");
+  var link = e.target.closest && e.target.closest("a");
   if (!link || baseURI == link.host) return;
 
   // cancel event and record outbound link

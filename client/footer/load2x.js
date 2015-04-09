@@ -7,7 +7,7 @@ module.exports = function() {
 
     // load @2x version (must exist)
     png.onload = function() {
-      delete this.onload;
+      this.onload = null;
       if (this.src.match(/@2x.png$/)) return;
 
       let png2x = new Image();
