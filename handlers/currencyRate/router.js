@@ -19,5 +19,9 @@ router.get('/update', mustBeAdmin, function*() {
   money.rates = currencyRate.rates;
   money.base = currencyRate.base;
 
+  this.body = {
+    status: "ok",
+    time: new Date()
+  };
 });
 

@@ -1,14 +1,16 @@
 var xhr = require('client/xhr');
 var notification = require('client/notification');
 var delegate = require('client/delegate');
+var FormPayment = require('payments/common/client').FormPayment;
 var Spinner = require('client/spinner');
-
+var Modal = require('client/head/modal');
 
 class OrderForm {
 
-
   constructor(options) {
     this.elem = options.elem;
+
+    this.product = 'ebook';
 
     this.elem.addEventListener('submit', (e) => e.preventDefault());
 
@@ -22,123 +24,44 @@ class OrderForm {
       this.elem.querySelector('[data-order-form-step-confirm]').style.display = 'none';
       this.elem.querySelector('[data-order-form-step-receipt]').style.display = 'none';
     });
+
+    this.delegate('.complex-form__extract .extract__item', 'click', function(e) {
+      e.delegateTarget.querySelector('[type="radio"]').checked = true;
+    });
   }
 
-  onPaymentMethodClick(e) {
-
-    var data = {
-      paymentMethod: e.delegateTarget.value
-    };
+  // return orderData or nothing if validation failed
+  getOrderData() {
+    var orderData = {    };
 
     if (window.orderNumber) {
-      data.orderNumber = window.orderNumber;
+      orderData.orderNumber = window.orderNumber;
     } else {
       var chooser = this.elem.querySelector('input[name="orderTemplate"]:checked');
-      data.orderTemplate = chooser.value;
-      data.amount = chooser.dataset.amount; // for stats
+      orderData.orderTemplate = chooser.value;
+      orderData.amount = chooser.dataset.amount; // for stats
     }
 
     if (this.elem.elements.email) {
       if (!this.elem.elements.email.value) {
         window.ga('send', 'event', 'payment', 'checkout-no-email', 'ebook');
-        window.metrika.reachGoal('CHECKOUT-NO-EMAIL', { product: 'ebook'});
+        window.metrika.reachGoal('CHECKOUT-NO-EMAIL', {product: 'ebook'});
         new notification.Error("Введите email.");
         this.elem.elements.email.focus();
         return;
       } else {
-        data.email = this.elem.elements.email.value;
+        orderData.email = this.elem.elements.email.value;
       }
     }
 
-    // response status must be 200
-    var request = xhr({
-      method:         'POST',
-      url:            '/payments/common/checkout',
-      normalStatuses: [200, 403],
-      body:           data
-    });
-
-    if (data.orderTemplate) {
-      window.ga('ec:addProduct', {
-        id:       'ebook',
-        variant:  data.orderTemplate,
-        price:    data.amount,
-        quantity: 1
-      });
-    }
-
-    window.ga('ec:setAction', 'checkout', {
-      step: 1,
-      option: data.paymentMethod
-    });
-
-    window.metrika.reachGoal('CHECKOUT', {
-      product: 'ebook',
-      method:  data.paymentMethod,
-      price: data.amount
-    });
-
-    window.ga('send', 'event', 'payment', 'checkout', 'ebook');
-    window.ga('send', 'event', 'payment', 'checkout-method-' + data.paymentMethod, 'ebook');
-
-    var onEnd = this.startRequestIndication();
-
-    request.addEventListener('success', function(event) {
-
-      if (this.status == 403) {
-        new notification.Error("<p>" + (event.result.description || event.result.message) + "</p><p>Пожалуйста, начните оформление заново.</p><p>Если вы считаете, что на сервере ошибка &mdash; свяжитесь со <a href='mailto:orders@javascript.ru'>службой поддержки</a>.</p>");
-        onEnd();
-        return;
-      }
-
-      var result = event.result;
-
-      if (result.form) {
-        // don't stop the spinner while submitting the form to the payment system!
-        // (still in progress)
-
-        window.ga('ec:setAction', 'purchase', {
-          id: result.orderNumber
-        });
-
-        var container = document.createElement('div');
-        container.hidden = true;
-        container.innerHTML = result.form;
-        document.body.appendChild(container);
-
-
-        // submit form after GA or after 500ms, which one comes sooner
-        var submitForm = function() {
-          if (!submitForm.called) {
-            submitForm.called = true;
-            container.firstChild.submit();
-          }
-        };
-
-        window.ga('send', 'event', 'payment', 'purchase', 'ebook', {
-          hitCallback: submitForm
-        });
-        setTimeout(submitForm, 500);
-
-
-        window.metrika.reachGoal('PURCHASE', {
-          product: 'ebook',
-          method:  data.paymentMethod,
-          price: data.amount,
-          number: result.orderNumber
-        });
-
-
-      } else {
-        console.error(result);
-        onEnd();
-        new notification.Error("Ошибка на сервере, свяжитесь со <a href='mailto:orders@javascript.ru'>службой поддержки</a>.");
-      }
-    });
-
-    request.addEventListener('fail', onEnd);
+    return orderData;
   }
 
+  onPaymentMethodClick(e) {
+    var paymentMethod = e.delegateTarget.value;
+
+    new FormPayment(paymentMethod, this).submit();
+  }
 
   request(options) {
     var request = xhr(options);

@@ -124,7 +124,6 @@ require('fs').readdirSync(config.extraHandlersRoot).forEach(function(extraHandle
   app.requireHandler(extraHandler);
 });
 
-
 // uncomment for time-require to work
 //process.emit('exit');
 

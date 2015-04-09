@@ -8,6 +8,7 @@ function toggle() {
   var pageWrapper = document.querySelector('.page-wrapper');
 
   document.querySelector('.page').classList.toggle('page_sidebar_on');
+
   pageWrapper && pageWrapper.classList.toggle('page-wrapper_sidebar_on');
 
   if (document.querySelector('.page').classList.contains('page_sidebar_on')) {
@@ -19,7 +20,8 @@ function toggle() {
 }
 
 function onClick(event) {
-  if (event.target.dataset && event.target.dataset.sidebarToggle === undefined) return;
+
+  if (!event.target.getAttribute('data-sidebar-toggle')) return;
 
   toggle();
 }

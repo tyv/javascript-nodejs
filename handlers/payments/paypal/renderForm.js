@@ -16,7 +16,7 @@ module.exports = function* (transaction) {
     no_note: 1,
     no_shipping: 1,
     rm: 2, // the buyer's browser is redirected to the return URL by using the POST method, and all payment variables are included
-    currency_code: config.payments.currency,
+    currency_code: transaction.currency,
     lc: "RU",
     notify_url: process.env.SITE_HOST + '/payments/paypal/ipn?transactionNumber=' + transaction.number,
     cancel_url: process.env.SITE_HOST + '/payments/paypal/cancel?transactionNumber=' + transaction.number,

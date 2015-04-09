@@ -52,7 +52,7 @@ exports.post = function*(next) {
   this.log.debug("order", this.order);
 
   // creates transaction and returns the form to submit for its payment OR the result
-  var transaction = yield* paymentMethod.createTransaction(this.order);
+  var transaction = yield* paymentMethod.createTransaction(this.order, this.request.body);
   this.log.debug("new transaction", transaction.toObject());
 
   var form = yield* paymentMethod.renderForm(transaction, this.order);

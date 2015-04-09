@@ -23,7 +23,7 @@ block content
       +e.step-content
         +b.extract._small.__extract
           each orderTemplate, i in orderTemplates
-            +e.item
+            +e.item(data-add-class-on-hover)
               +e('input').input(type="radio" name="orderTemplate" value=orderTemplate.slug data-price=orderTemplate.amount checked=(i==0) id=('book-' + i) )
               +e.wrap
                 +e.input-wrap

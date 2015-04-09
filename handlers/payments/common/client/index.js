@@ -1,0 +1,1 @@
+exports.FormPayment = require('./formPayment');

@@ -51,7 +51,7 @@ module.exports =  function*(order) {
       transaction: transaction,
       title: "Спасибо за заказ!",
       accent: "Оплата получена, заказ обрабатывается.",
-      description: `<p>По окончании вам будет отправлено письмо на электронный адрес ${order.email}.</p>
+      description: `<p>По окончании вам будет отправлено письмо на электронный адрес <b>${order.email}</b>.</p>
         <p>Если у вас возникли какие-нибудь вопросы, присылайте их на ${mailUrl}.</p>`
     };
 
@@ -99,11 +99,11 @@ module.exports =  function*(order) {
           status: "pending",
           transaction: transaction,
           title: "Спасибо за заказ!",
-          accent: `Скачайте, пожалуйста, <a href="/payments/banksimple/${transaction.number}/invoice.docx">квитанцию для оплаты через банк</a>.`,
+          accent: `Для завершения заказа скачайте квитанцию и оплатите ее через банк.`,
           description:
-            `<p><a href="/payments/banksimple/${transaction.number}/invoice.docx"><img src="/img/invoice.png" width="100" height="100"></a></p>
+            `<div><button class="submit-button" onclick="location.href='/payments/banksimple/${transaction.number}/invoice.docx'" type="button"><span class="submit-button__text">Скачать квитанцию</span></button></div>
             <p>Квитанция действительна три дня. Оплатить можно в любом банке, где у вас есть счёт или в Сбербанке, который берёт комиссию 3%.</p>
-            <p>После оплаты в течение двух рабочих дней банк уведомит нас, и мы вышлем вам всю необходимую информацию на адрес ${order.email}.</p>
+            <p>После оплаты в течение двух рабочих мы вышлем вам всю необходимую информацию на адрес <b>${order.email}</b>.</p>
             <p>Если у вас возникли какие-либо вопросы, присылайте их на ${mailUrl}.</p>
             `
         };
@@ -113,7 +113,7 @@ module.exports =  function*(order) {
         status: "pending",
         transaction: transaction,
         title: "Спасибо за заказ!",
-        accent: `Как только мы получим подтверждение от платёжной системы, мы вышлем вам всю необходимую информацию на адрес ${order.email}.`,
+        accent: `Как только мы получим подтверждение от платёжной системы, мы вышлем вам всю необходимую информацию на адрес <b>${order.email}</b>.`,
         description: `<p>Если у вас возникли проблемы при работе с платежной системой, и вы не оплатили заказ, вы можете <a href="#" data-order-payment-change>выбрать другой метод оплаты</a> и оплатить заново.</p>
         <p>Если у вас возникли какие-либо вопросы, присылайте их на ${mailUrl}.</p>`
       };
