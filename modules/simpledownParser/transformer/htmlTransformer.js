@@ -406,7 +406,6 @@ HtmlTransformer.prototype.transformIframeTag = function(node) {
       };
     }
 
-
   }
 
   if (node.attrs.link) {

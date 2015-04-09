@@ -6,17 +6,17 @@ block body
     include ../blocks/sitetoolbar
 
   .page(class=[sidebar && 'page_sidebar_on', layout_page_class])
-    script.
-      if (localStorage.noSidebar) {
-        var pageWrapper = document.querySelector('.page-wrapper');
+    script
+      :uglify
+        if (localStorage.noSidebar) {
+          document.querySelector('.page').classList.remove('page_sidebar_on');
 
-        document.querySelector('.page').classList.remove('page_sidebar_on');
-
-        pageWrapper && pageWrapper.classList.remove('page-wrapper_sidebar_on');
-      }
-      setTimeout(function() {
-        document.querySelector('.page').classList.add('page_sidebar-animation-on');
-      }, 0);
+          var pageWrapper = document.querySelector('.page-wrapper');
+          pageWrapper && pageWrapper.classList.remove('page-wrapper_sidebar_on');
+        }
+        setTimeout(function() {
+          document.querySelector('.page').classList.add('page_sidebar-animation-on');
+        }, 0);
 
     //- основное содержимое статьи идёт до сайдбара (пользователь увидит его первым)
     .page__inner
