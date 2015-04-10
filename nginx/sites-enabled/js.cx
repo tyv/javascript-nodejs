@@ -1,18 +1,31 @@
 # Static no-cookie host
 # All resources are accessible from the main host too
 
-server {
 
+<% if (sslEnabled) { %>
+server {
   listen 80;
+  server_name js.cx;
+  return 301 https://$host$request_uri;
+}
+<% } %>
+
+
+server {
 
 <% if (sslEnabled) { %>
   listen 443 ssl;
 
   ssl_certificate		<%=certDir%>/js.cx/ssl.pem;
   ssl_certificate_key	<%=certDir%>/js.cx/ssl.key;
+
+  add_header Strict-Transport-Security "max-age=31536000; includeSubdomains;";
+<% } else { %>
+  listen 80;
+
 <% } %>
 
-  server_name js.cx static-nightly.javascript.ru static-nightly.javascript.info;
+  server_name js.cx;
 
   root <%=root%>/public;
 
