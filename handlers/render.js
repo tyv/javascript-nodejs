@@ -35,7 +35,7 @@ function addStandardHelpers(locals, ctx) {
   locals.url = url.parse(ctx.protocol + '://' + ctx.host + ctx.originalUrl);
   locals.context = ctx;
 
-  locals.analyticsEnabled = (ctx.host == 'learn.javascript.ru' && process.env.NODE_ENV == 'production');
+  locals.analyticsEnabled = ctx.query.noa ? (ctx.host == 'learn.javascript.ru' && process.env.NODE_ENV == 'production') : false;
 
   // we don't use defer in sessions, so can assign it
   // (simpler, need to call yield this.session)
