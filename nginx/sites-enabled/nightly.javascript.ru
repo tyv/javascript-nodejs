@@ -5,18 +5,29 @@
 server {
   listen 80;
   server_name nightly.javascript.ru;
-  rewrite ^ https://learn.javascript.ru$request_uri? permanent;
+  return 301 https://$host$request_uri;
 }
 
-
+<% if (sslEnabled) { %>
 server {
   listen 80;
+  server_name learn.javascript.ru;
+  return 301 https://$host$request_uri;
+}
+<% } %>
+
+server {
 
 <% if (sslEnabled) { %>
   listen 443 ssl;
 
   ssl_certificate		<%=certDir%>/learn.javascript.ru/ssl.pem;
   ssl_certificate_key	<%=certDir%>/learn.javascript.ru/ssl.key;
+
+  add_header Strict-Transport-Security "max-age=31536000; includeSubdomains;";
+<% } else { %>
+  listen 80;
+
 <% } %>
 
   server_name learn.javascript.ru yuri.javascript.ru javascript.in;
