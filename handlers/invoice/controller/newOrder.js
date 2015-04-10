@@ -5,7 +5,7 @@ exports.get = function*() {
   this.nocache();
 
   this.locals.sitetoolbar = true;
-  this.locals.title = "Оплата заказа";
+  this.locals.title = "Оплата заказа с javascript.ru";
 
   this.locals.paymentMethods = require('../lib/paymentMethods');
 

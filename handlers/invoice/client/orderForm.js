@@ -46,7 +46,7 @@ class OrderForm {
     }
 
     if (!this.elem.elements.invoiceNumber.value) {
-      new notification.Error("Введите email.");
+      new notification.Error("Введите номер счета javascript.ru.");
       this.elem.elements.invoiceNumber.scrollIntoView();
       setTimeout(function() {
         window.scrollBy(0, -200);
