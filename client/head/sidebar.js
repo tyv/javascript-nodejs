@@ -21,7 +21,7 @@ function toggle() {
 
 function onClick(event) {
 
-  if (!event.target.getAttribute('data-sidebar-toggle')) return;
+  if (!event.target.hasAttribute('data-sidebar-toggle')) return;
 
   toggle();
 }
