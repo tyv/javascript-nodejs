@@ -6,6 +6,10 @@ block append variables
     - var layout_header_class = "main__header_center"
 
 block content
+    +b.notification._message._info
+        +e.content Раздел работает в тестовом режиме. О любых проблемах и странностях сообщайте, пожалуйста, на <a href="https://github.com/iliakan/javascript-nodejs/issues/new">github</a>.
+
+
     +b.intro На этой странице вы можете протестировать свои знания Javascript, выбрав один из тестов.
 
     include blocks/quiz-selector
