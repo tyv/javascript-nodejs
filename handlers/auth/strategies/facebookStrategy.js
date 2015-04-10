@@ -9,7 +9,7 @@ const co = require('co');
  Returns fields:
 {
   "id": "765813916814019",
-  "email": "nlpstudent\u0040mail.ru",
+  "email": "login\u0040mail.ru",
   "gender": "male",
   "link": "https:\/\/www.facebook.com\/app_scoped_user_id\/765813916814019\/",
   "locale": "ru_RU",

@@ -6,7 +6,13 @@ include /bem
       +e('h4').title Регистрация
       +e.header-aside
         +e('button').button-link(type="button" data-switch="login-form") вход
+
+    +e.line.__notification
+      +e.info
+        | Регистрация работает в тестовом режиме. О любых проблемах и странностях сообщайте, пожалуйста, на <a href="https://github.com/iliakan/javascript-nodejs/issues/new">github</a>.
+
     +e.line.__notification(data-notification)
+
     +e.line
       +e('label').label(for="register-email") Email:
       +b('span').text-input.__input

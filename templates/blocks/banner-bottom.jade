@@ -27,6 +27,9 @@ script
         localStorage.bannerBottomShownCount = 1;
       }
 
+      document.querySelector('.banner-bottom').style.display = 'block';
+
+      /*
       // 2 -> 1.4, 1, 0.8, 0.7, 0.6, 0.5 -> lower chance to see every time
       var showProbability = Math.sqrt(3 / localStorage.bannerBottomShownCount);
       var show = debug || Math.random() < showProbability;
@@ -48,5 +51,6 @@ script
         localStorage.bannerBottomShownCount++;
         showCounted = true;
       }
+                  */
 
     }());
