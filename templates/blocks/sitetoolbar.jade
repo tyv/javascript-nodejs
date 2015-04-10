@@ -46,10 +46,10 @@ block append variables
     if env.NODE_ENV == 'development'
       include ./buy-book
 
-      if user
-        include ./user
-      else
-        include ./guest
+    if user
+      include ./user
+    else
+      include ./guest
 
     include ./search
 
