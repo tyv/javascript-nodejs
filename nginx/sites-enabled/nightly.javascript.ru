@@ -27,7 +27,6 @@ server {
   add_header Strict-Transport-Security "max-age=31536000; includeSubdomains;";
 <% } else { %>
   listen 80;
-
 <% } %>
 
   server_name learn.javascript.ru yuri.javascript.ru javascript.in;
@@ -35,8 +34,10 @@ server {
   access_log  /var/log/nginx/learn.javascript.ru.log main;
 
   error_page   404 /404.html;
-  error_page   500 502 504  /50x.html;
+  error_page   500 /error-nginx/500.html;
+  error_page   502 /error-nginx/502.html;
   error_page   503 /error-nginx/503.html;
+  error_page   504 /error-nginx/504.html;
 
   charset utf-8;
   root         <%=root%>/public;
