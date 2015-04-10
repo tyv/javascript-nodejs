@@ -3,6 +3,7 @@ var baseURI = window.location.host;
 
 document.addEventListener('click', function(e) {
 
+  if (e.which != 1) return; // track only left-mouse clicks
   if (e.defaultPrevented) return;
 
   // abandon if no active link or link within domain
