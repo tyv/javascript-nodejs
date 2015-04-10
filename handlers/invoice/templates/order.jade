@@ -1,0 +1,108 @@
+extends /layouts/main
+
+block append variables
+  - var layout_header_class = "main__header_center"
+
+block append ga
+  script ga('require', 'ec');
+
+  if orderInfo.status == 'fail'
+    script window.ga('ec:setAction', 'refund', { id: #{order.number} });
+
+  script window.ga('send', 'event', 'payment', 'return-#{orderInfo.status}', 'invoice');
+
+block content
+
+  script var orderNumber = #{order.number};
+
+  script window.metrika.reachGoal('ORDER', { product: 'invoice', status: '#{orderInfo.status}', number: '#{orderInfo.number}' });
+
+  - var mailto = "mailto:orders@javascript.ru?subject=" + encodeURIComponent('Заказ ' + order.number);
+
+  +b('form').complex-form(data-order-form data-order-info-status=orderInfo.status)
+
+    if orderInfo.status == 'fail'
+      +b.notification._error._message.__error
+        +e.content
+          p Оплата не прошла, попробуйте ещё раз.
+            if orderInfo.transaction && orderInfo.transaction.statusMessage
+              div Причина:&nbsp;
+                +e('span').cause= orderInfo.transaction.statusMessage
+          p По вопросам, касающимся оплаты, пишите на <a href="#{mailto}">orders@javascript.ru</a>.
+
+    if !~['fail'].indexOf(orderInfo.status)
+      +b.receipts.__receipts(data-order-form-step-receipt)
+        +e.receipt
+          +e.receipt-body
+            +e.receipt-content
+              +e.type Заказ #{order.number}
+            +e.receipt-aside
+              +e.price #{order.amount + 'р.'}
+        if ~['paid', 'success', 'pending'].indexOf(orderInfo.status)
+          +e.receipt
+            +e.receipt-body
+              +e.receipt-content
+                +e.type Оплата:
+                if (orderInfo.status == 'paid' || orderInfo.status == 'success')
+                  +e.status._ok Осуществлена успешно
+                else if (orderInfo.status == 'pending')
+                  +e.status._ok Ожидается подтверждение
+              +e.receipt-aside
+                +e(class=["pay-method", "_" + paymentMethods[orderInfo.transaction.paymentMethod].name])
+
+
+    if ~['fail', 'pending'].indexOf(orderInfo.status)
+      +e.step._current(data-order-form-step-payment)
+        +e.step-content
+          +b.extract._small.__extract
+            +e.wrap
+              +e.content
+                +e('h5').title Заказ #{order.number}
+              +e.aside._price._center
+                | Стоимость
+                +b.price.__price
+                  | #{order.amount + ' RUB'}
+                  +e('span').secondary (≈&nbsp;#{currencyConvertRound(order.amount, "RUB", "USD")}$)
+
+          if orderInfo.status == 'fail'
+            +e('h2').alternate-title Выберите метод оплаты
+          else if orderInfo.status == 'pending'
+            +e('h2').alternate-title Выберите другой метод оплаты
+            p Не оплачивайте дважды. Меняйте метод оплаты лишь если уверены, что оплата не произошла.
+
+          +b.pay-method.__pay-method
+            +e.methods
+              each paymentMethod in paymentMethods
+                +e.method(data-add-class-on-hover)
+                  +e('button')(type="button" class=["send", "_"+paymentMethod.name]  name="paymentMethod" value=paymentMethod.name)
+
+          p Если у вас возникли какие-либо вопросы, присылайте их на <a href="#{mailto}">orders@javascript.ru</a>.
+
+
+    if orderInfo.status == 'success'
+      +e.step._current(data-order-form-step-confirm)
+        +b.order-confirm
+          +e('h2').title__step-title Спасибо за покупку!
+          +e.accent._ok Когда оплата будет обработана, на электронный адрес #{order.email} придёт подтверждение.
+          +e.content
+            +e.text
+              p Обработка оплаты и зачисление, пока перевод на новый движок не завершён, проводятся в полуавтоматическом режиме.
+              p При этом возможна техническая задержка до 2х дней.
+              p Если у вас возникли какие-либо вопросы, присылайте их на <a href="#{mailto}">orders@javascript.ru</a>.
+
+    else if ~['error', 'cancel', 'pending', 'paid'].indexOf(orderInfo.status)
+      +e.step._current(data-order-form-step-confirm)
+        +b.order-confirm
+          +e('h2').title__step-title!= orderInfo.title
+          if orderInfo.accent
+            +e.accent!= orderInfo.accent
+          if orderInfo.description
+          +e.content
+            +e.text!= orderInfo.description
+
+    if ~['fail'].indexOf(orderInfo.status)
+      +b('ul').grayed-list.__next
+        +e('li').item.__next-item Подтверждение
+
+  script(src=pack("invoice", "js"))
+  script invoice.init();

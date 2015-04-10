@@ -3,14 +3,16 @@ var Order = require('payments').Order;
 // middleware
 // create order from template,
 // use the incoming data if needed
-module.exports = function* (orderTemplate, user, requestBody) {
+module.exports = function*(orderTemplate, user, requestBody) {
 
   var order = new Order({
     title:       orderTemplate.title,
     description: orderTemplate.description,
-    amount:      orderTemplate.amount,
+    amount:      requestBody.amount,
     module:      orderTemplate.module,
-    data:        orderTemplate.data
+    data: {
+      invoice: requestBody.invoiceNumber
+    }
   });
 
   if (user) {

@@ -6,6 +6,10 @@ var Schema = mongoose.Schema;
  * New orders do *not* reference the items, because store items may change
  * Instead new orders contain full information about themselves.
  *
+ * Order template must have
+ *   module (which handles it)
+ *   slug (unique mnemo to search, may be many per module)
+ *
  * OrderTemplate can be deleted, but the order is self-contained.
  * @type {Schema}
  */
@@ -23,9 +27,11 @@ var schema = new Schema({
     required: true,
     unique:   true
   },
+  weight:      {
+    type: Number
+  },
   amount:      {
-    type:     Number,
-    required: true
+    type:     Number
   },
   created:     {
     type:    Date,

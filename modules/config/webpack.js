@@ -45,22 +45,23 @@ var webpackConfig = {
   watchDelay: 10,
   watch:      process.env.NODE_ENV == 'development',
 
-  devtool: process.env.NODE_ENV=='development' ? "eval" : // try "inline-source-map" ?
+  devtool: process.env.NODE_ENV == 'development' ? "eval" : // try "inline-source-map" ?
              process.env.NODE_ENV == 'production' ? 'source-map' : "",
 
   profile: true,
 
   entry: {
-    styles:   'styles',
-    angular:  'client/angular',
-    head:     'client/head',
-    tutorial: 'tutorial/client',
-    profile:  'profile/client',
-    search:   'search/client',
-    quiz:     'quiz/client',
-    ebook:    'ebook/client',
-    footer:   'client/footer',
-    nodejsScreencast:   'nodejsScreencast/client'
+    styles:           'styles',
+    angular:          'client/angular',
+    head:             'client/head',
+    tutorial:         'tutorial/client',
+    profile:          'profile/client',
+    search:           'search/client',
+    quiz:             'quiz/client',
+    ebook:            'ebook/client',
+    invoice:          'invoice/client',
+    footer:           'client/footer',
+    nodejsScreencast: 'nodejsScreencast/client'
   },
 
   externals: {

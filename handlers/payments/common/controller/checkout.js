@@ -33,19 +33,14 @@ exports.post = function*(next) {
 
     this.log.debug("orderTemplate", orderTemplate);
 
-    this.order = require(orderTemplate.module).createOrderFromTemplate.call(this, orderTemplate);
+    this.order = yield* require(orderTemplate.module).createOrderFromTemplate(orderTemplate, this.user, this.request.body);
 
-    yield this.order.persist();
-
-    // must persist before this line to create order.number (if new order)
     saveOrderNumberToSession(this.session, this.order);
   } else {
 
     // Many waiting transactions not allowed.
     // The old one must had been cancelled before this.
     yield* this.order.cancelPendingTransactions();
-
-    yield this.order.persist();
 
   }
 

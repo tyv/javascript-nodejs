@@ -10,6 +10,7 @@ exports.OrderTemplate = [
     description: "600+ стр, PDF + EPUB (10Mb)",
     slug:        "js",
     module:      'ebook',
+    weight:      1,
     amount:      10,
     data:        {
       file: "tutorial/js.zip"
@@ -20,6 +21,7 @@ exports.OrderTemplate = [
     description: "380+ стр, PDF + EPUB (8Mb)",
     slug:        "ui",
     module:      'ebook',
+    weight:      2,
     amount:      10,
     data:        {
       file: "tutorial/ui.zip"
@@ -30,10 +32,16 @@ exports.OrderTemplate = [
     description: "2xPDF + 2xEPUB, (18Mb)",
     slug:        "js-ui",
     module:      'ebook',
+    weight:      3,
     amount:      15,
     data:        {
       file: "tutorial/js-ui.zip"
     }
+  },
+  {
+    title: "Оплата счёта javascript.ru",
+    module: 'invoice',
+    slug: 'invoice'
   }
 ];
 
