@@ -1,7 +1,7 @@
 
 require('client/polyfill');
 
-if (window.localStorage) { // disabled
+if (!window.localStorage) { // disabled
   window.localStorage = {};
 }
 
