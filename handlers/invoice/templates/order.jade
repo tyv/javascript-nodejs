@@ -26,7 +26,7 @@ block content
         +e.content
           p Оплата не прошла, попробуйте ещё раз.
             if orderInfo.transaction && orderInfo.transaction.statusMessage
-              div Причина:&nbsp;
+              div
                 +e('span').cause= orderInfo.transaction.statusMessage
           p По вопросам, касающимся оплаты, пишите на <a href="#{mailto}">orders@javascript.ru</a>.
 
@@ -35,7 +35,7 @@ block content
         +e.receipt
           +e.receipt-body
             +e.receipt-content
-              +e.type Заказ #{order.number}
+              +e.type javascript.ru #{order.data.invoice}
             +e.receipt-aside
               +e.price #{order.amount + 'р.'}
         if ~['paid', 'success', 'pending'].indexOf(orderInfo.status)
@@ -57,7 +57,7 @@ block content
           +b.extract._small.__extract
             +e.wrap
               +e.content
-                +e('h5').title Заказ #{order.number}
+                +e('h5').title javascript.ru #{order.data.invoice}
               +e.aside._price._center
                 | Стоимость
                 +b.price.__price
