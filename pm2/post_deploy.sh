@@ -5,7 +5,8 @@
 # start
 
 
-/usr/local/bin/pm2 updatePM2
+#/usr/local/bin/pm2 updatePM2
+
   # fixme: switch to startOrGracefulReload with 2 processes, with 1 process it doesn't actually restart the process
 /usr/local/bin/pm2 startOrGracefulReload ecosystem.json --env production &&
   gulp cache:clean &&

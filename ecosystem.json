@@ -3,7 +3,7 @@
     {
       "name":           "Javascript.ru",
       "script":         "bin/server",
-      "instances":      "2",
+      "instances":      "1",
       "exec_mode":      "cluster_mode",
       "env":            {
         "HOST":                        "127.0.0.1",
