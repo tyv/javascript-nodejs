@@ -1,10 +1,18 @@
 include /bem
 
-+b.paypal-currency-form(style="width:400px;height:400px;background:white")
-  form(name="paypal-currency-form")
-    select(name="currency")
-      option(value="RUB") RUB
-      option(value="USD") USD
-      option(value="EUR") EUR
++b.paypal-currency-form
+  +e('h2').title Выберите валюту
 
-    +b('button')(type="submit") Submit
+  +e('form').form(name="paypal-currency-form")
+
+    +e.line
+      +b('select').input-select(name="currency")
+        each currency in ['RUB', 'USD', 'EUR']
+          +e('option')(value=currency)= currency
+
+    +e.line
+      +e('p').note Если у вас Paypal аккаунт в рублях, вы не сможете оплатить в другой валюте
+    +e.line._submit
+      +b('button').button._action(type="submit")
+        +e('span').text Оплатить на PayPal
+      +e('a').close-link.modal__close Отмена
