@@ -162,29 +162,32 @@ L.Google = L.Class.extend({
 
 // ====================================================
 
+exports.init = function() {
 
-var map = new L.Map('map', {
-  center: new L.LatLng(54.231473, 37.734144),
-  zoom: 5,
-  attributionControl: false,
-  scrollWheelZoom: false,
-  markerZoomAnimation: false
-});
-var googleLayer = new L.Google('TERRAIN');
-map.addLayer(googleLayer);
-
-// Construct the circle for each value in citymap.
-// Note: We scale the area of the circle based on the population.
-for (var city in citymap) (function(city) {
-  var marker = L.circleMarker([citymap[city].location.lat-0.01, citymap[city].location.lng], {
-    radius: citymap[city].radius / 3000,
-    stroke: false,
-    opacity: 1,
-    fill: true,
-    clickable: false,
-    fillColor:     '#C13335',
-    fillOpacity: 1
+  var map = new L.Map('map', {
+    center: new L.LatLng(54.231473, 37.734144),
+    zoom: 5,
+    attributionControl: false,
+    scrollWheelZoom: false,
+    markerZoomAnimation: false
   });
-  map.addLayer(marker);
+  var googleLayer = new L.Google('TERRAIN');
+  map.addLayer(googleLayer);
 
-}(city));
+  // Construct the circle for each value in citymap.
+  // Note: We scale the area of the circle based on the population.
+  for (var city in citymap) (function(city) {
+    var marker = L.circleMarker([citymap[city].location.lat-0.01, citymap[city].location.lng], {
+      radius: citymap[city].radius / 3000,
+      stroke: false,
+      opacity: 1,
+      fill: true,
+      clickable: false,
+      fillColor:     '#C13335',
+      fillOpacity: 1
+    });
+    map.addLayer(marker);
+
+  }(city));
+
+}
