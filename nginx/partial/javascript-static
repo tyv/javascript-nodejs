@@ -34,5 +34,7 @@ location ~ \.v.*?\. {
 location ~ \.\w+$ {
   access_log   off;
   expires      max;
+  add_header   Cache-Control public;
+
   include "partial/args_limit";
 }
