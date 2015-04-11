@@ -27,7 +27,6 @@ server {
 
   access_log  /var/log/nginx/learn.javascript.ru.log main;
 
-  charset utf-8;
   root         <%=root%>/public;
 
   add_header X-Frame-Options SAMEORIGIN;
@@ -102,6 +101,8 @@ server {
 server {
 
   server_name payment.javascript.ru;
+
+  access_log  /var/log/nginx/payment.javascript.ru.log main;
 
   include "partial/error-pages";
 <% if (sslEnabled) { %>
