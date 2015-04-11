@@ -96,8 +96,8 @@ AuthModal.prototype.startRequestIndication = function() {
     var spinner = new Spinner({
       elem:      submitButton,
       size:      'small',
-      class:     'submit-button__spinner',
-      elemClass: 'submit-button_progress'
+      class:     '',
+      elemClass: 'button_loading'
     });
     spinner.start();
   }
