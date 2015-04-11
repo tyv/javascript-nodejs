@@ -37,6 +37,7 @@ module.exports = function() {
     var locals = {
       env: args.env,
       root: args.root,
+      nginxPrefix: args.prefix,
       sslEnabled: !!args.sslEnabled,
       certDir: config.certDir,
       setPassword: !!args.setPassword,
@@ -56,13 +57,14 @@ module.exports = function() {
           return cb();
         }
 
+        gp.util.log("Process", file.path, '->', args.prefix);
+
         try {
           file.contents = new Buffer(ejs.render(file.contents.toString(), locals));
         } catch (err) {
           this.emit('error', new gp.util.PluginError('configNginx', err));
         }
 
-        gp.util.log("Copy,", file.path, args.prefix);
         this.push(file);
         cb();
       }))

@@ -29,6 +29,8 @@ server {
 
   root <%=root%>/public;
 
+  include "partial/error-pages";
+  
   access_log  /var/log/nginx/js.cx.log main;
   charset utf-8;
 
