@@ -69,7 +69,7 @@ L.Google = L.Class.extend({
 
   _initContainer: function() {
     var tilePane = this._map._container
-    first = tilePane.firstChild;
+    var first = tilePane.firstChild;
 
     if (!this._container) {
       this._container = L.DomUtil.create('div', 'leaflet-google-layer leaflet-top leaflet-left');
@@ -190,4 +190,4 @@ exports.init = function() {
 
   }(city));
 
-}
+};
