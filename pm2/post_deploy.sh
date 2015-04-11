@@ -1,10 +1,14 @@
 #!/bin/bash
 
+# Hard upgrade:
 # stop
 # migrations
 # start
 
+# Regular upgrade (this script):
+# reload
 
+# this causes several seconds downtime, uncomment when the upgrade is required
 #/usr/local/bin/pm2 updatePM2
 
   # fixme: switch to startOrGracefulReload with 2 processes, with 1 process it doesn't actually restart the process

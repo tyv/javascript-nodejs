@@ -47,26 +47,27 @@ function xhr(options) {
     body = JSON.stringify(body);
   }
 
-
-  request.addEventListener('loadstart', event => {
-    request.timeStart = Date.now();
-    var e = wrapEvent('xhrstart', event);
-    document.dispatchEvent(e);
-  });
-  request.addEventListener('loadend', event => {
-    var e = wrapEvent('xhrend', event);
-    document.dispatchEvent(e);
-  });
-  request.addEventListener('success', event => {
-    var e = wrapEvent('xhrsuccess', event);
-    e.result = event.result;
-    document.dispatchEvent(e);
-  });
-  request.addEventListener('fail', event => {
-    var e = wrapEvent('xhrfail', event);
-    e.reason = event.reason;
-    document.dispatchEvent(e);
-  });
+  if (!options.noDocumentEvents) {
+    request.addEventListener('loadstart', event => {
+      request.timeStart = Date.now();
+      var e = wrapEvent('xhrstart', event);
+      document.dispatchEvent(e);
+    });
+    request.addEventListener('loadend', event => {
+      var e = wrapEvent('xhrend', event);
+      document.dispatchEvent(e);
+    });
+    request.addEventListener('success', event => {
+      var e = wrapEvent('xhrsuccess', event);
+      e.result = event.result;
+      document.dispatchEvent(e);
+    });
+    request.addEventListener('fail', event => {
+      var e = wrapEvent('xhrfail', event);
+      e.reason = event.reason;
+      document.dispatchEvent(e);
+    });
+  }
 
   if (!options.raw) { // means we want json
     request.setRequestHeader("Accept", "application/json");
@@ -143,15 +144,6 @@ function xhr(options) {
 
 }
 
-function addUrlParam(url, name, value) {
-  var param = encodeURIComponent(name) + '=' + encodeURIComponent(value);
-  if (~url.indexOf('?')) {
-    return url + '&' + param;
-  } else {
-    return url + '?' + param;
-  }
-
-}
 
 document.addEventListener('xhrfail', function(event) {
   new notification.Error(event.reason);

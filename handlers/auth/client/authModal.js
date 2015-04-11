@@ -28,11 +28,6 @@ function AuthModal(options) {
   }
 
   var self = this;
-  if (!options.callback) {
-    options.callback = function() {
-      self.successRedirect();
-    };
-  }
 
   this.options = options;
   this.setContent(clientRender(loginForm));
@@ -168,7 +163,7 @@ AuthModal.prototype.initEventHandlers = function() {
     var request = this.request({
       method: 'POST',
       url:    '/auth/reverify',
-      body: payload
+      body:   payload
     });
 
     var self = this;
@@ -214,10 +209,10 @@ AuthModal.prototype.submitRegisterForm = function(form) {
   payload.append("successRedirect", this.options.successRedirect);
 
   var request = this.request({
-    method:          'POST',
-    url:             '/auth/register',
+    method:         'POST',
+    url:            '/auth/register',
     normalStatuses: [201, 400],
-    body: payload
+    body:           payload
   });
 
   var self = this;
@@ -226,15 +221,14 @@ AuthModal.prototype.submitRegisterForm = function(form) {
     if (this.status == 201) {
       self.setContent(clientRender(loginForm));
       self.showFormMessage(
-          "<p>С адреса notify@javascript.ru отправлено письмо со ссылкой-подтверждением.</p>" +
-          "<p><a href='#' data-action-verify-email='" + form.elements.email.value + "'>перезапросить подтверждение.</a></p>",
+        "<p>С адреса notify@javascript.ru отправлено письмо со ссылкой-подтверждением.</p>" +
+        "<p><a href='#' data-action-verify-email='" + form.elements.email.value + "'>перезапросить подтверждение.</a></p>",
         'success'
       );
       return;
     }
 
     if (this.status == 400) {
-      debugger;
       for (var field in event.result.errors) {
         self.showInputError(form.elements[field], event.result.errors[field]);
       }
@@ -263,10 +257,10 @@ AuthModal.prototype.submitForgotForm = function(form) {
   payload.append("successRedirect", this.options.successRedirect);
 
   var request = this.request({
-    method: 'POST',
-    url:    '/auth/forgot',
+    method:         'POST',
+    url:            '/auth/forgot',
     normalStatuses: [200, 404],
-    body: payload
+    body:           payload
   });
 
   var self = this;
@@ -325,22 +319,36 @@ AuthModal.prototype.submitLoginForm = function(form) {
 
   if (hasErrors) return;
 
-  var request = this.request({
-    method: 'POST',
-    url:    '/auth/login/local',
+  var request = xhr({
+    method:           'POST',
+    url:              '/auth/login/local',
+    noDocumentEvents: true, // we handle all events/errors in this code
     normalStatuses: [200, 401],
-    body: new FormData(form)
+    body:             new FormData(form)
   });
 
-  var self = this;
-  request.addEventListener('success', function(event) {
+  var onEnd = this.startRequestIndication();
 
-    if (this.status != 200) {
-      self.onAuthFailure(event.result.message);
+  request.addEventListener('success', (event) => {
+
+    if (request.status == 401) {
+      onEnd();
+      this.onAuthFailure(event.result.message);
       return;
     }
 
-    self.onAuthSuccess(event.result.user);
+    // don't stop progress indication if login successful && we're making redirect
+    if (!this.options.callback) {
+      this.onAuthSuccess(event.result.user);
+    } else {
+      onEnd();
+      this.onAuthSuccess(event.result.user);
+    }
+  });
+
+  request.addEventListener('fail', (event) => {
+    onEnd();
+    this.onAuthFailure(event.reason);
   });
 
 };
@@ -362,7 +370,11 @@ AuthModal.prototype.openAuthPopup = function(url) {
  */
 AuthModal.prototype.onAuthSuccess = function(user) {
   window.currentUser = user;
-  this.options.callback();
+  if (this.options.callback) {
+    this.options.callback();
+  } else {
+    this.successRedirect();
+  }
 };
 
 
