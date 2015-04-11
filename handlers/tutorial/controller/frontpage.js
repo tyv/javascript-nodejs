@@ -34,7 +34,6 @@ exports.get = function *get(next) {
 // path
 // siblings
 function* renderTutorial() {
-  console.log("RENDERTUTORIAL!!!");
   const tree = yield* Article.findTree();
 
   var treeRendered = yield* renderTree(tree);
