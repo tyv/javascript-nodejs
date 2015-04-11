@@ -1,6 +1,8 @@
 
 extends /layouts/main
 
+block append head
+  link(href=pack('about', 'css') rel='stylesheet')
 
 block append variables
 
@@ -133,9 +135,6 @@ block content
 
     script(src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js")
 
-    script
-      include:uglify about-map.js
-
 
   +b.about-layout.columns.columns_2
 
@@ -158,4 +157,6 @@ block content
           | +79035419441
 
 
+  script(src=pack("about", "js"))
+  script about.init();
 

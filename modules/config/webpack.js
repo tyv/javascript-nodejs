@@ -51,7 +51,7 @@ var webpackConfig = {
   profile: true,
 
   entry: {
-    styles:           'styles',
+    about:            'about/client',
     angular:          'client/angular',
     head:             'client/head',
     tutorial:         'tutorial/client',

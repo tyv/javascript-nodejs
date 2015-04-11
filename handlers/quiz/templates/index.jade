@@ -1,5 +1,8 @@
 extends /layouts/main
 
+block append head
+    link(href=pack('quiz', 'css') rel='stylesheet')
+
 block append variables
     - var sitetoolbar = true
     - var layout_main_class = "main_width-limit"

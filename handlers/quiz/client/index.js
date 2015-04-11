@@ -1,6 +1,8 @@
+require('./styles');
+
 var Spinner = require('client/spinner');
 var xhr = require('client/xhr');
-var getCsrfCookie = require('client/getCsrfCookie');
+
 var prism = require('client/prism');
 var notification = require('client/notification');
 

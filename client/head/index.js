@@ -1,4 +1,6 @@
 
+require('styles');
+
 require('client/polyfill');
 
 if (!window.localStorage) { // disabled
