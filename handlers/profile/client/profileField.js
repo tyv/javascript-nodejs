@@ -58,8 +58,9 @@ angular.module('profile')
               new notification.Warning("Требуется подтвердить смену email, проверьте почту.", 'slow');
             } else if (this.name == 'profileName') {
               new notification.Success("Ваш профиль доступен по новому адресу, страница будет перезагружена");
+              var newProfileName = this.editingValue; // remember now, (editing field will be reset)
               setTimeout(function() {
-                window.location.href = '/profile/' + this.editingValue + '/account';
+                window.location.href = '/profile/' + newProfileName + '/account';
               }, 2000);
             } else {
               new notification.Success("Информация обновлена.");
