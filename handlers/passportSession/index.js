@@ -18,7 +18,7 @@ exports.init = function(app) {
 
   app.use(function* cleanEmptySessionPassport(next) {
     yield* next;
-    if (Object.keys(this.session.passport).length === 0) {
+    if (this.session && this.session.passport && Object.keys(this.session.passport).length === 0) {
       delete this.session.passport;
     }
   });
