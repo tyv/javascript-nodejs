@@ -1,5 +1,8 @@
 extends root
 
+block append head
+  link(href=pack('quiz', 'css') rel='stylesheet')
+
 block profileContent
 
   +b.quiz-results-table
