@@ -21,7 +21,7 @@ server {
 
     proxy_set_header X-Real-IP $remote_addr;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header Host nightly.javascript.ru;
+    proxy_set_header Host learn.javascript.ru;
 
     proxy_pass http://127.0.0.1:1212;
     proxy_redirect off;
@@ -33,7 +33,7 @@ server {
     # no password for callbacks
     proxy_set_header X-Real-IP $remote_addr;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header Host nightly.javascript.ru;
+    proxy_set_header Host learn.javascript.ru;
 
     proxy_pass http://127.0.0.1:1212;
     proxy_redirect off;
