@@ -1,7 +1,7 @@
 +b('form').complex-form._cources
   +e.step._current
-    +b.courses-register-participants
-      +e('h1').title Места и участники
+    +b.courses-register-participants.courses-register-common
+      +e('h1').title.courses-register-common__title Места и участники
 
       +b.course-register-info
         +e('h2').group Группа 10
@@ -56,11 +56,7 @@
                         +e('input').control(placeholder="email", name="email", type="email")
                   - n++
 
-
-
-
-
-      +e.next
+      +e.next.courses-register-common__next
         +b('button')(type="submit").button._action
           +e('span').text Сохранить и продолжить
 

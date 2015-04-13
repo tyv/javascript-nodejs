@@ -73,6 +73,26 @@ receipts_cutaway_radius = 7px
         font 700 19px/1 secondary_font
         margin-top 15px
 
+    &__edit
+        opacity 0
+
+        font-size 18px
+
+        position absolute
+
+        margin 2px 0 0 10px
+
+        text-decoration none !important
+        color link_hover_color
+
+        transition opacity 0.2s
+
+    &__edit:after
+        @extend $font-pencil
+
+    &__receipt:hover &__edit
+        opacity 1
+
     &__pay-method
         margin-top 11px
         width 136px
@@ -100,4 +120,3 @@ receipts_cutaway_radius = 7px
 
         &_yandexmoney
             background-image url('blocks/receipts/pay-logo-yandexmoney.svg')
-
