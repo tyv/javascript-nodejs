@@ -46,6 +46,7 @@
           +e('label').add(for="add-participants") Укзать участников
           +e('p').note (это можно сделать позже)
           +e.dropdown
+            +e('label')(for="add-participants").dropdown-close.close-button
             +e('ul').dropdown-list
               - var n = 0
                 while n < 6
