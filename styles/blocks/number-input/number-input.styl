@@ -2,23 +2,37 @@
     display inline-block
     white-space nowrap
 
-    &__inc,
-    &__dec
+    &__btn
         @extend $button-reset
+        font 23px/25px font
+
+        width 35px
+        padding 0 0 2px
+
+        text-align center
+        vertical-align middle
+
         color #fff
         background #999
         border-radius 3px
-        text-align center
-        width 35px
-        padding 0 0 2px
-        font 23px/25px font
-        vertical-align middle
+
+    &__btn:disabled
+        opacity 0.3
+        cursor default
 
     &__text
         width 38px
         margin 0 5px
         vertical-align middle
 
-    &__text &__control
+    &__text &__input
         text-align center
         font-size 14px
+
+    &__text &__input
+        appearance textfield
+
+    &__text &__input::-webkit-inner-spin-button,
+    &__text &__input::-webkit-outer-spin-button
+        -webkit-appearance none
+        margin 0
