@@ -33,9 +33,16 @@
     +b.course-register-payment.courses-register-common
       +e('h2').title.courses-register-common__title Оплата
 
-      +e.body body
+      +e.body
+        +b.pay-method
+          +e.methods
+            - var paymentMethods = [{ name: 'webmoney' }, { name: 'yandexmoney' }, { name: 'payanyway' }, { name: 'paypal' }, { name: 'interkassa' } ]
+            each paymentMethod in paymentMethods
+              +e.method(data-add-class-on-hover)
+                +e('button')(type="button" class=["send", "_"+paymentMethod.name]  name="paymentMethod" value=paymentMethod.name)
 
       +e.next.courses-register-common__next
+        +e.next-or или
         +b('button').button._common
           +e('span').text Оплатить позже
 
