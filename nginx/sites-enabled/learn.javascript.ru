@@ -2,28 +2,15 @@
 # For home dev I use in DNS: javascript.in
 # For prod it's learn.javascript.ru
 
-<% if (sslEnabled) { %>
 server {
+
   listen 80;
-  server_name learn.javascript.ru;
-  return 301 https://$host$request_uri;
-}
-<% } %>
-
-server {
-
-<% if (sslEnabled) { %>
   listen 443 ssl spdy;
 
   ssl_certificate		<%=certDir%>/learn.javascript.ru/ssl.pem;
   ssl_certificate_key	<%=certDir%>/learn.javascript.ru/ssl.key;
   ssl_trusted_certificate <%=certDir%>/learn.javascript.ru/trusted.pem;
-
-
   add_header Strict-Transport-Security "max-age=31536000; includeSubdomains;";
-<% } else { %>
-  listen 80;
-<% } %>
 
   server_name learn.javascript.ru yuri.javascript.ru javascript.in;
 

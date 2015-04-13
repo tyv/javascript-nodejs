@@ -1,19 +1,9 @@
 # Static no-cookie host
 # All resources are accessible from the main host too
 
-
-<% if (sslEnabled) { %>
 server {
+
   listen 80;
-  server_name js.cx;
-  return 301 https://$host$request_uri;
-}
-<% } %>
-
-
-server {
-
-<% if (sslEnabled) { %>
   listen 443 ssl spdy;
 
   ssl_certificate		<%=certDir%>/js.cx/ssl.pem;
@@ -22,11 +12,6 @@ server {
 
   add_header Strict-Transport-Security "max-age=31536000; includeSubdomains;";
   add_header X-Content-Type-Options nosniff;
-
-<% } else { %>
-  listen 80;
-
-<% } %>
 
   server_name js.cx;
 
