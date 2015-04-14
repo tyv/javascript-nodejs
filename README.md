@@ -8,7 +8,9 @@
 
 А это исходный код для нового движка сайта [https://learn.javascript.ru](https://learn.javascript.ru).
 
+<!-- mongod fails to install on travis, disable until fixed
 [![Build Status](https://travis-ci.org/iliakan/javascript-nodejs.svg?branch=master)](https://travis-ci.org/iliakan/javascript-nodejs)
+-->
 
 ## Что делаем?
 
