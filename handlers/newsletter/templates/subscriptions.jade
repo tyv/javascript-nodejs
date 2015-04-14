@@ -26,6 +26,9 @@ block content
           label
             input(type="checkbox", name="slug", value=newsletter.slug, checked=newsletter.subscribed || undefined)
             = newsletter.title
+            = ' ('
+            = newsletter.period
+            | )
 
       li
         label
