@@ -19,7 +19,7 @@ function HtmlTransformer(options) {
   this.resourceWebRoot = options.resourceWebRoot;
   this.staticHost = options.staticHost;
   this.linkHeaderTag = options.linkHeaderTag;
-  this.isEbook = options.isEbook;
+  this.ebookType = options.ebookType;
 }
 
 HtmlTransformer.prototype.transform = function(node, applyContextTypography) {
@@ -154,7 +154,7 @@ HtmlTransformer.prototype.transformImgTag = function(node) {
   // so let's make them just <img>, they are on a separate line, so they'll be wrapped in <p>
 
   if (node.isFigure) {
-    if (!this.options.isEbook) {
+    if (!this.options.ebookType) {
       var attrs = Object.create(node.attrs);
       attrs['class'] = attrs['class'] ? attrs['class'] + ' image__image' : 'image__image';
 
@@ -292,7 +292,7 @@ HtmlTransformer.prototype.transformSourceTag = function(node) {
   text = highlight.text;
 
   locals.text = text;
-  locals.isEbook = this.isEbook;
+  locals.ebookType = this.ebookType;
 
 
 

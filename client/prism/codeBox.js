@@ -41,13 +41,13 @@ function CodeBox(elem) {
     };
   }
 
-  // some code can't be executed by epub engine
+  // some code can't be shown by epub engine
   if (elem.dataset.autorun !== undefined) {
-    if(window.ebookFormat == 'epub' && elem.dataset.autorun == 'no-epub') {
+    if(window.ebookType == 'epub' && elem.dataset.autorun == 'no-epub') {
       elem.querySelector('iframe').remove();
     } else {
       // timeout should be small, around 10ms, or remove it to make crawler process the autorun
-      setTimeout(run, 1000);
+      setTimeout(run, 100);
     }
   }
 
@@ -103,6 +103,20 @@ function CodeBox(elem) {
       doc.open();
       doc.write(normalizeHtml(code));
       doc.close();
+
+
+      if(window.ebookType == 'epub') {
+        setTimeout(function() {
+          // remove script from iframes
+          // firefox saves the file with full iframe content (including script-generated) and the scripts
+          // scripts must not execute and autogenerate content again
+          [].forEach.call(doc.querySelectorAll('script'), function(script) {
+            script.remove();
+          });
+
+          // do it after timeout to allow external scripts (if any) to execute
+        }, 2000);
+      }
 
       if (elem.dataset.demoHeight === undefined) {
         resizeOnload.iframe(frame);

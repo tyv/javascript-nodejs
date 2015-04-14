@@ -240,7 +240,7 @@ ServerHtmlTransformer.prototype.transformCodeTabsTag = function* (node) {
     throw new ParseError('div', 'No such plunk');
   }
 
-  if (this.isEbook) {
+  if (this.ebookType) {
     var title = node.attrs.title || 'Смотреть пример онлайн';
     return '<p><a target="_blank" href="http://plnkr.co/edit/' + plunk.plunkId + '?p=preview">' + escapeHtml(title) + '</a></p>';
   }

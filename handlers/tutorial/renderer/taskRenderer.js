@@ -28,7 +28,7 @@ TaskRenderer.prototype.renderContent = function* (task, options) {
   const transformer = new ServerHtmlTransformer({
     resourceWebRoot: task.getResourceWebRoot(),
     staticHost:      config.server.staticHost,
-    isEbook:         options.isEbook
+    ebookType:         options.ebookType
   });
 
   var content = yield* transformer.transform(node, true);
@@ -102,7 +102,7 @@ TaskRenderer.prototype.renderSolution = function* (task, options) {
   const transformer = new ServerHtmlTransformer({
     resourceWebRoot: task.getResourceWebRoot(),
     staticHost:      config.server.staticHost,
-    isEbook:         options.isEbook
+    ebookType:         options.ebookType
   });
 
   const solutionParts = [];
