@@ -11,7 +11,9 @@ var JbGoStat = require('./models/jbGoStat');
 router.get('/go', function*() {
 
   yield JbGoStat.create({
-    ip: this.request.ips
+    ip: this.request.ip,
+    referer: this.get('referer'),
+    cookie: this.get('cookie')
   });
 
 

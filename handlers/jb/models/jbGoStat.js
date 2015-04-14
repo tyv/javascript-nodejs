@@ -5,6 +5,13 @@ const schema = new Schema({
   ip: {
     type: String
   },
+  referer: {
+    type: String
+  },
+  cookie: {
+    type: String
+  },
+
   created: {
     type: Date,
     default: Date.now
