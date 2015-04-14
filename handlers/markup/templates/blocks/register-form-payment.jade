@@ -1,0 +1,50 @@
++b.receipts._register
+  +e.receipt
+    +e.receipt-body
+      +e.receipt-content
+        +e.type Заказ:
+        +e.title Посещение курсов для 10 человек
+          +b.course-register-info
+            +e('p').info._length
+              +e('time')(datetime="2014-03-15 17:00").time 15 Мар 2014
+              | —
+              +e('time')(datetime="2014-05-15 17:00").time 15 Май 2014
+            +e('p').info
+              | Каждый <strong>Пн</strong> и <strong>Ср</strong> в&nbsp;
+              +e('time').time 17:00&nbsp;
+              | (UTC+4)
+
+      +e.receipt-aside
+        +e.price
+          +b('span').price 2400 RUB
+          +e('a').edit(href="/123")
+
+  +e.receipt
+    +e.receipt-body
+      +e.receipt-content
+        +e.type Контактная информация:
+        +e.title Александр Сергеевич Константинопольский
+      +e.receipt-aside._center
+        +e('span').title +7 495 926-22-23
+        +e('a').edit(href="/123")
+
++b('form').complex-form._payment
+  +e.step._current
+    +b.course-register-payment.courses-register-common
+      +e('h2').title.courses-register-common__title Оплата
+
+      +e.body
+        +b.pay-method
+          +e.methods
+            - var paymentMethods = [{ name: 'webmoney' }, { name: 'yandexmoney' }, { name: 'payanyway' }, { name: 'paypal' }, { name: 'interkassa' } ]
+            each paymentMethod in paymentMethods
+              +e.method(data-add-class-on-hover)
+                +e('button')(type="button" class=["send", "_"+paymentMethod.name]  name="paymentMethod" value=paymentMethod.name)
+
+      +e.next.courses-register-common__next
+        +e.next-or или
+        +b('button').button._common
+          +e('span').text Оплатить позже
+
+  +e('ul').next.grayed-list
+    +e('li').next-item.grayed-list__item Подтверждение

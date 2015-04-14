@@ -1,0 +1,69 @@
++b('form').complex-form._cources
+  +e.step._current
+    +b.courses-register-participants.courses-register-common
+      +e('h2').title.courses-register-common__title Места и участники
+
+      +b.course-register-info
+        +e('h2').group Группа 10
+        +e('p').info._length
+          +e('time')(datetime="2014-03-15 17:00").time 15 Мар 2014
+          | —
+          +e('time')(datetime="2014-05-15 17:00").time 15 Май 2014
+        +e('p').info
+          | Каждый <strong>Пн</strong> и <strong>Ср</strong> в&nbsp;
+          +e('time').time 17:00&nbsp;
+          | (UTC+4)
+
+      +b.course-register-settings
+        +e.number.course-register-settings__cell
+          +e('h3').title Количество мест
+          +e.body
+            +b.number-input
+              +e('button')(disabled).btn._dec &minus;
+              +b.text-input._small.__text
+                +e('input')(type="number" value="1" min="1").control.__input
+              +e('button').btn._inc +
+
+        +e.is-participant.course-register-settings__cell
+          +e('h3').title Я являюсь участником
+          +e.body
+            +b.switch-input
+              +e('input').checkbox#request-participant(type='checkbox')
+              +e('i').bg
+              +e('label').label(for="request-participant")
+                +e('span').off НЕТ
+                +e('span').on ДА
+
+        +e.price.course-register-settings__cell
+          +e('h3').title Стоимость
+          +e.body
+            +b.price 2400 RUB
+              +e('span').secondary (≈&nbsp;200$)
+
+      +e.add-participants
+        +b.course-add-participants
+          +e('input')(type="checkbox" id="add-participants").checkbox
+          +e('label').add(for="add-participants") Укзать участников
+          +e('p').note (это можно сделать позже)
+          +e.dropdown
+            +e('label')(for="add-participants").dropdown-close.close-button
+            +e('ul').dropdown-list
+              - var n = 0
+                while n < 6
+                  +e('li').dropdown-item
+                    +e('label').participant
+                      +e('span').participant-n Участник
+                      +b('span').text-input
+                        +e('input').control(placeholder="email", name="email", type="email")
+                  - n++
+
+      +e.next.courses-register-common__next
+        +b('button')(type="submit").button._action
+          +e('span').text Сохранить и продолжить
+
+
+  +e('ul').next.grayed-list
+    +e('li').next-item.grayed-list__item Контактная информация
+    +e('li').next-item.grayed-list__item Оплата
+    +e('li').next-item.grayed-list__item Подтверждение
+
