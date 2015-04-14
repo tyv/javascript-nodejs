@@ -6,6 +6,9 @@
       "instances":          "1",
       "exec_mode":          "cluster_mode",
       "max_memory_restart": "2G",
+      "log_file"   : "/var/log/node/javascript.log",
+      "error_file" : "/var/log/node/javascript-err.log",
+      "out_file"   : "/var/log/node/javascript-out.log",
       "env":                {
         "HOST":                        "127.0.0.1",
         "PORT":                        "3000",
