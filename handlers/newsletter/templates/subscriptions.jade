@@ -25,6 +25,7 @@ block content
         li
           label
             input(type="checkbox", name="slug", value=newsletter.slug, checked=newsletter.subscribed || undefined)
+            = ' '
             = newsletter.title
             = ' ('
             = newsletter.period
@@ -35,4 +36,4 @@ block content
           input(type="checkbox", name="remove" value="1")
           | Удалить мой адрес из базы
 
-    button(type="submit") Отправить
+    +b('button').submit-button.__save(type="submit") Сохранить

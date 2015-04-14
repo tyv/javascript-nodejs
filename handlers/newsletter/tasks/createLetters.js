@@ -17,7 +17,7 @@ module.exports = function(options) {
     var args = require('yargs')
       .usage("Slug is required.")
       .example("gulp newsletter:createLetters --slug nodejs --templatePath ./mail.jade --subject 'Тема письма'")
-      .describe('slug', 'Название рассылки NewsLetter')
+      .describe('slug', 'Названия рассылок NewsLetter через запятую')
       .describe('templatePath', 'Шаблон для рассылки')
       .describe('subject', 'Тема письма')
       .demand(['slug', 'templatePath', 'subject'])
@@ -25,21 +25,29 @@ module.exports = function(options) {
 
     return co(function* () {
 
-      var newsletter = yield Newsletter.findOne({
-        slug: args.slug
+      var slugs = args.slug.split(',').filter(String);
+
+      var newsletters = yield Newsletter.find({
+        slug: {
+          $in: slugs
+        }
       }).exec();
 
-      if (!newsletter) {
-        throw new Error("No newsletter with slug: " + args.slug);
+      if (newsletters.length != slugs.length) {
+        throw new Error("Can't find one or more newsletters with slugs: " + args.slug);
       }
 
       var release = yield NewsletterRelease.create({
-        newsletter: newsletter._id
+        newsletters: newsletters
       });
 
+
+      // subscriptions which match any of newsletter slugs
       var subscriptions = yield Subscription.find({
-        newsletter: newsletter._id,
-        confirmed:  true
+        newsletters: {
+          $in: newsletters
+        },
+        confirmed:   true
       }, {email: true, accessKey: true, _id: false}).exec();
 
 
@@ -55,7 +63,7 @@ module.exports = function(options) {
           newsletterRelease: release._id,
           headers:           {
             Precedence:         'bulk',
-            'List-ID':          '<' + newsletter.slug + '.list-id.javascript.ru>',
+            'List-ID':          '<' + slugs.join('.') + '.list-id.javascript.ru>',
             'List-Unsubscribe': '<' + unsubscribeUrl + '>'
           }
         });

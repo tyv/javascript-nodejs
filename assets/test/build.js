@@ -3,11 +3,12 @@ var request = require('request');
 var fs = require('fs');
 var ejs = require('ejs');
 
+
 var libUrls = {
-  mocha_js: 'https://cdnjs.cloudflare.com/ajax/libs/mocha/2.1.0/mocha.js',
-  mocha_css: 'https://cdnjs.cloudflare.com/ajax/libs/mocha/2.1.0/mocha.css',
-  sinon_js: 'http://sinonjs.org/releases/sinon-1.13.0.js',
-  chai_js: 'https://cdnjs.cloudflare.com/ajax/libs/chai/2.1.1/chai.js'
+  mocha_js: 'https://cdnjs.cloudflare.com/ajax/libs/mocha/2.2.4/mocha.min.js',
+  mocha_css: 'https://cdnjs.cloudflare.com/ajax/libs/mocha/2.2.4/mocha.css',
+  sinon_js: 'http://sinonjs.org/releases/sinon-1.14.1.js',
+  chai_js: 'https://cdnjs.cloudflare.com/ajax/libs/chai/2.2.0/chai.js'
 };
 
 function asyncObjectMap( obj, func, cb ) {

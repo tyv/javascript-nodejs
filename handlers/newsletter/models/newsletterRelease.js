@@ -2,11 +2,13 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const Letter = require('mailer').Letter;
 
-// выпуск рассылки
+// a letter to one (or more) newsletters
 const schema = new Schema({
-  newsletter:        {
-    type: Schema.Types.ObjectId,
-    ref:  'Newsletter',
+  newsletters:        {
+    type: [{
+      type: Schema.Types.ObjectId,
+      ref:  'Newsletter'
+    }],
     required: true
   },
   created: {

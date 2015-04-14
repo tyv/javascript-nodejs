@@ -78,7 +78,7 @@ exports.post = function*() {
         link:            (config.server.siteHost || 'http://javascript.in') + '/newsletter/confirm/' + subscription.accessKey
       });
 
-      respond(`Проверьте почту ${subscription.email} и подтвердите подписку, перейдя по ссылке в письме.`, subscription);
+      respond(`На адрес ${subscription.email} придёт подтверждение.`, subscription);
     }
   }
 

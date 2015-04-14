@@ -28,6 +28,7 @@
     "bunyan": "*",
     "co": "*",
     "css-loader": "*",
+    "csv-parse": "^0.1.0",
     "del": "*",
     "docxtemplater": "*",
     "elasticsearch": "*",
