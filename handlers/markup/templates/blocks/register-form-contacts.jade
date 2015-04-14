@@ -1,0 +1,62 @@
++b.receipts._register
+  +e.receipt
+    +e.receipt-body
+      +e.receipt-content
+        +e.type Заказ:
+        +e.title Посещение курсов для 10 человек
+          +b.course-register-info
+            +e('p').info._length
+              +e('time')(datetime="2014-03-15 17:00").time 15 Мар 2014
+              | —
+              +e('time')(datetime="2014-05-15 17:00").time 15 Май 2014
+            +e('p').info
+              | Каждый <strong>Пн</strong> и <strong>Ср</strong> в&nbsp;
+              +e('time').time 17:00&nbsp;
+              | (UTC+4)
+
+      +e.receipt-aside
+        +e.price
+          +b('span').price 2400 RUB
+          +e('a').edit(href="/123")
+
++b('form').complex-form._contacts
+  +e.step._current
+    +b.course-register-contacts.courses-register-common
+      +e('h2').title.courses-register-common__title Контактная информация
+      +e('p').note
+        | Оставьте ваши контактные данные, чтобы мы могли связаться с вами
+        | в случае необходимости
+
+      +e.body
+        +b.contact-form
+          +e.content
+            +e.fields
+              +e.name
+                label(for="contact-name") Имя и Фамилия:
+                +b.text-input._small.__name-input
+                  +e('input').control#contact-name
+              +e.tel
+                label(for="contact-phone") Телефон:
+                +b.full-phone.__full-phone
+                  +e.code-wrap
+                    +e('select').codes
+                      option(value='+7') RU (+7)
+                      option(value='+38') UA (+38)
+                  +e.tel-wrap
+                    +b.text-input._small.__tel
+                      +e('input').control#contact-phone(placeholder="XXX XXX-XX-XX")
+            +e.note
+              +e('h5').note-title Ваши данные в безопасности
+              p
+                | В соответствии с законом о защите личных данных, никакие ваши личные данные
+                | не будут переданы третьим лицам, кроме как по вашему желанию или для
+                | целей выполнения заключенного с вами договора.
+
+      +e.next.courses-register-common__next
+        +b('button')(type="submit").button._action
+          +e('span').text Сохранить и продолжить
+
+  +e('ul').next.grayed-list
+    +e('li').next-item.grayed-list__item Оплата
+    +e('li').next-item.grayed-list__item Подтверждение
+
