@@ -2,13 +2,13 @@ extends /layouts/main
 
 block append variables
   - var layout_header_class = "main__header_center"
-  - var title = "Подписка"
+  - var title = "Ваш адрес удалён"
   - var sitetoolbar = true
   - var layout_main_class = "main_width-limit"
 
 block content
 
-  +b.notification._message._warning
+  +b.notification._message._success
     +e.content
 
-      p Подписка удалена из базы.
+      p Ваш адрес удалён из базы подписок.

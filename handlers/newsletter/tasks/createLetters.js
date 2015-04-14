@@ -45,7 +45,7 @@ module.exports = function(options) {
 
       for (var i = 0; i < subscriptions.length; i++) {
         var subscription = subscriptions[i];
-        var unsubscribeUrl = (config.server.siteHost || 'http://javascript.in') + '/newsletter/remove/' + subscription.accessKey;
+        var unsubscribeUrl = (config.server.siteHost || 'http://javascript.in') + '/newsletter/subscriptions/' + subscription.accessKey;
         yield* mailer.createLetter({
           from:              'informer',
           templatePath:      args.templatePath,

@@ -88,6 +88,8 @@ app.requireHandler('lastActivity');
 
 app.requireHandler('csrf');
 
+app.requireHandler('flash');
+
 app.requireHandler('paymentsMethods');
 
 //app.requireHandler('sendMail');

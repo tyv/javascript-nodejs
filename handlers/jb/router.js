@@ -16,7 +16,6 @@ router.get('/go', function*() {
     cookie: this.get('cookie')
   });
 
-
   this.status = 301;
   this.redirect('https://www.jetbrains.com/webstorm/?utm_source=javascript.ru&utm_medium=banner2&utm_campaign=webstorm');
 });
