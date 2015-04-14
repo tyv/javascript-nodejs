@@ -2,9 +2,9 @@
 +b.course-form
   +e("h3").title Курс и новые выпуски скринкаста по Node.JS
   +e("p").text Время от времени проходит онлайн-курс по Node.JS / IO.JS.
-  +e("p") Курс &mdash; это практика разработки, реальные и подробные рецепты по решению разных задач, возможность повысить свой уровень, обсудив ваши решения с опытным разработчиком. И, конечно, самые последние и грамотные технологии.
+  +e("p") Курс &mdash; это практическая разработка, обсуждение грамотных решений самых разных задач с разработчиком, который использует Node, начиная с версий 0.1.
   +e("p") Пришлю уведомление, когда будет открыта запись. Также уведомление будет при новых выпусках скринкаста.
-  +e("form").form(data-newsletter-subscribe-form="nodejs-bottom" onsubmit="return false" action="/newsletter/subscriptions" method="POST")
+  +e("form").form(data-newsletter-subscribe-form="nodejs-bottom" onsubmit="return false" action="/newsletter/subscribe" method="POST")
     input(type="hidden" value="nodejs" name="slug")
     if user
       input(type="hidden" value=user.email name="email")

@@ -3,105 +3,75 @@ const Newsletter = require('../models/newsletter');
 const Subscription = require('../models/subscription');
 const sendMail = require('mailer').send;
 const config = require('config');
+const _ = require('lodash');
 
-exports.post = function*() {
+exports.get = function*() {
+  this.nocache();
 
-  const newsletter = yield Newsletter.findOne({
-    slug: this.request.body.slug
+  var subscription = yield Subscription.findOne({
+    accessKey: this.params.accessKey
   }).exec();
 
-  if (!newsletter) {
-    this.throw(404, "Нет такой рассылки");
+  if (!subscription) {
+    this.throw(404, "Нет такой подписки.");
   }
 
-  if (this.req.user && this.req.user.email == this.request.body.email) {
+  var newsletters = yield Newsletter.find({}).sort({weight: 1}).exec();
 
-    var existingSubscription = yield Subscription.findOne({
-      email:      this.request.body.email,
-      newsletter: newsletter
-    }).populate('newsletter').exec();
 
-    if (existingSubscription) {
-      if (existingSubscription.confirmed) {
-
-        this.body = {
-          message: `Вы уже подписаны.`
-        };
-        return;
-      } else {
-        // unconfirmed subscription to same email => confirm instantly for a logged-in user
-        yield existingSubscription.persist({
-          confirmed: true
-        });
-
-        this.body = {
-          message: `Вы успешно подписаны, ждите писем на адрес ${existingSubscription.email}.`
-        };
-        return;
-      }
-    }
-
-    var subscription = yield Subscription.create({
-      email:      this.request.body.email,
-      newsletter: newsletter,
-      confirmed: true
-    });
-
-    this.body = {
-      message: `Вы успешно подписаны, ждите писем на адрес ${subscription.email}.`
+  this.locals.newsletters = newsletters.map(function(newsletter) {
+    return {
+      slug:       newsletter.slug,
+      title:      newsletter.title,
+      period:     newsletter.period,
+      // mongoose array can #indexOf ObjectIds
+      subscribed: ~subscription.newsletters.indexOf(newsletter._id)
     };
+  });
 
-  } else {
-    var existingSubscription = yield Subscription.findOne({
-      email:      this.request.body.email,
-      newsletter: newsletter
-    }).populate('newsletter').exec();
+  this.locals.accessKey = this.params.accessKey;
 
-    if (existingSubscription) {
-      if (existingSubscription.confirmed) {
-        this.body = {
-          message: `Вы уже подписаны.`
-        };
-        return;
-      } else {
-
-        //console.log(existingSubscription);
-
-        yield* sendConfirmationLetter.call(this, existingSubscription, newsletter);
-
-        this.body = {
-          message: `Письмо-подтверждение отправлено заново на адрес ${existingSubscription.email}.`
-        };
-        return;
-      }
-    }
-
-
-    var subscription = yield Subscription.create({
-      email:      this.request.body.email,
-      newsletter: newsletter,
-      confirmed: false
-    });
-
-    yield* sendConfirmationLetter.call(this, subscription, newsletter);
-
-    this.body = {
-      message: `Проверьте почту ${subscription.email} и подтвердите подписку, перейдя по ссылке в письме.`
-    };
-  }
-
+  this.body = this.render('subscriptions');
 
 };
 
 
-function* sendConfirmationLetter(subscription, newsletter) {
+exports.post = function*() {
 
-  yield sendMail({
-    templatePath: path.join(this.templateDir, 'confirm-email'),
-    newsletterTitle:   newsletter.title,
-    subject:      "Подтверждение: " + newsletter.title,
-    to:           subscription.email,
-    link:         (config.server.siteHost || 'http://javascript.in') + '/newsletter/confirm/' + subscription.accessKey
-  });
+  var subscription = yield Subscription.findOne({
+    accessKey: this.params.accessKey
+  }).exec();
 
-}
+  if (!subscription) {
+    this.throw(404, "Нет такой подписки.");
+  }
+
+  if (this.request.body.remove) {
+    yield subscription.destroy();
+    this.body = this.render('removed');
+    return;
+  }
+
+  var slugs = this.request.body.slug || [];
+
+  if (!Array.isArray(slugs)) {
+    slugs = [slugs];
+  }
+  slugs = slugs.map(String);
+
+  var newsletters = yield Newsletter.find({
+    slug: {
+      $in: slugs
+    }
+  }).exec();
+
+  subscription.newsletters = _.pluck(newsletters, '_id');
+
+  yield subscription.persist();
+
+  this.addFlashMessage('success', "Настройки обновлены.");
+
+  this.redirect('/newsletter/subscriptions/' + this.params.accessKey);
+
+};
+

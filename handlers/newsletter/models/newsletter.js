@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// рассылка, общая информация о рассылке
 const schema = new Schema({
   title: {
     type: String,
@@ -11,6 +10,16 @@ const schema = new Schema({
     type: String,
     required: true,
     unique: true
+  },
+  // weight for non-internal subscriptions sorting
+  weight: {
+    type: Number,
+    default: 0,
+    required: true
+  },
+  // how often? string description
+  period: {
+    type: String
   },
   created: {
     type: Date,

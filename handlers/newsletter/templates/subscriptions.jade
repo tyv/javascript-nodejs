@@ -1,0 +1,38 @@
+extends /layouts/main
+
+block append variables
+  - var layout_header_class = "main__header_center"
+  - var title = "Управление подписками"
+  - var sitetoolbar = true
+  - var layout_main_class = "main_width-limit"
+
+block content
+
+  p Вы хотели бы получать уведомления по темам:
+
+  style.
+    .main ul > li:before {
+      content: '';
+    }
+    .main ul {
+      padding: 0;
+    }
+
+  form(method="POST", action="/newsletter/subscriptions/" + accessKey)
+    input(type="hidden", name="_csrf", value=csrf())
+    ul
+      each newsletter in newsletters
+        li
+          label
+            input(type="checkbox", name="slug", value=newsletter.slug, checked=newsletter.subscribed || undefined)
+            = newsletter.title
+            = ' ('
+            = newsletter.period
+            | )
+
+      li
+        label
+          input(type="checkbox", name="remove" value="1")
+          | Удалить мой адрес из базы
+
+    button(type="submit") Отправить

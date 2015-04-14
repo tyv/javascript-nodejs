@@ -2,11 +2,13 @@ var Router = require('koa-router');
 
 var confirm = require('./controllers/confirm');
 var subscriptions = require('./controllers/subscriptions');
-var remove = require('./controllers/remove');
+var subscribe = require('./controllers/subscribe');
 
 var router = module.exports = new Router();
 
-router.post("/subscriptions", subscriptions.post);
+router.post("/subscribe", subscribe.post);
 router.get("/confirm/:accessKey", confirm.get);
-router.get("/remove/:accessKey", remove.get);
+
+router.get("/subscriptions/:accessKey", subscriptions.get);
+router.post("/subscriptions/:accessKey", subscriptions.post);
 

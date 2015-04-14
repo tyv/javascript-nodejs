@@ -1,17 +1,16 @@
 #!/bin/bash
 
-# Hard upgrade:
+# Hard upgrade sequence:
 # stop
 # migrations
 # start
 
-# Regular upgrade (this script):
-# reload
+# Regular upgrade (this script) sequence:
+# reload (no downtime)
 
-# this causes several seconds downtime, uncomment when the upgrade is required
+# this would cause several seconds downtime, run when PM2 upgrade is required
 #/usr/local/bin/pm2 updatePM2
 
-  # fixme: switch to startOrGracefulReload with 2 processes, with 1 process it doesn't actually restart the process
 /usr/local/bin/pm2 startOrGracefulReload ecosystem.json --env production &&
   gulp cache:clean &&
   gulp config:nginx --prefix /etc/nginx --env production --root /js/javascript-nodejs/current --sslEnabled &&

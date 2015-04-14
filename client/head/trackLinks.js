@@ -10,6 +10,11 @@ document.addEventListener('click', function(e) {
   var link = e.target.closest && e.target.closest("a");
   if (!link || baseURI == link.host) return;
 
+  // invalid or blank target
+  if (!~["_self", "_top", "_parent"].indexOf(link.target)) return;
+
+  if (e.shiftKey || e.ctrlKey || e.altKey) return;
+
   // cancel event and record outbound link
   e.preventDefault();
   var href = link.href;

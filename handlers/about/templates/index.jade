@@ -14,6 +14,7 @@ block append variables
 
   //- var layout_main_class = "main_width-limit"
 block append head
+  link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css")
   style.
     .leaflet-map-pane {
       z-index: 2 !important;
@@ -21,7 +22,6 @@ block append head
     .leaflet-google-layer {
       z-index: 1 !important;
     }
-  link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css")
 
 block content
   +b.about-banner
@@ -131,11 +131,6 @@ block content
     +e('h1').title География офлайн событий
     +e('h1').map-container#map
 
-    script(src="https://maps.googleapis.com/maps/api/js?v=3.exp")
-
-    script(src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js")
-
-
   +b.about-layout.columns.columns_2
 
     +b.about-text.about-layout__left.columns__col
@@ -156,7 +151,8 @@ block content
           br
           | +79035419441
 
-
+  script(src="https://maps.googleapis.com/maps/api/js?v=3.exp")
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js")
   script(src=pack("about", "js"))
   script about.init();
 

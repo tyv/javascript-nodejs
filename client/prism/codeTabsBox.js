@@ -2,7 +2,7 @@ var delegate = require('client/delegate');
 var addLineNumbers = require('./addLineNumbers');
 
 function CodeTabsBox(elem) {
-  if (window.isEbook) {
+  if (window.ebookType) {
     return;
   }
 

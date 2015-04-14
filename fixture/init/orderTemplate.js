@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 
 var OrderTemplate = require('payments').OrderTemplate;
-var Newsletter = require('newsletter').Newsletter;
-var User = require('users').User;
 
 exports.OrderTemplate = [
   {
@@ -44,27 +42,4 @@ exports.OrderTemplate = [
     slug: 'invoice'
   }
 ];
-
-exports.Newsletter = [
-  {
-    title: "Курс Node.JS",
-    slug:  "nodejs"
-  },
-  {
-    title: "Курс JavaScript / DOM / Интерфейсы",
-    slug:  "js"
-  },
-  {
-    title: "Продвинутые курсы, мастер-классы и конференции по JavaScript",
-    slug:  "advanced"
-  }
-];
-
-exports.User = [{
-  email:         "mk@javascript.ru",
-  displayName:   "Tester",
-  profileName:   'tester',
-  password:      "123456",
-  verifiedEmail: true
-}];
 

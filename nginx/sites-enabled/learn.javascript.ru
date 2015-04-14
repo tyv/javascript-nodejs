@@ -2,26 +2,15 @@
 # For home dev I use in DNS: javascript.in
 # For prod it's learn.javascript.ru
 
-<% if (sslEnabled) { %>
 server {
+
   listen 80;
-  server_name learn.javascript.ru;
-  return 301 https://$host$request_uri;
-}
-<% } %>
-
-server {
-
-<% if (sslEnabled) { %>
-  listen 443 ssl;
+  listen 443 ssl spdy;
 
   ssl_certificate		<%=certDir%>/learn.javascript.ru/ssl.pem;
   ssl_certificate_key	<%=certDir%>/learn.javascript.ru/ssl.key;
-
+  ssl_trusted_certificate <%=certDir%>/learn.javascript.ru/trusted.pem;
   add_header Strict-Transport-Security "max-age=31536000; includeSubdomains;";
-<% } else { %>
-  listen 80;
-<% } %>
 
   server_name learn.javascript.ru yuri.javascript.ru javascript.in;
 
@@ -30,6 +19,7 @@ server {
   root         <%=root%>/public;
 
   add_header X-Frame-Options SAMEORIGIN;
+  add_header X-Content-Type-Options nosniff;
 
   include "partial/error-pages";
 
@@ -106,10 +96,11 @@ server {
 
   include "partial/error-pages";
 <% if (sslEnabled) { %>
-  listen 443 ssl;
+  listen 443 ssl spdy;
 
   ssl_certificate		<%=certDir%>/payment.javascript.ru/ssl.pem;
   ssl_certificate_key	<%=certDir%>/payment.javascript.ru/ssl.key;
+  ssl_trusted_certificate <%=certDir%>/payment.javascript.ru/trusted.pem;
 
   add_header Strict-Transport-Security "max-age=31536000; includeSubdomains;";
 <% } else { %>

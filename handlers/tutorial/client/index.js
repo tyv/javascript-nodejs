@@ -18,10 +18,10 @@ exports.init = function() {
 
   prism.init();
 
-  if (window.isEbook) {
-    require.ensure('./ebook', function() {
-      require('./ebook').init();
-    }, 'ebook');
+  if (window.ebookType) {
+    require.ensure('./ebookExtras', function() {
+      require('./ebookExtras').init();
+    }, 'ebookExtras');
   }
 };
 

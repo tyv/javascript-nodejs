@@ -141,7 +141,7 @@ ArticleRenderer.prototype.render = function* (article, options) {
     staticHost:      config.server.staticHost,
     resourceWebRoot: article.getResourceWebRoot(),
     linkHeaderTag: options.linkHeaderTag,
-    isEbook: options.isEbook
+    ebookType: options.ebookType
   });
 
   this.content = yield* transformer.transform(node, true);

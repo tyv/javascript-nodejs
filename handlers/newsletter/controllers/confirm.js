@@ -1,11 +1,10 @@
-const path = require('path');
 const Newsletter = require('../models/newsletter');
 const Subscription = require('../models/subscription');
-const sendMail = require('mailer').send;
 const config = require('config');
 
 exports.get = function*() {
   this.nocache();
+
   const subscription = yield Subscription.findOne({
     accessKey: this.params.accessKey
   }).exec();
@@ -17,6 +16,7 @@ exports.get = function*() {
   subscription.confirmed = true;
   yield subscription.persist();
 
-  this.body = this.render('confirm');
+  this.addFlashMessage('success', 'Подписка подтверждена.');
+  this.redirect('/newsletter/subscriptions/' + this.params.accessKey);
 
 };

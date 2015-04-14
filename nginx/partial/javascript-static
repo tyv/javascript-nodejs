@@ -4,7 +4,7 @@
 
 index index.html;
 
-# If no favicon exists return a 204 (no content error).
+# If no favicon exists return a 204 (no content).
 location = /favicon.ico {
     try_files $uri =204;
     log_not_found off;
@@ -34,5 +34,7 @@ location ~ \.v.*?\. {
 location ~ \.\w+$ {
   access_log   off;
   expires      max;
-  include "partial/args_limit";
+  add_header   Cache-Control public;
+
+  include "partial/args-cache-speed";
 }

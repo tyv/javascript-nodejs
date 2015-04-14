@@ -45,11 +45,19 @@ function addStandardHelpers(locals, ctx) {
 
   locals.env = process.env;
 
+
   //locals.renderSimpledown = renderSimpledown;
 
   Object.defineProperty(locals, "user", {
     get: function() {
       return ctx.req.user;
+    }
+  });
+
+  // flash middleware may be attached later in the chain
+  Object.defineProperty(locals, "flashMessages", {
+    get: function() {
+      return ctx.flash.messages;
     }
   });
 

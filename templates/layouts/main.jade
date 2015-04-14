@@ -7,8 +7,16 @@ block main
       if breadcrumbs
         +b("ol").breadcrumbs
           include ../blocks/breadcrumbs
+
+      if flashMessages
+        each flashMessage in flashMessages
+          +b(class=["notification", "_message", "_" + flashMessage.type])
+            +e.content= flashMessage.html
+            +e('button').close(title="Закрыть" onclick="this.parentNode.remove()")
+
       if title
         h1.main__header-title= title
+
 
   +b(class=["content", content_class])
     block content
