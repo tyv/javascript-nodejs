@@ -1,84 +1,89 @@
-
 .pay-method
-    width 380px
-    position relative
-    right -3px
+    text-align left
 
-    &__methods
-        @extend $clearfix
-        margin-bottom 23px
+    & ul&__methods,
+    & li&__method,
+    & h3&__method-title,
+    & h4&__method-subtitle
+        margin 0
+        padding 0
+
+    & li&__method:before
+        display none
+        content: ''
 
     &__method
-        float left
-        margin -1px 2px 2px -1px
-        padding 1px
-        overflow hidden
+        position relative
+        border-bottom 2px solid #fff
+
+    &__method-label
         position relative
 
-    &__method.hover button
-        outline 1px solid #8EB0D2
-
-    &__send
-        @extend $button-reset
         display block
-        width 184px
-        height 98px
+        min-height 47px
+        padding 15px 30px 15px 60px
 
-        &_webmoney
-            background url('blocks/pay-method/pay-webmoney.svg')
+        white-space nowrap
 
-        &_banksimple
-            background url('blocks/pay-method/pay-banksimple.svg')
-
-        &_interkassa
-            background url('blocks/pay-method/pay-interkassa.svg')
-
-        &_payanyway
-            background url('blocks/pay-method/pay-payanyway.svg')
-
-        &_paypal
-            background url('blocks/pay-method/pay-paypal.svg')
-
-        &_webmoney
-            background url('blocks/pay-method/pay-webmoney.svg')
-
-        &_yandexmoney
-            background url('blocks/pay-method/pay-yandexmoney.svg')
-
-    &__radio
-        position absolute
-        bottom 110%
-        right 110%
-
-    &__img
-        display block
-
-    & &__img
-        margin 0
-
-    &__label
-        display block
         cursor pointer
+        background background_blocks
 
-    &__insert
-        padding-top 22px
+        transition background-color 0.2s
 
-    &__insert-item
-        margin 0 10px 10px
-        text-align: left
+    &__method-label:after
+        display inline-block
+        position relative
+        height 47px
 
-    &__text
-        display block
-        margin-top 7px
+        vertical-align middle
 
-    &__radio:checked + &__label
-        outline 2px solid #ffab34
-        outline-offset -1px
+        content: ''
 
-    &__spinner
+    &__logo
+        vertical-align middle
+
+    &__method-label_aside
+        padding-right 155px
+
+    &__method-label_aside &__logo
         position absolute
-        top 90px
-        left 152px
+        top 17px
+        right 30px
 
-    &__spinner .spinner__dot
-        background #333
+    &__method-title
+        font bold 20px/22px secondary_font
+
+        color #555
+
+    &__method-title_card
+        padding-right 95px !important
+        background url('/pay-methods/cards.svg') 100% center no-repeat
+
+    & h4&__method-subtitle
+        font-size 14px
+        line-height 16px
+        font-weight normal
+
+        color #555
+
+    &__method-radio
+        position absolute
+        z-index 1
+        left 16px
+        top 29px
+
+        width 16px
+        height 16px
+
+
+    &__header
+        display inline-block
+
+        white-space normal
+        vertical-align middle
+
+    &__method-radio:checked ~ &__method-label
+        background #f9edbf
+
+    &__method-radio:checked ~ .payment-setting
+        display block
