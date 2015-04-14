@@ -7,6 +7,20 @@ const config = require('config');
 // subscribe a single newsletter (post from somewhere outside of the module)
 exports.post = function*() {
 
+  var self = this;
+  var preferredType = this.accepts('html', 'json');
+
+  function respond(message, subscription) {
+    if (preferredType == 'json') {
+      self.body = {
+        message: message
+      };
+    } else {
+      self.addFlashMessage('success', message);
+      self.redirect('/newsletter/subscriptions/' + subscription.accessKey);
+    }
+  }
+
   const newsletter = yield Newsletter.findOne({
     slug: this.request.body.slug
   }).exec();
@@ -35,9 +49,7 @@ exports.post = function*() {
 
     yield subscription.persist();
 
-    this.body = {
-      message: `Вы успешно подписаны, ждите писем на адрес ${subscription.email}.`
-    };
+    respond(`Вы успешно подписаны, ждите писем на адрес ${subscription.email}.`, subscription);
 
   } else {
     var subscription = yield Subscription.findOne({
@@ -56,21 +68,17 @@ exports.post = function*() {
     yield subscription.persist();
 
     if (subscription.confirmed) {
-      this.body = {
-        message: `Вы успешно подписаны.`
-      };
+      respond(`Вы успешно подписаны.`, subscription);
     } else {
 
       yield sendMail({
         templatePath:    path.join(this.templateDir, 'confirm-email'),
-        subject:         "Подтверждение подписки на JavaScript.ru",
+        subject:         "Подтверждение подписки",
         to:              subscription.email,
         link:            (config.server.siteHost || 'http://javascript.in') + '/newsletter/confirm/' + subscription.accessKey
       });
 
-      this.body = {
-        message: `Проверьте почту ${subscription.email} и подтвердите подписку, перейдя по ссылке в письме.`
-      };
+      respond(`Проверьте почту ${subscription.email} и подтвердите подписку, перейдя по ссылке в письме.`, subscription);
     }
   }
 
