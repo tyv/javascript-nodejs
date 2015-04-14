@@ -6,7 +6,7 @@ exports.Newsletter = [
   {
     title: "Курс и скринкасты по Node.JS / IO.JS",
     slug:  "nodejs",
-    period: "бывают редко",
+    period: "несколько раз в год",
     weight: 1
   },
   {
