@@ -19,7 +19,10 @@ exports.init = function(app) {
 
     yield *next;
 
-    if (Object.keys(this.session.flash).length === 0) {
+    // now this.session can be null
+    // (logout does that)
+
+    if (this.session && Object.keys(this.session.flash).length === 0) {
       // don't write empty flash
       delete this.session.flash;
     }
