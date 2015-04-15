@@ -170,7 +170,9 @@ function CodeBox(elem) {
         window["eval"].call(window, code);
       } catch (e) {
         console.error(e);
+
         alert("Ошибка: " + e.message);
+        alert(e.stack);
       }
 
     } else {
