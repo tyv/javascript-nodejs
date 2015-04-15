@@ -12,7 +12,7 @@ const schema = new Schema({
     default: Date.now
   },
 
-  newsletterReleaseId: {
+  newsletterRelease: {
     type: Schema.Types.ObjectId
   },
 
@@ -29,6 +29,6 @@ const schema = new Schema({
   }
 });
 
-schema.index({ 'data.to': 1 });
+schema.index({ 'message.to': 1 });
 schema.index({ 'info.messageId': 1 });
 var Letter = module.exports = mongoose.model('Letter', schema);

@@ -20,6 +20,7 @@ module.exports = function(options) {
       .describe('slug', 'Названия рассылок NewsLetter через запятую')
       .describe('templatePath', 'Шаблон для рассылки')
       .describe('subject', 'Тема письма')
+      .describe('test', 'Email, на который выслать тестовое письмо.')
       .demand(['slug', 'templatePath', 'subject'])
       .argv;
 
@@ -51,22 +52,33 @@ module.exports = function(options) {
       }, {email: true, accessKey: true, _id: false}).exec();
 
 
+      if (args.test) {
+        subscriptions = [
+          new Subscription({
+            email: args.test,
+            accessKey: 'notexists'
+          })
+        ];
+      }
+
       for (var i = 0; i < subscriptions.length; i++) {
         var subscription = subscriptions[i];
         var unsubscribeUrl = (config.server.siteHost || 'http://javascript.in') + '/newsletter/subscriptions/' + subscription.accessKey;
         yield* mailer.createLetter({
-          from:              'informer',
-          templatePath:      args.templatePath,
-          to:                subscription.email,
-          subject:           args.subject,
-          unsubscribeUrl:    unsubscribeUrl,
-          newsletterRelease: release._id,
-          headers:           {
+          from:                'informer',
+          templatePath:        args.templatePath,
+          to:                  subscription.email,
+          subject:             args.subject,
+          unsubscribeUrl:      unsubscribeUrl,
+          newsletterRelease:   release._id,
+          headers:             {
             Precedence:         'bulk',
             'List-ID':          '<' + slugs.join('.') + '.list-id.javascript.ru>',
             'List-Unsubscribe': '<' + unsubscribeUrl + '>'
           }
         });
+
+        gutil.log("Created letter to " + subscription.email);
 
       }
 

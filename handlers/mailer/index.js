@@ -60,8 +60,8 @@ function* createLetter(options) {
   message.track_clicks = options.track_clicks;
 
   var letter = new Letter({
-    message:             message,
-    newsletterReleaseId: options.newsletterReleaseId
+    message:           message,
+    newsletterRelease: options.newsletterRelease
   });
 
   yield letter.persist();
@@ -115,7 +115,6 @@ exports.init = function(app) {
   app.verboseLogger.logPaths.add('/mailer/:any*');
   app.use(mountHandlerMiddleware('/mailer', __dirname));
 };
-
 
 
 exports.Letter = require('./models/letter');
