@@ -3,8 +3,15 @@ block append variables
 - var name = paymentMethod.name
 
 +b.payment-setting
-  if name == 'banksimple'
-    ???
+  if name == 'paypal'
+    +e.item._currency
+      +e('label').label(for="pay-form-currency") Выберите валюту:
+      +b('select').input-select._small.__control#pay-form-currency
+        +e('option').option(value="USD") USD
+        +e('option').option(value="RUR") RUR
+      +e('span').small-note
+        | Если у вас Paypal аккаунт в рублях, вы <br>
+        | не сможете оплатить в другой валюте
 
   if name == 'invoice'
     +e.item

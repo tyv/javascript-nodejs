@@ -40,9 +40,9 @@
             - var paymentMethods = [];
             - paymentMethods.push({ name: 'yandexmoney', image: true});
             - paymentMethods.push({ name: 'webmoney', image: true });
-            - paymentMethods.push({ name: 'paypal', image: true });
+            - paymentMethods.push({ name: 'paypal', image: true, settings: true });
             - paymentMethods.push({ name: 'payanyway', image: true, title: 'Картой', cards: true });
-            - paymentMethods.push({ name: 'banksimple', image: true, title: 'Банковская квитанция', settings: true });
+            - paymentMethods.push({ name: 'banksimple', image: true, title: 'Банковская квитанция'});
             - paymentMethods.push({ name: 'interkassa', image: true, title: 'Терминалы и банки', subtitle: 'Лучший вариант для оплаты из Украины' });
             - paymentMethods.push({ name: 'invoice', image: false, title: 'Счет на компанию', subtitle: 'Для юрлиц из России', settings: true });
 
@@ -68,7 +68,7 @@
 
       +e.next.courses-register-common__next
         +b('button')(type="submit").button._action
-          +e('span').text Оплатить
+          +e('span').text Перейти к оплате
 
         p Если возникли какие-нибудь сложности, вы можеле <a href="/123">оплатить заказ позже</a>
 
