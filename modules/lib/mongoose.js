@@ -70,13 +70,10 @@ mongoose.plugin(function(schema) {
           model.collection.getIndexes(function(err2, indexes) {
             if (err2) return callback(err);
 
-            console.log(indexes);
             // e.g. indexes = {idxName:  [ [displayName, 1], [email, 1] ] }
 
             // e.g indexInfo = [ [displayName, 1], [email, 1] ]
             var indexInfo = indexes[indexName];
-
-            console.log(indexInfo);
 
             // convert to indexFields = { displayName: 1, email: 1 }
             var indexFields = {};
@@ -134,7 +131,6 @@ mongoose.plugin(function(schema) {
 
             valError.code = err.code; // if (err.code == 11000) in the outer code will still work
 
-            console.log(valError);
             return callback(valError);
           });
 
