@@ -11,6 +11,8 @@ exports.get = function*() {
 
   this.locals.quizzes = [];
 
+  // FIXME: all quiz/* must have this
+  this.locals.siteToolbarCurrentSection = "quiz";
   this.locals.title = 'Тестирование знаний';
 
   var quizResults = [];

@@ -40,10 +40,11 @@ block append variables
     +e('nav').sections
       +e('ul').sections-list
          each section in siteToolbarSections
-          +e('li')(class=["section", session.slug && siteToolbarCurrentSection == section.slug && ' _current'])
+          +e('li')(class=["section", section.slug && siteToolbarCurrentSection == section.slug && ' _current'])
             +e('a').link(href=section.slug ? ('/' + section.slug) : section.url)= section.title
 
-    include ./buy-book
+    if siteToolbarCurrentSection == 'tutorial'
+      include ./buy-book
 
     if user
       include ./user
