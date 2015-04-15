@@ -10,7 +10,7 @@ module.exports = {
     informer: {
       fromEmail: 'informer@javascript.ru',
       fromName:  'JavaScript.ru',
-      signature: "<em>С уважением,<br>Илья Кантор</em>"
+      signature: "<em>Успешной разработки!<br>Илья Кантор</em>"
     }
   },
   mandrill: {
