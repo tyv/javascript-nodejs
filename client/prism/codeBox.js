@@ -11,12 +11,12 @@ function CodeBox(elem) {
   Prism.highlightElement(codeElem);
   addLineNumbers(preElem);
 
-  addBlockHighlight(preElem, elem.dataset.highlightBlock);
-  addInlineHighlight(preElem, elem.dataset.highlightInline);
+  addBlockHighlight(preElem, elem.getAttribute('data-highlight-block'));
+  addInlineHighlight(preElem, elem.getAttribute('data-highlight-inline'));
 
   var isJS = preElem.classList.contains('language-javascript');
   var isHTML = preElem.classList.contains('language-markup');
-  var isTrusted = elem.dataset.trusted;
+  var isTrusted = +elem.getAttribute('data-trusted');
   var jsFrame;
   var htmlResult;
   var isFirstRun = true;
@@ -42,12 +42,12 @@ function CodeBox(elem) {
   }
 
   // some code can't be shown by epub engine
-  if (elem.dataset.autorun !== undefined) {
-    if(window.ebookType == 'epub' && elem.dataset.autorun == 'no-epub') {
+  if (elem.hasAttribute('data-autorun')) {
+    if(window.ebookType == 'epub' && elem.getAttribute('data-autorun') == 'no-epub') {
       elem.querySelector('iframe').remove();
     } else {
       // timeout should be small, around 10ms, or remove it to make crawler process the autorun
-      run();
+      setTimeout(run, 100);
     }
   }
 
@@ -64,7 +64,7 @@ function CodeBox(elem) {
 
     var frame;
 
-    if (htmlResult && elem.dataset.refresh) {
+    if (htmlResult && elem.hasAttribute('data-refresh')) {
       htmlResult.remove();
       htmlResult = null;
     }
@@ -83,11 +83,11 @@ function CodeBox(elem) {
       frame.name = 'frame-' + Math.random();
       frame.className = 'code-result__iframe';
 
-      if (elem.dataset.demoHeight === "0") {
+      if (elem.getAttribute('data-demo-height') === "0") {
         // this html has nothing to show
         frame.style.display = 'none';
-      } else if (elem.dataset.demoHeight) {
-        var height = +elem.dataset.demoHeight;
+      } else if (elem.hasAttribute('data-demo-height')) {
+        var height = +elem.getAttribute('data-demo-height');
         frame.style.height = height + 'px';
       }
       htmlResult.appendChild(frame);
@@ -118,11 +118,11 @@ function CodeBox(elem) {
         }, 2000);
       }
 
-      if (elem.dataset.demoHeight === undefined) {
+      if (!elem.hasAttribute('data-demo-height')) {
         resizeOnload.iframe(frame);
       }
 
-      if (!(isFirstRun && elem.dataset.autorun !== undefined)) {
+      if (!(isFirstRun && elem.hasAttribute('data-autorun'))) {
         if (!isScrolledIntoView(htmlResult)) {
           htmlResult.scrollIntoView(false);
         }
@@ -145,10 +145,10 @@ function CodeBox(elem) {
       form.submit();
       form.remove();
 
-      if (!(isFirstRun && elem.dataset.autorun !== undefined)) {
+      if (!(isFirstRun && elem.hasAttribute('data-autorun'))) {
         frame.onload = function() {
 
-          if (elem.dataset.demoHeight === undefined) {
+          if (!elem.hasAttribute('data-demo-height')) {
             resizeOnload.iframe(frame);
           }
 
@@ -170,14 +170,12 @@ function CodeBox(elem) {
         window["eval"].call(window, code);
       } catch (e) {
         console.error(e);
-
         alert("Ошибка: " + e.message);
-        alert(e.stack.split("\n").slice(4));
       }
 
     } else {
 
-      if (elem.dataset.refresh && jsFrame) {
+      if (elem.hasAttribute('data-refresh') && jsFrame) {
         jsFrame.remove();
         jsFrame = null;
       }
