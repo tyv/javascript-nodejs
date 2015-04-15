@@ -22,20 +22,6 @@ exports.post = function* (next) {
   //yield user.generateProfileName();
 
   try {
-
-    yield sendMail({
-      templatePath: path.join(this.templateDir, 'verify-registration-email'),
-      to: user.email,
-      subject: "Подтверждение email",
-      link: config.server.siteHost + '/auth/verify/' + verifyEmailToken
-    });
-
-  } catch(e) {
-    this.log.error("Registration failed", {err: e});
-    this.throw(500, "Ошибка отправки email.");
-  }
-
-  try {
     yield user.persist();
   } catch(e) {
     if (e.name == 'ValidationError') {
@@ -50,6 +36,24 @@ exports.post = function* (next) {
       this.throw(e);
     }
   }
+
+
+  // We're here if no errors happened
+  
+  try {
+
+    yield sendMail({
+      templatePath: path.join(this.templateDir, 'verify-registration-email'),
+      to: user.email,
+      subject: "Подтверждение email",
+      link: config.server.siteHost + '/auth/verify/' + verifyEmailToken
+    });
+
+  } catch(e) {
+    this.log.error("Registration failed", {err: e});
+    this.throw(500, "Ошибка отправки email.");
+  }
+
 
   this.status = 201;
   this.body = ''; //Вы зарегистрированы. Пожалуйста, загляните в почтовый ящик, там письмо с Email-подтверждением.';
