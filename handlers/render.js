@@ -57,7 +57,7 @@ function addStandardHelpers(locals, ctx) {
   // flash middleware may be attached later in the chain
   Object.defineProperty(locals, "flashMessages", {
     get: function() {
-      return ctx.flash.messages;
+      return ctx.flash && ctx.flash.messages;
     }
   });
 
