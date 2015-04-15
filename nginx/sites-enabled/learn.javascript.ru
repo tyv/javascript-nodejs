@@ -86,29 +86,3 @@ server {
 
 }
 
-# Webmoney doesn't work with free cloudflare ssl
-# Need a special no-cloudflare domain for the callback
-server {
-
-  server_name payment.javascript.ru;
-
-  access_log  /var/log/nginx/payment.javascript.ru.log main;
-
-  include "partial/error-pages";
-<% if (sslEnabled) { %>
-  listen 443 ssl spdy;
-
-  ssl_certificate		<%=certDir%>/payment.javascript.ru/ssl.pem;
-  ssl_certificate_key	<%=certDir%>/payment.javascript.ru/ssl.key;
-  ssl_trusted_certificate <%=certDir%>/payment.javascript.ru/trusted.pem;
-
-  add_header Strict-Transport-Security "max-age=31536000; includeSubdomains;";
-<% } else { %>
-  listen 80;
-<% } %>
-
-  location /payments/webmoney/callback {
-    include "partial/proxy-3000";
-  }
-
-}
