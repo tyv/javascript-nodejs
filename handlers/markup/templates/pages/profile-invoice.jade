@@ -22,21 +22,21 @@ block content
       +e.tabs
         +e.tab
           +e.tab-content
-            +e('a').tab-link(href="#") Публичный профиль
+            +e('a').tab-link(href="#") Профиль
         +e.tab
           +e.tab-content
             +e('a').tab-link(href="#") Аккаунт
-        +e.tab
+        +e.tab._current
           +e.tab-content
-            +e('a').tab-link(href="#") Заказы
+            | Заказы
         +e.tab
           +e.tab-content
             +e('a').tab-link(href="#") Курсы
         +e.tab
           +e.tab-content
             +e('a').tab-link(href="#") Уведомления
-        +e.tab._current
+        +e.tab
           +e.tab-content
-            | Тесты
+            +e('a').tab-link(href="profile-quiz") Тесты
 
-      include ../blocks/quiz-results-table
+      include ../blocks/invoice-table
