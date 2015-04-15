@@ -1,0 +1,36 @@
+extends /layouts/main
+
+block append variables
+  - var layout_main_class = "main_width-limit"
+  - var title = 'Интеркасса';
+  - var sitetoolbar = true
+
+block content
+
+  p.
+    Оплата за курсы картами Visa/MasterCard, а также в терминалах и с Украины временно принимается
+    используя эту форму.
+
+  p.
+    Для этого оформите запись на странице курса с оплатой через "Сбербанк",
+    и полученный номер заказа введите в форме ниже.
+
+  p.
+    Затем нажмите "Оплатить".
+
+  form(name="payment" method="POST" action="https://sci.interkassa.com/" accept-charset="UTF-8")
+    input(type="hidden" name="ik_co_id" value="529dd1d1bf4efcc635dbe96e")
+    | Введите номер заказа
+    br
+    input(type="number" name="ik_pm_no" placeholder="1234" value="" autofocus)
+    br
+    | Сумма к оплате
+    br
+    input(type="number" name="ik_am" placeholder="15000")
+    input(type="hidden" name="ik_cur" value="RUB")
+    input(type="hidden" name="ik_desc" value="Оплата курсов")
+    input(type="submit" value="Оплатить")
+
+  p.
+    По всем вопросам вы можете обращаться по адресу <a href="mailto:mk@javascript.ru">mk@javascript.ru</a>,
+    он часто проверяется.
