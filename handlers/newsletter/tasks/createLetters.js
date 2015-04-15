@@ -45,14 +45,14 @@ module.exports = function(options) {
       }
 
       var release = yield NewsletterRelease.create({
-        newsletters: newsletters
+        newsletters: newsletters.map(function(n) { return n._id; })
       });
 
 
       // subscriptions which match any of newsletter slugs
       var subscriptions = yield Subscription.find({
         newsletters: {
-          $in: newsletters
+          $in: newsletters.map(function(n) { return n._id; })
         },
         confirmed:   true
       }, {email: true, newsletters: true, accessKey: true, _id: false}).exec();
@@ -68,6 +68,7 @@ module.exports = function(options) {
         ];
       }
 
+      console.log(subscriptions[0].newsletters);
 
       for (var i = 0; i < subscriptions.length; i++) {
         var subscription = subscriptions[i];
