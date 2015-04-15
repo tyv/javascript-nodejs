@@ -9,7 +9,7 @@ exports.OrderTemplate = [
     slug:        "js",
     module:      'ebook',
     weight:      1,
-    amount:      10,
+    amount:      450,
     data:        {
       file: "tutorial/js.zip"
     }
@@ -20,7 +20,7 @@ exports.OrderTemplate = [
     slug:        "ui",
     module:      'ebook',
     weight:      2,
-    amount:      10,
+    amount:      450,
     data:        {
       file: "tutorial/ui.zip"
     }
@@ -31,7 +31,7 @@ exports.OrderTemplate = [
     slug:        "js-ui",
     module:      'ebook',
     weight:      3,
-    amount:      15,
+    amount:      600,
     data:        {
       file: "tutorial/js-ui.zip"
     }
