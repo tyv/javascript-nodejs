@@ -43,8 +43,7 @@ block append variables
           +e('li')(class=["section", session.slug && siteToolbarCurrentSection == section.slug && ' _current'])
             +e('a').link(href=section.slug ? ('/' + section.slug) : section.url)= section.title
 
-    if env.NODE_ENV == 'development'
-      include ./buy-book
+    include ./buy-book
 
     if user
       include ./user
