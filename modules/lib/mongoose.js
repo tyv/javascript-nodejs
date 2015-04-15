@@ -49,6 +49,8 @@ mongoose.plugin(function(schema) {
 
           log.debug("error", err);
           log.debug("will look for indexName in message", err.message);
+
+
           var indexName = err.message.match(/\$(\w+)/);
           if (indexName) {
             indexName = indexName[1];
@@ -68,10 +70,13 @@ mongoose.plugin(function(schema) {
           model.collection.getIndexes(function(err2, indexes) {
             if (err2) return callback(err);
 
+            console.log(indexes);
             // e.g. indexes = {idxName:  [ [displayName, 1], [email, 1] ] }
 
             // e.g indexInfo = [ [displayName, 1], [email, 1] ]
             var indexInfo = indexes[indexName];
+
+            console.log(indexInfo);
 
             // convert to indexFields = { displayName: 1, email: 1 }
             var indexFields = {};
@@ -90,6 +95,8 @@ mongoose.plugin(function(schema) {
                 break;
               }
             }
+
+            log.debug("Schema index which failed:", schemaIndex);
 
             var errorMessage;
             if (!schemaIndex) {
@@ -114,12 +121,20 @@ mongoose.plugin(function(schema) {
 
             var field = indexInfo[0][0]; // if many fields in uniq index - we take the 1st one for error
 
+            log.debug("Generating error for field", field, ':', errorMessage);
+
             // example:
             // err = { path="email", message="Email is not unique", type="notunique", value=model.email }
-            valError.errors[field] = new ValidatorError(field, errorMessage, 'notunique', model[field]);
+            valError.errors[field] = new ValidatorError({
+              path: "email",
+              message: errorMessage,
+              type: 'notunique',
+              value: model[field]
+            });
 
             valError.code = err.code; // if (err.code == 11000) in the outer code will still work
 
+            console.log(valError);
             return callback(valError);
           });
 
