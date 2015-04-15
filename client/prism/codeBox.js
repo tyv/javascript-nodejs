@@ -47,7 +47,7 @@ function CodeBox(elem) {
       elem.querySelector('iframe').remove();
     } else {
       // timeout should be small, around 10ms, or remove it to make crawler process the autorun
-      setTimeout(run, 100);
+      run();
     }
   }
 
