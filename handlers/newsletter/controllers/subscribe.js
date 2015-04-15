@@ -8,17 +8,15 @@ const config = require('config');
 exports.post = function*() {
 
   var self = this;
-  var preferredType = this.accepts('html', 'json');
 
   function respond(message, subscription) {
-    if (preferredType == 'json') {
-      self.body = {
-        message: message
-      };
-    } else {
-      self.addFlashMessage('success', message);
-      self.redirect('/newsletter/subscriptions/' + subscription.accessKey);
+    // allow XHR from javascript.ru
+    if (self.get('Origin') == 'http://javascript.ru') {
+      self.set('Access-Control-Allow-Origin', 'http://javascript.ru');
     }
+    self.body = {
+      message: message
+    };
   }
 
   const newsletter = yield Newsletter.findOne({
@@ -72,10 +70,10 @@ exports.post = function*() {
     } else {
 
       yield sendMail({
-        templatePath:    path.join(this.templateDir, 'confirm-email'),
-        subject:         "Подтверждение подписки",
-        to:              subscription.email,
-        link:            (config.server.siteHost || 'http://javascript.in') + '/newsletter/confirm/' + subscription.accessKey
+        templatePath: path.join(this.templateDir, 'confirm-email'),
+        subject:      "Подтверждение подписки",
+        to:           subscription.email,
+        link:         (config.server.siteHost || 'http://javascript.in') + '/newsletter/confirm/' + subscription.accessKey
       });
 
       respond(`На адрес ${subscription.email} направлен запрос подтверждения.`, subscription);
