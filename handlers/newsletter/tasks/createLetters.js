@@ -49,21 +49,39 @@ module.exports = function(options) {
           $in: newsletters
         },
         confirmed:   true
-      }, {email: true, accessKey: true, _id: false}).exec();
+      }, {email: true, newsletters: true, accessKey: true, _id: false}).exec();
 
 
       if (args.test) {
         subscriptions = [
           new Subscription({
             email: args.test,
-            accessKey: 'notexists'
+            accessKey: 'notexists',
+            newsletters: newsletters.map(function(n) { return n._id; })
           })
         ];
       }
 
+      var newsletterIdToSlug = {};
+      newsletters.forEach(function(n) {
+        newsletterIdToSlug[n._id.toString()] = n.slug;
+      });
+
       for (var i = 0; i < subscriptions.length; i++) {
         var subscription = subscriptions[i];
         var unsubscribeUrl = (config.server.siteHost || 'http://javascript.in') + '/newsletter/subscriptions/' + subscription.accessKey;
+
+        var listSlug = '';
+        for (var j = 0; j < subscription.newsletters.length; j++) {
+          var subscriptionNewsletterId = String(subscription.newsletters[j]);
+          listSlug = newsletterIdToSlug[subscriptionNewsletterId];
+          if (listSlug) break;
+        }
+
+        if (!listSlug) {
+          throw new Error("No list slug for subscription (why receiving?) " + subscription._id);
+        }
+
         yield* mailer.createLetter({
           from:                'informer',
           templatePath:        args.templatePath,
@@ -73,7 +91,7 @@ module.exports = function(options) {
           newsletterRelease:   release._id,
           headers:             {
             Precedence:         'bulk',
-            'List-ID':          '<' + slugs.join('.') + '.list-id.javascript.ru>',
+            'List-ID':          '<' + listSlug + '.list-id.javascript.ru>',
             'List-Unsubscribe': '<' + unsubscribeUrl + '>'
           }
         });
