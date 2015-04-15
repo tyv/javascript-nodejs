@@ -172,7 +172,7 @@ function CodeBox(elem) {
         console.error(e);
 
         alert("Ошибка: " + e.message);
-        alert(e.stack.split("\n").slice(3));
+        alert(e.stack.split("\n").slice(4));
       }
 
     } else {
