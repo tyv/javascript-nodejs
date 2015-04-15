@@ -34,6 +34,12 @@ module.exports = function(options) {
         }
       }).exec();
 
+
+      var newsletterIdToSlug = {};
+      newsletters.forEach(function(n) {
+        newsletterIdToSlug[n._id.toString()] = n.slug;
+      });
+
       if (newsletters.length != slugs.length) {
         throw new Error("Can't find one or more newsletters with slugs: " + args.slug);
       }
@@ -62,10 +68,6 @@ module.exports = function(options) {
         ];
       }
 
-      var newsletterIdToSlug = {};
-      newsletters.forEach(function(n) {
-        newsletterIdToSlug[n._id.toString()] = n.slug;
-      });
 
       for (var i = 0; i < subscriptions.length; i++) {
         var subscription = subscriptions[i];
