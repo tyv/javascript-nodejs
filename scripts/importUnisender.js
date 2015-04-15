@@ -10,7 +10,6 @@ co(function*() {
 
   var newsletterJs = yield Newsletter.findOne({slug: 'js'}).exec();
   var newsletterAdvanced = yield Newsletter.findOne({slug: 'advanced'}).exec();
-  console.log(1);
 
   var input = fs.readFileSync("/tmp/js.csv");
   var js = yield thenify(parse)(input, {});
