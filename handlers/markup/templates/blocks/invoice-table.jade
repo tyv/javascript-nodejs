@@ -11,8 +11,8 @@
 +b.invoice-table
   +e('table').table
 
-    for invoce in invoces
-      +e('tr').data
+    for invoce, indexInvoice in invoces
+      +e('tr')(class=['data', indexInvoice == 1 ? '_show_settings' : ''])
         +e('th').main
           +e('span').number Заказ&nbsp;№&nbsp;!{ invoce.number }
           +e('time').time(datetime=datestr)= date
@@ -32,65 +32,69 @@
                 &nbsp;свободно
 
               if slots.busy
-                +e('strong').slots-free !{ slots.busy }
+                +e('strong').slots-busy !{ slots.busy }
                 &nbsp;занято
 
+              if slots.confirmed
+                +e('span').slots-confirmed &nbsp;(!{ slots.confirmed } подтверждено)
+              else
+                +e('span').slots-confirmed._note &nbsp;(подтверждение участников происходит после оплаты)
 
         +e('td').info
           +e('a').info-link(href='/123') Описание курсов
 
         +e('td').price
           +b.price !{ invoce.payment.amount } !{ invoce.payment.currency }
-          +e(class=['payment-status', '_invoce.payment.status']).status
-          if invoce.payment.status === 'done'
-            Оплачено
-          if invoce.payment.status === 'await'
-            Ожидается оплата
+          +e(class=['payment-status', '_' + invoce.payment.status])
+            if invoce.payment.status === 'done'
+              Оплачено
+            if invoce.payment.status === 'await'
+              Ожидается оплата
           +e.payment-type (!{ invoce.payment.type })
 
       +e('tr').settings
-        +e('td').settings-cell(colspan=invoces.length)
+        +e('td').settings-cell(colspan=3)
           +e.settings-dropdown
-            +e.settings-close
-            +e.settings-cell._left
-              form
+            +e('button').settings-dropdown-close.close-button
+            +e.settings-dropdown-cell._left
+              form(action="/123")
                 +e('h4').settings-title Участники
 
                 +e('ul').settings-participants
 
-                  for participant in participants
-                    +e('li').settings-participant
-                      +e('label').participant-label
-                        +e('span').participant-n Участник
-                        +b('span')(class=['text-input', '__input', participant.approved ? '_'+participant.approved : ''])
-                          +e('input').control(placeholder="email", name="email", type="email", value= participant.email ? participant.email : '')
+                  for participant, index in participants
+                    - var number = index + 1
+                     +e('li').settings-participant
+                      +e('label').participant-label(for='participant' + number + '' + indexInvoice) Участник !{number}:
+                      +b('span')(class=['text-input', '__input', participant.approved ? '_approved_yes' : '_approved_no'])
+                        +e('input').control(placeholder="email", name="email", type="email", value= participant.email ? participant.email : '', id = 'participant' + number + '' + indexInvoice)
 
-                +e.settings-line
+                +e.settings-line_submit
                   +b('button').button._common(type="submit")
                     +e('span').text Сохранить участников
 
 
-            +e.settings-cell._right
+            +e.settings-dropdown-cell._right
               +e('h4').settings-title Контактная информация
-              form
-
+              +e('form').contact-form(action="/123")
                 +e.settings-line
-                  +e("label").label(for="name") Имя и фамилия:
+                  +e("label").contact-form-label(for="contact-name" + indexInvoice) Имя и фамилия:
                   +b("span").text-input
-                    +e("input").control(type="text", required, name="name", id="name")
+                    +e("input").control(type="text", required, name="contact-name", id="contact-name" + indexInvoice)
 
                 +e.settings-line
-                  label(for="contact-phone") Телефон:
+                  +e('label').contact-form-label(for="contact-phone" + indexInvoice) Телефон:
                   +b.full-phone
                     +e.code-wrap
-                      +e('select').codes
-                        option(value='+7') RU (+7)
-                        option(value='+38') UA (+38)
+                      +b('select').input-select._small.__codes
+                        +e('option').option(value="+7") RU (+7)
+                        +e('option').option(value="+38") UA (+38)
+
                     +e.tel-wrap
                       +b.text-input._small.__tel
-                        +e('input').control#contact-phone(placeholder="XXX XXX-XX-XX", required)
+                        +e('input').control(placeholder="XXX XXX-XX-XX", required, id="contact-phone" + indexInvoice)
 
-                +e.settings-line
+                +e.settings-line._submit
                   +b('button').button._common(type="submit")
                     +e('span').text Сохранить контакты
 
