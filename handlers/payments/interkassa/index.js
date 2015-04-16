@@ -19,4 +19,10 @@ exports.createTransaction = function*(order) {
 };
 
 
-exports.title = "Интеркасса";
+
+exports.info = {
+  title: "Интеркасса",
+  name:    path.basename(__dirname),
+  hasIcon: true,
+  subtitle: "Терминалы и банки для оплаты из Украины"
+};

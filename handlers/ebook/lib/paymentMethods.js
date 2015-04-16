@@ -5,7 +5,7 @@ var paymentMethods = {};
 var methodsEnabled = ['webmoney', 'yandexmoney', 'payanyway', 'paypal'];
 
 methodsEnabled.forEach(function(key) {
-  paymentMethods[key] = {name: key, title: payments.methods[key].title};
+  paymentMethods[key] = payments.methods[key].info;
 });
 
 module.exports = paymentMethods;

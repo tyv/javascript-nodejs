@@ -73,11 +73,7 @@ block content
             +e('h2').alternate-title Выберите другой метод оплаты
             p Не оплачивайте дважды. Меняйте метод оплаты лишь если уверены, что оплата не произошла.
 
-          +b.pay-method.__pay-method
-            +e.methods
-              each paymentMethod in paymentMethods
-                +e.method(data-add-class-on-hover)
-                  +e('button')(type="button" class=["send", "_"+paymentMethod.name]  name="paymentMethod" value=paymentMethod.name)
+          include ../../payments/common/templates/payment-methods
 
           p Если у вас возникли какие-либо вопросы, присылайте их на <a href="#{mailto}">orders@javascript.ru</a>.
 

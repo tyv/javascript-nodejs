@@ -20,4 +20,8 @@ exports.createTransaction = function*(order) {
   return transaction;
 };
 
-exports.title = "Яндекс.Деньги";
+
+exports.info = {
+  name:    path.basename(__dirname),
+  hasIcon: true
+};

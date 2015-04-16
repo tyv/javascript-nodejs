@@ -1,0 +1,19 @@
+
++b.pay-method
+  +e('ul').methods
+    - console.log(paymentMethods)
+    each paymentMethod in paymentMethods
+      +e('li').method
+        +e('input').method-radio(type="radio" name="paymentMethod" value=paymentMethod.name id=paymentMethod.name)
+        +e('label')(class=["method-label", "_" + paymentMethod.name, (paymentMethod.title ? '_aside' : '')] for=paymentMethod.name)
+          +e('header').header
+            if paymentMethod.title
+              +e('h3')(class=['method-title', paymentMethod.cards ? '_card' : '']) !{ paymentMethod.title }
+              if paymentMethod.subtitle
+                +e('h4').method-subtitle !{ paymentMethod.subtitle }
+            if paymentMethod.hasIcon
+              +e('img').logo(src="/pay-methods/pay-" + paymentMethod.name + '.svg' alt=paymentMethod.name[0].toUpperCase() + paymentMethod.name.slice(1))
+        if paymentMethod.name == "paypal"
+          include paypal-settings
+        if paymentMethod.name == "invoice"
+          include invoice-settings

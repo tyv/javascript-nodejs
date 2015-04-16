@@ -1,0 +1,10 @@
+
++b.payment-setting
+  +e.item._currency
+    +e('label').label(for="pay-form-currency") Выберите валюту:
+    +b('select').input-select._small.__control#pay-form-currency
+      +e('option').option(value="RUB") RUB
+      +e('option').option(value="USD") USD
+      +e('option').option(value="EUR") EUR
+    +e('span').small-note
+      | Если у вас Российский Paypal аккаунт, вы<br> не сможете оплатить в другой валюте.

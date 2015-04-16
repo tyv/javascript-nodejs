@@ -18,5 +18,8 @@ exports.createTransaction = function*(order) {
   return transaction;
 };
 
-
-exports.title = "Банковский перевод";
+exports.info = {
+  title:   "Банковский перевод",
+  name:    path.basename(__dirname),
+  hasIcon: true
+};

@@ -18,6 +18,8 @@ exports.createTransaction = function*(order) {
   return transaction;
 };
 
-
-exports.title = 'Webmoney';
+exports.info = {
+  name:    path.basename(__dirname),
+  hasIcon: true
+};
 

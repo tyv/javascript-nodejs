@@ -35,4 +35,7 @@ exports.createTransaction = function*(order, requestBody) {
 
 };
 
-exports.title = "PayPal";
+exports.info = {
+  name:    path.basename(__dirname),
+  hasIcon: true
+};

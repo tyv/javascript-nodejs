@@ -19,4 +19,10 @@ exports.createTransaction = function*(order) {
 };
 
 
-exports.title = "PayAnyWay";
+exports.info = {
+  title: "Картой",
+  name:    path.basename(__dirname),
+  cards: true,
+  hasIcon: true
+};
+
