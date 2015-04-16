@@ -56,7 +56,7 @@ block append variables
   +e.tablet-menu
     +e.tablet-menu-line
       +e.tablet-menu-content
-        +e('select')(onchange="window.location=href=this.value").tablet-menu-nav.input-select
+        +e('select')(onchange="window.location=href=this.value").tablet-menu-nav.input-select.input-select_small
           each section in siteToolbarSections
             +e('option')(
               value=(section.slug ? ('/' + section.slug) : section.url)
