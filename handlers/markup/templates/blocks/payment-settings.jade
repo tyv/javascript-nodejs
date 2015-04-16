@@ -1,0 +1,39 @@
+block append variables
+
+- var name = paymentMethod.name
+
++b.payment-setting
+  if name == 'paypal'
+    +e.item._currency
+      +e('label').label(for="pay-form-currency") Выберите валюту:
+      +b('select').input-select._small.__control#pay-form-currency
+        +e('option').option(value="USD") USD
+        +e('option').option(value="RUR") RUR
+      +e('span').small-note
+        | Если у вас Paypal аккаунт в рублях, вы <br>
+        | не сможете оплатить в другой валюте
+
+  if name == 'invoice'
+    +e.item
+      +e('label').label(for="pay-form-company") Название компании:
+      +b('span').text-input._small
+        +e('input').control#pay-form-company
+
+    +e.item._with_cb
+      +e('input').cb#pay-form-contract(type="checkbox")
+      +e('label').cb-label(for="pay-form-contract")
+        | Нужен договор
+        +e('span').small-note &nbsp(Договор заключается с компанией зарегистрированной в РФ)
+
+    +e.item
+      +e('label').label(for="pay-form-contract-head") Шапка (для акта и договора):
+      +b('textarea').textarea-input#pay-form-contract-head(cols="30" rows="10") ___, именуемое в дальнейшем Заказчик, в лице ___, действующего на основании ___, с одной стороны
+      +e.small-note Например: Общество с ограниченной ответственностью «Лютики», именуемое в дальнейшем Заказчик, в лице Иванова Петра Сергеевича, действующего на основании Устава, с одной стороны
+
+    +e.item
+      +e('label').pay-form__label(for="pay-form-company-address") Юридический адрес:
+      +b('textarea').textarea-input.pay-form__textarea#pay-form-company-address(cols="30", rows="5")
+
+    +e.item
+      +e('label').pay-form__label(for="pay-form-bank-details") Банковские реквизиты:
+      +b('textarea').textarea-input.pay-form__textarea#pay-form-bank-details(cols="30", rows="5")

@@ -35,16 +35,42 @@
 
       +e.body
         +b.pay-method
-          +e.methods
-            - var paymentMethods = [{ name: 'webmoney' }, { name: 'yandexmoney' }, { name: 'payanyway' }, { name: 'paypal' }, { name: 'interkassa' } ]
+          +e('ul').methods
+
+            - var paymentMethods = [];
+            - paymentMethods.push({ name: 'yandexmoney', image: true});
+            - paymentMethods.push({ name: 'webmoney', image: true });
+            - paymentMethods.push({ name: 'paypal', image: true, settings: true });
+            - paymentMethods.push({ name: 'payanyway', image: true, title: 'Картой', cards: true });
+            - paymentMethods.push({ name: 'banksimple', image: true, title: 'Банковская квитанция'});
+            - paymentMethods.push({ name: 'interkassa', image: true, title: 'Терминалы и банки', subtitle: 'Лучший вариант для оплаты из Украины' });
+            - paymentMethods.push({ name: 'invoice', image: false, title: 'Счет на компанию', subtitle: 'Для юрлиц из России', settings: true });
+
+
             each paymentMethod in paymentMethods
-              +e.method(data-add-class-on-hover)
-                +e('button')(type="button" class=["send", "_"+paymentMethod.name]  name="paymentMethod" value=paymentMethod.name)
+              - var paymentMethod = paymentMethod
+              +e('li').method
+
+                +e('input').method-radio(type="radio" name="paymentMethod" value=paymentMethod.name id=paymentMethod.name)
+
+                +e('label')(class=["method-label", "_"+paymentMethod.name, (paymentMethod.title ? '_aside' : '')] for=paymentMethod.name)
+                  +e('header').header
+                    if paymentMethod.title
+                      +e('h3')(class=['method-title', paymentMethod.cards ? '_card' : '']) !{ paymentMethod.title }
+                      if paymentMethod.subtitle
+                        +e('h4').method-subtitle !{ paymentMethod.subtitle }
+                    if paymentMethod.image
+                      +e('img').logo(src="/pay-methods/pay-" + paymentMethod.name + '.svg' alt=paymentMethod.name.charAt(0).toUpperCase() + paymentMethod.name.slice(1))
+
+                if paymentMethod.settings
+                  include payment-settings
+
 
       +e.next.courses-register-common__next
-        +e.next-or или
-        +b('button').button._common
-          +e('span').text Оплатить позже
+        +b('button')(type="submit").button._action
+          +e('span').text Перейти к оплате
+
+        p Если возникли какие-нибудь сложности, вы можеле <a href="/123">оплатить заказ позже</a>
 
   +e('ul').next.grayed-list
     +e('li').next-item.grayed-list__item Подтверждение
