@@ -9,7 +9,7 @@ exports.get = function*() {
   if (playId) {
     playId = playId.replace(/\W/g, ''); // must be alphpanumeric
 
-    var playPath = playId.slice(0,2) + '/' + playId.slice(2,4) + '/' + playId + '.zip';
+    var playPath = playId.slice(0,2).toLowerCase() + '/' + playId.slice(2,4).toLowerCase() + '/' + playId + '.zip';
 
     //console.log(playPath);
 

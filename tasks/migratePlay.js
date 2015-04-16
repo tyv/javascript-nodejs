@@ -60,7 +60,7 @@ module.exports = function() {
           }
         }
         console.log("done", play.name);
-        var dir = `/js/play/${play.name.slice(0,2)}/${play.name.slice(2,4)}`;
+        var dir = `/js/play/${play.name.slice(0,2).toLowerCase()}/${play.name.slice(2,4).toLowerCase()}`;
         fse.ensureDirSync(dir);
         fs.writeFileSync(`${dir}/${play.name}.zip`, file, 'binary');
       }

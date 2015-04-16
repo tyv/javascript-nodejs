@@ -44,8 +44,12 @@ block content
           +e.email-note После оплаты ссылка на скачивание учебника придет на этот адрес.
 
         +e('h2').alternate-title Выберите метод оплаты
+        +e.body
+          include ../../payments/common/templates/payment-methods
 
-        include ../../payments/common/templates/payment-methods
+        +e.next.courses-register-common__next
+          +b('button')(type="submit").button._action
+            +e('span').text Продолжить
 
     +b('ul').grayed-list.__next
       +e('li').item.__next-item Подтверждение
