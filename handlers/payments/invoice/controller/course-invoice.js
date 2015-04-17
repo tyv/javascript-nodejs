@@ -3,10 +3,11 @@ var Docxtemplater = require('docxtemplater');
 var path = require('path');
 const Transaction = require('../../models/transaction');
 var bankConfig = require('config').payments.modules.banksimple;
+const moment = require('moment');
 
 // Load the docx file as a binary
 // @see https://github.com/open-xml-templating/docxtemplater
-var invoiceDocContent = fs.readFileSync(path.join(__dirname, "invoice.docx"), "binary");
+var invoiceDocContent = fs.readFileSync(path.join(__dirname, "course-invoice.docx"), "binary");
 
 exports.get = function*() {
   yield this.loadTransaction();
@@ -16,7 +17,7 @@ exports.get = function*() {
     this.throw(404);
   }
 
-  if (this.transaction.status != Transaction.STATUS_PENDING || this.transaction.paymentMethod != 'banksimple') {
+  if (this.transaction.status != Transaction.STATUS_PENDING || this.transaction.paymentMethod != 'invoice') {
     this.log.debug("Improper TX", this.transaction.toObject());
   }
 
@@ -29,7 +30,9 @@ exports.get = function*() {
     BANK: bankConfig.BANK,
     СORR_ACC: bankConfig.CORR_ACC,
     BIK: bankConfig.BIK,
-    PAYMENT_DESCRIPTION: `Оплата по счёту ${this.transaction.number}`,
+    TRANSACTION_NUMBER: String(this.transaction.number),
+    TRANSACTION_DATE: moment(this.transaction.created).format('DD.MM.YYYY'),
+    PAYMENT_DESCRIPTION: `Информационно-консультационные услуги`,
     AMOUNT: this.transaction.amount
   });
 
