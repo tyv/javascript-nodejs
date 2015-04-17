@@ -285,7 +285,8 @@ sitetoolbar_secondary_link = #498CBE
         left -256px
 
     &_search_open &__user-wrap,
-    &_search_open &__book-wrap
+    &_search_open &__book-wrap,
+    &_search_open &__login-wrap
         opacity 0
         pointer-events none
 
@@ -619,3 +620,7 @@ sitetoolbar_secondary_link = #498CBE
 
         &_search_open &__search-toggle::before
             left 25px
+
+    @media (max-width: 400px) // small nexus
+        &__book-wrap
+            display none
