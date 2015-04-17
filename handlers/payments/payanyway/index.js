@@ -20,10 +20,10 @@ exports.createTransaction = function*(order) {
 
 
 exports.info = {
-  title: "Картой",
+  title: "Payanyway",
   name:    path.basename(__dirname),
-  subtitle: "Есть и другие методы оплаты",
-  cards: true,
-  hasIcon: true
+  subtitle: "и много других методов",
+  cards: ['visa-mastercard'],
+  hasIcon: false
 };
 
