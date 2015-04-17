@@ -20,7 +20,7 @@ block content
   +b("form").complex-form(data-order-form)
 
     +e.step._current
-      +e.step-content
+        +e('h2').alternate-title Выберите курс
         +b.extract._small.__extract
           each orderTemplate, i in orderTemplates
             +e.item(data-add-class-on-hover)

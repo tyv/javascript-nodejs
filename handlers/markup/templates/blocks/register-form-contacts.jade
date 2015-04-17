@@ -39,9 +39,9 @@
                 label(for="contact-phone") Телефон:
                 +b.full-phone.__full-phone
                   +e.code-wrap
-                    +e('select').codes
-                      option(value='+7') RU (+7)
-                      option(value='+38') UA (+38)
+                    +b('select').input-select._small.__codes
+                      +e('option').option(value="+7") RU (+7)
+                      +e('option').option(value="+38") UA (+38)
                   +e.tel-wrap
                     +b.text-input._small.__tel
                       +e('input').control#contact-phone(placeholder="XXX XXX-XX-XX")

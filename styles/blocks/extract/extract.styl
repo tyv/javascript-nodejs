@@ -1,7 +1,10 @@
 .extract
-    text-align left
+    max-width 615px
+
+    margin 0 auto
     padding 0 0 30px
-    border-radius 3px
+
+    text-align left
 
     &_small
         font-size 13px
@@ -12,10 +15,6 @@
     &__item
         position relative
         cursor pointer
-
-    &__item.hover
-        outline 1px solid #8EB0D2
-
 
     & &__header
         background #dddddd
@@ -48,16 +47,21 @@
         display table
 
         width 100%
-        margin-top 5px
+        min-height 79px
+        margin-top 2px
 
         background #f5f2f0
+        transition background-color 0.2s
 
     &__input
         position absolute
         top 50%
         left 10px
 
-        transform translateY(-50%)
+        width 16px
+        height 16px
+        margin-top -8px
+
 
     &__content,
     &__aside,
@@ -65,21 +69,14 @@
         display table-cell
         vertical-align middle
         padding 15px 0
-        border-top 2px solid transparent
-        border-bottom 2px solid transparent
 
     &__aside
         white-space nowrap
 
         border-right 2px solid transparent
 
-    &__input:checked ~ &__wrap &__content,
-    &__input:checked ~ &__wrap &__aside,
-    &__input:checked ~ &__wrap &__input-wrap
-        border-color #e7e5e3
-
-    &__input:checked ~ &__wrap &__input-wrap
-        background #e7e5e3
+    &__input:checked ~ &__wrap
+        background #f9edbf
 
     &__content
         padding-left 20px
