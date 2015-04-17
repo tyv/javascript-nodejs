@@ -5,10 +5,14 @@
     each paymentMethod in paymentMethods
       +e('li').method
         +e('input').method-radio(type="radio" name="paymentMethod" value=paymentMethod.name id=paymentMethod.name)
-        +e('label')(class=["method-label", "_" + paymentMethod.name, (paymentMethod.title ? '_aside' : '')] for=paymentMethod.name)
+        +e('label')(class=["method-label", "_" + paymentMethod.name] for=paymentMethod.name)
           +e('header').header
             if paymentMethod.title
-              +e('h3')(class=['method-title', paymentMethod.cards ? '_card' : '']) !{ paymentMethod.title }
+              +e('h3').method-title !{ paymentMethod.title }
+              if paymentMethod.cards
+                  each card in paymentMethod.cards
+                    +e('img').card(src='/pay-methods/' + card + '.svg', alt=card)
+
               if paymentMethod.subtitle
                 +e('h4').method-subtitle!= paymentMethod.subtitle
             if paymentMethod.hasIcon

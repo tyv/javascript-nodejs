@@ -20,6 +20,7 @@ exports.createTransaction = function*(order) {
 };
 
 exports.info = {
-  title:   "Счёт на компанию в РФ",
+  title:   "Счёт на компанию",
+  subtitle: '(для юрлиц из России)',
   name:    path.basename(__dirname)
 };

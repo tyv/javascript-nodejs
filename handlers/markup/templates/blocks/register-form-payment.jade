@@ -41,9 +41,9 @@
             - paymentMethods.push({ name: 'yandexmoney', image: true});
             - paymentMethods.push({ name: 'webmoney', image: true });
             - paymentMethods.push({ name: 'paypal', image: true, settings: true });
-            - paymentMethods.push({ name: 'payanyway', image: true, title: 'Картой', cards: true });
-            - paymentMethods.push({ name: 'banksimple', image: true, title: 'Банковская квитанция'});
-            - paymentMethods.push({ name: 'interkassa', image: true, title: 'Терминалы и банки', subtitle: 'Лучший вариант для оплаты из Украины' });
+            - paymentMethods.push({ name: 'payanyway', image: false, title: 'Payanyway', subtitle: 'и много других методов', cards: ['visa-mastercard'] });
+            - paymentMethods.push({ name: 'banksimple', image: false, title: 'Банковская квитанция'});
+            - paymentMethods.push({ name: 'interkassa', image: false, title: 'Interkassa', subtitle: 'и другие методы (Украина)', cards: ['visa-mastercard', 'privatbank'] });
             - paymentMethods.push({ name: 'invoice', image: false, title: 'Счет на компанию', subtitle: 'Для юрлиц из России', settings: true });
 
 
@@ -53,12 +53,17 @@
 
                 +e('input').method-radio(type="radio" name="paymentMethod" value=paymentMethod.name id=paymentMethod.name)
 
-                +e('label')(class=["method-label", "_"+paymentMethod.name, (paymentMethod.title ? '_aside' : '')] for=paymentMethod.name)
+                +e('label')(class=["method-label", "_"+paymentMethod.name] for=paymentMethod.name)
                   +e('header').header
+
                     if paymentMethod.title
-                      +e('h3')(class=['method-title', paymentMethod.cards ? '_card' : '']) !{ paymentMethod.title }
+                      +e('h3').method-title !{ paymentMethod.title }
+                      if paymentMethod.cards
+                          each card in paymentMethod.cards
+                            +e('img').card(src='/pay-methods/' + card + '.svg', alt=card)
                       if paymentMethod.subtitle
                         +e('h4').method-subtitle !{ paymentMethod.subtitle }
+
                     if paymentMethod.image
                       +e('img').logo(src="/pay-methods/pay-" + paymentMethod.name + '.svg' alt=paymentMethod.name.charAt(0).toUpperCase() + paymentMethod.name.slice(1))
 

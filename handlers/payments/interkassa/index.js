@@ -23,6 +23,7 @@ exports.createTransaction = function*(order) {
 exports.info = {
   title: "Интеркасса",
   name:    path.basename(__dirname),
-  hasIcon: true,
-  subtitle: "Много методов оплаты из Украины"
+  hasIcon: false,
+  cards: ['visa-mastercard', 'privatbank'],
+  subtitle: "и другие методы (Украина)"
 };

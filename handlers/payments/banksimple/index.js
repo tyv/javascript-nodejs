@@ -21,5 +21,5 @@ exports.createTransaction = function*(order) {
 exports.info = {
   title:   "Банковский перевод",
   name:    path.basename(__dirname),
-  hasIcon: true
+  hasIcon: false
 };
