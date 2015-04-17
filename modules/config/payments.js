@@ -31,6 +31,8 @@ module.exports = {
     interkassa: {
       id:     secret.interkassa.id,
       secret: secret.interkassa.secret
-    }
+    },
+
+    invoice: {}
   }
 };

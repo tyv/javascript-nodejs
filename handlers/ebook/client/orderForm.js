@@ -12,11 +12,7 @@ class OrderForm {
 
     this.product = 'ebook';
 
-    this.elem.addEventListener('submit', (e) => e.preventDefault());
-
-    // many buttons with paymentMethods, onSubmit doesn't give a way to learn which one is pressed
-    // so I listen to onclick
-    this.delegate('[name="paymentMethod"]', 'click', (e) => this.onPaymentMethodClick(e));
+    this.elem.addEventListener('submit', (e) => this.onSubmit(e));
 
     this.delegate('[data-order-payment-change]', 'click', function(e) {
       e.preventDefault();
@@ -29,6 +25,13 @@ class OrderForm {
       e.delegateTarget.querySelector('[type="radio"]').checked = true;
     });
   }
+
+
+  onSubmit(event) {
+    event.preventDefault();
+    new FormPayment(this, this.elem.querySelector('.pay-method')).submit();
+  }
+
 
   // return orderData or nothing if validation failed
   getOrderData() {
@@ -61,41 +64,6 @@ class OrderForm {
     return orderData;
   }
 
-  onPaymentMethodClick(e) {
-    var paymentMethod = e.delegateTarget.value;
-
-    new FormPayment(paymentMethod, this).submit();
-  }
-
-  request(options) {
-    var request = xhr(options);
-
-    request.addEventListener('loadstart', function() {
-      var onEnd = this.startRequestIndication();
-      request.addEventListener('loadend', onEnd);
-    }.bind(this));
-
-    return request;
-  }
-
-  startRequestIndication() {
-
-    var paymentMethodElem = this.elem.querySelector('.pay-method');
-    paymentMethodElem.classList.add('modal-overlay_light');
-
-    var spinner = new Spinner({
-      elem:  paymentMethodElem,
-      size:  'medium',
-      class: 'pay-method__spinner'
-    });
-    spinner.start();
-
-    return function onEnd() {
-      paymentMethodElem.classList.remove('modal-overlay_light');
-      if (spinner) spinner.stop();
-    };
-
-  }
 
 
 }

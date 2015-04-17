@@ -22,6 +22,7 @@ exports.createTransaction = function*(order) {
 exports.info = {
   title: "Картой",
   name:    path.basename(__dirname),
+  subtitle: "Есть и другие методы оплаты",
   cards: true,
   hasIcon: true
 };

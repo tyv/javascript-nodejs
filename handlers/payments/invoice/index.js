@@ -1,3 +1,4 @@
+
 const Transaction = require('../models/transaction');
 const path = require('path');
 
@@ -18,11 +19,7 @@ exports.createTransaction = function*(order) {
   return transaction;
 };
 
-
-
 exports.info = {
-  title: "Интеркасса",
-  name:    path.basename(__dirname),
-  hasIcon: true,
-  subtitle: "Много методов оплаты из Украины"
+  title:   "Счёт на компанию в РФ",
+  name:    path.basename(__dirname)
 };
