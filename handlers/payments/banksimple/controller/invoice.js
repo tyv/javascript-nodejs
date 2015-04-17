@@ -27,9 +27,10 @@ exports.get = function*() {
     INN: bankConfig.INN,
     ACCOUNT: bankConfig.ACCOUNT,
     BANK: bankConfig.BANK,
-    KORR_BIK: bankConfig.KORR_BIK,
+    СORR_ACC: bankConfig.CORR_ACC,
+    BIK: bankConfig.BIK,
     PAYMENT_DESCRIPTION: `Оплата по счёту ${this.transaction.number}`,
-    PRICE: this.transaction.amount
+    AMOUNT: this.transaction.amount
   });
 
   // apply replacements

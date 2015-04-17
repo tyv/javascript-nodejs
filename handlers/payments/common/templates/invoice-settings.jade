@@ -2,7 +2,7 @@
   +e.item
     +e('label').label(for="invoice-company") Название компании:
     +b('span').text-input._small
-      +e('input')(name="invoiceCompany").control#invoice-company
+      +e('input')(name="invoiceCompanyName").control#invoice-company
   +e.item._with_cb
     +e('input').cb._invoice-need#invoice-contract(type="checkbox" name="invoiceNeed")
     +e('label').cb-label(for="invoice-contract")
@@ -10,12 +10,22 @@
       +e('span').small-note &nbsp(Договор заключается с компанией зарегистрированной в РФ)
     +e.item._hidden
       +e('label').label(for="invoice-contract-head") Шапка (для акта и договора):
-      +b('textarea').textarea-input#invoice-contract-head(cols="30" rows="10" name="invoiceContractHead") ___, именуемое в дальнейшем Заказчик, в лице ___, действующего на основании ___, с одной стороны
+      +b('textarea').textarea-input#invoice-contract-head(name="invoiceContractHead") ___, именуемое в дальнейшем Заказчик, в лице ___, действующего на основании ___, с одной стороны
       +e.small-note Например: Общество с ограниченной ответственностью «Лютики», именуемое в дальнейшем Заказчик, в лице Иванова Петра Сергеевича, действующего на основании Устава, с одной стороны
     +e.item_hidden
       +e('label').label(for="invoice-company-address") Юридический адрес:
-      +b('textarea').textarea-input.__textarea#invoice-company-address(cols="30", rows="5" name="invoiceCompanyAddress")
+      +b('textarea').textarea-input.__textarea#invoice-company-address(name="invoiceCompanyAddress")
     +e.item_hidden
       +e('label').label(for="invoice-bank-details") Банковские реквизиты:
-      +b('textarea').textarea-input.__textarea#invoice-bank-details(cols="30", rows="5" name="invoiceBankDetails")
-
+      +b('textarea').textarea-input.__textarea#invoice-bank-details(name="invoiceBankDetails")
+        | ИНН 12345678901
+        = "\n"
+        | КПП 12345
+        = "\n"
+        | р/сч 0000000000
+        = "\n"
+        | в Банке таком-то
+        = "\n"
+        | к/сч 0000000000
+        = "\n"
+        | Тел. +71234567890
