@@ -15,18 +15,24 @@
         font-size 13px
         line-height 14px
 
+    &__cb-label
+        display inline-block
+
         padding-left 20px
 
     &__item_with_cb &__cb
         position absolute
 
-        margin 1px 0 0 -20px
+        margin-top 1px
 
     &__item_hidden
         display none
 
     &__cb_invoice-need:checked ~ &__item_hidden
         display block
+
+    &__textarea
+        height 75px
 
     &__label
         font-size 14px
@@ -56,7 +62,6 @@
         display inline-block
 
         margin-left 20px
-
 
 
     & .text-input
