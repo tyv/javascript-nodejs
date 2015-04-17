@@ -1,21 +1,17 @@
 
 +b.payment-setting
   +e.item
-    +e('label').label(for="pay-form-company") Название компании:
+    +e('label').label(for="invoice-company") Название компании:
     +b('span').text-input._small
-      +e('input').control#pay-form-company
-  +e.item._with_cb
-    +e('input').cb#pay-form-contract(type="checkbox")
-    +e('label').cb-label(for="pay-form-contract")
-      | Нужен договор
-      +e('span').small-note &nbsp(Договор заключается с компанией зарегистрированной в РФ)
+      +e('input')(name="invoiceCompany").control#invoice-company
+  +e('p') Если вам нужен договор с компанией, зарегистрированной в РФ &mdash; заполните поля ниже.
   +e.item
-    +e('label').label(for="pay-form-contract-head") Шапка (для акта и договора):
-    +b('textarea').textarea-input#pay-form-contract-head(cols="30" rows="10") ___, именуемое в дальнейшем Заказчик, в лице ___, действующего на основании ___, с одной стороны
+    +e('label').label(for="invoice-contract-head") Шапка (для акта и договора):
+    +b('textarea').textarea-input#invoice-contract-head(cols="30" rows="10" name="invoiceContractHead") ___, именуемое в дальнейшем Заказчик, в лице ___, действующего на основании ___, с одной стороны
     +e.small-note Например: Общество с ограниченной ответственностью «Лютики», именуемое в дальнейшем Заказчик, в лице Иванова Петра Сергеевича, действующего на основании Устава, с одной стороны
   +e.item
-    +e('label').pay-form__label(for="pay-form-company-address") Юридический адрес:
-    +b('textarea').textarea-input.pay-form__textarea#pay-form-company-address(cols="30", rows="5")
+    +e('label').invoice__label(for="invoice-company-address") Юридический адрес:
+    +b('textarea').textarea-input.invoice__textarea#invoice-company-address(cols="30", rows="5" name="invoiceCompanyAddress")
   +e.item
-    +e('label').pay-form__label(for="pay-form-bank-details") Банковские реквизиты:
-    +b('textarea').textarea-input.pay-form__textarea#pay-form-bank-details(cols="30", rows="5")
+    +e('label').invoice__label(for="invoice-bank-details") Банковские реквизиты:
+    +b('textarea').textarea-input.invoice__textarea#invoice-bank-details(cols="30", rows="5" name="invoiceBankDetails")

@@ -1,8 +1,8 @@
 
 +b.payment-setting
   +e.item._currency
-    +e('label').label(for="pay-form-currency") Выберите валюту:
-    +b('select').input-select._small.__control#pay-form-currency
+    +e('label').label(for="paypal-currency") Выберите валюту:
+    +b('select')(name="paypalCurrency").input-select._small.__control#paypal-currency
       +e('option').option(value="RUB") RUB
       +e('option').option(value="USD") USD
       +e('option').option(value="EUR") EUR

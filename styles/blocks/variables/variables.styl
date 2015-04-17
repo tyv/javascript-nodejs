@@ -27,8 +27,9 @@ size = 14px
 lineheight = 18px
 
 secondary_font = 'Open Sans Condensed', Arial, Helvetica, sans-serif
-// "Source Code Pro" is better for Mac, but for Windows it looks like Courier
-// We choose Consolas, because it looks fine on all platforms
+// "Source Code Pro" has no Cyrillic and on Windows it looks like Courier
+// "Consolas" is not installed on Linux/old Macs, it is paid per page-views if @font-face
+// We need 1 font for all, because SVGs use this font, and rectangles depend on its width
 fixed_width_font = 'Consolas', 'Lucida Console', 'Menlo', 'Monaco', monospace
 
 sidebar_width = 250px

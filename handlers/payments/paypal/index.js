@@ -14,18 +14,19 @@ exports.renderForm = require('./renderForm');
  */
 exports.createTransaction = function*(order, requestBody) {
 
-  if (!~Transaction.schema.path('currency').enumValues.indexOf(requestBody.currency)) {
-    throw(new Error("Unsupported currency:" + requestBody.currency));
+  var currency = requestBody.paypalCurrency;
+  if (!~Transaction.schema.path('currency').enumValues.indexOf(currency)) {
+    throw(new Error("Unsupported currency:" + currency));
   }
 
   var amount = (order.currency == config.payments.currency) ?
-    order.amount : Math.round(money.convert(order.amount, {from: config.payments.currency, to: requestBody.currency}));
+    order.amount : Math.round(money.convert(order.amount, {from: config.payments.currency, to: currency}));
 
   var transaction = new Transaction({
     order:  order._id,
     amount: amount,
     status: Transaction.STATUS_PENDING,
-    currency: requestBody.currency,
+    currency: currency,
     paymentMethod: path.basename(__dirname)
   });
 

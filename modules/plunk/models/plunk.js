@@ -39,7 +39,9 @@ schema.methods.getZip = function() {
     archive.file(file.filename, file.content);
   }
 
-  return archive.generate({base64:false,compression:'DEFLATE'});
+  var buffer = archive.generate({type: 'nodebuffer'});
+
+  return buffer;
 };
 
 /**

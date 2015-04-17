@@ -3,50 +3,72 @@ var xhr = require('client/xhr');
 var Spinner = require('client/spinner');
 var Modal = require('client/head/modal');
 
-var clientRender = require('client/clientRender');
-
-var paypalCurrencyForm = require('../templates/paypal-currency-form.jade');
-
 /**
  * Get data from orderForm.getOrderData()
  * process payment, ask for more data if needed
  */
 class FormPayment {
 
-  constructor(paymentMethod, orderForm) {
-    this.paymentMethod = paymentMethod;
+  constructor(orderForm, paymentMethodElem) {
     this.orderForm = orderForm;
+    this.paymentMethodElem = paymentMethodElem;
+  }
+
+  request(options) {
+    var request = xhr(options);
+
+    request.addEventListener('loadstart', function() {
+      var onEnd = this.startRequestIndication();
+      request.addEventListener('loadend', onEnd);
+    }.bind(this));
+
+    return request;
+  }
+
+  startRequestIndication() {
+
+    this.paymentMethodElem.classList.add('modal-overlay_light');
+
+    var spinner = new Spinner({
+      elem:  this.paymentMethodElem,
+      size:  'medium',
+      class: 'pay-method__spinner'
+    });
+    spinner.start();
+
+    return () => {
+      this.paymentMethodElem.classList.remove('modal-overlay_light');
+      if (spinner) spinner.stop();
+    };
+
+  }
+
+  readPaymentData() {
+    var paymentData = {};
+
+    [].forEach.call(this.paymentMethodElem.querySelectorAll('input,select,textarea'), function(elem) {
+      if (elem.type == 'radio' && !elem.checked) return;
+      paymentData[elem.name] = elem.value;
+    });
+    return paymentData;
   }
 
   submit() {
+
     var orderData = this.orderForm.getOrderData();
     if (!orderData) return;
 
-    orderData.paymentMethod = this.paymentMethod;
+    var paymentData = this.readPaymentData();
 
-    if (this.paymentMethod == 'paypal') {
-      this.submitPaypalOrder(orderData);
+    if (!paymentData.paymentMethod) {
+      new notification.Error("Выберите метод оплаты.");
       return;
     }
 
-    this.submitOrder(orderData);
-  }
+    for (var key in paymentData) {
+      orderData[key] = paymentData[key];
+    }
 
-  submitPaypalOrder(orderData) {
-
-    var modal = new Modal();
-    modal.setContent(clientRender(paypalCurrencyForm));
-
-    var self = this;
-    modal.elem.querySelector('form').onsubmit = function(event) {
-      event.preventDefault();
-      orderData.currency = this.elements.currency.value;
-      modal.remove();
-      self.submitOrder(orderData);
-    };
-  }
-
-  submitOrder(orderData) {
     // response status must be 200
     var request = xhr({
       method:         'POST',
@@ -78,7 +100,7 @@ class FormPayment {
     window.ga('send', 'event', 'payment', 'checkout', 'ebook');
     window.ga('send', 'event', 'payment', 'checkout-method-' + orderData.paymentMethod, this.orderForm.product);
 
-    var onEnd = this.orderForm.startRequestIndication();
+    var onEnd = this.startRequestIndication();
 
     request.addEventListener('success', (event) => {
 
