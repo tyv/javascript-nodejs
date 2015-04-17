@@ -3,7 +3,7 @@
     {
       "name":               "Javascript.ru",
       "script":             "bin/server",
-      "instances":          "0",
+      "instances":          "2",
       "exec_mode":          "cluster_mode",
       "max_memory_restart": "2G",
       "log_file":           "/var/log/node/javascript.log",
