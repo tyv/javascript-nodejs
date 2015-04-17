@@ -1,4 +1,3 @@
-
 +b.pay-method
   +e('ul').methods
     - console.log(paymentMethods)
@@ -10,8 +9,9 @@
             if paymentMethod.title
               +e('h3').method-title !{ paymentMethod.title }
               if paymentMethod.cards
-                  each card in paymentMethod.cards
-                    +e('img').card(src='/pay-methods/' + card + '.svg', alt=card)
+                  +e('span').cards
+                    each card in paymentMethod.cards
+                      +e('img').card(src='/pay-methods/' + card + '.svg', alt=card)
 
               if paymentMethod.subtitle
                 +e('h4').method-subtitle!= paymentMethod.subtitle
