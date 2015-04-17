@@ -27,13 +27,13 @@ block append variables
 
       +e.item._hidden
         +e('label').label(for="pay-form-contract-head") Шапка (для акта и договора):
-        +b('textarea').textarea-input#pay-form-contract-head(cols="30" rows="10") ___, именуемое в дальнейшем Заказчик, в лице ___, действующего на основании ___, с одной стороны
+        +b('textarea').textarea-input.__textarea-head#pay-form-contract-head(cols="30" rows="10") ___, именуемое в дальнейшем Заказчик, в лице ___, действующего на основании ___, с одной стороны
         +e.small-note Например: Общество с ограниченной ответственностью «Лютики», именуемое в дальнейшем Заказчик, в лице Иванова Петра Сергеевича, действующего на основании Устава, с одной стороны
 
       +e.item_hidden
         +e('label').label(for="pay-form-company-address") Юридический адрес:
-        +b('textarea').textarea-input.__textarea#pay-form-company-address(cols="30", rows="5")
+        +b('textarea').textarea-input.__textarea-addr#pay-form-company-address(cols="30", rows="5")
 
       +e.item_hidden
         +e('label').label(for="pay-form-bank-details") Банковские реквизиты:
-        +b('textarea').textarea-input.__textarea#pay-form-bank-details(cols="30", rows="5")
+        +b('textarea').textarea-input.__textarea-bank#pay-form-bank-details(cols="30", rows="5")
