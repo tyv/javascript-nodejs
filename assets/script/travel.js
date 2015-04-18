@@ -110,10 +110,10 @@
 
 
   if (iframe.contentDocument.readyState == 'complete') {
-    setTimeout(init, 1000);
+    setTimeout(init, 2000);
   } else {
     iframe.contentWindow.onload = function() {
-      setTimeout(init, 1000);
+      setTimeout(init, 2000);
     };
   }
 
