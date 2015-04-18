@@ -42,22 +42,10 @@
 
 
   function updateControls() {
-    /*
-    ['nodeType', 'tagName', 'data'].forEach(function(prop) {
-      var value = String(currentElement[prop]);
-
-      if (prop == 'data' && value.match(/^\s+$/)) {
-        value = '&lt;пробельные символы&gt;';
-      } else {
-        if (value.length > 22) value = value.slice(0, 22) + '…';
-      }
-
-      elem.querySelector('[data-travel-prop="' + prop + '"]').innerHTML = value;
-    });*/
 
     var directions = ['parentNode', 'previousSibling', 'nextSibling', 'firstChild', 'lastChild'];
     directions.forEach(function(dir) {
-      console.log(currentElement, dir, currentElement[dir]);
+      // console.log(currentElement, dir, currentElement[dir]);
       elem.querySelector('[data-travel-dir="' + dir + '"]').disabled = !currentElement[dir];
     });
 
@@ -122,10 +110,10 @@
 
 
   if (iframe.contentDocument.readyState == 'complete') {
-    setTimeout(init, 100);
+    setTimeout(init, 1000);
   } else {
     iframe.contentWindow.onload = function() {
-      setTimeout(init, 100);
+      setTimeout(init, 1000);
     };
   }
 
