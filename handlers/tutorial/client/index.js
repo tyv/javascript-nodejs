@@ -34,11 +34,14 @@ function initSidebarHighlight() {
     var current = document.getElementsByClassName('sidebar__navigation-link_active');
     if (current[0]) current[0].classList.remove('sidebar__navigation-link_active');
 
+    //debugger;
     var h2s = document.getElementsByTagName('h2');
     for (var i = 0; i < h2s.length; i++) {
       var h2 = h2s[i];
       // first in-page header
-      if (h2.getBoundingClientRect().top > 0) break;
+      // >1, because when visiting http://javascript.in/native-prototypes#native-prototype-change,
+      // top may be 0.375 or kind of...
+      if (h2.getBoundingClientRect().top > 1) break;
     }
     i--; // we need the one before it (currently reading)
 
