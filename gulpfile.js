@@ -160,6 +160,10 @@ gulp.task('tutorial:kill:content', ['cache:clean'], lazyRequireTask('tutorial/ta
 
 gulp.task('tutorial:cache:regenerate', lazyRequireTask('tutorial/tasks/cacheRegenerate'));
 
+gulp.task('cloudflare:clean', lazyRequireTask('./tasks/cloudflareClean', {
+  domains: ['javascript.ru', 'js.cx']
+}));
+
 gulp.task('cache:clean', lazyRequireTask('./tasks/cacheClean'));
 
 gulp.task('config:nginx', lazyRequireTask('./tasks/configNginx'));

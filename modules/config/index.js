@@ -28,6 +28,12 @@ module.exports = {
 
   mongoose: require('./mongoose'),
 
+  cloudflare: {
+    url:    'https://www.cloudflare.com/api_json.html',
+    apiKey: secret.cloudflare.apiKey,
+    email:  secret.cloudflare.email
+  },
+
   appKeys: [secret.sessionKey],
   auth:  {
     session: {
