@@ -57,6 +57,8 @@
     &__cards
         margin 0 10px 0 20px
 
+        white-space nowrap
+
     &__card
         vertical-align middle
         margin-left 5px
@@ -81,7 +83,6 @@
         width 16px
         height 16px
 
-
     &__header
         display inline-block
 
@@ -93,3 +94,18 @@
 
     &__method-radio:checked ~ .payment-setting
         display block
+
+    @media (max-width: 568px)
+        &__method-label,
+        & .payment-setting
+            margin-left -10px
+            margin-right -10px
+
+        &__cards
+            margin 0 20px 0 0
+
+        & h3&__method-title
+            display block
+
+        & h4&__method-subtitle
+            margin 0
