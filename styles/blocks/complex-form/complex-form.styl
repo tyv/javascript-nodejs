@@ -1,5 +1,5 @@
 .complex-form
-    width 780px
+    max-width 780px
     margin auto
 
     &__step
@@ -25,6 +25,10 @@
         margin 17px 0 11px
 
     & &__alternate-title
+        position relative
+
+        margin 25px 0 10px
+
         color #333
 
     &__email
@@ -64,3 +68,61 @@
 
     &__submit-line
         margin 50px 20px 30px 20px
+
+
+    @media tablet
+        &
+            width auto
+
+        &__step
+            border none
+            border-radius none
+
+        & &__next
+            display none
+
+        &__alternate-title:first-child:before
+            position absolute
+            top -15px
+            left 50%
+
+            width 35px
+            height 3px
+            margin-left -17px
+
+            background #F5F2F0
+
+            content: ''
+
+        &__email
+            display block
+            box-sizing border-box
+
+            width auto
+            max-width 615px
+            margin 20px auto 0
+            padding 0 23px
+
+        &__email-note
+            font-size 14px
+
+            width auto
+            max-width 615px
+            padding 0 23px
+
+        &__submit-line
+            margin-top 30px
+
+    @media (max-width: 568px)
+
+        &__extract
+            padding-left 0
+            padding-right 0
+
+            margin-left -10px
+            margin-right -10px
+
+        &__email,
+        &__email-note
+            padding-left 0
+            padding-right 0
