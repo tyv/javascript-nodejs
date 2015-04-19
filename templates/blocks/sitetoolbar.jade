@@ -69,6 +69,13 @@ block append variables
 
     +e.tablet-menu-line
       +e.tablet-menu-content
+        +b("a").tablet-ebook(href="/ebook" data-add-class-on-hover)
+          +e("span").text Купить учебник
+          +e("span").note (PDF, EPUB ≈10Mb)
+
+
+    +e.tablet-menu-line
+      +e.tablet-menu-content
         +b.share-icons
           +e('span').title Поделиться
           include ../blocks/social-icons
