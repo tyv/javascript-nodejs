@@ -13,6 +13,6 @@
 
 /usr/local/bin/pm2 startOrGracefulReload ecosystem.json --env production &&
   gulp cache:clean &&
-  gulp cloudflare:clean &&
+  gulp cloudflare:clean | bunyan &&
   gulp config:nginx --prefix /etc/nginx --env production --root /js/javascript-nodejs/current --sslEnabled &&
   /etc/init.d/nginx reload
