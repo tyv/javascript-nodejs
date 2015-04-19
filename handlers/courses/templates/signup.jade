@@ -1,0 +1,12 @@
+extends /layouts/main
+
+block append variables
+
+  - var layout_header_class = "main__header_center"
+  - var content_class = '_center'
+
+
+block content
+  include blocks/register-form-participants
+  include blocks/register-form-contacts
+

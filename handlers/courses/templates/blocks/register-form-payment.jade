@@ -1,0 +1,82 @@
++b.receipts._register
+  +e.receipt
+    +e.receipt-body
+      +e.receipt-content
+        +e.type Заказ:
+        +e.title Посещение курсов для 10 человек
+          +b.course-register-info
+            +e('p').info._length
+              +e('time')(datetime="2014-03-15 17:00").time 15 Мар 2014
+              | —
+              +e('time')(datetime="2014-05-15 17:00").time 15 Май 2014
+            +e('p').info
+              | Каждый <strong>Пн</strong> и <strong>Ср</strong> в&nbsp;
+              +e('time').time 17:00&nbsp;
+              | (UTC+4)
+
+      +e.receipt-aside
+        +e.price
+          +b('span').price 2400 RUB
+          +e('a').edit(href="/123")
+
+  +e.receipt
+    +e.receipt-body
+      +e.receipt-content
+        +e.type Контактная информация:
+        +e.title Александр Сергеевич Константинопольский
+      +e.receipt-aside._center
+        +e('span').title +7 495 926-22-23
+        +e('a').edit(href="/123")
+
++b('form').complex-form._payment
+  +e.step._current
+    +b.course-register-payment.courses-register-common
+      +e('h2').title.courses-register-common__title Оплата
+
+      +e.body
+        +b.pay-method
+          +e('ul').methods
+
+            - var paymentMethods = [];
+            - paymentMethods.push({ name: 'yandexmoney', image: true});
+            - paymentMethods.push({ name: 'webmoney', image: true });
+            - paymentMethods.push({ name: 'paypal', image: true, settings: true });
+            - paymentMethods.push({ name: 'payanyway', image: false, title: 'Payanyway', subtitle: 'и много других методов', cards: ['visa-mastercard'] });
+            - paymentMethods.push({ name: 'banksimple', image: false, title: 'Банковская квитанция'});
+            - paymentMethods.push({ name: 'interkassa', image: false, title: 'Interkassa', subtitle: 'и другие методы (Украина)', cards: ['visa-mastercard', 'privatbank'] });
+            - paymentMethods.push({ name: 'invoice', image: false, title: 'Счет на компанию', subtitle: 'Для юрлиц из России', settings: true });
+
+
+            each paymentMethod in paymentMethods
+              - var paymentMethod = paymentMethod
+              +e('li').method
+
+                +e('input').method-radio(type="radio" name="paymentMethod" value=paymentMethod.name id=paymentMethod.name)
+
+                +e('label')(class=["method-label", "_"+paymentMethod.name] for=paymentMethod.name)
+                  +e('header').header
+
+                    if paymentMethod.title
+                      +e('h3').method-title !{ paymentMethod.title }
+                      if paymentMethod.cards
+                          +e('span').cards
+                            each card in paymentMethod.cards
+                              +e('img').card(src='/pay-methods/' + card + '.svg', alt=card)
+                      if paymentMethod.subtitle
+                        +e('h4').method-subtitle !{ paymentMethod.subtitle }
+
+                    if paymentMethod.image
+                      +e('img').logo(src="/pay-methods/pay-" + paymentMethod.name + '.svg' alt=paymentMethod.name.charAt(0).toUpperCase() + paymentMethod.name.slice(1))
+
+                if paymentMethod.settings
+                  include payment-settings
+
+
+      +e.next.courses-register-common__next
+        +b('button')(type="submit").button._action
+          +e('span').text Перейти к оплате
+
+        p Если возникли какие-нибудь сложности, вы можеле <a href="/123">оплатить заказ позже</a>
+
+  +e('ul').next.grayed-list
+    +e('li').next-item.grayed-list__item Подтверждение
