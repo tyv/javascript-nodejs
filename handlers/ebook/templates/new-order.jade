@@ -18,7 +18,6 @@ block content
   script var status = "#{status}";
 
   +b("form").complex-form(data-order-form)
-
     +e.step._current
         +e('h2').alternate-title Выберите курс
         +b.extract._small.__extract
@@ -52,8 +51,8 @@ block content
           +b('button')(type="submit").button._action
             +e('span').text Продолжить
 
-    +b('ul').grayed-list.__next
-      +e('li').item.__next-item Подтверждение
+    +b('ul').grayed-list
+      +e('li').item Подтверждение
 
   script(src=pack("ebook", "js"))
   script ebook.init();
