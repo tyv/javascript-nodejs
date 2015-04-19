@@ -12,6 +12,8 @@ module.exports = {
   banksimple:  {},
   interkassa:  {},
 
+  cloudflare: {},
+
   // dev credentials
   imgur: {
     url:          'https://api.imgur.com/3/',

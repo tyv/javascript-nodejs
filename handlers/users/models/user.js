@@ -50,7 +50,7 @@ var UserSchema = new mongoose.Schema({
         validator: function checkEmail(value) {
           return this.deleted ? true : /^[-.\w]+@([\w-]+\.)+[\w-]{2,12}$/.test(value);
         },
-        msg:       'Укажите, пожалуйста, корретный email.'
+        msg:       'Укажите, пожалуйста, корректный email.'
       }
     ],
 

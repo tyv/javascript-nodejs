@@ -56,7 +56,10 @@ block append variables
   +e.tablet-menu
     +e.tablet-menu-line
       +e.tablet-menu-content
-        +e('select')(onchange="window.location=href=this.value").tablet-menu-nav.input-select.input-select_small
+        +e('select')(onchange="if(this.value) window.location.href=this.value").tablet-menu-nav.input-select.input-select_small
+          - var inSection = siteToolbarSections.filter(function(section) { return siteToolbarCurrentSection == section.slug; }).length;
+          if !inSection
+            +e('option')(selected) Выберите раздел
           each section in siteToolbarSections
             +e('option')(
               value=(section.slug ? ('/' + section.slug) : section.url)

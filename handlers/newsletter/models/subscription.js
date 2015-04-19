@@ -29,7 +29,7 @@ const schema = new Schema({
         validator: function checkEmail(value) {
           return /^[-.\w+]+@([\w-]+\.)+[\w-]{2,12}$/.test(value);
         },
-        msg:       'Укажите, пожалуйста, корретный email.'
+        msg:       'Укажите, пожалуйста, корректный email.'
       }
     ]
   },
