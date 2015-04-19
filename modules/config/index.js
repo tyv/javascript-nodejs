@@ -34,17 +34,17 @@ module.exports = {
     email:  secret.cloudflare.email
   },
 
-  appKeys: [secret.sessionKey],
-  auth:  {
-    session: {
-      key: 'sid',
-      prefix: 'sess:',
-      cookie: {
-        httpOnly: true,
-        path: '/',
+  appKeys:  [secret.sessionKey],
+  auth:     {
+    session:    {
+      key:     'sid',
+      prefix:  'sess:',
+      cookie:  {
+        httpOnly:  true,
+        path:      '/',
         overwrite: true,
-        signed: true,
-        maxAge: 3600 * 4 * 1e3 // session expires in 4 hours, remember me lives longer
+        signed:    true,
+        maxAge:    3600 * 4 * 1e3 // session expires in 4 hours, remember me lives longer
       },
       // touch session.updatedAt in DB & reset cookie on every visit to prolong the session
       // koa-session-mongoose resaves the session as a whole, not just a single field
@@ -74,7 +74,7 @@ module.exports = {
     appId: secret.openexchangerates.appId
   },
 
-  jb: secret.jb,
+  jb:      secret.jb,
   lang:    env.NODE_LANG || 'ru',
   elastic: {
     host: 'localhost:9200'
@@ -83,7 +83,7 @@ module.exports = {
   plnkrAuthId: secret.plnkrAuthId,
 
   assetVersioning: env.ASSET_VERSIONING == 'file' ? 'file' :
-    env.ASSET_VERSIONING == 'query' ? 'query' : null,
+                     env.ASSET_VERSIONING == 'query' ? 'query' : null,
 
   mailer: require('./mailer'),
 
@@ -113,7 +113,7 @@ module.exports = {
   downloadRoot:         path.join(process.cwd(), 'download'),
   tmpRoot:              path.join(process.cwd(), 'tmp'),
   // extra handlers from outside of the main repo
-  extraHandlersRoot:          path.join(process.cwd(), 'extra'),
+  extraHandlersRoot:    path.join(process.cwd(), 'extra'),
   // js/css build versions
   manifestRoot:         path.join(process.cwd(), 'manifest')
 };

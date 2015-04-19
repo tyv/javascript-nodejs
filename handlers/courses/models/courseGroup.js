@@ -14,6 +14,13 @@ var schema = new Schema({
     required: true
   },
 
+  // like "nodejs-0402", for urls
+  slug: {
+    type: String,
+    required: true
+  },
+
+
   // Every mon and thu at 19:00 GMT+3
   timeDesc: {
     type: String,
@@ -25,30 +32,23 @@ var schema = new Schema({
     required: true
   },
 
-  /*
-
-
-
-  timestamp: {
-    type: Number,
-    required: true,
-    unique: true
-  },
-  base: {
-    type: String,
+  course:{
+    type: Schema.Types.ObjectId,
+    ref:  'Course',
     required: true
   },
 
-  rates: {
-    type: Schema.Types.Mixed,
-    required: true
-  },
-*/
   created: {
     type:    Date,
     default: Date.now
   }
 });
 
-module.exports = mongoose.model('CurrencyRate', schema);
+
+schema.methods.getUrl = function() {
+  return '/courses/groups/' + this.slug;
+};
+
+
+module.exports = mongoose.model('CourseGroup', schema);
 

@@ -1,4 +1,4 @@
 
 exports.get = function*() {
-  this.body = "Courses index";
+  this.body = "JavaScript DOM Интерфейсы";
 };
