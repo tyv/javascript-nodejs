@@ -1,0 +1,231 @@
+// mods: '_step_1' is '_step_2', '_step_3', '_step_4'
+// _step_1 Participants
+// _step_2 Contacts
+// _step_3 Pyament
+// _step_3 Result
+
++b.courses-register._step_1
+
+    +b.receipts._register
+
+      +e.receipt._step_1
+        +e.receipt-body
+          +e.receipt-content
+            +e.type Заказ:
+            +e.title Посещение курсов для 10 человек
+              +b.course-register-info
+                +e('p').info._length
+                  +e('time')(datetime="2014-03-15 17:00").time 15 Мар 2014
+                  | —
+                  +e('time')(datetime="2014-05-15 17:00").time 15 Май 2014
+                +e('p').info
+                  | Каждый <strong>Пн</strong> и <strong>Ср</strong> в&nbsp;
+                  +e('time').time 17:00&nbsp;
+                  | (UTC+4)
+
+          +e.receipt-aside
+            +e.price
+              +b('span').price 2400 RUB
+              +e('a').edit(href="/123")
+
+      +e.receipt._step_2
+        +e.receipt-body
+          +e.receipt-content
+            +e.type Контактная информация:
+            +e.title Александр Сергеевич Константинопольский
+          +e.receipt-aside._center
+            +e('span').title +7 495 926-22-23
+            +e('a').edit(href="/123")
+
+      +e.receipt._step_3
+        +e.receipt-body
+          +e.receipt-content
+            +e.type Оплата:
+            +e.status._ok Осуществлена успешно
+          +e.receipt-aside
+            +e.pay-method_paypal
+
+
+    // Participants
+
+    +b('form').complex-form._step_1
+      +e.step._current
+        +b.courses-register-participants.courses-register-common
+          +e('h2').title.courses-register-common__title Места и участники
+
+          +b.course-register-info
+            +e('h2').group Группа 10
+            +e('p').info._length
+              +e('time')(datetime="2014-03-15 17:00").time 15 Мар 2014
+              | —
+              +e('time')(datetime="2014-05-15 17:00").time 15 Май 2014
+            +e('p').info
+              | Каждый <strong>Пн</strong> и <strong>Ср</strong> в&nbsp;
+              +e('time').time 17:00&nbsp;
+              | (UTC+4)
+
+          +b.course-register-settings
+            +e.number.course-register-settings__cell
+              +e('h3').title Количество мест
+              +e.body
+                +b.number-input
+                  +e('button')(disabled).btn._dec &minus;
+                  +b.text-input._small.__text
+                    +e('input')(type="number" value="1" min="1").control.__input
+                  +e('button').btn._inc +
+
+            +e.is-participant.course-register-settings__cell
+              +e('h3').title Я являюсь участником
+              +e.body
+                +b.switch-input
+                  +e('input').checkbox#request-participant(type='checkbox')
+                  +e('i').bg
+                  +e('label').label(for="request-participant")
+                    +e('span').off НЕТ
+                    +e('span').on ДА
+
+            +e.price.course-register-settings__cell
+              +e('h3').title Стоимость
+              +e.body
+                +b.price 2400 RUB
+                  +e('span').secondary (≈&nbsp;200$)
+
+          +e.add-participants
+            +b.course-add-participants
+              +e('input')(type="checkbox" id="add-participants").checkbox
+              +e('label').add(for="add-participants") Укзать участников
+              +e('p').note (это можно сделать позже)
+              +e.dropdown
+                +e('label')(for="add-participants").dropdown-close.close-button
+                +e('ul').dropdown-list
+                  - var n = 0
+                    while n < 6
+                      +e('li').dropdown-item
+                        +e('label').participant
+                          +e('span').participant-n Участник
+                          +b('span').text-input
+                            +e('input').control(placeholder="email", name="email", type="email")
+                      - n++
+
+          +e.next.courses-register-common__next
+            +b('button')(type="submit").button._action
+              +e('span').text Сохранить и продолжить
+
+
+    // Contacts
+
+    +b('form').complex-form._step_2
+      +e.step._current
+        +b.course-register-contacts.courses-register-common
+          +e('h2').title.courses-register-common__title Контактная информация
+          +e('p').note
+            | Оставьте ваши контактные данные, чтобы мы могли связаться с вами
+            | в случае необходимости
+
+          +e.body
+            +b.contact-form
+              +e.content
+                +e.fields
+                  +e.name
+                    label(for="contact-name") Имя и Фамилия:
+                    +b.text-input._small.__name-input
+                      +e('input').control#contact-name
+                  +e.tel
+                    label(for="contact-phone") Телефон:
+                    +b.full-phone.__full-phone
+                      +e.code-wrap
+                        +b('select').input-select._small.__codes
+                          +e('option').option(value="+7") RU (+7)
+                          +e('option').option(value="+38") UA (+38)
+                      +e.tel-wrap
+                        +b.text-input._small.__tel
+                          +e('input').control#contact-phone(placeholder="XXX XXX-XX-XX")
+                +e.note
+                  +e('h5').note-title Ваши данные в безопасности
+                  p
+                    | В соответствии с законом о защите личных данных, никакие ваши личные данные
+                    | не будут переданы третьим лицам, кроме как по вашему желанию или для
+                    | целей выполнения заключенного с вами договора.
+
+          +e.next.courses-register-common__next
+            +b('button')(type="submit").button._action
+              +e('span').text Сохранить и продолжить
+
+
+    // Pyament
+
+    +b('form').complex-form._step_3
+      +e.step._current
+        +b.course-register-payment.courses-register-common
+          +e('h2').title.courses-register-common__title Оплата
+
+          +e.body
+            +b.pay-method
+              +e('ul').methods
+
+                - var paymentMethods = [];
+                - paymentMethods.push({ name: 'yandexmoney', image: true});
+                - paymentMethods.push({ name: 'webmoney', image: true });
+                - paymentMethods.push({ name: 'paypal', image: true, settings: true });
+                - paymentMethods.push({ name: 'payanyway', image: false, title: 'Payanyway', subtitle: 'и много других методов', cards: ['visa-mastercard'] });
+                - paymentMethods.push({ name: 'banksimple', image: false, title: 'Банковская квитанция'});
+                - paymentMethods.push({ name: 'interkassa', image: false, title: 'Interkassa', subtitle: 'и другие методы (Украина)', cards: ['visa-mastercard', 'privatbank'] });
+                - paymentMethods.push({ name: 'invoice', image: false, title: 'Счет на компанию', subtitle: 'Для юрлиц из России', settings: true });
+
+
+                each paymentMethod in paymentMethods
+                  - var paymentMethod = paymentMethod
+                  +e('li').method
+
+                    +e('input').method-radio(type="radio" name="paymentMethod" value=paymentMethod.name id=paymentMethod.name)
+
+                    +e('label')(class=["method-label", "_"+paymentMethod.name] for=paymentMethod.name)
+                      +e('header').header
+
+                        if paymentMethod.title
+                          +e('h3').method-title !{ paymentMethod.title }
+                          if paymentMethod.cards
+                              +e('span').cards
+                                each card in paymentMethod.cards
+                                  +e('img').card(src='/pay-methods/' + card + '.svg', alt=card)
+                          if paymentMethod.subtitle
+                            +e('h4').method-subtitle !{ paymentMethod.subtitle }
+
+                        if paymentMethod.image
+                          +e('img').logo(src="/pay-methods/pay-" + paymentMethod.name + '.svg' alt=paymentMethod.name.charAt(0).toUpperCase() + paymentMethod.name.slice(1))
+
+                    if paymentMethod.settings
+                      include payment-settings
+
+
+          +e.next.courses-register-common__next
+            +b('button')(type="submit").button._action
+              +e('span').text Перейти к оплате
+
+            p Если возникли какие-нибудь сложности, вы можеле <a href="/123">оплатить заказ позже</a>
+
+
+    // Result
+
+    +b('form').complex-form._step_4
+      +e.step._current
+        +b.course-register-success.courses-register-common
+          +e('h2').title.courses-register-common__title Спасибо за заказ!
+          +e('h3').title.courses-register-common__title В ближайшее время вам прийдет уведомление на электронный адрес
+
+          +e.body
+            p
+              | Вы можете отредактировать детали своего заказа
+              | в любое время до начала проведения курсов в
+              | <a href="/123">соответствующем разделе</a> вашей учетной записи.
+              | В случаях каких-либо изменений мы обязательно с вами свяжемся.
+
+            p Если у вас возникли какие-либо вопросы, присылайте их на <a href="#{mailto}">orders@javascript.ru</a>.
+
+
+
+    +b('ul').grayed-list
+        +e('li').item._step_2 Контактная информация
+        +e('li').item._step_3 Оплата
+        +e('li').item._step_4 Подтверждение
+
