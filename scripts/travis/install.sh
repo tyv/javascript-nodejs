@@ -80,10 +80,11 @@ fi
 # ===== Latest npm ==========
 # need latest npm (less bugs)
 # install global packages 1-by-1 for less bugs too
-npm i -g npm
-npm i -g mocha
-npm i -g bunyan
-npm i -g gulp
+npm i -g pangyp
+npm i -g npm --node-gyp=pangyp
+npm i -g mocha --node-gyp=pangyp
+npm i -g bunyan --node-gyp=pangyp
+npm i -g gulp --node-gyp=pangyp
 
 
 # Turn off unneeded services to free some memory
@@ -107,7 +108,7 @@ sudo apt-get update
 sudo apt-get install -y mongodb-org=2.6.8 mongodb-org-server=2.6.8 mongodb-org-shell=2.6.8 mongodb-org-mongos=2.6.8 mongodb-org-tools=2.6.8
 sudo /etc/init.d/mongodb restart
 
-npm install
+npm install --node-gyp=pangyp
 
 # deploy nginx config
 sudo gulp config:nginx --prefix /etc/nginx --root /js/javascript-nodejs --env test --clear
