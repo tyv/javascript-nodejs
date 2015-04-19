@@ -1,6 +1,6 @@
-h1 JavaScript DOM Интерфейсы
+h1= course.title
 
 ul
   each group in groups
     li
-      a(href=group.getUrl())= course.title
+      a(href='/courses/signup/' + group.slug)= group.title

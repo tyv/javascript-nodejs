@@ -17,7 +17,8 @@ var schema = new Schema({
   // like "nodejs-0402", for urls
   slug: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
 
 
@@ -35,6 +36,13 @@ var schema = new Schema({
   course:{
     type: Schema.Types.ObjectId,
     ref:  'Course',
+    required: true
+  },
+
+  // JS/UI 10.01
+  // a user-friendly group title
+  title: {
+    type: String,
     required: true
   },
 

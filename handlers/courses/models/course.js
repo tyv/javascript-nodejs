@@ -6,6 +6,7 @@ var schema = new Schema({
   // like "nodejs", same as template
   slug: {
     type: String,
+    unique: true,
     required: true
   },
 
