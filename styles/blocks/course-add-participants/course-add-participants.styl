@@ -1,4 +1,26 @@
 .course-add-participants
+    position absolute
+    z-index -1
+
+    width 100%
+
+    text-align center
+
+    pointer-events none
+
+    opacity 0
+
+    transition margin-top 0.2s, opacity 0.2s
+
+    &_visible
+        position static
+        z-index initial
+
+        margin-top 10px
+
+        pointer-events auto
+
+        opacity 1
 
     .main & ul,
     .main & p,
