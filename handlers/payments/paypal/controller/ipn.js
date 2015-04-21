@@ -52,7 +52,7 @@ exports.post = function* (next) {
   // ipn is verified now! But we check if it's data matches the transaction (as recommended in docs)
   if (this.transaction.amount != parseFloat(this.request.body.mc_gross) ||
     this.request.body.receiver_email != paypalConfig.email ||
-    this.request.body.mc_currency != config.payments.currency) {
+    this.request.body.mc_currency != this.transaction.currency) {
 
     yield this.transaction.log("ipn: the response POST data doesn't match the transaction data", response.body);
     this.throw(404, "transaction data doesn't match the POST body, strange");
