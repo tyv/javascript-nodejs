@@ -89,6 +89,8 @@
         &,
         &__layout
             display block
+            height auto
+            padding 0
 
         &__left,
         &__center,
@@ -97,7 +99,24 @@
             box-sizing: border-box
 
             width auto
-            margin-top 20px
-            padding 10px 25px
+            padding 30px 25px
 
             border: 0
+
+        &__center,
+        &__right
+            border-top 2px solid rgba(213,214,214,0.15)
+
+
+    @media (max-width: 568px)
+
+        &__layout
+            border-radius initial
+
+            margin-left -10px
+            margin-right -10px
+
+        & .quiz-weak-list__list
+            display block
+
+            text-align left

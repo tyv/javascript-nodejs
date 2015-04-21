@@ -1,5 +1,9 @@
 extends /layouts/main
 
+block append head
+  link(href=pack('quiz', 'css') rel='stylesheet')
+
+
 block append variables
     - var title = 'Тестирование знания Javascript'
     - var sitetoolbar = true

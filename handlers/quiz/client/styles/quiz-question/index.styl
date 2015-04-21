@@ -34,12 +34,15 @@
         margin-top 25px
 
     & &__variant
+        position relative
+
+        line-height 16px
+
         margin-top 4px
-        padding-left 20px
+        padding-left 25px
 
     &__label
         font-size 14px
-        line-height 14px
 
         display inline-block
 
@@ -49,10 +52,12 @@
 
     &__input
         position absolute
-        top 0
-        left -20px
+        top 50%
+        left -25px
 
-        margin 0
+        margin -7px 0 0 0
+        width 16px
+        height 16px
 
     &__input:checked + &__input-text
         font-weight bold
@@ -92,3 +97,26 @@
     &__variant_correct_false&__variant_selected &__input-text
         font-weight bold
         color #d90000
+
+    @media (max-width: 568px)
+        &
+            min-width initial
+            margin 15px -10px 0
+
+        &__body
+            padding 10px
+
+            border-width 0
+
+            border-radius initial
+
+        &_correct_true &__body,
+        &_correct_false &__body
+            border-width 3px
+
+        & &__variant
+            margin-top 10px
+
+        &__title
+            font-size 14px
+            font-weight normal
