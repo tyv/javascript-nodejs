@@ -70,8 +70,9 @@
               +e.body
                 +b.number-input
                   +e('button')(disabled).btn._dec &minus;
-                  +b.text-input._small.__text
-                    +e('input')(type="number" value="1" min="1").control.__input
+                  +b.text-input._small.__text._invalid
+                    +e('input')(type="number" value="1").control.__input
+                    +e('span').err Укажите поменьше людей
                   +e('button').btn._inc +
 
             +e.is-participant.course-register-settings__cell
@@ -91,7 +92,7 @@
                   +e('span').secondary (≈&nbsp;200$)
 
           +e.add-participants
-            +b.course-add-participants
+            +b.course-add-participants._visible
               +e('input')(type="checkbox" id="add-participants").checkbox
               +e('label').add(for="add-participants") Укзать участников
               +e('p').note (это можно сделать позже)
