@@ -1,0 +1,8 @@
+include /bem
+
++b('li').course-add-participants-item
+  +e('label').participant
+    +e('span').participant-n Участник
+    +b('span').text-input
+      +e('input').control(placeholder="email", name="email", type="email")
+      +e('span').err введите корректный email

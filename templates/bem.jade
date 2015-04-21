@@ -3,11 +3,10 @@
 
 //- Some global variables
 - var bem_chain = [];
-- var bem_chain_contexts = ['block'];
 
 //- Block
 mixin b(tag, isElement, noBlockClass)
-  - bem.call(this, buf, bem_chain, bem_chain_contexts, tag, isElement, noBlockClass)
+  - bem.call(this, buf, bem_chain, tag, isElement, noBlockClass)
 
 //- Context (For partials, doesn't add block class to the element)
 mixin c(tag)

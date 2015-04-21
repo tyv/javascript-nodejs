@@ -1,6 +1,9 @@
 var Course = require('../models/course');
 var CourseGroup = require('../models/courseGroup');
 var config = require('config');
+var moment = require('momentWithLocale');
+var money = require('money');
+
 
 exports.get = function*() {
 
@@ -20,6 +23,7 @@ exports.get = function*() {
     return;
   }
 
+  this.locals.paymentMethods = require('../lib/paymentMethods');
 
   this.locals.title = course.title;
 
@@ -28,8 +32,18 @@ exports.get = function*() {
     { title: 'Курсы', url: '/courses' }
   ];
 
+  this.locals.formatGroupDate = function(date) {
+    return moment(date).format('D MMM YY').replace(/[а-я]/, function(letter) {
+      return letter.toUpperCase();
+    });
+  };
 
-  // TODO
+  this.locals.rateUsdRub = money.convert(1, {from: 'USD', to: 'RUB'});
+
+  this.locals.groupInfo = {
+    price:           group.price,
+    participantsMax: group.participantsLimit
+  };
 
   this.body = this.render('signup');
 };

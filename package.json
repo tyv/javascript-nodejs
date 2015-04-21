@@ -22,7 +22,6 @@
     "autoprefixer-loader": "*",
     "babel-core": "*",
     "babel-loader": "*",
-    "bem-jade": "*",
     "bluebird": "*",
     "browser-pack": "*",
     "bunyan": "*",
