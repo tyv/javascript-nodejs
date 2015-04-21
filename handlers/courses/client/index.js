@@ -1,11 +1,11 @@
-var OrderForm = require('./orderForm');
+var SignupWidget = require('./signupWidget');
 
 exports.init = function() {
 
-  var orderForm = document.querySelector('[data-order-form]');
-  if (orderForm) {
-    new OrderForm({
-      elem: orderForm
+  var signupWidget = document.querySelector('[data-elem="signup"]');
+  if (signupWidget) {
+    new SignupWidget({
+      elem: signupWidget
     });
   }
 

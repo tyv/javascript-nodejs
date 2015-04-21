@@ -4,28 +4,27 @@ var delegate = require('client/delegate');
 var FormPayment = require('payments/common/client').FormPayment;
 var Spinner = require('client/spinner');
 var Modal = require('client/head/modal');
+var ParticipantsForm = require('./participantsForm');
 
-class OrderForm {
+class SignupWidget {
 
   constructor(options) {
     this.elem = options.elem;
 
-    this.product = 'invoice';
+    this.product = 'course';
 
-    this.elem.addEventListener('submit', (e) => e.preventDefault());
+    this.elems = {};
+    [].forEach.call(this.elem.querySelectorAll('[data-elem]'), (el) => {
+      this.elems[el.getAttribute('data-elem')] = el;
+    });
 
-    // many buttons with paymentMethods, onSubmit doesn't give a way to learn which one is pressed
-    // so I listen to onclick
-    this.delegate('[name="paymentMethod"]', 'click', (e) => this.onPaymentMethodClick(e));
-
-    this.delegate('[data-order-payment-change]', 'click', function(e) {
-      e.preventDefault();
-      this.elem.querySelector('[data-order-form-step-payment]').style.display = 'block';
-      this.elem.querySelector('[data-order-form-step-confirm]').style.display = 'none';
-      this.elem.querySelector('[data-order-form-step-receipt]').style.display = 'none';
+    new ParticipantsForm({
+      elem: this.elems.participants
     });
 
   }
+
+
 
   // return orderData or nothing if validation failed
   getOrderData() {
@@ -119,6 +118,6 @@ class OrderForm {
 }
 
 
-delegate.delegateMixin(OrderForm.prototype);
+delegate.delegateMixin(SignupWidget.prototype);
 
-module.exports = OrderForm;
+module.exports = SignupWidget;

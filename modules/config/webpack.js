@@ -59,7 +59,7 @@ var webpackConfig = {
     search:           'search/client',
     quiz:             'quiz/client',
     ebook:            'ebook/client',
-    //invoice:          'invoice/client',
+    courses:          'courses/client',
     footer:           'client/footer',
     nodejsScreencast: 'nodejsScreencast/client'
   },

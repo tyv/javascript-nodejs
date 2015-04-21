@@ -1,0 +1,37 @@
++b.receipts._register
+
+  +e.receipt._step_1
+    +e.receipt-body
+      +e.receipt-content
+        +e.type Заказ:
+        +e.title(data-elem="receiptTitle") -
+          +b.course-register-info
+            +e('p').info._length
+              +e('time')(datetime=moment(group.dateStart).format("YYYY-MM-DD HH:mm")).time= formatGroupDate(group.dateStart)
+              | —
+              +e('time')(datetime=moment(group.dateStart).format("YYYY-MM-DD HH:mm")).time= formatGroupDate(group.dateEnd)
+            +e('p').info!= group.timeDesc
+
+      +e.receipt-aside
+        +e.price
+          +b('span')(data-elem="receiptAmount").price -
+          +e('a').edit(href="#" data-elem="receiptParticipantsEditLink")
+
+  +e.receipt._step_2
+    +e.receipt-body
+      +e.receipt-content
+        +e.type Контактная информация:
+        +e.title(data-elem="receiptContact") -
+      +e.receipt-aside._center
+        +e('span')(data-elem="receiptPhone").title -
+        +e('a').edit(href="#" data-elem="receiptContactEditLink")
+
+  +e.receipt._step_3
+    +e.receipt-body
+      +e.receipt-content
+        +e.type Оплата:
+        +e.status._ok Осуществлена успешно
+      +e.receipt-aside
+        +e.pay-method_paypal
+
+

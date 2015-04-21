@@ -4,9 +4,22 @@ block append variables
 
   - var layout_header_class = "main__header_center"
   - var content_class = '_center'
-
+  - var sitetoolbar = true
 
 block content
-  include blocks/register-form-participants
-  include blocks/register-form-contacts
+
+  script var groupInfo = !{JSON.stringify(groupInfo)};
+  script var rateUsdRub = #{rateUsdRub};
+  +b(data-elem="signup").courses-register._step_1
+
+    include blocks/receipts
+    include blocks/participants
+    include blocks/contacts
+    include blocks/payment
+    include blocks/result
+    include blocks/grayed-list
+
+
+  script(src=pack("courses", "js"))
+  script courses.init();
 

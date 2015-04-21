@@ -21,6 +21,10 @@ var schema = new Schema({
     unique: true
   },
 
+  price: {
+    type: Number,
+    required: true
+  },
 
   // Every mon and thu at 19:00 GMT+3
   timeDesc: {
