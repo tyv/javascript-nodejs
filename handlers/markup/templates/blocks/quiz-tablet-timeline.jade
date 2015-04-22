@@ -1,0 +1,12 @@
+- var n = 0
+
++b.quiz-tablet-timeline.tablet-only
+    +e('h2').title Вопрос
+        +e('strong').num &nbsp;
+
+          while n < quiz.total
+            - n++
+                if (n == quiz.current)
+                    | !{quiz.current}&nbsp;
+        | из&nbsp;
+        +e('strong').total !{quiz.total}
