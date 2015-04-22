@@ -12,6 +12,7 @@ var Order = exports.Order = require('./models/order');
 var OrderTemplate = exports.OrderTemplate = require('./models/orderTemplate');
 var Transaction = exports.Transaction = require('./models/transaction');
 var TransactionLog = exports.TransactionLog = require('./models/transactionLog');
+var OrderCreateError = exports.OrderCreateError = require('./lib/orderCreateError');
 
 var paymentMethods = exports.methods = require('./lib/methods');
 

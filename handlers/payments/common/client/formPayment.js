@@ -73,7 +73,7 @@ class FormPayment {
     var request = xhr({
       method:         'POST',
       url:            '/payments/common/checkout',
-      normalStatuses: [200, 403],
+      normalStatuses: [200, 403, 400],
       body:           orderData
     });
 
@@ -106,6 +106,12 @@ class FormPayment {
 
       if (request.status == 403) {
         new notification.Error("<p>" + (event.result.description || event.result.message) + "</p><p>Пожалуйста, начните оформление заново.</p><p>Если вы считаете, что на сервере ошибка &mdash; свяжитесь со <a href='mailto:orders@javascript.ru'>службой поддержки</a>.</p>");
+        onEnd();
+        return;
+      }
+
+      if (request.status == 400) {
+        new notification.Error("<p>" + event.result.message + "</p><p>Если вы считаете, что произошла ошибка &mdash; свяжитесь со <a href='mailto:orders@javascript.ru'>службой поддержки</a>.</p>");
         onEnd();
         return;
       }

@@ -43,16 +43,14 @@
 
       +e.add-participants
         +b(data-elem="participantsAddBox").course-add-participants
-          +e('input')(type="checkbox" id="add-participants").checkbox
+          +e('input')(type="checkbox" data-elem="participantsListEnabled" id="add-participants").checkbox
           +e('label').add(for="add-participants") Указать участников
           +e('p').note (это можно сделать позже)
           +e.dropdown
             +e('label')(for="add-participants").dropdown-close.close-button
-            +b.course-add-participants
-              +e('ul')(data-elem="participantsAddList").dropdown-list
+            +e('ul')(data-elem="participantsAddList").dropdown-list
 
       +e.next.courses-register-common__next
         +b('button')(type="submit").button._action
           +e('span').text Сохранить и продолжить
-
 

@@ -8,5 +8,5 @@ exports.init = function(app) {
 exports.Course = require('./models/course');
 exports.CourseGroup = require('./models/courseGroup');
 
-//exports.onPaid = require('./lib/onPaid');
-//exports.createOrderFromTemplate = require('./lib/createOrderFromTemplate');
+exports.onPaid = require('./lib/onPaid');
+exports.createOrderFromTemplate = require('./lib/createOrderFromTemplate');

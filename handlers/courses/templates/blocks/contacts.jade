@@ -1,4 +1,4 @@
-+b('form').complex-form._step_2
++b('form')(data-elem="contact").complex-form._step_2
   +e.step._current
     +b.course-register-contacts.courses-register-common
       +e('h2').title.courses-register-common__title Контактная информация
@@ -13,7 +13,7 @@
               +e.name
                 label(for="contact-name") Имя и Фамилия:
                 +b.text-input._small.__name-input
-                  +e('input').control#contact-name
+                  +e('input')(data-elem="contactName", required).control#contact-name
               +e.tel
                 label(for="contact-phone") Телефон:
                 +b.full-phone.__full-phone
@@ -23,11 +23,11 @@
                       +e('option').option(value="+38") UA (+38)
                   +e.tel-wrap
                     +b.text-input._small.__tel
-                      +e('input').control#contact-phone(placeholder="XXX XXX-XX-XX")
+                      +e('input').control#contact-phone(data-elem="contactPhone" type='tel', pattern='[+0-9()# ]{6,}', placeholder='+X (XXX) XXX-XXXX')
             +e.note
               +e('h5').note-title Ваши данные в безопасности
               p
-                | В соответствии с законом о защите личных данных, никакие ваши личные данные
+                | Никакие ваши личные данные
                 | не будут переданы третьим лицам, кроме как по вашему желанию или для
                 | целей выполнения заключенного с вами договора.
 
