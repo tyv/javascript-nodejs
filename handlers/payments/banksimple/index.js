@@ -21,5 +21,7 @@ exports.createTransaction = function*(order) {
 exports.info = {
   title:   "Банковский перевод",
   name:    path.basename(__dirname),
-  hasIcon: false
+  hasIcon: false,
+  cards: ['sberbank'],
+  subtitle: 'или другой банк'
 };
