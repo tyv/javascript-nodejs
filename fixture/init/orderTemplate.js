@@ -37,9 +37,8 @@ exports.OrderTemplate = [
     }
   },
   {
-    title: "Оплата счёта javascript.ru",
-    module: 'invoice',
-    slug: 'invoice'
+    module: 'courses',
+    slug: 'course'
   }
 ];
 

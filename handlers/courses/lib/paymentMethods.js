@@ -2,10 +2,10 @@ const payments = require('payments');
 
 var paymentMethods = {};
 
-var methodsEnabled = ['webmoney', 'yandexmoney', 'payanyway', 'paypal', 'interkassa'];
+var methodsEnabled = ['webmoney', 'yandexmoney', 'payanyway', 'paypal', 'interkassa', 'banksimple', 'invoice'];
 
 methodsEnabled.forEach(function(key) {
-  paymentMethods[key] = {name: key, title: payments.methods[key].title};
+  paymentMethods[key] = payments.methods[key].info;
 });
 
 module.exports = paymentMethods;

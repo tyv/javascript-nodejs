@@ -1,6 +1,6 @@
 +b.pay-method
   +e('ul').methods
-    - console.log(paymentMethods)
+    - console.log("!!!", paymentMethods)
     each paymentMethod in paymentMethods
       +e('li').method
         +e('input').method-radio(type="radio" name="paymentMethod" value=paymentMethod.name id=paymentMethod.name)

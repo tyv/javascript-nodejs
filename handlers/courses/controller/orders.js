@@ -7,8 +7,19 @@ var money = require('money');
 
 exports.get = function*() {
 
+  yield* this.loadOrder({
+    ensureSuccessTimeout: 5000
+  });
+
+  this.nocache();
+
+  this.locals.sitetoolbar = true;
+  this.locals.title = 'Заказ №' + this.order.number;
+
+  this.locals.order = this.order;
+
   var group = this.locals.group = yield CourseGroup.findOne({
-    slug: this.params.group
+    slug: this.order.data.slug
   }).populate('course').exec();
 
   if (!group) {
@@ -16,14 +27,6 @@ exports.get = function*() {
   }
 
   var course = group.course;
-
-  // TODO:
-  // only authorized users may signup
-  /*
-   if (!this.isAuthenticated()) {
-   this.redirect(group.course.getUrl());
-   return;
-   }*/
 
   this.locals.paymentMethods = require('../lib/paymentMethods');
 
@@ -40,13 +43,6 @@ exports.get = function*() {
     });
   };
 
-  this.locals.rateUsdRub = money.convert(1, {from: 'USD', to: 'RUB'});
 
-  this.locals.groupInfo = {
-    price:           group.price,
-    participantsMax: group.participantsLimit,
-    slug:            group.slug
-  };
-
-  this.body = this.render('signup');
+  this.body = this.render('order');
 };

@@ -1,6 +1,7 @@
 var paymentMethods = require('../../lib/methods');
 var Order = require('../../models/order');
 var OrderTemplate = require('../../models/orderTemplate');
+var OrderCreateError = require('../../lib/orderCreateError');
 
 /**
  * The order form is sent to checkout when it's 100% valid (client-side code validated it)
@@ -33,7 +34,19 @@ exports.post = function*(next) {
 
     this.log.debug("orderTemplate", orderTemplate);
 
-    this.order = yield* require(orderTemplate.module).createOrderFromTemplate(orderTemplate, this.user, this.request.body);
+    try {
+      this.order = yield* require(orderTemplate.module).createOrderFromTemplate(orderTemplate, this.user, this.request.body);
+    } catch (e) {
+      if (e instanceof OrderCreateError) {
+        this.status = 400;
+        this.body = {
+          message: e.message
+        };
+        return;
+      } else {
+        throw e;
+      }
+    }
 
     saveOrderNumberToSession(this.session, this.order);
   } else {

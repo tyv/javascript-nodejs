@@ -5,6 +5,8 @@ var FormPayment = require('payments/common/client').FormPayment;
 var Spinner = require('client/spinner');
 var Modal = require('client/head/modal');
 var ParticipantsForm = require('./participantsForm');
+var ContactForm = require('./contactForm');
+var pluralize = require('textUtil/pluralize');
 
 class SignupWidget {
 
@@ -18,71 +20,94 @@ class SignupWidget {
       this.elems[el.getAttribute('data-elem')] = el;
     });
 
-    new ParticipantsForm({
+    var participantsForm = new ParticipantsForm({
       elem: this.elems.participants
     });
 
+    participantsForm.elem.addEventListener('select', this.onParticipantsFormSelect.bind(this));
+
+    this.elems.receiptParticipantsEditLink.onclick = (e) => {
+      e.preventDefault();
+      this.goStep1();
+    };
+
+
+    var contactForm = this.contactForm = new ContactForm({
+      elem: this.elems.contact
+    });
+
+    contactForm.elem.addEventListener('select', this.onContactFormSelect.bind(this));
+
+    this.elems.receiptContactEditLink.onclick = (e) => {
+      e.preventDefault();
+      this.goStep2();
+    };
+
+    this.elems.payment.onsubmit = this.onPaymentSubmit.bind(this);
+
   }
 
+  onPaymentSubmit() {
+    event.preventDefault();
+    new FormPayment(this, this.elem.querySelector('.pay-method')).submit();
+  }
+
+  goStep1() {
+    this.elem.className = this.elem.className.replace(/courses-register_step_\d/, '');
+    this.elem.classList.add('courses-register_step_1');
+  }
+
+  goStep2() {
+    this.elem.className = this.elem.className.replace(/courses-register_step_\d/, '');
+    this.elem.classList.add('courses-register_step_2');
+
+    this.elems.receiptTitle.innerHTML = `Участие в курсе для ${this.participantsInfo.count}
+      ${pluralize(this.participantsInfo.count, 'человека', 'человек', 'человек')}`;
+
+    this.elems.receiptAmount.innerHTML = window.groupInfo.price * this.participantsInfo.count + ' RUB';
+
+    this.contactForm.focus();
+  }
+
+  goStep3() {
+    this.elem.className = this.elem.className.replace(/courses-register_step_\d/, '');
+    this.elem.classList.add('courses-register_step_3');
+
+    this.elems.receiptContactName.innerHTML = this.contactInfo.name;
+    this.elems.receiptContactPhone.innerHTML = this.contactInfo.phone;
+  }
+
+  onParticipantsFormSelect(event) {
+    this.participantsInfo = event.detail;
+    this.goStep2();
+  }
+
+  onContactFormSelect(event) {
+    this.contactInfo = event.detail;
+    this.goStep3();
+  }
 
 
   // return orderData or nothing if validation failed
   getOrderData() {
+
     var orderData = {    };
-
-    if (this.elem.elements.email) {
-      if (!this.elem.elements.email.value) {
-        new notification.Error("Введите email.");
-        this.elem.elements.email.scrollIntoView();
-        setTimeout(function() {
-          window.scrollBy(0, -200);
-        }, 0);
-        this.elem.elements.email.focus();
-        return;
-      } else {
-        orderData.email = this.elem.elements.email.value;
-      }
-    }
-
-    if (!this.elem.elements.invoiceNumber.value) {
-      new notification.Error("Введите номер счета javascript.ru.");
-      this.elem.elements.invoiceNumber.scrollIntoView();
-      setTimeout(function() {
-        window.scrollBy(0, -200);
-      }, 0);
-      this.elem.elements.invoiceNumber.focus();
-      return;
-    } else {
-      orderData.invoiceNumber = this.elem.elements.invoiceNumber.value;
-    }
-
 
     if (window.orderNumber) {
       orderData.orderNumber = window.orderNumber;
     } else {
-      orderData.orderTemplate = 'invoice';
-      orderData.amount = this.elem.elements.amount.value;
-
-      if (!orderData.amount) {
-        new notification.Error("Введите сумму.");
-        this.elem.elements.amount.scrollIntoView();
-        setTimeout(function() {
-          window.scrollBy(0, -200);
-        }, 0);
-        this.elem.elements.amount.focus();
-        return;
-      }
+      orderData.slug = window.groupInfo.slug;
+      orderData.orderTemplate = 'course';
+      orderData.contactName = this.contactInfo.name;
+      orderData.contactPhone = this.contactInfo.phone;
+      orderData.count = this.participantsInfo.count;
+      orderData.emails = this.participantsInfo.emails;
     }
 
 
     return orderData;
   }
 
-  onPaymentMethodClick(e) {
-    var paymentMethod = e.delegateTarget.value;
-
-    new FormPayment(paymentMethod, this).submit();
-  }
 
   request(options) {
     var request = xhr(options);

@@ -15,16 +15,18 @@
       +e.receipt-aside
         +e.price
           +b('span')(data-elem="receiptAmount").price -
-          +e('a').edit(href="#" data-elem="receiptParticipantsEditLink")
+          if !order
+            +e('a').edit(href="#" data-elem="receiptParticipantsEditLink")
 
   +e.receipt._step_2
     +e.receipt-body
       +e.receipt-content
         +e.type Контактная информация:
-        +e.title(data-elem="receiptContact") -
+        +e.title(data-elem="receiptContactName") -
       +e.receipt-aside._center
-        +e('span')(data-elem="receiptPhone").title -
-        +e('a').edit(href="#" data-elem="receiptContactEditLink")
+        +e('span')(data-elem="receiptContactPhone").title -
+        if !order
+          +e('a').edit(href="#" data-elem="receiptContactEditLink")
 
   +e.receipt._step_3
     +e.receipt-body
