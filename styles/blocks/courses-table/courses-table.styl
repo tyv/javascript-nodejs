@@ -1,0 +1,99 @@
+.courses-table
+
+    & table tr:first-child th
+        border-width 1px
+        border-color #e4e0d2
+
+    & table&__table,
+    & th&__main
+        margin 0
+        width 100%
+
+    .main & tr&__line:nth-child(even)
+        background none
+
+    & tr&__line,
+    & tr &__info,
+    & tr &__verify
+        border-bottom 1px solid #e4e0d2
+
+    .main & tr&__line:last-child
+        border none
+
+    .main & th&__main,
+    .main & td&__info,
+    .main & td&__verify
+        padding 25px 0
+
+    & th&__main
+        font-size 11px
+        font-weight normal
+
+    .main & th&__main
+        padding-left 20px
+        padding-right 10px
+
+    &__main time
+        font-weight bold
+
+        white-space nowrap
+
+    & td&__info
+        width 0.1%
+
+        vertical-align middle
+        white-space nowrap
+
+    .main & td&__info
+        padding-left 10px
+        padding-right 15px
+
+    &__info-link
+        display inline-block
+
+        font-size 13px
+        line-height 25px
+
+        text-decoration underline
+
+    &__info-link:not(:last-child)
+        padding-right 15px
+
+        border-right 1px solid #e4e0d2
+
+    &__info-link:last-child
+        padding-left 15px
+
+    & td&__verify
+        width 0.1%
+
+        text-align left
+        white-space nowrap
+
+    .main & td&__verify
+        padding-right 20px
+
+    & h3&__title
+        font 17px/17px secondary_font
+        margin 5px 0 0 0
+
+    &__verified
+        font-weight bold
+
+        display inline-block
+
+        line-height 25px
+
+        padding-left 16px
+
+        white-space nowrap
+
+        color #469269
+        border-left 1px solid #e4e0d2
+
+    &__verified:before
+        @extend $font-ok
+
+        font-size 18px
+
+        margin-right 7px
