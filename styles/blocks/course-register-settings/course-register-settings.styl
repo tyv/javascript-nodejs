@@ -1,10 +1,15 @@
 .course-register-settings
-    display inline-table
+    display table
+    table-layout fixed
+
+    width 100%
 
     margin-top 25px
 
     &__cell
         display table-cell
+
+        width 33.3%
 
         padding 10px 30px
 
@@ -39,3 +44,24 @@
 
     & .price__secondary
         margin-left 10px
+
+    @media (max-width: 568px)
+        &
+            display block
+
+        &__cell
+            display block
+
+            width auto
+
+            padding 40px 20px !important
+
+            border 0
+            border-top 1px solid #e7e5e3 !important
+
+        &__cell:first-child
+            border 0 !important
+
+        & .price
+            width auto
+            text-align center
