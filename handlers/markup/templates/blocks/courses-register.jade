@@ -4,7 +4,7 @@
 // _step_3 Pyament
 // _step_3 Result
 
-+b.courses-register._step_3
++b.courses-register._step_2
 
     +b.receipts._register
 
@@ -135,13 +135,9 @@
                   +e.tel
                     label(for="contact-phone") Телефон:
                     +b.full-phone.__full-phone
-                      +e.code-wrap
-                        +b('select').input-select._small.__codes
-                          +e('option').option(value="+7") RU (+7)
-                          +e('option').option(value="+38") UA (+38)
                       +e.tel-wrap
                         +b.text-input._small.__tel
-                          +e('input').control#contact-phone(placeholder="XXX XXX-XX-XX")
+                          +e('input').control#contact-phone(placeholder="+X (XXX) XXX-XX-XX")
                 +e.note
                   +e('h5').note-title Ваши данные в безопасности
                   p
