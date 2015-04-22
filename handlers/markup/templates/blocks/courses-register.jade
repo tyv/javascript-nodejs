@@ -4,7 +4,7 @@
 // _step_3 Pyament
 // _step_3 Result
 
-+b.courses-register._step_1
++b.courses-register._step_2
 
     +b.receipts._register
 
@@ -101,7 +101,7 @@
                 +e('ul').dropdown-list
                   - var n = 0
                     while n < 6
-                      +e('li').dropdown-item
+                      +b('li').course-add-participants-item
                         +e('label').participant
                           +e('span').participant-n Участник
                           +b('span').text-input
@@ -135,13 +135,9 @@
                   +e.tel
                     label(for="contact-phone") Телефон:
                     +b.full-phone.__full-phone
-                      +e.code-wrap
-                        +b('select').input-select._small.__codes
-                          +e('option').option(value="+7") RU (+7)
-                          +e('option').option(value="+38") UA (+38)
                       +e.tel-wrap
                         +b.text-input._small.__tel
-                          +e('input').control#contact-phone(placeholder="XXX XXX-XX-XX")
+                          +e('input').control#contact-phone(placeholder="+X (XXX) XXX-XX-XX")
                 +e.note
                   +e('h5').note-title Ваши данные в безопасности
                   p
@@ -170,7 +166,7 @@
                 - paymentMethods.push({ name: 'webmoney', image: true });
                 - paymentMethods.push({ name: 'paypal', image: true, settings: true });
                 - paymentMethods.push({ name: 'payanyway', image: false, title: 'Payanyway', subtitle: 'и много других методов', cards: ['visa-mastercard'] });
-                - paymentMethods.push({ name: 'banksimple', image: false, title: 'Банковская квитанция'});
+                - paymentMethods.push({ name: 'banksimple', image: false, title: 'Банковсий перевод', subtitle: 'или другой банк', cards: ['sberbank']});
                 - paymentMethods.push({ name: 'interkassa', image: false, title: 'Interkassa', subtitle: 'и другие методы (Украина)', cards: ['visa-mastercard', 'privatbank'] });
                 - paymentMethods.push({ name: 'invoice', image: false, title: 'Счет на компанию', subtitle: 'Для юрлиц из России', settings: true });
 

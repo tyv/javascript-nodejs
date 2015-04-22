@@ -25,7 +25,7 @@
 
             +e.slots
               +e('strong').slots-total !{ slots.total[0] }
-              &nbsp;!{ slots.total[1] }
+                &nbsp;!{ slots.total[1] }
 
               if slots.free
                 +e('strong').slots-free !{ slots.free }
@@ -85,14 +85,9 @@
                 +e.settings-line
                   +e('label').contact-form-label(for="contact-phone" + indexInvoice) Телефон:
                   +b.full-phone
-                    +e.code-wrap
-                      +b('select').input-select._small.__codes
-                        +e('option').option(value="+7") RU (+7)
-                        +e('option').option(value="+38") UA (+38)
-
                     +e.tel-wrap
                       +b.text-input._small.__tel
-                        +e('input').control(placeholder="XXX XXX-XX-XX", required, id="contact-phone" + indexInvoice)
+                        +e('input').control(placeholder="+X XXX XXX-XX-XX", required, id="contact-phone" + indexInvoice)
 
                 +e.settings-line._submit
                   +b('button').button._common(type="submit")
