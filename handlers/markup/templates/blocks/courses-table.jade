@@ -1,0 +1,30 @@
+- var courses = [];
+- var time = '2014-01-01T19:45'
+- var date = 'Начало занятий в <time datetime=' + time + '>' + moment(time).locale('ru').format('D MMMM YYYY в h:mm') + '</time>';
+
+- courses.push({ name: 'Посещение online курсов «Javascript, DOM, интерейсы»', start: date, isVerified: true });
+- courses.push({ name: 'Посещение online курсов «Javascript, DOM, интерейсы»', start: 'Курсы уже начались', isVerified: false });
+- courses.push({ name: 'Посещение online курсов «Javascript, DOM, интерейсы»', start: 'Курсы уже закончились', isVerified: true });
+
++b.courses-table
+    +e('table').table
+
+        for course in courses
+            +e('tr').line
+
+                +e('th').main
+                    +e('h3').title !{ course.name }
+                    +e.time !{ course.start }
+
+                +e('td').info
+                    +e('a').info-link(href="/123") Описание курсов
+                    +e('a').info-link(href="/123") Стараница группы
+
+                +e('td').verify
+                    if course.isVerified
+                        +e('span').verified Участие подтверждено
+                    else
+                        +b('button').button._action
+                            +e('span').text Подтвердить участие
+
+
