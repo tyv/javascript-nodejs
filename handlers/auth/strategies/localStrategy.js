@@ -18,9 +18,6 @@ module.exports = new LocalStrategy({
 
   co(function*() {
 
-    // @tyv UNCOMMENT SPINNER
-    // yield function(callback) {};
-
     if (!email) throw new UserAuthError('Укажите email.');
     if (!password) throw new UserAuthError('Укажите пароль.');
 

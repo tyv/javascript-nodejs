@@ -159,7 +159,8 @@ var webpackConfig = {
 };
 
 
-if (process.env.NODE_ENV != 'development') { // production, ebook
+//if (process.env.NODE_ENV != 'development') { // production, ebook
+if (process.env.NODE_ENV == 'production') { // production, ebook
   webpackConfig.plugins.push(
     function clearBeforeRun() {
       function clear(compiler, callback) {

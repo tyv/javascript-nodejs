@@ -220,6 +220,8 @@ UserSchema.methods.getProfileUrl = function() {
 
 UserSchema.methods.checkPassword = function(password) {
   if (!password) return false; // empty password means no login by password
+  if (!this.passwordHash) return false; // this user does not have password (the line below would hang!)
+
   return hash.createHashSlow(password, this.salt) == this.passwordHash;
 };
 

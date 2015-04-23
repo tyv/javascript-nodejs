@@ -138,6 +138,7 @@ schema.statics.findTree = function* (options) {
   addPrevNext();
 
   return {
+    articles: articlesById,
     children: root,
     byId:     function(id) {
       if (!id) return undefined;

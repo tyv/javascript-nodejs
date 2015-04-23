@@ -100,38 +100,3 @@ function addProviderRoute(providerName) {
 
 // disconnect with existing profile
 router.post('/disconnect/:providerName', mustBeAuthenticated, disconnect.post);
-
-/*
- router.get('/mail', function*(next) {
- require('lib/mailer').sendMail({
- from: 'iliakan@javascript.ru',
- to: 'iliakan@gmail.com',
- subject: 'hello',
- text: 'hello world!'
- }, function() {
- console.log(arguments);
- });
- this.body = "test";
- });
- */
-
-
-/*if (err) return next(err);
- if (!user) { return res.redirect('/signin') }
- *         res.redirect('/account');
- *       }
- { successRedirect: '/auth/popup-success', failureRedirect: '/auth/popup-failure' })*/
-
-/*
-
-router.get('/popup-success', function*() {
-  this.body = this.render('popup-success');
-});
-
-router.get('/popup-failure', function*() {
-  var reason = this.session.messages ? this.session.messages[0] : '';
-  delete this.session.messages;
-
-  this.body = this.render('popup-failure', { reason: reason });
-});
-*/
