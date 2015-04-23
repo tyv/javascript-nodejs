@@ -30,7 +30,7 @@ exports.get = function*() {
 
   this.locals.paymentMethods = require('../lib/paymentMethods');
 
-  this.locals.title = course.title;
+  this.locals.orderInfo = yield* getOrderInfo(this.order);
 
   this.locals.breadcrumbs = [
     {title: 'JavaScript.ru', url: 'http://javascript.ru'},

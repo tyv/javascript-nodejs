@@ -6,15 +6,36 @@ block append variables
   - var content_class = '_center'
   - var sitetoolbar = true
 
+block append ga
+  script ga('require', 'ec');
+
+  if orderInfo.status == 'fail'
+    script window.ga('ec:setAction', 'refund', { id: #{order.number} });
+
+  script window.ga('send', 'event', 'payment', 'return-#{orderInfo.status}', 'course');
+
 block content
+
+  script var orderNumber = #{order.number};
+
+  script window.metrika.reachGoal('ORDER', { product: 'ebook', status: '#{orderInfo.status}', number: '#{orderInfo.number}' });
+
+  - var mailto = "mailto:orders@javascript.ru?subject=" + encodeURIComponent('Заказ ' + order.number);
+
+  if orderInfo.status == 'fail'
+    +b.notification._error._message.__error
+      +e.content
+        p Оплата не прошла, попробуйте ещё раз.
+          if orderInfo.transaction && orderInfo.transaction.statusMessage
+            div
+              +e('span').cause= orderInfo.transaction.statusMessage
+        p По вопросам, касающимся оплаты, пишите на <a href="#{mailto}">orders@javascript.ru</a>.
 
   +b(data-elem="signup").courses-register._step_1
 
     include blocks/receipts
     include blocks/payment
     include blocks/result
-    include blocks/grayed-list
-
 
   script(src=pack("courses", "js"))
   script courses.init();
