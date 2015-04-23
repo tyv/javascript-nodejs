@@ -4,7 +4,7 @@
 // _step_3 Pyament
 // _step_3 Result
 
-+b.courses-register._step_2
++b.courses-register._step_4
 
     +b.receipts._register
 
@@ -220,7 +220,40 @@
 
             p Если у вас возникли какие-либо вопросы, присылайте их на <a href="#{mailto}">orders@javascript.ru</a>.
 
+    +b.login-form(data-form="login").complex-form.complex-form_step_4
+        +e.step.complex-form__step.complex-form__step_current
+            +e('form').form(action="#")
+              +e.line
+                +e('label').label(for="auth-email") Email:
+                +b('span').text-input.__input
+                  +e('input').control#auth-email(name="email" type="email" value="bla@bla.com" disabled)
+              +e.line
+                +e('label').label(for="auth-password") Пароль:
+                +b('span').text-input._with-aside.__input
+                  +e('input').control#auth-password(type="password", name="password")
+                  +e('button').aside.__forgot.__button-link(type="button" data-switch="forgot-form") Забыли?
+              +e.line.__footer
+                  +b('button').button._action(type="submit")
+                    +e('span').text Войти
 
+    +b.login-form(data-form="login").complex-form.complex-form_step_4
+        +e.step.complex-form__step.complex-form__step_current
+            +e('form').form(action="#")
+              +e.line
+                +e('label').label(for="auth-email") Email:
+                +b('span').text-input.__input
+                  +e('input').control#auth-email(name="email" type="email" value="bla@bla.com" disabled)
+              +e.line
+                +e('label').label(for="auth-login") Имя пользвателя:
+                +b('span').text-input.__input
+                  +e('input').control#auth-login(name="login" type="text")
+              +e.line
+                +e('label').label(for="auth-password") Новый пароль:
+                +b('span').text-input._with-aside.__input
+                  +e('input').control#auth-password(type="password", name="password")
+              +e.line.__footer
+                  +b('button').button._action(type="submit")
+                    +e('span').text Войти
 
     +b('ul').grayed-list
         +e('li').item._step_2 Контактная информация
