@@ -27,7 +27,7 @@ download/
 dump/
 
 # extra handlers are not in the repo
-extra/
+extra
 
 # NPM packages folder.
 node_modules/

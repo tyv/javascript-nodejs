@@ -1,9 +1,9 @@
 //require("time-require");
 
 const config = require('config');
-
+const fs = require('fs');
 const Application = require('application');
-var app = new Application();
+const app = new Application();
 
 if (process.env.NODE_ENV != 'development') {
 
@@ -106,10 +106,13 @@ endpoints.forEach(function(name) {
   app.requireHandler(name);
 });
 
-require('fs').readdirSync(config.extraHandlersRoot).forEach(function(extraHandler) {
-  if (extraHandler[0] == '.') return;
-  app.requireHandler(extraHandler);
-});
+
+if (fs.existsSync(config.extraHandlersRoot)) {
+  fs.readdirSync(config.extraHandlersRoot).forEach(function(extraHandler) {
+    if (extraHandler[0] == '.') return;
+    app.requireHandler(extraHandler);
+  });
+}
 
 // uncomment for time-require to work
 //process.emit('exit');

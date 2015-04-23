@@ -113,7 +113,7 @@ module.exports = {
   downloadRoot:         path.join(process.cwd(), 'download'),
   tmpRoot:              path.join(process.cwd(), 'tmp'),
   // extra handlers from outside of the main repo
-  extraHandlersRoot:    path.join(process.cwd(), 'extra'),
+  extraHandlersRoot:    path.join(process.cwd(), 'extra/handlers'),
   // js/css build versions
   manifestRoot:         path.join(process.cwd(), 'manifest')
 };
