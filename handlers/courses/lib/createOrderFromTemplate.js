@@ -37,7 +37,7 @@ module.exports = function*(orderTemplate, user, requestBody) {
   }
   orderData.emails = emails.filter(Boolean).map(String);
 
-  if (!user || !user.email) {
+  if (!user) {
     throw new OrderCreateError("Вы не авторизованы.");
   }
 
@@ -46,7 +46,8 @@ module.exports = function*(orderTemplate, user, requestBody) {
     amount: orderData.count * group.price,
     module: orderTemplate.module,
     data:   orderData,
-    email:  user.email
+    email:  user.email,
+    user:   user._id
   });
 
   yield order.persist();

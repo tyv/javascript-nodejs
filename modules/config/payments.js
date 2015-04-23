@@ -33,6 +33,6 @@ module.exports = {
       secret: secret.interkassa.secret
     },
 
-    invoice: {}
+    invoice: secret.invoice
   }
 };

@@ -1,3 +1,5 @@
+const payments = require('payments');
+var getOrderInfo = payments.getOrderInfo;
 var Course = require('../models/course');
 var CourseGroup = require('../models/courseGroup');
 var config = require('config');

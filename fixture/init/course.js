@@ -20,7 +20,7 @@ exports.CourseGroup = [
     dateEnd: new Date(2015, 10, 10),
     timeDesc: "пн/чт 19:30 - 21:00 GMT+3",
     slug: 'js-1',
-    price: 21000,
+    price: 1,
     participantsLimit: 30,
     title: "Курс JavaScript/DOM/интерфейсы (01.01)"
   },
@@ -30,7 +30,7 @@ exports.CourseGroup = [
     dateEnd: new Date(2015, 11, 10),
     timeDesc: "пн/чт 21:30 - 23:00 GMT+3",
     slug: 'js-2',
-    price: 21000,
+    price: 1,
     participantsLimit: 30,
     title: "Курс JavaScript/DOM/интерфейсы (06.01)"
   }

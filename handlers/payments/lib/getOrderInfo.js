@@ -95,28 +95,47 @@ module.exports =  function*(order) {
       // Waiting for payment
       if (transaction.paymentMethod == 'banksimple') {
         return {
-          number: order.number,
-          status: "pending",
+          number:      order.number,
+          status:      "pending",
           transaction: transaction,
-          title: "Спасибо за заказ!",
-          accent: `Для завершения заказа скачайте квитанцию и оплатите ее через банк.`,
-          description:
-            `<div><button class="submit-button" onclick="location.href='/payments/banksimple/${transaction.number}/invoice.docx'" type="button"><span class="submit-button__text">Скачать квитанцию</span></button></div>
-            <p>Квитанция действительна три дня. Оплатить можно в любом банке, где у вас есть счёт или в Сбербанке, который берёт комиссию 3%.</p>
-            <p>После оплаты в течение двух рабочих мы вышлем вам всю необходимую информацию на адрес <b>${order.email}</b>.</p>
+          title:       "Спасибо за заказ!",
+          accent:      `Для завершения заказа скачайте квитанцию и оплатите ее через банк.`,
+          description: `<div><button class="submit-button" onclick="location.href='/payments/banksimple/${transaction.number}/invoice.docx'" type="button"><span class="submit-button__text">Скачать квитанцию</span></button></div>
+            <p>Квитанция действительна три дня. Оплатить можно в Сбербанке (3% комиссия) или любом банке, где у вас есть счёт.</p>
+            <p>После оплаты в течение двух рабочих дней мы вышлем вам всю необходимую информацию на адрес <b>${order.email}</b>.</p>
             <p>Если у вас возникли какие-либо вопросы, присылайте их на ${mailUrl}.</p>
             `
         };
+      } else if (transaction.paymentMethod == 'invoice') {
+        var invoiceButton = `<button class="submit-button" onclick="location.href='/payments/invoice/${transaction.number}/invoice.docx'" type="button"><span class="submit-button__text">Скачать счёт</span></button>`;
+        var agreementButton = transaction.paymentDetails.agreementRequired ?
+          `<button class="submit-button" onclick="location.href='/payments/invoice/${transaction.number}/agreement.docx'" type="button"><span class="submit-button__text">Скачать договор и акт</span></button>` :
+          '';
+
+        return {
+          number:      order.number,
+          status:      "pending",
+          transaction: transaction,
+          title:       "Спасибо за заказ!",
+          accent:      `Для завершения заказа произведите оплату по счёту.`,
+          description: `
+            <div>${invoiceButton} ${agreementButton}</div>
+            <p>Счёт действителен пять рабочих дней.</p>
+            <p>После оплаты мы вышлем вам всю необходимую информацию на адрес <b>${order.email}</b>.</p>
+            <p>Если у вас возникли какие-либо вопросы, присылайте их на ${mailUrl}.</p>
+            `
+        };
+      } else {
+        return {
+          number:      order.number,
+          status:      "pending",
+          transaction: transaction,
+          title:       "Спасибо за заказ!",
+          accent:      `Как только мы получим подтверждение от платёжной системы, мы вышлем вам всю необходимую информацию на адрес <b>${order.email}</b>.`,
+          description: `<p>Если у вас возникли проблемы при работе с платежной системой, и вы не оплатили заказ, вы можете <a href="#" data-order-payment-change>выбрать другой метод оплаты</a> и оплатить заново.</p>
+          <p>Если у вас возникли какие-либо вопросы, присылайте их на ${mailUrl}.</p>`
+        };
       }
-      return {
-        number: order.number,
-        status: "pending",
-        transaction: transaction,
-        title: "Спасибо за заказ!",
-        accent: `Как только мы получим подтверждение от платёжной системы, мы вышлем вам всю необходимую информацию на адрес <b>${order.email}</b>.`,
-        description: `<p>Если у вас возникли проблемы при работе с платежной системой, и вы не оплатили заказ, вы можете <a href="#" data-order-payment-change>выбрать другой метод оплаты</a> и оплатить заново.</p>
-        <p>Если у вас возникли какие-либо вопросы, присылайте их на ${mailUrl}.</p>`
-      };
     }
 
     // Failed?

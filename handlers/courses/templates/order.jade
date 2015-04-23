@@ -15,12 +15,12 @@ block append ga
   script window.ga('send', 'event', 'payment', 'return-#{orderInfo.status}', 'course');
 
 block content
+  - var mailto = "mailto:orders@javascript.ru?subject=" + encodeURIComponent('Заказ ' + order.number);
 
   script var orderNumber = #{order.number};
 
   script window.metrika.reachGoal('ORDER', { product: 'ebook', status: '#{orderInfo.status}', number: '#{orderInfo.number}' });
 
-  - var mailto = "mailto:orders@javascript.ru?subject=" + encodeURIComponent('Заказ ' + order.number);
 
   if orderInfo.status == 'fail'
     +b.notification._error._message.__error

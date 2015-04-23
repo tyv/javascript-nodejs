@@ -4,7 +4,7 @@
     +e.receipt-body
       +e.receipt-content
         +e.type Заказ:
-        +e.title(data-elem="receiptTitle") -
+        +e.title(data-elem="receiptTitle")= receiptTitle
           +b.course-register-info
             +e('p').info._length
               +e('time')(datetime=moment(group.dateStart).format("YYYY-MM-DD HH:mm")).time= formatGroupDate(group.dateStart)
@@ -14,7 +14,9 @@
 
       +e.receipt-aside
         +e.price
-          +b('span')(data-elem="receiptAmount").price -
+          +b('span').price
+            span(data-elem="receiptAmount")= receiptAmount
+            | &nbsp;RUB
           if !order
             +e('a').edit(href="#" data-elem="receiptParticipantsEditLink")
 
@@ -22,18 +24,20 @@
     +e.receipt-body
       +e.receipt-content
         +e.type Контактная информация:
-        +e.title(data-elem="receiptContactName") -
+        +e.title(data-elem="receiptContactName")= receiptContactName
       +e.receipt-aside._center
-        +e('span')(data-elem="receiptContactPhone").title -
+        +e('span')(data-elem="receiptContactPhone").title= receiptContactPhone
         if !order
           +e('a').edit(href="#" data-elem="receiptContactEditLink")
 
-  +e.receipt._step_3
-    +e.receipt-body
-      +e.receipt-content
-        +e.type Оплата:
-        +e.status._ok Осуществлена успешно
-      +e.receipt-aside
-        +e.pay-method_paypal
-
-
+  if ~['paid', 'success', 'pending'].indexOf(orderInfo.status)
+    +e.receipt._step_3
+      +e.receipt-body
+        +e.receipt-content
+          +e.type Оплата:
+          if (orderInfo.status == 'paid' || orderInfo.status == 'success')
+            +e.status._ok Осуществлена успешно
+          else if (orderInfo.status == 'pending')
+            +e.status._ok Ожидается подтверждение
+        +e.receipt-aside
+          +e(class=["pay-method", "_" + paymentMethods[orderInfo.transaction.paymentMethod].name])

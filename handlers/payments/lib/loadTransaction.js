@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Transaction = require('../models/transaction');
+var User = require('users').User;
 var assert = require('assert');
 
 // Populates this.transaction with the transaction by "transactionNumber" parameter
@@ -21,9 +22,15 @@ module.exports = function* (field, options) {
     this.throw(404, 'Transaction not found');
   }
 
+  yield function(callback) {
+    transaction.order.populate('user', callback);
+  };
+
   if (!options.skipOwnerCheck) {
-    // todo: add belongs to check (with auth)
-    if (!this.session.orders || this.session.orders.indexOf(transaction.order.number) == -1) {
+    var belongsToUser = this.user && (String(this.user._id) == String(transaction.order.user._id));
+    var orderInSession = this.session.orders && this.session.orders.indexOf(transaction.order.number) != -1;
+
+    if (!belongsToUser && !orderInSession) {
       this.throw(403, 'The order is not in session');
     }
   }

@@ -1,17 +1,31 @@
+
+
 +b('form').complex-form._step_4
   +e.step._current
-    +b.course-register-success.courses-register-common
-      +e('h2').title.courses-register-common__title Спасибо за заказ!
-      +e('h3').title.courses-register-common__title В ближайшее время вам прийдет уведомление на электронный адрес
 
-      +e.body
-        p
-          | Вы можете отредактировать детали своего заказа
-          | в любое время до начала проведения курсов в
-          | <a href="/123">соответствующем разделе</a> вашей учетной записи.
-          | В случаях каких-либо изменений мы обязательно с вами свяжемся.
+    if orderInfo.status == 'success'
 
-        p Если у вас возникли какие-либо вопросы, присылайте их на <a href="#{mailto}">orders@javascript.ru</a>.
+      +b.course-register-success.courses-register-common
+        +e('h2').title.courses-register-common__title Спасибо за заказ!
+        +e('h3').title.courses-register-common__title В ближайшее время вам придёт уведомление на адрес #{order.email}
 
+        +e.body
+          p
+            | Вы можете отредактировать детали своего заказа
+            | в любое время до начала проведения курсов в
+            | <a href="#{user.getProfileUrl()}/orders">соответствующем разделе</a> вашей учетной записи.
+            | В случаях каких-либо изменений мы обязательно с вами свяжемся.
+
+          p Если у вас возникли какие-либо вопросы, присылайте их на <a href="#{mailto}">orders@javascript.ru</a>.
+
+    else
+
+      +b.course-register-success.courses-register-common
+        +e('h2').title.courses-register-common__title!= orderInfo.title
+      if orderInfo.accent
+        +e('h3').title.courses-register-common__title!= orderInfo.accent
+      if orderInfo.description
+        +e.body
+          != orderInfo.description
 
 

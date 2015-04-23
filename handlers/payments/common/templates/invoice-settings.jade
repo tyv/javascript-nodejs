@@ -4,7 +4,7 @@
     +b('span').text-input._small
       +e('input')(name="invoiceCompanyName").control#invoice-company
   +e.item._with_cb
-    +e('input').cb._invoice-need#invoice-contract(type="checkbox" name="invoiceNeed")
+    +e('input').cb._invoice-need#invoice-contract(type="checkbox" name="invoiceAgreementRequired" value="1")
     +e('label').cb-label(for="invoice-contract")
       | Нужен договор
       +e('span').small-note &nbsp(Договор заключается с компанией зарегистрированной в РФ)

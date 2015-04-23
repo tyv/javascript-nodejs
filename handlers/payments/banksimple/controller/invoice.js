@@ -27,7 +27,7 @@ exports.get = function*() {
     INN: bankConfig.INN,
     ACCOUNT: bankConfig.ACCOUNT,
     BANK: bankConfig.BANK,
-    СORR_ACC: bankConfig.CORR_ACC,
+    CORR_ACC: bankConfig.CORR_ACC,
     BIK: bankConfig.BIK,
     PAYMENT_DESCRIPTION: `Оплата по счёту ${this.transaction.number}`,
     AMOUNT: this.transaction.amount

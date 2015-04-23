@@ -16,34 +16,47 @@ class SignupWidget {
     this.product = 'course';
 
     this.elems = {};
+
     [].forEach.call(this.elem.querySelectorAll('[data-elem]'), (el) => {
       this.elems[el.getAttribute('data-elem')] = el;
     });
 
-    var participantsForm = new ParticipantsForm({
-      elem: this.elems.participants
-    });
+    if (this.elems.participants) {
+      var participantsForm = new ParticipantsForm({
+        elem: this.elems.participants
+      });
 
-    participantsForm.elem.addEventListener('select', this.onParticipantsFormSelect.bind(this));
+      participantsForm.elem.addEventListener('select', this.onParticipantsFormSelect.bind(this));
 
-    this.elems.receiptParticipantsEditLink.onclick = (e) => {
-      e.preventDefault();
-      this.goStep1();
-    };
+      this.elems.receiptParticipantsEditLink.onclick = (e) => {
+        e.preventDefault();
+        this.goStep1();
+      };
+    }
 
+    if (this.elems.contact) {
 
-    var contactForm = this.contactForm = new ContactForm({
-      elem: this.elems.contact
-    });
+      var contactForm = this.contactForm = new ContactForm({
+        elem: this.elems.contact
+      });
 
-    contactForm.elem.addEventListener('select', this.onContactFormSelect.bind(this));
+      contactForm.elem.addEventListener('select', this.onContactFormSelect.bind(this));
 
-    this.elems.receiptContactEditLink.onclick = (e) => {
-      e.preventDefault();
-      this.goStep2();
-    };
+      this.elems.receiptContactEditLink.onclick = (e) => {
+        e.preventDefault();
+        this.goStep2();
+      };
+
+    }
 
     this.elems.payment.onsubmit = this.onPaymentSubmit.bind(this);
+
+    this.delegate('[data-order-payment-change]', 'click', (e) => {
+      e.preventDefault();
+      this.elem.className = this.elem.className.replace(/courses-register_step_\d/, '');
+      this.elem.classList.add('courses-register_step_3');
+    });
+
 
   }
 
@@ -64,7 +77,7 @@ class SignupWidget {
     this.elems.receiptTitle.innerHTML = `Участие в курсе для ${this.participantsInfo.count}
       ${pluralize(this.participantsInfo.count, 'человека', 'человек', 'человек')}`;
 
-    this.elems.receiptAmount.innerHTML = window.groupInfo.price * this.participantsInfo.count + ' RUB';
+    this.elems.receiptAmount.innerHTML = window.groupInfo.price * this.participantsInfo.count;
 
     this.contactForm.focus();
   }

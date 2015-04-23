@@ -47,7 +47,7 @@ class FormPayment {
     var paymentData = {};
 
     [].forEach.call(this.paymentMethodElem.querySelectorAll('input,select,textarea'), function(elem) {
-      if (elem.type == 'radio' && !elem.checked) return;
+      if ( (elem.type == 'radio' || elem.type == 'checkbox') && !elem.checked) return;
       paymentData[elem.name] = elem.value;
     });
     return paymentData;

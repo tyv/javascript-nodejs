@@ -28,10 +28,10 @@ var schema = new Schema({
   },
 
   // order can be bound to either an email or a user
-  email:       {
+  email: {
     type: String
   },
-  user:        {
+  user:  {
     type: Schema.Types.ObjectId,
     ref:  'User'
   },

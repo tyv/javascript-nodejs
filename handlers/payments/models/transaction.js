@@ -41,7 +41,14 @@ var schema = new Schema({
       nextRetry: Number, // for Ya.Money processPayments
       processing: Boolean, // for Ya.Money processPayments & Paypal PDT/IPN locking not to onPaid twice,
       oauthToken: String, // for Ya.Money processPayments
-      requestId: String //  for Ya.Money processPayments
+      requestId: String, //  for Ya.Money processPayments,
+
+      // for invoices
+      companyName: String,
+      agreementRequired: Boolean,
+      contractHead: String,
+      companyAddress: String,
+      bankDetails: String
     },
     default: {}
   },

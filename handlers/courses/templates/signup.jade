@@ -5,19 +5,35 @@ block append variables
   - var layout_header_class = "main__header_center"
   - var content_class = '_center'
   - var sitetoolbar = true
+  - var layout_main_class = "main_width-limit"
 
 block content
 
   script var groupInfo = !{JSON.stringify(groupInfo)};
   script var rateUsdRub = #{rateUsdRub};
+  script var orderNumber = #{order ? order.number : null};
 
-  +b(data-elem="signup").courses-register._step_1
+  +b(data-elem="signup" class=['courses-register', !order ? '_step_1' : (order.status != 'success' && order.status != 'pending') ? '_step_3' : '_step_4'])
+
+    if orderInfo.status == 'fail'
+      +b.notification._error._message.__error
+        +e.content
+          p Оплата не прошла, попробуйте ещё раз.
+            if orderInfo.transaction && orderInfo.transaction.statusMessage
+              div
+                +e('span').cause= orderInfo.transaction.statusMessage
+          p По вопросам, касающимся оплаты, пишите на <a href="#{mailto}">orders@javascript.ru</a>.
 
     include blocks/receipts
-    include blocks/participants
-    include blocks/contacts
+
+    if !order
+      include blocks/participants
+      include blocks/contacts
+
     include blocks/payment
+
     include blocks/result
+
     include blocks/grayed-list
 
 
