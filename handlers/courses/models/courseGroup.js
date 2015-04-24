@@ -5,48 +5,53 @@ var Schema = mongoose.Schema;
 var schema = new Schema({
   // 01.01.2015
   dateStart: {
-    type: Date,
+    type:     Date,
     required: true
   },
   // 05.05.2015
-  dateEnd: {
-    type: Date,
+  dateEnd:   {
+    type:     Date,
     required: true
   },
 
   // like "nodejs-0402", for urls
   slug: {
-    type: String,
+    type:     String,
     required: true,
-    unique: true
+    unique:   true
   },
 
   price: {
-    type: Number,
+    type:     Number,
     required: true
   },
 
   // Every mon and thu at 19:00 GMT+3
   timeDesc: {
-    type: String,
+    type:     String,
     required: true
   },
 
   participantsLimit: {
-    type: Number,
+    type:     Number,
     required: true
   },
 
-  course:{
+  participants: [{
     type: Schema.Types.ObjectId,
-    ref:  'Course',
+    ref:  'User'
+  }],
+
+  course:       {
+    type:     Schema.Types.ObjectId,
+    ref:      'Course',
     required: true
   },
 
   // JS/UI 10.01
   // a user-friendly group title
   title: {
-    type: String,
+    type:     String,
     required: true
   },
 

@@ -5,24 +5,11 @@ const User = require('users').User;
 
 exports.get = function*() {
 
-
-  try {
-    new mongoose.Types.ObjectId(this.params.id);
-  } catch (e) {
-    // cast error (invalid id)
-    this.throw(404);
-  }
-
-  var user = yield User.findById(this.params.id).exec();
-
-  if (!user) {
-    this.throw(404);
-  }
+  var user = this.params.userById;
 
   if (String(this.req.user._id) != String(user._id)) {
     this.throw(403);
   }
-
 
   var results = yield* QuizResult.getLastAttemptsForUser(user._id);
 

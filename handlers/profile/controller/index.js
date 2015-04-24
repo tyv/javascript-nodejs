@@ -2,6 +2,7 @@ var config = require('config');
 var User = require('users').User;
 var mongoose = require('mongoose');
 var QuizResult = require('quiz').QuizResult;
+var Order = require('payments').Order;
 
 // skips the request unless it's the owner
 exports.get = function* (next) {
@@ -26,10 +27,16 @@ exports.get = function* (next) {
 
   this.locals.profileStatesEnabled = ['root.aboutme', 'root.account'];
 
-  var quizResult = yield QuizResult.findOne({user: user._id}).exec();
+  var hasQuizResult = yield QuizResult.findOne({user: user._id}).exec();
 
-  if (quizResult) {
+  if (hasQuizResult) {
     this.locals.profileStatesEnabled.push('root.quiz');
+  }
+
+  var hasOrders = yield Order.findOne({user: user._id}).exec();
+
+  if (hasOrders) {
+    this.locals.profileStatesEnabled.push('root.orders');
   }
 
 

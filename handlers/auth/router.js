@@ -7,6 +7,7 @@ var disconnect = require('./controller/disconnect');
 var forgot = require('./controller/forgot');
 var forgotRecover = require('./controller/forgotRecover');
 var logout = require('./controller/logout');
+var xmpp = require('./controller/xmpp');
 var mustBeAuthenticated = require('./lib/mustBeAuthenticated');
 var mustNotBeAuthenticated = require('./lib/mustNotBeAuthenticated');
 var passport = require('koa-passport');
@@ -100,3 +101,5 @@ function addProviderRoute(providerName) {
 
 // disconnect with existing profile
 router.post('/disconnect/:providerName', mustBeAuthenticated, disconnect.post);
+
+router.post('/xmpp', xmpp.post);

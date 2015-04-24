@@ -12,5 +12,7 @@ module.exports = function* (order) {
 
   yield order.persist();
 
+
+
   log.debug("Order success: " + order.number);
 };

@@ -38,7 +38,24 @@ profile.factory('QuizResults', ($resource) => {
         data.forEach(function(result) {
           result.created = new Date(result.created);
         });
-        console.log(data);
+        return data;
+      }
+    }
+  });
+});
+
+
+profile.factory('Orders', ($resource) => {
+  return $resource('/quiz/results/user/' + window.currentUser.id, {}, {
+    query: {
+      method: 'GET',
+      isArray: true,
+      transformResponse: function(data, headers){
+
+        data = JSON.parse(data);
+        data.forEach(function(result) {
+          result.created = new Date(result.created);
+        });
         return data;
       }
     }
@@ -81,6 +98,15 @@ profile
         resolve:     {
           quizResults: (QuizResults) => QuizResults.query()
         }
+      },
+      'root.orders': {
+        url:         '/orders',
+        title:       'Заказы',
+        templateUrl: "/profile/templates/partials/orders",
+        controller:  'ProfileOrdersCtrl',
+        resolve:     {
+          orders: (Orders) => Orders.query()
+        }
       }
     };
 
@@ -112,6 +138,11 @@ profile
         };
       });
 
+
+  })
+  .controller('ProfileOrdersCtrl', ($scope, me) => {
+
+    $scope.me = me;
 
   })
   .controller('ProfileAboutMeCtrl', ($scope, me) => {

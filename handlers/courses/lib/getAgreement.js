@@ -49,8 +49,6 @@ module.exports = function*(transaction) {
     AMOUNT: transaction.amount
   });
 
-
-
   // apply replacements
   invoiceDoc.render();
 

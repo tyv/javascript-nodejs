@@ -14,7 +14,7 @@ const escapeHtml = require('escape-html');
  * @param order
  * @returns {*}
  */
-module.exports =  function*(order) {
+module.exports = function*(order) {
   // get transaction which defines current status
 
   var mailUrl = '<a href="mailto:orders@javascript.ru?subject=' + encodeURIComponent('Заказ ' + order.number) + '">orders@javascript.ru</a>';
@@ -25,15 +25,15 @@ module.exports =  function*(order) {
     // because theoretically it's possible to have 2 transactions:
     // pending (1tx) -> fail, pending (2nx tx came) -> success, pending (1st tx got money)
     transaction = yield Transaction.findOne({
-      order: order._id,
+      order:  order._id,
       status: Transaction.STATUS_SUCCESS
     }).exec();
 
     // it is possible that there is no transaction at all
     // (if order status is set manually)
     return {
-      number: order.number,
-      status: "success",
+      number:      order.number,
+      status:      "success",
       transaction: transaction
       // no title/accent/description, because the action on success is order-module-dependant
     };
@@ -41,16 +41,16 @@ module.exports =  function*(order) {
 
   if (order.status == Order.STATUS_PAID) {
     transaction = yield Transaction.findOne({
-      order: order._id,
+      order:  order._id,
       status: Transaction.STATUS_SUCCESS
     }).exec();
 
     return {
-      number: order.number,
-      status: "paid",
+      number:      order.number,
+      status:      "paid",
       transaction: transaction,
-      title: "Спасибо за заказ!",
-      accent: "Оплата получена, заказ обрабатывается.",
+      title:       "Спасибо за заказ!",
+      accent:      "Оплата получена, заказ обрабатывается.",
       description: `<p>По окончании вам будет отправлено письмо на электронный адрес <b>${order.email}</b>.</p>
         <p>Если у вас возникли какие-нибудь вопросы, присылайте их на ${mailUrl}.</p>`
     };
@@ -61,7 +61,7 @@ module.exports =  function*(order) {
     // PENDING order, but Transaction.STATUS_SUCCESS?
     // impossible!
     transaction = yield Transaction.findOne({
-      order: order._id,
+      order:  order._id,
       status: Transaction.STATUS_SUCCESS
     }).exec();
 
@@ -69,12 +69,12 @@ module.exports =  function*(order) {
       log.error("Transaction success, but order pending?!? Impossible! Must be paid", transaction, order);
       return {
         // our error, the visitor can do nothing
-        status: "error",
+        status:      "error",
         transaction: transaction,
-        title: "Произошла ошибка.",
-        accent: "При обработке платежа произошла ошибка.",
+        title:       "Произошла ошибка.",
+        accent:      "При обработке платежа произошла ошибка.",
         description: `<p>Пожалуйста, напишите в поддержку ${mailUrl}.</p>`,
-        number: order.number
+        number:      order.number
       };
     }
 
@@ -85,13 +85,20 @@ module.exports =  function*(order) {
     // OR
     // callback will come later
     transaction = yield Transaction.findOne({
-      order: order._id,
+      order:  order._id,
       status: Transaction.STATUS_PENDING // there may be only 1 pending tx at time
     }).exec();
 
     log.debug("findOne pending transaction: ", transaction && transaction.toObject());
 
     if (transaction) {
+
+      var linkToProfile = '';
+      if (order.user) {
+        linkToProfile = `<p>Информацию о заказе вы также можете найти <a href="${order.user.getProfileUrl()}/orders">в своём профиле</a>.</p>`;
+      }
+
+
       // Waiting for payment
       if (transaction.paymentMethod == 'banksimple') {
         return {
@@ -104,6 +111,7 @@ module.exports =  function*(order) {
             <p>Квитанция действительна три дня. Оплатить можно в Сбербанке (3% комиссия) или любом банке, где у вас есть счёт.</p>
             <p>После оплаты в течение двух рабочих дней мы вышлем вам всю необходимую информацию на адрес <b>${order.email}</b>.</p>
             <p>Если у вас возникли какие-либо вопросы, присылайте их на ${mailUrl}.</p>
+            ${linkToProfile}
             `
         };
       } else if (transaction.paymentMethod == 'invoice') {
@@ -123,6 +131,7 @@ module.exports =  function*(order) {
             <p>Счёт действителен пять рабочих дней.</p>
             <p>После оплаты мы вышлем вам всю необходимую информацию на адрес <b>${order.email}</b>.</p>
             <p>Если у вас возникли какие-либо вопросы, присылайте их на ${mailUrl}.</p>
+            ${linkToProfile}
             `
         };
       } else {
@@ -148,11 +157,11 @@ module.exports =  function*(order) {
     log.debug("findOne failed transaction: ", transaction && transaction.toObject());
 
     return {
-      number: order.number,
-      status: "fail",
-      title: "Оплата не прошла.",
+      number:      order.number,
+      status:      "fail",
+      title:       "Оплата не прошла.",
       transaction: transaction,
-      accent: "Оплата не прошла, попробуйте ещё раз.",
+      accent:      "Оплата не прошла, попробуйте ещё раз.",
       description: (transaction.statusMessage ? `<div>Причина:&nbsp;<em>${escapeHtml(transaction.statusMessage)}</em></div>` : '') +
                    `<p>По вопросам, касающимся оплаты, пишите на ${mailUrl}.</p>.`
     };
@@ -163,9 +172,9 @@ module.exports =  function*(order) {
 
   if (order.status == Order.STATUS_CANCEL) {
     return {
-      number: order.number,
-      status: "cancel",
-      title: "Заказ отменён.",
+      number:      order.number,
+      status:      "cancel",
+      title:       "Заказ отменён.",
       description: `<p>По вопросам, касающимся заказа, пишите на ${mailUrl}.</p>.`
     };
   }
