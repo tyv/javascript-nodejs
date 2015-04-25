@@ -156,6 +156,7 @@ function initQuizForm(form) {
 
     request.addEventListener('fail', onEnd);
     request.addEventListener('success', (event) => {
+
       if (event.result.reload) {
         window.location.reload();
       } else if (event.result.html) {
@@ -165,6 +166,10 @@ function initQuizForm(form) {
 
         document.querySelectorAll('.quiz-timeline span')[event.result.questionNumber]
           .classList.add('quiz-timeline__number_current');
+
+
+        document.querySelector('.quiz-tablet-timeline__num')
+          .innerHTML = '&nbsp;' + (event.result.questionNumber + 1) + '&nbsp;';
 
         form.innerHTML = event.result.html;
         prism.highlight(form);

@@ -1,0 +1,82 @@
+.courses-features
+
+    background #DDD
+    overflow hidden
+
+    border-radius 5px
+
+    & h2&__title,
+    & h3&__feature-title
+        margin 0
+
+        font-family secondary_font
+        line-height initial
+
+    & ul&__features,
+    & li&__feature,
+    & p&__feature-text
+        padding 0
+        margin 0
+        list-style none
+
+    &__title
+        padding 10px
+
+    &__features
+        white-space normal
+
+        display flex
+
+        background #EEE
+
+    & li&__feature
+
+        position relative
+
+        width 20%
+        box-sizing border-box
+
+        padding 150px 20px 30px 20px
+
+    & p&__feature-text
+        font-size 12px
+        margin-top 10px
+
+    // Icons
+    .main ul&__features
+
+        & > li.courses-features__feature::before
+            font-size 90px
+            line-height 90px
+
+            position absolute
+            left 0
+            top 50px
+
+            float none
+
+            width 100%
+            height 90px
+
+            margin 0
+
+            text-align center
+
+            color #B80000
+
+        & > li.courses-features__feature_quality::before
+            @extend $font-home
+
+        & > li.courses-features__feature_online::before
+            @extend $font-home
+
+        & > li.courses-features__feature_support::before
+            @extend $font-home
+
+        & > li.courses-features__feature_result::before
+            @extend $font-home
+
+        & > li.courses-features__feature_guarantees::before
+            @extend $font-home
+
+
