@@ -14,9 +14,10 @@ block content
     +e.text
       +e('form').search(action="/search")
         +e.search-query-wrap
-          +b.text-input._small.__search-query
+          +b('span').text-input.__search-query
             +e('input').control(type="text", name="query")
         +e.search-submit-wrap
-          +b('button').submit-button._small.__search-submit Найти
+          +b('button').button._action.__search-submit
+            +e('span').text Найти
     +e.text
       | или верхней навигацией.

@@ -12,7 +12,8 @@ block content
           +b.text-input.__query
             +e('input').control(type="text", name="query" value=searchQuery)
         +e.send-wrap
-          +b('button').submit-button.__send(type="submit" name="type" value=searchType) Найти
+          +b('button').button._action.__send(type="submit" name="type" value=searchType)
+            +e('span').text Найти
 
     if searchQuery
       +e.footer
@@ -55,7 +56,9 @@ block content
           +b.text-input.__query
             +e('input').control(type="text" name="query" value=searchQuery)
         +e.send-wrap
-          +b('button').submit-button.__send(type="submit" name="type" value=searchType) Найти
+          +b('button').button._action.__send(type="submit" name="type" value=searchType)
+            +e('span').text Найти
+
 
   script(src=pack("search", "js"))
   script search.init();

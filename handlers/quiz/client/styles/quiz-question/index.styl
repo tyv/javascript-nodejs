@@ -69,7 +69,6 @@
     &__description .codebox
         margin 0
 
-
     & &__note
         font-size 12px
 
@@ -98,17 +97,24 @@
         font-weight bold
         color #d90000
 
+    @media tablet
+        &
+            min-width initial
+
     @media (max-width: 568px)
         &
             min-width initial
             margin 15px -10px 0
 
         &__body
-            padding 10px
+            padding 20px
 
             border-width 0
 
             border-radius initial
+
+        &__body .code-example
+            margin 0 -20px
 
         &_correct_true &__body,
         &_correct_false &__body
