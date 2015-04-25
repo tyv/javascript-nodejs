@@ -12,10 +12,10 @@ exports.init = function(app) {
   app.use(function*(next) {
     Object.defineProperty(this, 'isAdmin', {
       get: function() {
-        return this.user && this.user.isAdmin();
+        return this.user && this.user.isAdmin;
       }
     });
-    yield next;
+    yield* next;
   });
 
   app.multipartParser.ignore.add('/users/:id'); // also handles /users/me
