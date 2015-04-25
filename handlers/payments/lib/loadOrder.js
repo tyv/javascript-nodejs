@@ -57,7 +57,7 @@ module.exports = function* (options) {
 
   // allow to load order which belongs to the user or in the current session
   // if the order is not in session (
-  if (!orderInSession && !belongsToUser) {
+  if (!orderInSession && !belongsToUser && !this.isAdmin) {
     this.throw(403, 'Access denied', {
       message: 'Доступ запрещён',
       description: 'Возможно, этот заказ не ваш, вы не авторизованы, или сессия истекла.'

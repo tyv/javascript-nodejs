@@ -30,7 +30,7 @@ module.exports = function* (field, options) {
     var belongsToUser = this.user && transaction.order.user && (String(this.user._id) == String(transaction.order.user._id));
     var orderInSession = this.session.orders && this.session.orders.indexOf(transaction.order.number) != -1;
 
-    if (!belongsToUser && !orderInSession) {
+    if (!belongsToUser && !orderInSession && !this.isAdmin) {
       this.throw(403, 'The order is not in session');
     }
   }
