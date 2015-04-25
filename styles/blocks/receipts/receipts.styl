@@ -51,9 +51,13 @@ receipts_cutaway_radius = 7px
     &__receipt-content,
     &__receipt-aside
         display table-cell
+
+    &__receipt-aside
+        display table-cell
         vertical-align top
 
-    &__receipt-aside_center
+    &__receipt-aside_center,
+    &__receipt-content
         vertical-align middle
 
     &__receipt-content
@@ -70,6 +74,11 @@ receipts_cutaway_radius = 7px
         font 700 18px/1 secondary_font
         margin-bottom 2px
 
+    &__receipt-aside &__title
+        font-size 21px
+        line-height 21px
+        vertical-align middle
+
     &__note
         font-size 13px
 
@@ -77,18 +86,24 @@ receipts_cutaway_radius = 7px
         color #4d906b
 
     &__price
+        margin-top 15px
+
         white-space nowrap
         color #49916a
-        font 700 19px/1 secondary_font
-        margin-top 15px
+
+    &__price .price
+        font 700 21px/21px secondary_font
 
     &__edit
         opacity 0
 
         font-size 18px
         font-weight normal
+        line-height 21px
 
         margin 0 -35px 0 10px
+
+        vertical-align middle
 
         text-decoration none !important
         color link_hover_color
