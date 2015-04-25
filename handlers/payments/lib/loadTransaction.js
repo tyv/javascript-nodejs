@@ -27,7 +27,7 @@ module.exports = function* (field, options) {
   };
 
   if (!options.skipOwnerCheck) {
-    var belongsToUser = this.user && (String(this.user._id) == String(transaction.order.user._id));
+    var belongsToUser = this.user && transaction.order.user && (String(this.user._id) == String(transaction.order.user._id));
     var orderInSession = this.session.orders && this.session.orders.indexOf(transaction.order.number) != -1;
 
     if (!belongsToUser && !orderInSession) {

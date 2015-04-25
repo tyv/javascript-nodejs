@@ -8,7 +8,6 @@ var isDevelopment = process.env.NODE_ENV == 'development';
 
 function renderError(err) {
   /*jshint -W040 */
-  this.set('X-Content-Type-Options', 'nosniff');
 
   // don't pass just err, because for "stack too deep" errors it leads to logging problems
   var report = {
@@ -24,6 +23,9 @@ function renderError(err) {
   }
 
   this.log.error(report);
+
+  // may be error if headers are already sent!
+  this.set('X-Content-Type-Options', 'nosniff');
 
   var preferredType = this.accepts('html', 'json');
 
@@ -82,7 +84,7 @@ function renderError(err) {
     }
   } else {
     var templateName = ~[500, 401, 404, 403].indexOf(this.status) ? this.status : 500;
-    this.body = this.render(String(templateName), {error: err});
+    this.body = this.render(String(templateName), {error: err, requestId: this.requestId});
   }
 
 }

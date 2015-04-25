@@ -51,7 +51,7 @@ module.exports = function* (options) {
 
   console.log("CHECK", this.req.user._id, order);
 
-  var belongsToUser = this.user && (String(this.user._id) == String(order.user._id));
+  var belongsToUser = this.user && order.user && (String(this.user._id) == String(order.user._id));
 
   var orderInSession = this.session.orders && this.session.orders.indexOf(order.number) != -1;
 
