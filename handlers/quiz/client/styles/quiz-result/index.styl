@@ -21,11 +21,13 @@
     &__save-form,
     &__retry-form
         display inline-block
-        margin-left 10px
 
-    &__save-button,
-    &__retry-button
-        width 280px
+    &__retry-form
+        margin-right 30px
+
+    &__retry-button,
+    &__save-button
+        min-width 215px
 
     &__try
         text-align center
@@ -40,7 +42,7 @@
         padding 20px
         margin-top 10px
 
-        border-radius 10px
+        border-radius 10px 10px 0 0
         background #222
 
     &__left,
@@ -62,19 +64,12 @@
 
         border 0
 
-
     &__save-result
         background #4C4B4B
-        position absolute
-        bottom 0
-        left 0
-        right 0
-        height 80px
-        border-radius 10px
+        border-radius 0 0 10px 10px
 
     &__bottom
-        margin auto
-        padding-top 24px
+        padding 20px 0
 
     & .quiz-percents,
     & .quiz-weak-list__title
@@ -110,13 +105,24 @@
 
     @media (max-width: 568px)
 
-        &__layout
+        &__layout,
+        &__save-result
             border-radius initial
 
             margin-left -10px
             margin-right -10px
 
+        &__bottom
+            padding 30px
+
         & .quiz-weak-list__list
             display block
 
             text-align left
+
+        &__retry-form,
+        &__save-form
+            display block
+
+        &__retry-form
+            margin 0 0 20px 0

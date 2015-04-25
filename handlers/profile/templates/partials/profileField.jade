@@ -29,6 +29,6 @@ include /bem
             +e(ng-message="dateRange") Такой даты здесь не может быть.
 
       +e.ok-cancel
-        +b('button')(type="submit" progress="loadingTracker.active()" progress-spinner="{elemClass:'submit-button_progress',size:'small'}").submit-button._small.__save
+        +b('button')(type="submit" progress="loadingTracker.active()" progress-spinner="{elemClass:'button_loading',size:'small'}").button._action.__save
           +e('span').text Сохранить
         +e('button').cancel(type="button" ng-click="cancel()") Отмена
