@@ -43,5 +43,19 @@ else
 script(src=pack("head", "js"))
 //script(src=pack("styles", "js"))
 
+script
+  :uglify
+    window.Muscula = { settings:{
+      logId:"658f806a-f643-4e65-afac-f80151b2f4f0", suppressErrors: false
+    }};
+    (function () {
+        var m = document.createElement('script');
+        m.src = 'https://musculahq.appspot.com/Muscula7.js';
+        document.head.appendChild(m);
+        window.Muscula.run=function(){var a;eval(arguments[0]);window.Muscula.run=function(){};};
+        window.Muscula.errors=[];window.onerror=function(){window.Muscula.errors.push(arguments);
+        return window.Muscula.settings.suppressErrors===undefined;}
+    })();
+
 //- head из конкретной статьи
 !=head
