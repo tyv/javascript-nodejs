@@ -256,8 +256,8 @@ UserSchema.methods.softDelete = function(callback) {
   });
 };
 
-UserSchema.statics.photoDefault = "http://i.imgur.com/zSGftLc.png";
-UserSchema.statics.photoDeleted = "http://i.imgur.com/7KZD6XK.png";
+UserSchema.statics.photoDefault = "//i.imgur.com/zSGftLc.png";
+UserSchema.statics.photoDeleted = "//i.imgur.com/7KZD6XK.png";
 
 UserSchema.methods.getPhotoUrl = function(width, height) {
   var url = this.deleted ? User.photoDeleted :
@@ -290,7 +290,7 @@ UserSchema.methods.generateProfileName = function*() {
     existingUser = yield User.findOne({profileName: profileName}).exec();
 
     if (!existingUser) break;
-    // add a one more random digit and retry the search
+    // add one more random digit and retry the search
     profileName += Math.random() * 10 ^ 0;
   }
 

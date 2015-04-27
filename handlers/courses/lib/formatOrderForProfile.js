@@ -15,8 +15,6 @@ module.exports = function* formatCourseOrder(order) {
     this.throw(404);
   }
 
-  console.log(order.data.emails);
-
   var users = yield User.find({
     email: {
       $in: order.data.emails
@@ -40,6 +38,7 @@ module.exports = function* formatCourseOrder(order) {
     count:        order.data.count,
     contactName:  order.data.contactName,
     contactPhone: order.data.contactPhone,
+    courseUrl:    group.course.getUrl(),
     participants: order.data.emails.map(function(email) {
       return {
         email:    email,

@@ -16,6 +16,10 @@ module.exports = function(settings) {
     var block = this.block;
     var attributes = this.attributes || {};
 
+    if (!attributes.class && tag && !isElement) {
+      throw new Error("Block without class: " + tag);
+    }
+
     // Rewriting the class for elements and modifiers
     if (attributes.class) {
       var bem_classes = attributes.class;
@@ -34,7 +38,6 @@ module.exports = function(settings) {
 
       if (!isElement) {
         bem_chain[bem_chain.length] = bem_block;
-        bem_classes[0] = bem_classes[0];
       } else {
         bem_classes[0] = bem_chain[bem_chain.length - 1] + settings.element + bem_classes[0];
       }

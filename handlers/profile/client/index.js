@@ -56,7 +56,6 @@ profile.factory('Orders', ($resource) => {
         data.forEach(function(order) {
           order.created = new Date(order.created);
 
-          debugger;
           order.countDetails = {
             free:     order.participants.length - order.count,
             busy:     order.participants.length,
@@ -219,6 +218,14 @@ profile
   })
   .filter('pluralize', function() {
     return pluralize;
+  })
+  .filter('trust_html', function($sce){
+    return function(text) {
+      console.log(text);
+      text = $sce.trustAsHtml(text);
+      console.log(text);
+      return text;
+    };
   });
 
 
