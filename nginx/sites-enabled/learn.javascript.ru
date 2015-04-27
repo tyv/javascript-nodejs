@@ -10,7 +10,7 @@ server {
   ssl_certificate		<%=certDir%>/learn.javascript.ru/ssl.pem;
   ssl_certificate_key	<%=certDir%>/learn.javascript.ru/ssl.key;
   ssl_trusted_certificate <%=certDir%>/learn.javascript.ru/trusted.pem;
-  add_header Strict-Transport-Security "max-age=31536000; includeSubdomains;";
+  #add_header Strict-Transport-Security "max-age=31536000; includeSubdomains;";
 
   server_name learn.javascript.ru yuri.javascript.ru javascript.in;
 
@@ -28,6 +28,10 @@ server {
   auth_basic_user_file /etc/nginx.passwd;
 <% } %>
 
+  if ($migrate) {
+      return 301 $migrate;
+  }
+
   # ^~ don't check regexps locations if prefix matches
   location ^~ /_download/ {
     internal;
@@ -37,10 +41,6 @@ server {
   # restricted download
   location ^~ /download/ {
     include "partial/proxy-3000";
-  }
-
-  location ^~ /files/ {
-    return 410;
   }
 
   # zip for plunk
@@ -54,7 +54,6 @@ server {
   location ^~ /payments/ {
     include "partial/proxy-3000";
   }
-
 
   # folder/ -> try folder/index.html first, then @node
   location ~ ^(?<uri_no_dot>[^.]*?)/$ {
