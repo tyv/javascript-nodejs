@@ -1,9 +1,15 @@
 .courses-features
 
-    background #DDD
+    display table
+
+    width 100%
+    border-radius 5px
     overflow hidden
 
-    border-radius 5px
+    & h2&__title
+        display table-caption
+
+        background #DDD
 
     & h2&__title,
     & h3&__feature-title
@@ -25,18 +31,23 @@
     &__features
         white-space normal
 
-        display flex
+        display table-row
 
         background #EEE
+        border-radius 0 0 5px 5px
 
     & li&__feature
 
-        position relative
+        display table-cell
 
         width 20%
-        box-sizing border-box
 
-        padding 150px 20px 30px 20px
+        padding 20px 10px
+
+        border-right 1px solid #DDD
+
+    & li&__feature:last-child
+        border none
 
     & p&__feature-text
         font-size 12px
@@ -46,37 +57,33 @@
     .main ul&__features
 
         & > li.courses-features__feature::before
-            font-size 90px
-            line-height 90px
+            font-size 85px
+            line-height 85px
 
-            position absolute
-            left 0
-            top 50px
-
+            display block
             float none
 
-            width 100%
-            height 90px
+            height 85px
 
-            margin 0
+            margin 15px 0 20px 0
 
             text-align center
 
             color #B80000
 
         & > li.courses-features__feature_quality::before
-            @extend $font-home
+            @extend $font-like
 
         & > li.courses-features__feature_online::before
-            @extend $font-home
+            @extend $font-earth
 
         & > li.courses-features__feature_support::before
-            @extend $font-home
+            @extend $font-chat-bubbles
 
         & > li.courses-features__feature_result::before
-            @extend $font-home
+            @extend $font-college-hat
 
         & > li.courses-features__feature_guarantees::before
-            @extend $font-home
+            @extend $font-star-label
 
 
