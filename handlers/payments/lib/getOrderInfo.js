@@ -196,4 +196,4 @@ function* getOrderInfo(order) {
   log.error("order", order);
   throw new Error("Must never reach this point. No transaction?");
 
-};
+}
