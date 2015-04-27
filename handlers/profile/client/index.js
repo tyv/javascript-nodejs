@@ -47,15 +47,24 @@ profile.factory('QuizResults', ($resource) => {
 
 
 profile.factory('Orders', ($resource) => {
-  return $resource('/orders/user/' + window.currentUser.id, {}, {
+  return $resource('/payments/common/orders/user/' + window.currentUser.id, {}, {
     query: {
       method: 'GET',
       isArray: true,
       transformResponse: function(data, headers){
         data = JSON.parse(data);
-        data.forEach(function(result) {
-          result.created = new Date(result.created);
+        data.forEach(function(order) {
+          order.created = new Date(order.created);
+
+          order.countDetails = {
+            free:     order.participants.length - order.count,
+            busy:     order.participants.length,
+            accepted: order.participants.filter(function(participant) {
+              return participant.accepted;
+            }).length
+          };
         });
+
         return data;
       }
     }
@@ -141,16 +150,7 @@ profile
 
   })
   .controller('ProfileOrdersCtrl', ($scope, orders) => {
-    $scope.orders = orders.map(function(order) {
-      order.countDetails = {
-        free:     order.participants.length - order.count,
-        busy:     order.participants.length,
-        accepted: order.participants.filter(function(participant) {
-          return participant.accepted;
-        }).length
-      };
-      return order;
-    });
+    $scope.orders = orders;
   })
   .controller('ProfileAboutMeCtrl', ($scope, me) => {
 

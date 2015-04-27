@@ -2,6 +2,7 @@ var CourseGroup = require('courses').CourseGroup;
 var User = require('users').User;
 var _ = require('lodash');
 var getOrderInfo = require('payments').getOrderInfo;
+var paymentMethods = require('./paymentMethods');
 
 module.exports = function* formatCourseOrder(order) {
 
@@ -14,9 +15,11 @@ module.exports = function* formatCourseOrder(order) {
     this.throw(404);
   }
 
+  console.log(order.data.emails);
+
   var users = yield User.find({
     email: {
-      $in: order.emails
+      $in: order.data.emails
     }
   }).exec();
 
@@ -37,7 +40,7 @@ module.exports = function* formatCourseOrder(order) {
     count:        order.data.count,
     contactName:  order.data.contactName,
     contactPhone: order.data.contactPhone,
-    participants: order.emails.map(function(email) {
+    participants: order.data.emails.map(function(email) {
       return {
         email:    email,
         accepted: Boolean(groupParticipantsByUser[usersByEmail[email]._id])
@@ -48,7 +51,8 @@ module.exports = function* formatCourseOrder(order) {
 
   var orderInfo = yield* getOrderInfo(order);
 
-  orderToShow.orderInfo = _.pluck(orderInfo, ['status', 'statusText', 'accent', 'description', 'linkToProfile']);
+  orderToShow.orderInfo = _.pick(orderInfo, ['status', 'statusText', 'accent', 'description', 'linkToProfile']);
+  orderToShow.paymentMethod = paymentMethods[orderInfo.transaction.paymentMethod].title;
 
   return orderToShow;
 };
