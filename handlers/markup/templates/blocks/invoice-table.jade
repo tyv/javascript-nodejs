@@ -9,6 +9,7 @@
 - invoces.push({number: '3458', date: date, name: 'Посещение online курсов «Javascript, DOM, интерейсы»', slots: { total: '1 местo' }, payment: { amount: '600', currency: 'RUR', status: 'await', type: 'Банковская квитанция' }, participants: [{}] });
 
 +b.invoice-table
+
   +e('table').table
 
     for invoce, indexInvoice in invoces
@@ -92,6 +93,18 @@
                 +e.settings-line._submit
                   +b('button').button._common(type="submit")
                     +e('span').text Сохранить контакты
+
+            +e.settings-line._foot
+              +e('h4').settings-title Оплата
+              +e('p').note Вы выбрали вариант оплаты «Оплатить позже», подтвердить участие мы сможем только после того, как получим оплату.
+              +b('button').button._action
+                +e('span').text Перейти к оплате
+
+            +e.settings-line._foot
+              +e('h4').settings-title Оплата
+              +e('p').note Вы выбрали вариант оплаты «Оплатить позже», подтвердить участие мы сможем только после того, как получим оплату. Вы можете <a href="/123">повторно скачать квитанцию</a>.
+              +b('button').button._common
+                +e('span').text Изменить метод оплаты
 
 
 
