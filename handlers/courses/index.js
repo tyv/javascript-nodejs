@@ -13,3 +13,5 @@ exports.onPaid = require('./lib/onPaid');
 exports.getAgreement = require('./lib/getAgreement');
 
 exports.createOrderFromTemplate = require('./lib/createOrderFromTemplate');
+
+exports.formatOrderForProfile = require('./lib/formatOrderForProfile');

@@ -11,6 +11,7 @@
 
         +e.body
           p
+            | FIXME: replace with real instructions
             | Вы можете отредактировать детали своего заказа
             | в любое время до начала проведения курсов в
             | <a href="#{user.getProfileUrl()}/orders">соответствующем разделе</a> вашей учетной записи.
@@ -27,5 +28,7 @@
       if orderInfo.description
         +e.body
           != orderInfo.description
+          if orderInfo.linkToProfile
+            != orderInfo.linkToProfile
 
 

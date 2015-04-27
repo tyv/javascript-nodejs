@@ -39,6 +39,13 @@ server {
     include "partial/proxy-3000";
   }
 
+  location ^~ /files/ {
+    return 410;
+  }
+
+  location ^~ /node/ {
+    return 410;
+  }
 
   # zip for plunk
   location ^~ /tutorial/zipview/ {

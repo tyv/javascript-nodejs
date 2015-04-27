@@ -1,6 +1,7 @@
 var angular = require('angular');
 var notification = require('client/notification');
 var moment = require('momentWithLocale');
+var pluralize = require('textUtil/pluralize');
 
 var profile = angular.module('profile', [
   'ui.router', 'ngResource', 'global403Interceptor', 'ajoslin.promise-tracker', 'progress', 'focusOn', 'ngMessages'
@@ -46,12 +47,11 @@ profile.factory('QuizResults', ($resource) => {
 
 
 profile.factory('Orders', ($resource) => {
-  return $resource('/quiz/results/user/' + window.currentUser.id, {}, {
+  return $resource('/orders/user/' + window.currentUser.id, {}, {
     query: {
       method: 'GET',
       isArray: true,
       transformResponse: function(data, headers){
-
         data = JSON.parse(data);
         data.forEach(function(result) {
           result.created = new Date(result.created);
@@ -140,10 +140,17 @@ profile
 
 
   })
-  .controller('ProfileOrdersCtrl', ($scope, me) => {
-
-    $scope.me = me;
-
+  .controller('ProfileOrdersCtrl', ($scope, orders) => {
+    $scope.orders = orders.map(function(order) {
+      order.countDetails = {
+        free:     order.participants.length - order.count,
+        busy:     order.participants.length,
+        accepted: order.participants.filter(function(participant) {
+          return participant.accepted;
+        }).length
+      };
+      return order;
+    });
   })
   .controller('ProfileAboutMeCtrl', ($scope, me) => {
 
@@ -151,9 +158,7 @@ profile
 
   })
   .controller('ProfileQuizResultsCtrl', ($scope, quizResults) => {
-
     $scope.quizResults = quizResults;
-
   })
   .controller('ProfileAccountCtrl', ($scope, $http, me, Me) => {
 
@@ -203,11 +208,14 @@ profile
   .filter('capitalize', () => function(str) {
     return str[0].toUpperCase() + str.slice(1);
   })
-  .filter('quizDate', () => function(date) {
+  .filter('longDate', () => function(date) {
     return moment(date).format('D MMMM YYYY в LT');
   })
   .filter('quizDuration', () => function(seconds) {
     return moment.duration(seconds, 'seconds').humanize();
+  })
+  .filter('pluralize', function() {
+    return pluralize;
   });
 
 

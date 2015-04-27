@@ -19,21 +19,14 @@ exports.get = function*(next) {
 
   var orders = yield* Order.find({user: user._id}).sort({created: 1}).exec();
 
-  this.body = {};
-  /*
-  // TODO: SHOW ORDERS FOR ANGULAR CONTROLLER
-  results = results.map(function(result) {
-    return {
-      created: result.created,
-      quizTitle: result.quizTitle,
-      quizUrl: result.quiz && result.quiz.getUrl(),
-      score: result.score,
-      level: result.level,
-      levelTitle: result.levelTitle,
-      time: result.time
-    };
-  });
+  var ordersToShow = [];
 
-  this.body = results;*/
+  for (var i = 0; i < orders.length; i++) {
+    var format = require(orders[i].module).formatOrderForProfile;
+    if (!format) continue;
+    ordersToShow.push(yield* format.call(this, orders[i]));
+  }
+
+  this.body = ordersToShow;
+
 };
-

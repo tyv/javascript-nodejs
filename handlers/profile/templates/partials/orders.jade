@@ -1,5 +1,93 @@
 include /bem
 
-+b.profile
 
-  p TODO
+- var invoces = [];
+- var datestr = '2014-01-01T19:45';
+- var date = moment('2014-01-01T19:45').locale('ru').format('D MMMM YYYY в h:mm');
+- var participants = [{ email: 'abc@abc.com', approved: true }, { email: 'abc@abc.com' }, {}]
+
+- invoces.push({number: '3451', date: date, name: 'Посещение online курсов «Javascript, DOM, интерейсы»', slots: { total: '5 мест', free: '2', busy: '3', confirmed: '2' }, payment: { amount: '2400', currency: 'RUR', status: 'done', type: 'Paypal' }, participants: participants });
+- invoces.push({number: '3453', date: date, name: 'Посещение online курсов «Javascript, DOM, интерейсы»', slots: { total: '4 места', free: '3', busy: '1', confirmed: '1' }, payment: { amount: '2200', currency: 'USD', status: 'await', type: 'Банковская квитанция' }, participants: participants });
+- invoces.push({number: '3456', date: date, name: 'Посещение online курсов «Javascript, DOM, интерейсы»', slots: { total: '5 мест', free: '2', busy: '3', confirmed: '2' }, payment: { amount: '2400', currency: 'UAH', status: 'done', type: 'Paypal' }, participants: participants });
+- invoces.push({number: '3458', date: date, name: 'Посещение online курсов «Javascript, DOM, интерейсы»', slots: { total: '1 местo' }, payment: { amount: '600', currency: 'RUR', status: 'await', type: 'Банковская квитанция' }, participants: [{}] });
+
++b.invoice-table
+  +e('table').table
+
+    +e('tr')(ng-repeat="order in orders", class='data')
+      +e('th').main
+        +e('span').number Заказ&nbsp;№&nbsp;{{ order.number }}
+        +e('time').time(datetime="{{order.created}}") {{order.created | longDate}}
+        +e('h3').title {{ order.title }}
+
+        +e.slots
+          +e('strong').slots-total {{ order.count }} {{ order.count | pluralize:место:места:мест }}
+
+          +e('strong').slots-free(ng-if="order.countDetails.free")
+            | {{ order.countDetails.free }} свободно
+
+          +e('strong').slots-busy(ng-if="order.countDetails.busy")
+            | {{ order.countDetails.busy }} занято
+
+          +e('span').slots-confirmed(ng-if="order.countDetails.accepted")
+            | &nbsp; ({{ order.countDetails.accepted }} подтверждено)
+
+          +e('span').slots-confirmed._note(ng-if="order.status != 'success'")
+            | &nbsp;(подтверждение участников происходит после оплаты)
+
+      +e('td').info
+        +e('a').info-link(href='/123') Описание курсов
+
+      +e('td').price
+        +b.price {{ order.amount } !{ invoce.payment.currency }
+        +e(class=['payment-status', '_' + invoce.payment.status])
+          if invoce.payment.status === 'done'
+            Оплачено
+          if invoce.payment.status === 'await'
+            Ожидается оплата
+        +e.payment-type (!{ invoce.payment.type })
+
+    +e('tr').settings
+      +e('td').settings-cell(colspan=3)
+        +e.settings-dropdown
+          +e('button').settings-dropdown-close.close-button
+          +e.settings-dropdown-cell._left
+            form(action="/123")
+              +e('h4').settings-title Участники
+
+              +e('ul').settings-participants
+
+                for participant, index in participants
+                  - var number = index + 1
+                   +e('li').settings-participant
+                    +e('label').participant-label(for='participant' + number + '' + indexInvoice) Участник !{number}:
+                    +b('span')(class=['text-input', '__input', participant.approved ? '_approved_yes' : '_approved_no'])
+                      +e('input').control(placeholder="email", name="email", type="email", value= participant.email ? participant.email : '', id = 'participant' + number + '' + indexInvoice)
+
+              +e.settings-line_submit
+                +b('button').button._common(type="submit")
+                  +e('span').text Сохранить участников
+
+
+          +e.settings-dropdown-cell._right
+            +e('h4').settings-title Контактная информация
+            +e('form').contact-form(action="/123")
+              +e.settings-line
+                +e("label").contact-form-label(for="contact-name" + indexInvoice) Имя и фамилия:
+                +b("span").text-input
+                  +e("input").control(type="text", required, name="contact-name", id="contact-name" + indexInvoice)
+
+              +e.settings-line
+                +e('label').contact-form-label(for="contact-phone" + indexInvoice) Телефон:
+                +b.full-phone
+                  +e.tel-wrap
+                    +b.text-input._small.__tel
+                      +e('input').control(placeholder="+X XXX XXX-XX-XX", required, id="contact-phone" + indexInvoice)
+
+              +e.settings-line._submit
+                +b('button').button._common(type="submit")
+                  +e('span').text Сохранить контакты
+
+
+
+
