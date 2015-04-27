@@ -21,6 +21,11 @@ module.exports = new LocalStrategy({
     if (!email) throw new UserAuthError('Укажите email.');
     if (!password) throw new UserAuthError('Укажите пароль.');
 
+    // anti-bruteforce pause
+    yield function(callback) {
+      setTimeout(callback, 100);
+    };
+
     var user = yield User.findOne({email: email}).exec();
 
     if (!user) {

@@ -38,8 +38,15 @@ var schema = new Schema({
   },
 
   participants: [{
-    type: Schema.Types.ObjectId,
-    ref:  'User'
+    user: {
+      type: Schema.Types.ObjectId,
+      ref:  'User',
+      required: true
+    },
+    name: {
+      type: String,
+      required: true
+    }
   }],
 
   course:       {

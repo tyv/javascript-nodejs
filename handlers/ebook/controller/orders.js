@@ -5,7 +5,6 @@ var OrderTemplate = payments.OrderTemplate;
 var Transaction = payments.Transaction;
 var assert = require('assert');
 
-
 // Existing order page
 exports.get = function*() {
 

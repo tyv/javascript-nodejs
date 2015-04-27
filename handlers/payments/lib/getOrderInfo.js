@@ -15,6 +15,19 @@ const escapeHtml = require('escape-html');
  * @returns {*}
  */
 module.exports = function*(order) {
+  var info = yield* getOrderInfo(order);
+
+  var linkToProfile = '';
+  if (order.user && require(order.module).formatOrderForProfile) {
+    linkToProfile = `<p>Информацию о заказе вы также можете найти <a href="${order.user.getProfileUrl()}/orders">в своём профиле</a>.</p>`;
+  }
+
+  info.linkToProfile = linkToProfile;
+
+  return info;
+};
+
+function* getOrderInfo(order) {
   // get transaction which defines current status
 
   var mailUrl = '<a href="mailto:orders@javascript.ru?subject=' + encodeURIComponent('Заказ ' + order.number) + '">orders@javascript.ru</a>';
@@ -25,8 +38,8 @@ module.exports = function*(order) {
     // because theoretically it's possible to have 2 transactions:
     // pending (1tx) -> fail, pending (2nx tx came) -> success, pending (1st tx got money)
     transaction = yield Transaction.findOne({
-      order:  order._id,
-      status: Transaction.STATUS_SUCCESS
+      order:      order._id,
+      status:     Transaction.STATUS_SUCCESS
     }).exec();
 
     // it is possible that there is no transaction at all
@@ -34,6 +47,7 @@ module.exports = function*(order) {
     return {
       number:      order.number,
       status:      "success",
+      statusText: "Оплата получена",
       transaction: transaction
       // no title/accent/description, because the action on success is order-module-dependant
     };
@@ -48,6 +62,7 @@ module.exports = function*(order) {
     return {
       number:      order.number,
       status:      "paid",
+      statusText:  "Ожидает обработки",
       transaction: transaction,
       title:       "Спасибо за заказ!",
       accent:      "Оплата получена, заказ обрабатывается.",
@@ -70,6 +85,7 @@ module.exports = function*(order) {
       return {
         // our error, the visitor can do nothing
         status:      "error",
+        statusText:  "Произошла ошибка",
         transaction: transaction,
         title:       "Произошла ошибка.",
         accent:      "При обработке платежа произошла ошибка.",
@@ -93,17 +109,13 @@ module.exports = function*(order) {
 
     if (transaction) {
 
-      var linkToProfile = '';
-      if (order.user) {
-        linkToProfile = `<p>Информацию о заказе вы также можете найти <a href="${order.user.getProfileUrl()}/orders">в своём профиле</a>.</p>`;
-      }
-
-
       // Waiting for payment
+
       if (transaction.paymentMethod == 'banksimple') {
         return {
           number:      order.number,
           status:      "pending",
+          statusText:  "Ожидается оплата",
           transaction: transaction,
           title:       "Спасибо за заказ!",
           accent:      `Для завершения заказа скачайте квитанцию и оплатите ее через банк.`,
@@ -111,7 +123,6 @@ module.exports = function*(order) {
             <p>Квитанция действительна три дня. Оплатить можно в Сбербанке (3% комиссия) или любом банке, где у вас есть счёт.</p>
             <p>После оплаты в течение двух рабочих дней мы вышлем вам всю необходимую информацию на адрес <b>${order.email}</b>.</p>
             <p>Если у вас возникли какие-либо вопросы, присылайте их на ${mailUrl}.</p>
-            ${linkToProfile}
             `
         };
       } else if (transaction.paymentMethod == 'invoice') {
@@ -123,6 +134,7 @@ module.exports = function*(order) {
         return {
           number:      order.number,
           status:      "pending",
+          statusText:  "Ожидается оплата",
           transaction: transaction,
           title:       "Спасибо за заказ!",
           accent:      `Для завершения заказа произведите оплату по счёту.`,
@@ -131,13 +143,13 @@ module.exports = function*(order) {
             <p>Счёт действителен пять рабочих дней.</p>
             <p>После оплаты мы вышлем вам всю необходимую информацию на адрес <b>${order.email}</b>.</p>
             <p>Если у вас возникли какие-либо вопросы, присылайте их на ${mailUrl}.</p>
-            ${linkToProfile}
             `
         };
       } else {
         return {
           number:      order.number,
           status:      "pending",
+          statusText:  "Ожидается оплата",
           transaction: transaction,
           title:       "Спасибо за заказ!",
           accent:      `Как только мы получим подтверждение от платёжной системы, мы вышлем вам всю необходимую информацию на адрес <b>${order.email}</b>.`,
@@ -159,6 +171,7 @@ module.exports = function*(order) {
     return {
       number:      order.number,
       status:      "fail",
+      statusText:  "Оплата не прошла",
       title:       "Оплата не прошла.",
       transaction: transaction,
       accent:      "Оплата не прошла, попробуйте ещё раз.",
@@ -174,6 +187,7 @@ module.exports = function*(order) {
     return {
       number:      order.number,
       status:      "cancel",
+      statusText:  "Заказ отменён",
       title:       "Заказ отменён.",
       description: `<p>По вопросам, касающимся заказа, пишите на ${mailUrl}.</p>.`
     };
@@ -182,4 +196,4 @@ module.exports = function*(order) {
   log.error("order", order);
   throw new Error("Must never reach this point. No transaction?");
 
-};
+}

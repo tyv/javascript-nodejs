@@ -50,6 +50,7 @@ class FormPayment {
       if ( (elem.type == 'radio' || elem.type == 'checkbox') && !elem.checked) return;
       paymentData[elem.name] = elem.value;
     });
+
     return paymentData;
   }
 
@@ -62,6 +63,12 @@ class FormPayment {
 
     if (!paymentData.paymentMethod) {
       new notification.Error("Выберите метод оплаты.");
+      return;
+    }
+
+    if (paymentData.paymentMethod == 'invoice' && !paymentData.invoiceCompanyName) {
+      new notification.Error("Укажите название компании.");
+      this.paymentMethodElem.querySelector('[name="invoiceCompanyName"]').focus();
       return;
     }
 

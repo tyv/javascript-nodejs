@@ -27,22 +27,26 @@ exports.get = function*() {
       slug: this.order.data.slug
     }).populate('course').exec();
 
+    if (!group) {
+      this.throw(404, "Нет такой группы.");
+    }
+
   } else {
+
+    group = this.locals.group = yield CourseGroup.findOne({
+      slug: this.params.group
+    }).populate('course').exec();
+
+    if (!group) {
+      this.throw(404, "Нет такой группы.");
+    }
 
     if (!this.isAuthenticated()) {
       this.redirect(group.course.getUrl());
       return;
     }
 
-    group = this.locals.group = yield CourseGroup.findOne({
-      slug: this.params.group
-    }).populate('course').exec();
-
     this.locals.title = group.course.title;
-  }
-
-  if (!group) {
-    this.throw(404, "Нет такой группы.");
   }
 
   this.locals.paymentMethods = require('../lib/paymentMethods');

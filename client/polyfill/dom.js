@@ -25,7 +25,7 @@ function mutation(nodes) {
 
 var methods = {
   // safari = webkitMatchesSelector
-  matches: Element.prototype.matchesSelector || Element.prototype.webkitMatchesSelector || Element.prototype.mozMatchesSelector || Element.prototype.msMatchesSelector,
+  matches: Element.prototype.matchesSelector || Element.prototype.webkitMatchesSelector || Element.prototype.mozMatchesSelector || Element.prototype.msMatchesSelector || Element.prototype.oMatchesSelector,
   replace: function replace() {
     if (this.parentNode) {
       this.parentNode.replaceChild(mutation(arguments), this);

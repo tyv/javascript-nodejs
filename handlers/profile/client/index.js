@@ -1,6 +1,7 @@
 var angular = require('angular');
 var notification = require('client/notification');
 var moment = require('momentWithLocale');
+var pluralize = require('textUtil/pluralize');
 
 var profile = angular.module('profile', [
   'ui.router', 'ngResource', 'global403Interceptor', 'ajoslin.promise-tracker', 'progress', 'focusOn', 'ngMessages'
@@ -17,8 +18,8 @@ require('./dateRangeValidator');
 profile.factory('Me', ($resource) => {
   return $resource('/users/me', {}, {
     get: {
-      method: 'GET',
-      transformResponse: function(data, headers){
+      method:            'GET',
+      transformResponse: function(data, headers) {
         data = JSON.parse(data);
         data.created = new Date(data.created);
         return data;
@@ -30,9 +31,9 @@ profile.factory('Me', ($resource) => {
 profile.factory('QuizResults', ($resource) => {
   return $resource('/quiz/results/user/' + window.currentUser.id, {}, {
     query: {
-      method: 'GET',
-      isArray: true,
-      transformResponse: function(data, headers){
+      method:            'GET',
+      isArray:           true,
+      transformResponse: function(data, headers) {
 
         data = JSON.parse(data);
         data.forEach(function(result) {
@@ -46,16 +47,24 @@ profile.factory('QuizResults', ($resource) => {
 
 
 profile.factory('Orders', ($resource) => {
-  return $resource('/quiz/results/user/' + window.currentUser.id, {}, {
+  return $resource('/payments/common/orders/user/' + window.currentUser.id, {}, {
     query: {
-      method: 'GET',
-      isArray: true,
-      transformResponse: function(data, headers){
-
+      method:            'GET',
+      isArray:           true,
+      transformResponse: function(data, headers) {
         data = JSON.parse(data);
-        data.forEach(function(result) {
-          result.created = new Date(result.created);
+        data.forEach(function(order) {
+          order.created = new Date(order.created);
+
+          order.countDetails = {
+            free:     order.participants.length - order.count,
+            busy:     order.participants.length,
+            accepted: order.participants.filter(function(participant) {
+              return participant.accepted;
+            }).length
+          };
         });
+
         return data;
       }
     }
@@ -90,7 +99,7 @@ profile
         templateUrl: "/profile/templates/partials/account",
         controller:  'ProfileAccountCtrl'
       },
-      'root.quiz': {
+      'root.quiz':    {
         url:         '/quiz',
         title:       'Тесты',
         templateUrl: "/profile/templates/partials/quiz",
@@ -99,7 +108,7 @@ profile
           quizResults: (QuizResults) => QuizResults.query()
         }
       },
-      'root.orders': {
+      'root.orders':  {
         url:         '/orders',
         title:       'Заказы',
         templateUrl: "/profile/templates/partials/orders",
@@ -111,7 +120,7 @@ profile
     };
 
     // enabled states depend on user, are set to global variable in index.jade
-    for(var key in states) {
+    for (var key in states) {
       if (~window.profileStatesEnabled.indexOf(key)) {
         $stateProvider.state(key, states[key]);
       }
@@ -132,18 +141,16 @@ profile
       })
       .map((state) => {
         return {
-          title:     state.title,
-          name:      state.name,
-          url:       state.url
+          title: state.title,
+          name:  state.name,
+          url:   state.url
         };
       });
 
 
   })
-  .controller('ProfileOrdersCtrl', ($scope, me) => {
-
-    $scope.me = me;
-
+  .controller('ProfileOrdersCtrl', ($scope, orders) => {
+    $scope.orders = orders;
   })
   .controller('ProfileAboutMeCtrl', ($scope, me) => {
 
@@ -151,9 +158,7 @@ profile
 
   })
   .controller('ProfileQuizResultsCtrl', ($scope, quizResults) => {
-
     $scope.quizResults = quizResults;
-
   })
   .controller('ProfileAccountCtrl', ($scope, $http, me, Me) => {
 
@@ -173,8 +178,10 @@ profile
         data:             new FormData()
       }).then((response) => {
 
-        alert('Пользователь удалён.');
-        window.location.href = '/';
+        new notification.Success('Пользователь удалён.');
+        setTimeout(function() {
+          window.location.href = '/';
+        }, 1500);
 
       }, (response) => {
         new notification.Error("Ошибка загрузки, статус " + response.status);
@@ -190,7 +197,7 @@ profile
         method:  'POST',
         url:     '/auth/disconnect/' + providerName,
         tracker: this.loadingTracker
-      }).then( (response) => {
+      }).then((response) => {
         // refresh user
         $scope.me = Me.get();
       }, (response) => {
@@ -203,11 +210,22 @@ profile
   .filter('capitalize', () => function(str) {
     return str[0].toUpperCase() + str.slice(1);
   })
-  .filter('quizDate', () => function(date) {
+  .filter('longDate', () => function(date) {
     return moment(date).format('D MMMM YYYY в LT');
   })
   .filter('quizDuration', () => function(seconds) {
     return moment.duration(seconds, 'seconds').humanize();
+  })
+  .filter('pluralize', function() {
+    return pluralize;
+  })
+  .filter('trust_html', function($sce){
+    return function(text) {
+      console.log(text);
+      text = $sce.trustAsHtml(text);
+      console.log(text);
+      return text;
+    };
   });
 
 

@@ -9,7 +9,7 @@ include /bem
       +e("tr").result(ng-repeat="result in quizResults")
 
         +e("th").test-info
-          +e("time").time {{result.created | quizDate}}
+          +e("time").time {{result.created | longDate}}
           +e("h1").name(ng-if="result.quizUrl")
             a(href="{{result.quizUrl}}") {{result.quizTitle}}
           +e("h1").name(ng-if="!result.quizUrl") {{result.quizTitle}}

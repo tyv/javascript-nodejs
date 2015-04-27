@@ -11,5 +11,4 @@ block content
     - var subject = encodeURIComponent("Ошибка 500 на " + url.href)
     +e.text Мы анализируем и исправляем возникающие ошибки, но вы можете ускорить этот процесс, сообщив подробности на <a href="mailto:mk@javascript.ru?subject=#{subject}">mk@javascript.ru</a>.
     +e.text
-      +e('span').request RequestId:
-      = ' ' + requestId
+      +e('span').request RequestId: #{requestId}
