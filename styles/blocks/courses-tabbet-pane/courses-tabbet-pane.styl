@@ -1,0 +1,59 @@
+.courses-tabbet-pane
+    margin-top 40px
+
+
+    & ul&__tabs,
+    & li&__tab
+        padding 0
+        margin 0
+        list-style none
+
+    & li&__tab:before
+        display none
+
+        content ''
+
+    & ul&__tabs
+        display flex
+        align-content stretch
+
+        overflow hidden
+
+        border-radius 5px 5px 0 0
+
+    & li&__tab
+        font-family secondary_font
+        font-size 19px
+        line-height initial
+
+        padding 20px 30px
+
+        cursor pointer
+        background #ddd
+
+    & li&__tab:hover
+        color secondary_color
+
+    &__body
+        display none
+
+        padding 25px
+
+        text-align left
+
+        border 10px solid #eee
+        border-radius 0 0 5px 5px
+
+    &__body p:first-child
+        margin-top 0
+
+    &_difference &__body_difference,
+    &_books &__body_books,
+    &_job &__body_job
+        display block
+
+    &_difference li&__tab_difference,
+    &_books li&__tab_books,
+    &_job li&__tab_job
+        color secondary_color
+        background #eee

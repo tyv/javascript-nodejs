@@ -1,0 +1,80 @@
+.courses-faq
+    margin-top 40px
+
+    & ul&__questions,
+    & li&__question
+        padding 0
+        margin 0
+        list-style none
+
+    & ul&__questions
+        border-radius 5px
+        background background_blocks
+
+    & li&__question:before
+        display none
+
+        content ''
+
+    &__body
+        text-align left
+
+    &__input
+        position absolute
+        visibility hidden
+
+    & li&__question
+        padding 20px
+
+        border-bottom 1px solid #ddd
+
+    & li&__question:last-child
+        border none
+
+    &__question-title
+        font-size 16px
+        font-style italic
+
+        cursor pointer
+        border-bottom 1px dotted
+
+    &__question-title:hover
+        color secondary_color
+
+    &__answer
+        position relative
+
+        display none
+
+        padding 10px
+        margin-top 15px
+
+        background #FFF
+        border-radius 5px
+
+        &:before
+            position absolute
+            top -6px
+            left 30px
+
+            width 20px
+            height 20px
+            margin-left -10px
+
+            background #fff
+
+            transform rotate(45deg)
+
+            content: ''
+
+    &__answer p
+        margin 0 10px
+
+    &__input:checked ~ &__answer
+        display block
+
+    &__input:checked ~ &__question-title
+        font-weight bold
+
+        border none
+        color secondary_color

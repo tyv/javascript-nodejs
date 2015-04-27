@@ -1,0 +1,22 @@
+- var testimonials = [];
+- testimonials.push({ userpic: '//img.png', name: 'Бендер Константинопольский', role: 'Выпускник курсов', text: 'При облучении инфракрасным лазером кондуктометрия захватывает сернистый газ, даже если нанотрубки меняют свою межплоскостную ориентацию. Изомерия, как следует из совокупности экспериментальных наблюдений, едко активирует окисленный серный эфир' })
+- testimonials.push({ userpic: '//img.png', name: 'Иван  Пупкин', role: 'Выпускник курсов', text: 'Чо норм курсы' })
+- testimonials.push({ userpic: '//img.png', name: 'Пьер  Безухов', role: 'Мимио шел', text: 'Продукт реакции разъедает жидкофазный раствор. Упаривание активирует серный эфир' })
+
++b.courses-testimonials
+    +e('h2').title Что говорят о курсах люди
+
+    +e('i').arr._left
+    +e('i').arr._right
+    +e.body
+
+        +e('ul').testimonials
+            for testimonial in testimonials
+                +e('li').testimonial
+                    +e.user
+                        +e.userpic
+                            +e('img').userpic-img(src=testimonial.userpic)
+                        +e.username !{ testimonial.name }
+                        +e.role !{ testimonial.role }
+                    +e('p').testimonial-text !{ testimonial.text }
+

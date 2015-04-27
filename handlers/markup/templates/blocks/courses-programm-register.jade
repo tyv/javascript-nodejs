@@ -1,0 +1,14 @@
+- var courses = []
+- courses.push({ isOpen: true, title: 'Javascript, DOM, интерфейсы', link: '/123', text: 'В первую очередь это курс для тех, кто не разрабатывал на JS, либо разрабатывал эпизодически и теперь хочет освоить профессионально' })
+- courses.push({ isOpen: false, title: 'Javascript, DOM, интерфейсы', link: '/123', text: 'В первую очередь это курс для тех, кто не разрабатывал на JS, либо разрабатывал эпизодически и теперь хочет освоить профессионально' })
+
++b.courses-programm-register
+    +e('h2').title Программа курсов и запись
+    +e('ul').courses
+        for course in courses
+            +e('li').course
+                +e('h3').course-title
+                    +b('a').link(href=course.link) !{ course.title }
+                    if course.isOpen
+                        +e('span').course-bage Идет набор в группы
+                +e('p').course-text !{ course.text }
