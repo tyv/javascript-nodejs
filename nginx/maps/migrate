@@ -1,4 +1,5 @@
 map $uri $migrate {
+  /content/uchebnik-pdf-dlya-chteniya-i-pechati https://learn.javascript.ru/ebook;
   /node/5 https://learn.javascript.ru/intro;
   /node/8 https://learn.javascript.ru/hello-world;
   /node/9 https://learn.javascript.ru/variables;

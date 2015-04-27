@@ -5,6 +5,11 @@ var config = require('config');
 // Remove provider profile from the user
 exports.post = function* (next) {
 
+  // anti-bruteforce pause
+  yield function(callback) {
+    setTimeout(callback, 100);
+  };
+
   var user = yield User.findOne({
     profileName: this.request.body.user
   }).exec();
