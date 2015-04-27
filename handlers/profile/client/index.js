@@ -18,8 +18,8 @@ require('./dateRangeValidator');
 profile.factory('Me', ($resource) => {
   return $resource('/users/me', {}, {
     get: {
-      method: 'GET',
-      transformResponse: function(data, headers){
+      method:            'GET',
+      transformResponse: function(data, headers) {
         data = JSON.parse(data);
         data.created = new Date(data.created);
         return data;
@@ -31,9 +31,9 @@ profile.factory('Me', ($resource) => {
 profile.factory('QuizResults', ($resource) => {
   return $resource('/quiz/results/user/' + window.currentUser.id, {}, {
     query: {
-      method: 'GET',
-      isArray: true,
-      transformResponse: function(data, headers){
+      method:            'GET',
+      isArray:           true,
+      transformResponse: function(data, headers) {
 
         data = JSON.parse(data);
         data.forEach(function(result) {
@@ -49,13 +49,14 @@ profile.factory('QuizResults', ($resource) => {
 profile.factory('Orders', ($resource) => {
   return $resource('/payments/common/orders/user/' + window.currentUser.id, {}, {
     query: {
-      method: 'GET',
-      isArray: true,
-      transformResponse: function(data, headers){
+      method:            'GET',
+      isArray:           true,
+      transformResponse: function(data, headers) {
         data = JSON.parse(data);
         data.forEach(function(order) {
           order.created = new Date(order.created);
 
+          debugger;
           order.countDetails = {
             free:     order.participants.length - order.count,
             busy:     order.participants.length,
@@ -99,7 +100,7 @@ profile
         templateUrl: "/profile/templates/partials/account",
         controller:  'ProfileAccountCtrl'
       },
-      'root.quiz': {
+      'root.quiz':    {
         url:         '/quiz',
         title:       'Тесты',
         templateUrl: "/profile/templates/partials/quiz",
@@ -108,7 +109,7 @@ profile
           quizResults: (QuizResults) => QuizResults.query()
         }
       },
-      'root.orders': {
+      'root.orders':  {
         url:         '/orders',
         title:       'Заказы',
         templateUrl: "/profile/templates/partials/orders",
@@ -120,7 +121,7 @@ profile
     };
 
     // enabled states depend on user, are set to global variable in index.jade
-    for(var key in states) {
+    for (var key in states) {
       if (~window.profileStatesEnabled.indexOf(key)) {
         $stateProvider.state(key, states[key]);
       }
@@ -141,9 +142,9 @@ profile
       })
       .map((state) => {
         return {
-          title:     state.title,
-          name:      state.name,
-          url:       state.url
+          title: state.title,
+          name:  state.name,
+          url:   state.url
         };
       });
 
@@ -178,8 +179,10 @@ profile
         data:             new FormData()
       }).then((response) => {
 
-        alert('Пользователь удалён.');
-        window.location.href = '/';
+        new notification.Success('Пользователь удалён.');
+        setTimeout(function() {
+          window.location.href = '/';
+        }, 1500);
 
       }, (response) => {
         new notification.Error("Ошибка загрузки, статус " + response.status);
@@ -195,7 +198,7 @@ profile
         method:  'POST',
         url:     '/auth/disconnect/' + providerName,
         tracker: this.loadingTracker
-      }).then( (response) => {
+      }).then((response) => {
         // refresh user
         $scope.me = Me.get();
       }, (response) => {

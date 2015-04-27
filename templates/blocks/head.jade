@@ -32,9 +32,26 @@ if analyticsEnabled
 
   include ../blocks/metrika
 
-  script window.qbaka||function(e,t){var n=[];var r=e.qbaka=function(){n.push(arguments)};e.__qbaka_eh=e.onerror;e.onerror=function(){r("onerror",arguments);if(e.__qbaka_eh)try{e.__qbaka_eh.apply(e,arguments)}catch(t){}};e.onerror.qbaka=1;r.sv=2;r._=n;r.log=function(){r("log",arguments)};r.report=function(){r("report",arguments,new Error)};var i=t.createElement("script"),s=t.getElementsByTagName("script")[0],o=function(){s.parentNode.insertBefore(i,s)};i.type="text/javascript";i.async=!0;i.src=("https:"==t.location.protocol?"https:":"http:")+"//qbaka.r.worldssl.net/reporting.js";typeof i.async=="undefined"&&t.addEventListener?t.addEventListener("DOMContentLoaded",o):o();r.key="e6acff00ac50b33458725d4dc35829a6"}(window,document);qbaka.options={autoStacktrace:1,trackEvents:1};
-  if user
-    script qbaka('user', '!{user._id}');
+  script
+    :uglify
+      window.Muscula = {
+        settings:{
+          logId:"658f806a-f643-4e65-afac-f80151b2f4f0", suppressErrors: false
+        },
+        run:function(){
+          var a;
+          eval(arguments[0]);
+          window.Muscula.run=function(){};
+        },
+        errors : []
+      }
+
+      window.onerror=function(){
+        window.Muscula.errors.push(arguments);
+      }
+
+  script(src='//musculahq.appspot.com/Muscula7.js')
+
 else
   //- so that other scripts using ga() for stats won't die
   script window.ga = function() {}
@@ -43,21 +60,6 @@ else
 script(src=pack("head", "js"))
 //script(src=pack("styles", "js"))
 
-script
-  :uglify
-    window.Muscula = {
-      settings:{
-        logId:"658f806a-f643-4e65-afac-f80151b2f4f0", suppressErrors: false
-      }
-    };
-    (function () {
-        var m = document.createElement('script');
-        m.src = 'https://musculahq.appspot.com/Muscula7.js';
-        document.head.appendChild(m);
-        window.Muscula.run=function(){var a;eval(arguments[0]);window.Muscula.run=function(){};};
-        window.Muscula.errors=[];window.onerror=function(){window.Muscula.errors.push(arguments);
-        return window.Muscula.settings.suppressErrors===undefined;}
-    })();
 
 //- head из конкретной статьи
 !=head
