@@ -215,7 +215,7 @@
 
         margin-top 5px
 
-    &__settings-participant .text-input:after
+    &__settings-participant .text-input__status
         position absolute
         top 0
         right 0
@@ -232,15 +232,26 @@
 
         border-radius 0 3px 3px 0
 
-    &__settings-participant .text-input_approved_no:after
-        @extend $font-help
-
+    &__settings-participant .text-input_approved_no .text-input__status
         background #999
 
-    &__settings-participant .text-input_approved_yes:after
+    &__settings-participant .text-input_approved_yes .text-input__status
+        background #47916a
+
+    &__settings-participant .text-input_approved_no .text-input__status:after
+        @extend $font-help
+
+        display block
+
+    &__settings-participant .text-input_approved_yes .text-input__status:after
         @extend $font-ok
 
-        background #47916a
+        display block
+
+    &__settings .text-input__err
+        position absolute
+
+        line-height 13px
 
     &__settings-participant .text-input__control
         padding-right 34px

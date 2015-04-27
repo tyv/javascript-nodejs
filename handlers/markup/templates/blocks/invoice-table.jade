@@ -67,8 +67,11 @@
                     - var number = index + 1
                      +e('li').settings-participant
                       +e('label').participant-label(for='participant' + number + '' + indexInvoice) Участник !{number}:
-                      +b('span')(class=['text-input', '__input', participant.approved ? '_approved_yes' : '_approved_no'])
+                      +b('span')(class=['text-input', index == 1 ? '_invalid' : '', '__input', participant.approved ? '_approved_yes' : '_approved_no'])
                         +e('input').control(placeholder="email", name="email", type="email", value= participant.email ? participant.email : '', id = 'participant' + number + '' + indexInvoice)
+                        +e('span').status
+                        if index == 1
+                          +e('span').err Не верный email
 
                 +e.settings-line_submit
                   +b('button').button._common(type="submit")
@@ -87,8 +90,9 @@
                   +e('label').contact-form-label(for="contact-phone" + indexInvoice) Телефон:
                   +b.full-phone
                     +e.tel-wrap
-                      +b.text-input._small.__tel
+                      +b.text-input._invalid._small.__tel
                         +e('input').control(placeholder="+X XXX XXX-XX-XX", required, id="contact-phone" + indexInvoice)
+                        +e('span').err Не верный телефон
 
                 +e.settings-line._submit
                   +b('button').button._common(type="submit")
