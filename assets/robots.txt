@@ -3,4 +3,3 @@ Disallow: /node/
 Disallow: /users/
 Disallow: /content/
 Disallow: /play/
-Host: https://learn.javascript.ru
