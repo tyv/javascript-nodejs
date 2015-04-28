@@ -51,12 +51,13 @@ class SignupWidget {
 
     this.elems.payment.onsubmit = this.onPaymentSubmit.bind(this);
 
+    /*
     this.delegate('[data-order-payment-change]', 'click', (e) => {
       e.preventDefault();
       this.elem.className = this.elem.className.replace(/courses-register_step_\d/, '');
       this.elem.classList.add('courses-register_step_3');
     });
-
+    */
 
   }
 

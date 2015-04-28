@@ -14,6 +14,7 @@ class OrderForm {
 
     this.elem.addEventListener('submit', (e) => this.onSubmit(e));
 
+
     this.delegate('[data-order-payment-change]', 'click', function(e) {
       e.preventDefault();
       this.elem.querySelector('[data-order-form-step-payment]').style.display = 'block';
