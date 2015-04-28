@@ -1,0 +1,41 @@
+include /bem
+
++b.invoice-table
+
+  +e('h4').settings-title Контактная информация
+
+  +e('form').contact-form(
+    name="contactForm"
+    novalidate
+    progress="loadingTracker.active()"
+    progress-overlay
+    ng-submit="submit()"
+  )
+
+    +e.settings-line
+      +e("label").contact-form-label(for="contact-name{{order.number}}") Имя и фамилия:
+      +b("span").text-input
+        +e("input").control(
+          type="text",
+          ng-required,
+          name="contact-name",
+          id="contact-name{{order.number}}"
+          ng-model="contactName"
+        )
+
+    +e.settings-line
+      +e('label').contact-form-label(for="contact-phone{{order.number}}") Телефон:
+      +b.full-phone
+        +e.tel-wrap
+          +b.text-input._small.__tel
+            +e('input').control(
+              placeholder="+X XXX XXX-XX-XX",
+              type="tel",
+              id="contact-phone{{order.number}}"
+              ng-model="contactPhone"
+            )
+
+    +e.settings-line._submit
+      +b('button').button._common(type="submit" progress="loadingTracker.active()" progress-spinner="{elemClass:'button_loading',size:'small'}")
+        +e('span').text Сохранить контакты
+

@@ -1,4 +1,7 @@
 map $uri $migrate {
+  /ebook https://learn.javascript.ru/ebook;
+  /courses https://learn.javascript.ru/courses;
+
   /content/uchebnik-pdf-dlya-chteniya-i-pechati https://learn.javascript.ru/ebook;
   /node/5 https://learn.javascript.ru/intro;
   "~^/node/5/.*" https://learn.javascript.ru/intro;
@@ -190,7 +193,6 @@ map $uri $migrate {
   "~^/node/430/.*" https://learn.javascript.ru/events-change;
   /node/436 https://learn.javascript.ru/templates;
   "~^/node/436/.*" https://learn.javascript.ru/templates;
-  /template-lodash https://learn.javascript.ru/templates;
   /node/445 https://learn.javascript.ru/coding-style;
   "~^/node/445/.*" https://learn.javascript.ru/coding-style;
   /node/448 https://learn.javascript.ru/bezier;

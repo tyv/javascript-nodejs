@@ -1,12 +1,12 @@
 +b.pay-method
   +e('ul').methods
-    - console.log("!!!", paymentMethods)
+
     each paymentMethod in paymentMethods
       +e('li').method
         +e('input').method-radio(type="radio" name="paymentMethod" value=paymentMethod.name id=paymentMethod.name)
         +e('label')(class=["method-label", "_" + paymentMethod.name] for=paymentMethod.name)
           +e('header').header
-            if paymentMethod.title
+            if paymentMethod.title && !~['paypal','yandexmoney','webmoney'].indexOf(paymentMethod.name)
               +e('h3').method-title !{ paymentMethod.title }
               if paymentMethod.cards
                   +e('span').cards

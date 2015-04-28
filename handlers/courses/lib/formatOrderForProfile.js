@@ -6,9 +6,7 @@ var paymentMethods = require('./paymentMethods');
 
 module.exports = function* formatCourseOrder(order) {
 
-  var group = yield CourseGroup.findOne({
-    slug: order.data.slug
-  }).populate('course').exec();
+  var group = yield CourseGroup.findById(order.data.group).populate('course').exec();
 
   if (!group) {
     this.log.error("Not found group for order", order.toObject());
@@ -21,13 +19,9 @@ module.exports = function* formatCourseOrder(order) {
     }
   }).exec();
 
-  var usersByEmail = _.groupBy(users, function(user) {
-    return user.email;
-  });
+  var usersByEmail = _.indexBy(users, 'email');
 
-  var groupParticipantsByUser = _.groupBy(group.participants, function(participant) {
-    return participant.user;
-  });
+  var groupParticipantsByUser = _.indexBy(group.participants, 'user');
 
   var orderToShow = {
     created:      order.created,
@@ -42,7 +36,7 @@ module.exports = function* formatCourseOrder(order) {
     participants: order.data.emails.map(function(email) {
       return {
         email:    email,
-        accepted: Boolean(groupParticipantsByUser[usersByEmail[email]._id])
+        accepted: Boolean(usersByEmail[email] && groupParticipantsByUser[usersByEmail[email]._id])
       };
     })
 
@@ -51,7 +45,10 @@ module.exports = function* formatCourseOrder(order) {
   var orderInfo = yield* getOrderInfo(order);
 
   orderToShow.orderInfo = _.pick(orderInfo, ['status', 'statusText', 'accent', 'description', 'linkToProfile']);
-  orderToShow.paymentMethod = paymentMethods[orderInfo.transaction.paymentMethod].title;
+
+  if (orderInfo.transaction) {
+    orderToShow.paymentMethod = paymentMethods[orderInfo.transaction.paymentMethod].title;
+  }
 
   return orderToShow;
 };

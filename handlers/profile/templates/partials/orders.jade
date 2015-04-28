@@ -30,70 +30,30 @@ include /bem
 
       +e('td').price
         +b.price {{ order.amount }} RUB
-        +e(ng-class="['invoice-table__payment-status', 'invoce-table__' + order.orderInfo.status]")
+        +e(ng-class="['invoice-table__payment-status', 'invoice-table__payment-status_' + order.orderInfo.status]")
           | {{ order.orderInfo.statusText }}
-        +e.payment-type ({{ order.paymentMethod }})
+        +e.payment-type(ng-if="order.paymentMethod") ({{ order.paymentMethod }})
 
     +e('tr').settings(ng-repeat-end)
       +e('td').settings-cell(colspan=3)
         +e.settings-dropdown
           +e('button').settings-dropdown-close.close-button(ng-click="order.isEditing = false")
+
+          +b.notification._message._info
+            +e.content
+              h4(ng-bind-html="order.orderInfo.accent | trust_html") Обрати внимание: сделано в Германии!
+              div(ng-bind-html="order.orderInfo.description | trust_html")
+            +e('button').close(title="Закрыть")
+
+
           +e.settings-dropdown-cell._left
-            +e('form')
-              +e('h4').settings-title Участники
-
-              +e('ul').settings-participants
-                +e('li').settings-participant(ng-repeat="participant in order.participants")
-                  +e('label').participant-label(for='participant{{order.number}}{{$index}}') Участник {{$index + 1}}:
-                  +b('span').text-input.__input(ng-class="[participant.accepted ? 'text-input_approved_yes' : 'text-input_approved_no']")
-                    +e('input').control(
-                      placeholder="email",
-                      name="email",
-                      type="email",
-                      ng-model="participant.email",
-                      id='participant{{order.number}}{{$index}}',
-                      ng-disabled="participant.accepted"
-                    )
-
-              +e.settings-line_submit
-                +b('button').button._common(type="submit")
-                  +e('span').text Сохранить участников
-
+            +e('order-participants')(order="order")
           +e.settings-dropdown-cell._right
-            +e('h4').settings-title Контактная информация
-            +e('form').contact-form(action="/123")
-              +e.settings-line
-                +e("label").contact-form-label(for="contact-name{{order.number}}") Имя и фамилия:
-                +b("span").text-input
-                  +e("input").control(
-                    type="text",
-                    ng-required,
-                    name="contact-name",
-                    id="contact-name{{order.number}}"
-                    ng-model="order.contactName"
-                  )
-
-              +e.settings-line
-                +e('label').contact-form-label(for="contact-phone{{order.number}}") Телефон:
-                +b.full-phone
-                  +e.tel-wrap
-                    +b.text-input._small.__tel
-                      +e('input').control(
-                        placeholder="+X XXX XXX-XX-XX",
-                        type="tel",
-                        ng-required,
-                        id="contact-phone{{order.number}}"
-                        ng-model="order.contactPhone"
-                      )
-
-              +e.settings-line._submit
-                +b('button').button._common(type="submit")
-                  +e('span').text Сохранить контакты
-
-          +e.settings-line._foot(ng-if="order.status != 'success'")
+            +e('order-contact')(order="order")
+          +e.settings-line._foot(ng-if="order.orderInfo.status != 'success'")
             +e('h4').settings-title(ng-bind-html="order.orderInfo.accent | trust_html")
             +e('p').note(ng-bind-html="order.orderInfo.description | trust_html")
-            +b('button').button._common
+            +b('button').button._common(type="button" ng-click="changePayment(order)")
               +e('span').text Изменить метод оплаты
 
 

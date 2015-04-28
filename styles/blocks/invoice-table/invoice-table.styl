@@ -1,5 +1,10 @@
 .invoice-table
 
+    &__participant-form,
+    &__contact-form
+        //- for progress overlay positioning
+        position relative
+
     & table tr:first-child th
         border-width 1px
         border-color #e4e0d2
@@ -18,8 +23,6 @@
         border none
 
     &__data
-        cursor pointer
-
         transition background-color 0.2s
 
     &__data:hover

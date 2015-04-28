@@ -1,4 +1,3 @@
-
 const path = require('path');
 const Transaction = require('../models/transaction');
 const money = require('money');
@@ -23,10 +22,10 @@ exports.createTransaction = function*(order, requestBody) {
     order.amount : Math.round(money.convert(order.amount, {from: config.payments.currency, to: currency}));
 
   var transaction = new Transaction({
-    order:  order._id,
-    amount: amount,
-    status: Transaction.STATUS_PENDING,
-    currency: currency,
+    order:         order._id,
+    amount:        amount,
+    status:        Transaction.STATUS_PENDING,
+    currency:      currency,
     paymentMethod: path.basename(__dirname)
   });
 
@@ -37,6 +36,7 @@ exports.createTransaction = function*(order, requestBody) {
 };
 
 exports.info = {
-  name:    path.basename(__dirname),
-  hasIcon: true
+  title:           'PayPal',
+  name:            path.basename(__dirname),
+  hasIcon:         true
 };

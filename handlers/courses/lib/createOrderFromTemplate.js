@@ -11,7 +11,7 @@ module.exports = function*(orderTemplate, user, requestBody) {
   var group = yield CourseGroup.findOne({slug: requestBody.slug}).exec();
 
   var orderData = {
-    slug: group.slug
+    group: group._id
   };
   orderData.count = +requestBody.count;
 

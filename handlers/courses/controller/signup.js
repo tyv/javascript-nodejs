@@ -23,9 +23,9 @@ exports.get = function*() {
     this.locals.order = this.order;
     this.locals.title = 'Заказ №' + this.order.number;
 
-    group = this.locals.group = yield CourseGroup.findOne({
-      slug: this.order.data.slug
-    }).populate('course').exec();
+    this.locals.changePaymentRequested = Boolean(this.query.changePayment);
+
+    group = this.locals.group = yield CourseGroup.findById(this.order.data.group).populate('course').exec();
 
     if (!group) {
       this.throw(404, "Нет такой группы.");

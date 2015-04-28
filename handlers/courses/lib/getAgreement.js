@@ -14,9 +14,7 @@ module.exports = function*(transaction) {
 
   var invoiceDoc = new Docxtemplater(docContent);
 
-  var group = yield CourseGroup.findOne({
-    slug: transaction.order.data.slug
-  }).exec();
+  var group = yield CourseGroup.findById(transaction.order.data.group).exec();
 
   if (!group) {
     this.throw(400, "Нет группы");
