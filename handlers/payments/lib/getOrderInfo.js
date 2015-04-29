@@ -38,8 +38,8 @@ function* getOrderInfo(order) {
     // because theoretically it's possible to have 2 transactions:
     // pending (1tx) -> fail, pending (2nx tx came) -> success, pending (1st tx got money)
     transaction = yield Transaction.findOne({
-      order:      order._id,
-      status:     Transaction.STATUS_SUCCESS
+      order:  order._id,
+      status: Transaction.STATUS_SUCCESS
     }).exec();
 
     // it is possible that there is no transaction at all
@@ -47,7 +47,7 @@ function* getOrderInfo(order) {
     return {
       number:      order.number,
       status:      "success",
-      statusText: "Оплата получена",
+      statusText:  "Оплата получена",
       transaction: transaction
       // no title/accent/description, because the action on success is order-module-dependant
     };
@@ -113,17 +113,18 @@ function* getOrderInfo(order) {
 
       if (transaction.paymentMethod == 'banksimple') {
         return {
-          number:      order.number,
-          status:      "pending",
-          statusText:  "Ожидается оплата",
-          transaction: transaction,
-          title:       "Спасибо за заказ!",
-          accent:      `Для завершения заказа скачайте квитанцию и оплатите ее через банк.`,
-          description: `<div><button class="submit-button" onclick="location.href='/payments/banksimple/${transaction.number}/invoice.docx'" type="button"><span class="submit-button__text">Скачать квитанцию</span></button></div>
+          number:             order.number,
+          status:             "pending",
+          statusText:         "Ожидается оплата",
+          transaction:        transaction,
+          title:              "Спасибо за заказ!",
+          accent:             `Для завершения заказа скачайте квитанцию и оплатите ее через банк.`,
+          description:        `<div><button class="submit-button" onclick="location.href='/payments/banksimple/${transaction.number}/invoice.docx'" type="button"><span class="submit-button__text">Скачать квитанцию</span></button></div>
             <p>Квитанция действительна три дня. Оплатить можно в Сбербанке (3% комиссия) или любом банке, где у вас есть счёт.</p>
             <p>После оплаты в течение двух рабочих дней мы вышлем вам всю необходимую информацию на адрес <b>${order.email}</b>.</p>
             <p>Если у вас возникли какие-либо вопросы, присылайте их на ${mailUrl}.</p>
-            `
+            `,
+          descriptionProfile: `<div>Вы можете повторно <a href="/payments/banksimple/${transaction.number}/invoice.docx">скачать квитанцию</a> или изменить метод оплаты, нажав на кнопку ниже.</div>`
         };
       } else if (transaction.paymentMethod == 'invoice') {
         var invoiceButton = `<button class="submit-button" onclick="location.href='/payments/invoice/${transaction.number}/invoice.docx'" type="button"><span class="submit-button__text">Скачать счёт</span></button>`;
@@ -132,18 +133,21 @@ function* getOrderInfo(order) {
           '';
 
         return {
-          number:      order.number,
-          status:      "pending",
-          statusText:  "Ожидается оплата",
-          transaction: transaction,
-          title:       "Спасибо за заказ!",
-          accent:      `Для завершения заказа произведите оплату по счёту.`,
-          description: `
+          number:             order.number,
+          status:             "pending",
+          statusText:         "Ожидается оплата",
+          transaction:        transaction,
+          title:              "Спасибо за заказ!",
+          accent:             `Для завершения заказа произведите оплату по счёту.`,
+          description:        `
             <div>${invoiceButton} ${agreementButton}</div>
             <p>Счёт действителен пять рабочих дней.</p>
             <p>После оплаты мы вышлем вам всю необходимую информацию на адрес <b>${order.email}</b>.</p>
             <p>Если у вас возникли какие-либо вопросы, присылайте их на ${mailUrl}.</p>
-            `
+            `,
+          descriptionProfile: `<div>Вы можете повторно <a href="/payments/invoice/${transaction.number}/invoice.docx">скачать счёт</a>` +
+                              (transaction.paymentDetails.agreementRequired ? ` и <a href="/payments/invoice/${transaction.number}/agreement.docx">договор с актом</a>` : '') +
+                              `, а также поменять детали и метод оплаты, нажав на кнопку ниже.</div>`
         };
       } else {
         return {
@@ -155,7 +159,7 @@ function* getOrderInfo(order) {
           accent:      `Как только мы получим подтверждение от платёжной системы, мы вышлем вам всю необходимую информацию на адрес <b>${order.email}</b>.`,
           description: `
           <p>Если у вас возникли проблемы при работе с платежной системой, и вы не оплатили заказ,
-          вы можете <a data-order-payment-change href="?changePayment=1">выбрать другой метод оплаты</a> и оплатить заново.</p>
+          вы можете <a href="" data-order-payment-change>выбрать другой метод оплаты</a> и оплатить заново.</p>
           <p>Если у вас возникли какие-либо вопросы, присылайте их на ${mailUrl}.</p>`
         };
       }

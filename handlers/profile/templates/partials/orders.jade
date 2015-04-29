@@ -2,6 +2,9 @@ include /bem
 
 
 +b.invoice-table
+
+  +e('p').empty-message(ng-if="!orders.length") Нет активных заказов.
+
   +e('table').table
 
     +e('tr').data(ng-repeat-start="order in orders" ng-class="{'invoice-table__data_show_settings': order.isEditing}")
@@ -23,7 +26,7 @@ include /bem
             | &nbsp;({{ order.countDetails.accepted }} подтверждено)
 
           div
-           a(href='#' ng-click="order.isEditing = !order.isEditing") редактировать заказ
+            a(href='#' ng-click="order.isEditing = !order.isEditing") редактировать заказ
 
       +e('td').info
         +e('a').info-link(ng-href='{{order.courseUrl}}') Описание курса
@@ -39,22 +42,32 @@ include /bem
         +e.settings-dropdown
           +e('button').settings-dropdown-close.close-button(ng-click="order.isEditing = false")
 
-          +b.notification._message._info
-            +e.content
-              h4(ng-bind-html="order.orderInfo.accent | trust_html") Обрати внимание: сделано в Германии!
-              div(ng-bind-html="order.orderInfo.description | trust_html")
-            +e('button').close(title="Закрыть")
+          div(ng-if="order.orderInfo.status == 'pending'")
+            +b.notification._message._info
+              +e.content
+                | В данный момент мы ожидаем от вас оплату. После того, как мы получим подтверждение оплаты,
+                | указанным участникам курсов придёт письмо со всей необходимой информацией.
 
+          div(ng-if="order.orderInfo.status == 'success'")
+            div(ng-if="order.count > order.countDetails.accepted")
+              +b.notification._message._success
+                +e.content
+                  | Все участники получают письмо-приглашение. Участника можно изменить до тех пор, пока он не принял его.
 
           +e.settings-dropdown-cell._left
             +e('order-participants')(order="order")
+
           +e.settings-dropdown-cell._right
             +e('order-contact')(order="order")
+
           +e.settings-line._foot(ng-if="order.orderInfo.status != 'success'")
-            +e('h4').settings-title(ng-bind-html="order.orderInfo.accent | trust_html")
-            +e('p').note(ng-bind-html="order.orderInfo.description | trust_html")
+            +e('h4').settings-title Оплата
+            +e('p').note(ng-bind-html="order.orderInfo.descriptionProfile | trust_html")
             +b('button').button._common(type="button" ng-click="changePayment(order)")
               +e('span').text Изменить метод оплаты
+
+            +b('button').button._common(type="button" ng-click="cancelOrder(order)")
+              +e('span').text Отменить заказ
 
 
 

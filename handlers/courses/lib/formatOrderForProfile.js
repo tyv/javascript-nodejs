@@ -44,7 +44,7 @@ module.exports = function* formatCourseOrder(order) {
 
   var orderInfo = yield* getOrderInfo(order);
 
-  orderToShow.orderInfo = _.pick(orderInfo, ['status', 'statusText', 'accent', 'description', 'linkToProfile']);
+  orderToShow.orderInfo = _.pick(orderInfo, ['status', 'statusText', 'descriptionProfile']);
 
   if (orderInfo.transaction) {
     orderToShow.paymentMethod = paymentMethods[orderInfo.transaction.paymentMethod].title;

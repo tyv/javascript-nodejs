@@ -7,9 +7,9 @@ exports.renderForm = require('./renderForm');
 exports.createTransaction = function*(order) {
 
   var transaction = new Transaction({
-    order:  order._id,
-    amount: order.amount,
-    status: Transaction.STATUS_PENDING,
+    order:         order._id,
+    amount:        order.amount,
+    status:        Transaction.STATUS_PENDING,
     paymentMethod: path.basename(__dirname)
   });
 
@@ -20,10 +20,10 @@ exports.createTransaction = function*(order) {
 
 
 exports.info = {
-  title: "Payanyway",
-  name:    path.basename(__dirname),
+  title:    "Payanyway",
+  name:     path.basename(__dirname),
   subtitle: "и много других методов",
-  cards: ['visa-mastercard'],
-  hasIcon: false
+  cards:    ['visa-mastercard'],
+  hasIcon:  false
 };
 

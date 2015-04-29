@@ -17,7 +17,12 @@ exports.get = function*(next) {
     this.throw(403);
   }
 
-  var orders = yield Order.find({user: user._id}).sort({created: 1}).populate('user').exec();
+  var orders = yield Order.find({
+    user: user._id,
+    status: {
+      $ne: Order.STATUS_CANCEL
+    }
+  }).sort({created: 1}).populate('user').exec();
 
   var ordersToShow = [];
 

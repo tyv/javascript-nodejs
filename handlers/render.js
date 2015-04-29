@@ -39,20 +39,23 @@ function addStandardHelpers(locals, ctx) {
 
   // we don't use defer in sessions, so can assign it
   // (simpler, need to call yield this.session)
-  // (anon users may stop on varnish anyway)
   locals.session = ctx.session;
 
 
   locals.env = process.env;
-
-
-  //locals.renderSimpledown = renderSimpledown;
 
   Object.defineProperty(locals, "user", {
     get: function() {
       return ctx.req.user;
     }
   });
+
+  locals.profileTabNames = {
+    quiz: 'Тесты',
+    orders: 'Заказы',
+    aboutme: 'Публичный профиль',
+    account: 'Аккаунт'
+  };
 
   // flash middleware may be attached later in the chain
   Object.defineProperty(locals, "flashMessages", {

@@ -23,7 +23,7 @@ exports.post = function*() {
 
     var result = sessionQuiz.result;
 
-    // only now we bind quizResult.user (!)
+    // only now we bind quizResult to user (!)
     // because the user may be GUEST when finishing the test
     // and authorize after it
 
@@ -32,6 +32,11 @@ exports.post = function*() {
     result = new QuizResult(result);
 
     yield result.persist();
+
+    if (!~this.user.profileTabsEnabled.indexOf('quiz')) {
+      this.user.profileTabsEnabled.addToSet('quiz');
+      yield this.user.persist();
+    }
 
     sessionQuiz.resultSaved = true;
   }

@@ -52,12 +52,12 @@ exports.post = function*() {
     totalScore = Math.round(totalScore / quiz.questionsToAskCount * 100);
 
     var quizResult = new QuizResult({
-      user:      this.user,
+      user:      this.user._id,
       quizSlug:  quiz.slug,
       quizTitle: quiz.title,
       score: totalScore,
       level:  totalScore <= 40 ? 'junior' : totalScore <= 80 ? 'medium' : 'senior',
-      time:  Date.now() - sessionQuiz.started
+      time:  Date.now() - sessionQuiz.started // in ms!
     });
 
     sessionQuiz.result = quizResult.toObject();

@@ -48,6 +48,12 @@ exports.post = function*(next) {
       }
     }
 
+
+    if (this.user && !~this.user.profileTabsEnabled.indexOf('orders')) {
+      this.user.profileTabsEnabled.addToSet('orders');
+      yield this.user.persist();
+    }
+
     saveOrderNumberToSession(this.session, this.order);
   } else {
 

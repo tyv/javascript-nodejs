@@ -43,7 +43,8 @@ profile
   .filter('longDate', () => function(date) {
     return moment(date).format('D MMMM YYYY в LT');
   })
-  .filter('quizDuration', () => function(seconds) {
+  .filter('quizDuration', () => function(ms) {
+    var seconds = Math.round(ms / 1000);
     return moment.duration(seconds, 'seconds').humanize();
   })
   .filter('pluralize', function() {

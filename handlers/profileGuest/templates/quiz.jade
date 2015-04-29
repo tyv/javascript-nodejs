@@ -27,4 +27,4 @@ block profileContent
             +e("p").level-info #{result.levelTitle}
           +e("td").time-spent
             +e("h1").title Время прохождения:
-            +e("p").time-spent-info= moment.duration(result.time, 'seconds').humanize()
+            +e("p").time-spent-info= moment.duration(Math.round(result.time/1000), 'seconds').humanize()

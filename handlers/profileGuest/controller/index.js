@@ -6,7 +6,9 @@ var QuizResult = require('quiz').QuizResult;
 // skips the request if it's the owner
 exports.get = function* (next) {
 
-  var user = yield User.findOne({profileName: this.params.profileName}).exec();
+  var user = yield User.findOne({
+    profileName: this.params.profileName
+  }).exec();
 
   if (!user) {
     this.throw(404);
@@ -18,43 +20,42 @@ exports.get = function* (next) {
     return;
   }
 
+  var tabName = this.params.tab || 'aboutme';
+
   this.locals.tabs = {
     aboutme: {
-      url:   '/profile/' + user.profileName,
-      title: 'Публичный профиль'
+      url:   user.getProfileUrl()
     }
   };
 
+  if (~user.profileTabsEnabled.indexOf('quiz')) {
 
-  var quizResults = yield* QuizResult.getLastAttemptsForUser(user._id);
-
-  quizResults = quizResults.map(function(result) {
-    return {
-      created: result.created,
-      quizTitle: result.quizTitle,
-      score: result.score,
-      level: result.level,
-      levelTitle: result.levelTitle,
-      quizUrl: result.quiz && result.quiz.getUrl(),
-      time: result.time
-    };
-  });
-
-  if (quizResults.length) {
     this.locals.tabs.quiz = {
-      url: `/profile/${user.profileName}/quiz`,
-      title: 'Тесты'
+      url: user.getProfileUrl() + '/' + tabName
     };
+
+    var quizResults = yield* QuizResult.getLastAttemptsForUser(user._id);
+
+    quizResults = quizResults.map(function(result) {
+      return {
+        created:    result.created,
+        quizTitle:  result.quizTitle,
+        score:      result.score,
+        level:      result.level,
+        levelTitle: result.levelTitle,
+        quizUrl:    result.quiz && result.quiz.getUrl(),
+        time:       result.time
+      };
+    });
+
+    this.locals.quizResults = quizResults;
   }
-  this.locals.quizResults = quizResults;
-
-  this.locals.title = user.displayName;
-
-  var tabName = this.params.tab || 'aboutme';
 
   if (!this.locals.tabs[tabName]) {
     this.throw(404);
   }
+
+  this.locals.title = user.displayName;
 
   this.locals.tabs[tabName].active = true;
 

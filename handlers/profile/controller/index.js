@@ -25,21 +25,6 @@ exports.get = function* (next) {
     this.throw(404);
   }
 
-  this.locals.profileStatesEnabled = ['root.aboutme', 'root.account'];
-
-  var hasQuizResult = yield QuizResult.findOne({user: user._id}).exec();
-
-  if (hasQuizResult) {
-    this.locals.profileStatesEnabled.push('root.quiz');
-  }
-
-  var hasOrders = yield Order.findOne({user: user._id}).exec();
-
-  if (hasOrders) {
-    this.locals.profileStatesEnabled.push('root.orders');
-  }
-
-
   // if the visitor is the profile owner
   if (String(this.user._id) == String(user._id)) {
 

@@ -12,5 +12,8 @@
           +e('a').secondary-link.__usermenu-link(href=user.getProfileUrl()) Публичный профиль
         +e('li').usermenu-item
           +e('a').secondary-link.__usermenu-link(href=user.getProfileUrl() + "/account") Аккаунт
+        each tab in user.profileTabsEnabled
+          +e('li').usermenu-item
+            +e('a').secondary-link.__usermenu-link(href=user.getProfileUrl() + "/" + tab)= profileTabNames[tab]
         +e('li').usermenu-item
           +e('a').secondary-link.__usermenu-link(href="#" data-action-user-logout) Выйти

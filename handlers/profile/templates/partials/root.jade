@@ -6,8 +6,8 @@ include /bem
 
   +e.content
     +e.tabs
-      +e.tab(ng-repeat="state in states" ui-sref-active="profile__tab_current")
+      +e.tab(ng-repeat="tab in tabs" ui-sref-active="profile__tab_current")
         +e.tab-content
-          +e('a').tab-link(ui-sref="{{state.name}}") {{state.title}}
+          +e('a').tab-link(ui-sref="{{tab.name}}") {{tab.title}}
 
     ui-view Loading...

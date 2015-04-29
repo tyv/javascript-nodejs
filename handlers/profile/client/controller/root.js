@@ -5,16 +5,18 @@ module.exports = ($scope, $state, $timeout, $http, me, promiseTracker) => {
 
   $scope.loadingTracker = promiseTracker();
 
-  $scope.states = $state.get()
-    .filter((state) => {
-      return !state.abstract;
-    })
-    .map((state) => {
-      return {
-        title: state.title,
-        name:  state.name,
-        url:   state.url
-      };
-    });
+  var tabs = ['root.aboutme', 'root.account'];
+  window.currentUser.profileTabsEnabled.forEach(function(tab) {
+    tabs.push('root.' + tab);
+  });
+
+  $scope.tabs = tabs.map((stateName) => {
+    var state = $state.get(stateName);
+    return {
+      title: state.title,
+      name:  state.name,
+      url:   state.url
+    };
+  });
 
 };

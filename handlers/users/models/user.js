@@ -15,7 +15,7 @@ var ProviderSchema = new mongoose.Schema({
 });
 
 var UserSchema = new mongoose.Schema({
-  displayName:               {
+  displayName:   {
     type:     String,
     default:  "", // need a value for validator to run
     validate: [
@@ -35,7 +35,7 @@ var UserSchema = new mongoose.Schema({
       }
     ]
   },
-  email:                     {
+  email:         {
     type:     String,
     default:  "", // need a value for validator to run
     // если посетитель удалён, то у него нет email!
@@ -56,27 +56,27 @@ var UserSchema = new mongoose.Schema({
 
     // sparse (don't index users without email)
     // dangerous: if mongodb uses this in queries (that search emails only), users w/o email will be ignored
-    index:    {
+    index: {
       unique:       true,
       sparse:       true,
       errorMessage: "Такой e-mail уже используется."
     }
   },
-  passwordHash:              {
+  passwordHash:  {
     type: String // user may have no password if used facebook to login/register
   },
-  salt:                      {
+  salt:          {
     type: String
   },
-  providers:                 [ProviderSchema],
-  gender:                    {
+  providers:     [ProviderSchema],
+  gender:        {
     type: String,
     enum: {
       values:  ['male', 'female'],
       message: "Неизвестное значение для пола."
     }
   },
-  profileName:               {
+  profileName:   {
     type:     String,
     validate: [
       {
@@ -102,27 +102,31 @@ var UserSchema = new mongoose.Schema({
       }
     ],
 
-    index:    {
+    index: {
       unique:       true,
       sparse:       true,
       errorMessage: "Такое имя профиля уже используется."
     }
   },
-  realName:                  String,
+  realName:      String,
   // not Date, because Date requires time zone,
   // so if I enter 18.04.1982 00:00:00 in GMT+3 zone, it will be 17.04.1982 21:00 actually (prbably wrong)
   // string is like a "date w/o time zone"
-  birthday:                  String,
-  verifiedEmail:             {
+  birthday:      String,
+  verifiedEmail: {
     type:    Boolean,
     default: false
   },
 
+  // e.g. ['orders', 'quiz'], the profile tabs which have info
+  // a tab is enabled by the associated module when it generates data
+  profileTabsEnabled: [String],
+
   // we store all verified emails of the user for the history & account restoration issues
-  verifiedEmailsHistory:     [{date: Date, email: String}],
+  verifiedEmailsHistory: [{date: Date, email: String}],
 
   // new not-yet-verified email, set on change attempt
-  pendingVerifyEmail:        String,
+  pendingVerifyEmail: String,
 
   // impossible-to-guess token
   // used on both new user & email change
@@ -192,23 +196,24 @@ UserSchema.methods.getInfoFields = function() {
 
 UserSchema.statics.getInfoFields = function(user) {
   return {
-    id:            user._id,
-    displayName:   user.displayName,
-    profileName:   user.profileName,
-    gender:        user.gender,
-    birthday:      user.birthday,
-    country:       user.country,
-    town:          user.town,
-    publicEmail:   user.publicEmail,
-    interests:     user.interests,
-    email:         user.email,
-    verifiedEmail: user.verifiedEmail,
-    photo:         user.photo && user.photo.link,
-    deleted:       user.deleted,
-    readOnly:      user.readOnly,
-    isAdmin:       user.isAdmin,
-    created:       user.created,
-    lastActivity:  user.lastActivity
+    id:                 user._id,
+    displayName:        user.displayName,
+    profileName:        user.profileName,
+    gender:             user.gender,
+    birthday:           user.birthday,
+    country:            user.country,
+    town:               user.town,
+    publicEmail:        user.publicEmail,
+    interests:          user.interests,
+    email:              user.email,
+    verifiedEmail:      user.verifiedEmail,
+    photo:              user.photo && user.photo.link,
+    deleted:            user.deleted,
+    readOnly:           user.readOnly,
+    isAdmin:            user.isAdmin,
+    created:            user.created,
+    lastActivity:       user.lastActivity,
+    profileTabsEnabled: user.profileTabsEnabled
   };
 };
 
@@ -286,7 +291,7 @@ UserSchema.methods.generateProfileName = function*() {
   profileName = profileName.toLowerCase();
 
   var existingUser;
-  while(true) {
+  while (true) {
     existingUser = yield User.findOne({profileName: profileName}).exec();
 
     if (!existingUser) break;
@@ -297,7 +302,7 @@ UserSchema.methods.generateProfileName = function*() {
   this.profileName = profileName;
 };
 
-UserSchema.pre('save', function (next) {
+UserSchema.pre('save', function(next) {
   if (this.deleted || this.profileName) return next();
 
   co(function*() {

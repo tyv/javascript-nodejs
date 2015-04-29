@@ -82,7 +82,7 @@ function initQuizResultSaveForm(form) {
     request.addEventListener('loadend', onEnd);
 
     request.addEventListener('success', (event) => {
-      new notification.Success("Результат сохранён в профиле! <a href='/profile'>Перейти в профиль</a>.", 'slow');
+      new notification.Success(`Результат сохранён в профиле! <a href='/profile/${window.currentUser.profileName}/quiz'>Перейти в профиль</a>.`, 'slow');
     });
 
   }

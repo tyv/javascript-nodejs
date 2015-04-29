@@ -2,8 +2,13 @@ include /bem
 
 +b.profile
 
+
   +b.quiz-results-table
-    +e("table").results
+
+    +e('p').empty-message(ng-if="!quizResults.length") Нет пройденных тестов.
+
+
+    +e("table").results(ng-if="quizResults.length")
 
       //- [{"created":"2015-03-25T15:44:09.907Z","quizTitle":"Второй тест","score":0,"level":"junior","levelTitle":"новичок","time":2286}]
       +e("tr").result(ng-repeat="result in quizResults")

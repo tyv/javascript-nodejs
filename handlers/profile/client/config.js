@@ -47,12 +47,9 @@ module.exports = ($locationProvider, $stateProvider, $urlRouterProvider) => {
     }
   };
 
-  // enabled states depend on user, are set to global variable in index.jade
+  // enable all states, but show in tabs only those which have info
   for (var key in states) {
-    if (~window.profileStatesEnabled.indexOf(key)) {
-      $stateProvider.state(key, states[key]);
-    }
+    $stateProvider.state(key, states[key]);
   }
-
 
 };
