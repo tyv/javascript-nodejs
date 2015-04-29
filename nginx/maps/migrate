@@ -1,7 +1,4 @@
 map $uri $migrate {
-  /ebook https://learn.javascript.ru/ebook;
-  /courses https://learn.javascript.ru/courses;
-
   /content/uchebnik-pdf-dlya-chteniya-i-pechati https://learn.javascript.ru/ebook;
   /node/5 https://learn.javascript.ru/intro;
   "~^/node/5/.*" https://learn.javascript.ru/intro;

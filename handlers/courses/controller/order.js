@@ -14,7 +14,7 @@ exports.patch = function*() {
 
   if ("emails" in this.request.body) {
 
-    var emails = this.request.body.emails.split(',').filter(Boolean);
+    var emails = _.unique(this.request.body.emails.split(',').filter(Boolean));
 
     this.log.debug("Incoming emails", emails);
 

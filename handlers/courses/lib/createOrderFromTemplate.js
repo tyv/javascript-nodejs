@@ -2,6 +2,7 @@ var Order = require('payments').Order;
 var OrderCreateError = require('payments').OrderCreateError;
 var CourseGroup = require('../models/courseGroup');
 var pluralize = require('textUtil/pluralize');
+var _ = require('lodash');
 
 // middleware
 // create order from template,
@@ -35,7 +36,7 @@ module.exports = function*(orderTemplate, user, requestBody) {
   if (!Array.isArray(emails)) {
     throw new OrderCreateError("Отсутствуют участники.");
   }
-  orderData.emails = emails.filter(Boolean).map(String);
+  orderData.emails = _.unique(emails.filter(Boolean).map(String));
 
   if (!user) {
     throw new OrderCreateError("Вы не авторизованы.");
