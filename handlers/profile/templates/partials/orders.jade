@@ -63,11 +63,9 @@ include /bem
           +e.settings-line._foot(ng-if="order.orderInfo.status != 'success'")
             +e('h4').settings-title Оплата
             +e('p').note(ng-bind-html="order.orderInfo.descriptionProfile | trust_html")
+            +e('a').cancel-order(ng-click="cancelOrder(order)") Отменить заказ
             +b('button').button._common(type="button" ng-click="changePayment(order)")
               +e('span').text Изменить метод оплаты
-
-            +b('button').button._common(type="button" ng-click="cancelOrder(order)")
-              +e('span').text Отменить заказ
 
 
 
