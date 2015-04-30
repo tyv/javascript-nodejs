@@ -59,7 +59,7 @@ MultipartParser.prototype.middleware = function() {
   return function*(next) {
     // skip these methods
     var contentType = this.get('content-type') || '';
-    if (!~['POST', 'PUT', 'PATCH'].indexOf(this.method) || !contentType.startsWith('multipart/form-data')) {
+    if (!~['DELETE', 'POST', 'PUT', 'PATCH'].indexOf(this.method) || !contentType.startsWith('multipart/form-data')) {
       return yield* next;
     }
 
