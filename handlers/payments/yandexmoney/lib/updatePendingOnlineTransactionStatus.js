@@ -48,13 +48,10 @@ module.exports = function*(transaction) {
 
   if (transaction.status == Transaction.STATUS_SUCCESS) {
     // success!
-    var orderModule = require(order.module);
 
-    yield order.persist({
-      status: Order.STATUS_PAID
-    });
+    this.log.debug("will call order onPaid module=" + order.module);
+    yield* order.onPaid();
 
-    yield* orderModule.onPaid(order);
   }
 
 };

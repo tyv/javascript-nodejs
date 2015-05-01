@@ -1,10 +1,12 @@
-var loadOrder = require('payments').loadOrder;
-var CourseGroup = require('../models/courseGroup');
-var _ = require('lodash');
+"use strict";
 
-exports.patch = function*() {
+const CourseGroup = require('../models/courseGroup');
+const _ = require('lodash');
+const sendOrderInvites = require('./sendOrderInvites');
+const Order = require('payments').Order;
 
-  yield* this.loadOrder();
+// called by payments/common/order
+module.exports = function*() {
 
   var group = yield CourseGroup.findById(this.order.data.group).populate('participants.user').exec();
 
@@ -14,7 +16,7 @@ exports.patch = function*() {
 
   if ("emails" in this.request.body) {
 
-    var emails = _.unique(this.request.body.emails.split(',').filter(Boolean));
+    let emails = _.unique(this.request.body.emails.split(',').filter(Boolean));
 
     this.log.debug("Incoming emails", emails);
 
@@ -52,5 +54,17 @@ exports.patch = function*() {
   this.order.markModified('data');
   yield this.order.persist();
 
-  this.body = 'OK';
+
+  var invites = [];
+  if (this.order.status == Order.STATUS_SUCCESS) {
+    invites = yield* sendOrderInvites(this.order);
+  }
+
+  if (invites.length) {
+    let emails =  _.pluck(invites, 'email');
+    this.body = 'Информация обновлена, приглашения высланы на адреса: ' + emails.join(", ") + '.';
+  } else {
+    this.body = 'Информация об участниках обновлена.';
+  }
 };
+

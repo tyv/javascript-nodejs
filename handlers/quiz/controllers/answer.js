@@ -52,7 +52,7 @@ exports.post = function*() {
     totalScore = Math.round(totalScore / quiz.questionsToAskCount * 100);
 
     var quizResult = new QuizResult({
-      user:      this.user._id,
+      user:      this.user && this.user._id,
       quizSlug:  quiz.slug,
       quizTitle: quiz.title,
       score: totalScore,

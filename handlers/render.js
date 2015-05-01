@@ -32,6 +32,8 @@ function addStandardHelpers(locals, ctx) {
 
   locals.moment = moment;
 
+  locals._ = _;
+
   locals.url = url.parse(ctx.protocol + '://' + ctx.host + ctx.originalUrl);
   locals.context = ctx;
 

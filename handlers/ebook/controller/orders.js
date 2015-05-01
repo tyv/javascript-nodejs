@@ -9,7 +9,7 @@ var assert = require('assert');
 exports.get = function*() {
 
   yield* this.loadOrder({
-    ensureSuccessTimeout: 5000
+    ensureSuccessTimeout: 10000
   });
 
   this.nocache();

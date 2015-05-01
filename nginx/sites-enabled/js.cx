@@ -10,7 +10,7 @@ server {
   ssl_certificate_key	<%=certDir%>/js.cx/ssl.key;
   ssl_trusted_certificate <%=certDir%>/js.cx/trusted.pem;
 
-  add_header Strict-Transport-Security "max-age=31536000; includeSubdomains;";
+  #add_header Strict-Transport-Security "max-age=31536000; includeSubdomains;";
   add_header X-Content-Type-Options nosniff;
 
   server_name js.cx;

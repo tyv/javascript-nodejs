@@ -17,7 +17,7 @@ exports.get = function*() {
 
   if (this.params.orderNumber) {
     yield* this.loadOrder({
-      ensureSuccessTimeout: 5000
+      ensureSuccessTimeout: 10000
     });
 
     this.locals.order = this.order;

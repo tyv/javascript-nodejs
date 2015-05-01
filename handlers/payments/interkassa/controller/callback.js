@@ -21,13 +21,8 @@ exports.post = function* (next) {
     status: Transaction.STATUS_SUCCESS
   });
 
-  yield this.order.persist({
-    status: Order.STATUS_PAID
-  });
-
-  var order = this.order;
-  this.log.debug("will call order onPaid module=" + order.module);
-  yield* require(order.module).onPaid(order);
+  this.log.debug("will call order onPaid module=" + this.order.module);
+  yield* this.order.onPaid();
 
   this.body = 'SUCCESS';
 };

@@ -55,7 +55,9 @@ exports.init = function(app) {
         "<-- %s %s", ctx.method, ctx.url, {
         event:    "request-end",
         method:   ctx.method,
-        url:      req.url,
+        // not url, because mount middleware changes it
+        // request to /payments/common/order in case of error is logged as /order
+        url:      ctx.originalUrl,
         status:   status,
         timeDuration: Date.now() - start
       });

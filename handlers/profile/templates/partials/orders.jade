@@ -22,8 +22,8 @@ include /bem
           +e('strong').slots-busy(ng-if="order.countDetails.busy")
             | {{ order.countDetails.busy }} занято
 
-          +e('span').slots-confirmed(ng-if="order.countDetails.accepted")
-            | &nbsp;({{ order.countDetails.accepted }} подтверждено)
+          +e('span').slots-confirmed(ng-if="order.countDetails.inGroup")
+            | &nbsp;({{ order.countDetails.inGroup }} подтверждено)
 
           div
             a(href='#' ng-click="order.isEditing = !order.isEditing") редактировать заказ
@@ -43,14 +43,14 @@ include /bem
           +e('button').settings-dropdown-close.close-button(ng-click="order.isEditing = false")
 
           div(ng-if="order.orderInfo.status == 'pending'")
-            +b.notification._message._info
+            +b.notification.__state-notification._message._info
               +e.content
                 | В данный момент мы ожидаем от вас оплату. После того, как мы получим подтверждение оплаты,
                 | указанным участникам курсов придёт письмо со всей необходимой информацией.
 
           div(ng-if="order.orderInfo.status == 'success'")
-            div(ng-if="order.count > order.countDetails.accepted")
-              +b.notification._message._success
+            div(ng-if="order.count > order.countDetails.inGroup")
+              +b.notification.__state-notification._message._success
                 +e.content
                   | Все участники получают письмо-приглашение. Участника можно изменить до тех пор, пока он не принял его.
 

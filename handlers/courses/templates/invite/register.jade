@@ -1,0 +1,77 @@
+extends /layouts/main
+
+block append variables
+  - var layout_header_class = "main__header_center"
+  - var sitetoolbar = true
+  - var layout_main_class = "main_width-limit"
+  - var content_class = '_center'
+
+block content
+
+  p= message
+
+  //-
+    form(method="POST" action="/courses/invite")
+      input(type="hidden" name="inviteToken" value=invite.token)
+      //- input(type="hidden", name="_csrf", value=csrf())
+
+      div
+        label Email
+        input(type="text" value=invite.email disabled)
+
+      div
+        label Имя пользователя
+        input(type="text" name="displayName" required value=form.displayName)
+
+      div
+        label ФИО (используется только на курсе, на сайте не отображается)
+        input(type="text" name="courseName" required value=form.courseName)
+
+      div
+        label Пароль
+        input(type="password" name="password" value=form.password)
+
+      button(type="submit") Отправить
+
+  +b.login-form.complex-form.complex-form_step_4
+    +e.step.complex-form__step.complex-form__step_current
+      +e('form').form(method="POST" action="/courses/invite")
+        input(type="hidden" name="inviteToken" value=invite.token)
+
+        +e.line
+          +e('label').label(for="invite-email") Email:
+          +b('span').text-input.__input
+            +e('input').control#invite-email(name="email" type="email" value=invite.email disabled)
+
+        if form.displayName !== undefined
+          +e.line
+            +e('label').label(for="invite-displayName") Имя пользователя:
+            +b('span')(class=["text-input", "__input", errors.displayName ? '_invalid' : '' ])
+              +e('input').control#invite-displayName(name="displayName" type="text" required value=form.displayName)
+              if errors.displayName
+                e.err= errors.displayName
+
+        if form.fio !== undefined
+          +e.line
+            +e('label').label(for="invite-fio") ФИО (используется только на курсе, на сайте не отображается)
+            +b('span')(class=["text-input", "__input", errors.fio ? '_invalid' : '' ])
+              +e('input').control#invite-fio(type="text", name="fio" required value=form.fio)
+              if errors.fio
+                e.err= errors.fio
+
+        if newUser
+          +e.line
+            +e('label').label(for="invite-password") Пароль (минимум 4 символа)
+            +b('span')(class=["text-input", "__input", errors.password ? '_invalid' : '' ])
+              +e('input').control#invite-password(type="password", name="password" required value=form.password)
+        else
+          +e.line
+            +e('label').label(for="invite-password") Пароль
+            +b('span').text-input._with-aside.__input
+              +e('input').control#invite-password(type="password", name="password" required value=form.password)
+              +e('button').aside.__forgot.__button-link(type="button") Забыли?
+
+        +e.line.__footer
+          +b('button').button._action(type="submit")
+            +e('span').text Подтвердить участие
+

@@ -74,6 +74,13 @@ schema.methods.cancelPendingTransactions = function*() {
 
 };
 
+schema.methods.onPaid = function*() {
+  this.persist({
+    status: Order.STATUS_PAID
+  });
+  yield* require(this.module).onPaid(this);
+};
+
 schema.plugin(autoIncrement.plugin, {model: 'Order', field: 'number', startAt: 1});
 
 // order is ready for delivery, hooks finished

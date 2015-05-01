@@ -89,7 +89,7 @@ function* send(options) {
  */
 function* sendLetter(letter) {
 
-  if (process.env.NODE_ENV == 'test') {
+  if (process.env.NODE_ENV == 'test' || process.env.MAILER_DISABLED) {
     letter.transportResponse = [];
   } else {
     letter.transportResponse = yield mandrill.messages.send({

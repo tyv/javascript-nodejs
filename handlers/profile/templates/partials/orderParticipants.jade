@@ -12,37 +12,38 @@ include /bem
 
     +e('ul').settings-participants
       +e('li').settings-participant(ng-repeat="participant in participants")
-        +e('label').participant-label(for='participant{{order.number}}{{$index}}') Участник {{$index + 1}}:
+        +e('label').participant-label(for='participant_{{order.number}}_{{$index}}') Участник {{$index + 1}}:
         +b('span').text-input.__input(
           ng-form="participantForm"
-          ng-class="[participant.accepted ? 'text-input_approved_yes' : 'text-input_approved_no', participantForm.$invalid && 'text-input_invalid']"
+          ng-class="[participant.inGroup ? 'text-input_approved_yes' : 'text-input_approved_no', participantForm.$invalid && 'text-input_invalid']"
         )
           +e('input').control(
             placeholder="email",
-            name='participant{{order.number}}{{$index}}',
+            name='participant_{{order.number}}_{{$index}}',
             ng-type="email",
             ng-pattern="/^[-.\\w]+@([\\w-]+\\.)+[\\w-]{2,12}$/",
             ng-model="participant.email",
+            ng-keydown="onEmailKeyDown($event)"
             ng-model-options="{ updateOn: 'default blur', debounce: {'default': 200, 'blur': 0} }"
-            id='participant{{order.number}}{{$index}}',
-            ng-disabled="participant.accepted"
+            id='participant_{{order.number}}_{{$index}}',
+            ng-disabled="participant.inGroup"
           )
           +e('span').status(
-            ng-if="participant.accepted"
+            ng-if="participant.inGroup"
             data-tooltip="Участие подтверждено."
           )
           +e('span').status(
-            ng-if="!participant.accepted && order.status != 'success'"
+            ng-if="!participant.inGroup && order.status != 'success'"
             data-tooltip="Подтверждение участия станет возможным после оплаты."
           )
           +e('span').status(
-            ng-if="!participant.accepted && order.status == 'success'"
+            ng-if="!participant.inGroup && order.status == 'success'"
             data-tooltip="Участнику требуется подтвердить участие."
           )
           +e.err(ng-if="participantForm.$invalid") Некорректный email.
 
 
-    +e.settings-line_submit(ng-if="order.count > order.countDetails.accepted")
+    +e.settings-line_submit(ng-if="order.count > order.countDetails.inGroup")
       +b('button').button._common(type="submit" progress="loadingTracker.active()" progress-spinner="{elemClass:'button_loading',size:'small'}")
         +e('span').text Сохранить участников
 

@@ -1,5 +1,27 @@
 extends /layouts/email
 
 block body
-  h1 Спасибо за оплату!
-  p Информация придёт на указанный email.
+
+  h2 Спасибо за оплату!
+
+  p Подтверждаем получение оплаты за заказ #{orderNumber}
+
+  if orderUserIsParticipant && !orderHasOtherParticipants
+    //- registration complete for single-user
+    p Инструкции вы можете найти на странице курса или перейти по ссылкам TODO.
+
+  if orderUserIsParticipant && orderHasOtherParticipants
+
+    p Вы зарегистрированы на курс, инструкции вы можете найти на странице курса или перейти по ссылкам TODO.
+
+    p.
+      Другие приглашённые вами участники получат письмо на электронную почту с предложением присоединиться.
+      Письмо придёт с адреса orders@javascript.ru.
+
+  if !orderUserIsParticipant
+
+    p.
+      Приглашённые вами участники получат письмо на электронную почту с предложением присоединиться.
+      Письмо придёт с адреса orders@javascript.ru.
+
+  p Если возникнут какие-либо вопросы - вы всегда можете ответить на это письмо.

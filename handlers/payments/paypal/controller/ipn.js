@@ -121,13 +121,8 @@ exports.post = function* (next) {
         statusMessage: 'Paypal подтвердил оплату'
       });
 
-      yield this.order.persist({
-        status: Order.STATUS_PAID
-      });
-
       this.log.debug("will call order onPaid module=" + this.order.module);
-      yield this.transaction.log("ipn: success action is taken");
-      yield* require(this.order.module).onPaid(this.order);
+      yield* this.order.onPaid();
 
     }
 

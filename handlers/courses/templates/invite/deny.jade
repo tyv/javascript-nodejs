@@ -1,0 +1,15 @@
+extends /layouts/main
+
+block append variables
+
+  - var sitetoolbar = true
+  - var title = "Приглашение отменено"
+  - var layout_main_class = "main_width-limit"
+
+block content
+
+  p Извините, это приглашение было отменено, адрес #{email} был удалён из списка к заказу #{orderNumber}.
+
+  p Контактное лицо по этому заказу: #{contactName}.
+
+  p По техническим вопросам, если ситуация не соответствует действительности, пишите на адрес <a href="mailto:#{mailto}">orders@javascript.ru</a>.

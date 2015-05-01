@@ -27,7 +27,7 @@ angular.module('profile')
 
           $http({
             method:           'PATCH',
-            url:              '/courses/order',
+            url:              '/payments/common/order',
             tracker:          this.loadingTracker,
             headers:          {'Content-Type': undefined},
             transformRequest: angular.identity,

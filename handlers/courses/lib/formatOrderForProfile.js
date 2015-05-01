@@ -36,7 +36,7 @@ module.exports = function* formatCourseOrder(order) {
     participants: order.data.emails.map(function(email) {
       return {
         email:    email,
-        accepted: Boolean(usersByEmail[email] && groupParticipantsByUser[usersByEmail[email]._id])
+        inGroup: Boolean(usersByEmail[email] && groupParticipantsByUser[usersByEmail[email]._id])
       };
     })
 

@@ -14,6 +14,12 @@ server {
 
   server_name learn.javascript.ru yuri.javascript.ru javascript.in;
 
+  # do we really need these urls secure?
+  #if ($scheme = http) {
+  #  rewrite ^/ebook($|/.*) https://$host$request_uri permanent;
+  #  rewrite ^/courses/signup($|/.*) https://$host$request_uri permanent;
+  #}
+
   access_log  /var/log/nginx/learn.javascript.ru.log main;
 
   root         <%=root%>/public;

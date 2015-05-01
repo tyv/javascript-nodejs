@@ -11,8 +11,8 @@ module.exports = ($resource) => {
           order.countDetails = {
             free:     order.count - order.participants.length,
             busy:     order.participants.length,
-            accepted: order.participants.filter(function(participant) {
-              return participant.accepted;
+            inGroup: order.participants.filter(function(participant) {
+              return participant.inGroup;
             }).length
           };
 

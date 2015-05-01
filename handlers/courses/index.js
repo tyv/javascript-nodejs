@@ -14,4 +14,5 @@ exports.getAgreement = require('./lib/getAgreement');
 
 exports.createOrderFromTemplate = require('./lib/createOrderFromTemplate');
 
+exports.patch = require('./lib/patch');
 exports.formatOrderForProfile = require('./lib/formatOrderForProfile');

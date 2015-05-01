@@ -124,7 +124,7 @@ function* getOrderInfo(order) {
             <p>После оплаты в течение двух рабочих дней мы вышлем вам всю необходимую информацию на адрес <b>${order.email}</b>.</p>
             <p>Если у вас возникли какие-либо вопросы, присылайте их на ${mailUrl}.</p>
             `,
-          descriptionProfile: `<div>Вы можете повторно <a href="/payments/banksimple/${transaction.number}/invoice.docx">скачать квитанцию</a> или изменить метод оплаты, нажав на кнопку ниже.</div>`
+          descriptionProfile: `<div>Вы можете повторно <a href="/payments/banksimple/${transaction.number}/invoice.docx">скачать квитанцию</a>, а также изменить метод оплаты, нажав на кнопку ниже.</div>`
         };
       } else if (transaction.paymentMethod == 'invoice') {
         var invoiceButton = `<button class="submit-button" onclick="location.href='/payments/invoice/${transaction.number}/invoice.docx'" type="button"><span class="submit-button__text">Скачать счёт</span></button>`;
