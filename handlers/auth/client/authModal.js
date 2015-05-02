@@ -259,7 +259,7 @@ AuthModal.prototype.submitForgotForm = function(form) {
   var request = this.request({
     method:         'POST',
     url:            '/auth/forgot',
-    normalStatuses: [200, 404],
+    normalStatuses: [200, 404, 403],
     body:           payload
   });
 
@@ -271,6 +271,8 @@ AuthModal.prototype.submitForgotForm = function(form) {
       self.showFormMessage(event.result, 'success');
     } else if (this.status == 404) {
       self.showFormMessage(event.result, 'error');
+    } else if (this.status == 403) {
+      self.showFormMessage(event.result.message || "Действие запрещено.", 'error');
     }
   });
 

@@ -39,11 +39,18 @@ exports.post = function* (next) {
     this.throw(404, 'Ваша ссылка на восстановление недействительна или устарела.');
   }
 
+  var error = "";
   if (!this.request.body.password) {
+    error = "Пароль не должен быть пустым.";
+  }
+  if (this.request.body.password.length < 4) {
+    error = "Пароль должен содержать минимум 4 символа.";
+  }
 
+  if (error) {
     this.body = this.render('forgot-recover', {
       passwordResetToken: passwordResetToken,
-      error: "Пароль не должен быть пустым."
+      error: error
     });
 
     return;

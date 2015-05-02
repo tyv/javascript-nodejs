@@ -61,11 +61,10 @@ function* createInvites(order) {
 
 function* sendInvites(invites) {
 
-  for (var i = 0; i < invites.length; i++) {
-    var invite = invites[i];
-    log.debug("send invite", invite);
-    yield* sendInvite(invite);
-  }
+  // send invites in parallel, for speed
+  yield invites.map(function(invite) {
+    return sendInvite(invite);
+  });
 
 }
 
