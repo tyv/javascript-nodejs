@@ -172,7 +172,7 @@ if (process.env.NODE_ENV == 'production') { // production, ebook
       // thus removing unchanged files
       // => use this plugin only in normal run
       this.plugin('run', clear);
-    },
+    }/*,
 
     new ngAnnotatePlugin({ // add angular annotations with ng-strict-di to ensure it's correct
       add: true
@@ -191,7 +191,7 @@ if (process.env.NODE_ENV == 'production') { // production, ebook
         indent_level: 0 // for error reporting, to see which line actually has the problem
         // source maps actually didn't work in QBaka that's why I put it here
       }
-    })
+    })*/
   );
 }
 
