@@ -3,6 +3,7 @@ const path = require('path');
 const log = require('log')();
 const sendMail = require('mailer').send;
 const CourseInvite = require('../models/courseInvite');
+const CourseGroup = require('../models/courseGroup');
 const sendOrderInvites = require('./sendOrderInvites');
 
 // not a middleware
@@ -10,6 +11,8 @@ const sendOrderInvites = require('./sendOrderInvites');
 module.exports = function* (order) {
 
   yield Order.populate(order, {path: 'user'});
+
+  var group = yield CourseGroup.findById(order.data.group).exec();
 
   var emails = order.data.emails;
 
@@ -28,6 +31,15 @@ module.exports = function* (order) {
     orderUserIsParticipant: orderUserIsParticipant,
     orderHasOtherParticipants: orderHasParticipantsExceptUser
   });
+
+
+  if (orderUserIsParticipant) {
+    group.participants.push({
+      user: order.user._id,
+      courseName: order.data.contactName
+    });
+    yield group.persist();
+  }
 
   yield* sendOrderInvites(order);
 

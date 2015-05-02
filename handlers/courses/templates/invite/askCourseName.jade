@@ -8,11 +8,16 @@ block append variables
 
 block content
 
-  p Для подтверждения вам необходимо зарегистрироваться.
+  if wasLoggedIn
+    +b.notification._message._info
+      +e.content Вы вошли на сайт под пользователем #{user.displayName}
+
+  p Укажите ФИО для участия в курсе
 
   +b.login-form.complex-form.complex-form_step_4
     +e.step.complex-form__step.complex-form__step_current
       +e('form').form(method="POST" action="/courses/invite")
+        input(type="hidden", name="_csrf", value=csrf())
         input(type="hidden" name="inviteToken" value=invite.token)
 
         +e.line
@@ -21,25 +26,11 @@ block content
             +e('input').control#invite-email(name="email" type="email" value=invite.email disabled)
 
         +e.line
-          +e('label').label(for="invite-displayName") Имя пользователя:
-          +b('span')(class=["text-input", "__input", errors.displayName ? '_invalid' : '' ])
-            +e('input').control#invite-displayName(name="displayName" type="text" required value=form.displayName autofocus)
-            if errors.displayName
-              +e.err= errors.displayName
-
-        +e.line
           +e('label').label(for="invite-courseName") ФИО (только для курса, на сайте не отображается)
           +b('span')(class=["text-input", "__input", errors.courseName ? '_invalid' : '' ])
-            +e('input').control#invite-courseName(type="text", name="courseName" required value=form.courseName placeholder="Пушкин Александр Сергеевич")
+            +e('input').control#invite-courseName(type="text", name="courseName" required value=form.courseName placeholder="Пушкин Александр Сергеевич" autofocus)
             if errors.courseName
               +e.err= errors.courseName
-
-        +e.line
-          +e('label').label(for="invite-password") Пароль
-          +b('span')(class=["text-input", "__input", errors.password ? '_invalid' : '' ])
-            +e('input').control#invite-password(type="password", name="password" required value=form.password)
-            if errors.password
-              +e.err= errors.password
 
         +e.line.__footer
           +b('button').button._action(type="submit")

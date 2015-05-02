@@ -2,9 +2,9 @@ extends /layouts/email
 
 block body
 
-  h2 Спасибо за оплату!
+  h2 Подтверждение оплаты
 
-  p Подтверждаем получение оплаты за заказ #{orderNumber}
+  p Подтверждаем получение оплаты за заказ #{orderNumber}.
 
   if orderUserIsParticipant && !orderHasOtherParticipants
     //- registration complete for single-user

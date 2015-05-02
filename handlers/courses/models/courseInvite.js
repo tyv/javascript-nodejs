@@ -46,7 +46,6 @@ var schema = new Schema({
     required: true
     // invite is also a login token, so limit it
     // max(group + 7 days, created + 7 days)
-    // TODO in sendorderinvites
   },
 
   created: {

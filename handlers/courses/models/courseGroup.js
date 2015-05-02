@@ -44,7 +44,7 @@ var schema = new Schema({
       index: true,
       required: true
     },
-    name: {
+    courseName: {
       type: String,
       required: true
     }

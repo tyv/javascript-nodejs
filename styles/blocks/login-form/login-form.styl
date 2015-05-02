@@ -75,6 +75,17 @@ $login-form-additional-info
         margin-top 10px
         position relative
 
+    // we MUST repeat theese rules for each selector to make it work
+    &__input .text-input__control::-webkit-input-placeholder
+        color #b3b3b3
+
+    &__input .text-input__control::-moz-placeholder
+        color #b3b3b3
+
+    &__input .text-input__control:-ms-input-placeholder
+        color #b3b3b3
+
+
     &__input_invalid
         border-color #e62e29
         color #e62e29
