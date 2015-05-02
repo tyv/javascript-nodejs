@@ -37,7 +37,7 @@ block content
         +e.line
           +e('label').label(for="invite-password") Пароль
           +b('span')(class=["text-input", "__input", errors.password ? '_invalid' : '' ])
-            +e('input').control#invite-password(type="password", name="password" required value=form.password)
+            +e('input').control#invite-password(type="password", name="password" required value=form.password minlength="4")
             if errors.password
               +e.err= errors.password
 
