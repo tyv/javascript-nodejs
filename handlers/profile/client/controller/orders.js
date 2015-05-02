@@ -1,8 +1,9 @@
 var angular = require('angular');
 var notification = require('client/notification');
 var moment = require('momentWithLocale');
+var profile = angular.module('profile');
 
-module.exports = ($scope, $http, $window, orders) => {
+profile.controller('ProfileOrdersCtrl', ($scope, $http, $window, orders) => {
   $scope.orders = orders;
 
   $scope.changePayment = function(order) {
@@ -38,4 +39,4 @@ module.exports = ($scope, $http, $window, orders) => {
     });
 
   };
-};
+});

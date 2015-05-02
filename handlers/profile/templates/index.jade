@@ -14,7 +14,7 @@ block content
   script(src=pack("angular", "js"))
   script(src=pack("profile", "js"))
 
-  +b(ng-app="profile")
+  +b(ng-app="profile" ng-strict-di)
 
     +e('ui-view').view(progress="loadingTracker.active()" progress-overlay progress-spinner="{class:'profile__spinner'}") Загрузка...
 

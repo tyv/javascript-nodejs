@@ -1,8 +1,9 @@
 var angular = require('angular');
 var notification = require('client/notification');
 var moment = require('momentWithLocale');
+var profile = angular.module('profile');
 
-module.exports = ($scope, $http, me, Me) => {
+profile.controller('ProfileAccountCtrl', ($scope, $http, me, Me) => {
 
   $scope.me = me;
 
@@ -48,4 +49,4 @@ module.exports = ($scope, $http, me, Me) => {
 
   };
 
-};
+});

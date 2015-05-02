@@ -16,24 +16,23 @@ require('./directive/profileAuthProviders');
 require('./directive/dateValidator');
 require('./directive/dateRangeValidator');
 
+require('./factory/me');
 
-profile.factory('Me', require('./factory/me'));
+require('./factory/quizResults');
 
-profile.factory('QuizResults', require('./factory/quizResults'));
+require('./factory/orders');
 
-profile.factory('Orders', require('./factory/orders'));
+require('./config');
 
-profile.config(require('./config'));
+require('./controller/root');
 
-profile.controller('ProfileRootCtrl', require('./controller/root'));
+require('./controller/orders');
 
-profile.controller('ProfileOrdersCtrl', require('./controller/orders'));
+require('./controller/aboutme');
 
-profile.controller('ProfileAboutMeCtrl', require('./controller/aboutme'));
+require('./controller/quizResults');
 
-profile.controller('ProfileQuizResultsCtrl', require('./controller/quizResults'));
-
-profile.controller('ProfileAccountCtrl', require('./controller/account'));
+require('./controller/account');
 
 
 profile

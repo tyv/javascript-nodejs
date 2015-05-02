@@ -5,7 +5,6 @@ var config = require('config');
 var webpack = require('webpack');
 var CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin");
 var WriteVersionsPlugin = require('lib/webpack/writeVersionsPlugin');
-var ngAnnotatePlugin = require('ng-annotate-webpack-plugin');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 var del = require('del');
@@ -45,9 +44,11 @@ var webpackConfig = {
   watchDelay: 10,
   watch:      process.env.NODE_ENV == 'development',
 
+  devtool: 'inline-source-map',
+  /*
   devtool: process.env.NODE_ENV == 'development' ? "eval" : // try "inline-source-map" ?
              process.env.NODE_ENV == 'production' ? 'source-map' : "",
-
+*/
   profile: true,
 
   entry: {
@@ -82,7 +83,7 @@ var webpackConfig = {
         // which must not be run in strict mode (global becomes undefined)
         // babel would make all modules strict
         exclude: /node_modules\/(angular|prismjs|moment)/,
-        loader:  'babel'
+        loaders:  ['ng-annotate', 'babel']
       },
       {
         test:   /\.styl$/,
@@ -172,11 +173,7 @@ if (process.env.NODE_ENV == 'production') { // production, ebook
       // thus removing unchanged files
       // => use this plugin only in normal run
       this.plugin('run', clear);
-    }/*,
-
-    new ngAnnotatePlugin({ // add angular annotations with ng-strict-di to ensure it's correct
-      add: true
-    }),
+    },
 
     new webpack.optimize.UglifyJsPlugin({
       compress: {
@@ -191,7 +188,7 @@ if (process.env.NODE_ENV == 'production') { // production, ebook
         indent_level: 0 // for error reporting, to see which line actually has the problem
         // source maps actually didn't work in QBaka that's why I put it here
       }
-    })*/
+    })
   );
 }
 

@@ -79,6 +79,7 @@
     "mongoose-unique-validator": "git://github.com/iliakan/mongoose-unique-validator",
     "multiparty": "*",
     "mz": "*",
+    "ng-annotate-loader": "0.0.2",
     "nib": "*",
     "node-static": "*",
     "node-uuid": "*",

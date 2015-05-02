@@ -1,4 +1,7 @@
-module.exports = ($resource) => {
+var angular = require('angular');
+var profile = angular.module('profile');
+
+angular.module('profile').factory('Me', ($resource) => {
   return $resource('/users/me', {}, {
     get: {
       method:            'GET',
@@ -9,4 +12,4 @@ module.exports = ($resource) => {
       }
     }
   });
-};
+});

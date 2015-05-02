@@ -1,4 +1,6 @@
-module.exports = ($resource) => {
+var angular = require('angular');
+
+angular.module('profile').factory('Orders', ($resource) => {
   return $resource('/payments/common/orders/user/' + window.currentUser.id, {}, {
     query: {
       method:            'GET',
@@ -22,4 +24,4 @@ module.exports = ($resource) => {
       }
     }
   });
-};
+});

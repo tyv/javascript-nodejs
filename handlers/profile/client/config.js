@@ -1,4 +1,6 @@
-module.exports = ($locationProvider, $stateProvider, $urlRouterProvider) => {
+var angular = require('angular');
+
+angular.module('profile').config(($locationProvider, $stateProvider, $urlRouterProvider) => {
   $locationProvider.html5Mode(true);
 
   // For any unmatched url, redirect to /
@@ -52,4 +54,4 @@ module.exports = ($locationProvider, $stateProvider, $urlRouterProvider) => {
     $stateProvider.state(key, states[key]);
   }
 
-};
+});

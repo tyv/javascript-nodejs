@@ -1,4 +1,7 @@
-module.exports = ($scope, $state, $timeout, $http, me, promiseTracker) => {
+var angular = require('angular');
+var profile = angular.module('profile');
+
+profile.controller('ProfileRootCtrl', ($scope, $state, $timeout, $http, me, promiseTracker) => {
 
   //window.me = me;
   $scope.me = me;
@@ -19,4 +22,4 @@ module.exports = ($scope, $state, $timeout, $http, me, promiseTracker) => {
     };
   });
 
-};
+});
