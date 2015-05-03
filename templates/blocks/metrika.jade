@@ -1,6 +1,11 @@
 script
   :uglify
     (function() {
+      // until metrika is loaded, make the stub
+      window.metrika = {
+        reachGoal: function() {}
+      };
+
       window.yandex_metrika_callbacks = [function() {
         try {
           window.metrika = new Ya.Metrika({
