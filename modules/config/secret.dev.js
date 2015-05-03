@@ -14,6 +14,10 @@ module.exports = {
 
   cloudflare: {},
 
+  xmpp: {
+    admin: {}
+  },
+
   // dev credentials
   imgur: {
     url:          'https://api.imgur.com/3/',

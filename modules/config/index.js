@@ -34,6 +34,10 @@ module.exports = {
     email:  secret.cloudflare.email
   },
 
+  xmpp: {
+    admin: secret.xmpp.admin
+  },
+
   appKeys:  [secret.sessionKey],
   auth:     {
     session:    {
