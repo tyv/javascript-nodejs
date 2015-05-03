@@ -197,6 +197,7 @@ UserSchema.methods.getInfoFields = function() {
 UserSchema.statics.getInfoFields = function(user) {
   return {
     id:                 user._id,
+    hasPassword:        Boolean(user.passwordHash),
     displayName:        user.displayName,
     profileName:        user.profileName,
     gender:             user.gender,

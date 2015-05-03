@@ -22,6 +22,7 @@ exports.CourseGroup = [
     slug: 'js-1',
     price: 1,
     participantsLimit: 30,
+    webinarId: '123',
     title: "Курс JavaScript/DOM/интерфейсы (01.01)"
   },
   {
@@ -31,6 +32,7 @@ exports.CourseGroup = [
     timeDesc: "пн/чт 21:30 - 23:00 GMT+3",
     slug: 'js-2',
     price: 1,
+    webinarId: '456',
     participantsLimit: 30,
     title: "Курс JavaScript/DOM/интерфейсы (06.01)"
   }

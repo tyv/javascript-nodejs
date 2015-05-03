@@ -50,6 +50,11 @@ var schema = new Schema({
     }
   }],
 
+  // room jid, gotowebinar id
+  webinarId: {
+    type: String
+  },
+
   course:       {
     type:     Schema.Types.ObjectId,
     ref:      'Course',

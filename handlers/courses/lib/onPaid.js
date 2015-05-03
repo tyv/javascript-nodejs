@@ -1,10 +1,12 @@
 const Order = require('payments').Order;
 const path = require('path');
 const log = require('log')();
+const config = require('config');
 const sendMail = require('mailer').send;
 const CourseInvite = require('../models/courseInvite');
 const CourseGroup = require('../models/courseGroup');
 const sendOrderInvites = require('./sendOrderInvites');
+const xmppClient = require('xmppClient');
 
 // not a middleware
 // can be called from CRON
@@ -42,6 +44,25 @@ module.exports = function* (order) {
   }
 
   yield* sendOrderInvites(order);
+
+  // grant membership in chat
+  var client = new xmppClient({
+    jid:      config.xmpp.admin.login + '/host',
+    password: config.xmpp.admin.password
+  });
+
+  yield client.connect();
+
+  var roomJid = yield client.createRoom(group.webinarId);
+
+  yield CourseGroup.populate(group, {path: 'participants.user'});
+
+  for (var i = 0; i < group.participants.length; i++) {
+    var participant = group.participants[i];
+    yield client.grantMember(roomJid, participant.user.profileName, participant.courseName);
+  }
+
+  client.disconnect();
 
   order.status = Order.STATUS_SUCCESS;
 

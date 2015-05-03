@@ -1,0 +1,13 @@
+extends /layouts/main
+
+
+block append variables
+
+  - var layout_main_class = "main_width-limit"
+  - var title = 'Онлайн-курс: настройка окружения';
+  - var sitetoolbar = true
+
+
+block content
+
+  include:simpledown ./course-js-howto.md

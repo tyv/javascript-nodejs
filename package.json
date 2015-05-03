@@ -83,6 +83,7 @@
     "nib": "*",
     "node-static": "*",
     "node-uuid": "*",
+    "node-xmpp": "^1.0.0-alpha2",
     "node-zip": "*",
     "nodemailer": "*",
     "nodemailer-ses-transport": "*",

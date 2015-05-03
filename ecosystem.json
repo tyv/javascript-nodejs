@@ -4,6 +4,7 @@
       "name":               "Javascript.ru",
       "script":             "bin/server",
       "instances":          "2",
+      "node_args":          "--harmony_classes",
       "exec_mode":          "cluster_mode",
       "max_memory_restart": "2G",
       "log_file":           "/var/log/node/javascript.log",
