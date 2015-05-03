@@ -49,7 +49,6 @@ module.exports = function*(transaction) {
   if (transaction.status == Transaction.STATUS_SUCCESS) {
     // success!
 
-    this.log.debug("will call order onPaid module=" + order.module);
     yield* order.onPaid();
 
   }
