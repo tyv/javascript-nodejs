@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "prod": "NODE_ENV=production node ./bin/server",
+    "prod": "NODE_ENV=production node --harmony_classes ./bin/server",
     "fixperms": "sudo chown -R `id -u` . * ~/.n*",
-    "test": "SELENIUM_LOCAL=1 NODE_ENV=test gulp test | bunyan"
+    "test": "SELENIUM_LOCAL=1 NODE_ENV=test gulp test --harmony_classes | bunyan"
   },
   "precommit": "NODE_ENV=development node `which gulp` pre-commit",
   "//": "EJS 2.0 breaks include in nginx configs, so EJS 1.x is used",
