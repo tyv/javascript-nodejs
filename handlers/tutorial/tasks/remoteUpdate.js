@@ -28,7 +28,7 @@ module.exports = function(options) {
     var host = args.host;
     return co(function* () {
 
-      exec('rsync -crlDvtz --delete-after /js/javascript-nodejs/public/ --exclude pack ' + host + ':/js/javascript-nodejs/current/public/');
+      exec('rsync -crlDvtz --delete-after /js/javascript-nodejs/public/task /js/javascript-nodejs/public/article ' + host + ':/js/javascript-nodejs/current/public/');
 
 
       del.sync('dump');
