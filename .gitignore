@@ -44,8 +44,3 @@ out/*
 
 # Generated content
 public/*
-
-
-# Bower stuff.
-bower_components/
-
