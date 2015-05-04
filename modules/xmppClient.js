@@ -126,8 +126,10 @@ class Client extends EventEmitter {
   }
 
   // @see workflow at http://xmpp.org/extensions/xep-0045.html#createroom-general
-  *createRoom(roomName) {
-    var roomJid = roomName + '@conference.' + this.client.jid.domain;
+  *createRoom(options) {
+    options = Object.create(options);
+    var roomJid = options.roomName + '@conference.' + this.client.jid.domain;
+    options.membersOnly = "membersOnly" in options ? String(+options.membersOnly) : '1';
     // <presence to='123@conference.javascript.ru/host'>
     //   <x xmlns='http://jabber.org/protocol/muc'/>
     // </presence>
@@ -221,7 +223,7 @@ class Client extends EventEmitter {
       .c('field', {'var': 'muc#roomconfig_roomsecret'}).c('value').t('').up().up()
       .c('field', {'var': 'muc#roomconfig_maxusers'}).c('value').t('200').up().up()
       .c('field', {'var': 'muc#roomconfig_whois'}).c('value').t('moderators').up().up()
-      .c('field', {'var': 'muc#roomconfig_membersonly'}).c('value').t('1').up().up()
+      .c('field', {'var': 'muc#roomconfig_membersonly'}).c('value').t(options.membersOnly).up().up()
       .c('field', {'var': 'muc#roomconfig_moderatedroom'}).c('value').t('0').up().up()
       .c('field', {'var': 'members_by_default'}).c('value').t('1').up().up()
       .c('field', {'var': 'muc#roomconfig_changesubject'}).c('value').t('0').up().up()

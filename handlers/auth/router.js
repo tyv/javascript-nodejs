@@ -65,6 +65,7 @@ function addProviderRoute(providerName) {
 
   router.get('/callback/' + providerName, function*(next) {
     var ctx = this;
+    this.nocache();
 
     yield passport.authenticate(providerName, function*(err, user, info) {
       if (err) {
@@ -98,6 +99,19 @@ function addProviderRoute(providerName) {
 
   );*/
 }
+
+// these pages are not used if https site and https auth, because of direct opener<->popup communication
+// but when site is http and popup is https, it redirects here
+router.get('/auth/popup-success', mustBeAuthenticated, function*() {
+  this.nocache();
+  this.body = this.render('popup-success');
+});
+router.post('/auth/popup-failure', mustNotBeAuthenticated, function*() {
+  this.nocache();
+  this.body = this.render('popup-failure', {
+    reason: this.request.body.reason
+  });
+});
 
 // disconnect with existing profile
 router.post('/disconnect/:providerName', mustBeAuthenticated, disconnect.post);

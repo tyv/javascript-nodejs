@@ -53,7 +53,10 @@ module.exports = function* (order) {
 
   yield client.connect();
 
-  var roomJid = yield client.createRoom(group.webinarId);
+  var roomJid = yield client.createRoom({
+    roomName:    group.webinarId,
+    membersOnly: 1
+  });
 
   yield CourseGroup.populate(group, {path: 'participants.user'});
 
