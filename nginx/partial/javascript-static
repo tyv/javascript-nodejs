@@ -20,7 +20,6 @@ location = /robots.txt {
     expires 10d;
 }
 
-
 location ~ /\. { # above all
   deny all;
 }

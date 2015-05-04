@@ -55,7 +55,7 @@ TaskRenderer.prototype.addContentPlunkLink = function*(task, content) {
       'Открыть песочницу для задачи.';
 
 
-    content += '<a href="' + sourcePlunk.getUrl() + '" data-plunk-id="' + sourcePlunk.plunkId + '">' + title + '</a>';
+    content += '<a href="' + sourcePlunk.getUrl() + '" target="_blank" data-plunk-id="' + sourcePlunk.plunkId + '">' + title + '</a>';
   }
 
   return content;
@@ -157,7 +157,7 @@ TaskRenderer.prototype.addSolutionPlunkLink = function*(task, solution) {
       'Открыть решение с тестами в песочнице.' :
       'Открыть решение в песочнице';
 
-    solution += '<a href="' + solutionPlunk.getUrl() + '" data-plunk-id="' + solutionPlunk.plunkId + '">' + title + '</a>';
+    solution += '<a href="' + solutionPlunk.getUrl() + '" target="_blank" data-plunk-id="' + solutionPlunk.plunkId + '">' + title + '</a>';
 
   }
 
