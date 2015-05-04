@@ -9,7 +9,7 @@ location = /favicon.ico {
     try_files $uri =204;
     log_not_found off;
     access_log off;
-    expires max;
+    expires 10d;
 }
 
 # Don't log robots.txt requests.
@@ -17,7 +17,7 @@ location = /robots.txt {
     allow all;
     log_not_found off;
     access_log off;
-    expires max;
+    expires 10d;
 }
 
 
@@ -33,7 +33,7 @@ location ~ \.v.*?\. {
 # anything with an extension in basename
 location ~ \.\w+$ {
   access_log   off;
-  expires      max;
+  expires      10d;
   add_header   Cache-Control public;
 
   include "partial/args-cache-speed";
