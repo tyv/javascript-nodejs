@@ -102,11 +102,11 @@ function addProviderRoute(providerName) {
 
 // these pages are not used if https site and https auth, because of direct opener<->popup communication
 // but when site is http and popup is https, it redirects here
-router.get('/auth/popup-success', mustBeAuthenticated, function*() {
+router.get('/popup-success', mustBeAuthenticated, function*() {
   this.nocache();
   this.body = this.render('popup-success');
 });
-router.post('/auth/popup-failure', mustNotBeAuthenticated, function*() {
+router.post('/popup-failure', mustNotBeAuthenticated, function*() {
   this.nocache();
   this.body = this.render('popup-failure', {
     reason: this.request.body.reason

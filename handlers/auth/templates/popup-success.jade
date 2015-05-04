@@ -7,7 +7,7 @@ body
   script.
 
     !(function() {
-      if (window.opener) {
+      if (!window.opener) {
         window.close();
         return;
       }
