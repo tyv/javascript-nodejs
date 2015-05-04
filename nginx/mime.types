@@ -57,13 +57,21 @@ types {
     application/octet-stream              iso img;
     application/octet-stream              msi msp msm;
 
+    # Media files
+
     audio/midi                            mid midi kar;
+    audio/mp4                             aac f4a f4b m4a;
     audio/mpeg                            mp3;
+    audio/ogg                             oga ogg opus;
     audio/x-realaudio                     ra;
+    audio/x-wav                           wav;
 
     video/3gpp                            3gpp 3gp;
+    video/mp4                             f4v f4p m4v mp4;
     video/mpeg                            mpeg mpg;
+    video/ogg                             ogv;
     video/quicktime                       mov;
+    video/webm                            webm;
     video/x-flv                           flv;
     video/x-mng                           mng;
     video/x-ms-asf                        asx asf;
