@@ -94,6 +94,7 @@
 <li class="lessons-list__lesson" data-mnemo="chat-13">[Socket.IO + Express + авторизация](http://youtu.be/A3TUXGI_iuM)</li>
 </ol>
 </div>
+</no-typography>
 
 Дополнительно:
 
