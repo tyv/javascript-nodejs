@@ -1,3 +1,7 @@
+"use strict";
+
+const CourseInvite = require('../models/courseInvite');
+const CourseGroup = require('../models/courseGroup');
 
 /**
  * The order form is sent to checkout when it's 100% valid (client-side code validated it)
@@ -6,28 +10,46 @@
  * @param next
  */
 exports.get = function*(next) {
-/*
-  var user = this.params.userById;
 
-  if (String(this.req.user._id) != String(user._id)) {
+  var user = this.userById;
+
+  if (String(this.user._id) != String(user._id)) {
     this.throw(403);
   }
 
-  var orders = yield Order.find({
-    user: user._id,
-    status: {
-      $ne: Order.STATUS_CANCEL
-    }
-  }).sort({created: 1}).populate('user').exec();
+  // active invites
+  var invites = yield CourseInvite.find({
+    email: user.email,
+    accepted: false
+  }).populate('group').exec();
 
-  var ordersToShow = [];
+  // plus groups where participates
+  var groups = yield CourseGroup.find({
+    'participants.user': user._id
+  }).exec();
 
-  for (var i = 0; i < orders.length; i++) {
-    var format = require(orders[i].module).formatOrderForProfile;
-    if (!format) continue;
-    ordersToShow.push(yield* format.call(this, orders[i]));
+  this.body = [];
+
+  for (let i = 0; i < invites.length; i++) {
+    let group = formatGroup(invites[i].group);
+    group.inviteToken = invites[i].token;
+    this.body.push(group);
   }
 
-  this.body = ordersToShow;
-*/
+  for (let i = 0; i < groups.length; i++) {
+    let group = groups[i];
+    this.body.push(formatGroup(group));
+  }
+
 };
+
+function formatGroup(group) {
+  return {
+    title: group.title,
+    groupUrl: group.getUrl(),
+    groupPrivateUrl: group.getPrivateUrl(),
+    dateStart: group.dateStart,
+    dateEnd: group.dateEnd,
+    timeDesc: group.timeDesc
+  };
+}

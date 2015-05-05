@@ -33,8 +33,6 @@ location ~ \.mp4$ {
     mp4;
     mp4_buffer_size       1m;
     mp4_max_buffer_size   5m;
-    mp4_limit_rate        on;
-    mp4_limit_rate_after  30s;
 }
 
 # anything with an extension in basename

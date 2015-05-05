@@ -1,4 +1,4 @@
 #!/bin/bash
 
-TUTORIAL_ROOT=/js/javascript-tutorial gulp edit
+TUTORIAL_ROOT=/js/javascript-tutorial gulp --harmony_classes edit
 

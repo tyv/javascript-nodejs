@@ -21,7 +21,7 @@ function Router() {
       this.throw(404);
     }
 
-    this.params.userById = user;
+    this.userById = user;
 
     yield* next;
   });

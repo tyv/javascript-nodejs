@@ -80,5 +80,10 @@ schema.methods.getUrl = function() {
 };
 
 
+schema.methods.getPrivateUrl = function() {
+  return '/courses/groups/private/' + this.slug;
+};
+
+
 module.exports = mongoose.model('CourseGroup', schema);
 

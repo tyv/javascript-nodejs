@@ -11,9 +11,9 @@ var OrderCreateError = require('../../lib/orderCreateError');
  */
 exports.get = function*(next) {
 
-  var user = this.params.userById;
+  var user = this.userById;
 
-  if (String(this.req.user._id) != String(user._id)) {
+  if (String(this.user._id) != String(user._id)) {
     this.throw(403);
   }
 

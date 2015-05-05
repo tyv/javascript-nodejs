@@ -5,9 +5,9 @@ const User = require('users').User;
 
 exports.get = function*() {
 
-  var user = this.params.userById;
+  var user = this.userById;
 
-  if (String(this.req.user._id) != String(user._id)) {
+  if (String(this.user._id) != String(user._id)) {
     this.throw(403);
   }
 
