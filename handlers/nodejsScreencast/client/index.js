@@ -34,11 +34,11 @@ exports.init = function() {
 };
 
 function initList() {
-  var lis = document.querySelectorAll('li[mnemo]');
+  var lis = document.querySelectorAll('li[data-mnemo]');
 
   for (var i = 0; i < lis.length; i++) {
     var li = lis[i];
-    var mnemo = li.getAttribute('mnemo');
+    var mnemo = li.getAttribute('data-mnemo');
 
     li.insertAdjacentHTML(
       'beforeEnd',
