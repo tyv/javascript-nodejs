@@ -218,7 +218,7 @@ function* renderArticle(slug) {
     }
     path.push({
       title: 'Учебник',
-      url: '/tutorial'
+      url: '/'
     });
     path.push({
       title: 'JavaScript.ru',
