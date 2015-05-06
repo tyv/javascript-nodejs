@@ -15,7 +15,10 @@ module.exports = {
   cloudflare: {},
 
   xmpp: {
-    admin: {}
+    admin: {
+      login: 'a',
+      password: 'b'
+    }
   },
 
   // dev credentials
