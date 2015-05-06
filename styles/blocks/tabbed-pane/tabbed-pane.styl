@@ -1,4 +1,4 @@
-.courses-tabbet-pane
+.tabbed-pane
     margin-top 40px
 
 
@@ -15,7 +15,7 @@
 
     & ul&__tabs
         display flex
-        align-content stretch
+        align-items stretch
 
         overflow hidden
 
@@ -25,6 +25,8 @@
         font-family secondary_font
         font-size 19px
         line-height initial
+
+        flex-grow 1
 
         padding 20px 30px
 
@@ -47,13 +49,21 @@
     &__body p:first-child
         margin-top 0
 
-    &_difference &__body_difference,
-    &_books &__body_books,
-    &_job &__body_job
+    &_01 &__body_01,
+    &_02 &__body_02,
+    &_03 &__body_03,
+    &_04 &__body_04,
+    &_05 &__body_05,
+    &_06 &__body_06,
+    &_07 &__body_07
         display block
 
-    &_difference li&__tab_difference,
-    &_books li&__tab_books,
-    &_job li&__tab_job
+    &_01 li&__tab_01,
+    &_02 li&__tab_02,
+    &_03 li&__tab_03,
+    &_04 li&__tab_04,
+    &_05 li&__tab_05,
+    &_06 li&__tab_06,
+    &_07 li&__tab_07
         color secondary_color
         background #eee

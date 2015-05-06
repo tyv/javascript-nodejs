@@ -1,0 +1,19 @@
+extends /layouts/main
+
+block append variables
+
+    - var layout_header_class = "main__header_center"
+    - var title = 'Название курса'
+    - var breadcrumbs = [{ title: 'Учебник', url: '/tutorial' }, { title: 'JavaScript.ru', url: 'http://javascript.ru' }]
+
+    - var content_class = '_center'
+
+
+block content
+    p В первую очередь этот курс для тех, кто либо не разрабатывал на JS, либо разрабатывал на нём эпизодически и теперь хочет освоить профессионально.
+
+    include ../blocks/courses-programm-and-register
+    include ../blocks/courses-parts
+    include ../blocks/courses-how
+    include ../blocks/courses-result
+    include ../blocks/courses-system-req
