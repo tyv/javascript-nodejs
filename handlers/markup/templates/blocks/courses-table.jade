@@ -1,10 +1,11 @@
 - var courses = [];
 - var time = '2014-01-01T19:45'
-- var date = 'Начало занятий в <time datetime=' + time + '>' + moment(time).locale('ru').format('D MMMM YYYY в h:mm') + '</time>';
+- var date = 'Начало ' + moment(time).locale('ru').format('D MMM YYYY');
 
-- courses.push({ name: 'Посещение online курсов «Javascript, DOM, интерейсы»', start: date, isVerified: true });
-- courses.push({ name: 'Посещение online курсов «Javascript, DOM, интерейсы»', start: 'Курсы уже начались', isVerified: false });
-- courses.push({ name: 'Посещение online курсов «Javascript, DOM, интерейсы»', start: 'Курсы уже закончились', isVerified: true });
+- courses.push({ name: 'Посещение online курсов «Javascript, DOM, интерейсы»', start: date, schedule: 'Занятия каждый Пн/Чт<br>19:30 - 21:00 GMT+3 (Мск).', status: 'need-verify' });
+- courses.push({ name: 'Посещение online курсов «Javascript, DOM, интерейсы»', start: date, schedule: 'Занятия каждый Пн/Чт<br>19:30 - 21:00 GMT+3 (Мск).', status: 'verified' });
+- courses.push({ name: 'Посещение online курсов «Javascript, DOM, интерейсы»', start: date, schedule: 'Занятия каждый Пн/Чт<br>19:30 - 21:00 GMT+3 (Мск).', status: 'started' });
+- courses.push({ name: 'Посещение online курсов «Javascript, DOM, интерейсы»', start: date, schedule: 'Занятия каждый Пн/Чт<br>19:30 - 21:00 GMT+3 (Мск).', status: 'ended' });
 
 +b.courses-table
     +e('table').table
@@ -14,17 +15,29 @@
 
                 +e('th').main
                     +e('h3').title !{ course.name }
-                    +e.time !{ course.start }
+                    +e('a').info-link(href="/123") Описание курсов
+                    if course.status !== 'need-verify'
+                        +e('a').info-link(href="/123") Страница группы
+
 
                 +e('td').info
-                    +e('a').info-link(href="/123") Описание курсов
-                    +e('a').info-link(href="/123") Стараница группы
+                    +e('strong').start !{ course.start }
+                    +e.schedule !{ course.schedule }
 
                 +e('td').verify
-                    if course.isVerified
-                        +e('span').verified Участие подтверждено
-                    else
+                    if course.status === 'verified'
+                        +e('span').status._verified Участие подтверждено
+
+                    else if course.status === 'need-verify'
                         +b('button').button._action
                             +e('span').text Подтвердить участие
+
+                    else if course.status === 'started'
+                        +e('span').status._started Занятия начались
+
+                    else if course.status === 'ended'
+                        +e('span').status._ended Курсы завершены
+                        br
+                        +e('a').feedback(href="/123") Оставить отзыв
 
 

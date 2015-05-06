@@ -17,7 +17,9 @@
     & tr &__verify
         border-bottom 1px solid #e4e0d2
 
-    .main & tr&__line:last-child
+    .main & tr&__line:last-child,
+    .main & tr&__line:last-child &__info,
+    .main & tr&__line:last-child &__verify
         border none
 
     .main & th&__main,
@@ -25,24 +27,28 @@
     .main & td&__verify
         padding 25px 0
 
+        vertical-align top
+
     & th&__main
         font-size 11px
         font-weight normal
+
+        width 40%
 
     .main & th&__main
         padding-left 20px
         padding-right 10px
 
-    &__main time
-        font-weight bold
+    &__start,
+    &__schedule
+        font-size 14px
+        line-height initial
 
-        white-space nowrap
+    &__schedule
+        margin-top 5px
 
     & td&__info
-        width 0.1%
-
         vertical-align middle
-        white-space nowrap
 
     .main & td&__info
         padding-left 10px
@@ -52,48 +58,66 @@
         display inline-block
 
         font-size 13px
-        line-height 25px
+        line-height initial
 
-        text-decoration underline
-
-    &__info-link:not(:last-child)
         padding-right 15px
+        margin-right 15px
 
+        color #568DCA
         border-right 1px solid #e4e0d2
 
     &__info-link:last-child
-        padding-left 15px
+        border-right none
+        padding-right 0
+        margin-right 0
 
-    & td&__verify
+
+    .main & td&__verify
         width 0.1%
+        padding-right 60px
 
         text-align left
         white-space nowrap
 
-    .main & td&__verify
-        padding-right 20px
-
     & h3&__title
         font 17px/17px secondary_font
-        margin 5px 0 0 0
+        margin 5px 0 10px 0
 
-    &__verified
+    &__status
         font-weight bold
 
+        position relative
         display inline-block
 
         line-height 25px
 
-        padding-left 16px
+        padding-left 26px
 
         white-space nowrap
 
         color #469269
-        border-left 1px solid #e4e0d2
 
-    &__verified:before
-        @extend $font-ok
+    &__status_ended
+        color #999
 
+    &__status:before
         font-size 18px
 
-        margin-right 7px
+        position absolute
+        margin-left -26px
+
+        font-weight normal
+
+    &__status_verified:before
+        @extend $font-ok
+
+    &__status_started:before
+        @extend $font-back-in-time
+
+    &__status_ended:before
+        @extend $font-flag
+
+    &__feedback
+        margin-left 26px
+
+        color #568DCA
