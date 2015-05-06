@@ -47,12 +47,12 @@ function initList() {
       '<div class="lessons-list__popup">' +
       '<ul class="lessons-list__popup-list">' +
       '<li class="lessons-list__popup-item">' +
-      '<a href="/nodejs-screencast/nodejs-mp4-low/' +
+      '<a data-track-outbound href="/nodejs-screencast/nodejs-mp4-low/' +
       mnemo + '.mp4">Компактный размер</a>' +
       '</li>' +
 
       '<li class="lessons-list__popup-item">' +
-      '<a href="/nodejs-screencast/nodejs-mp4/' +
+      '<a data-track-outbound href="/nodejs-screencast/nodejs-mp4/' +
       mnemo + '.mp4">Высокое качество</a>' +
       '</li>' +
       '</ul>' +

@@ -137,9 +137,6 @@ function xhr(options) {
     request.send(body);
   }, 0);
 
-
-
-
   return request;
 
 }

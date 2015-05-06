@@ -15,6 +15,8 @@ var del = require('del');
 // NB: includes angular-*
 var noProcessModulesRegExp = /node_modules\/(angular|prismjs)/;
 
+// tutorial.js?hash
+// tutorial.hash.js
 function extHash(name, ext, hash) {
   if (!hash) hash = '[hash]';
   return config.assetVersioning == 'query' ? `${name}.${ext}?${hash}` :
@@ -40,6 +42,7 @@ var webpackConfig = {
     // the setting below does not work with CommonsChunkPlugin
     library:       '[name]'
   },
+
   cache:      process.env.NODE_ENV == 'development',
   watchDelay: 10,
   watch:      process.env.NODE_ENV == 'development',

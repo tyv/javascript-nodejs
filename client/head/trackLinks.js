@@ -8,7 +8,7 @@ document.addEventListener('click', function(e) {
 
   // abandon if no active link or link within domain
   var link = e.target.closest && e.target.closest("a");
-  if (!link || baseURI == link.host) return;
+  if (!link || (baseURI == link.host && !link.hasAttribute('data-track-outbound'))) return;
 
   // invalid or blank target
   if (!~["_self", "_top", "_parent"].indexOf(link.target)) return;
