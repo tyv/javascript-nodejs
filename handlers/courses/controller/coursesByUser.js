@@ -47,7 +47,7 @@ function formatGroup(group) {
   return {
     title: group.title,
     groupUrl: group.getUrl(),
-    groupPrivateUrl: group.getPrivateUrl(),
+    groupPrivateUrl: TODO,
     dateStart: group.dateStart,
     dateEnd: group.dateEnd,
     timeDesc: group.timeDesc

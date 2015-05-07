@@ -115,6 +115,8 @@ gulp.task("client:sync-resources", lazyRequireTask('./tasks/syncResources', {
   assets: 'public'
 }));
 
+gulp.task("videoKey:load", lazyRequireTask('videoKey/tasks/load'));
+
 // Show errors if encountered
 gulp.task('client:compile-css',
   lazyRequireTask('./tasks/compileCss', {

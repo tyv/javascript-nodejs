@@ -32,9 +32,26 @@ var schema = new Schema({
     required: true
   },
 
+  // currently available places
+  // decrease onPaid
   participantsLimit: {
     type:     Number,
     required: true
+  },
+
+  // is this group in the open course list (otherwise hidden)?
+  // even if not, the group is accessible by a direct link
+  isListed: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
+
+  // is it possible to register?
+  isOpenForSignup: {
+    type: Boolean,
+    required: true,
+    default: false
   },
 
   participants: [{
@@ -47,6 +64,10 @@ var schema = new Schema({
     courseName: {
       type: String,
       required: true
+    },
+    videoKey: {
+      type: String
+      // not required
     }
   }],
 
@@ -77,11 +98,6 @@ var schema = new Schema({
 
 schema.methods.getUrl = function() {
   return '/courses/groups/' + this.slug;
-};
-
-
-schema.methods.getPrivateUrl = function() {
-  return '/courses/groups/private/' + this.slug;
 };
 
 

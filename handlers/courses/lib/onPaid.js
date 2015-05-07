@@ -7,6 +7,7 @@ const CourseInvite = require('../models/courseInvite');
 const CourseGroup = require('../models/courseGroup');
 const sendOrderInvites = require('./sendOrderInvites');
 const xmppClient = require('xmppClient');
+const VideoKey = require('videoKey').VideoKey;
 
 // not a middleware
 // can be called from CRON
@@ -40,11 +41,35 @@ module.exports = function* (order) {
       user: order.user._id,
       courseName: order.data.contactName
     });
-    yield group.persist();
+    group.participantsLimit--;
   }
+  if (group.participantsLimit < 0) group.participantsLimit = 0;
+  if (group.participantsLimit === 0) {
+    group.isOpenForSignup = false; // we're full!
+  }
+  yield group.persist();
 
   yield* sendOrderInvites(order);
 
+  yield CourseGroup.populate(group,[{path: 'participants.user'}, {path: 'course'}]);
+
+  yield* grantXmppChatMemberships(group);
+
+  if (group.course.videoKeyTag) {
+    yield *grantVideoKeys(group);
+  }
+
+
+  order.status = Order.STATUS_SUCCESS;
+
+  yield order.persist();
+
+  log.debug("Order success: " + order.number);
+};
+
+
+function* grantXmppChatMemberships(group) {
+  log.debug("Grant xmpp chat membership");
   // grant membership in chat
   var client = new xmppClient({
     jid:      config.xmpp.admin.login + '/host',
@@ -58,18 +83,50 @@ module.exports = function* (order) {
     membersOnly: 1
   });
 
-  yield CourseGroup.populate(group, {path: 'participants.user'});
 
+  var jobs = [];
   for (var i = 0; i < group.participants.length; i++) {
     var participant = group.participants[i];
-    yield client.grantMember(roomJid, participant.user.profileName, participant.courseName);
+
+    log.debug("grant " + roomJid + " to", participant.user.profileName, participant.courseName);
+
+    jobs.push(client.grantMember(roomJid, participant.user.profileName, participant.courseName));
   }
 
+  // grant all in parallel
+  yield jobs;
+
   client.disconnect();
+}
 
-  order.status = Order.STATUS_SUCCESS;
+function* grantVideoKeys(group) {
 
-  yield order.persist();
+  var participants = group.participants.filter(function(participant) {
+    return !participant.videoKey;
+  });
 
-  log.debug("Order success: " + order.number);
-};
+
+  var videoKeys = yield VideoKey.find({
+    tag: group.course.videoKeyTag,
+    used: false
+  }).limit(participants.length).exec();
+
+  log.debug("Keys selected", videoKeys && videoKeys.toArray());
+
+  if (!videoKeys || videoKeys.length != participants.length) {
+    throw new Error("Недостаточно серийных номеров " + participants.length);
+  }
+
+  for (var i = 0; i < participants.length; i++) {
+    var participant = participants[i];
+    participant.videoKey = videoKeys[i].key;
+    videoKeys[i].used = true;
+  }
+
+  yield group.persist();
+
+  var jobs = videoKeys.map(function(videoKey) {
+    return videoKey.persist();
+  });
+  yield jobs;
+}

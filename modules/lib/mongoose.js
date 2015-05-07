@@ -47,25 +47,12 @@ mongoose.plugin(function(schema) {
 
         if (err && err.code == 11000) {
 
-          log.debug("error", err);
-          log.debug("will look for indexName in message", err.message);
+          log.trace("error", err);
+          log.trace("will look for indexName in message", err.message);
 
 
           var indexName = err.message.match(/\$(\w+)/);
-          if (indexName) {
-            indexName = indexName[1];
-          } else {
-            // FIXME: MONGO <=3.0.1 does not give index name
-            // TEMPORARY WORKAROUND
-            // unused cause of downgrade to 2.6
-            var valError = new ValidationError(err);
-            var field = model.email ? 'email' : "unknown";
-            // err = { path="email", message="Email is not unique", type="notunique", value=model.email }
-            valError.errors[field] = new ValidatorError(field, "Не уникален " + field, 'notunique', model[field]);
-
-            valError.code = err.code; // if (err.code == 11000) in the outer code will still work
-            return callback(valError);
-          }
+          indexName = indexName[1];
 
           model.collection.getIndexes(function(err2, indexes) {
             if (err2) return callback(err);
@@ -93,7 +80,7 @@ mongoose.plugin(function(schema) {
               }
             }
 
-            log.debug("Schema index which failed:", schemaIndex);
+            log.trace("Schema index which failed:", schemaIndex);
 
             var errorMessage;
             if (!schemaIndex) {
@@ -118,7 +105,7 @@ mongoose.plugin(function(schema) {
 
             var field = indexInfo[0][0]; // if many fields in uniq index - we take the 1st one for error
 
-            log.debug("Generating error for field", field, ':', errorMessage);
+            log.trace("Generating error for field", field, ':', errorMessage);
 
             // example:
             // err = { path="email", message="Email is not unique", type="notunique", value=model.email }
