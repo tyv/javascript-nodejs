@@ -54,23 +54,21 @@
         padding-left 10px
         padding-right 15px
 
+    .main ul&__info-links,
+    .main li&__info-links-item
+        margin 0
+        padding 0
+
+    .main li&__info-links-item:before
+        display none
+        content ''
+
+    .main li&__info-links-item
+        font-size 14px
+
     &__info-link
-        display inline-block
-
-        font-size 13px
         line-height initial
-
-        padding-right 15px
-        margin-right 15px
-
         color #568DCA
-        border-right 1px solid #e4e0d2
-
-    &__info-link:last-child
-        border-right none
-        padding-right 0
-        margin-right 0
-
 
     .main & td&__verify
         width 0.1%
