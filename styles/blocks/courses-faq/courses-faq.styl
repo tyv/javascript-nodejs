@@ -68,7 +68,7 @@
             content: ''
 
     &__answer p
-        margin 0 10px
+        margin 10px
 
     &__input:checked ~ &__answer
         display block
@@ -78,3 +78,48 @@
 
         border none
         color secondary_color
+
+    @media (max-width: 690px)
+
+        &
+            margin 0 -10px
+
+
+        &__question-title
+            font-size 14px
+            font-style normal
+
+            color #3B86C4
+            border none
+
+
+        & ul&__questions
+            border-radius none
+            background #FBFAFA
+
+        & li&__question
+            border-bottom 2px solid #F3F2F1
+
+        &__answer
+            position relative
+
+            display none
+
+            padding 0
+            margin-top 0
+
+            background none
+            border-radius initial
+
+            &:before
+                display none
+
+        &__answer p
+            margin 10px 0
+
+        &__input:checked ~ &__question-title
+            color #333
+
+        .main &__body > p
+            margin-left 20px
+            margin-right 20px

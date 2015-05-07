@@ -14,3 +14,27 @@
     &__input .text-input
         width 100%
 
+    @media (max-width: 690px)
+        &,
+        &__input,
+        &__button
+            display block
+
+        &__input .text-input__err
+            display none
+
+        &__input .text-input_invalid .text-input__err
+            display block
+
+        &__button
+            margin-top 10px
+
+        &__button .button,
+        &__button .button__text
+            display block
+            width 100%
+
+
+
+
+

@@ -64,3 +64,30 @@
 
     & p&__course-text
         margin-top 5px
+
+    @media (max-width: 690px)
+        &
+            order -1
+            margin-left -10px
+            margin-right -10px
+
+            border-radius initial
+
+        & h2&__title
+            color #333
+
+        & h3&__course-title
+            display flex
+            flex-direction column
+            align-items center
+
+        & h3&__course-title .link
+            display inline-block
+
+            text-decoration none
+
+        &__course-bage
+            margin 10px 0 0 0
+
+        & p&__course-text
+            margin-top 15px

@@ -64,11 +64,28 @@
 
 
     @media tablet
+        &
+            border-radius initial
+
+            background none
+
+            margin-left -10px
+            margin-right -10px
+
+        &__body
+            display flex
+            flex-direction column
+
         & &__col
             display block
             width auto
 
             border: none
+
+        & &__col:nth-child(2)
+            order -1
+
+            background #f7f6ea
 
         & .map__text
             display none
