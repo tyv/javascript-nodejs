@@ -1,0 +1,25 @@
+.courses-materials
+    text-align left
+    counter-reset lines
+
+    .main table&__table td,
+    .main table&__table th
+        font-size 14px
+
+        line-height initial
+
+        padding-top 10px
+        padding-bottom 10px
+
+    .main table&__table tr&__line:last-child
+        border none
+
+    td&__num:after
+        counter-increment lines
+        content counter(lines)
+
+    &__link:link
+
+        text-decoration underline
+
+

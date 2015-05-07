@@ -2,10 +2,10 @@
 - var time = '2014-01-01T19:45'
 - var date = 'Начало ' + moment(time).locale('ru').format('D MMM YYYY');
 
-- courses.push({ name: 'Посещение online курсов «Javascript, DOM, интерейсы»', start: date, schedule: 'Занятия каждый Пн/Чт<br>19:30 - 21:00 GMT+3 (Мск).', status: 'need-verify' });
-- courses.push({ name: 'Посещение online курсов «Javascript, DOM, интерейсы»', start: date, schedule: 'Занятия каждый Пн/Чт<br>19:30 - 21:00 GMT+3 (Мск).', status: 'verified' });
-- courses.push({ name: 'Посещение online курсов «Javascript, DOM, интерейсы»', start: date, schedule: 'Занятия каждый Пн/Чт<br>19:30 - 21:00 GMT+3 (Мск).', status: 'started' });
-- courses.push({ name: 'Посещение online курсов «Javascript, DOM, интерейсы»', start: date, schedule: 'Занятия каждый Пн/Чт<br>19:30 - 21:00 GMT+3 (Мск).', status: 'ended' });
+- courses.push({ name: 'Посещение online курсов «Javascript, DOM, интерейсы»', start: date, schedule: 'Занятия каждый Пн/Чт<br>19:30 - 21:00 GMT+3 (Мск).', info_links: [{ url: '/123', name: 'Описание курсов' }], status: 'need-verify' });
+- courses.push({ name: 'Посещение online курсов «Javascript, DOM, интерейсы»', start: date, schedule: 'Занятия каждый Пн/Чт<br>19:30 - 21:00 GMT+3 (Мск).', info_links: [{ url: '/123', name: 'Описание курсов' }, { url: '/123', name: 'Инструкции по настройке окружения' }, { url: '/123', name: 'Материалы для обучения' }], status: 'verified' });
+- courses.push({ name: 'Посещение online курсов «Javascript, DOM, интерейсы»', start: date, schedule: 'Занятия каждый Пн/Чт<br>19:30 - 21:00 GMT+3 (Мск).', info_links: [{ url: '/123', name: 'Описание курсов' }, { url: '/123', name: 'Инструкции по настройке окружения' }, { url: '/123', name: 'Материалы для обучения' }], status: 'started' });
+- courses.push({ name: 'Посещение online курсов «Javascript, DOM, интерейсы»', start: date, schedule: 'Занятия каждый Пн/Чт<br>19:30 - 21:00 GMT+3 (Мск).', info_links: [{ url: '/123', name: 'Описание курсов' }, { url: '/123', name: 'Инструкции по настройке окружения' }, { url: '/123', name: 'Материалы для обучения' }], status: 'ended' });
 
 +b.courses-table
     +e('table').table
@@ -15,10 +15,10 @@
 
                 +e('th').main
                     +e('h3').title !{ course.name }
-                    +e('a').info-link(href="/123") Описание курсов
-                    if course.status !== 'need-verify'
-                        +e('a').info-link(href="/123") Страница группы
-
+                    +e('ul').info-links
+                        for link in course.info_links
+                            +e('li').info-links-item
+                                +e('a').info-link(href=link.url) !{ link.name }
 
                 +e('td').info
                     +e('strong').start !{ course.start }

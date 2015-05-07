@@ -1,0 +1,21 @@
+- var data = [];
+- data.push({ url: '/123', name: 'Вводный курс JS', size: '345 Mb', date: moment(new Date()).locale('ru').format('DD MMM YYYY') });
+- data.push({ url: '/123', name: 'Материалы, 2013 08 22 2130', size: '1.3 Gb', date: moment(new Date()).locale('ru').format('DD MMM YYYY') });
+- data.push({ url: '/123', name: 'Материалы, 2013 09 22 2130', size: '2 Gb', date: moment(new Date()).locale('ru').format('DD MMM YYYY') });
+- data.push({ url: '/123', name: 'Материалы, 2013 09 26 2130', size: '2 Gb', date: moment(new Date()).locale('ru').format('DD MMM YYYY') });
+
++b.courses-materials
+    +e('table').table
+        +e('tr').line
+            +e('th').num #
+            +e('th').name Название
+            +e('th').size Размер
+            +e('th').added Добавлено
+        for material in data
+            +e('tr').line
+                +e('td').num
+                +e('td').name
+                    +e('a').link(href=material.url) !{ material.name }
+                +e('td').size !{ material.size }
+                +e('td').added !{ material.date }
+
