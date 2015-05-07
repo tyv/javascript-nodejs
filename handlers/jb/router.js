@@ -17,5 +17,5 @@ router.get('/go', function*() {
   });
 
   this.status = 301;
-  this.redirect('https://www.jetbrains.com/webstorm/?utm_source=javascript.ru&utm_medium=banner2&utm_campaign=webstorm');
+  this.redirect('https://www.jetbrains.com/webstorm/?utm_source=javascript.ru&utm_medium=banner3&utm_campaign=webstorm');
 });

@@ -32,13 +32,27 @@ exports.get = function*(next) {
 
   for (let i = 0; i < invites.length; i++) {
     let group = formatGroup(invites[i].group);
+    group.links = [{
+      url: group.getUrl(),
+      title: 'Описание курса'
+    }];
+    group.isParticipant = false;
     group.inviteToken = invites[i].token;
     this.body.push(group);
   }
 
   for (let i = 0; i < groups.length; i++) {
-    let group = groups[i];
-    this.body.push(formatGroup(group));
+    let group = formatGroup(groups[i]);
+    group.links = [{
+      url: group.getUrl(),
+      title: 'Описание курса'
+    }, {
+      url: `/courses/groups/${group.slug}/info`,
+      title: 'Инструкции по настройке окружения'
+    }];
+    //if ()
+    group.isParticipant = true;
+    this.body.push(group);
   }
 
 };
@@ -47,7 +61,7 @@ function formatGroup(group) {
   return {
     title: group.title,
     groupUrl: group.getUrl(),
-    groupPrivateUrl: TODO,
+    groupSlug: group.slug,
     dateStart: group.dateStart,
     dateEnd: group.dateEnd,
     timeDesc: group.timeDesc
