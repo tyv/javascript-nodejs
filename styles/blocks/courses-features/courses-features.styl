@@ -87,3 +87,48 @@
             @extend $font-star-label
 
 
+    @media (max-width: 690px)
+        &
+            display block
+
+            width auto
+            margin-left -10px
+            margin-right -10px
+
+            border-radius initial
+
+        & h2&__title,
+        &__features
+            display block
+
+        & li&__feature
+            position relative
+
+            display block
+
+            width auto
+
+            min-height 85px
+            padding 20px 10px 20px 100px
+
+            text-align left
+
+            border-right none
+            border-bottom 1px solid #DDD
+
+        .main ul&__features
+
+            & > li.courses-features__feature::before
+                font-size 45px
+                line-height 45px
+
+                position absolute
+                left 25px
+                top 20px
+
+                float none
+
+                width 60px
+                height auto
+
+                margin 0

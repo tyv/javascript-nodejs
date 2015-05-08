@@ -63,4 +63,36 @@
     .main p&__text
         margin-top 5px
 
+    &__anchor
+        position relative
+        top -100px
+
+        display block
+
+    @media (max-width: 690px)
+        &__list
+            display block
+            width auto
+
+        .main li&__course
+            display block
+
+            padding 20px
+
+            border-bottom 2px solid #f7f6ea
+
+        &__info,
+        &__apply
+            display block
+            border none
+
+            padding 0
+
+        &__apply
+            margin-top 15px
+
+        &__apply .button,
+        &__apply .button__text
+            width 100%
+            display block
 

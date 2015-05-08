@@ -3,6 +3,7 @@
 - courses.push({ isOpen: false, title: 'Javascript, DOM, интерфейсы', link: '/123', text: 'В первую очередь это курс для тех, кто не разрабатывал на JS, либо разрабатывал эпизодически и теперь хочет освоить профессионально' })
 
 +b.courses-programm-register
+    +e('a').anchor#courses
     +e('h2').title Программа курсов и запись
     +e('ul').courses
         for course in courses

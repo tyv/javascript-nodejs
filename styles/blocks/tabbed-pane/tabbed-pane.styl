@@ -17,6 +17,8 @@
         display flex
         align-items stretch
 
+        text-align center
+
         overflow hidden
 
         border-radius 5px 5px 0 0
@@ -67,3 +69,52 @@
     &_07 li&__tab_07
         color secondary_color
         background #eee
+
+    @media (max-width: 690px)
+        & ul&__tabs
+            flex-direction column
+
+            margin 0 -10px
+
+            border-radius initial
+
+        & li&__tab
+            font-family font
+            font-size 14px
+            line-height initial
+
+            padding 10px 20px
+
+            text-align left
+
+            color #3B86C4
+            border-bottom 2px solid #F3F2F1
+            background #FBFAFA !important
+
+        & li&__tab:first-child
+            border-top 2px solid #F3F2F1
+
+        &__body
+
+            padding 10px 20px
+            margin 0 -10px
+
+            text-align left
+
+            border none
+            border-bottom 2px solid #F3F2F1
+            border-radius initial
+            background #FBFAFA
+
+        &_01 li&__tab_01,
+        &_02 li&__tab_02,
+        &_03 li&__tab_03,
+        &_04 li&__tab_04,
+        &_05 li&__tab_05,
+        &_06 li&__tab_06,
+        &_07 li&__tab_07
+            font-weight bold
+
+            color #333
+            background none
+

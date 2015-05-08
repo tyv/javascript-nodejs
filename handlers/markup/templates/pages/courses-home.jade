@@ -11,10 +11,13 @@ block append variables
 
 block content
     p Здесь находятся «правильные» курсы по профессиональному Javascript, цель которых — научить думать на Javascript, писать просто, быстро и красиво.
-    include ../blocks/courses-features
-    include ../blocks/courses-programm-register
-    include ../blocks/courses-master
-    include ../blocks/courses-testimonials
-    include ../blocks/courses-tabbed-pane
-    include ../blocks/courses-guarantee
-    include ../blocks/courses-faq
+    +b.flex-column
+        include ../blocks/courses-features
+        include ../blocks/courses-programm-register
+        include ../blocks/courses-master
+        include ../blocks/courses-testimonials
+        include ../blocks/courses-tabbed-pane
+        include ../blocks/courses-guarantee
+        include ../blocks/courses-faq
+        +b.fixed-tab.tablet-only.courses-tab
+            a.courses-tab__link(href="#courses") Перейти к списку открытых курсов
