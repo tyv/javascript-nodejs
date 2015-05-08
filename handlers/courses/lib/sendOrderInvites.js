@@ -4,6 +4,7 @@ const _ = require('lodash');
 const log = require('log')();
 const sendInvite = require('./sendInvite');
 const CourseGroup = require('../models/courseGroup');
+const User = require('users').User;
 
 /**
  * create and send invites for the order
@@ -54,6 +55,14 @@ function* createInvites(order) {
     invites.push(invite);
 
     yield invite.persist();
+
+    // not only send invite, but enable the tab so that the user can manually accept it
+    yield User.update({
+      email: email
+    }, {
+      $addToSet: {profileTabsEnabled: 'courses'}
+    });
+
   }
 
   return invites;

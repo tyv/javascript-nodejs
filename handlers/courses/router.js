@@ -1,5 +1,5 @@
-var Router = require('koa-router');
-
+var Router = require('router');
+var mustBeAuthenticated = require('auth').mustBeAuthenticated;
 var router = module.exports = new Router();
 
 router.get('/', require('./controller/frontpage').get);
@@ -13,4 +13,4 @@ router.get('/groups/:group/info', require('./controller/groupInfo').get);
 router.all('/invite/:inviteToken?', require('./controller/invite').all);
 
 // for profile
-router.get('/profile/:userById', require('./controller/coursesByUser').get);
+router.get('/profile/:userById', mustBeAuthenticated, require('./controller/coursesByUser').get);

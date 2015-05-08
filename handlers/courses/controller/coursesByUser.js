@@ -33,9 +33,10 @@ exports.get = function*(next) {
   for (let i = 0; i < invites.length; i++) {
 
     let group = invites[i].group;
+    yield CourseGroup.populate(group, {path: 'course'});
     let groupInfo = formatGroup(group);
     groupInfo.links = [{
-      url: group.getUrl(),
+      url: group.course.getUrl(),
       title: 'Описание курса'
     }];
     groupInfo.inviteUrl = '/courses/invite/' + invites[i].token;
@@ -44,9 +45,11 @@ exports.get = function*(next) {
 
   for (let i = 0; i < groups.length; i++) {
     let group = groups[i];
+    yield CourseGroup.populate(group, {path: 'course'});
+
     let groupInfo = formatGroup(group);
     groupInfo.links = [{
-      url: group.getUrl(),
+      url: group.course.getUrl(),
       title: 'Описание курса'
     }, {
       url: `/courses/groups/${group.slug}/info`,
@@ -65,7 +68,7 @@ exports.get = function*(next) {
 
   for (var i = 0; i < this.body.length; i++) {
     var groupInfo = this.body[i];
-    groupInfo.status = groupInfo.inviteToken ? 'invite' :
+    groupInfo.status = groupInfo.inviteUrl ? 'invite' :
       (groupInfo.dateStart > new Date()) ? 'accepted' :
         (groupInfo.dateEnd > new Date()) ? 'started' : 'ended';
   }

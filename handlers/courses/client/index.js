@@ -1,4 +1,5 @@
 var SignupWidget = require('./signupWidget');
+var prism = require('client/prism');
 
 exports.init = function() {
 
@@ -8,5 +9,7 @@ exports.init = function() {
       elem: signupWidget
     });
   }
+
+  prism.init();
 
 };

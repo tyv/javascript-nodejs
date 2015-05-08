@@ -19,7 +19,7 @@ exports.get = function*() {
   }
 
   var participantIds = _.pluck(group.participants, 'user').map(String);
-  if (!~participantIds.indexOf(this.user._id)) {
+  if (!~participantIds.indexOf(String(this.user._id))) {
     this.throw(403, "Вы не являетесь участником этой группы.");
   }
 

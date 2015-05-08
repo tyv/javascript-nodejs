@@ -55,6 +55,7 @@ function addStandardHelpers(locals, ctx) {
   locals.profileTabNames = {
     quiz: 'Тесты',
     orders: 'Заказы',
+    courses: 'Курсы',
     aboutme: 'Публичный профиль',
     account: 'Аккаунт'
   };

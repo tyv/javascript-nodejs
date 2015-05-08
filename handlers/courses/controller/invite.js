@@ -135,6 +135,7 @@ function* acceptParticipant(invite) {
     courseName: this.request.body.courseName || this.user.displayName
   });
 
+  // esp. important for newly regged users, they don't have this tab by default or invite
   this.user.profileTabsEnabled.addToSet('courses');
   yield this.user.persist();
 
@@ -156,11 +157,16 @@ function* loginByInvite(invite) {
     email: invite.email
   }).exec();
 
-  if (userByEmail) {
-    this.locals.wasLoggedIn = true;
-    yield this.login(userByEmail);
-    return true;
+  if (!userByEmail) return false;
+
+  if (!userByEmail.verifiedEmail) {
+    // if pending verification => invite token confirms email
+    yield userByEmail.persist({
+      verifiedEmail: true
+    });
   }
 
-  return false;
+  this.locals.wasLoggedIn = true;
+  yield this.login(userByEmail);
+  return true;
 }

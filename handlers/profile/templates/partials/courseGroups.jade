@@ -13,16 +13,13 @@ include /bem
               +e('a').info-link(ng-href="{{link.url}}") {{link.title}}
         +e('td').info
           +e('strong').start Начало {{group.dateStart | shortDate}}
-          +e.schedule {{ group.timeDesc }}
+          +e.schedule Занятия {{ group.timeDesc }}
         +e('td').verify
-          if course.status === 'accepted'
-            +e('span').status._verified Участие подтверждено
-          else if course.status === 'invite'
-            +b('a').button._action(ng-href="{{group.inviteUrl}}")
-              +e('span').text Подтвердить участие
-          else if course.status === 'started'
-            +e('span').status._started Занятия начались
-          else if course.status === 'ended'
+          +e('span').status._verified(ng-if="group.status == 'accepted'") Участие подтверждено
+          +b('a').button._action(ng-href="{{group.inviteUrl}}" ng-if="group.status == 'invite'")
+            +e('span').text Подтвердить участие
+          +e('span').status._started(ng-if="group.status == 'started'") Занятия начались
+          +e('span')(ng-if="group.status == 'ended'")
             +e('span').status._ended Курсы завершены
             br
             +e('a').feedback(href="/123") Оставить отзыв !TODO!

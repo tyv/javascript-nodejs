@@ -47,7 +47,7 @@ angular.module('profile').config(($locationProvider, $stateProvider, $urlRouterP
         orders: (Orders) => Orders.query()
       }
     },
-    'root.courseGroups':  {
+    'root.courses':  {
       url:         '/courses',
       title:       'Курсы',
       templateUrl: "/profile/templates/partials/courseGroups",

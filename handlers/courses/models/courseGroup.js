@@ -101,11 +101,6 @@ var schema = new Schema({
   }
 });
 
-
-schema.methods.getUrl = function() {
-  return '/courses/groups/' + this.slug;
-};
-
 schema.methods.readMaterials = function*() {
   var groupDir = path.join(config.courseRoot, this.slug);
 
