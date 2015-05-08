@@ -13,4 +13,4 @@ router.get('/groups/:group/info', require('./controller/groupInfo').get);
 router.all('/invite/:inviteToken?', require('./controller/invite').all);
 
 // for profile
-router.get('/user/:userById', require('./controller/coursesByUser').get);
+router.get('/profile/:userById', require('./controller/coursesByUser').get);

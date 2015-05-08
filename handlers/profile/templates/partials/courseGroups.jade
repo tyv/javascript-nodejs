@@ -1,0 +1,28 @@
+include /bem
+
++b.profile
+
+  +b.courses-table
+    +e('table').table
+
+      +e('tr').line(ng-repeat="group in courseGroups")
+        +e('th').main
+          +e('h3').title {{group.title}}
+          +e('ul').info-links
+            +e('li').info-links-item(ng-repeat="link in group.links")
+              +e('a').info-link(ng-href="{{link.url}}") {{link.title}}
+        +e('td').info
+          +e('strong').start Начало {{group.dateStart | shortDate}}
+          +e.schedule {{ group.timeDesc }}
+        +e('td').verify
+          if course.status === 'accepted'
+            +e('span').status._verified Участие подтверждено
+          else if course.status === 'invite'
+            +b('a').button._action(ng-href="{{group.inviteUrl}}")
+              +e('span').text Подтвердить участие
+          else if course.status === 'started'
+            +e('span').status._started Занятия начались
+          else if course.status === 'ended'
+            +e('span').status._ended Курсы завершены
+            br
+            +e('a').feedback(href="/123") Оставить отзыв !TODO!

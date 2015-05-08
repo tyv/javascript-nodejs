@@ -41,11 +41,9 @@ module.exports = function* (order) {
       user: order.user._id,
       courseName: order.data.contactName
     });
-    group.participantsLimit--;
-  }
-  if (group.participantsLimit < 0) group.participantsLimit = 0;
-  if (group.participantsLimit === 0) {
-    group.isOpenForSignup = false; // we're full!
+    group.decreaseParticipantsLimit();
+    order.user.profileTabsEnabled.addToSet('courses');
+    yield order.user.persist();
   }
   yield group.persist();
 

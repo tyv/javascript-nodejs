@@ -21,12 +21,15 @@ require('./factory/me');
 require('./factory/quizResults');
 
 require('./factory/orders');
+require('./factory/courseGroups');
 
 require('./config');
 
 require('./controller/root');
 
 require('./controller/orders');
+
+require('./controller/courseGroups');
 
 require('./controller/aboutme');
 
@@ -41,6 +44,9 @@ profile
   })
   .filter('longDate', () => function(date) {
     return moment(date).format('D MMMM YYYY в LT');
+  })
+  .filter('shortDate', () => function(date) {
+    return moment(date).format('D MMM YYYY');
   })
   .filter('quizDuration', () => function(ms) {
     var seconds = Math.round(ms / 1000);
