@@ -134,7 +134,14 @@ function* acceptParticipant(invite) {
     user: this.user._id,
     courseName: this.request.body.courseName || this.user.displayName
   });
+
+  this.user.profileTabsEnabled.addToSet('courses');
+  yield this.user.persist();
+
   yield invite.accept();
+
+  invite.group.decreaseParticipantsLimit();
+
   yield invite.group.persist();
   this.redirect('/courses/invite/' + invite.token);
 }

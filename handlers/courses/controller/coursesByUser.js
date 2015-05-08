@@ -31,23 +31,51 @@ exports.get = function*(next) {
   this.body = [];
 
   for (let i = 0; i < invites.length; i++) {
-    let group = formatGroup(invites[i].group);
-    group.inviteToken = invites[i].token;
-    this.body.push(group);
+
+    let group = invites[i].group;
+    let groupInfo = formatGroup(group);
+    groupInfo.links = [{
+      url: group.getUrl(),
+      title: 'Описание курса'
+    }];
+    groupInfo.inviteUrl = '/courses/invite/' + invites[i].token;
+    this.body.push(groupInfo);
   }
 
   for (let i = 0; i < groups.length; i++) {
     let group = groups[i];
-    this.body.push(formatGroup(group));
+    let groupInfo = formatGroup(group);
+    groupInfo.links = [{
+      url: group.getUrl(),
+      title: 'Описание курса'
+    }, {
+      url: `/courses/groups/${group.slug}/info`,
+      title: 'Инструкции по настройке окружения'
+    }];
+
+    var materials = yield groups[i].readMaterials();
+    if (materials.length) {
+      groupInfo.links.push({
+        url: `/courses/groups/${group.slug}/download`,
+        title: 'Материалы для обучения'
+      });
+    }
+    this.body.push(groupInfo);
   }
+
+  for (var i = 0; i < this.body.length; i++) {
+    var groupInfo = this.body[i];
+    groupInfo.status = groupInfo.inviteToken ? 'invite' :
+      (groupInfo.dateStart > new Date()) ? 'accepted' :
+        (groupInfo.dateEnd > new Date()) ? 'started' : 'ended';
+  }
+
 
 };
 
 function formatGroup(group) {
   return {
     title: group.title,
-    groupUrl: group.getUrl(),
-    groupPrivateUrl: group.getPrivateUrl(),
     dateStart: group.dateStart,
     dateEnd: group.dateEnd,
     timeDesc: group.timeDesc

@@ -115,6 +115,7 @@ module.exports = {
   publicRoot:           path.join(process.cwd(), 'public'),
   // private files, for expiring links, not directly accessible
   downloadRoot:         path.join(process.cwd(), 'download'),
+  courseRoot:           path.join(process.cwd(), 'course'),
   tmpRoot:              path.join(process.cwd(), 'tmp'),
   // extra handlers from outside of the main repo
   extraHandlersRoot:    path.join(process.cwd(), 'extra/handlers'),

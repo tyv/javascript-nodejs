@@ -46,6 +46,15 @@ angular.module('profile').config(($locationProvider, $stateProvider, $urlRouterP
       resolve:     {
         orders: (Orders) => Orders.query()
       }
+    },
+    'root.courseGroups':  {
+      url:         '/courses',
+      title:       'Курсы',
+      templateUrl: "/profile/templates/partials/courseGroups",
+      controller:  'ProfileCourseGroupsCtrl',
+      resolve:     {
+        courseGroups: (CourseGroups) => CourseGroups.query()
+      }
     }
   };
 

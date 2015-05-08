@@ -1,5 +1,9 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var config = require('config');
+var fs = require('mz/fs');
+var path = require('path');
+var log = require('log')();
 
 // the schema follows http://openexchangerates.org/api/latest.json response
 var schema = new Schema({
@@ -32,9 +36,26 @@ var schema = new Schema({
     required: true
   },
 
+  // currently available places
+  // decrease onPaid
   participantsLimit: {
     type:     Number,
     required: true
+  },
+
+  // is this group in the open course list (otherwise hidden)?
+  // even if not, the group is accessible by a direct link
+  isListed: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
+
+  // is it possible to register?
+  isOpenForSignup: {
+    type: Boolean,
+    required: true,
+    default: false
   },
 
   participants: [{
@@ -44,16 +65,22 @@ var schema = new Schema({
       index: true,
       required: true
     },
-    courseName: {
+    courseName: { // how to call this user in-course?
       type: String,
       required: true
+    },
+    videoKey: {
+      type: String
+      // there may be groups without video & keys
     }
   }],
 
-  // room jid, gotowebinar id
+  // room jid AND gotowebinar id
+  // an offline group may not have this
   webinarId: {
     type: String
   },
+
 
   course:       {
     type:     Schema.Types.ObjectId,
@@ -79,11 +106,36 @@ schema.methods.getUrl = function() {
   return '/courses/groups/' + this.slug;
 };
 
+schema.methods.readMaterials = function*() {
+  var groupDir = path.join(config.courseRoot, this.slug);
 
-schema.methods.getPrivateUrl = function() {
-  return '/courses/groups/private/' + this.slug;
+
+  try {
+    var files = yield fs.readdir(groupDir);
+    return files.map(function(file) {
+      if (file[0] == '.') return null;
+      return {
+        path: path.join(groupDir, file),
+        url: `/courses/groups/${this.slug}/download/${file}`,
+        title: file
+      };
+    }).filter(Boolean);
+  } catch (e) {
+    log.error("Group dir must be a directory", groupDir);
+
+    return [];
+  }
+
 };
 
+schema.methods.decreaseParticipantsLimit = function(count) {
+  count = count === undefined ? 1 : count;
+  this.participantsLimit -= count;
+  if (this.participantsLimit < 0) this.participantsLimit = 0;
+  if (this.participantsLimit === 0) {
+    this.isOpenForSignup = false; // we're full!
+  }
+};
 
 module.exports = mongoose.model('CourseGroup', schema);
 

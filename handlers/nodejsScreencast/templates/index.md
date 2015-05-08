@@ -19,46 +19,46 @@
 
 <div class="lessons-list lessons-list_screencast">
 <ol class="lessons-list__lessons">
-<li class="lessons-list__lesson" data-mnemo="intro-1-about">[Введение в Node.JS, об этом скринкасте](http://www.youtube.com/watch?v=ILpS4Fq3lmw)</li>
-<li class="lessons-list__lesson" data-mnemo="intro-2-whatisnode">[Что такое Node.JS? Почему Node.JS?](http://www.youtube.com/watch?v=N-4p2_NEr9w)</li>
-<li class="lessons-list__lesson" data-mnemo="intro-3-install">[Установка и запуск](http://www.youtube.com/watch?v=5s9GamjYQpo)</li>
-<li class="lessons-list__lesson lessons-list__lesson_section-end" data-mnemo="intro-4-docs">[Исходники и документация](http://www.youtube.com/watch?v=AYwWHMda7Yo)</li>
+<li class="lessons-list__lesson" data-mnemo="intro-1-about"><a href="#" data-video-id="ILpS4Fq3lmw">Введение в Node.JS, об этом скринкасте</a></li>
+<li class="lessons-list__lesson" data-mnemo="intro-2-whatisnode"><a href="#" data-video-id="N-4p2_NEr9w">Что такое Node.JS? Почему Node.JS?</a></li>
+<li class="lessons-list__lesson" data-mnemo="intro-3-install"><a href="#" data-video-id="5s9GamjYQpo">Установка и запуск</a></li>
+<li class="lessons-list__lesson lessons-list__lesson_section-end" data-mnemo="intro-4-docs"><a href="#" data-video-id="AYwWHMda7Yo">Исходники и документация</a></li>
 
-<li class="lessons-list__lesson" data-mnemo="modules-1-intro">[Модули для Node.JS](http://youtu.be/g740J-RyoR4)</li>
-<li class="lessons-list__lesson lessons-list__lesson_section-end" data-mnemo="modules-2-module">[Приёмы работы с модулями](http://www.youtube.com/watch?v=xs6sSylr-88)</li>
+<li class="lessons-list__lesson" data-mnemo="modules-1-intro"><a href="#" data-video-id="g740J-RyoR4">Модули для Node.JS</a></li>
+<li class="lessons-list__lesson lessons-list__lesson_section-end" data-mnemo="modules-2-module"><a href="#" data-video-id="xs6sSylr-88">Приёмы работы с модулями</a></li>
 
-<li class="lessons-list__lesson" data-mnemo="npm-1-intro">[Введение в NPM - менеджер пакетов для Node.JS](http://www.youtube.com/watch?v=fhwtUW9dXrA)</li>
-<li class="lessons-list__lesson" data-mnemo="npm-2-package">[Структура пакета NPM](http://www.youtube.com/watch?v=CrevZgTc7ow)</li>
-<li class="lessons-list__lesson lessons-list__lesson_section-end" data-mnemo="npm-3-global">[Глобальные модули](http://www.youtube.com/watch?v=6hUceqsmfCw)</li>
+<li class="lessons-list__lesson" data-mnemo="npm-1-intro"><a href="#" data-video-id="fhwtUW9dXrA">Введение в NPM - менеджер пакетов для Node.JS</a></li>
+<li class="lessons-list__lesson" data-mnemo="npm-2-package"><a href="#" data-video-id="CrevZgTc7ow">Структура пакета NPM</a></li>
+<li class="lessons-list__lesson lessons-list__lesson_section-end" data-mnemo="npm-3-global"><a href="#" data-video-id="6hUceqsmfCw">Глобальные модули</a></li>
 
-<li class="lessons-list__lesson" data-mnemo="top-1-util">[Модуль util и наследование](http://youtu.be/QBHzMp65iKg)</li>
-<li class="lessons-list__lesson" data-mnemo="top-2-console">[Модуль console](http://www.youtube.com/watch?v=cZQn_CaNsZk)</li>
-<li class="lessons-list__lesson" data-mnemo="top-3-inherit-error">[Наследование от ошибок Error](http://youtu.be/5etqNwbCl1Y)</li>
-<li class="lessons-list__lesson lessons-list__lesson_section-end" data-mnemo="top-4-eventemitter">[События, EventEmitter и утечки памяти](http://youtu.be/oOgXm3voVno)</li>
+<li class="lessons-list__lesson" data-mnemo="top-1-util"><a href="#" data-video-id="QBHzMp65iKg">Модуль util и наследование</a></li>
+<li class="lessons-list__lesson" data-mnemo="top-2-console"><a href="#" data-video-id="cZQn_CaNsZk">Модуль console</a></li>
+<li class="lessons-list__lesson" data-mnemo="top-3-inherit-error"><a href="#" data-video-id="5etqNwbCl1Y">Наследование от ошибок Error</a></li>
+<li class="lessons-list__lesson lessons-list__lesson_section-end" data-mnemo="top-4-eventemitter"><a href="#" data-video-id="oOgXm3voVno">События, EventEmitter и утечки памяти</a></li>
 
-<li class="lessons-list__lesson" data-mnemo="server-1-intro">[Node.JS как веб-сервер](http://youtu.be/aHljHztKaQY)</li>
-<li class="lessons-list__lesson" data-mnemo="server-2-echo">[Эхо-сервер на Node.JS](http://youtu.be/StQydypwACc)</li>
-<li class="lessons-list__lesson lessons-list__lesson_section-end" data-mnemo="server-3-docs">[Документация к модулю http](http://www.youtube.com/watch?v=g0KuOQgVqmE)</li>
+<li class="lessons-list__lesson" data-mnemo="server-1-intro"><a href="#" data-video-id="aHljHztKaQY">Node.JS как веб-сервер</a></li>
+<li class="lessons-list__lesson" data-mnemo="server-2-echo"><a href="#" data-video-id="StQydypwACc">Эхо-сервер на Node.JS</a></li>
+<li class="lessons-list__lesson lessons-list__lesson_section-end" data-mnemo="server-3-docs"><a href="#" data-video-id="g0KuOQgVqmE">Документация к модулю http</a></li>
 
-<li class="lessons-list__lesson" data-mnemo="dev-1-supervisor">[Разработка, supervisor](http://www.youtube.com/watch?v=2aViNktk1ck)</li>
-<li class="lessons-list__lesson" data-mnemo="dev-2-debug">[Отладка скриптов под Node.JS](http://www.youtube.com/watch?v=COHIRHitRdc)</li>
-<li class="lessons-list__lesson lessons-list__lesson_section-end" data-mnemo="dev-3-log">[Логирование, модули debug и winston](http://youtu.be/ocmgia1lDIk)</li>
+<li class="lessons-list__lesson" data-mnemo="dev-1-supervisor"><a href="#" data-video-id="2aViNktk1ck">Разработка, supervisor</a></li>
+<li class="lessons-list__lesson" data-mnemo="dev-2-debug"><a href="#" data-video-id="COHIRHitRdc">Отладка скриптов под Node.JS</a></li>
+<li class="lessons-list__lesson lessons-list__lesson_section-end" data-mnemo="dev-3-log"><a href="#" data-video-id="ocmgia1lDIk">Логирование, модули debug и winston</a></li>
 
-<li class="lessons-list__lesson" data-mnemo="event-loop-1-async">[Введение в асинхронную разработку](http://youtu.be/_kJeJaARUP4)</li>
-<li class="lessons-list__lesson" data-mnemo="event-loop-2-inside">[Событийный цикл, библиотека libUV](http://youtu.be/w4EHA9xqoNw)</li>
-<li class="lessons-list__lesson lessons-list__lesson_section-end" data-mnemo="event-loop-3-timers">[Таймеры, process.nextTick, ref/unref](http://youtu.be/q7KfOnuINmo)</li>
+<li class="lessons-list__lesson" data-mnemo="event-loop-1-async"><a href="#" data-video-id="_kJeJaARUP4">Введение в асинхронную разработку</a></li>
+<li class="lessons-list__lesson" data-mnemo="event-loop-2-inside"><a href="#" data-video-id="w4EHA9xqoNw">Событийный цикл, библиотека libUV</a></li>
+<li class="lessons-list__lesson lessons-list__lesson_section-end" data-mnemo="event-loop-3-timers"><a href="#" data-video-id="q7KfOnuINmo">Таймеры, process.nextTick, ref/unref</a></li>
 
-<li class="lessons-list__lesson" data-mnemo="fs-1-fs">[Работа с файлами, модуль fs](http://www.youtube.com/watch?v=Z4MD8ocIwaE)</li>
-<li class="lessons-list__lesson lessons-list__lesson_section-end" data-mnemo="fs-2-path">[Безопасный путь к файлу в fs и path](http://www.youtube.com/watch?v=KlvJOz9GUjU)</li>
+<li class="lessons-list__lesson" data-mnemo="fs-1-fs"><a href="#" data-video-id="Z4MD8ocIwaE">Работа с файлами, модуль fs</a></li>
+<li class="lessons-list__lesson lessons-list__lesson_section-end" data-mnemo="fs-2-path"><a href="#" data-video-id="KlvJOz9GUjU">Безопасный путь к файлу в fs и path</a></li>
 
-<li class="lessons-list__lesson" data-mnemo="streams-1-readable">[Потоки данных в Node.JS, fs.ReadStream](http://youtu.be/1rbmO71wwyU)</li>
-<li class="lessons-list__lesson lessons-list__lesson_section-end" data-mnemo="streams-2-net">[Writable поток ответа res, метод pipe](http://youtu.be/_j0LoOXnOF4)</li>
+<li class="lessons-list__lesson" data-mnemo="streams-1-readable"><a href="#" data-video-id="1rbmO71wwyU">Потоки данных в Node.JS, fs.ReadStream</a></li>
+<li class="lessons-list__lesson lessons-list__lesson_section-end" data-mnemo="streams-2-net"><a href="#" data-video-id="_j0LoOXnOF4">Writable поток ответа res, метод pipe</a></li>
 
-<li class="lessons-list__lesson lessons-list__lesson_section-end" data-mnemo="long-poll-chat">[Чат через long-polling, чтение POST](http://youtu.be/R2pgKY376xI)</li>
+<li class="lessons-list__lesson lessons-list__lesson_section-end" data-mnemo="long-poll-chat"><a href="#" data-video-id="R2pgKY376xI">Чат через long-polling, чтение POST</a></li>
 
-<li class="lessons-list__lesson lessons-list__lesson_section-end" data-mnemo="domain">[Домены, "асинхронный try..catch"](http://youtu.be/AP_rA_LwYcs)</li>
+<li class="lessons-list__lesson lessons-list__lesson_section-end" data-mnemo="domain"><a href="#" data-video-id="AP_rA_LwYcs">Домены, "асинхронный try..catch"</a></li>
 
-<li class="lessons-list__lesson" data-mnemo="process-params">[Чтение параметров из командной строки и окружения](http://www.youtube.com/watch?v=FlJCRX5Y0vg)</li>
+<li class="lessons-list__lesson" data-mnemo="process-params"><a href="#" data-video-id="FlJCRX5Y0vg">Чтение параметров из командной строки и окружения</a></li>
 </ol>
 </div>
 
@@ -79,19 +79,19 @@
 <no-typography>
 <div class="lessons-list lessons-list_screencast">
 <ol class="lessons-list__lessons">
-<li class="lessons-list__lesson" data-mnemo="chat-1">[Создаём костяк сайта / Express: основы и Middleware](http://youtu.be/2Xp9yj3UIAg)</li>
-<li class="lessons-list__lesson" data-mnemo="chat-2">[Улучшаем костяк сайта / Логгер, конфигурация, шаблонка для HTML](http://youtu.be/FKBkVr7FtbA)</li>
-<li class="lessons-list__lesson" data-mnemo="chat-3">[Улучшаем шаблонизацию / EJS: layout, block, partials](http://youtu.be/SIVHont3HDY)</li>
-<li class="lessons-list__lesson" data-mnemo="chat-4">[Начинаем работать с базой / Основы MongoDB, native driver](http://youtu.be/5a1eJcJ0aNg)</li>
-<li class="lessons-list__lesson" data-mnemo="chat-5">[Создаём модель для пользователя / Основы Mongoose](http://youtu.be/E9V1zTGKRfY)</li>
-<li class="lessons-list__lesson" data-mnemo="chat-6">[Делаем скрипт для создания тестовой базы / Async, организация кода](http://youtu.be/0Wq5VIx33rw) [обновлено]</li>
-<li class="lessons-list__lesson" data-mnemo="chat-7">[Веб-сервисы, работа с ошибками / Express, Mongoose](https://www.youtube.com/watch?v=YZwAVRsa1O4)</li>
-<li class="lessons-list__lesson" data-mnemo="chat-8">[Сессии, отслеживание посетителей /Express/](http://youtu.be/X3xy6uh8rcI)</li>
-<li class="lessons-list__lesson" data-mnemo="chat-9">[Авторизация /Express, Mongoose, Async, EJS/](http://youtu.be/N5YmtAr5O3U)</li>
-<li class="lessons-list__lesson" data-mnemo="chat-10">[COMET: обзор подходов / WS.JS, Sock.JS, Socket.IO](http://youtu.be/mnROS7mKuck)</li>
-<li class="lessons-list__lesson" data-mnemo="chat-11">[Чат на Express и Socket.IO](http://youtu.be/nlA-3jIfT-Q)</li>
-<li class="lessons-list__lesson" data-mnemo="chat-12">[Опции Socket.IO и автореконнект](http://youtu.be/IgcBPjdr2fs)</li>
-<li class="lessons-list__lesson" data-mnemo="chat-13">[Socket.IO + Express + авторизация](http://youtu.be/A3TUXGI_iuM)</li>
+<li class="lessons-list__lesson" data-mnemo="chat-1"><a href="#" data-video-id="2Xp9yj3UIAg">Создаём костяк сайта / Express: основы и Middleware</a></li>
+<li class="lessons-list__lesson" data-mnemo="chat-2"><a href="#" data-video-id="FKBkVr7FtbA">Улучшаем костяк сайта / Логгер, конфигурация, шаблонка для HTML</a></li>
+<li class="lessons-list__lesson" data-mnemo="chat-3"><a href="#" data-video-id="SIVHont3HDY">Улучшаем шаблонизацию / EJS: layout, block, partials</a></li>
+<li class="lessons-list__lesson" data-mnemo="chat-4"><a href="#" data-video-id="5a1eJcJ0aNg">Начинаем работать с базой / Основы MongoDB, native driver</a></li>
+<li class="lessons-list__lesson" data-mnemo="chat-5"><a href="#" data-video-id="E9V1zTGKRfY">Создаём модель для пользователя / Основы Mongoose</a></li>
+<li class="lessons-list__lesson" data-mnemo="chat-6"><a href="#" data-video-id="0Wq5VIx33rw">Делаем скрипт для создания тестовой базы / Async, организация кода</a> [обновлено]</li>
+<li class="lessons-list__lesson" data-mnemo="chat-7"><a href="#" data-video-id="YZwAVRsa1O4">Веб-сервисы, работа с ошибками / Express, Mongoose</a></li>
+<li class="lessons-list__lesson" data-mnemo="chat-8"><a href="#" data-video-id="X3xy6uh8rcI">Сессии, отслеживание посетителей /Express/</a></li>
+<li class="lessons-list__lesson" data-mnemo="chat-9"><a href="#" data-video-id="N5YmtAr5O3U">Авторизация /Express, Mongoose, Async, EJS/</a></li>
+<li class="lessons-list__lesson" data-mnemo="chat-10"><a href="#" data-video-id="mnROS7mKuck">COMET: обзор подходов / WS.JS, Sock.JS, Socket.IO</a></li>
+<li class="lessons-list__lesson" data-mnemo="chat-11"><a href="#" data-video-id="nlA-3jIfT-Q">Чат на Express и Socket.IO</a></li>
+<li class="lessons-list__lesson" data-mnemo="chat-12"><a href="#" data-video-id="IgcBPjdr2fs">Опции Socket.IO и автореконнект</a></li>
+<li class="lessons-list__lesson" data-mnemo="chat-13"><a href="#" data-video-id="A3TUXGI_iuM">Socket.IO + Express + авторизация</a></li>
 </ol>
 </div>
 </no-typography>
@@ -101,7 +101,7 @@
 <no-typography>
 <div class="lessons-list lessons-list_screencast">
 <ol class="lessons-list__lessons">
-<li class="lessons-list__lesson" data-mnemo="mongo-install">[Установка MongoDB для Windows, пример работы](http://youtu.be/fugXo7A5sNE)</li>
+<li class="lessons-list__lesson" data-mnemo="mongo-install"><a href="#" data-video-id="fugXo7A5sNE">Установка MongoDB для Windows, пример работы</a></li>
 </ol>
 </div>
 </no-typography>

@@ -41,6 +41,12 @@ exports.get = function*() {
       this.throw(404, "Нет такой группы.");
     }
 
+    // a visitor can't reach this page through UI, only by direct link
+    // if the group is full
+    if (!group.isOpenForSignup) {
+      this.throw(403, "Запись в эту группу завершена.");
+    }
+
     if (!this.isAuthenticated()) {
       this.redirect(group.course.getUrl());
       return;

@@ -1,0 +1,95 @@
+extends /layouts/main
+
+
+block append variables
+
+  - var layout_main_class = "main_width-limit"
+  - var title = 'Онлайн-курс: настройка окружения';
+  - var sitetoolbar = true
+
+
+block content
+
+  p Эта инструкция &ndash; о том, как настроить у себя окружение для обучения.
+
+  p Прочитайте, пожалуйста, ее полностью. Настройте всё и, желательно, протестируйте на собрании.
+
+  p Это важно, чтобы вы могли сразу же полноценно принимать участие в процессе.
+
+  p Для общения используется одновременно видео, аудио и чат.
+
+
+  h2 Общение в чате
+
+  p Для общения в чате используется Jabber-клиент.
+
+  p Самые популярные клиенты:
+
+  ul
+    li Для Windows и Linux: <a href="http://pidgin.im">Pidgin</a>.
+    li Для MacOS: <a href="https://adium.im/">Adium</a>.
+
+  p Для настройки вам понадобятся:
+
+  ul
+    li Имя страницы профиля в качестве логина &ndash; <b>#{user.profileName}</b>.
+    li
+     | Пароль для входа в сайт learn.javascript.ru (не javascript.ru).
+     | Если вы всегда входили через социальную сеть &ndash; его может не быть,
+     | тогда создайте его во вкладке профиля <a href="#{user.getProfileUrl()/account}">Аккаунт</a>.
+    li Имя комнаты: <b>#{group.webinarId}</b>.
+
+  p Обратим внимание: имя пользователя и email вам не нужны. Только то, что указано выше.
+
+  p Jabber-сервер имеет следующие настройки:
+
+  ul
+    li Сервер: javascript.ru.
+    li >Сервер конференций: conference.javascript.ru (стандартный).
+
+  p В качестве ника(псевдонима) для комнаты укажите свое имя и фамилию в формате "Имя Фамилия" (учитывая регистр).
+
+  p Также есть короткое видео по установке и настройке <a href="/courses/pidgin.mp4">Pidgin</a> и <a href="/courses/adium.mp4">Adium</a> с нуля.
+
+  h2 Система для разделения экрана и общения
+
+  p.
+    Для ее использования в браузере должна быть установлена и включена java.
+    Если у вас ее нет &ndash; скачать можно здесь:
+    <a href="http://java.com/ru/download/">http://java.com/ru/download/</a>.
+
+  p Для захода в систему зайдите на <a href="http://joingotowebinar.com">http://joingotowebinar.com</a> и введите:
+
+  ul
+    li Webinar ID: #{group.webinarId}.
+    li Email: #{user.profileName}@javascript.ru.
+
+  :simpledown
+    [warn]
+    В поле Email свою почту указывать не нужно.
+
+    Ваша почта намеренно не используется в настройках из соображений приватности.
+    [/warn]
+
+  p Для запуска системы отвечайте Yes на вопросы. Если ничего не запускается &ndash; возможно, нужно нажать кнопку <b>Launch</b> или <b>Download Software</b> и запустить скачанную программу вручную.
+
+  p Когда программа поставится, при следующем заходе скачивать или запускать ее заново будет не нужно.
+
+  :simpledown
+    [warn]
+    Заход в видео возможен только в период проведения мероприятия.
+
+    При попытке зайти во "внеурочное" время видео не запустится. Это нормально.
+    [/warn]
+
+  p
+   | Заранее, для проверки, можно подключиться по адресу <a href="https://www3.gotomeeting.com/join/406552062">https://www3.gotomeeting.com/join/406552062</a>,
+   | людей там нет, но программа должна поставиться и запуститься.
+
+  p Полная инструкция по тестированию входа находится на <a href="http://support.citrixonline.com/en_US/GoToMeeting/help_files/GTM140010?title=Test+Your+GoToMeeting+Connection">http://support.citrixonline.com/en_US/GoToMeeting/help_files/GTM140010?title=Test+Your+GoToMeeting+Connection</a>.
+
+  p Практика показывает, что если у вас стоит Java и работает Skype, то и видео тоже нормально заработает.
+
+
+
+  include:simpledown ./js.md

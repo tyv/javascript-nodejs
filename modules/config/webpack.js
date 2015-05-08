@@ -176,6 +176,7 @@ if (process.env.NODE_ENV == 'production') { // production, ebook
       this.plugin('run', clear);
     },
 
+    /* jshint -W106 */
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         // don't show unreachable variables etc
@@ -187,7 +188,7 @@ if (process.env.NODE_ENV == 'production') { // production, ebook
       beautify: true,
       output:   {
         indent_level: 0 // for error reporting, to see which line actually has the problem
-        // source maps actually didn't work in QBaka that's why I put it here
+        // source maps actually didn't work in Qbaka that's why I put it here
       }
     })
   );

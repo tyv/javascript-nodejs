@@ -21,7 +21,7 @@ module.exports = function*(orderTemplate, user, requestBody) {
   }
 
   if (orderData.count > group.participantsLimit) {
-    throw new OrderCreateError("Извините, уже нет столько мест. Уменьшите количество участников до " + group.participantsLimit + '.');
+    throw new OrderCreateError("Извините, уже нет такого количества мест. Уменьшите количество участников до " + group.participantsLimit + '.');
   }
 
   orderData.contactName = String(requestBody.contactName);

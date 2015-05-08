@@ -2,6 +2,7 @@ var Modal = require('client/head/modal');
 var courseForm = require('../templates/course-form.jade');
 var clientRender = require('client/clientRender');
 var newsletter = require('newsletter/client');
+var gaHitCallback = require('gaHitCallback');
 
 exports.init = function() {
   initList();
@@ -60,6 +61,52 @@ function initList() {
       '</div>'
     );
   }
+
+  var links = document.querySelectorAll('a[data-video-id]');
+  for (var i = 0; i < links.length; i++) {
+    var link = links[i];
+    link.onclick = function(e) {
+      e.preventDefault();
+      var videoId = this.getAttribute('data-video-id');
+      window.ga('send', 'event', 'nodejs-screencast', 'open', videoId, {
+        hitCallback: gaHitCallback(function() {
+          openVideo(videoId);
+        })
+      });
+    };
+  }
 }
 
+function openVideo(videoId) {
+  // sizes from https://developers.google.com/youtube/iframe_api_reference
+  var sizeList = [
+    {width: 0, height: 0}, // mobile screens lower than any player => new window
+    {width: 640, height: 360 + 30},
+    {width: 853, height: 480 + 30},
+    {width: 1280, height: 720 + 30}
+  ];
 
+  for(var i=0; i<sizeList.length; i++) {
+    if (document.documentElement.clientHeight < sizeList[i].height ||
+      document.documentElement.clientWidth < sizeList[i].width) break;
+  }
+  i--;
+
+  var width = sizeList[i].width;
+  var height = sizeList[i].height;
+  window.ga('send', 'event', 'nodejs-screencast', 'open', videoId + '-' + width + 'x' + height, {
+    hitCallback: gaHitCallback(function() {
+
+      if (i === 0) {
+        window.location.href = '//www.youtube.com/watch?v=' + videoId;
+      } else {
+        var modal = new Modal();
+        modal.setContent(
+          `<iframe width="${width}" height="${height}" src="//www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`
+        );
+      }
+    })
+  });
+
+
+}
