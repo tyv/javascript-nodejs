@@ -29,7 +29,7 @@
                         +e('span').status._verified Участие подтверждено
 
                     else if course.status === 'need-verify'
-                        +b('button').button._action
+                        +b('a').button._action(href="/123")
                             +e('span').text Подтвердить участие
 
                     else if course.status === 'started'
