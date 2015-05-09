@@ -127,3 +127,4 @@ module.exports = {
 // we have a loop dep here
 module.exports.webpack = require('./webpack');
 require('./i18n');
+

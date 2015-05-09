@@ -3,6 +3,7 @@
 const config = require('config');
 const co = require('co');
 const app = require('app');
+const log = require('log')();
 
 co(function*() {
 
@@ -42,3 +43,9 @@ function shutdown() {
   }, dieDelay - 100);
 
 }
+
+// отслеживаем unhandled ошибки
+// https://iojs.org/api/process.html#process_event_rejectionhandled
+process.on('unhandledRejection', function(reason, p) {
+  log.error("unhandledRejection", reason);
+});
