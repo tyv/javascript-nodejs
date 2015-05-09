@@ -54,7 +54,7 @@ function* loadUserById(next) {
 
   // modification allowed to admin or user himself
   if (this.req.user) {
-    if (this.req.user._id == user._id || this.req.user.isAdmin) {
+    if (String(this.req.user._id) == String(user._id) || this.req.user.isAdmin) {
       allowed = true;
     }
   }
@@ -63,6 +63,6 @@ function* loadUserById(next) {
     this.params.user = user;
     yield* next;
   } else {
-    this.throw(403, "Not enough permissions");
+    this.throw(403, "Недостаточно прав на это действие.");
   }
 }

@@ -59,7 +59,7 @@ exports.get = function*(next) {
     var materials = yield groups[i].readMaterials();
     if (materials.length) {
       groupInfo.links.push({
-        url: `/courses/groups/${group.slug}/download`,
+        url: `/courses/groups/${group.slug}/materials`,
         title: 'Материалы для обучения'
       });
     }

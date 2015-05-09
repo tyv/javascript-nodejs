@@ -11,10 +11,14 @@ exports.get = function*() {
     this.throw(401);
   }
 
-  var participantIds = _.pluck(group.participants, 'user').map(String);
-  if (!~participantIds.indexOf(String(this.user._id))) {
+  var participantsById = _.indexBy(group.participants, 'user');
+
+  var participant = participantsById[this.user._id];
+  if (!participant) {
     this.throw(403, "Вы не являетесь участником этой группы.");
   }
 
-  this.body = this.render('groupInfo/' + group.course.slug);
+  this.body = this.render('groupMaterials', {
+    videoKey: participant.videoKey
+  });
 };

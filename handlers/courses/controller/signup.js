@@ -33,13 +33,7 @@ exports.get = function*() {
 
   } else {
 
-    group = this.locals.group = yield CourseGroup.findOne({
-      slug: this.params.group
-    }).populate('course').exec();
-
-    if (!group) {
-      this.throw(404, "Нет такой группы.");
-    }
+    var group = this.locals.group = this.groupBySlug;
 
     // a visitor can't reach this page through UI, only by direct link
     // if the group is full

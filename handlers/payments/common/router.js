@@ -1,6 +1,7 @@
 var Router = require('router');
 
 var router = module.exports = new Router();
+router.param('userById', require('users').routeUserById);
 
 var order = require('./controller/order');
 var checkout = require('./controller/checkout');

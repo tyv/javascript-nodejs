@@ -3,6 +3,7 @@
 
 const config = require('config');
 exports.User = require('./models/user');
+exports.routeUserById = require('./lib/routeUserById');
 
 var mountHandlerMiddleware = require('lib/mountHandlerMiddleware');
 
