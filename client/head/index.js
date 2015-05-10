@@ -3,8 +3,21 @@ require('styles');
 
 require('client/polyfill');
 
+try {
+  window.localStorage.testProperty = 1;
+  delete window.localStorage.testProperty;
+} catch(e) {
+  // localStorage disabled or forbidden
+  try {
+    window.localStorage = {};
+    // so that operations on it won't fail
+  } catch(e) {
+    /* can happen TypeError: Attempted to assign to readonly property. */
+  }
+}
+
 if (!window.localStorage) { // disabled
-  window.localStorage = {};
+
 }
 
 require('./unready');
