@@ -2,11 +2,20 @@ include /bem
 
 +b.photo-cut
 
-  +e('canvas').canvas
+    +e('h1').title Выберите миниатюру
 
-  +e('canvas').selection-canvas
+    +e.layout
+        +e.main
+            +e.canvas-wrapper
+                +e('canvas').canvas
+                +e('button').rotate(data-action="rotate-right")
 
-  +e('div')
-    +e('input')(type="button" value="⤵" data-action="rotate-right").rotate-right
-    +e('input')(type="button" value="⤴" data-action="rotate-left").rotate-left
-    +e('input')(type="button" value="Done" data-action="done").done
+        +e.result
+            +e('canvas').selection-canvas
+            +e('canvas').selection-canvas._small
+
+    +e.submit
+        +b('button').button._action(data-action="done")
+            +e('span').text Сохранить
+
+        +e('a').close-link.modal__close Отмена
