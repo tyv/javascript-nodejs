@@ -12,11 +12,14 @@ exports.cutPhoto = function(img, onSuccess) {
   modal.setContent(clientRender(modalTemplate));
 
   var canvas = modal.elem.querySelector('.photo-cut__canvas');
-  var selectionCanvas = modal.elem.querySelector('.photo-cut__selection-canvas');
+  canvas.focus();
+  var selectionCanvasElems = modal.elem.querySelectorAll('.photo-cut__selection-canvas');
 
   // copy size from CSS to scale correctly
-  selectionCanvas.width = selectionCanvas.offsetHeight;
-  selectionCanvas.height = selectionCanvas.offsetWidth;
+  for (var i = 0; i < selectionCanvasElems.length; i++) {
+    selectionCanvasElems[i].width = selectionCanvasElems[i].offsetWidth;
+    selectionCanvasElems[i].height = selectionCanvasElems[i].offsetHeight;
+  }
 
   var photoCut = new PhotoCut(canvas, { maxImageSize: 300 });
   photoCut.setImage(img);
@@ -29,54 +32,63 @@ exports.cutPhoto = function(img, onSuccess) {
     height: canvas.height * 0.8
   });*/
 
-  var selectionCanvasContext = selectionCanvas.getContext('2d');
-
   canvas.addEventListener("selection", function(event) {
     var selection = photoCut.getCanvasSelection();
-    selectionCanvasContext.clearRect(0, 0, selectionCanvas.width, selectionCanvas.height);
 
-    if (selection) {
-      selectionCanvasContext.drawImage(
-        selection.source,
-        selection.x, selection.y, selection.size, selection.size, // from
-        0, 0, selectionCanvas.width, selectionCanvas.height // to
-      );
+    for (var i = 0; i < selectionCanvasElems.length; i++) {
+      var elem = selectionCanvasElems[i];
+      elem.getContext('2d').clearRect(0, 0, elem.width, elem.height);
+
+      if (selection) {
+        elem.getContext('2d').drawImage(
+          selection.source,
+          selection.x, selection.y, selection.size, selection.size, // from
+          0, 0, elem.width, elem.height // to
+        );
+      }
     }
   });
 
 
   modal.elem.querySelector('[data-action="rotate-right"]').addEventListener('click', () => photoCut.rotate(1));
 
-  modal.elem.querySelector('[data-action="rotate-left"]').addEventListener('click', () => photoCut.rotate(-1));
+  modal.elem.querySelector('[data-form]').addEventListener('submit', event => {
+    event.preventDefault();
+    save();
+  });
 
-  modal.elem.querySelector('[data-action="done"]').addEventListener('click', () => {
+  canvas.addEventListener('submit', event => {
+    save();
+  });
 
+  function save() {
     var selection = photoCut.getCanvasSelection();
 
     if (!selection) return;
 
+    var finalCanvas = document.createElement('canvas');
+
     // resize canvas to the actual selection part of the image,
     // to make as large as possible resolution/size avatar
-    selectionCanvas.width = selection.size;
-    selectionCanvas.height = selection.size;
-
+    finalCanvas.width = selection.size;
+    finalCanvas.height = selection.size;
 
     // draw the selected piece on the canvas to make Blob of it
-    selectionCanvas.getContext('2d').drawImage(
+    finalCanvas.getContext('2d').drawImage(
       selection.source, selection.x, selection.y, selection.size, selection.size,
       0, 0, selection.size, selection.size
     );
 
     modal.remove();
 
-    selectionCanvas.toBlob(
-      function (blob) {
+    finalCanvas.toBlob(
+      function(blob) {
         onSuccess(blob);
       },
       'image/jpeg'
     );
 
 
-  });
+  }
 
 };

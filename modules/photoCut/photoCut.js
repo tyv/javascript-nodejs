@@ -10,6 +10,7 @@ class PhotoCut {
 
     this.canvas.onmousedown = event => this.onMouseDown(event);
     this.canvas.onmouseup = event => this.onMouseUp(event);
+    this.canvas.onkeydown = event => this.onKeyDown(event);
 
     document.addEventListener('mousemove', (event) => this.onMouseMove(event));
 
@@ -51,8 +52,54 @@ class PhotoCut {
     };
   }
 
-  onMouseDown(event) {
 
+  onKeyDown(event) {
+    if (!this.selection) return;
+
+    if (event.keyCode == 13) { // down
+      this.canvas.dispatchEvent(new CustomEvent("submit"));
+    }
+
+    if (event.keyCode == 40) { // down
+      if (this.selection.bottom < this.height) {
+        this.setSelection({
+          y: this.selection.y + 1
+        });
+      }
+      event.preventDefault();
+    }
+
+    if (event.keyCode == 38) { // up
+      if (this.selection.y > 0) {
+        this.setSelection({
+          y: this.selection.y - 1
+        });
+      }
+      event.preventDefault();
+    }
+
+    if (event.keyCode == 37) { // left
+      if (this.selection.x > 0) {
+        this.setSelection({
+          x: this.selection.x - 1
+        });
+      }
+      event.preventDefault();
+    }
+
+    if (event.keyCode == 39) { // right
+      if (this.selection.right < this.width) {
+        this.setSelection({
+          x: this.selection.x + 1
+        });
+      }
+      event.preventDefault();
+    }
+
+  }
+
+  onMouseDown(event) {
+    event.preventDefault(); // don't start selection please
     var coords = this.getEventCoordsRelativeCanvasImage(event);
 
     var position = this.findCoordsInSelection(coords);
@@ -67,12 +114,7 @@ class PhotoCut {
       };
       break;
     case 'outside':
-      this.setSelection({
-        x:      coords.x,
-        y:      coords.y,
-        width:  0,
-        height: 0
-      });
+      this.setSelection(null);
       this.state = 'selecting';
       this.selectionStartCoords = coords;
       break;
@@ -217,13 +259,19 @@ class PhotoCut {
   }
 
   setSelection(selection) {
-    // round to make all rectangles pixel-perfect
-    this.selection = selection ? new CanvasSelection({
-      x:    selection.x,
-      y:    selection.y,
-      size: selection.size
-    }) : null;
+    if (selection) {
+      selection = Object.create(selection);
+      if (this.selection) {
+        selection.x = selection.x || this.selection.x;
+        selection.y = selection.y || this.selection.y;
+        selection.size = selection.size || this.selection.size;
+      }
 
+      // round to make all rectangles pixel-perfect
+      this.selection = new CanvasSelection(selection);
+    } else {
+      this.selection = null;
+    }
     this.render();
 
     this.canvas.dispatchEvent(new CustomEvent("selection", {
@@ -276,7 +324,7 @@ class PhotoCut {
     if (!this.state) return;
     this.state = false;
 
-    if (this.selection.size < this.cornerSize) {
+    if (this.selection.size < this.cornerSize * 2 + 2) {
       // too small
       this.setSelection(null);
     }
@@ -309,15 +357,21 @@ class PhotoCut {
    * Rotate
    * @param direction +1 for +90deg, -1 for -90deg
    */
-  rotate(direction) {
-    this.rotation += direction;
+  rotate() {
+    this.rotation++;
 
     this.state = false;
     this.renderFullImageRotated();
+    this.render(); // sets this.width/height
 
-    this.setSelection(null);
+    if (this.selection) {
+      this.setSelection({
+        x: this.width - this.selection.bottom,
+        y: this.selection.x
+      });
+    }
 
-    this.render();
+    this.canvas.focus();
   }
 
 
@@ -351,10 +405,8 @@ class PhotoCut {
       this.ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
       this.ctx.fillRect(0, 0, this.width, y); // up
       this.ctx.fillRect(0, y, x, this.height - y); // left
-      this.ctx.fillRect(x + size, y,
-        this.width - (x + size), size); // right
-      this.ctx.fillRect(x, y + size,
-        this.width - x, this.height - (y + size)); // bottom
+      this.ctx.fillRect(x + size, y, this.width - (x + size), size); // right
+      this.ctx.fillRect(x, y + size, this.width - x, this.height - (y + size)); // bottom
 
       // corners
       this.renderCorner('nw');
@@ -364,7 +416,6 @@ class PhotoCut {
     }
 
     this.ctx.translate(-this.cornerSize, -this.cornerSize);
-
   }
 
   renderCorner(corner) {
@@ -404,7 +455,7 @@ class PhotoCut {
       // usual "inactive" style
       this.ctx.fillStyle = "rgba(255, 255, 255, 0.3)";
     } else {
-      if ( (this.state == 'modifying' || this.state == 'selecting') && // starting point unless moving
+      if ((this.state == 'modifying' || this.state == 'selecting') && // starting point unless moving
         this.selectionStartCoords.x >= rect.x && this.selectionStartCoords.y >= rect.y &&
         this.selectionStartCoords.x <= rect.x + rect.width && this.selectionStartCoords.y <= rect.y + rect.height
       ) {
