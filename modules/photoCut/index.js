@@ -18,7 +18,7 @@ exports.cutPhoto = function(img, onSuccess) {
   selectionCanvas.width = selectionCanvas.offsetHeight;
   selectionCanvas.height = selectionCanvas.offsetWidth;
 
-  var photoCut = new PhotoCut(canvas);
+  var photoCut = new PhotoCut(canvas, { maxImageSize: 300 });
   photoCut.setImage(img);
 
   /*
@@ -51,22 +51,23 @@ exports.cutPhoto = function(img, onSuccess) {
 
   modal.elem.querySelector('[data-action="done"]').addEventListener('click', () => {
 
-    modal.remove();
-
     var selection = photoCut.getCanvasSelection();
 
     if (!selection) return;
 
     // resize canvas to the actual selection part of the image,
     // to make as large as possible resolution/size avatar
-    selectionCanvas.width = selection.width;
-    selectionCanvas.height = selection.height;
+    selectionCanvas.width = selection.size;
+    selectionCanvas.height = selection.size;
+
 
     // draw the selected piece on the canvas to make Blob of it
     selectionCanvas.getContext('2d').drawImage(
-      selection.source, selection.x, selection.y, selection.width, selection.height,
-      0, 0, selection.width, selection.height
+      selection.source, selection.x, selection.y, selection.size, selection.size,
+      0, 0, selection.size, selection.size
     );
+
+    modal.remove();
 
     selectionCanvas.toBlob(
       function (blob) {
@@ -74,6 +75,7 @@ exports.cutPhoto = function(img, onSuccess) {
       },
       'image/jpeg'
     );
+
 
   });
 

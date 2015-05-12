@@ -49,7 +49,8 @@ exports.del = function*(next) {
 };
 
 
-var readMultipart = thunkify(function(req, done) {
+var readMultipart = thunkify(function(ctx, done) {
+  var req = ctx.req;
 
   var hadError = false;
   var fields = {};
@@ -60,11 +61,14 @@ var readMultipart = thunkify(function(req, done) {
   var form = new multiparty.Form();
 
   form.on('field', function(name, value) {
+    ctx.log.debug("Field", name, value);
     fields[name] = value;
   });
 
   // multipart file must be the last
   form.on('part', function(part) {
+    ctx.log.debug("Part", part.name, part.filename);
+
     // upload multipart to imgur, no other multipart items in the form
     if (part.name != 'photo') {
       return onError(new Error("Unexpected multipart field: " + part.name));
@@ -76,6 +80,7 @@ var readMultipart = thunkify(function(req, done) {
     }
 
     co(function*() {
+      // filename='blob' for FormData(photo, blob) where blob comes from canvas.toBlob
       return yield* imgur.uploadStream(part.filename, part.byteCount, part);
     }).then(function(result) {
       if (hadError) return;
@@ -113,7 +118,7 @@ exports.patch = function*(next) {
 
   var fields;
   try {
-    fields = yield readMultipart(this.req);
+    fields = yield readMultipart(this);
   } catch (e) {
     if (e.name == 'BadImageError') {
       this.throw(400, e.message);

@@ -3,7 +3,9 @@ const CanvasSelection = require('./canvasSelection');
 
 class PhotoCut {
 
-  constructor(canvas) {
+  constructor(canvas, {maxImageSize} = {}) {
+    this.maxImageSize = maxImageSize || 200;
+
     this.canvas = canvas;
 
     this.canvas.onmousedown = event => this.onMouseDown(event);
@@ -28,12 +30,11 @@ class PhotoCut {
 
   setImage(img) {
     // fit into document & 400px
-    var maxImageSize = Math.min(document.documentElement.clientHeight, document.documentElement.clientWidth, 300);
 
     this.img = img;
 
     // fit to canvas
-    this.scale = Math.min(maxImageSize / img.width, maxImageSize / img.height);
+    this.scale = Math.min(this.maxImageSize / img.width, this.maxImageSize / img.height);
 
     this.fullImageCanvas = document.createElement('canvas');
     this.fullImageCtx = this.fullImageCanvas.getContext('2d');
@@ -125,7 +126,6 @@ class PhotoCut {
   onMouseMove(event) {
     // coords may be anywhere in the document
 
-    console.log("HERE!!!", event.clientX);
     // recalculate relative to canvas image edge
     var coords = this.getEventCoordsRelativeCanvasImage(event);
 
@@ -135,9 +135,6 @@ class PhotoCut {
     if (coords.y < 0) coords.y = 0;
     if (coords.y > this.height) coords.y = this.height;
 
-    console.log(coords);
-
-    console.log(this.state);
     switch (this.state) {
     case false:
       this.showCursorAtCoords(coords);
@@ -176,8 +173,6 @@ class PhotoCut {
         coords.x > center.x && coords.y < center.y ? 'ne' :
           'se';
 
-    console.log(direction);
-
     switch (direction) {
     case 'nw':
       this.selectionStartCoords = {
@@ -209,7 +204,6 @@ class PhotoCut {
   }
 
   moveSelection(coords) {
-    // console.log("moveSelection");
     var x = Math.min(coords.x - this.mouseDownShift.x, this.width - this.selection.size);
     var y = Math.min(coords.y - this.mouseDownShift.y, this.height - this.selection.size);
     if (x < 0) x = 0;
@@ -279,7 +273,6 @@ class PhotoCut {
   }
 
   onMouseUp(event) {
-    //console.log(event.type, event.clientX, event.clientY);
     if (!this.state) return;
     this.state = false;
 

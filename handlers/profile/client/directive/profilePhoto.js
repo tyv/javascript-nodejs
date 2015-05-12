@@ -22,7 +22,7 @@ angular.module('profile')
           fileInput.accept = "image/*";
 
           fileInput.onchange = function() {
-
+            fileInput.remove();
             var reader = new FileReader();
             var file = fileInput.files[0];
 
@@ -36,7 +36,6 @@ angular.module('profile')
                   uploadPhoto(file);
                 } else {
                   cutPhoto(image, function(blob) {
-                    // TODO: server-side
                     // @see http://stackoverflow.com/questions/13198131/how-to-save-a-html5-canvas-as-image-on-a-server
                     // @see http://stackoverflow.com/questions/12391628/how-can-i-upload-an-embedded-image-with-javascript
                     uploadPhoto(blob);
@@ -48,7 +47,12 @@ angular.module('profile')
             reader.readAsDataURL(file);
 
           };
+
+          // must be in body for IE
+          fileInput.hidden = true;
+          document.body.appendChild(fileInput);
           fileInput.click();
+
         };
 
         function uploadPhoto(file) {

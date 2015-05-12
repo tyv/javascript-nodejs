@@ -4,7 +4,9 @@ var ctrlOrAlt = ~navigator.userAgent.toLowerCase().indexOf("mac os x") ? 'ctrl' 
 
 function onKeyDown(event) {
   // don't react on Ctrl-> <- if in text
-  if (~['INPUT', 'TEXTAREA', 'SELECT'].indexOf(document.activeElement.tagName)) return;
+  if (document.activeElement) {
+    if (~['INPUT', 'TEXTAREA', 'SELECT'].indexOf(document.activeElement.tagName)) return;
+  }
 
   if (!event[ctrlOrAlt + 'Key']) return;
 

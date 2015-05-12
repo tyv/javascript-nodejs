@@ -29,7 +29,6 @@ exports.transload = function*(url) {
   }
 
   return response.data;
-
 };
 
 exports.uploadBuffer = function*(fileName, buffer) {
@@ -55,6 +54,9 @@ custom_file: {
  */
 exports.uploadStream = function*(fileName, knownLength, stream) {
 
+  if (!knownLength) {
+    throw new BadImageError("Пустое изображение.");
+  }
   var mimeType = mime.lookup(fileName);
 
   var response = yield* imgurRequest('image', {

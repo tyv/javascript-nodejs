@@ -29,7 +29,9 @@ function onClick(event) {
 
 function onKeyDown(event) {
   // don't react on Ctrl-> <- if in text
-  if (~['INPUT', 'TEXTAREA', 'SELECT'].indexOf(document.activeElement.tagName)) return;
+  if (document.activeElement) {
+    if (~['INPUT', 'TEXTAREA', 'SELECT'].indexOf(document.activeElement.tagName)) return;
+  }
 
   if (event.keyCode != "S".charCodeAt(0)) return;
 
