@@ -9,6 +9,7 @@
   },
   "precommit": "NODE_ENV=development node `which gulp` pre-commit",
   "//": "EJS 2.0 breaks include in nginx configs, so EJS 1.x is used",
+  "//": "blueimp-canvas-to-blob is taken from a fork w/ browserify support",
   "dependencies": {
     "MD5": "*",
     "angular": "*",
@@ -23,6 +24,7 @@
     "babel-core": "*",
     "babel-loader": "*",
     "bluebird": "*",
+    "blueimp-canvas-to-blob": "git://github.com/hugomrdias/JavaScript-Canvas-to-Blob",
     "browser-pack": "*",
     "bunyan": "*",
     "co": "*",

@@ -1,10 +1,10 @@
 var notification = require('client/notification');
 var angular = require('angular');
 var thumb = require('client/image').thumb;
-
+var cutPhoto = require('photoCut').cutPhoto;
 
 angular.module('profile')
-  .directive('profilePhoto', function(promiseTracker, $http, $timeout) {
+  .directive('profilePhoto', function(promiseTracker, $http) {
     return {
       templateUrl: '/profile/templates/partials/profilePhoto',
       scope: {
@@ -29,10 +29,18 @@ angular.module('profile')
             reader.onload = function(event) {
               var image = new Image();
               image.onload = function() {
-                if (image.width != image.height || image.width < 160) {
-                  new notification.Error("Изображение должно быть квадратом, размер 160x160 или больше");
-                } else {
+
+                if (image.height < 160 || image.width < 160) {
+                  new notification.Error("Изображение должно иметь размер 160x160 или больше");
+                } else if (image.width == image.height) {
                   uploadPhoto(file);
+                } else {
+                  cutPhoto(image, function(blob) {
+                    // TODO: server-side
+                    // @see http://stackoverflow.com/questions/13198131/how-to-save-a-html5-canvas-as-image-on-a-server
+                    // @see http://stackoverflow.com/questions/12391628/how-can-i-upload-an-embedded-image-with-javascript
+                    uploadPhoto(blob);
+                  });
                 }
               };
               image.src = event.target.result;
@@ -42,7 +50,6 @@ angular.module('profile')
           };
           fileInput.click();
         };
-
 
         function uploadPhoto(file) {
 

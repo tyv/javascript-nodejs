@@ -65,6 +65,11 @@ var readMultipart = thunkify(function(req, done) {
 
   // multipart file must be the last
   form.on('part', function(part) {
+    // upload multipart to imgur, no other multipart items in the form
+    if (part.name != 'photo') {
+      return onError(new Error("Unexpected multipart field: " + part.name));
+    }
+
     waitStreamsCount++;
     if (!part.filename) {
       return onError(new Error("No filename for form part " + part.name));
@@ -122,6 +127,8 @@ exports.patch = function*(next) {
       user[field] = fields[field];
     }
   });
+
+
 
   if (fields.email !== undefined && fields.email != user.email) {
 

@@ -1,0 +1,12 @@
+include /bem
+
++b.photo-cut
+
+  +e('canvas').canvas
+
+  +e('canvas').selection-canvas
+
+  +e('div')
+    +e('input')(type="button" value="⤵" data-action="rotate-right").rotate-right
+    +e('input')(type="button" value="⤴" data-action="rotate-left").rotate-left
+    +e('input')(type="button" value="Done" data-action="done").done
