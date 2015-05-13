@@ -6,6 +6,11 @@ exports.init = function(app) {
     var context = clsNamespace.createContext();
     clsNamespace.enter(context);
 
+    // some modules like accessLogger await for this.res.on('finish'/'close'),
+    // so let's bind these emitters to keep CLS context in handlers
+    clsNamespace.bindEmitter(this.req);
+    clsNamespace.bindEmitter(this.res);
+
     try {
       clsNamespace.set('context', this);
       yield* next;
