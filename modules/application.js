@@ -10,10 +10,11 @@
  * @type {Application}
  */
 
+
 const KoaApplication = require('koa');
 const inherits = require('inherits');
 
-const log = require('log')('app', {bufferLowLevel: true});
+const log = require('log')();
 
 
 module.exports = Application;
@@ -55,7 +56,7 @@ Application.prototype.waitBootAndListen = function*(host, port) {
     this.server = this.listen(port, host, callback);
   }.bind(this);
 
-  this.log.info('App listening %s:%d', host, port);
+  this.log.info('Server is listening %s:%d', host, port);
 };
 
 Application.prototype.close = function*() {

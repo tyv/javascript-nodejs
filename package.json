@@ -8,7 +8,6 @@
     "test": "SELENIUM_LOCAL=1 NODE_ENV=test gulp test --harmony_classes | bunyan"
   },
   "precommit": "NODE_ENV=development node `which gulp` pre-commit",
-  "//": "EJS 2.0 breaks include in nginx configs, so EJS 1.x is used",
   "//": "blueimp-canvas-to-blob is taken from a fork w/ browserify support",
   "dependencies": {
     "MD5": "*",
@@ -28,6 +27,7 @@
     "browser-pack": "*",
     "bunyan": "*",
     "co": "*",
+    "continuation-local-storage": "^3.1.4",
     "css-loader": "*",
     "csv-parse": "*",
     "del": "*",
@@ -103,6 +103,7 @@
     "sanitize-html": "*",
     "send": "*",
     "sha256": "*",
+    "shimmer": "^1.0.0",
     "style-loader": "*",
     "styliner": "*",
     "stylus": "*",

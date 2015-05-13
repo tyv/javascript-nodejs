@@ -1,5 +1,16 @@
 const mongoose = require('lib/mongoose');
 
+const shimmer = require('shimmer');
+const clsNamespace = require('continuation-local-storage').getNamespace('app');
+
+shimmer.wrap(mongoose.Mongoose.prototype.mquery.prototype, '_wrapCallback', function (original) {
+  return function(method, callback, queryInfo) {
+    callback = clsNamespace.bind(callback);
+    return original.call(this, method, callback, queryInfo);
+  };
+});
+
+
 exports.boot = function*() {
 
   if (process.env.NODE_ENV == 'production') {
@@ -8,7 +19,7 @@ exports.boot = function*() {
     };
   }
 
-  /* in ebook no elasticsearch
+  /* in ebook no elasticsearch, so I don't boot it here
    var elastic = elasticClient();
    yield elastic.ping({
    requestTimeout: 1000

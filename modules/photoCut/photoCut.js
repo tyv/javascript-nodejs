@@ -362,15 +362,17 @@ class PhotoCut {
 
     this.state = false;
     this.renderFullImageRotated();
-    this.render(); // sets this.width/height
+    this.render(); // sets this.width/height props (need below)
 
     if (this.selection) {
+      // translate selection to new coords
       this.setSelection({
         x: this.width - this.selection.bottom,
         y: this.selection.x
       });
     }
 
+    // after resetting width/height - refocus
     this.canvas.focus();
   }
 

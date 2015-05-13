@@ -9,7 +9,7 @@ co(function*() {
 
   yield* app.waitBootAndListen(config.server.host, config.server.port);
 
-  log.info("app is listening");
+  log.info("App is listening");
 
 }).catch(function(err) {
   throw err;
@@ -27,11 +27,12 @@ function shutdown() {
   // Have to close all database/socket.io/* connections
 
   co(function*() {
-    log.info("closing the app...");
+    log.info("Closing the app...");
     yield* app.close();
-    log.info("app closed");
+    // messages below not in logs due to PM2 bug
+    log.info("App closed");
   }).then(function() {
-    log.info("exiting");
+    log.info("Exiting");
     process.exit(0);
   }, function(err) {
     log.error(err);

@@ -1,9 +1,13 @@
 //require("time-require");
 
-const config = require('config');
 const fs = require('fs');
+const config = require('config');
+
+const clsNamespace = require("continuation-local-storage").createNamespace("app");
+
 const Application = require('application');
 const app = new Application();
+
 
 if (process.env.NODE_ENV != 'development') {
 
@@ -31,6 +35,7 @@ if (process.env.NODE_ENV != 'development') {
 app.proxy = true;
 
 // ========= Helper handlers ===========
+app.requireHandler('cls');
 
 app.requireHandler('mongooseHandler');
 

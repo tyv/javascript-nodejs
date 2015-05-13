@@ -8,6 +8,24 @@ var errSerializer = require('./errSerializer');
 var httpErrorSerializer = require('./httpErrorSerializer');
 var path = require('path');
 
+const clsNamespace = require('continuation-local-storage').getNamespace('app');
+
+var emit = bunyan.prototype._emit;
+bunyan.prototype._emit = function(rec, noemit) {
+  var clsContext = clsNamespace.get('context');
+  if (clsContext) {
+    if (!rec.requestId) {
+      rec.requestId = clsContext.requestId;
+    } else {
+      if (rec.requestId != clsContext.requestId) {
+        console.error("CLS returned wrong context? requestId of record must match current context.");
+      }
+    }
+  }
+  return emit.call(this, rec, noemit);
+};
+
+
 // log.debug({req: ...})
 // exported => new serializers can be added by other modules
 var serializers = exports.serializers = {
@@ -18,11 +36,10 @@ var serializers = exports.serializers = {
   httpError:      httpErrorSerializer
 };
 
-// if no name, then name is a parent module filename (or it's directory if index)
-// options.bufferLowLevel enables ring buffer for <= warn records
-module.exports = function(name, options) {
-  options = options || {};
+var streams = require('./streams');
 
+// if no name, then name is a parent module filename (or it's directory if index)
+module.exports = function(name) {
   if (!name) {
     name = path.basename(module.parent.filename, '.js');
     if (name == 'index') {
@@ -30,68 +47,13 @@ module.exports = function(name, options) {
     }
   }
 
-  var streams;
-
-  if (process.env.LOG_LEVEL) {
-    streams = [
-      {
-        level:  process.env.LOG_LEVEL,
-        stream: process.stdout
-      }
-    ];
-  } else {
-
-    switch (process.env.NODE_ENV) {
-    case 'development':
-      streams = [
-        {
-          level:  'debug',
-          stream: process.stdout
-        }
-      ];
-      break;
-    case 'test':
-      streams = [/* don't log anything, set LOG_ENV if want to see errors */];
-      break;
-    case 'ebook':
-    case 'production':
-      // normally I see only info, but look in error in case of problems
-      streams = [
-        {
-          level:  'info',
-          stream: process.stdout
-        },
-        {
-          level:  'info',
-          stream: process.stderr
-        }
-      ];
-
-      var RequestCaptureStream = require('requestCaptureStream');
-
-      // gather all data for req_id, but log only if warn happens
-      // ...and dump to stderr (in addition to
-      if (options.bufferLowLevel) {
-        streams.push({
-          level:  'debug',
-          type:   'raw',
-          stream: new RequestCaptureStream({
-            maxRecords:    150,
-            maxRequestIds: 2000,
-            dumpDefault:   true, // if error happens also dump all records, not bound to a request
-            // default records dumped AFTER request
-            stream:        process.stderr
-          })
-        });
-      }
-    }
-  }
-
-  return bunyan.createLogger({
+  var logger = bunyan.createLogger({
     name:        name,
     streams:     streams,
     serializers: serializers
   });
+
+  return logger;
 };
 
 
