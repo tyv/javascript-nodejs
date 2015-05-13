@@ -4,7 +4,6 @@ const Task = require('../models/task');
 const _ = require('lodash');
 const ArticleRenderer = require('../renderer/articleRenderer');
 const CacheEntry = require('cache').CacheEntry;
-const f = require('./f');
 
 exports.get = function *get(next) {
 
@@ -16,6 +15,7 @@ exports.get = function *get(next) {
     key:  'tutorial:frontpage',
     tags: ['article']
   }, renderTutorial);
+
 
   var locals = {
     chapters: tutorial
