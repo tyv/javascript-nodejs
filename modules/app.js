@@ -3,7 +3,7 @@
 const fs = require('fs');
 const config = require('config');
 
-const clsNamespace = require("continuation-local-storage").createNamespace("app");
+require('cls'); // init CLS namespace once, handler used below
 
 const Application = require('application');
 const app = new Application();

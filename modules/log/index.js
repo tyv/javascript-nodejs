@@ -8,19 +8,27 @@ var errSerializer = require('./errSerializer');
 var httpErrorSerializer = require('./httpErrorSerializer');
 var path = require('path');
 
-const clsNamespace = require('continuation-local-storage').getNamespace('app');
+const CLS = require('continuation-local-storage');
 
 var emit = bunyan.prototype._emit;
 bunyan.prototype._emit = function(rec, noemit) {
-  var clsContext = clsNamespace.get('context');
-  if (clsContext) {
-    if (!rec.requestId) {
-      rec.requestId = clsContext.requestId;
-    } else {
-      if (rec.requestId != clsContext.requestId) {
-        console.error("CLS returned wrong context? requestId of record must match current context.");
+  // get it runtime, so that it may be require'd later than this module
+  const clsNamespace = CLS.getNamespace('app');
+
+  if (clsNamespace) {
+    var clsContext = clsNamespace.get('context');
+
+    if (clsContext) {
+      if (!rec.requestId) {
+        rec.requestId = clsContext.requestId;
+      } else {
+        if (rec.requestId != clsContext.requestId) {
+          console.error("LOG: CLS returned wrong context? requestId of record must match current context.");
+        }
       }
     }
+  } else {
+    console.error("LOG: no CLS namespace");
   }
   return emit.call(this, rec, noemit);
 };
