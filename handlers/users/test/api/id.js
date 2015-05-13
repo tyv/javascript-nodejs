@@ -57,10 +57,10 @@ describe('Authorization', function() {
         .field('displayName', '')
         .field('email', Math.random() + "@mail.com")
         .field('gender', 'invalid')
+        .expect(400)
         .end(function(err, res) {
           //console.log(res.body);
           if (err) return done(err);
-          res.body.statusCode.should.equal(400);
           res.body.message.should.exist;
           done();
         });
@@ -76,11 +76,11 @@ describe('Authorization', function() {
         .field('displayName', "Such mail belongs to another user")
         .field('email', "tester@mail.com")
         .field('gender', "male")
+        .expect(409)
         .end(function(err, res) {
 
           if (err) return done(err);
 
-          res.status.should.eql(409);
           should(res.body.errors).not.exist;
           res.body.message.should.exist;
           done();

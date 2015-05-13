@@ -113,9 +113,9 @@ describe('Authorization', function() {
         .post('/auth/register')
         .send(userData)
         .set('Accept', 'application/json')
+        .expect(400)
         .end(function(err, res) {
           if (err) return done(err);
-          res.status.should.be.eql(400);
           res.body.errors.email.should.exist;
           done();
         });

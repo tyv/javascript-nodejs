@@ -11,7 +11,7 @@ var path = require('path');
 const CLS = require('continuation-local-storage');
 
 var emit = bunyan.prototype._emit;
-bunyan.prototype._emit = function(rec, noemit) {
+bunyan.prototype._emit = function addReqIdToEveryRecord(rec, noemit) {
   // get it runtime, so that it may be require'd later than this module
   const clsNamespace = CLS.getNamespace('app');
 
@@ -23,7 +23,7 @@ bunyan.prototype._emit = function(rec, noemit) {
         rec.requestId = clsContext.requestId;
       } else {
         if (rec.requestId != clsContext.requestId) {
-          console.error("LOG: CLS returned wrong context? requestId of record must match current context.");
+          console.error(`LOG: CLS returned wrong context? (${rec.requestId}) != (${clsContext.requestId}).`, rec);
         }
       }
     }
