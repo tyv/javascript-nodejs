@@ -20,15 +20,14 @@ module.exports = function(err) {
  * Based on `dumpException` in
  * https://github.com/davepacheco/node-extsprintf/blob/master/lib/extsprintf.js
  */
-function getFullErrorStack(ex)
-{
+function getFullErrorStack(ex) {
   var ret = ex.stack || ex.toString();
-  if (ex.cause && typeof (ex.cause) === 'function') {
-    var cex = ex.cause();
+  if (ex.cause) {
+    var cex = typeof (ex.cause) === 'function' ? ex.cause() : ex.cause;
     if (cex) {
       ret += '\nCaused by: ' + getFullErrorStack(cex);
     }
   }
-  return (ret);
+  return ret;
 }
 

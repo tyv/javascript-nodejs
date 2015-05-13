@@ -46,9 +46,15 @@ function shutdown() {
 
 }
 
+new Promise(function(resolve, reject) {
+  setTimeout(function() {
+    reject(new Error("Ouch"));
+  }, 1000);
+});
+
 // отслеживаем unhandled ошибки
 // https://iojs.org/api/process.html#process_event_rejectionhandled
 process.on('unhandledRejection', function(reason, p) {
   var report = reason instanceof Error ? { err: reason } : reason;
-  log.error("unhandledRejection", report);
+  log.error(report, "unhandledRejection");
 });

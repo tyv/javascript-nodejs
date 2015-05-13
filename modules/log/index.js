@@ -13,9 +13,9 @@ var path = require('path');
 var serializers = exports.serializers = {
   requestVerbose: requestVerboseSerializer,
   request:        requestSerializer,
-  res:        resSerializer,
-  err:        errSerializer,
-  httpError:  httpErrorSerializer
+  res:            resSerializer,
+  err:            errSerializer,
+  httpError:      httpErrorSerializer
 };
 
 // if no name, then name is a parent module filename (or it's directory if index)
