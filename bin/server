@@ -46,15 +46,22 @@ function shutdown() {
 
 }
 
-new Promise(function(resolve, reject) {
-  setTimeout(function() {
-    reject(new Error("Ouch"));
-  }, 1000);
-});
-
 // отслеживаем unhandled ошибки
 // https://iojs.org/api/process.html#process_event_rejectionhandled
+var unhandledRejections = [];
 process.on('unhandledRejection', function(reason, p) {
-  var report = reason instanceof Error ? { err: reason } : reason;
+  p.trackRejectionId = Math.random();
+  var report = {
+    err: reason,
+    trackRejectionId: p.trackRejectionId
+  };
+
   log.error(report, "unhandledRejection");
+  unhandledRejections.push(p);
+});
+
+process.on('rejectionHandled', function(p) {
+  var index = unhandledRejections.indexOf(p);
+  unhandledRejections.splice(index, 1);
+  log.error({ trackRejectionId: p.trackRejectionId }, "rejectionHandled");
 });
