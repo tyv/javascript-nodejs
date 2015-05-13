@@ -1,22 +1,44 @@
 - var testimonials = [];
-- testimonials.push({ userpic: '//img.png', name: 'Бендер Константинопольский', role: 'Выпускник курсов', text: 'При облучении инфракрасным лазером кондуктометрия захватывает сернистый газ, даже если нанотрубки меняют свою межплоскостную ориентацию. Изомерия, как следует из совокупности экспериментальных наблюдений, едко активирует окисленный серный эфир' })
-- testimonials.push({ userpic: '//img.png', name: 'Иван  Пупкин', role: 'Выпускник курсов', text: 'Чо норм курсы' })
-- testimonials.push({ userpic: '//img.png', name: 'Пьер  Безухов', role: 'Мимио шел', text: 'Продукт реакции разъедает жидкофазный раствор. Упаривание активирует серный эфир' })
+- testimonials.push({ userpic: '/img/userpic/userpic.svg', profile: '/123', rating: '5', location: { country: 'ru', text: 'Россия, Москва' }, name: 'Бендер Константинопольский', text: 'При облучении инфракрасным лазером кондуктометрия захватывает сернистый газ, даже если нанотрубки меняют свою межплоскостную ориентацию. Изомерия, как следует из совокупности экспериментальных наблюдений', text2: 'редко активирует окисленный серный эфир' })
+- testimonials.push({ userpic: '/img/userpic/userpic.svg', profile: '/123', rating: '4', location: { country: 'ua', text: 'Украина, Киев' }, name: 'Иван  Пупкин', text: 'Чо норм курсы' })
+- testimonials.push({ userpic: '/img/userpic/userpic.svg', profile: '/123', rating: '3', location: { country: 'ru', text: 'Россия, Усть-Каменогороск'}, name: 'Пьер  Безухов', text: 'Продукт реакции разъедает жидкофазный раствор. Упаривание активирует серный эфир' })
 
-+b.courses-testimonials
++b.courses-testimonials.courses-mix
     +e('h2').title Что говорят о курсах люди
 
-    +e('i').arr._left
-    +e('i').arr._right
-    +e.body
+    +e.wrapper
+        +e('i').arr._prev
+        +e('i').arr._next
+        +e('a').all(href="/123") Все отзывы
 
-        +e('ul').testimonials
-            for testimonial in testimonials
-                +e('li').testimonial
-                    +e.user
-                        +e.userpic
-                            +e('img').userpic-img(src=testimonial.userpic)
-                        +e.username !{ testimonial.name }
-                        +e.role !{ testimonial.role }
-                    +e('p').testimonial-text !{ testimonial.text }
+        +e.body
+            +e('ul').testimonials
+                for testimonial, index in testimonials
+                    +e('li').testimonial
+                        +e.main
+                            +b.rating._4
+                                for raiting in [1,2,3,4,5]
+                                    +e('i').star ★
 
+                            +e('p').testimonial-text !{ testimonial.text }
+                                if testimonial.text2
+                                    =' '
+                                    +e('span').cut &hellip;
+                                    +e('span').cuted !{ testimonial.text2 }
+                        +e.user
+                            +e.userpic
+                                +e('img').userpic-img(src=testimonial.userpic)
+                            +e.username
+                                +e('a').username-link(href="/123") !{ testimonial.name }
+                            +e.country
+                                +e('img').country-flag(src='/img/flags/' + testimonial.location.country + '.svg')
+                                +e('span').country-text !{ testimonial.location.text }
+
+script.
+
+    var cut = document.querySelector('.courses-testimonials__cut');
+
+    cut.addEventListener('click', function() {
+        cut.style.display = 'none';
+        cut.nextSibling.style.display = 'inline'
+    });
