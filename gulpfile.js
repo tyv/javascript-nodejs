@@ -9,10 +9,9 @@ const fs = require('fs');
 const assert = require('assert');
 const runSequence = require('run-sequence');
 
-require('cls'); // init CLS namespace once
-
 const linkModules = require('./modules/linkModules');
 
+require('cls'); // init CLS namespace once
 
 linkModules({
   src: ['client', 'styles', 'modules/*', 'handlers/*', 'extra/handlers/*']
