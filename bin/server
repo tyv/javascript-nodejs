@@ -50,18 +50,23 @@ function shutdown() {
 // https://iojs.org/api/process.html#process_event_rejectionhandled
 var unhandledRejections = [];
 process.on('unhandledRejection', function(reason, p) {
+  unhandledRejections.push(p);
   p.trackRejectionId = Math.random();
   var report = {
     err: reason,
-    trackRejectionId: p.trackRejectionId
+    trackRejectionId: p.trackRejectionId,
+    length: unhandledRejections.length
   };
 
   log.error(report, "unhandledRejection");
-  unhandledRejections.push(p);
 });
 
+// если вдруг есть catch, но позже - скажем и об этом, с указанием промиса /trackRejectionId/
 process.on('rejectionHandled', function(p) {
   var index = unhandledRejections.indexOf(p);
   unhandledRejections.splice(index, 1);
-  log.error({ trackRejectionId: p.trackRejectionId }, "rejectionHandled");
+  log.error({
+    trackRejectionId: p.trackRejectionId,
+    length: unhandledRejections.length
+  }, "rejectionHandled");
 });
