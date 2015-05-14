@@ -1,6 +1,9 @@
 // adapted koa-logger for bunyan
-var Counter = require('passthrough-counter');
+const Counter = require('passthrough-counter');
+const clsNamespace = require("continuation-local-storage").getNamespace("app");
 
+// binds onfinish to current context
+// bindEmitter didn't work here
 exports.init = function(app) {
   app.use(function *logger(next) {
     // request
@@ -31,8 +34,8 @@ exports.init = function(app) {
     var onfinish = done.bind(null, 'finish');
     var onclose = done.bind(null, 'close');
 
-    res.once('finish', onfinish);
-    res.once('close', onclose);
+    res.once('finish', clsNamespace.bind(onfinish));
+    res.once('close', clsNamespace.bind(onclose));
 
     function done(event) {
       res.removeListener('finish', onfinish);
