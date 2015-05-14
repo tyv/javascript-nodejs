@@ -1,5 +1,11 @@
 const clsNamespace = require("continuation-local-storage").createNamespace("app");
 
+// Must teach bluebird work with CLS
+// mz/fs uses bluebird by default if installed
+// something else installs bluebird
+// if I don't teach bluebird here, it won't keep CLS context, then yield fs.stat will spoil context
+require('cls-bluebird')(clsNamespace);
+
 exports.init = function(app) {
 
   app.use(function*(next) {

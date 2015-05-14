@@ -3,10 +3,10 @@ const mongoose = require('lib/mongoose');
 const shimmer = require('shimmer');
 const clsNamespace = require('continuation-local-storage').getNamespace('app');
 
-shimmer.wrap(mongoose.Mongoose.prototype.mquery.prototype, '_wrapCallback', function (original) {
-  return function(method, callback, queryInfo) {
+shimmer.wrap(mongoose.Mongoose.prototype.Promise.prototype, 'on', function (original) {
+  return function(event, callback) {
     callback = clsNamespace.bind(callback);
-    return original.call(this, method, callback, queryInfo);
+    return original.call(this, event, callback);
   };
 });
 
