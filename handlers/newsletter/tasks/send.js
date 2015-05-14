@@ -10,7 +10,7 @@ const mailer = require('mailer');
 const Letter = require('mailer').Letter;
 const config = require('config');
 
-
+// Sends all newsletter letters
 module.exports = function(options) {
 
   return function() {

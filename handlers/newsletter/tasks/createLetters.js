@@ -16,11 +16,13 @@ module.exports = function(options) {
 
     var args = require('yargs')
       .usage("Slug is required.")
+      // gulp newsletter:createLetters --slug js-1405 --templatePath ./js-1405.jade --subject 'Курс JavaScript: напоминание о собрании' --test iliakan@gmail.com --nounsubscribe
       .example("gulp newsletter:createLetters --slug nodejs --templatePath ./mail.jade --subject 'Тема письма'")
       .describe('slug', 'Названия рассылок NewsLetter через запятую')
       .describe('templatePath', 'Шаблон для рассылки')
       .describe('subject', 'Тема письма')
       .describe('test', 'Email, на который выслать тестовое письмо.')
+      .describe('nounsubscribe', 'Без ссылки на отписку.')
       .demand(['slug', 'templatePath', 'subject'])
       .argv;
 
@@ -62,7 +64,7 @@ module.exports = function(options) {
         subscriptions = [
           new Subscription({
             email: args.test,
-            accessKey: 'notexists',
+            accessKey: 'test',
             newsletters: newsletters.map(function(n) { return n._id; })
           })
         ];
@@ -72,7 +74,9 @@ module.exports = function(options) {
 
       for (var i = 0; i < subscriptions.length; i++) {
         var subscription = subscriptions[i];
-        var unsubscribeUrl = (config.server.siteHost || 'http://javascript.in') + '/newsletter/subscriptions/' + subscription.accessKey;
+        var unsubscribeUrl = args.nounsubscribe ? null :
+          (config.server.siteHost || 'http://javascript.in') + '/newsletter/subscriptions/' + subscription.accessKey;
+
 
         var listSlug = '';
         for (var j = 0; j < subscription.newsletters.length; j++) {
