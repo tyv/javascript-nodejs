@@ -70,24 +70,19 @@
         color secondary_color
         background #eee
 
-    @media (max-width: 690px)
+    @media phone
         & ul&__tabs
-            flex-direction column
+            display none
 
-            margin 0 -10px
-
-            border-radius initial
-
-        & li&__tab
-            font-family font
-            font-size 14px
+        .main & h2&__title
+            font normal 14px font
             line-height initial
 
+            margin 0 -20px
             padding 10px 20px
 
             text-align left
 
-            color #3B86C4
             border-bottom 2px solid #F3F2F1
             background #FBFAFA !important
 
@@ -95,8 +90,9 @@
             border-top 2px solid #F3F2F1
 
         &__body
+            display block !important
 
-            padding 10px 20px
+            padding 0 20px
             margin 0 -10px
 
             text-align left
