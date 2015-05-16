@@ -76,7 +76,7 @@ exports.get = function*() {
 
 
   this.locals.formatGroupDate = function(date) {
-    return moment(date).format('D MMM YY').replace(/[а-я]/, function(letter) {
+    return moment(date).format('D MMM YYYY').replace(/[а-я]/, function(letter) {
       return letter.toUpperCase();
     });
   };

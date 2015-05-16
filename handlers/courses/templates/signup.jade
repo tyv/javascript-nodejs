@@ -11,7 +11,8 @@ block content
 
   script var groupInfo = !{JSON.stringify(groupInfo)};
   script var rateUsdRub = #{rateUsdRub};
-  script var orderNumber = #{order ? order.number : null};
+  - console.log(order);
+  script var orderNumber = #{order ? order.number : 'null'};
 
   - var step = !order ? '1' : (order.status != 'success' && order.status != 'pending' || changePaymentRequested) ? '3' : '4';
   +b(data-elem="signup" class=['courses-register', '_step_' + step])

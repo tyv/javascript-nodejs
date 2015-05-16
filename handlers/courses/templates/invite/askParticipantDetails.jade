@@ -12,8 +12,6 @@ block content
     +b.notification._message._info
       +e.content Вы вошли на сайт под пользователем #{user.displayName}
 
-  p Укажите ФИО для участия в курсе
-
   +b.login-form.complex-form.complex-form_step_4
     +e.step.complex-form__step.complex-form__step_current
       +e('form').form(method="POST" action="/courses/invite")
@@ -21,16 +19,22 @@ block content
         input(type="hidden" name="inviteToken" value=invite.token)
 
         +e.line
-          +e('label').label(for="invite-email") Email:
-          +b('span').text-input.__input
-            +e('input').control#invite-email(name="email" type="email" value=invite.email disabled)
+          +e('label').label(for="invite-firstName") Имя*
+          +b('span')(class=["text-input", "__input", errors.firstName ? '_invalid' : ''])
+            +e('input').control#invite-firstName(name="firstName" type="text" value=form.firstName required autofocus)
+            if errors.firstName
+              +e.err= errors.firstName
 
         +e.line
-          +e('label').label(for="invite-courseName") ФИО (только для курса, на сайте не отображается)
-          +b('span')(class=["text-input", "__input", errors.courseName ? '_invalid' : '' ])
-            +e('input').control#invite-courseName(type="text", name="courseName" required value=form.courseName placeholder="Пушкин Александр Сергеевич" autofocus)
-            if errors.courseName
-              +e.err= errors.courseName
+          +e('label').label(for="invite-surname") Фамилия*
+          +b('span')(class=["text-input", "__input", errors.surname ? '_invalid' : '' ])
+            +e('input').control#invite-surname(type="text", name="surname" required value=form.surname)
+            if errors.surname
+              +e.err= errors.surname
+
+        if !user.photo
+          img(src=user.getPhotoUrl(64,64) width=64 height=64)
+          a(href='#') Загрузить новое фото
 
         +e.line.__footer
           +b('button').button._action(type="submit")

@@ -32,6 +32,7 @@ Modal.prototype.render = function() {
 Modal.prototype.onClick = function(event) {
   if (event.target.classList.contains('modal__close')) {
     this.remove();
+    event.preventDefault();
   }
 };
 

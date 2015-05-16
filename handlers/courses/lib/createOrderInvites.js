@@ -1,5 +1,3 @@
-// DEPRECATED
-
 const sendMail = require('mailer').send;
 const CourseInvite = require('../models/courseInvite');
 const _ = require('lodash');
@@ -9,22 +7,11 @@ const CourseGroup = require('../models/courseGroup');
 const User = require('users').User;
 
 /**
- * create and send invites for the order
+ * create invites for the order
  * except those that already exist
  * @param order
  */
 module.exports = function*(order) {
-
-  // first create invites, (in case if mailer dies we have them all)
-  var invites = yield createInvites(order);
-
-  yield sendInvites(invites);
-
-  return invites;
-
-};
-
-function* createInvites(order) {
 
   var emails = order.data.emails;
 
@@ -68,14 +55,4 @@ function* createInvites(order) {
   }
 
   return invites;
-}
-
-function* sendInvites(invites) {
-
-  // send invites in parallel, for speed
-  yield invites.map(function(invite) {
-    return sendInvite(invite);
-  });
-
-}
-
+};

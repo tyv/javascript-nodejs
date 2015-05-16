@@ -20,16 +20,17 @@ exports.init = function() {
 function initSignupWidget() {
 
   var signupWidget = document.querySelector('[data-elem="signup"]');
-  if (signupWidget) {
-    new SignupWidget({
-      elem: signupWidget
-    });
-  }
+  if (!signupWidget) return;
+
+  new SignupWidget({
+    elem: signupWidget
+  });
 }
 
 function initNewsletterForm() {
 
   var form = document.querySelector('[data-newsletter-subscribe-form]');
+  if (!form) return;
 
   form.onsubmit = function(event) {
     event.preventDefault();
@@ -41,6 +42,7 @@ function initNewsletterForm() {
 function initSignupButton() {
 
   var link = document.querySelector('[data-group-signup-link]');
+  if (!link) return;
 
   link.onclick = function(e) {
 

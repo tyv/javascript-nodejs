@@ -65,9 +65,8 @@ var schema = new Schema({
       index: true,
       required: true
     },
-    courseName: { // how to call this user in-course?
-      type: String,
-      required: true
+    details: {
+      // firstname, lastname, other details
     },
     videoKey: {
       type: String

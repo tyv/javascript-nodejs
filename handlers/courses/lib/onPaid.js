@@ -1,13 +1,15 @@
 const Order = require('payments').Order;
+const assert = require('assert');
 const path = require('path');
 const log = require('log')();
 const config = require('config');
 const sendMail = require('mailer').send;
 const CourseInvite = require('../models/courseInvite');
 const CourseGroup = require('../models/courseGroup');
-const sendOrderInvites = require('./sendOrderInvites');
+const createOrderInvites = require('./createOrderInvites');
 const xmppClient = require('xmppClient');
 const VideoKey = require('videoKey').VideoKey;
+const sendInvite = require('./sendInvite');
 
 // not a middleware
 // can be called from CRON
@@ -25,37 +27,48 @@ module.exports = function* (order) {
   // is there anyone except the user?
   var orderHasParticipantsExceptUser = emails.length > 1 || emails[0] != order.user.email;
 
+
+  log.debug("orderUserIsParticipant:", orderUserIsParticipant, "orderHasParticipantsExceptUser:", orderHasParticipantsExceptUser);
+
+  var invites = yield* createOrderInvites(order);
+
+  var orderUserInvite;
+  // send current user's invite in payment confirmation letter
+  if (orderUserIsParticipant) {
+    // probably generated above, but maybe(?) not, ensure we get it anyway
+    orderUserInvite = yield CourseInvite.findOne({email: order.user.email}).exec();
+    assert(orderUserInvite);
+    invites = invites.filter(function(invite) {
+      return invite.email != order.user.email;
+    });
+  }
+
+  yield group.persist();
+
   yield sendMail({
     templatePath: path.join(__dirname, '..', 'templates', 'successEmail'),
     from: 'orders',
     to: order.email,
     orderNumber: order.number,
     subject: "Подтверждение оплаты за курс, заказ " + order.number,
+    orderUserInviteLink: config.server.siteHost + '/courses/invite/' + orderUserInvite.token,
     orderUserIsParticipant: orderUserIsParticipant,
     orderHasOtherParticipants: orderHasParticipantsExceptUser
   });
 
+  // send invites in parallel, for speed
+  yield invites.map(function(invite) {
+    return sendInvite(invite);
+  });
 
-  if (orderUserIsParticipant) {
-    group.participants.push({
-      user: order.user._id,
-      courseName: order.data.contactName
-    });
-    group.decreaseParticipantsLimit();
-    order.user.profileTabsEnabled.addToSet('courses');
-    yield order.user.persist();
-  }
-  yield group.persist();
-
-  yield* sendOrderInvites(order);
-
+  /*
   yield CourseGroup.populate(group,[{path: 'participants.user'}, {path: 'course'}]);
 
   yield* grantXmppChatMemberships(group);
 
   if (group.course.videoKeyTag) {
     yield *grantVideoKeys(group);
-  }
+  }*/
 
 
   order.status = Order.STATUS_SUCCESS;

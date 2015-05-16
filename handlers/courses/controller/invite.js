@@ -4,6 +4,10 @@ const CourseGroup = require('../models/courseGroup');
 const User = require('users').User;
 const _ = require('lodash');
 
+const LOGIN_SUCCESSFUL = 1;
+const LOGGED_IN_ALREADY = 2;
+const NO_SUCH_USER = 3;
+
 exports.all = function*() {
 
   if (this.method != 'POST' && this.method != 'GET') {
@@ -61,23 +65,30 @@ exports.all = function*() {
 
   var isLoggedIn = yield* loginByInvite.call(this, invite);
 
-  if (isLoggedIn) {
-    yield* askCourseName.call(this, invite);
-  } else {
+  if (isLoggedIn == NO_SUCH_USER) {
     if (this.user) this.logout();
     yield* register.call(this, invite);
+
+  } else {
+    if (isLoggedIn == LOGIN_SUCCESSFUL) {
+      this.locals.wasLoggedIn = true;
+    }
+    yield* askParticipantDetails.call(this, invite);
   }
 
 };
 
-function* askCourseName(invite) {
+function* askParticipantDetails(invite) {
 
   // NB: this.user is the right user, guaranteed by loginByInvite
 
   if (this.method == 'POST') {
     yield acceptParticipant.call(this, invite);
   } else {
-    this.body = this.render('invite/askCourseName', {
+
+    this.locals.title = "Анкета участника\n" + invite.group.title;
+
+    this.body = this.render('invite/askParticipantDetails', {
       errors: {},
       form: {}
     });
@@ -110,7 +121,6 @@ function* register(invite) {
         errors: e.errors,
         form: {
           displayName: this.request.body.displayName,
-          courseName: this.request.body.courseName,
           password: this.request.body.password
         }
       });
@@ -118,8 +128,8 @@ function* register(invite) {
     }
 
     yield this.login(user);
-    yield acceptParticipant.call(this, invite);
 
+    this.redirect('/courses/invite/' + invite.token);
 
   } else {
     this.body = this.render('invite/register', {
@@ -147,17 +157,23 @@ function* acceptParticipant(invite) {
   this.redirect('/courses/invite/' + invite.token);
 }
 
+/**
+ * Logs in the current user using invite data
+ * Makes email verified
+ * @param invite
+ * @returns LOGIN_SUCCESSFUL / NO_SUCH_USER / LOGGED_IN_ALREADY
+ */
 function* loginByInvite(invite) {
 
   if (this.user && this.user.email == invite.email) {
-    return true;
+    return LOGGED_IN_ALREADY;
   }
 
   var userByEmail = yield User.findOne({
     email: invite.email
   }).exec();
 
-  if (!userByEmail) return false;
+  if (!userByEmail) return NO_SUCH_USER;
 
   if (!userByEmail.verifiedEmail) {
     // if pending verification => invite token confirms email
@@ -166,7 +182,6 @@ function* loginByInvite(invite) {
     });
   }
 
-  this.locals.wasLoggedIn = true;
   yield this.login(userByEmail);
-  return true;
+  return LOGIN_SUCCESSFUL;
 }

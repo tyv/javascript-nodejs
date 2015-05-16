@@ -324,9 +324,11 @@ class PhotoCut {
     if (!this.state) return;
     this.state = false;
 
-    if (this.selection.size < this.cornerSize * 2 + 2) {
-      // too small
-      this.setSelection(null);
+    if (this.selection) {
+      if (this.selection.size < this.cornerSize * 2 + 2) {
+        // too small
+        this.setSelection(null);
+      }
     }
 
     // must render to show corners after end of selection
