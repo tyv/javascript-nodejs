@@ -1,8 +1,27 @@
+extends /layouts/main
 
-h1 Online курсы JavaScript
+block append variables
 
-ul
-  each course in courses
-    li
-      a(href=course.getUrl())= course.title
+  - var layout_header_class = "main__header_center"
+  - var title = 'Online курсы Javascript'
+  - var breadcrumbs = [ { title: 'JavaScript.ru', url: 'http://javascript.ru' }, { title: 'Учебник', url: '/' }]
+  - var sitetoolbar = true
+  - var content_class = '_center'
 
+
+block content
+  p Здесь находятся «правильные» курсы по профессиональному Javascript, цель которых — научить думать на Javascript, писать просто, быстро и красиво.
+
+  +b.flex-column
+    include blocks/frontpage/features
+    include blocks/frontpage/coursesList
+    include blocks/frontpage/master
+    //- include blocks/frontpage/testimonials
+    include blocks/frontpage/tabbedPane
+    include blocks/frontpage/guarantee
+    include blocks/frontpage/faq
+    +b.fixed-tab.tablet-only.courses-tab
+      a.courses-tab__link(href="#courses") Перейти к списку открытых курсов
+
+  script(src=pack("courses", "js"))
+  script courses.init();

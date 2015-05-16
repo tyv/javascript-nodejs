@@ -10,7 +10,6 @@ class ContactForm {
     });
 
     this.elem.onsubmit = this.onSubmit.bind(this);
-
   }
 
   focus() {

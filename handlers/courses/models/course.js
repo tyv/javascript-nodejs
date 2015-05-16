@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var CourseGroup = require('./courseGroup');
 
 var schema = new Schema({
   // like "nodejs", same as template
@@ -13,6 +14,11 @@ var schema = new Schema({
   title: {
     type: String,
     required: true
+  },
+
+  // short description to show in the list
+  shortDescription: {
+    type: String
   },
 
   videoKeyTag: {
@@ -43,6 +49,15 @@ var schema = new Schema({
 
 schema.methods.getUrl = function() {
   return '/courses/' + this.slug;
+};
+
+schema.methods.hasOpenGroups = function*() {
+  var anyGroup = CourseGroup.findOne({
+    isOpenForSignup: true,
+    course: this._id
+  }).exec();
+
+  return Boolean(anyGroup);
 };
 
 module.exports = mongoose.model('Course', schema);

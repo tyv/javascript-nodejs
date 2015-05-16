@@ -1,10 +1,29 @@
 var Course = require('../models/course');
+var moment = require('momentWithLocale');
 
 exports.get = function*() {
 
-  this.locals.courses = yield Course.find({
+  var courses = yield Course.find({
     isListed: true
   }).sort({weight: 1}).exec();
+
+  this.locals.coursesInfo = [];
+  for (var i = 0; i < courses.length; i++) {
+    var course = courses[i];
+    this.locals.coursesInfo.push({
+      url: course.getUrl(),
+      title: course.title,
+      shortDescription: course.shortDescription,
+      hasOpenGroups: yield* course.hasOpenGroups()
+    });
+  }
+
+
+  this.locals.formatGroupDate = function(date) {
+    return moment(date).format('D MMM YYYY').replace(/[а-я]/, function(letter) {
+      return letter.toUpperCase();
+    });
+  };
 
   this.body = this.render('frontpage');
 };

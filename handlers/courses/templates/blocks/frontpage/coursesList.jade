@@ -1,0 +1,13 @@
++b.courses-programm-register
+
+  +e('a').anchor#courses
+  +e('h2').title Программа курсов и запись
+  +e('ul').courses
+
+    for course in coursesInfo
+      +e('li').course
+        +e('h3').course-title
+          +b('a').link(href=course.url)= course.title
+          if course.hasOpenGroups
+            +e('span').course-bage Идет набор в группы
+        +e('p').course-text!= course.shortDescription

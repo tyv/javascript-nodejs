@@ -9,6 +9,7 @@ exports.Course = [
     slug:  "js",
     videoKeyTag: "js",
     title: "Курс JavaScript/DOM/интерфейсы",
+    shortDescription: "Просто хороший курс",
     isListed: true,
     weight: 1
   }

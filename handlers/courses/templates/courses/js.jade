@@ -1,6 +1,24 @@
-h1= course.title
+extends /layouts/main
 
-ul
-  each group in groups
-    li
-      a(href='/courses/groups/' + group.slug + '/signup')= group.title
+block append variables
+  - var layout_header_class = "main__header_center"
+  - var sitetoolbar = true
+  - var breadcrumbs = [{ title: 'JavaScript.ru', url: 'http://javascript.ru' }, { title: 'Учебник', url: '/' }, { title: 'Курсы', url: '/courses' }]
+  - var content_class = '_center'
+
+block content
+  p В первую очередь этот курс для тех, кто либо не разрабатывал на JS, либо разрабатывал на нём эпизодически и теперь хочет освоить профессионально.
+
+  include ../blocks/js/programAndSignup
+  include ../blocks/js/programDetails
+  include ../blocks/js/how
+  include ../blocks/js/result
+  include ../blocks/js/systemRequirements
+
+  +b.fixed-tab.tablet-only.courses-tab
+    a.courses-tab__link(href="#signup") Записаться на курсы
+
+
+
+  script(src=pack("courses", "js"))
+  script courses.init();

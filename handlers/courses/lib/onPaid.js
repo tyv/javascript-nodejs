@@ -26,7 +26,7 @@ module.exports = function* (order) {
   var orderHasParticipantsExceptUser = emails.length > 1 || emails[0] != order.user.email;
 
   yield sendMail({
-    templatePath: path.join(__dirname, '..', 'templates', 'success-email'),
+    templatePath: path.join(__dirname, '..', 'templates', 'successEmail'),
     from: 'orders',
     to: order.email,
     orderNumber: order.number,

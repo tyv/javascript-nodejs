@@ -17,7 +17,7 @@ module.exports = function* (order) {
   yield downloadLink.persist();
 
   yield sendMail({
-    templatePath: path.join(__dirname, '..', 'templates', 'success-email'),
+    templatePath: path.join(__dirname, '..', 'templates', 'successEmail'),
     to: order.email,
     subject: "Учебник для чтения оффлайн",
     link: downloadLink.getUrl()

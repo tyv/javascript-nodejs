@@ -1,0 +1,16 @@
+- var features = [];
+
+- features.push({ name: 'quality', title: 'Качество', text: 'Это самое главное. Мы изучаем разработку на профессиональном уровне' });
+- features.push({ name: 'online', title: 'Дистанционность', text: 'На практике это оказывается удобнее, чем очные курсы' });
+- features.push({ name: 'support', title: 'Поддержка', text: 'Вы получите советы по развитию именно для вас' });
+- features.push({ name: 'result', title: 'Результат', text: 'Цель курсов - получить конкретные результаты в плане знаний и умений' });
+- features.push({ name: 'guarantees', title: 'Гарантии', text: 'Отзывы выпускников говорят сами за себя' });
+
++b.courses-features
+  +e('h2').title Особенности курсов
+  +e('ul').features
+    for feature in features
+      +e('li')(class=['feature', '_' + feature.name])
+        +e('h3').feature-title!= feature.title
+        +e('p').feature-text!= feature.text
+

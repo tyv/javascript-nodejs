@@ -6,7 +6,7 @@
       +b.course-register-info
         +e('p').info._length
           +e('time')(datetime=moment(group.dateStart).format("YYYY-MM-DD HH:mm")).time= formatGroupDate(group.dateStart)
-          | —
+          | &nbsp;—&nbsp;
           +e('time')(datetime=moment(group.dateStart).format("YYYY-MM-DD HH:mm")).time= formatGroupDate(group.dateEnd)
         +e('p').info!= group.timeDesc
 

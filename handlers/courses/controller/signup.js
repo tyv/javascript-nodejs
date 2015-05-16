@@ -33,7 +33,7 @@ exports.get = function*() {
 
   } else {
 
-    var group = this.locals.group = this.groupBySlug;
+    group = this.locals.group = this.groupBySlug;
 
     // a visitor can't reach this page through UI, only by direct link
     // if the group is full
@@ -46,7 +46,7 @@ exports.get = function*() {
       return;
     }
 
-    this.locals.title = group.course.title;
+    this.locals.title = "Регистрация\n" + group.title;
   }
 
   this.locals.paymentMethods = require('../lib/paymentMethods');

@@ -1,0 +1,44 @@
+- var testimonials = [];
+- testimonials.push({ userpic: '/img/userpic/userpic.svg', profile: '/123', rating: '5', location: { country: 'ru', text: 'Россия, Москва' }, name: 'Бендер Константинопольский', text: 'При облучении инфракрасным лазером кондуктометрия захватывает сернистый газ, даже если нанотрубки меняют свою межплоскостную ориентацию. Изомерия, как следует из совокупности экспериментальных наблюдений', text2: 'редко активирует окисленный серный эфир' })
+- testimonials.push({ userpic: '/img/userpic/userpic.svg', profile: '/123', rating: '4', location: { country: 'ua', text: 'Украина, Киев' }, name: 'Иван  Пупкин', text: 'Чо норм курсы' })
+- testimonials.push({ userpic: '/img/userpic/userpic.svg', profile: '/123', rating: '3', location: { country: 'ru', text: 'Россия, Усть-Каменогороск'}, name: 'Пьер  Безухов', text: 'Продукт реакции разъедает жидкофазный раствор. Упаривание активирует серный эфир' })
+
++b.courses-testimonials.courses-mix
+  +e('h2').title Что говорят о курсах люди
+
+  +e.wrapper
+    +e('i').arr._prev
+    +e('i').arr._next
+    +e('a').all(href="/123") Все отзывы
+
+    +e.body
+      +e('ul').testimonials
+        for testimonial in testimonials
+          +e('li').testimonial
+            +e.main
+              +b(class=["rating", "_" + testimonial.rating])
+                for raiting in [1,2,3,4,5]
+                  +e('i').star ★
+
+              +e('p').testimonial-text= renderSimpledown(testimonial.content.slice(0, testimonial.cutAtLength || Infinity), {trusted: false})
+                if testimonial.cutAtLength
+                  =' '
+                  +e('span').cut &hellip;
+                  +e('span').cuted= renderSimpledown(testimonial.content.slice(testimonial.cutAtLength), {trusted: false})
+            +e.user
+              +e.userpic
+                +e('img').userpic-img(src=testimonial.photoLink)
+              +e.username
+                +e('a').username-link(href="/123") !{ testimonial.name }
+              +e.country
+                +e('img').country-flag(src='/img/flags/' + testimonial.location.country + '.svg' width=16 height=12)
+                +e('span').country-text !{ testimonial.location.text }
+
+script.
+
+  document.addEventListener('click', function(event) {
+    if (event.target.className != 'courses-testimonials__cut') return;
+    var cutElem = event.target;
+    cutElem.nextElementSibling.style.display = 'inline'
+    cutElem.remove();
+  });
