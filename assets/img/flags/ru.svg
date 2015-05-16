@@ -1,17 +1,1 @@
-<svg width="20" height="16" xmlns="http://www.w3.org/2000/svg">
- <!-- Generator: Sketch Beta 3.3.2 (12041) - http://www.bohemiancoding.com/sketch -->
- <title>Slice 1 Copy</title>
- <desc>Created with Sketch Beta.</desc>
- <g>
-  <title>Layer 1</title>
-  <g fill-rule="evenodd" fill="none" id="Page-1">
-   <g id="ru-copy-2">
-    <g id="flag">
-     <rect height="13.5" width="18" y="1.02813" x="1" fill="#FFFFFF" id="rect171"/>
-     <rect height="8.99991" width="18" y="5.52821" x="1" fill="#01017E" id="rect403"/>
-     <rect height="4.50009" width="18" y="10.02804" x="1" fill="#FE0101" id="rect135"/>
-    </g>
-   </g>
-  </g>
- </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" height="480" width="640" version="1"><g fill-rule="evenodd" stroke-width="1pt"><path fill="#fff" d="M0 0h640v480H0z"/><path fill="#01017e" d="M0 160.003h640V480H0z"/><path fill="#fe0101" d="M0 319.997h640V480H0z"/></g></svg>
