@@ -1,0 +1,50 @@
+@media phone
+
+    .phone-toggler
+        position relative
+
+        padding 10px 40px 10px 10px
+        margin-bottom -35px
+
+        text-align left
+
+        color link_color
+        cursor pointer
+
+        &:after
+            @extend $font-open
+
+            font-size 22px
+            line-height 22px
+
+            position absolute
+            right 10px
+            top 50%
+
+            transform translateY(-50%)
+
+        &__input
+            visibility hidden
+            position absolute
+
+
+        &__input:checked ~ &
+            display none
+
+        &__input ~ .courses-features,
+        &__input ~ .courses-master,
+        &__input ~ .courses-testimonials,
+        &__input ~ .courses-tabbed-pane,
+        &__input ~ .courses-guarantee,
+        &__input ~ .courses-faq,
+        &__input ~ .fixed-tab
+            display none
+
+        &__input:checked ~ .courses-features,
+        &__input:checked ~ .courses-master,
+        &__input:checked ~ .courses-testimonials,
+        &__input:checked ~ .courses-tabbed-pane,
+        &__input:checked ~ .courses-guarantee,
+        &__input:checked ~ .courses-faq,
+        &__input:checked ~ .fixed-tab
+            display block
