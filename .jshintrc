@@ -3,7 +3,7 @@
   "latedef": "nofunc",
   "browser": true,
   "node": true, // for browserify require etc
-  "globals": ["$", "Prism"],
+  "globals": ["$", "Prism", "describe", "it", "before", "after", "beforeEach", "afterEach"],
   "indent": 2,
   "camelcase": true,
   "newcap": true,
