@@ -1,14 +1,12 @@
-# Новый javascript.ru 
-
-[![Join the chat at https://gitter.im/iliakan/javascript-nodejs](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/iliakan/javascript-nodejs)
-
-## Powered by IO.js 
+# Движок javascript.ru 
 
 Всем привет!
 
-А это исходный код для нового движка сайта [https://learn.javascript.ru](https://learn.javascript.ru).
+А это исходный код для движка сайта [https://learn.javascript.ru](https://learn.javascript.ru).
 
-<!-- mongod fails to install on travis, disable until fixed
+Он открытый, вы можете использовать его или его элементы в своих проектах. 
+
+<!-- few modules fail to install on travis, disable until fixed
 [![Build Status](https://travis-ci.org/iliakan/javascript-nodejs.svg?branch=master)](https://travis-ci.org/iliakan/javascript-nodejs)
 -->
 
