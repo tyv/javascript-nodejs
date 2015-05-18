@@ -4,7 +4,7 @@
 
 А это исходный код для движка сайта [https://learn.javascript.ru](https://learn.javascript.ru).
 
-Он открытый, вы можете использовать его или его элементы в своих проектах. 
+Он открытый, вы можете использовать его или его элементы в своих проектах, или даже поднять свою копию сайта и написать там о чём-то ещё ☺ 
 
 <!-- few modules fail to install on travis, disable until fixed
 [![Build Status](https://travis-ci.org/iliakan/javascript-nodejs.svg?branch=master)](https://travis-ci.org/iliakan/javascript-nodejs)
