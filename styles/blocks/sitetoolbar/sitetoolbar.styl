@@ -19,9 +19,9 @@ sitetoolbar_secondary_link = #498CBE
         box-shadow none
 
     &__content
-        display table
-        width 100%
         font-size 16px
+        display flex
+
         border-collapse collapse
 
     &__logo-wrap,
@@ -30,7 +30,7 @@ sitetoolbar_secondary_link = #498CBE
     &__login-wrap,
     &__search-wrap,
     &__book-wrap
-        display table-cell
+        flex-shrink 0
         vertical-align top
         text-align left
         white-space nowrap
@@ -42,17 +42,12 @@ sitetoolbar_secondary_link = #498CBE
     &__logo-wrap
         padding-right 30px
 
-    &__logo-wrap,
-    &__user-wrap,
-    &__login-wrap,
-    &__book-wrap
-        width .1%
-
     &__user-wrap
+        flex-shrink 1
+        min-width 70px
         transition opacity 0.3s ease-out
 
     &__search-wrap
-        width .1%
         padding-right 20px
 
     &__link_logo,
@@ -82,6 +77,9 @@ sitetoolbar_secondary_link = #498CBE
         margin 0
 
     &__sections
+        flex-grow 1
+        flex-shrink 0
+
         padding 17px 0 0
         height 30px
 
@@ -110,8 +108,9 @@ sitetoolbar_secondary_link = #498CBE
     //- remove visibility after 3 days of prod
     //- visibility hidden
     &__book-wrap
+        display flex
+        align-items center
         padding-right 20px
-        vertical-align middle
 
     &__user,
     &__login
@@ -155,6 +154,8 @@ sitetoolbar_secondary_link = #498CBE
         top 2px
 
     &__user
+        box-sizing border-box
+        width 100%
         white-space nowrap
         padding-left 47px
         position relative
@@ -170,9 +171,10 @@ sitetoolbar_secondary_link = #498CBE
 
     &__user-text
         display inline-block
-        max-width 200px
+        max-width 100%
         overflow hidden
         text-overflow ellipsis
+
         vertical-align bottom
 
     // Search (begin)
@@ -367,7 +369,7 @@ sitetoolbar_secondary_link = #498CBE
         text-decoration none
 
 
-    @media (max-width: 1100px)
+    @media (max-width: 1125px)
 
         &__logo_normal
             display none
@@ -393,7 +395,12 @@ sitetoolbar_secondary_link = #498CBE
 
             text-align center
 
-    @media (max-width: 840px)
+    @media (max-width: 900px)
+        &__logo-wrap
+            flex-shrink 1
+
+        &__link_logo
+            margin 0
 
         &__user::before
             padding 0
@@ -595,7 +602,7 @@ sitetoolbar_secondary_link = #498CBE
 
     // подвинем логотип при очень узком окне, чтобы никуда не накладывался
     // экономим несколько пикселей ширины
-    @media (max-width: 690px)
+    @media (max-width: 790px)
         &__link_logo,
         &__logo
             left 90px
