@@ -25,7 +25,7 @@ function extHash(name, ext, hash) {
 }
 
 var webpackConfig = {
-  output:     {
+  output: {
     // fs path
     path:       path.join(config.publicRoot, 'pack'),
     // path as js sees it
@@ -53,17 +53,19 @@ var webpackConfig = {
   profile: true,
 
   entry: {
-    about:            'about/client',
-    angular:          'client/angular',
-    head:             'client/head',
-    tutorial:         'tutorial/client',
-    profile:          'profile/client',
-    search:           'search/client',
-    quiz:             'quiz/client',
-    ebook:            'ebook/client',
-    courses:          'courses/client',
-    footer:           'client/footer',
-    nodejsScreencast: 'nodejsScreencast/client'
+    about:                     'about/client',
+    angular:                   'client/angular',
+    head:                      'client/head',
+    tutorial:                  'tutorial/client',
+    profile:                   'profile/client',
+    search:                    'search/client',
+    quiz:                      'quiz/client',
+    ebook:                     'ebook/client',
+    coursesCourse:             'courses/client/course',
+    coursesSignup:             'courses/client/signup',
+    coursesParticipantDetails: 'courses/client/participantDetails',
+    footer:                    'client/footer',
+    nodejsScreencast:          'nodejsScreencast/client'
   },
 
   externals: {
@@ -84,7 +86,7 @@ var webpackConfig = {
         // which must not be run in strict mode (global becomes undefined)
         // babel would make all modules strict
         exclude: /node_modules\/(angular|prismjs|moment|blueimp-canvas-to-blob)/,
-        loaders:  ['ng-annotate', 'babel']
+        loaders: ['ng-annotate', 'babel']
       },
       {
         test:   /\.styl$/,

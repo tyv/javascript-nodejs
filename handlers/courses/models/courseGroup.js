@@ -4,8 +4,9 @@ var config = require('config');
 var fs = require('mz/fs');
 var path = require('path');
 var log = require('log')();
+var validate = require('validate');
+var CourseParticipant = require('./courseParticipant');
 
-// the schema follows http://openexchangerates.org/api/latest.json response
 var schema = new Schema({
   // 01.01.2015
   dateStart: {
@@ -58,28 +59,13 @@ var schema = new Schema({
     default: false
   },
 
-  participants: [{
-    user: {
-      type: Schema.Types.ObjectId,
-      ref:  'User',
-      index: true,
-      required: true
-    },
-    details: {
-      // firstname, lastname, other details
-    },
-    videoKey: {
-      type: String
-      // there may be groups without video & keys
-    }
-  }],
+  participants: [CourseParticipant.schema],
 
   // room jid AND gotowebinar id
   // an offline group may not have this
   webinarId: {
     type: String
   },
-
 
   course:       {
     type:     Schema.Types.ObjectId,
@@ -102,7 +88,6 @@ var schema = new Schema({
 
 schema.methods.readMaterials = function*() {
   var groupDir = path.join(config.courseRoot, this.slug);
-
 
   try {
     var files = yield fs.readdir(groupDir);

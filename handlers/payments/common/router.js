@@ -1,4 +1,4 @@
-var Router = require('router');
+var Router = require('koa-router');
 
 var router = module.exports = new Router();
 router.param('userById', require('users').routeUserById);

@@ -21,22 +21,65 @@ block content
         +e.line
           +e('label').label(for="invite-firstName") Имя*
           +b('span')(class=["text-input", "__input", errors.firstName ? '_invalid' : ''])
-            +e('input').control#invite-firstName(name="firstName" type="text" value=form.firstName required autofocus)
+            +e('input').control#invite-firstName(name="firstName" type="text" value=form.firstName autofocus=!Object.keys(errors).length)
             if errors.firstName
               +e.err= errors.firstName
 
         +e.line
           +e('label').label(for="invite-surname") Фамилия*
           +b('span')(class=["text-input", "__input", errors.surname ? '_invalid' : '' ])
-            +e('input').control#invite-surname(type="text", name="surname" required value=form.surname)
+            +e('input').control#invite-surname(type="text", name="surname" value=form.surname)
             if errors.surname
               +e.err= errors.surname
 
-        if !user.photo
-          img(src=user.getPhotoUrl(64,64) width=64 height=64)
+        div(data-photo-load style="position:relative")
+          //- photoId - submit to update photo
+          input(type="hidden" name="photoId")
+          //- form.photo is to show the existing photo link (not submitted back)
+          div(style="background-image: url('#{thumb(form.photo, 64, 64)}');position:relative;background-size:cover;width:64px;height:64px")
           a(href='#') Загрузить новое фото
+
+        +e.line
+          +e('label').label(for="invite-country") Страна*
+          select(name="country" id="invite-country")
+            each country in countries
+              option(value=country.co selected=(country.co == form.country))= country.na
+          if errors.country
+            +e.err= errors.country
+
+
+        +e.line
+          +e('label').label(for="invite-city") Город
+          +b('span')(class=["text-input", "__input", errors.city ? '_invalid' : ''])
+            +e('input').control#invite-city(type="text", name="city" value=form.city pattern=validate.patterns.singleword)
+            if errors.city
+              +e.err= errors.city
+
+        +e.line
+          +e('label').label(for="invite-aboutLink") LinkedIn / Github / Moikrug...
+          +b('span')(class=["text-input", "__input", errors.aboutLink ? '_invalid' : ''])
+            +e('input').control#invite-aboutLink(type="url", name="aboutLink" pattern=validate.patterns.webpageUrl value=form.aboutLink)
+          p Профиль в соц сети или личная страница, где можно узнать о вашей профессиональной деятельности.
+
+        +e.line
+          +e('label').label(for="invite-occupation") Область работы
+          +b('span')(class=["text-input", "__input", errors.occupation ? '_invalid' : ''])
+            +e('input').control#invite-occupation(type="text", name="occupation" value=form.occupation)
+          p Кем работаете? Основные используемые языки и технологии (кратко)
+
+        +e.line
+          +e('label').label(for="invite-purpose") С какой целью записались на курс?
+          br
+          textarea#invite-purpose
+
+        +e.line
+          +e('label').label(for="invite-wishes") Ваши пожелания по курсу?
+          br
+          textarea#invite-wishes
 
         +e.line.__footer
           +b('button').button._action(type="submit")
-            +e('span').text Подтвердить участие
+            +e('span').text Отправить
 
+  script(src=pack("coursesParticipantDetails", "js"))
+  script coursesParticipantDetails.init();

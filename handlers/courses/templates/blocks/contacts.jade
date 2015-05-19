@@ -19,7 +19,7 @@
                 +b.full-phone.__full-phone
                   +e.tel-wrap
                     +b.text-input._small.__tel
-                      +e('input').control#contact-phone(data-elem="contactPhone" type='tel', pattern='[+0-9()# ]{6,}', placeholder='+X (XXX) XXX-XXXX')
+                      +e('input').control#contact-phone(data-elem="contactPhone" type='tel', pattern=validate.patterns.phone, placeholder='+X (XXX) XXX-XXXX')
             +e.note
               +e('h5').note-title Ваши данные в безопасности
               p

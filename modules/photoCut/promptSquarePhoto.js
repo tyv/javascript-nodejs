@@ -15,7 +15,6 @@ module.exports = function({minSize, onSuccess}) {
     reader.onload = function(event) {
       var image = new Image();
       image.onload = function() {
-
         if (image.height < minSize || image.width < minSize) {
           new notification.Error(`Изображение должно иметь размер ${minSize}x${minSize} или больше`);
         } else if (image.width == image.height) {
@@ -28,6 +27,11 @@ module.exports = function({minSize, onSuccess}) {
           });
         }
       };
+
+      image.onerror = function() {
+        new notification.Error(`Ошибка при загрузке или изображдение повреждено.`);
+      };
+
       image.src = event.target.result;
     };
     reader.readAsDataURL(file);

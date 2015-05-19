@@ -1,4 +1,4 @@
-var Router = require('router');
+var Router = require('koa-router');
 
 var index = require('./controllers/index');
 var start = require('./controllers/start');

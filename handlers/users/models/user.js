@@ -148,7 +148,7 @@ var UserSchema = new mongoose.Schema({
   },
   passwordResetTokenExpires: Date, // valid until this date
   passwordResetRedirect:     String, // where to redirect after password recovery
-  photo:                     {/* { link: ..., } */}, // imgur data
+  photo:                     String, // imgur photo link
   country:                   String,
   town:                      String,
   publicEmail:               String,
@@ -208,7 +208,7 @@ UserSchema.statics.getInfoFields = function(user) {
     interests:          user.interests,
     email:              user.email,
     verifiedEmail:      user.verifiedEmail,
-    photo:              user.photo && user.photo.link,
+    photo:              user.photo,
     deleted:            user.deleted,
     readOnly:           user.readOnly,
     isAdmin:            user.isAdmin,
@@ -267,7 +267,9 @@ UserSchema.statics.photoDeleted = "//i.imgur.com/7KZD6XK.png";
 
 UserSchema.methods.getPhotoUrl = function(width, height) {
   var url = this.deleted ? User.photoDeleted :
-    !this.photo ? User.photoDefault : this.photo.link;
+    !this.photo ? User.photoDefault : this.photo;
+
+  if (!width && !height) return url;
 
   // I don't resize to square, because it breaks background
   // @see http://i.imgur.com/zSGftLcs.png
@@ -277,8 +279,8 @@ UserSchema.methods.getPhotoUrl = function(width, height) {
         (width <= 512 && height <= 512) ? 'h' : '';
 
   return url.slice(0, url.lastIndexOf('.')) + modifier + url.slice(url.lastIndexOf('.'));
-
 };
+
 
 UserSchema.methods.generateProfileName = function*() {
   var profileName = this.displayName.trim()

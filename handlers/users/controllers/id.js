@@ -7,6 +7,7 @@ var thunkify = require('thunkify');
 var config = require('config');
 var sendMail = require('mailer').send;
 var path = require('path');
+var ImgurImage = require('imgur').ImgurImage;
 
 exports.get = function*(next) {
 
@@ -48,92 +49,26 @@ exports.del = function*(next) {
   };
 };
 
-
-var readMultipart = thunkify(function(ctx, done) {
-  var req = ctx.req;
-
-  var hadError = false;
-  var fields = {};
-
-  // initially we're waiting for form.close only
-  // each part increases the counter on start and decreases back when nested processing (upoading) is done
-  var waitStreamsCount = 1;
-  var form = new multiparty.Form();
-
-  form.on('field', function(name, value) {
-    ctx.log.debug("Field", name, value);
-    fields[name] = value;
-  });
-
-  // multipart file must be the last
-  form.on('part', function(part) {
-    ctx.log.debug("Part", part.name, part.filename);
-
-    // upload multipart to imgur, no other multipart items in the form
-    if (part.name != 'photo') {
-      return onError(new Error("Unexpected multipart field: " + part.name));
-    }
-
-    waitStreamsCount++;
-    if (!part.filename) {
-      return onError(new Error("No filename for form part " + part.name));
-    }
-
-    co(function*() {
-      // filename='blob' for FormData(photo, blob) where blob comes from canvas.toBlob
-      return yield* imgur.uploadStream(part.filename, part.byteCount, part);
-    }).then(function(result) {
-      if (hadError) return;
-      fields[part.name] = result;
-      onStreamDone();
-    }, onError);
-  });
-
-  form.on('error', onError);
-
-  form.on('close', onStreamDone);
-
-  form.parse(req);
-
-  function onStreamDone() {
-    if (hadError) return;
-    waitStreamsCount--;
-    if (!waitStreamsCount) {
-      done(null, fields);
-    }
-  }
-
-  function onError(err) {
-    if (hadError) return;
-    hadError = true;
-    done(err);
-  }
-
-});
-
 /* Partial update */
 exports.patch = function*(next) {
 
   var user = this.params.user;
 
-  var fields;
-  try {
-    fields = yield readMultipart(this);
-  } catch (e) {
-    if (e.name == 'BadImageError') {
-      this.throw(400, e.message);
-    } else {
-      throw e;
-    }
-  }
+  var fields = this.request.body;
 
-  'displayName realName birthday gender photo country town interests profileName publicEmail'.split(' ').forEach(function(field) {
+  'displayName realName birthday gender country town interests profileName publicEmail'.split(' ').forEach(function(field) {
     if (field in fields) {
       user[field] = fields[field];
     }
   });
 
-
+  if (fields.photoId) {
+    var imgurImage = yield ImgurImage.findOne({imgurId: fields.photoId}).exec();
+    if (!imgurImage) {
+      this.throw(404, "Нет такого изображения в базе");
+    }
+    user.photo = imgurImage.link;
+  }
 
   if (fields.email !== undefined && fields.email != user.email) {
 

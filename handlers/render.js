@@ -12,6 +12,7 @@ const assert = require('assert');
 const i18n = require('i18next');
 const money = require('money');
 const url = require('url');
+const validate = require('validate');
 
 // public.versions.json is regenerated and THEN node is restarted on redeploy
 // so it loads a new version.
@@ -45,6 +46,17 @@ function addStandardHelpers(locals, ctx) {
 
 
   locals.env = process.env;
+
+
+  // patterns to use in urls
+  // no need to escape /
+  // \s => \\s
+  locals.validate = {
+    patterns: {}
+  };
+  for(var name in validate.patterns) {
+    locals.validate.patterns[name] = validate.patterns[name].source.replace(/\\\//g, '/');
+  }
 
   Object.defineProperty(locals, "user", {
     get: function() {

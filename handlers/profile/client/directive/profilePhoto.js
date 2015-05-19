@@ -1,7 +1,7 @@
 var notification = require('client/notification');
 var angular = require('angular');
 var thumb = require('client/image').thumb;
-var loadSquarePhoto = require('photoCut').loadSquarePhoto;
+var promptSquarePhoto = require('photoCut').promptSquarePhoto;
 
 angular.module('profile')
   .directive('profilePhoto', function(promiseTracker, $http) {
@@ -17,7 +17,7 @@ angular.module('profile')
 
         scope.changePhoto = function() {
 
-          loadSquarePhoto({
+          promptSquarePhoto({
             minSize:   160,
             onSuccess: uploadPhoto
           });
@@ -30,12 +30,23 @@ angular.module('profile')
           formData.append("photo", file);
 
           $http({
-            method: 'PATCH',
-            url: '/users/me',
+            method: 'POST',
+            url: '/imgur/upload',
             headers: {'Content-Type': undefined },
             tracker: scope.loadingTracker,
             transformRequest: angular.identity,
             data: formData
+          }).then(function(response) {
+
+            return $http({
+              method: 'PATCH',
+              url: '/users/me',
+              tracker: scope.loadingTracker,
+              data: {
+                photoId: response.data.imgurId
+              }
+            });
+
           }).then(function(response) {
             scope.photo = response.data.photo;
             new notification.Success("Изображение обновлено.");
@@ -43,7 +54,7 @@ angular.module('profile')
             if (response.status == 400) {
               new notification.Error("Неверный тип файла или изображение повреждено.");
             } else {
-              new notification.Error("Ошибка загрузки, статус " + response.status);
+              /* global403Interceptor will show the rest */
             }
           });
 

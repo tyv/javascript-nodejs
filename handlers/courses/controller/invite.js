@@ -3,10 +3,12 @@ const CourseInvite = require('../models/courseInvite');
 const CourseGroup = require('../models/courseGroup');
 const User = require('users').User;
 const _ = require('lodash');
-
+const countries = require('countries');
 const LOGIN_SUCCESSFUL = 1;
 const LOGGED_IN_ALREADY = 2;
 const NO_SUCH_USER = 3;
+const CourseParticipant = require('../models/courseParticipant');
+const ImgurImage = require('imgur').ImgurImage;
 
 exports.all = function*() {
 
@@ -50,7 +52,7 @@ exports.all = function*() {
   // invalid invite, person not in list
   if (!~invite.order.data.emails.indexOf(invite.email)) {
     this.body = this.render('invite/deny', {
-      email: invite.email,
+      email:       invite.email,
       contactName: invite.order.data.contactName,
       orderNumber: invite.order.number
     });
@@ -82,16 +84,73 @@ function* askParticipantDetails(invite) {
 
   // NB: this.user is the right user, guaranteed by loginByInvite
 
+  var selectCountries = Object.create(countries.all);
+  selectCountries[""] = {
+    "co": "",
+    "ph": "",
+    "na": " выберите страну "
+  };
+
+  this.locals.title = "Анкета участника\n" + invite.group.title;
+  this.locals.countries = selectCountries;
+
   if (this.method == 'POST') {
-    yield acceptParticipant.call(this, invite);
+    var participantData = _.clone(this.request.body);
+    participantData.user = this.user;
+
+    if (participantData.photoId) {
+      var photo = yield ImgurImage.findOne({imgurId: this.request.body.photoId}).exec();
+      participantData.photo = photo.link;
+    } else {
+      participantData.photo = this.user.getPhotoUrl();
+    }
+
+    var participant = new CourseParticipant(participantData);
+
+
+    try {
+      yield participant.validate();
+    } catch(e) {
+      var errors = {};
+      for (var key in e.errors) {
+        errors[key] = e.errors[key].message;
+      }
+
+      this.body = this.render('invite/askParticipantDetails', {
+        errors:    errors,
+        form:      participantData
+      });
+
+      return;
+    }
+
+    this.log.debug(participant.toObject(), "participant is accepted");
+
+    invite.group.participants.push(participant);
+
+    this.user.profileTabsEnabled.addToSet('courses');
+    yield this.user.persist();
+
+    yield invite.accept();
+
+    invite.group.decreaseParticipantsLimit();
+
+    yield invite.group.persist();
+
+    // will show "welcome" cause the invite is accepted
+    this.redirect('/courses/invite/' + invite.token);
+
+
   } else {
 
-    this.locals.title = "Анкета участника\n" + invite.group.title;
-
     this.body = this.render('invite/askParticipantDetails', {
-      errors: {},
-      form: {}
+      errors:    {},
+      form:      {
+        photo:   this.user.getPhotoUrl(),
+        country: 'ru'
+      }
     });
+
   }
 
 }
@@ -103,15 +162,15 @@ function* register(invite) {
 
     // do register the man, email is verified
     var user = new User({
-      email: invite.email,
-      displayName: this.request.body.displayName,
-      password: this.request.body.password,
+      email:         invite.email,
+      displayName:   this.request.body.displayName,
+      password:      this.request.body.password,
       verifiedEmail: true
     });
 
     try {
       yield user.persist();
-    } catch(e) {
+    } catch (e) {
       var errors = {};
       for (var key in e.errors) {
         errors[key] = e.errors[key].message;
@@ -119,9 +178,9 @@ function* register(invite) {
 
       this.body = this.render('invite/register', {
         errors: e.errors,
-        form: {
+        form:   {
           displayName: this.request.body.displayName,
-          password: this.request.body.password
+          password:    this.request.body.password
         }
       });
       return;
@@ -134,27 +193,9 @@ function* register(invite) {
   } else {
     this.body = this.render('invite/register', {
       errors: {},
-      form: {}
+      form:   {}
     });
   }
-}
-
-function* acceptParticipant(invite) {
-  invite.group.participants.push({
-    user: this.user._id,
-    courseName: this.request.body.courseName || this.user.displayName
-  });
-
-  // esp. important for newly regged users, they don't have this tab by default or invite
-  this.user.profileTabsEnabled.addToSet('courses');
-  yield this.user.persist();
-
-  yield invite.accept();
-
-  invite.group.decreaseParticipantsLimit();
-
-  yield invite.group.persist();
-  this.redirect('/courses/invite/' + invite.token);
 }
 
 /**

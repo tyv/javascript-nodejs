@@ -37,6 +37,7 @@ router.get('/die', function*() {
 var d = new Date() + '';
 
 router.get('/test', function*() {
+  console.log(this.request.headers);
   this.body = '<a href="/blabla">gbkjgjf</a>';
 });
 

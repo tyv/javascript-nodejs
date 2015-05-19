@@ -15,8 +15,8 @@ angular.module("global403Interceptor", []).factory("http403Interceptor", functio
       // do something on error
       if (rejection.status == 401) {
         new notification.Error("Нет авторизации: вы вышли с сайта?");
-      } else if (rejection.status == 500) {
-        new notification.Error("Ошибка на стороне сервера. Попытайтесь позднее.");
+      } else if (rejection.status >= 500) {
+        new notification.Error("Ошибка " + rejection.status + " на стороне сервера. Попытайтесь позднее.");
       } else if (!rejection.status) {
         new notification.Error("Сетевая ошибка. Нет связи?");
       }

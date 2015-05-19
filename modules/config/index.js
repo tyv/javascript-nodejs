@@ -120,7 +120,8 @@ module.exports = {
   // extra handlers from outside of the main repo
   extraHandlersRoot:    path.join(process.cwd(), 'extra/handlers'),
   // js/css build versions
-  manifestRoot:         path.join(process.cwd(), 'manifest')
+  manifestRoot:         path.join(process.cwd(), 'manifest'),
+  migrationsRoot:          path.join(process.cwd(), 'migrations')
 };
 
 // webpack config uses general config

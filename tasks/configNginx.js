@@ -52,7 +52,8 @@ module.exports = function() {
 
     return gulp.src(path.join(projectRoot, 'nginx', '**'))
       .pipe(through.obj(function(file, enc, cb) {
-        if (file.isNull()) {
+
+        if (file.isNull() || /\.dat$/.test(file.path)) {
           this.push(file);
           return cb();
         }

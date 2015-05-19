@@ -16,9 +16,9 @@ if (process.env.NODE_ENV != 'development') {
     // let bunyan handle the error
     app.log.error({
       message: err.message,
-      name: err.name,
-      errors: err.errors,
-      stack: err.stack
+      name:    err.name,
+      errors:  err.errors,
+      stack:   err.stack
     });
     process.exit(255);
   });
@@ -36,6 +36,12 @@ app.proxy = true;
 
 // ========= Helper handlers ===========
 app.requireHandler('cls');
+
+app.use(function*(next) {
+  this.countryCode = (this.get('cf-ipcountry') || this.get('x-nginx-geo') || '').toLowerCase();
+  if (this.countryCode == 'xx') this.countryCode = ''; // CloudFlare cannot detect country
+  yield* next;
+});
 
 app.requireHandler('mongooseHandler');
 
@@ -98,7 +104,7 @@ if (process.env.NODE_ENV == 'development') {
 }
 
 endpoints.push(
-  'users', 'auth', 'ebook', 'cache', 'search', 'profile', 'jb', 'play', 'nodejsScreencast', 'about',
+  'users', 'auth', 'ebook', 'cache', 'search', 'profile', 'jb', 'play', 'nodejsScreencast', 'about', 'imgur',
   'profileGuest', 'quiz', 'currencyRate', 'payments', 'download', 'staticPage', 'newsletter', 'mailer', 'courses'
 );
 

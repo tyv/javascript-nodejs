@@ -1,5 +1,5 @@
 var delegate = require('client/delegate');
-var participantsItem = require('../templates/blocks/participantsItem.jade');
+var participantsItem = require('../../templates/blocks/participantsItem.jade');
 var notification = require('client/notification');
 
 var clientRender = require('client/clientRender');

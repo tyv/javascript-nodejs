@@ -3,7 +3,7 @@ const config = require('config');
 const co = require('co');
 const _ = require('lodash');
 const request = require('koa-request');
-const imgur = require('imgur');
+const transload = require('imgur').transload;
 
 function UserAuthError(message) {
   this.message = message;
@@ -13,7 +13,7 @@ function* mergeProfile(user, profile) {
   if (!user.photo && profile.photos && profile.photos.length && profile.photos[0].type != 'default') {
     // assign an avatar unless it's default
     var photoUrl = profile.photos[0].value;
-    user.photo = yield* imgur.transload(photoUrl);
+    user.photo = yield* transload(photoUrl).link;
   }
 
   if (!user.email && profile.emails && profile.emails.length) {

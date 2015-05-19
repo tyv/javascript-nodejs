@@ -21,7 +21,6 @@ exports.init = function(app) {
     yield* next;
   });
 
-  app.multipartParser.ignore.add('/users/:id'); // also handles /users/me
 
 };
 

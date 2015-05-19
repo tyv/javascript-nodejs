@@ -1,31 +1,14 @@
-var SignupWidget = require('./signupWidget');
-var prism = require('client/prism');
 var newsletter = require('newsletter/client');
-var gaHitCallback = require('gaHitCallback');
 var Spinner = require('client/spinner');
 var xhr = require('client/xhr');
 
 exports.init = function() {
 
-  initSignupWidget();
-
   initNewsletterForm();
-
-  prism.init();
 
   initSignupButton();
 
 };
-
-function initSignupWidget() {
-
-  var signupWidget = document.querySelector('[data-elem="signup"]');
-  if (!signupWidget) return;
-
-  new SignupWidget({
-    elem: signupWidget
-  });
-}
 
 function initNewsletterForm() {
 
@@ -44,14 +27,13 @@ function initSignupButton() {
   var link = document.querySelector('[data-group-signup-link]');
   if (!link) return;
 
-  link.onclick = function(e) {
+  link.onclick = function(event) {
 
     if (window.currentUser) {
       return;
     }
 
-    e.preventDefault();
-
+    event.preventDefault();
 
     var spinner = new Spinner({
       elem:      link,

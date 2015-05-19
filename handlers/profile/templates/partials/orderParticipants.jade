@@ -21,7 +21,7 @@ include /bem
             placeholder="email",
             name='participant_{{order.number}}_{{$index}}',
             ng-type="email",
-            ng-pattern="/^[-.\\w]+@([\\w-]+\\.)+[\\w-]{2,12}$/",
+            ng-pattern=validate.patterns.email,
             ng-model="participant.email",
             ng-keydown="onEmailKeyDown($event)"
             ng-model-options="{ updateOn: 'default blur', debounce: {'default': 200, 'blur': 0} }"

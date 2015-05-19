@@ -49,6 +49,8 @@ gulp.task('db:load', lazyRequireTask('./tasks/dbLoad'));
 gulp.task('db:clear', lazyRequireTask('./tasks/dbClear'));
 gulp.task('migrate:play', lazyRequireTask('./tasks/migratePlay'));
 
+gulp.task('migrate', lazyRequireTask('migrate/tasks/migrate'));
+gulp.task('migrate:create', lazyRequireTask('migrate/tasks/create'));
 
 gulp.task("nodemon", lazyRequireTask('./tasks/nodemon', {
   // shared client/server code has require('template.jade) which precompiles template on run

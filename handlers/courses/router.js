@@ -1,4 +1,4 @@
-var Router = require('router');
+var Router = require('koa-router');
 var mustBeAuthenticated = require('auth').mustBeAuthenticated;
 var router = module.exports = new Router();
 

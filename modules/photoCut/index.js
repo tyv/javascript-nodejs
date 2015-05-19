@@ -1,1 +1,1 @@
-exports.loadSquarePhoto = require('./loadSquarePhoto');
+exports.promptSquarePhoto = require('./promptSquarePhoto');
