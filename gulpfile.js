@@ -49,7 +49,8 @@ gulp.task('db:load', lazyRequireTask('./tasks/dbLoad'));
 gulp.task('db:clear', lazyRequireTask('./tasks/dbClear'));
 gulp.task('migrate:play', lazyRequireTask('./tasks/migratePlay'));
 
-gulp.task('migrate', lazyRequireTask('migrate/tasks/migrate'));
+gulp.task('migrate:up', lazyRequireTask('migrate/tasks/up'));
+gulp.task('migrate:down', lazyRequireTask('migrate/tasks/down'));
 gulp.task('migrate:create', lazyRequireTask('migrate/tasks/create'));
 
 gulp.task("nodemon", lazyRequireTask('./tasks/nodemon', {
@@ -115,6 +116,9 @@ gulp.task('watch', lazyRequireTask('./tasks/watch', {
     }
   ]
 }));
+
+gulp.task('deploy:post', lazyRequireTask('./tasks/deployPost'));
+gulp.task('deploy:pre', lazyRequireTask('./tasks/deployPre'));
 
 gulp.task("client:sync-resources", lazyRequireTask('./tasks/syncResources', {
   assets: 'public'
