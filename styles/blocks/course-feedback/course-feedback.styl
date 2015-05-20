@@ -21,7 +21,7 @@
         color #666
 
     &__title-note
-        color #999
+        color light_gray_color
 
     &__title &__checkbox
         margin-right 7px
@@ -55,7 +55,7 @@
     &__load-new-userpic:visited
         vertical-align middle
 
-        color #3B86C4
+        color light_link_color
 
     &__note
         font-size 13px
@@ -63,4 +63,76 @@
 
         margin-top 10px
 
-        color #999
+        color light_gray_color
+
+    &_result
+        position relative
+
+        padding 20px 30px 40px 120px
+
+    &_result &__user
+        position relative
+        margin-top 15px
+
+    &_result &__userpic
+        position absolute
+        top -15px
+        left -100px
+
+    &_result &__userpic-img
+        width 86px
+        height 86px
+
+    &_result &__username
+        margin-right 10px
+
+    &_result &__username-link
+        font-weight bold
+        color light_link_color
+
+    &_result &__country-flag
+        margin-right 5px
+
+    &_result &__country-text
+        color light_gray_color
+
+    &_result &__date
+        float right
+        color light_gray_color
+
+    &_result .rating
+        margin-top 15px
+
+    &_result &__name
+        margin-top 5px
+
+        color #469269
+
+    &_result &__edit
+        font-size 12px
+        color light_link_color
+
+    &_result &__share
+        position absolute
+        bottom 0
+        left 50%
+
+        padding 10px
+
+        text-align center
+
+        background #FFF
+        border-radius 10px
+        border 3px solid #F2E7B3
+
+        transform translate(-50%, 50%)
+
+    &_result .share-icons
+        white-space nowrap
+
+    &_result .share-icons__title
+        display block
+        margin 0
+
+    &_result .share-icons .share
+        margin 0 10px
