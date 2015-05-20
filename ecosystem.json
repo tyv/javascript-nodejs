@@ -48,7 +48,7 @@
     "nightly-dev":    {
       "user":        "root",
       "host":        "nightly-dev",
-      "pre-deploy":  "git pull origin master && NODE_LANG=ru NODE_ENV=production gulp deploy:pre",
+      "pre-deploy":  "pwd; git pull origin master && NODE_LANG=ru NODE_ENV=production gulp deploy:pre",
       "path":        "/js/javascript-nodejs",
       "ref":         "origin/production",
       "repo":        "https://github.com/iliakan/javascript-nodejs",
