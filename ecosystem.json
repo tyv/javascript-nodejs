@@ -28,32 +28,32 @@
     "nightly": {
       "user":        "root",
       "host":        "nightly",
-      "pre-deploy":  "NODE_LANG=ru NODE_ENV=production gulp deployPre",
+      "pre-deploy":  "NODE_LANG=ru NODE_ENV=production gulp deploy:pre",
       "path":        "/js/javascript-nodejs",
       "ref":         "origin/production",
       "repo":        "https://github.com/iliakan/javascript-nodejs",
       "test":        "echo 'no test on deploy right now'",
-      "post-deploy": "NODE_LANG=ru NODE_ENV=production gulp deployPost"
+      "post-deploy": "NODE_LANG=ru NODE_ENV=production gulp deploy:post"
     },
     "yuri":    {
       "user":        "root",
       "host":        "yuri",
-      "pre-deploy":  "NODE_LANG=ru NODE_ENV=production gulp deployPre",
+      "pre-deploy":  "NODE_LANG=ru NODE_ENV=production gulp deploy:pre",
       "path":        "/js/javascript-nodejs",
       "ref":         "origin/production",
       "repo":        "https://github.com/iliakan/javascript-nodejs",
       "test":        "echo 'no test on deploy right now'",
-      "post-deploy": "NODE_LANG=ru NODE_ENV=production gulp deployPost"
+      "post-deploy": "NODE_LANG=ru NODE_ENV=production gulp deploy:post"
     },
     "nightly-dev":    {
       "user":        "root",
       "host":        "nightly-dev",
-      "pre-deploy":  "NODE_LANG=ru NODE_ENV=production gulp deployPre",
+      "pre-deploy":  "NODE_LANG=ru NODE_ENV=production gulp deploy:pre",
       "path":        "/js/javascript-nodejs",
       "ref":         "origin/production",
       "repo":        "https://github.com/iliakan/javascript-nodejs",
       "test":        "echo 'no test on deploy right now'",
-      "post-deploy": "NODE_LANG=ru NODE_ENV=production gulp deployPost"
+      "post-deploy": "NODE_LANG=ru NODE_ENV=production gulp deploy:post"
     }
   }
 }
