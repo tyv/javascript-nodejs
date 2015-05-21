@@ -27,7 +27,7 @@ module.exports = function() {
 
       gutil.log("Migrations found, stopping to apply, in maintenance mode");
       fs.writeFileSync(path.join(projectRoot, '.maintenance'), '');
-      execSync('/usr/local/bin/pm2 stop js'); // todo gracefulShutdown
+      execSync('/usr/local/bin/pm2 stop all'); // todo gracefulShutdown
 
       gutil.log("Migrations, applying all up");
 
