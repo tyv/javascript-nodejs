@@ -122,6 +122,10 @@ gulp.task('deploy:build', lazyRequireTask('deploy/tasks/build'));
 gulp.task('deploy:migrate', lazyRequireTask('deploy/tasks/migrate'));
 gulp.task('deploy:update', lazyRequireTask('deploy/tasks/update'));
 
+gulp.task('deploy', function(callback) {
+  runSequence("deploy:build", "deploy:update", callback);
+});
+
 gulp.task("client:sync-resources", lazyRequireTask('./tasks/syncResources', {
   assets: 'public'
 }));
