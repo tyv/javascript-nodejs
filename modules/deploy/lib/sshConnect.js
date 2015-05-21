@@ -28,20 +28,14 @@ module.exports = function*(host) {
 
 
   client.runInBuild = function(cmd, options) {
-    gutil.log('>', cmd);
-
     return sshExec(client, `cd ${config.deploy.buildPath}; ${cmd}`, options);
   };
 
   client.run = function(cmd, options) {
-    gutil.log('>', cmd);
-
     return sshExec(client, cmd, options);
   };
 
   client.runInTarget = function(cmd, options) {
-    gutil.log('>', cmd);
-
     return sshExec(client, `cd ${config.deploy.targetPath}; ${cmd}`, options);
   };
 

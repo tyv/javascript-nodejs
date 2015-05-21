@@ -5,4 +5,4 @@ const schema = new Schema({
   currentMigration: Number
 });
 
-module.exports = mongoose.model('MigrationState', schema);
+var MigrationState = module.exports = mongoose.model('MigrationState', schema);

@@ -1,3 +1,5 @@
+var gutil = require('gulp-util');
+
 /**
  * Executes ssh command
  * NB: DOES NOT KEEP STATE BETWEEN COMMANDS
@@ -9,10 +11,12 @@
 module.exports = function*(client, cmd, options) {
 
   options = options || {};
+
+  // certain commands like `git clone` require pty
   if (!("pty" in options)) options.pty = true;
 
   var stream = yield function(callback) {
-    // certain commands like `git clone` require pty
+    gutil.log('sshExec', cmd);
     client.exec(cmd, options, callback);
   };
 

@@ -119,6 +119,7 @@ gulp.task('watch', lazyRequireTask('./tasks/watch', {
 
 gulp.task('deploy:init', lazyRequireTask('deploy/tasks/init'));
 gulp.task('deploy:build', lazyRequireTask('deploy/tasks/build'));
+gulp.task('deploy:migrate', lazyRequireTask('deploy/tasks/migrate'));
 gulp.task('deploy:update', lazyRequireTask('deploy/tasks/update'));
 
 gulp.task("client:sync-resources", lazyRequireTask('./tasks/syncResources', {
@@ -186,7 +187,11 @@ gulp.on('stop', function() {
   mongoose.disconnect();
 });
 
-gulp.on('err', function() {
+gulp.on('err', function(gulpErr) {
+  if (gulpErr.err) {
+    // cause
+    console.error(gulpErr.err.message, gulpErr.err.stack, gulpErr.err.errors);
+  }
   mongoose.disconnect();
 });
 
