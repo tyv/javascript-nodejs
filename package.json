@@ -29,8 +29,6 @@
     "cls-bluebird": "*",
     "cls-mongoose": "*",
     "co": "*",
-    "co-read": "^0.1.1",
-    "config": "^1.13.0",
     "continuation-local-storage": "*",
     "css-loader": "*",
     "csv-parse": "*",
