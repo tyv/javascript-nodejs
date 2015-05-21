@@ -25,7 +25,13 @@ module.exports = function*(client, cmd, options) {
     var output = '';
 
     stream.on('close', function(code, signal) {
-      if (code) reject(new Error(`SSH command exited, ${signal ? 'signal:' + signal : ''} code:${code}`));
+
+      if (code) {
+        var error = new Error(`SSH command exited, ${signal ? 'signal:' + signal : ''} code:${code}`);
+        error.signal = signal;
+        error.code = code;
+        reject(code);
+      }
       else resolve(output);
     });
 

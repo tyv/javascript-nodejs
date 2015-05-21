@@ -38,7 +38,14 @@ module.exports = function() {
         // if there's nothing to commit,
         // `git commit` would exit with status 1, stopping the deploy
         // so I commit only if there are changes
-        yield* client.runInBuild('git diff-index --quiet HEAD && git commit -a -m deploy || exit 0');
+        try {
+          yield* client.runInBuild('git diff-index --quiet HEAD');
+        } catch(e) {
+          if (e.code == 1) {
+            // yes, changes exist
+            yield* client.runInBuild('git commit -a -m deploy');
+          }
+        }
 
         yield* client.runInBuild('git push origin production');
       } finally {
