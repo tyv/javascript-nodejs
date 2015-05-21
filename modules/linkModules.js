@@ -42,7 +42,9 @@ function createSymlinkSync(linkSrc, linkDst) {
   var conflictingName;
   try {
     conflictingName = linkDst.endsWith('.js') ? linkDst.slice(0, -3) : (linkDst + '.js');
+    console.log(conflictingName);
     lstat = fs.lstatSync(conflictingName);
+    console.log(lstat);
   } catch(e) {
   }
 
