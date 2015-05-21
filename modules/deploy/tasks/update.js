@@ -30,7 +30,7 @@ module.exports = function() {
         // if there any migrations, this will stop the server and apply them
         yield* client.runInTarget(`gulp deploy:migrate`);
 
-        yield* client.runInTarget(`/usr/local/bin/pm2 startOrGracefulReload ecosystem.json --env production --name js`);
+        yield* client.runInTarget(`/usr/local/bin/pm2 startOrGracefulReload ecosystem.json --env production`);
         yield* client.runInTarget(`gulp cache:clean`);
         yield* client.runInTarget(`gulp cloudflare:clean | bunyan`);
         yield* client.runInTarget(`gulp config:nginx --prefix /etc/nginx --env production --root /js/javascript-nodejs --sslEnabled`);

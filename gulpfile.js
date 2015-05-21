@@ -117,9 +117,16 @@ gulp.task('watch', lazyRequireTask('./tasks/watch', {
   ]
 }));
 
+// init deploy (kill all and recreate)
 gulp.task('deploy:init', lazyRequireTask('deploy/tasks/init'));
+
+// build on remote
 gulp.task('deploy:build', lazyRequireTask('deploy/tasks/build'));
+
+// apply db migrations
 gulp.task('deploy:migrate', lazyRequireTask('deploy/tasks/migrate'));
+
+// update remote working site & repo
 gulp.task('deploy:update', lazyRequireTask('deploy/tasks/update'));
 
 gulp.task('deploy', function(callback) {
