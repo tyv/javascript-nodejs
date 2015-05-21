@@ -1,0 +1,91 @@
+extends /layouts/main
+
+block append variables
+
+    - var layout_header_class = "main__header_center"
+    - var title = 'Отзыв о курсе Javascript, DOM, интерфейсы'
+    - var layout_main_class = "main_width-limit"
+    - var breadcrumbs = [{ title: 'Учебник', url: '/tutorial' }, { title: 'JavaScript.ru', url: 'http://javascript.ru' }]
+
+    - var content_class = '_center'
+
+
+block content
+
+    +b.feedback-stat
+        +e('ul').list
+            +e('li').item Отлично
+                +e('span').status
+                    +e('span').status-i(style="width: 60px")
+            +e('li').item Хорошо
+                +e('span').status
+                    +e('span').status-i(style="width: 40px")
+            +e('li').item Нормально
+                +e('span').status
+                    +e('span').status-i(style="width: 20px")
+            +e('li').item Так себе
+                +e('span').status
+                    +e('span').status-i(style="width: 7px")
+            +e('li').item Плохо
+                +e('span').status
+                    +e('span').status-i(style="width: 1px")
+
+        +b.pie
+            // +e('img').image(src="")
+            +e.text
+                +e('strong').percents 78%
+                +e('span').advice Пользователей рекомендуют эти курсы
+
+
+    +b('section').course-feedbacks
+        +e('h2').title
+            +e('span').title-n 286
+            | &nbsp;отзывов
+
+        +e('article').feedback
+            +b.course-feedback._result._external
+                +e.user
+                    +e.userpic
+                        +e('img').userpic-img(src="/img/userpic/userpic.svg")
+
+                    +e('span').username
+                        +e('a').username-link(href="/123") Александр Луговой
+                    +e('span').country
+                        +e('img').country-flag(src='/img/flags/ru.svg' width=16 height=12)
+                        +e('span').country-text Россия, Москва
+                    +e('span').date 12 Мар 2015
+
+                +b.rating._4
+                    for raiting in [1,2,3,4,5]
+                        +e('i').star ★
+
+                +e.name Рекомендует курс “Javascript, DOM, интерфейсы”
+
+                +e.body
+                    p Очень доволен данным курсом.Я сам из Республики Беларусь.Практический все, с кем я общался по js, хоть раз да заходили на ваш сайт. Если кто-то решится из РБ пройти этот курс, рекомендую. Понравилось: подача материала, расставленные приоритеты в изучении, только актуальные данные , а не устаревшая информация. Мне не хватило пару занятий по организации проекта на js и про шаблоны. Хотел пройти курс у человека, который ПОЛНОСТЬЮ ПРАКТИК. Очень радостно, что вы поделились своим опытом!!! Спасибо.
+
+        +e('article').feedback
+            +b.course-feedback._result._external
+                +e.user
+                    +e.userpic
+                        +e('img').userpic-img(src="/img/userpic/userpic.svg")
+
+                    +e('span').username
+                        +e('a').username-link(href="/123") Александр Луговой
+                    +e('span').country
+                        +e('img').country-flag(src='/img/flags/ru.svg' width=16 height=12)
+                        +e('span').country-text Россия, Москва
+                    +e('span').date 12 Мар 2015
+
+                +b.rating._4
+                    for raiting in [1,2,3,4,5]
+                        +e('i').star ★
+
+                +e.name Рекомендует курс “Javascript, DOM, интерфейсы”
+
+                +e.body
+                    p Очень доволен данным курсом.Я сам из Республики Беларусь.Практический все, с кем я общался по js, хоть раз да заходили на ваш сайт. Если кто-то решится из РБ пройти этот курс, рекомендую. Понравилось: подача материала, расставленные приоритеты в изучении, только актуальные данные , а не устаревшая информация. Мне не хватило пару занятий по организации проекта на js и про шаблоны. Хотел пройти курс у человека, который ПОЛНОСТЬЮ ПРАКТИК. Очень радостно, что вы поделились своим опытом!!! Спасибо.
+
+
+
+
