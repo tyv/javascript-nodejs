@@ -14,15 +14,15 @@ var DEBUG = false;
 // returns false if link exists alread (and is correct)
 // throws error if conflict (another file or link by that name)
 function createSymlinkSync(linkSrc, linkDst) {
-  var lstat;
+  var lstatDst;
   // check same-named link
   try {
-    lstat = fs.lstatSync(linkDst);
+    lstatDst = fs.lstatSync(linkDst);
   } catch (e) {
   }
 
-  if (lstat) {
-    if (!lstat.isSymbolicLink()) {
+  if (lstatDst) {
+    if (!lstatDst.isSymbolicLink()) {
       throw new Error("Conflict: path exist and is not a link: " + linkDst);
     }
 
@@ -40,16 +40,14 @@ function createSymlinkSync(linkSrc, linkDst) {
   // if src is "module/", check module.js
 
   var conflictingName;
-  var conflictingNameExists;
+  var conflictingNameLstat;
   try {
     conflictingName = linkDst.endsWith('.js') ? linkDst.slice(0, -3) : (linkDst + '.js');
-    console.log(conflictingName);
-    conflictingNameExists = fs.lstatSync(conflictingName);
-    console.log(conflictingNameExists);
+    conflictingNameLstat = fs.lstatSync(conflictingName);
   } catch(e) {
   }
 
-  if (conflictingNameExists) {
+  if (conflictingNameLstat) {
     throw new Error("Conflict: path exist: " + conflictingName);
   }
 

@@ -6,7 +6,7 @@
  * @param client ssh2 client (must be connected)
  * @returns {Promise} rejects if code!=0
  */
-module.exports = function* execOverSSH(client, cmd, options) {
+module.exports = function*(client, cmd, options) {
 
   options = options || {};
   if (!("pty" in options)) options.pty = true;
@@ -18,16 +18,20 @@ module.exports = function* execOverSSH(client, cmd, options) {
 
   return yield new Promise(function(resolve, reject) {
 
+    var output = '';
+
     stream.on('close', function(code, signal) {
       if (code) reject(new Error(`SSH command exited, ${signal ? 'signal:' + signal : ''} code:${code}`));
-      else resolve();
+      else resolve(output);
     });
 
     stream.on('data', function(data) {
+      output += data.toString();
       console.log(data.toString());
     });
 
     stream.stderr.on('data', function(data) {
+      output += data.toString();
       console.error(data.toString());
     });
   });

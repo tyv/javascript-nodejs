@@ -117,10 +117,9 @@ gulp.task('watch', lazyRequireTask('./tasks/watch', {
   ]
 }));
 
-gulp.task('deploy', lazyRequireTask('deploy/tasks/deploy'));
 gulp.task('deploy:init', lazyRequireTask('deploy/tasks/init'));
-gulp.task('deploy:post', lazyRequireTask('./tasks/deployPost'));
-gulp.task('deploy:pre', lazyRequireTask('./tasks/deployPre'));
+gulp.task('deploy:build', lazyRequireTask('deploy/tasks/build'));
+gulp.task('deploy:update', lazyRequireTask('deploy/tasks/update'));
 
 gulp.task("client:sync-resources", lazyRequireTask('./tasks/syncResources', {
   assets: 'public'
@@ -148,7 +147,6 @@ gulp.task('client:webpack', lazyRequireTask('./tasks/webpack'));
 
 
 gulp.task('build', function(callback) {
-  console.log(process.env.NODE_ENV, process.env.ASSET_VERSIONING);
   runSequence("client:sync-resources", 'client:webpack', callback);
 });
 
