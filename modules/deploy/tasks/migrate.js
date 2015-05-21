@@ -21,7 +21,7 @@ module.exports = function() {
       yield* migrationManager.loadState();
 
       if (!migrationManager.findNextMigration(1)) {
-        gutil.log("Migrations not found");
+        gutil.log("Migrations (pending) not found.");
         return;
       }
 
