@@ -40,15 +40,16 @@ function createSymlinkSync(linkSrc, linkDst) {
   // if src is "module/", check module.js
 
   var conflictingName;
+  var conflictingNameExists;
   try {
     conflictingName = linkDst.endsWith('.js') ? linkDst.slice(0, -3) : (linkDst + '.js');
     console.log(conflictingName);
-    lstat = fs.lstatSync(conflictingName);
-    console.log(lstat);
+    conflictingNameExists = fs.lstatSync(conflictingName);
+    console.log(conflictingNameExists);
   } catch(e) {
   }
 
-  if (lstat) {
+  if (conflictingNameExists) {
     throw new Error("Conflict: path exist: " + conflictingName);
   }
 
