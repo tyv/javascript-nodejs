@@ -13,14 +13,13 @@ module.exports = function() {
 
   var args = require('yargs')
     .example('gulp deploy:build --host nightly')
-    .example('gulp deploy:build --host nightly --npm')
+    .example('gulp deploy:build --host nightly --with-npm')
     .demand(['host'])
     .argv;
 
   return function() {
 
     return co(function*() {
-
 
       var client = yield* sshConnect(args.host);
 
@@ -29,7 +28,7 @@ module.exports = function() {
         yield* client.runInBuild(`git fetch origin master`);
         yield* client.runInBuild(`git merge origin/master --no-edit`);
 
-        if (args.npm) {
+        if (args.withNpm) {
           yield* reinstallModules();
         }
 
@@ -48,7 +47,7 @@ module.exports = function() {
 
       function* reinstallModules() {
         yield* client.runInBuild(`rm -rf node_modules`);
-        yield* client.runInBuild(`npm install`);
+        yield* client.runInBuild(`npm install --no-spin --node-gyp=pangyp`);
         yield* client.runInBuild('git add --force node_modules');
       }
 

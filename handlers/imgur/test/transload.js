@@ -12,7 +12,7 @@ describe("imgur", function() {
 
     it("works for a normal url", function*() {
       var response = yield* transload(urlExample);
-      response.should.be.string;
+      response.imgurId.should.be.string;
     });
 
 
