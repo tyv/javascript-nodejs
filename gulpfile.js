@@ -117,6 +117,8 @@ gulp.task('watch', lazyRequireTask('./tasks/watch', {
   ]
 }));
 
+gulp.task('deploy', lazyRequireTask('deploy/tasks/deploy'));
+gulp.task('deploy:init', lazyRequireTask('deploy/tasks/init'));
 gulp.task('deploy:post', lazyRequireTask('./tasks/deployPost'));
 gulp.task('deploy:pre', lazyRequireTask('./tasks/deployPre'));
 

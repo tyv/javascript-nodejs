@@ -1,4 +1,5 @@
 var path = require('path');
+var fs = require('fs');
 var env = process.env;
 
 // NODE_ENV = development || test || production
@@ -101,6 +102,14 @@ module.exports = {
       // may be slow(!): iterations = 12000 take ~60ms to generate strong password
       iterations: env.NODE_ENV == 'production' ? 12000 : 1
     }
+  },
+
+  deploy: {
+    user: 'root',
+    privateKey: fs.readFileSync(path.join(secret.dir, 'js_rsa')),
+    buildPath:        "/js/build",
+    targetPath:        "/js/javascript-nodejs",
+    repo:        "https://github.com/iliakan/javascript-nodejs"
   },
 
   sauceLabs: {

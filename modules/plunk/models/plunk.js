@@ -67,14 +67,6 @@ schema.methods.mergeAndSyncRemote = function*(files) {
   }
 
   for (var name in files) {
-    /**
-     * This hangs dunno why, doesn't print anything, maybe v8 or mongoose bug (this.files has 1 file)
-     var existingFile = this.files.find(function(item) {
-      console.log("find", item);
-      return item.filename == name;
-    });
-     */
-
     var existingFile = null;
     for (var i = 0; i < this.files.length; i++) {
       var item = this.files[i];
@@ -89,6 +81,7 @@ schema.methods.mergeAndSyncRemote = function*(files) {
     } else {
       this.files.push(files[name]);
     }
+    delete files[name].filename;
     changes[name] = files[name];
   }
 
@@ -100,6 +93,7 @@ schema.methods.mergeAndSyncRemote = function*(files) {
   } else {
     log.debug("plunk " + this.plunkId + " changes", changes);
   }
+
 
   if (this.plunkId) {
     log.debug("update remotely", this.webPath, this.plunkId);
@@ -152,10 +146,11 @@ schema.statics.createRemote = function*(description, files) {
 };
 
 schema.statics.request = function*(data) {
+  console.log(data);
   var result = yield request(data);
 
   if (result.statusCode == 404) {
-    throw new Error("result status code 404, probably plnkrAuthId is too old");
+    throw new Error("result status code 404, probably (plnkrAuthId is too old OR this plunk doesn't belong to javascript-plunk user)");
   }
   if (result.statusCode == 400) {
     throw new Error("invalid json, probably you don't need to stringify body (request will do it)");
@@ -172,7 +167,6 @@ schema.statics.updateRemote = function* (plunkId, changes) {
   }
 
   var form = {
-    tags:  {},
     files: changes
   };
 
