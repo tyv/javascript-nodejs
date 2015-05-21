@@ -148,6 +148,7 @@ gulp.task('client:webpack', lazyRequireTask('./tasks/webpack'));
 
 
 gulp.task('build', function(callback) {
+  console.log(process.env.NODE_ENV, process.env.ASSET_VERSIONING);
   runSequence("client:sync-resources", 'client:webpack', callback);
 });
 

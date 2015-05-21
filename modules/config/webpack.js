@@ -43,9 +43,11 @@ var webpackConfig = {
     library:       '[name]'
   },
 
-  cache:      process.env.NODE_ENV == 'development',
-  watchDelay: 10,
-  watch:      process.env.NODE_ENV == 'development',
+  cache:        process.env.NODE_ENV == 'development',
+  watchOptions: {
+    aggregateTimeout: 10
+  },
+  watch:        process.env.NODE_ENV == 'development',
 
   devtool: process.env.NODE_ENV == 'development' ? "eval" : // try "inline-source-map" ?
              process.env.NODE_ENV == 'production' ? 'source-map' : "",

@@ -30,14 +30,14 @@ module.exports = function() {
       yield* execRemote(`cd ${config.deploy.buildPath}; git reset --hard`);
       yield* execRemote(`cd ${config.deploy.buildPath}; git fetch origin master`);
       yield* execRemote(`cd ${config.deploy.buildPath}; git merge origin/master --no-edit`);
-/*
+
       yield* execRemote(`cd ${config.deploy.buildPath}; gulp build`, {
         env: {
           NODE_ENV: 'production',
           ASSET_VERSIONING: 'file'
         }
       });
-*/
+
 
       // now do the build!
 
