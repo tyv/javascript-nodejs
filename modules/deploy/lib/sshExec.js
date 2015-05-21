@@ -30,7 +30,7 @@ module.exports = function*(client, cmd, options) {
         var error = new Error(`SSH command exited, ${signal ? 'signal:' + signal : ''} code:${code}`);
         error.signal = signal;
         error.code = code;
-        reject(code);
+        reject(error);
       }
       else resolve(output);
     });

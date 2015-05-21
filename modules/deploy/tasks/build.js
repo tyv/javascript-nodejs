@@ -42,7 +42,7 @@ module.exports = function() {
           yield* client.runInBuild('git diff-index --quiet HEAD');
         } catch(e) {
           if (e.code == 1) {
-            // yes, changes exist
+            // exit code 1 means that there's something to commit
             yield* client.runInBuild('git commit -a -m deploy');
           }
         }
