@@ -44,10 +44,15 @@ sitetoolbar_secondary_link = #498CBE
 
     &__user-wrap
         flex-shrink 1
-        min-width 70px
+        position relative
+
+        min-width 20px
+        padding-left 47px
+
         transition opacity 0.3s ease-out
 
     &__search-wrap
+        box-sizing border-box
         padding-right 20px
 
     &__link_logo,
@@ -102,9 +107,6 @@ sitetoolbar_secondary_link = #498CBE
     &__link:hover
         text-decoration none
 
-    &__user
-        display block
-
     //- remove visibility after 3 days of prod
     //- visibility hidden
     &__book-wrap
@@ -119,7 +121,10 @@ sitetoolbar_secondary_link = #498CBE
         color sitetoolbar_color
         line-height inherit
         height 60px
-        padding 0 17px
+
+    &__user
+        display block
+        padding 0 17px 0 5px
 
     &__login
         padding 0 10px 0 0
@@ -157,12 +162,11 @@ sitetoolbar_secondary_link = #498CBE
         box-sizing border-box
         width 100%
         white-space nowrap
-        padding-left 47px
         position relative
 
     &__userpic
         position absolute
-        left 0
+        left -40px
         top 50%
 
         margin-top -19px
@@ -333,22 +337,19 @@ sitetoolbar_secondary_link = #498CBE
 
         position absolute
         top 0
-        left 50%
-
-        transform translateX(-50%)
+        right 0
 
         border 2px solid #e2e2e2
         border-radius 4px
         box-shadow 0 2px 10px rgba(0, 0, 0, .12)
         background #fff
 
-
     &__usermenu::before
         content ""
         position absolute
-        left 50%
         margin-left -5px
         top -7px
+        right 60px
         width 12px
         height 12px
         background #fff
@@ -369,7 +370,7 @@ sitetoolbar_secondary_link = #498CBE
         text-decoration none
 
 
-    @media (max-width: 1125px)
+    @media (max-width: 1175px)
 
         &__logo_normal
             display none
@@ -395,7 +396,7 @@ sitetoolbar_secondary_link = #498CBE
 
             text-align center
 
-    @media (max-width: 900px)
+    @media (max-width: 940px)
         &__logo-wrap
             flex-shrink 1
 
@@ -405,12 +406,17 @@ sitetoolbar_secondary_link = #498CBE
         &__user::before
             padding 0
 
-        &__user::after,
-        &__user-text
-            display none
+        &__book-wrap
+            padding-right 5px
 
-        &__usermenu
-            right 128px // лучше позиционировать с помощью js
+        &__user-wrap
+            padding-left 40px
+
+        &__userpic
+            left -38px
+
+        &__search-wrap
+            padding-right 10px
 
 
     @media tablet
@@ -418,12 +424,33 @@ sitetoolbar_secondary_link = #498CBE
         &
             position relative
 
+        &__user-wrap
+            flex-shrink 0
+            width 64px
+            padding 0
+            position static
+
+        &__user
+            display inline-block
+            padding 0
+
+
         &__usermenu-wrap
             position absolute
             left 0
             z-index 1
 
             width 100%
+
+            text-align center
+
+        &__userpic
+            position static
+            margin 0
+
+        &__user-text,
+        &__user:after
+            display none
 
         &_menu_open &__tablet-menu
             display block
@@ -443,10 +470,6 @@ sitetoolbar_secondary_link = #498CBE
             position absolute
             left 50%
             margin-left -61px // ширина / -2
-
-        &__userpic
-            left 50%
-            margin-left -18px
 
         &__user-text
             max-width 130px
