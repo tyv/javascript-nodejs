@@ -187,7 +187,7 @@ exports.init = function(app) {
       }
 
       var templatePathResolved;
-      if (locals.useAbsoluteTemplatePath) {
+      if (loc.useAbsoluteTemplatePath) {
         templatePathResolved = templatePath;
       } else {
         if (templatePath[0] == '/') {
