@@ -5,7 +5,7 @@
   "scripts": {
     "prod": "NODE_ENV=production node --harmony_classes ./bin/server",
     "fixperms": "sudo chown -R `id -u` . * ~/.n*",
-    "test": "SELENIUM_LOCAL=1 NODE_ENV=test gulp test | bunyan"
+    "test": "SELENIUM_LOCAL=1 NODE_ENV=test gulp test"
   },
   "precommit": "NODE_ENV=development node `which gulp` pre-commit",
   "//": "blueimp-canvas-to-blob is taken from a fork w/ browserify support",
