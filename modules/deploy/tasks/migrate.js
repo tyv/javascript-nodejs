@@ -27,8 +27,17 @@ module.exports = function() {
 
       gutil.log("Migrations found, stopping to apply, in maintenance mode");
       fs.writeFileSync(path.join(projectRoot, '.maintenance'), '');
-      execSync('/usr/local/bin/pm2 stop all'); // todo gracefulShutdown
 
+      try {
+        execSync('/usr/local/bin/pm2 stop all'); // todo gracefulShutdown
+      } catch(e) {
+        if (e.code == 1) {
+          // OK
+          // [PM2][WARN] No process found (already stopped)
+        } else {
+          throw e;
+        }
+      }
       gutil.log("Migrations, applying all up");
 
       yield migrationManager.migrateAllUp();
