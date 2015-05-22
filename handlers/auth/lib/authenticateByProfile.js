@@ -13,7 +13,8 @@ function* mergeProfile(user, profile) {
   if (!user.photo && profile.photos && profile.photos.length && profile.photos[0].type != 'default') {
     // assign an avatar unless it's default
     var photoUrl = profile.photos[0].value;
-    user.photo = yield* transload(photoUrl).link;
+    var photoInfo = yield* transload(photoUrl);
+    user.photo = photoInfo.link;
   }
 
   if (!user.email && profile.emails && profile.emails.length) {
