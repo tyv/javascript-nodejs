@@ -10,10 +10,9 @@ module.exports = function() {
   return function() {
 
     var args = require('yargs')
-      .usage("gulp db:load --from fixture/init --reset")
+      .usage("gulp db:load --from fixture/init")
       .demand(['from'])
       .describe('from', 'file to import')
-      .describe('reset', 'kill all existing models of each kind')
       .argv;
 
     var dbPath = path.join(projectRoot, args.from);
@@ -22,7 +21,7 @@ module.exports = function() {
 
     return co(function*() {
 
-      yield* dataUtil.loadModels(dbPath, { reset: args.reset });
+      yield* dataUtil.loadModels(dbPath, { reset: true });
 
       gutil.log("loaded db " + dbPath);
     });

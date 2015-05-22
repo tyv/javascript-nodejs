@@ -7,6 +7,8 @@ block append variables
   - var layout_page_class = "page_contains_header"
   - var mainclass = "main-headered"
 
+block append head
+  script(defer src=pack("nodejsScreencast", "js"))
 
 block content
   +b.nodejs-screencast-header
@@ -71,9 +73,6 @@ block content
           dd Нажмите <code class="shortcut">Ctrl + O</code>, это отключит панели FAR и вы сможете всё видеть. Нажмите ещё раз &mdash; и панели снова появятся.
 
         include _course-form
-
-    script(src=pack("nodejsScreencast", "js"))
-    script nodejsScreencast.init();
 
     include /blocks/comments
 

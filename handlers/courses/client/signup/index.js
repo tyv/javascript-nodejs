@@ -1,10 +1,6 @@
 var SignupWidget = require('./signupWidget');
 
-exports.init = function() {
-
-  initSignupWidget();
-
-};
+initSignupWidget();
 
 function initSignupWidget() {
 

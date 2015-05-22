@@ -7,6 +7,7 @@ block html
     block variables
     include ../blocks/head
     block head
+    script(defer src=pack("footer", "js"))
 
   body.no-icons
     script head.fontTest();
@@ -18,5 +19,3 @@ block html
     else
       block body
 
-    script(src=pack("footer", "js"))
-    script footer.init();

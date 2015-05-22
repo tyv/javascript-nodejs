@@ -11,6 +11,9 @@ block append ga
 
   script window.ga('send', 'event', 'payment', 'return-#{orderInfo.status}', 'ebook');
 
+block append head
+  script(defer src=pack("ebook", "js"))
+
 block content
 
   script var orderNumber = #{order.number};
@@ -101,6 +104,3 @@ block content
     if ~['fail'].indexOf(orderInfo.status)
       +b('ul').grayed-list.__next
         +e('li').item.__next-item Подтверждение
-
-  script(src=pack("ebook", "js"))
-  script ebook.init();

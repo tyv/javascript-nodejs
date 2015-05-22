@@ -1,6 +1,6 @@
 var OrderForm = require('./orderForm');
 
-exports.init = function() {
+function init() {
 
 
   var orderForm = document.querySelector('[data-order-form]');
@@ -10,4 +10,6 @@ exports.init = function() {
     });
   }
 
-};
+}
+
+init();

@@ -4,5 +4,6 @@ module.exports = _.merge(
   require('./user'),
   require('./newsletter'),
   require('./orderTemplate'),
-  require('./course')
+  require('./course'),
+  require('./migrationState')
 );

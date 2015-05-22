@@ -6,6 +6,10 @@ block append variables
   - var content_class = '_center'
   - var sitetoolbar = true
 
+block append head
+  script(defer src=pack("courses", "js"))
+
+
 block append ga
   script ga('require', 'ec');
 
@@ -36,7 +40,3 @@ block content
     include blocks/receipts
     include blocks/payment
     include blocks/result
-
-  script(src=pack("courses", "js"))
-  script courses.init();
-

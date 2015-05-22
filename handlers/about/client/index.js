@@ -162,7 +162,7 @@ L.Google = L.Class.extend({
 
 // ====================================================
 
-exports.init = function() {
+function init() {
 
   var map = new L.Map('map', {
     center: new L.LatLng(54.231473, 37.734144),
@@ -190,4 +190,6 @@ exports.init = function() {
 
   }(city));
 
-};
+}
+
+init();

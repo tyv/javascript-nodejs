@@ -31,12 +31,7 @@ module.exports = function() {
       try {
         execSync('/usr/local/bin/pm2 stop all'); // todo gracefulShutdown
       } catch(e) {
-        if (e.code == 1) {
-          // OK
-          // [PM2][WARN] No process found (already stopped)
-        } else {
-          throw e;
-        }
+        // maybe no pm2 (dev host?) or already stopped
       }
       gutil.log("Migrations, applying all up");
 

@@ -4,7 +4,7 @@ var clientRender = require('client/clientRender');
 var newsletter = require('newsletter/client');
 var gaHitCallback = require('gaHitCallback');
 
-exports.init = function() {
+function init() {
   initList();
 
   var form = document.querySelector('[data-newsletter-subscribe-form]');
@@ -32,7 +32,7 @@ exports.init = function() {
     event.preventDefault();
   };
 
-};
+}
 
 function initList() {
   var lis = document.querySelectorAll('li[data-mnemo]');
@@ -110,3 +110,5 @@ function openVideo(videoId) {
 
 
 }
+
+init();

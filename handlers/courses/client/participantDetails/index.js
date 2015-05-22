@@ -4,11 +4,12 @@ var notification = require('client/notification');
 var xhr = require('client/xhr');
 var Spinner = require('client/spinner');
 
-exports.init = function() {
+function init() {
 
   initPhotoLoadWidget();
 
-};
+}
+
 
 function initPhotoLoadWidget() {
   var photoWidgetElem = document.querySelector('[data-photo-load]');
@@ -85,5 +86,4 @@ function PhotoLoadWidget({elem}) {
 }
 
 
-
-
+init();

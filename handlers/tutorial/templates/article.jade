@@ -6,6 +6,9 @@ block append variables
 block sidebar
   include sidebar
 
+block append head
+  script(defer src=pack("tutorial", "js"))
+
 block content
   != content
 
@@ -31,7 +34,5 @@ block content
             include _task_content
 
 
-  script(src=pack("tutorial", "js"))
-  script tutorial.init();
 
   include /blocks/banner-bottom

@@ -34,7 +34,6 @@ require('./sitetoolbar');
 require('./sidebar');
 require('./navigationArrows');
 require('./hover');
-require('./runDemo');
 require('./trackLinks');
 
 // must use CommonsChunkPlugin
