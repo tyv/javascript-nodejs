@@ -6,6 +6,7 @@ const path = require('path');
 var isDevelopment = process.env.NODE_ENV == 'development';
 
 // can be called not from this MW, but from anywhere
+// this.templateDir can be anything
 function renderError(err) {
   /*jshint -W040 */
 
@@ -43,7 +44,10 @@ function renderError(err) {
         errors: errors
       };
     } else {
-      this.body = this.render(path.join(__dirname, "templates/400"), {error: err});
+      this.body = this.render(path.join(__dirname, "templates/400"), {
+        useAbsoluteTemplatePath: true,
+        error: err
+      });
     }
 
     return;
@@ -84,7 +88,11 @@ function renderError(err) {
     }
   } else {
     var templateName = ~[500, 401, 404, 403].indexOf(this.status) ? this.status : 500;
-    this.body = this.render(`${__dirname}/templates/${templateName}`, {error: err, requestId: this.requestId});
+    this.body = this.render(`${__dirname}/templates/${templateName}`, {
+      useAbsoluteTemplatePath: true,
+      error: err,
+      requestId: this.requestId
+    });
   }
 
 }
@@ -100,9 +108,14 @@ exports.init = function(app) {
     } catch (err) {
       // this middleware is not like others, it is not endpoint
       // so wrapHmvcMiddleware is of little use
-      this.templateDir = path.join(__dirname, 'templates');
-      this.renderError(err);
-      delete this.templateDir;
+      try {
+        this.renderError(err);
+      } catch(renderErr) {
+        // could not render, maybe template not found or something
+        this.status = 500;
+        this.body = "Server render error";
+        this.log.error(renderErr); // make it last to ensure that status/body are set
+      }
     }
   });
 

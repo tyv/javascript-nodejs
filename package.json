@@ -5,6 +5,7 @@
   "scripts": {
     "prod": "NODE_ENV=production node --harmony_classes ./bin/server",
     "fixperms": "sudo chown -R `id -u` . * ~/.n*",
+    "//": "test must exit with status 1 if fails, don't use | or ensure the right exit code if you do",
     "test": "SELENIUM_LOCAL=1 NODE_ENV=test gulp test"
   },
   "precommit": "NODE_ENV=development node `which gulp` pre-commit",

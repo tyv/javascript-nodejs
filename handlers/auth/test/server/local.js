@@ -11,15 +11,17 @@ const assert = require('better-assert');
 describe('Authorization', function() {
 
   var server;
-  before(function* () {
+  before(function*() {
 
     yield* db.loadModels(fixtures);
 
     // APP.LISTEN() USES A RANDOM PORT,
     // which superagent gets as server.address().port
-    // so that every run will get it's own port
     server = app.listen();
-    server.unref();
+  });
+
+  after(function() {
+    server.close();
   });
 
   describe('login', function() {
@@ -55,15 +57,15 @@ describe('Authorization', function() {
     it('should log out', function(done) {
       agent
         .post('/auth/logout')
-        .send('')
+        .send()
         .expect(302, done);
     });
 
-    it('should return error because session is incorrect', function(done) {
+    it('should return error when repeat logout (the session is incorrect)', function(done) {
       agent
         .post('/auth/logout')
-        .send('')
-        .expect(401, done);
+        .send()
+        .expect(401, done)
     });
   });
 

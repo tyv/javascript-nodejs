@@ -159,15 +159,21 @@ exports.init = function(app) {
 
     this.locals = _.assign({}, config.jade);
 
-    // render('article', {})  -- 2 args
-    // render('article')
+    /**
+     * Render template
+     * Find the file:
+     *   if locals.useAbsoluteTemplatePath => use templatePath
+     *   else if templatePath starts with /   => lookup in locals.basedir
+     *   otherwise => lookup in this.templateDir (MW should set it)
+     * @param templatePath file to find (see the logic above)
+     * @param locals
+     * @returns {String}
+     */
     this.render = function(templatePath, locals) {
 
       // add helpers at render time, not when middleware is used time
       // probably we will have more stuff initialized here
       addStandardHelpers(this.locals, this);
-
-      this.log.debug("Lookup " + templatePath + " in " + this.templateDir);
 
       // warning!
       // _.assign does NOT copy defineProperty
@@ -176,8 +182,22 @@ exports.init = function(app) {
 
       _.assign(loc, locals);
 
-      templatePath += '.jade';
-      var templatePathResolved = path.join(templatePath[0] == '/' ? loc.basedir : this.templateDir, templatePath);
+      if (!/\.jade$/.test(templatePath)) {
+        templatePath += '.jade';
+      }
+
+      var templatePathResolved;
+      if (locals.useAbsoluteTemplatePath) {
+        templatePathResolved = templatePath;
+      } else {
+        if (templatePath[0] == '/') {
+          this.log.debug("Lookup " + templatePath + " in " + loc.basedir);
+          templatePathResolved = path.join(loc.basedir, templatePath);
+        } else {
+          this.log.debug("Lookup " + templatePath + " in " + this.templateDir);
+          templatePathResolved = path.join(this.templateDir, templatePath);
+        }
+      }
 
       this.log.debug("render file " + templatePathResolved);
       return jade.renderFile(templatePathResolved, loc);
