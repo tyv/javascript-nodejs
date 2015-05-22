@@ -49,7 +49,7 @@ var webpackConfig = {
   },
   watch:        process.env.NODE_ENV == 'development',
 
-  devtool: process.env.NODE_ENV == 'development' ? "eval" : // try "inline-source-map" ?
+  devtool: process.env.NODE_ENV == 'development' ? "inline-source-map" : // try "eval" ?
              process.env.NODE_ENV == 'production' ? 'source-map' : "",
 
   profile: true,

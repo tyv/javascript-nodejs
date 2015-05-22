@@ -184,4 +184,4 @@ function initQuizForm(form) {
 
 }
 
-exports.init = init;
+init();

@@ -2,8 +2,9 @@ var delegate = require('client/delegate');
 var prism = require('client/prism');
 var xhr = require('client/xhr');
 var TutorialMapModal = require('./tutorialMapModal');
+var TutorialMap = require('./tutorialMap');
 
-exports.init = function() {
+function init() {
 
 
   initTaskButtons();
@@ -23,9 +24,14 @@ exports.init = function() {
       require('./ebookExtras').init();
     }, 'ebookExtras');
   }
-};
 
-exports.TutorialMap = require('./tutorialMap');
+  var tutorialMapElem = document.querySelector('.tutorial-map');
+  if (tutorialMapElem) {
+    new TutorialMap(tutorialMapElem);
+  }
+
+}
+
 
 function initSidebarHighlight() {
 
@@ -95,3 +101,24 @@ function initFolderList() {
   });
 }
 
+window.runDemo = function(button) {
+
+  var demoElem;
+  var parent = button;
+
+  /* jshint -W084 */
+  while(parent = parent.parentElement) {
+    demoElem = parent.querySelector('[data-demo]');
+    if (demoElem) break;
+  }
+
+  if (!demoElem) {
+    alert("Ошибка, нет элемента с демо");
+  } else {
+    /* jshint -W061 */
+    eval(demoElem.textContent);
+  }
+
+};
+
+init();

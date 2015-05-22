@@ -3,6 +3,9 @@ extends /layouts/main
 block append variables
   - var layout_main_class = "main_width-limit"
 
+block append head
+  script(defer src=pack("search", "js"))
+
 block content
 
   +b("form").search-form(action="/search/")
@@ -59,6 +62,3 @@ block content
           +b('button').button._action.__send(type="submit" name="type" value=searchType)
             +e('span').text Найти
 
-
-  script(src=pack("search", "js"))
-  script search.init();

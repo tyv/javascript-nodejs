@@ -5,6 +5,9 @@ block append variables
   - var comments = true
   - var layout_header_class = "main__header_center"
 
+block append head
+  script(defer src=pack("tutorial", "js"))
+
 block content
   +b.intro
     | Перед вами учебник по JavaScript, начиная с основ, включающий в себя много
@@ -60,9 +63,6 @@ block content
                 +e('a').link(href=child.url)= child.title
 
   include /blocks/banner-bottom
-
-  script(src=pack("tutorial", "js"))
-  script tutorial.init();
 
   script(type="application/ld+json").
     {

@@ -1,9 +1,8 @@
 extends /layouts/html
 
+block append head
+  script(defer src=pack("tutorial", "js"))
+
 block body
 
   include _map
-
-  script(src=pack("tutorial", "js"))
-  script tutorial.init();
-  script new (tutorial.TutorialMap)(document.querySelector('.tutorial-map'));

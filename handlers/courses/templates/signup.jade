@@ -7,6 +7,9 @@ block append variables
   - var sitetoolbar = true
   - var layout_main_class = "main_width-limit"
 
+block append head
+  script(defer src=pack("coursesSignup", "js"))
+
 block content
 
   script var groupInfo = !{JSON.stringify(groupInfo)};
@@ -37,8 +40,4 @@ block content
     include blocks/result
 
     include blocks/grayedList
-
-
-  script(src=pack("coursesSignup", "js"))
-  script coursesSignup.init();
 

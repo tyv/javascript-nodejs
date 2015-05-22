@@ -11,6 +11,9 @@ block append variables
   - var sitetoolbar = true
   - var layout_main_class = "main_width-limit"
 
+block append head
+  script(defer src=pack("quiz", "js"))
+
 block content
 
   +b.quiz-start
@@ -30,5 +33,3 @@ block content
 
   include blocks/quiz-explanations
 
-  script(src=pack("quiz", "js"))
-  script quiz.init();

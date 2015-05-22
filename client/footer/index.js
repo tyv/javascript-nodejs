@@ -5,7 +5,7 @@ var trackSticky = require('client/trackSticky');
 
 //require('newsletter/client').init();
 
-exports.init = function() {
+function init() {
   showLinkType();
 
   if (window.devicePixelRatio > 1) {
@@ -14,6 +14,8 @@ exports.init = function() {
 
   window.addEventListener('scroll', trackSticky);
   trackSticky();
-};
+}
 
-exports.trackSticky = trackSticky;
+init();
+
+//exports.trackSticky = trackSticky;

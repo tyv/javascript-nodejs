@@ -1,5 +1,5 @@
 
-exports.init = function() {
+function init() {
   var fixedForm = document.querySelector(".search-form_fixed");
   var fixedFormInput = fixedForm.querySelector(".search-form__query .text-input__control");
   var staticFormInput = document.querySelector(".search-form:not(.search-form_fixed) .search-form__query .text-input__control");
@@ -21,4 +21,6 @@ exports.init = function() {
 
   window.addEventListener("scroll", updateFixedForm);
   updateFixedForm(); // set initial state
-};
+}
+
+init();

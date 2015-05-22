@@ -13,6 +13,9 @@ block append ga
     });
     ga('ec:setAction', 'click');
 
+block append head
+  script(defer src=pack("ebook", "js"))
+
 block content
 
   script var status = "#{status}";
@@ -53,6 +56,3 @@ block content
 
   +b('ul').grayed-list
     +e('li').item Подтверждение
-
-  script(src=pack("ebook", "js"))
-  script ebook.init();

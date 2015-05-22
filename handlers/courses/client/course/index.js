@@ -2,13 +2,9 @@ var newsletter = require('newsletter/client');
 var Spinner = require('client/spinner');
 var xhr = require('client/xhr');
 
-exports.init = function() {
+initNewsletterForm();
 
-  initNewsletterForm();
-
-  initSignupButton();
-
-};
+initSignupButton();
 
 function initNewsletterForm() {
 

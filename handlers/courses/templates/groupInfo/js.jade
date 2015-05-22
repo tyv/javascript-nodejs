@@ -7,6 +7,9 @@ block append variables
   - var title = 'Онлайн-курс: настройка окружения';
   - var sitetoolbar = true
 
+block append head
+  script(defer src=pack("courses", "js"))
+
 
 block content
 
@@ -82,6 +85,3 @@ block content
   p Практика показывает, что если у вас стоит Java и работает Skype, то и видео тоже нормально заработает.
 
   include:simpledown ./js.md
-
-  script(src=pack("courses", "js"))
-  script courses.init();

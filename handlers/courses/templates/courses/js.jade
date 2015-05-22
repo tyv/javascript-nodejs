@@ -6,6 +6,9 @@ block append variables
   - var breadcrumbs = [{ title: 'JavaScript.ru', url: 'http://javascript.ru' }, { title: 'Учебник', url: '/' }, { title: 'Курсы', url: '/courses' }]
   - var content_class = '_center'
 
+block append head
+  script(defer src=pack("coursesCourse", "js"))
+
 block content
   p В первую очередь этот курс для тех, кто либо не разрабатывал на JS, либо разрабатывал на нём эпизодически и теперь хочет освоить профессионально.
 
@@ -18,6 +21,3 @@ block content
   +b.fixed-tab.tablet-only.courses-tab
     a.courses-tab__link(href="#signup") Записаться на курсы
 
-
-  script(src=pack("coursesCourse", "js"))
-  script coursesCourse.init();
