@@ -7,9 +7,6 @@ exports.init = function(app) {
       requestId: this.requestId
     });
 
-    // fixme: remove (passport js issue fixed)
-    this.request.log = this.log; // passport.js strategy passes req around
-
     yield* next;
   });
 
