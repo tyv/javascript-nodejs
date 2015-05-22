@@ -1,5 +1,10 @@
 var angular = require('angular');
 
+/**
+ * WARNING: must use @ngInject (@see https://github.com/olov/ng-annotate)
+ * for resolve factories, otherwise uglify will break the script!
+ * will not be auto-injected
+ */
 angular.module('profile').config(($locationProvider, $stateProvider, $urlRouterProvider) => {
   $locationProvider.html5Mode(true);
 
@@ -35,7 +40,7 @@ angular.module('profile').config(($locationProvider, $stateProvider, $urlRouterP
       templateUrl: "/profile/templates/partials/quiz",
       controller:  'ProfileQuizResultsCtrl',
       resolve:     {
-        quizResults: (QuizResults) => QuizResults.query()
+        quizResults: /*@ngInject*/ (QuizResults) => QuizResults.query()
       }
     },
     'root.orders':  {
@@ -44,7 +49,7 @@ angular.module('profile').config(($locationProvider, $stateProvider, $urlRouterP
       templateUrl: "/profile/templates/partials/orders",
       controller:  'ProfileOrdersCtrl',
       resolve:     {
-        orders: (Orders) => Orders.query()
+        orders: /*@ngInject*/ (Orders) => Orders.query()
       }
     },
     'root.courses':  {
@@ -53,7 +58,7 @@ angular.module('profile').config(($locationProvider, $stateProvider, $urlRouterP
       templateUrl: "/profile/templates/partials/courseGroups",
       controller:  'ProfileCourseGroupsCtrl',
       resolve:     {
-        courseGroups: (CourseGroups) => CourseGroups.query()
+        courseGroups: /*@ngInject*/ (CourseGroups) => CourseGroups.query()
       }
     }
   };

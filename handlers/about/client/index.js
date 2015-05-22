@@ -76,14 +76,12 @@ L.Google = L.Class.extend({
       this._container.id = "_GMapContainer";
     }
 
-    if (true) {
-      tilePane.insertBefore(this._container, first);
+    tilePane.insertBefore(this._container, first);
 
-      this.setOpacity(this.options.opacity);
-      var size = this._map.getSize();
-      this._container.style.width = size.x + 'px';
-      this._container.style.height = size.y + 'px';
-    }
+    this.setOpacity(this.options.opacity);
+    var size = this._map.getSize();
+    this._container.style.width = size.x + 'px';
+    this._container.style.height = size.y + 'px';
   },
 
   _initMapObject: function() {
@@ -131,16 +129,11 @@ L.Google = L.Class.extend({
     var bounds = this._map.getBounds();
     var ne = bounds.getNorthEast();
     var sw = bounds.getSouthWest();
-    var google_bounds = new google.maps.LatLngBounds(
-      new google.maps.LatLng(sw.lat, sw.lng),
-      new google.maps.LatLng(ne.lat, ne.lng)
-    );
     var center = this._map.getCenter();
     var _center = new google.maps.LatLng(center.lat, center.lng);
 
     this._google.setCenter(_center);
     this._google.setZoom(this._map.getZoom());
-    //this._google.fitBounds(google_bounds);
   },
 
   _resize: function() {

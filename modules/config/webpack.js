@@ -49,7 +49,7 @@ var webpackConfig = {
   },
   watch:        process.env.NODE_ENV == 'development',
 
-  devtool: process.env.NODE_ENV == 'development' ? "inline-source-map" : // try "eval" ?
+  devtool: process.env.NODE_ENV == 'development' ? "" : // try "eval" ?
              process.env.NODE_ENV == 'production' ? 'source-map' : "",
 
   profile: true,
@@ -84,11 +84,11 @@ var webpackConfig = {
       },
       {
         test:    /\.js$/,
-        // babel shouldn't process webpack, because it contains ws/browser.js,
+        // babel shouldn't process modules which contain ws/browser.js,
         // which must not be run in strict mode (global becomes undefined)
-        // babel would make all modules strict
+        // babel would make all modules strict!
         exclude: /node_modules\/(angular|prismjs|moment|blueimp-canvas-to-blob)/,
-        loaders: ['ng-annotate', 'babel']
+        loaders: ['ng-annotate', 'babel'] // babel will work first
       },
       {
         test:   /\.styl$/,

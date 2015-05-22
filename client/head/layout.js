@@ -75,8 +75,6 @@ function onWindowScrollAndResize() {
     return; // page in a no-top-nav layout
   }
 
-  var sitetoolbarHeight = sitetoolbar.offsetHeight;
-
   var sidebar = document.querySelector('.sidebar');
 
   if (sidebar) {

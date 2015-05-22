@@ -23,8 +23,10 @@ module.exports = function() {
       var client = yield* sshConnect(args.host);
 
       try {
-        // make sure tests pass
-        yield* client.runInBuild(`npm test`);
+        // make sure tests pass unless --no-test
+        if (args.test !== false) {
+          yield* client.runInBuild(`npm test`);
+        }
 
         yield* client.runInTarget(`git reset --hard`);
         yield* client.runInTarget(`git fetch origin production`);
