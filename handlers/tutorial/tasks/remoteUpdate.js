@@ -28,7 +28,7 @@ module.exports = function(options) {
     var host = args.host;
     return co(function* () {
 
-      exec('rsync -crlDvtz --delete-after /js/javascript-nodejs/public/task /js/javascript-nodejs/public/article ' + host + ':/js/javascript-nodejs/current/public/');
+      exec(`rsync -crlDvtz --delete-after ${config.publicRoot}/task ${config.publicRoot}/article ${host}:${config.publicRoot}/`);
 
 
       del.sync('dump');
@@ -103,7 +103,7 @@ module.exports = function(options) {
       /* jshint -W106 */
       var env = ecosystem.apps[0].env_production;
 
-      exec('ssh ' + host + ' "cd /js/javascript-nodejs/current && SITE_HOST=' + env.SITE_HOST+ ' STATIC_HOST=' + env.STATIC_HOST + ' gulp tutorial:cache:regenerate && gulp cache:clean"');
+      exec(`ssh ${host} "cd ${config.projectRoot} && SITE_HOST=' + env.SITE_HOST+ ' STATIC_HOST=' + env.STATIC_HOST + ' gulp tutorial:cache:regenerate && gulp cache:clean"`);
     });
   };
 };
@@ -125,7 +125,7 @@ function exec(cmd) {
  ssh nightly 'rm -rf dump' &&
  scp -r -C dump nightly: &&
  ssh nightly 'mongorestore --drop ' &&
- rsync -rlDv /js/javascript-nodejs/public/ nightly:/js/javascript-nodejs/current/public/ &&
+ rsync -rlDv /js/javascript-nodejs/public/ nightly:/js/javascript-nodejs/public/ &&
  ssh nightly 'cd /js/javascript-nodejs/current/scripts/elastic; bash db' &&
  echo "Tutorial updated"
 
