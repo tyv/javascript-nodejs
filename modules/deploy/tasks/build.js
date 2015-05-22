@@ -32,8 +32,10 @@ module.exports = function() {
           yield* reinstallModules();
         }
 
-        yield* client.runInBuild(`NODE_ENV=production ASSET_VERSIONING=file gulp build`);
-        yield* client.runInBuild('git add --force public manifest');
+        if (!args.onlyCode) {
+          yield* client.runInBuild(`NODE_ENV=production ASSET_VERSIONING=file gulp build`);
+          yield* client.runInBuild('git add --force public manifest');
+        }
 
         // if there's nothing to commit,
         // `git commit` would exit with status 1, stopping the deploy
