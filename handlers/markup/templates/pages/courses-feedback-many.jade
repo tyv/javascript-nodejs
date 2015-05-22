@@ -14,7 +14,7 @@ block content
 
     +b.feedback-stat
         +e('ul').list
-            +e('li').item Отлично
+            +e('li').item._active Отлично
                 +e('span').status
                     +e('span').status-i(style="width: 60px")
             +e('li').item Хорошо
@@ -41,6 +41,9 @@ block content
         +e('h2').title
             +e('span').title-n 286
             | &nbsp;отзывов
+            | с оценкой
+            +e('span').title-mark !{' '} «Отлично»
+            +e('a').show-all показать все
 
         +e('article').feedback
             +b.course-feedback._result._external
