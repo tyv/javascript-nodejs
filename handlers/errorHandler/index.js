@@ -5,7 +5,7 @@ const path = require('path');
 
 var isDevelopment = process.env.NODE_ENV == 'development';
 
-
+// can be called not from this MW, but from anywhere
 function renderError(err) {
   /*jshint -W040 */
 
@@ -43,7 +43,7 @@ function renderError(err) {
         errors: errors
       };
     } else {
-      this.body = this.render("400", {error: err});
+      this.body = this.render(path.join(__dirname, "templates/400"), {error: err});
     }
 
     return;
@@ -84,7 +84,7 @@ function renderError(err) {
     }
   } else {
     var templateName = ~[500, 401, 404, 403].indexOf(this.status) ? this.status : 500;
-    this.body = this.render(String(templateName), {error: err, requestId: this.requestId});
+    this.body = this.render(`${__dirname}/templates/${templateName}`, {error: err, requestId: this.requestId});
   }
 
 }
