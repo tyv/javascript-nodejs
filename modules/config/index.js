@@ -106,7 +106,7 @@ module.exports = {
 
   deploy: {
     user:       'root',
-    privateKey: fs.readFileSync(path.join(secret.dir, 'js_rsa')),
+    privateKey: fs.existsSync(path.join(secret.dir, 'js_rsa')) ? fs.readFileSync(path.join(secret.dir, 'js_rsa')) : '',
     buildPath:  "/js/build",
     targetPath: "/js/javascript-nodejs",
     repo:       "git@github.com:iliakan/javascript-nodejs.git"
