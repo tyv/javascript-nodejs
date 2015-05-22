@@ -1,8 +1,8 @@
-
 var multiparty = require('multiparty');
 var uploadStream = require('../lib/uploadStream');
 var co = require('co');
 var ImgurImage = require('../models/imgurImage');
+var BadImageError = require('../lib/badImageError');
 
 exports.post = function*() {
 

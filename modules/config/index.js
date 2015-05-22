@@ -1,4 +1,5 @@
 var path = require('path');
+var fs = require('fs');
 var env = process.env;
 
 // NODE_ENV = development || test || production
@@ -103,6 +104,14 @@ module.exports = {
     }
   },
 
+  deploy: {
+    user:       'root',
+    privateKey: fs.existsSync(path.join(secret.dir, 'js_rsa')) ? fs.readFileSync(path.join(secret.dir, 'js_rsa')) : '',
+    buildPath:  "/js/build",
+    targetPath: "/js/javascript-nodejs",
+    repo:       "git@github.com:iliakan/javascript-nodejs.git"
+  },
+
   sauceLabs: {
     username:  secret.sauceLabs.username,
     accessKey: secret.sauceLabs.accessKey,
@@ -121,7 +130,7 @@ module.exports = {
   extraHandlersRoot:    path.join(process.cwd(), 'extra/handlers'),
   // js/css build versions
   manifestRoot:         path.join(process.cwd(), 'manifest'),
-  migrationsRoot:          path.join(process.cwd(), 'migrations')
+  migrationsRoot:       path.join(process.cwd(), 'migrations')
 };
 
 // webpack config uses general config

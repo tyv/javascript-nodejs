@@ -86,6 +86,11 @@ const schema = new Schema({
   }
 });
 
+/**
+ * Create ImgurImage from raw imgur response and save it.
+ * @param response
+ * @returns {*}
+ */
 schema.statics.createFromResponse = function*(response) {
 
   if (!response.success) {

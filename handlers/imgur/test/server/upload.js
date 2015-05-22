@@ -23,7 +23,7 @@ describe('imgur', function() {
     server.close();
   });
 
-  describe('POST /upload', function() {
+  describe('POST /imgur/upload', function() {
 
     it('returns id after uploading a valid image', function(done) {
       request(server)
@@ -33,7 +33,8 @@ describe('imgur', function() {
         .expect(200)
         .end(function(err, res) {
           if (err) return done(err);
-          res.body.id.should.exist;
+          res.body.imgurId.should.exist;
+          res.body.link.should.exist;
           done();
         });
     });

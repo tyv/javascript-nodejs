@@ -40,7 +40,7 @@ module.exports = function(options) {
         var result = yield cleanDomain(domain);
         if (result.body.result != 'success') {
           log.error(result.body);
-          log.error(result.request);
+          //log.error(result.request);
           throw new Error("Could not clean cache");
         }
       }

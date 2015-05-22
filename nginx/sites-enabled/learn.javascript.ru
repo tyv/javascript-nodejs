@@ -72,14 +72,14 @@ server {
 
   # no . and not folder/ -> @node
   location ~ ^[^.]*$ {
-    if (-f <%=root%>/service) {
+    if (-f <%=root%>/.maintenance) {
       return 503;
     }
     include "partial/proxy-3000";
   }
 
   location @node {
-    if (-f <%=root%>/service) {
+    if (-f <%=root%>/.maintenance) {
       return 503;
     }
 

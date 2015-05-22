@@ -5,7 +5,8 @@
   "scripts": {
     "prod": "NODE_ENV=production node --harmony_classes ./bin/server",
     "fixperms": "sudo chown -R `id -u` . * ~/.n*",
-    "test": "SELENIUM_LOCAL=1 NODE_ENV=test gulp test --harmony_classes | bunyan"
+    "//": "test must exit with status 1 if fails, don't use | or ensure the right exit code if you do",
+    "test": "SELENIUM_LOCAL=1 NODE_ENV=test gulp test"
   },
   "precommit": "NODE_ENV=development node `which gulp` pre-commit",
   "//": "blueimp-canvas-to-blob is taken from a fork w/ browserify support",
@@ -105,7 +106,9 @@
     "sanitize-html": "*",
     "send": "*",
     "sha256": "*",
-    "shimmer": "^1.0.0",
+    "shimmer": "*",
+    "ssh2": "^0.4.8",
+    "sshconf-stream": "^0.1.2",
     "style-loader": "*",
     "styliner": "*",
     "stylus": "*",

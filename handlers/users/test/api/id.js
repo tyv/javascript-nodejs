@@ -36,18 +36,7 @@ describe('Authorization', function() {
         });
     });
 
-    it('transloads the user photo', function(done) {
-      request(server)
-        .patch('/users/me')
-        .set('X-Test-User-Id', fixtures.User[0]._id)
-        .set('Accept', 'application/json')
-        .attach('photo', path.join(__dirname, 'me.jpg'))
-        .end(function(err, res) {
-          if (err) return done(err);
-          res.body.photo.should.startWith('http://');
-          done();
-        });
-    });
+    // todo: test for photoId submission
 
     it('returns not all errors, but only one error if a field is wrong', function(done) {
       request(server)

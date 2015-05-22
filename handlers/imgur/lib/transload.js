@@ -14,6 +14,6 @@ module.exports = function*(url) {
     }
   });
 
-  yield ImgurImage.createFromResponse(response);
+  return yield ImgurImage.createFromResponse(response);
 };
 

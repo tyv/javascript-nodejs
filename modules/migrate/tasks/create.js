@@ -9,7 +9,7 @@ var migrationsRoot = require('config').migrationsRoot;
 var yargs = require('yargs');
 var moment = require('moment');
 
-var migrationTemplate = fs.readFileSync(path.join(__dirname, '../migrationTemplate.js'));
+var migrationTemplate = fs.readFileSync(path.join(__dirname, '../lib/migrationTemplate.js'));
 /**
  * Usage:
  * --create name
