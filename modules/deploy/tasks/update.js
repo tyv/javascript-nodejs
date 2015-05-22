@@ -31,7 +31,7 @@ module.exports = function() {
         yield* client.runInTarget(`git merge origin/production --no-edit`);
 
         // if there any migrations, this will stop the server and apply them
-        yield* client.runInTarget(`gulp deploy:migrate`);
+        yield* client.runInTarget(`gulp deploy:migrate --stop`);
 
         yield* client.runInTarget(`/usr/local/bin/pm2 startOrGracefulReload ecosystem.json --env production`);
         yield* client.runInTarget(`gulp cache:clean`);
