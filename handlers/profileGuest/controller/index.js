@@ -28,10 +28,11 @@ exports.get = function* (next) {
     }
   };
 
+  // public quiz tab
   if (~user.profileTabsEnabled.indexOf('quiz')) {
 
     this.locals.tabs.quiz = {
-      url: user.getProfileUrl() + '/' + tabName
+      url: user.getProfileUrl() + '/quiz'
     };
 
     var quizResults = yield* QuizResult.getLastAttemptsForUser(user._id);

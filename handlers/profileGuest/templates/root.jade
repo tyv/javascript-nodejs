@@ -20,10 +20,10 @@ block content
         +e.single-tab-header
       else
         +e.tabs
-          each tab in tabs
+          each tab, name in tabs
             +e(class=['tab', tab.active && '_current'])
               +e.tab-content
-                +e('a').tab-link(href=tab.url)= tab.title
+                +e('a').tab-link(href=tab.url)= profileTabNames[name]
 
       +e.fields
 
