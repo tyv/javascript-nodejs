@@ -32,7 +32,7 @@ module.exports = function() {
           yield* reinstallModules();
         }
 
-        if (!args.onlyCode) {
+        if (!args.noBuild) {
           yield* client.runInBuild(`NODE_ENV=production ASSET_VERSIONING=file gulp build`);
           yield* client.runInBuild('git add --force public manifest');
         }

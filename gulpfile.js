@@ -201,7 +201,7 @@ gulp.on('stop', function() {
 gulp.on('err', function(gulpErr) {
   if (gulpErr.err) {
     // cause
-    console.error(gulpErr.err.message, gulpErr.err.stack, gulpErr.err.errors);
+    console.error("Gulp error details", [gulpErr.err.message, gulpErr.err.stack, gulpErr.err.errors].filter(Boolean));
   }
   mongoose.disconnect();
 });
