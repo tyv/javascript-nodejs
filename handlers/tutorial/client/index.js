@@ -13,8 +13,9 @@ function init() {
   initSidebarHighlight();
 
   delegate(document, '[data-action="tutorial-map"]', 'click', function(event) {
-    new TutorialMapModal();
+    if (event.which != 1) return; // only left-click, FF needs this
     event.preventDefault();
+    showTutorialMapModal();
   });
 
   prism.init();
@@ -28,10 +29,23 @@ function init() {
   var tutorialMapElem = document.querySelector('.tutorial-map');
   if (tutorialMapElem) {
     new TutorialMap(tutorialMapElem);
+  } else if (/[&?]map\b/.test(location.href)) {
+    showTutorialMapModal();
   }
 
 }
 
+function showTutorialMapModal() {
+
+  if (!/[&?]map\b/.test(location.href)) {
+    window.history.replaceState(null, null, ~location.href.indexOf('?') ? (location.href + '&map') : (location.href + '?map'));
+  }
+  var modal = new TutorialMapModal();
+  modal.elem.addEventListener('tutorial-map-remove', function() {
+    window.history.replaceState(null, null, location.href.replace(/[&?]map\b/, ''));
+  });
+
+}
 
 function initSidebarHighlight() {
 

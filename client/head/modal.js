@@ -69,6 +69,7 @@ Modal.prototype.remove = function() {
   document.body.classList.remove('paranja-open');
   document.body.removeChild(this.elem);
   document.removeEventListener("keydown", this.onDocumentKeyDown);
+  this.elem.dispatchEvent(new CustomEvent("modal-remove"));
 };
 
 module.exports = Modal;

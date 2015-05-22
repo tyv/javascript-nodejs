@@ -15,6 +15,9 @@ var trackSticky = require('client/trackSticky');
  *       - after registration for "confirm email" link
  */
 function TutorialMapModal() {
+  this.elem = document.createElement('div');
+  document.body.appendChild(this.elem);
+
   var modal = new Modal({hasClose: false});
   var spinner = new Spinner();
   modal.setContent(spinner.elem);
@@ -28,11 +31,13 @@ function TutorialMapModal() {
 
   request.addEventListener('success', (event) => {
     modal.remove();
-    document.body.insertAdjacentHTML('beforeEnd', '<div class="tutorial-map-overlay"></div>');
-    this.elem = document.body.lastChild;
-    this.elem.innerHTML = event.result +  '<button class="close-button tutorial-map-overlay__close"></button>';
 
-    this.elem.addEventListener('click', (e) => {
+    this.elem.innerHTML = '<div class="tutorial-map-overlay"></div>';
+    this.mapElem = this.elem.firstChild;
+
+    this.mapElem.innerHTML = event.result +  '<button class="close-button tutorial-map-overlay__close"></button>';
+
+    this.mapElem.addEventListener('click', (e) => {
       if (e.target.classList.contains('tutorial-map-overlay__close')) {
         this.remove();
       }
@@ -42,9 +47,9 @@ function TutorialMapModal() {
 
     document.body.classList.add('tutorial-map_on');
 
-    this.elem.addEventListener('scroll', trackSticky);
+    this.mapElem.addEventListener('scroll', trackSticky);
 
-    new TutorialMap(this.elem.firstElementChild);
+    new TutorialMap(this.mapElem.firstElementChild);
   });
 
   request.addEventListener('fail', () => modal.remove());
@@ -54,6 +59,7 @@ function TutorialMapModal() {
 delegate.delegateMixin(TutorialMapModal.prototype);
 
 TutorialMapModal.prototype.remove = function() {
+  this.elem.dispatchEvent(new CustomEvent('tutorial-map-remove'));
   this.elem.remove();
   document.body.classList.remove('tutorial-map_on');
   document.removeEventListener("keydown", this.onDocumentKeyDown);
