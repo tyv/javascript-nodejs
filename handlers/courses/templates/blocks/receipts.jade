@@ -40,4 +40,4 @@
           else if (orderInfo.status == 'pending')
             +e.status._ok Ожидается подтверждение
         +e.receipt-aside
-          +e(class=["pay-method", "_" + paymentMethods[orderInfo.transaction.paymentMethod].name])
+          +e(class=["pay-method", orderInfo.transaction ? ("_" + paymentMethods[orderInfo.transaction.paymentMethod].name) : ''])

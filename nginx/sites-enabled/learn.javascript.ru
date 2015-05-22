@@ -5,6 +5,8 @@
 server {
 
   listen 80;
+
+  <% if (sslEnabled) { %>
   listen 443 ssl spdy;
 
   ssl_certificate		<%=certDir%>/learn.javascript.ru/ssl.pem;
@@ -15,6 +17,7 @@ server {
   # so there won't be 301 -> 404
   # ~3 months?
   # add_header Strict-Transport-Security "max-age=31536000; includeSubdomains;";
+  <% } %>
 
   server_name learn.javascript.ru yuri.javascript.ru javascript.in;
 
