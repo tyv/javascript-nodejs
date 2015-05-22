@@ -13,9 +13,10 @@ block append variables
   //- var layout_main_class = "main_width-limit"
 block append head
   link(href=pack('about', 'css') rel='stylesheet')
-  script(defer src="https://maps.googleapis.com/maps/api/js?v=3.exp")
   script(defer src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js")
   script(defer src=pack("about", "js"))
+  //- google maps will call about.init() when loaded
+  script(defer src="https://maps.googleapis.com/maps/api/js?v=3.exp&&callback=about.init")
   link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css")
   style.
     .leaflet-map-pane {

@@ -192,4 +192,4 @@ function init() {
 
 }
 
-init();
+exports.init = init;
