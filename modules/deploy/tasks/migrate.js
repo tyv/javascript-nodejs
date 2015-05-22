@@ -31,7 +31,7 @@ module.exports = function() {
       try {
         execSync('/usr/local/bin/pm2 stop all'); // todo gracefulShutdown
       } catch(e) {
-        // maybe no pm2 (dev host?) or already stopped
+        // maybe no pm2 (dev host?) or already stopped, anyway we may continue.
       }
       gutil.log("Migrations, applying all up");
 
