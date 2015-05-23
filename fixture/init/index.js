@@ -5,5 +5,6 @@ module.exports = _.merge(
   require('./newsletter'),
   require('./orderTemplate'),
   require('./course'),
-  require('./migrationState')
+  require('./migrationState'),
+  require('./videoKey')
 );

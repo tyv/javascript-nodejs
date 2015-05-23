@@ -31,7 +31,6 @@ exports.get = function*(next) {
   this.body = [];
 
   for (let i = 0; i < invites.length; i++) {
-
     let group = invites[i].group;
     yield CourseGroup.populate(group, {path: 'course'});
     let groupInfo = formatGroup(group);

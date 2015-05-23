@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 var Course = require('courses').Course;
 var CourseGroup = require('courses').CourseGroup;
+var CourseInvite = require('courses').CourseInvite;
 
 exports.Course = [
   {
@@ -15,6 +16,7 @@ exports.Course = [
   }
 ];
 
+exports.CourseInvite = [];
 
 exports.CourseGroup = [
   {

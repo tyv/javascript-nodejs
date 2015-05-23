@@ -3,6 +3,11 @@ var VideoKey = require('../models/videoKey');
 var fs = require('fs');
 var gutil = require('gulp-util');
 
+/**
+ * Load keys from file, split by \n
+ * @param options
+ * @returns {Function}
+ */
 module.exports = function(options) {
 
   return function() {

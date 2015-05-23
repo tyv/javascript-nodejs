@@ -84,20 +84,20 @@ npm install
 Инициализуйте базу сайта командой:
  
 ```
-gulp db:load --from fixture/init --reset
+gulp db:load --from fixture/init 
 ```
 
-
-Репозитарий с учебником до окончания работы над первым релизом сайта приватный, можно импортировать "заглушки": 
+Учебник находится в отдельном репозитарии:
 ```
-gulp db:load --from fixture/tutorial --reset
+git clone -b master --single-branch https://github.com/iliakan/javascript-tutorial
 ```
 
-Если есть доступ к учебнику, то клонируйте его, например, в `/js/javascript-tutorial` и импортируйте командой:
-
+После клонирования импортируйте учебник командой:
 ```
 gulp tutorial:import --root /js/javascript-tutorial
 ```
+
+Здесь `/js/javascript=tutorial` -- директория с репозитарием учебника.
 
 ## 9. Запуск сайта
 
@@ -110,7 +110,7 @@ gulp tutorial:import --root /js/javascript-tutorial
 
 Обратите внимание: ходить на сайт нужно через Nginx (обычно порт 80), не напрямую в IO.JS (не будет статики).
 
-Если в `/etc/hosts` есть строка `127.0.0.1 javascript.in`, то адрес будет http://javascript.in/
+Если в `/etc/hosts` есть строка `127.0.0.1 javascript.in`, то адрес будет `http://javascript.in/`.
 
 # TroubleShooting
 

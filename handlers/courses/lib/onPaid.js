@@ -61,15 +61,17 @@ module.exports = function* (order) {
     return sendInvite(invite);
   });
 
-  /*
+/*
   yield CourseGroup.populate(group,[{path: 'participants.user'}, {path: 'course'}]);
 
-  yield* grantXmppChatMemberships(group);
+  if (process.env.NODE_ENV != 'development') {
+    yield* grantXmppChatMemberships(group);
+  }
 
   if (group.course.videoKeyTag) {
     yield *grantVideoKeys(group);
-  }*/
-
+  }
+*/
 
   order.status = Order.STATUS_SUCCESS;
 
@@ -99,9 +101,9 @@ function* grantXmppChatMemberships(group) {
   for (var i = 0; i < group.participants.length; i++) {
     var participant = group.participants[i];
 
-    log.debug("grant " + roomJid + " to", participant.user.profileName, participant.courseName);
+    log.debug("grant " + roomJid + " to", participant.user.profileName, participant.firstName, participant.surname);
 
-    jobs.push(client.grantMember(roomJid, participant.user.profileName, participant.courseName));
+    jobs.push(client.grantMember(roomJid, participant.user.profileName,  participant.firstName + ' ' + participant.surname));
   }
 
   // grant all in parallel
@@ -116,7 +118,7 @@ function* grantVideoKeys(group) {
     return !participant.videoKey;
   });
 
-
+  console.log(group.participants, participants);
   var videoKeys = yield VideoKey.find({
     tag: group.course.videoKeyTag,
     used: false
