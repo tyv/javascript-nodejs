@@ -131,28 +131,7 @@ function* askParticipantDetails(invite) {
 
     this.log.debug(participant.toObject(), "participant is accepted");
 
-    invite.group.participants.push(participant);
-
-    this.user.profileTabsEnabled.addToSet('courses');
-    yield this.user.persist();
-
-    yield invite.accept();
-
-    invite.group.decreaseParticipantsLimit();
-
-    yield invite.group.persist();
-
-
-    yield CourseGroup.populate(invite.group, [{path: 'participants.user'}, {path: 'course'}]);
-
-    if (process.env.NODE_ENV != 'development') {
-      yield* grantXmppChatMemberships(invite.group);
-    }
-
-    if (invite.group.course.videoKeyTag) {
-      yield *grantVideoKeys(invite.group);
-    }
-
+    yield* acceptParticipant.call(this, invite, participant);
 
     // will show "welcome" cause the invite is accepted
     this.redirect('/courses/invite/' + invite.token);
@@ -169,6 +148,33 @@ function* askParticipantDetails(invite) {
     });
 
   }
+
+}
+
+function* acceptParticipant(invite, participant) {
+
+  invite.group.participants.push(participant);
+
+  this.user.profileTabsEnabled.addToSet('courses');
+  yield this.user.persist();
+
+  yield invite.accept();
+
+  invite.group.decreaseParticipantsLimit();
+
+  yield invite.group.persist();
+
+
+  yield CourseGroup.populate(invite.group, [{path: 'participants.user'}, {path: 'course'}]);
+
+  if (process.env.NODE_ENV != 'development') {
+    yield* grantXmppChatMemberships(invite.group);
+  }
+
+  if (invite.group.course.videoKeyTag) {
+    yield *grantVideoKeys(invite.group);
+  }
+
 
 }
 
@@ -282,7 +288,6 @@ function* grantVideoKeys(group) {
     return !participant.videoKey;
   });
 
-  console.log(group.participants, participants);
   var videoKeys = yield VideoKey.find({
     tag: group.course.videoKeyTag,
     used: false
