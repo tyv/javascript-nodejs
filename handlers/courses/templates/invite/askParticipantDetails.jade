@@ -15,72 +15,68 @@ block content
     +b.notification._message._info
       +e.content Вы вошли на сайт под пользователем #{user.displayName}
 
-  +b.login-form.complex-form.complex-form_step_4
-    +e.step.complex-form__step.complex-form__step_current
-      +e('form').form(method="POST" action="/courses/invite")
-        input(type="hidden", name="_csrf", value=csrf())
-        input(type="hidden" name="inviteToken" value=invite.token)
+  +b.participant-application
+    +e('form').form(method="POST" action="/courses/invite")
 
-        +e.line
-          +e('label').label(for="invite-firstName") Имя*
-          +b('span')(class=["text-input", "__input", errors.firstName ? '_invalid' : ''])
-            +e('input').control#invite-firstName(name="firstName" type="text" value=form.firstName autofocus=!Object.keys(errors).length)
-            if errors.firstName
-              +e.err= errors.firstName
+      input(type="hidden", name="_csrf", value=csrf())
+      input(type="hidden" name="inviteToken" value=invite.token)
 
-        +e.line
-          +e('label').label(for="invite-surname") Фамилия*
-          +b('span')(class=["text-input", "__input", errors.surname ? '_invalid' : '' ])
-            +e('input').control#invite-surname(type="text", name="surname" value=form.surname)
-            if errors.surname
-              +e.err= errors.surname
+      +e.line
+        +e('label').label(for="invite-firstName") Имя *
+        +b('span')(class=["text-input", "__input", errors.firstName ? '_invalid' : ''])
+          +e('input').control#invite-firstName(name="firstName" type="text" value=form.firstName autofocus=!Object.keys(errors).length)
+          if errors.firstName
+            +e.err= errors.firstName
 
-        div(data-photo-load style="position:relative")
-          //- photoId - submit to update photo
+      +e.line
+        +e('label').label(for="invite-surname") Фамилия *
+        +b('span')(class=["text-input", "__input", errors.surname ? '_invalid' : '' ])
+          +e('input').control#invite-surname(type="text", name="surname" value=form.surname)
+          if errors.surname
+            +e.err= errors.surname
+
+      +e.line
+        +e('span').label Фото
+        +b.upload-userpic(data-photo-load)
           input(type="hidden" name="photoId")
-          //- form.photo is to show the existing photo link (not submitted back)
-          div(style="background-image: url('#{thumb(form.photo, 64, 64)}');position:relative;background-size:cover;width:64px;height:64px")
-          a(href='#') Загрузить новое фото
+          +e('i').img(style="background-image: url('#{thumb(form.photo, 64, 64)}')")
+          +e('a').new(href="#") Загрузите новое фото
 
-        +e.line
-          +e('label').label(for="invite-country") Страна*
-          select(name="country" id="invite-country")
-            each country in countries
-              option(value=country.co selected=(country.co == form.country))= country.na
-          if errors.country
-            +e.err= errors.country
+      +e.line
+        +e('label').label(for="invite-country") Страна *
+        +b('select').input-select._small(name="country" id="invite-country")
+          each country in countries
+            option(value=country.co selected=(country.co == form.country))= country.na
+        if errors.country
+          +e.err= errors.country
 
+      +e.line
+        +e('label').label(for="invite-city") Город
+        +b('span')(class=["text-input", "__input", errors.city ? '_invalid' : ''])
+          +e('input').control#invite-city(type="text", name="city" value=form.city pattern=validate.patterns.singleword)
+          if errors.city
+            +e.err= errors.city
 
-        +e.line
-          +e('label').label(for="invite-city") Город
-          +b('span')(class=["text-input", "__input", errors.city ? '_invalid' : ''])
-            +e('input').control#invite-city(type="text", name="city" value=form.city pattern=validate.patterns.singleword)
-            if errors.city
-              +e.err= errors.city
+      +e.line
+        +e('label').label(for="invite-aboutLink") LinkedIn / Github / Moikrug...
+        +b('span')(class=["text-input", "__input", errors.aboutLink ? '_invalid' : ''])
+          +e('input').control#invite-aboutLink(type="url", name="aboutLink" pattern=validate.patterns.webpageUrl value=form.aboutLink)
+        +e('p').note Профиль в соц сети или личная страница, где можно узнать о вашей профессиональной деятельности.
 
-        +e.line
-          +e('label').label(for="invite-aboutLink") LinkedIn / Github / Moikrug...
-          +b('span')(class=["text-input", "__input", errors.aboutLink ? '_invalid' : ''])
-            +e('input').control#invite-aboutLink(type="url", name="aboutLink" pattern=validate.patterns.webpageUrl value=form.aboutLink)
-          p Профиль в соц сети или личная страница, где можно узнать о вашей профессиональной деятельности.
+      +e.line
+        +e('label').label(for="invite-occupation") Область работы
+        +b('span')(class=["text-input", "__input", errors.occupation ? '_invalid' : ''])
+          +e('input').control#invite-occupation(type="text", name="occupation" value=form.occupation)
+        +e('p').note Кем работаете? Основные используемые языки и технологии (кратко)
 
-        +e.line
-          +e('label').label(for="invite-occupation") Область работы
-          +b('span')(class=["text-input", "__input", errors.occupation ? '_invalid' : ''])
-            +e('input').control#invite-occupation(type="text", name="occupation" value=form.occupation)
-          p Кем работаете? Основные используемые языки и технологии (кратко)
+      +e.line
+        +e('label').label(for="invite-purpose") С какой целью записались на курс?
+        +b('textarea').textarea-input#invite-purpose
 
-        +e.line
-          +e('label').label(for="invite-purpose") С какой целью записались на курс?
-          br
-          textarea#invite-purpose
+      +e.line
+        +e('label').label(for="invite-wishes") Ваши пожелания по курсу?
+        +b('textarea').textarea-input#invite-wishes
 
-        +e.line
-          +e('label').label(for="invite-wishes") Ваши пожелания по курсу?
-          br
-          textarea#invite-wishes
-
-        +e.line.__footer
-          +b('button').button._action(type="submit")
-            +e('span').text Отправить
-
+      +e.line.__submit
+        +b('button').button._action(type="submit")
+          +e('span').text Отправить

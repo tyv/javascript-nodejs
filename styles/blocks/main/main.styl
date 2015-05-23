@@ -36,9 +36,12 @@ $main-loud
         text-align center
 
     & &__header-title
-        font 700 286%/100% secondary_font
+        font 700 286%/150% secondary_font
         margin 15px 0 0 0
         padding 0
+
+    & &__header-title:not(::first-line)
+        color green
 
     & &__header-title:only-child
         padding-bottom 5px

@@ -54,9 +54,11 @@ block content
 
             +e.line
                 +e('h2').title Фото
-                +e.userpic
-                    +e('img').userpic-img(src="/img/userpic/userpic.svg" alt="Фото")
-                +e('a').load-new-userpic Загрузите новое фото
+                +b.upload-userpic(data-photo-load)
+                  input(type="hidden" name="photoId")
+                  +e('i').img(style="background-image: url('/img/userpic/userpic.svg')")
+                  +e('a').new(href="#") Загрузите новое фото
+
 
             +e.line
                 +e('h2').title Страна
