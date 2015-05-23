@@ -21,7 +21,7 @@ function initPhotoLoadWidget() {
 
 function PhotoLoadWidget({elem}) {
   var link = elem.querySelector('a');
-  var photoDiv = elem.querySelector('div');
+  var photoDiv = elem.querySelector('i');
   var input = elem.querySelector('input');
 
   link.onclick = function(e) {
