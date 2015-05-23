@@ -1,7 +1,9 @@
 const Course = require('../models/course');
 const CourseInvite = require('../models/courseInvite');
+const config = require('config');
 const CourseGroup = require('../models/courseGroup');
 const User = require('users').User;
+const VideoKey = require('videoKey').VideoKey;
 const _ = require('lodash');
 const countries = require('countries');
 const LOGIN_SUCCESSFUL = 1;
@@ -9,6 +11,9 @@ const LOGGED_IN_ALREADY = 2;
 const NO_SUCH_USER = 3;
 const CourseParticipant = require('../models/courseParticipant');
 const ImgurImage = require('imgur').ImgurImage;
+const log = require('log')();
+const xmppClient = require('xmppClient');
+
 
 exports.all = function*() {
 
@@ -110,15 +115,15 @@ function* askParticipantDetails(invite) {
 
     try {
       yield participant.validate();
-    } catch(e) {
+    } catch (e) {
       var errors = {};
       for (var key in e.errors) {
         errors[key] = e.errors[key].message;
       }
 
       this.body = this.render('invite/askParticipantDetails', {
-        errors:    errors,
-        form:      participantData
+        errors: errors,
+        form:   participantData
       });
 
       return;
@@ -137,6 +142,18 @@ function* askParticipantDetails(invite) {
 
     yield invite.group.persist();
 
+
+    yield CourseGroup.populate(invite.group, [{path: 'participants.user'}, {path: 'course'}]);
+
+    if (process.env.NODE_ENV != 'development') {
+      yield* grantXmppChatMemberships(invite.group);
+    }
+
+    if (invite.group.course.videoKeyTag) {
+      yield *grantVideoKeys(invite.group);
+    }
+
+
     // will show "welcome" cause the invite is accepted
     this.redirect('/courses/invite/' + invite.token);
 
@@ -144,8 +161,8 @@ function* askParticipantDetails(invite) {
   } else {
 
     this.body = this.render('invite/askParticipantDetails', {
-      errors:    {},
-      form:      {
+      errors: {},
+      form:   {
         photo:   this.user.getPhotoUrl(),
         country: 'ru'
       }
@@ -225,4 +242,68 @@ function* loginByInvite(invite) {
 
   yield this.login(userByEmail);
   return LOGIN_SUCCESSFUL;
+}
+
+
+function* grantXmppChatMemberships(group) {
+  log.debug("Grant xmpp chat membership");
+  // grant membership in chat
+  var client = new xmppClient({
+    jid:      config.xmpp.admin.login + '/host',
+    password: config.xmpp.admin.password
+  });
+
+  yield client.connect();
+
+  var roomJid = yield client.createRoom({
+    roomName:    group.webinarId,
+    membersOnly: 1
+  });
+
+
+  var jobs = [];
+  for (var i = 0; i < group.participants.length; i++) {
+    var participant = group.participants[i];
+
+    log.debug("grant " + roomJid + " to", participant.user.profileName, participant.firstName, participant.surname);
+
+    jobs.push(client.grantMember(roomJid, participant.user.profileName,  participant.firstName + ' ' + participant.surname));
+  }
+
+  // grant all in parallel
+  yield jobs;
+
+  client.disconnect();
+}
+
+function* grantVideoKeys(group) {
+
+  var participants = group.participants.filter(function(participant) {
+    return !participant.videoKey;
+  });
+
+  console.log(group.participants, participants);
+  var videoKeys = yield VideoKey.find({
+    tag: group.course.videoKeyTag,
+    used: false
+  }).limit(participants.length).exec();
+
+  log.debug("Keys selected", videoKeys && videoKeys.toArray());
+
+  if (!videoKeys || videoKeys.length != participants.length) {
+    throw new Error("Недостаточно серийных номеров " + participants.length);
+  }
+
+  for (var i = 0; i < participants.length; i++) {
+    var participant = participants[i];
+    participant.videoKey = videoKeys[i].key;
+    videoKeys[i].used = true;
+  }
+
+  yield group.persist();
+
+  var jobs = videoKeys.map(function(videoKey) {
+    return videoKey.persist();
+  });
+  yield jobs;
 }

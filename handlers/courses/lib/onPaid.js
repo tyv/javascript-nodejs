@@ -61,18 +61,6 @@ module.exports = function* (order) {
     return sendInvite(invite);
   });
 
-/*
-  yield CourseGroup.populate(group,[{path: 'participants.user'}, {path: 'course'}]);
-
-  if (process.env.NODE_ENV != 'development') {
-    yield* grantXmppChatMemberships(group);
-  }
-
-  if (group.course.videoKeyTag) {
-    yield *grantVideoKeys(group);
-  }
-*/
-
   order.status = Order.STATUS_SUCCESS;
 
   yield order.persist();
@@ -81,65 +69,3 @@ module.exports = function* (order) {
 };
 
 
-function* grantXmppChatMemberships(group) {
-  log.debug("Grant xmpp chat membership");
-  // grant membership in chat
-  var client = new xmppClient({
-    jid:      config.xmpp.admin.login + '/host',
-    password: config.xmpp.admin.password
-  });
-
-  yield client.connect();
-
-  var roomJid = yield client.createRoom({
-    roomName:    group.webinarId,
-    membersOnly: 1
-  });
-
-
-  var jobs = [];
-  for (var i = 0; i < group.participants.length; i++) {
-    var participant = group.participants[i];
-
-    log.debug("grant " + roomJid + " to", participant.user.profileName, participant.firstName, participant.surname);
-
-    jobs.push(client.grantMember(roomJid, participant.user.profileName,  participant.firstName + ' ' + participant.surname));
-  }
-
-  // grant all in parallel
-  yield jobs;
-
-  client.disconnect();
-}
-
-function* grantVideoKeys(group) {
-
-  var participants = group.participants.filter(function(participant) {
-    return !participant.videoKey;
-  });
-
-  console.log(group.participants, participants);
-  var videoKeys = yield VideoKey.find({
-    tag: group.course.videoKeyTag,
-    used: false
-  }).limit(participants.length).exec();
-
-  log.debug("Keys selected", videoKeys && videoKeys.toArray());
-
-  if (!videoKeys || videoKeys.length != participants.length) {
-    throw new Error("Недостаточно серийных номеров " + participants.length);
-  }
-
-  for (var i = 0; i < participants.length; i++) {
-    var participant = participants[i];
-    participant.videoKey = videoKeys[i].key;
-    videoKeys[i].used = true;
-  }
-
-  yield group.persist();
-
-  var jobs = videoKeys.map(function(videoKey) {
-    return videoKey.persist();
-  });
-  yield jobs;
-}
