@@ -17,7 +17,7 @@ exports.up = function*() {
   yield function(callback) {
     Subscription.collection.update(
         {},
-        { $unset: { confirmed: 1 } }, callback);
+        { $unset: { confirmed: 1 } }, {multi: true}, callback);
   };
 
 };
