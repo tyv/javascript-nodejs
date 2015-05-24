@@ -106,7 +106,12 @@ exports.post = function*() {
     }
 
     if (subscription) {
-      respond(`Настройки обновлены.`);
+      if (action == ACTION_ADD) {
+        respond(`Добавлена подписка на эту тему.`);
+      }
+      if (action == ACTION_REPLACE) {
+        respond(`Настройки подписок обновлены.`);
+      }
     } else {
       respond(`Вы успешно подписаны, ждите писем на адрес ${email}.`);
     }
@@ -135,10 +140,10 @@ exports.post = function*() {
     });
 
     yield notify(subscriptionAction);
+
     respond(`На адрес ${email} направлен запрос подтверждения.`);
 
   }
-
 
 };
 

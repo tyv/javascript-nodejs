@@ -45,6 +45,8 @@ if analyticsEnabled
         };
       })();
 
+  //- will send _err to errorception server when loaded
+  //- and overwrite _errs.push, so that it will send immediately
   script(async src='//beacon.errorception.com/5561d57590f663277600185b.js')
 
 else

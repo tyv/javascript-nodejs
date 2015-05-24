@@ -13,11 +13,16 @@ block content
   p В первую очередь этот курс для тех, кто либо не разрабатывал на JS, либо разрабатывал на нём эпизодически и теперь хочет освоить профессионально.
 
   include ../blocks/js/programAndSignup
+
+  input(type="checkbox" id="phone-toggler").phone-toggler__input.phone-only
+  +b('label').phone-toggler.phone-only(for="phone-toggler")
+    | Более подробная информация о программе курса
+
   include ../blocks/js/programDetails
   include ../blocks/js/how
   include ../blocks/js/result
   include ../blocks/js/systemRequirements
 
-  +b.fixed-tab.tablet-only.courses-tab
+  +b.fixed-tab.phone-only.courses-tab
     a.courses-tab__link(href="#signup") Записаться на курсы
 
