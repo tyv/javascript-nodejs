@@ -35,23 +35,17 @@ if analyticsEnabled
 
   script
     :uglify
-      window.Muscula = {
-        settings:{
-          logId:"658f806a-f643-4e65-afac-f80151b2f4f0", suppressErrors: false
-        },
-        run:function(){
-          var a;
-          eval(arguments[0]);
-          window.Muscula.run=function(){};
-        },
-        errors : []
-      }
+      (function() {
+        var _errs = ["5561d57590f663277600185b"];
+        var c = window.onerror;
+        window.onerror = function() {
+          var a = arguments;
+          _errs.push(a);
+          c && c.apply(this, a);
+        };
+      })();
 
-      window.onerror=function(){
-        window.Muscula.errors.push(arguments);
-      }
-
-  script(src='//musculahq.appspot.com/Muscula7.js')
+  script(async src='//beacon.errorception.com/5561d57590f663277600185b.js')
 
 else
   //- so that other scripts using ga() for stats won't die
