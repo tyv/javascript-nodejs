@@ -33,7 +33,8 @@ exports.all = function*() {
   }
 
   if (invite.accepted) {
-    this.body = this.render("invite/accepted");
+    this.addFlashMessage("success", "Поздравляем, вы присоединились к курсу. Ниже рядом с курсом вы найдёте полезные ссылки, включая инструкцию.");
+    this.redirect(this.user.getProfileUrl() + '/courses');
     return;
   }
 
@@ -45,12 +46,12 @@ exports.all = function*() {
 
   yield CourseGroup.populate(invite.group, {path: 'participants.user'});
 
-  // invite was NOT accepted, but this guy is a participant,
-  // so show the same as accepted
   var participantsByEmail = _.indexBy(_.pluck(invite.group.participants, 'user'), 'email');
-
+  // invite was NOT accepted, but this guy is a participant (added manually?),
+  // so show the same as accepted
   if (participantsByEmail[invite.email]) {
-    this.body = this.render("invite/accepted");
+    this.addFlashMessage("success", "Вы уже участник курса. Ниже рядом с курсом вы найдёте полезные ссылки, включая инструкцию.");
+    this.redirect(this.user.getProfileUrl() + '/courses');
     return;
   }
 

@@ -107,11 +107,13 @@ exports.post = function*() {
 
     if (subscription) {
       if (action == ACTION_ADD) {
-        respond(`Добавлена подписка на эту тему.`);
+        respond(`Вы будете получать уведомления на эту тему на адрес ${email}.`);
       }
+
       if (action == ACTION_REPLACE) {
         respond(`Настройки подписок обновлены.`);
       }
+
     } else {
       respond(`Вы успешно подписаны, ждите писем на адрес ${email}.`);
     }

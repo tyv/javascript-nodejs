@@ -18,6 +18,8 @@ exports.get = function*() {
     this.throw(403, "Вы не являетесь участником этой группы.");
   }
 
+  this.locals.title = "Материалы для обучения\n" + group.title;
+
   this.body = this.render('groupMaterials', {
     videoKey: participant.videoKey
   });

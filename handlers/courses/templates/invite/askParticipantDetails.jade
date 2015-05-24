@@ -24,14 +24,14 @@ block content
       +e.line
         +e('label').label(for="invite-firstName") Имя *
         +b('span')(class=["text-input", "__input", errors.firstName ? '_invalid' : ''])
-          +e('input').control#invite-firstName(name="firstName" type="text" value=form.firstName autofocus=!Object.keys(errors).length)
+          +e('input').control#invite-firstName(name="firstName" type="text" required value=form.firstName autofocus=!Object.keys(errors).length)
           if errors.firstName
             +e.err= errors.firstName
 
       +e.line
         +e('label').label(for="invite-surname") Фамилия *
         +b('span')(class=["text-input", "__input", errors.surname ? '_invalid' : '' ])
-          +e('input').control#invite-surname(type="text", name="surname" value=form.surname)
+          +e('input').control#invite-surname(type="text", required, name="surname" value=form.surname)
           if errors.surname
             +e.err= errors.surname
 

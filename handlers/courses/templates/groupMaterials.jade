@@ -5,7 +5,6 @@ block append variables
   - var content_class = '_center'
   - var sitetoolbar = true
   - var layout_main_class = "main_width-limit"
-  - var title = "Материалы для группы"
 
 block content
 
@@ -14,8 +13,6 @@ block content
   - data.push({ url: '/123', name: 'Материалы, 2013 08 22 2130', size: '1.3 Gb', date: moment(new Date()).locale('ru').format('DD MMM YYYY') });
   - data.push({ url: '/123', name: 'Материалы, 2013 09 22 2130', size: '2 Gb', date: moment(new Date()).locale('ru').format('DD MMM YYYY') });
   - data.push({ url: '/123', name: 'Материалы, 2013 09 26 2130', size: '2 Gb', date: moment(new Date()).locale('ru').format('DD MMM YYYY') });
-
-  h2= group.title
 
   // TODO!
   +b.courses-materials
