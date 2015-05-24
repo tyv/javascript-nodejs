@@ -1,0 +1,58 @@
+extends /layouts/main
+
+block append variables
+  - var layout_header_class = "main__header_center"
+  - var title = "Управление подписками"
+  - var sitetoolbar = true
+  - var layout_main_class = "main_width-limit"
+
+block content
+
+  style.
+    .main ul > li:before {
+      content: '';
+    }
+    .main ul {
+      padding: 0;
+    }
+
+  //- subscription can come from accessKey or current user
+  if subscription
+    p Управление подписками для #{subscription.email}.
+  else
+    p Ваш email:
+
+    input(type="email", name="email", placeholder="my@mail.com" style="font-size:125%")
+
+
+  form(method="POST", action="/newsletter/subscribe")
+    input(type="hidden", name="_csrf", value=csrf())
+    if accessKey
+      input(type="hidden", name="accessKey", value=accessKey)
+    else if subscription
+      input(type="hidden", name="email", value=subscription.email)
+
+    input(type="hidden", name="replace", value=1)
+
+    p Темы:
+
+    ul
+      each newsletter in newsletters
+        li
+          label
+            input(type="checkbox", name="slug", value=newsletter.slug, checked=newsletter.subscribed || undefined)
+            = ' '
+            = newsletter.title
+            = ' ('
+            = newsletter.period
+            | )
+
+      li
+        label
+          input(type="checkbox", name="remove" value="1")
+          = ' '
+          | Удалить адрес из подписок
+
+
+    +b('button').button._action.__save(type="submit")
+      +e('span').text Сохранить

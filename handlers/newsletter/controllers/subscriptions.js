@@ -1,3 +1,4 @@
+/*
 const path = require('path');
 const Newsletter = require('../models/newsletter');
 const Subscription = require('../models/subscription');
@@ -75,3 +76,4 @@ exports.post = function*() {
 
 };
 
+*/

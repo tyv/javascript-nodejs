@@ -1,83 +1,156 @@
+"use strict";
+
 const path = require('path');
 const Newsletter = require('../models/newsletter');
 const Subscription = require('../models/subscription');
+const SubscriptionAction = require('../models/subscriptionAction');
 const sendMail = require('mailer').send;
 const config = require('config');
+const _ = require('lodash');
+const notify = require('../lib/notify');
 
-// subscribe a single newsletter (post from somewhere outside of the module)
+const ACTION_ADD = 'add';
+const ACTION_REPLACE = 'replace';
+const ACTION_REMOVE = 'remove';
+
+/**
+ * Subscribe to newsletters
+ * fields:
+ *   slug - one or many slugs of newsletters: slug=js&slug=nodejs
+ *   replace - boolean, whether to add or replace newsletters
+ *   remove - boolean, if true, destroy
+ *   accessKey - load given subscription and give full rights over it
+ * @returns {*}
+ */
 exports.post = function*() {
 
   var self = this;
 
-  function respond(message, subscription) {
-    // allow XHR from javascript.ru
-    if (self.get('Origin') == 'http://javascript.ru') {
-      self.set('Access-Control-Allow-Origin', 'http://javascript.ru');
-    }
-    self.body = {
-      message: message
-    };
-  }
+  var slugs = (function readSlugs(request) {
+    var slugs = request.body.slug || [];
 
-  const newsletter = yield Newsletter.findOne({
-    slug: this.request.body.slug
+    if (!Array.isArray(slugs)) {
+      slugs = [slugs];
+    }
+    slugs = slugs.map(String);
+    return slugs;
+  })(this.request);
+
+  const newsletters = yield Newsletter.find({
+    slug: {
+      $in: slugs
+    }
   }).exec();
 
-  if (!newsletter) {
+  const newsletterIds = _.pluck(newsletters, '_id');
+
+  if (!newsletters.length) {
     this.throw(404, "Нет такой рассылки");
   }
 
-  if (this.req.user && this.req.user.email == this.request.body.email) {
-    // registered users need no confirmation
+  // important:
+  // remove has priority, because may come with (default) replace
+  var action = this.request.body.remove ? ACTION_REMOVE :
+    this.request.body.replace ? ACTION_REPLACE : ACTION_ADD;
 
-    var subscription = yield Subscription.findOne({
+  var subscription;
+
+  if (this.request.body.accessKey) {
+    subscription = yield Subscription.findOne({
+      accessKey: this.request.body.accessKey
+    }).exec();
+    if (!subscription) {
+      this.throw(404, "Нет такой подписки.");
+    }
+  } else {
+    if (!this.request.body.email) {
+      this.throw(404, "Email не указан.");
+    }
+    subscription = yield Subscription.findOne({
       email: this.request.body.email
     }).exec();
+  }
+
+  var email = subscription ? subscription.email : this.request.body.email;
+
+  // full access if user for himself OR accessKey is given
+  var isFullAccess = this.user && this.user.email == this.request.body.email ||
+    subscription && subscription.accessKey == this.request.body.accessKey;
+
+  function respond(message) {
+    var accepts = self.accepts('json', 'html');
+
+    if (accepts == 'json') {
+      // allow XHR from javascript.ru
+      if (self.get('Origin') == 'http://javascript.ru') {
+        self.set('Access-Control-Allow-Origin', 'http://javascript.ru');
+      }
+      self.body = {
+        message: message
+      };
+    }
+
+    if (accepts == 'html') {
+      if (isFullAccess) {
+        if (action == ACTION_REMOVE) {
+          self.body = self.render("removed");
+        } else {
+          self.addFlashMessage('success', message);
+          self.redirect('/newsletter/subscriptions/' + subscription.accessKey);
+        }
+      } else {
+        self.body = self.render("pending", {message: message});
+      }
+    }
+  }
+
+
+  if (isFullAccess) {
+
+    let subscriptionAction = new SubscriptionAction({
+      action:      action,
+      email:       email,
+      newsletters: newsletterIds
+    });
+
+    yield* subscriptionAction.apply();
+
+    if (action == ACTION_REMOVE) {
+      return respond(`Адрес ${email} удалён из базы подписок`);
+    }
 
     if (subscription) {
-      subscription.newsletters.addToSet(newsletter._id);
-      subscription.confirmed = true;
+      respond(`Настройки обновлены.`);
     } else {
-      subscription = new Subscription({
-        email:       this.request.body.email,
-        newsletters: [newsletter._id],
-        confirmed:   true
-      });
+      respond(`Вы успешно подписаны, ждите писем на адрес ${email}.`);
     }
-
-    yield subscription.persist();
-
-    respond(`Вы успешно подписаны, ждите писем на адрес ${subscription.email}.`, subscription);
+    return;
 
   } else {
-    var subscription = yield Subscription.findOne({
-      email: this.request.body.email
-    }).exec();
 
-    if (!subscription) {
-      subscription = new Subscription({
-        email:     this.request.body.email,
-        confirmed: false
-      });
+    if (action == ACTION_REMOVE) {
+      // even if no subscription, we say "ok sending a letter"
+      // so that an anon user will not learn if the email is subscribed or not.
+      if (subscription) {
+        let subscriptionAction = yield SubscriptionAction.create({
+          action: 'remove',
+          email:  email
+        });
+        yield notify(subscriptionAction);
+      }
+      respond(`На адрес ${email} направлен запрос подтверждения.`);
+      return;
     }
 
-    subscription.newsletters.addToSet(newsletter._id);
+    var subscriptionAction = yield SubscriptionAction.create({
+      action:      action,
+      newsletters: newsletterIds,
+      email:       email
+    });
 
-    yield subscription.persist();
+    yield notify(subscriptionAction);
+    respond(`На адрес ${email} направлен запрос подтверждения.`);
 
-    if (subscription.confirmed) {
-      respond(`Вы успешно подписаны.`, subscription);
-    } else {
-
-      yield sendMail({
-        templatePath: path.join(this.templateDir, 'confirm-email'),
-        subject:      "Подтверждение подписки",
-        to:           subscription.email,
-        link:         (config.server.siteHost || 'http://javascript.in') + '/newsletter/confirm/' + subscription.accessKey
-      });
-
-      respond(`На адрес ${subscription.email} направлен запрос подтверждения.`, subscription);
-    }
   }
 
 

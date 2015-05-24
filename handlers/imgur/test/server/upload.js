@@ -12,7 +12,7 @@ describe('imgur', function() {
   var user;
   before(function* () {
     yield ImgurImage.remove({});
-    yield* db.loadModels(fixtures);
+    yield* db.loadModels(fixtures, {reset: true});
 
     user = yield User.findOne({});
 

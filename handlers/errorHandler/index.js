@@ -129,7 +129,7 @@ exports.init = function(app) {
 
       if (err.name == 'CastError') {
         // malformed or absent mongoose params
-        if (!isDevelopment) {
+        if (process.env.NODE_ENV == 'production') { // do not rewrite in dev/test env
           this.throw(400);
         }
       }

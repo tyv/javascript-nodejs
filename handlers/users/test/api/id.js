@@ -13,7 +13,7 @@ describe('Authorization', function() {
   var server;
 
   before(function* () {
-    yield* db.loadModels(fixtures);
+    yield* db.loadModels(fixtures, {reset: true});
 
     // app.listen() uses a random port,
     // which superagent gets as server.address().port

@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 
 var Newsletter = require('newsletter').Newsletter;
+var Subscription = require('newsletter').Subscription;
+
+exports.Subscription = [];
 
 exports.Newsletter = [
   {

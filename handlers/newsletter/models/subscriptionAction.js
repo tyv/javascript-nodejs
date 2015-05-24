@@ -2,8 +2,15 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const crypto = require('crypto');
 const _ = require('lodash');
+const Subscription = require('./subscription');
 
 const schema = new Schema({
+  action: {
+    type: String,
+    enum: ['add', 'remove', 'replace'],
+    required: true
+  },
+
   newsletters: {
     // can be empty
     type:     [{
@@ -36,6 +43,7 @@ const schema = new Schema({
   accessKey:   {
     type:    String,
     unique:  true,
+    required: true,
     default: function() {
       return parseInt(crypto.randomBytes(6).toString('hex'), 16).toString(36);
     }
@@ -46,4 +54,45 @@ const schema = new Schema({
   }
 });
 
-var Subscription = module.exports = mongoose.model('Subscription', schema);
+schema.methods.apply = function*() {
+
+  var subscription = yield Subscription.findOne({
+    email: this.email
+  });
+
+  if (this.newsletters.length && this.newsletters[0]._id) {
+    throw new Error("Newsletters must not be populated");
+  }
+
+  if (this.action == 'remove') {
+    if (subscription) {
+      yield subscription.remove();
+    }
+    return;
+  }
+
+  if (!subscription) {
+    subscription = new Subscription({
+      email:       this.email
+    });
+  }
+
+  if (this.action == 'add') {
+
+    this.newsletters.forEach(function(id) {
+      subscription.newsletters.addToSet(id);
+    }, this);
+
+    yield subscription.persist();
+
+  }
+
+  if (this.action == 'replace') {
+    subscription.newsletters = this.newsletters;
+    yield subscription.persist();
+  }
+
+  return subscription;
+};
+
+var SubscriptionAction = module.exports = mongoose.model('SubscriptionAction', schema);

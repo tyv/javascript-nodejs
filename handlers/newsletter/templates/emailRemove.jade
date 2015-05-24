@@ -1,0 +1,12 @@
+extends /layouts/email
+
+block body
+    h1= subject
+    p Вы запрашивали удаление своего адреса из базы подписок на сайте JavaScript.ru?
+
+    p Если да &mdash; подтвердите это, перейдя по ссылке
+      = ' '
+      a(href=link)= link
+      | . Если нет &ndash; игнорируйте это письмо.
+
+
