@@ -55,8 +55,7 @@ module.exports = function(options) {
       var subscriptions = yield Subscription.find({
         newsletters: {
           $in: newsletters.map(function(n) { return n._id; })
-        },
-        confirmed:   true
+        }
       }, {email: true, newsletters: true, accessKey: true, _id: false}).exec();
 
 

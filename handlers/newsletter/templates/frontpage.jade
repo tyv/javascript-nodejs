@@ -16,21 +16,21 @@ block content
       padding: 0;
     }
 
-  //- subscription can come from accessKey or current user
-  if subscription
-    p Управление подписками для #{subscription.email}.
-  else
-    p Ваш email:
-
-    input(type="email", name="email", placeholder="my@mail.com" style="font-size:125%")
-
-
   form(method="POST", action="/newsletter/subscribe")
+
+    //- subscription can come from accessKey or current user or may be no subscription
+    if email
+      p Управление подписками для #{email}.
+    else
+      p Ваш email:
+
+      input(type="email", name="email", placeholder="my@mail.com", required, pattern=validate.patterns.email, style="font-size:125%")
+
     input(type="hidden", name="_csrf", value=csrf())
     if accessKey
       input(type="hidden", name="accessKey", value=accessKey)
-    else if subscription
-      input(type="hidden", name="email", value=subscription.email)
+    else if email
+      input(type="hidden", name="email", value=email)
 
     input(type="hidden", name="replace", value=1)
 

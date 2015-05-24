@@ -37,7 +37,6 @@ co(function*() {
         email: email
       });
     }
-    subscription.confirmed = true;
     subscription.newsletters.addToSet(newsletterJs._id);
     yield subscription.persist();
   }
@@ -53,7 +52,6 @@ co(function*() {
         email: email
       });
     }
-    subscription.confirmed = true;
     subscription.newsletters.addToSet(newsletterAdvanced._id);
     yield subscription.persist();
   }

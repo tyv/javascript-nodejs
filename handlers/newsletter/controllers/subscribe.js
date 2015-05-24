@@ -26,35 +26,10 @@ exports.post = function*() {
 
   var self = this;
 
-  var slugs = (function readSlugs(request) {
-    var slugs = request.body.slug || [];
-
-    if (!Array.isArray(slugs)) {
-      slugs = [slugs];
-    }
-    slugs = slugs.map(String);
-    return slugs;
-  })(this.request);
-
-  const newsletters = yield Newsletter.find({
-    slug: {
-      $in: slugs
-    }
-  }).exec();
-
-  const newsletterIds = _.pluck(newsletters, '_id');
-
-  if (!newsletters.length) {
-    this.throw(404, "Нет такой рассылки");
-  }
-
-  // important:
-  // remove has priority, because may come with (default) replace
-  var action = this.request.body.remove ? ACTION_REMOVE :
-    this.request.body.replace ? ACTION_REPLACE : ACTION_ADD;
-
   var subscription;
 
+  // read subscription first
+  // if no subscription, error must come first before any other errors
   if (this.request.body.accessKey) {
     subscription = yield Subscription.findOne({
       accessKey: this.request.body.accessKey
@@ -72,6 +47,16 @@ exports.post = function*() {
   }
 
   var email = subscription ? subscription.email : this.request.body.email;
+
+
+  // may be empty (e.g. for remove request)
+  var newsletterIds = yield readNewsletterIds.call(this);
+
+  // important:
+  // remove has priority, because may come with (default) replace
+  var action = this.request.body.remove ? ACTION_REMOVE :
+    this.request.body.replace ? ACTION_REPLACE : ACTION_ADD;
+
 
   // full access if user for himself OR accessKey is given
   var isFullAccess = this.user && this.user.email == this.request.body.email ||
@@ -113,10 +98,11 @@ exports.post = function*() {
       newsletters: newsletterIds
     });
 
-    yield* subscriptionAction.apply();
+    subscription = yield* subscriptionAction.apply();
 
     if (action == ACTION_REMOVE) {
-      return respond(`Адрес ${email} удалён из базы подписок`);
+      respond(`Адрес ${email} удалён из базы подписок.`);
+      return;
     }
 
     if (subscription) {
@@ -138,7 +124,7 @@ exports.post = function*() {
         });
         yield notify(subscriptionAction);
       }
-      respond(`На адрес ${email} направлен запрос подтверждения.`);
+      respond(`На адрес ${email}, если он был подписан, направлен запрос подтверждения.`);
       return;
     }
 
@@ -156,3 +142,25 @@ exports.post = function*() {
 
 };
 
+
+function* readNewsletterIds() {
+  var slugs = (function readSlugs(request) {
+    var slugs = request.body.slug || [];
+
+    if (!Array.isArray(slugs)) {
+      slugs = [slugs];
+    }
+    slugs = slugs.map(String);
+    return slugs;
+  })(this.request);
+
+  const newsletters = yield Newsletter.find({
+    slug: {
+      $in: slugs
+    }
+  }).exec();
+
+  const newsletterIds = _.pluck(newsletters, '_id');
+
+  return newsletterIds;
+}

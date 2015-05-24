@@ -14,7 +14,7 @@ exports.get = function*() {
     this.throw(404);
   }
 
-  yield subscriptionAction.apply();
+  var subscription = yield subscriptionAction.apply();
 
   if (subscriptionAction.action == 'remove') {
     this.body = this.render('removed');
@@ -22,6 +22,6 @@ exports.get = function*() {
   }
 
   this.addFlashMessage('success', 'Подписка подтверждена.');
-  this.redirect('/newsletter/subscriptions/' + this.params.accessKey);
+  this.redirect('/newsletter/subscriptions/' + subscription.accessKey);
 
 };

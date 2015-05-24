@@ -30,7 +30,6 @@ const schema = new Schema({
   email:       {
     type:     String,
     required: true,
-    unique:   true,
     validate: [
       {
         validator: function checkEmail(value) {

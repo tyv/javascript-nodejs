@@ -26,7 +26,6 @@ exports.User = [
 
 exports.Subscription = [
   {
-    confirmed:   false,
     email:       'mk@javascript.ru',
     newsletters: [new ObjectId("100000000000000000000001")]
   }
