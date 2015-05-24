@@ -22,7 +22,7 @@
 Многие модули из него можно взять и выделить в отдельные проекты, было бы желание.
 
 Также в опен-сорсе &ndash; текст учебника JavaScript. 
-Правда, он в другом репозитарии [https://github.com/iliakan/javascript-nodejs](https://github.com/iliakan/javascript-nodejs), здесь только код.
+Правда, он в другом репозитарии [https://github.com/iliakan/javascript-tutorial](https://github.com/iliakan/javascript-tutorial), здесь только код.
 
 Для установки dev-среды см. [INSTALL.md](https://github.com/iliakan/javascript-nodejs/blob/master/Install.md).
 
