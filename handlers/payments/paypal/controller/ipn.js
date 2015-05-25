@@ -14,7 +14,9 @@ exports.post = function* (next) {
 
   yield* this.loadTransaction('invoice', {skipOwnerCheck: true});
 
+
   yield this.transaction.logRequest('ipn: request received', this.request);
+
 
   var qs = {
     'cmd': '_notify-validate'
@@ -59,7 +61,6 @@ exports.post = function* (next) {
   }
 
   // IPN is fully verified and valid
-
 
   // match agains latest ipn in logs as recommended:
   // if there just was an IPN about the same transaction, and it's state is the same

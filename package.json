@@ -129,7 +129,7 @@
   "devDependencies": {
     "better-assert": "*",
     "chokidar": "*",
-    "clarify": "*",
+    "clarify": "^1.0.5",
     "co-mocha": "*",
     "ejs": "^1",
     "exports-loader": "*",
@@ -175,7 +175,8 @@
     "sinon": "*",
     "superagent": "*",
     "supertest": "*",
-    "time-require": "*"
+    "time-require": "*",
+    "trace": "^1.2.0"
   },
   "engineStrict": true,
   "repository": {

@@ -1,5 +1,6 @@
 var Router = require('koa-router');
 var mustBeAuthenticated = require('auth').mustBeAuthenticated;
+var mustBeParticipant = require('./lib/mustBeParticipant');
 var router = module.exports = new Router();
 
 router.param('userById', require('users').routeUserById);
@@ -12,9 +13,13 @@ router.get('/:course', require('./controller/course').get);
 router.get('/groups/:groupBySlug/signup', require('./controller/signup').get);
 router.get('/orders/:orderNumber(\\d+)', require('./controller/signup').get);
 
-router.get('/groups/:groupBySlug/info', require('./controller/groupInfo').get);
-router.get('/groups/:groupBySlug/materials', require('./controller/groupMaterials').get);
+router.get('/groups/:groupBySlug/info', mustBeParticipant, require('./controller/groupInfo').get);
+router.get('/groups/:groupBySlug/materials', mustBeParticipant, require('./controller/groupMaterials').get);
+router.get('/groups/:groupBySlug/feedback', mustBeParticipant, require('./controller/groupFeedback').get);
+router.post('/groups/:groupBySlug/feedback', mustBeParticipant, require('./controller/groupFeedback').post);
+
 router.all('/invite/:inviteToken?', require('./controller/invite').all);
 
 // for profile
 router.get('/profile/:userById', mustBeAuthenticated, require('./controller/coursesByUser').get);
+

@@ -22,4 +22,4 @@ include /bem
           +e('span')(ng-if="group.status == 'ended'")
             +e('span').status._ended Курсы завершены
             br
-            +e('a').feedback(href="/123") Оставить отзыв !TODO!
+            +e('a').feedback(href="/courses/feedback/{{group.slug}}") Оставить отзыв !TODO!

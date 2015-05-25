@@ -7,17 +7,6 @@ exports.get = function*() {
 
   var group = this.locals.group = this.groupBySlug;
 
-  if (!this.user) {
-    this.throw(401);
-  }
-
-  var participantsById = _.indexBy(group.participants, 'user');
-
-  var participant = participantsById[this.user._id];
-  if (!participant) {
-    this.throw(403, "Вы не являетесь участником этой группы.");
-  }
-
   this.locals.title = "Материалы для обучения\n" + group.title;
 
   this.body = this.render('groupMaterials', {

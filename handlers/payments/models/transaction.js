@@ -160,7 +160,6 @@ schema.methods.getStatusDescription = function() {
 */
 
 schema.methods.logRequest = function*(event, request) {
-  request.log.debug(event);
   yield this.log(event, {url: request.originalUrl, body: request.body});
 };
 
@@ -176,14 +175,6 @@ schema.methods.log = function*(event, data) {
     event: event,
     data: data
   };
-
-  // for complex objects -> prior to logging make them simple (must be jsonable)
-  // e.g for HTTP response (HTTP.IncomingMessage)
-  if (options.data && typeof options.data == 'object') {
-    // object keys may not contain "." in mongodb, so I may not store arbitrary objects
-    // only json can help
-    options.data = JSON.stringify(options.data);
-  }
 
 //  console.log(options);
 
