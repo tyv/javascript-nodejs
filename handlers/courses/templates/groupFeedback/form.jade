@@ -1,0 +1,77 @@
+extends /layouts/main
+
+block append variables
+  - var layout_header_class = "main__header_center"
+  - var layout_main_class = "main_width-limit"
+  - var breadcrumbs = [{ title: 'JavaScript.ru', url: 'http://javascript.ru' }, { title: 'Учебник', url: '/' }]
+  - var content_class = '_center'
+  - var sitetoolbar = true
+
+block content
+
+  +b.course-feedback
+    +e('form').form
+      +e.line
+        +e('h2').title Как вы в целом оцениваете курс
+        +b.rating-chooser.clearfix
+          +e('fieldset').fieldset
+            +e('input').input(type="radio" id="star5" name="rating" value="5")
+            +e('label').label(for="star5" title="Отлично")
+              +e('span').label-text Отлично
+            +e('input').input(type="radio" id="star4" name="rating" value="4")
+            +e('label').label(for="star4" title="Хорошо")
+              +e('span').label-text Хорошо
+            +e('input').input(type="radio" id="star3" name="rating" value="3")
+            +e('label').label(for="star3" title="Нормально")
+              +e('span').label-text Нормально
+            +e('input').input(type="radio" id="star2" name="rating" value="2")
+            +e('label').label(for="star2" title="Так себе")
+              +e('span').label-text Так себе
+            +e('input').input(type="radio" id="star1" name="rating" value="1")
+            +e('label').label(for="star1" title="Плохо")
+              +e('span').label-text Плохо
+      +e.line
+        +e('h2').title Порекомендовали бы вы этот курс другим?
+        +e('label').label
+          +e('input').input(type="radio" name="recomend" value="yes" checked)
+          | &nbsp;Да
+        br
+        +e('label').label
+          +e('input').input(type="radio" name="recomend" value="no")
+          | &nbsp;Нет
+      +e.line
+        +e('h2').title Отзыв
+        +b('textarea').textarea-input.__textarea-head(placeholder="Несколько слов о том, насколько полезным курс оказался для вас, как доступно излагается материал и т.д.")
+      +e.line
+        +e('h2').title Имя
+        +b.text-input
+          +e('input').control(value="Пупкин Вася" disabled)
+      +e.line
+        +e('h2').title Фото
+        +b.upload-userpic(data-photo-load)
+          input(type="hidden" name="photoId")
+          +e('i').img(style="background-image: url('/img/userpic/userpic.svg')")
+          +e('a').new(href="#") Загрузите новое фото
+      +e.line
+        +e('h2').title Страна
+        +b('select').input-select._small(name="country")
+          +e('option')(value="ru") Россия
+          +e('option')(value="ua") Украина
+      +e.line
+        +e('h2').title Город&nbsp;
+          +e('span').title-note (не обязательно)
+        +b.text-input
+          +e('input').control
+      +e.line
+        +e('h2').title
+          +e('input').checkbox(type="checkbox" checked)
+          | Публичный отзыв&nbsp;
+          +e('span').title-note (будет опубликован на javascript.ru)
+      +e.line
+        +e('h2').title Ссылка на профиль&nbsp;
+          +e('span').title-note (не обязательно)
+        +b.text-input
+          +e('input').control(placeholder="Адресс вашего сайта, Вконтакте, Facebook, GitHub и т.д.")
+        +e.note Было бы здорово если бы мы могли сослаться на вас в соц. сетях. Эта ссылка будет использоваться только внутри вашего отзыва у нас на сайте
+      +e.line
+        +b('button').button._action(type="submit") Отправить
