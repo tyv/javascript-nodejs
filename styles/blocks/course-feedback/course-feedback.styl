@@ -1,12 +1,15 @@
 .course-feedback
     @extend $yellow-border
 
-    box-sizing: border-box
-    max-width 635px
-    margin 0 auto
     padding 50px 70px
 
     text-align left
+
+    &_form
+        box-sizing: border-box
+        max-width 635px
+        margin 0 auto
+
 
     h2&__title
         font-size 14px
@@ -123,8 +126,10 @@
         margin-right 5px
 
     &__country-text
-        white-space normal
         color light_gray_color
+
+    &_form &__country-text
+        white-space normal
 
     &__date
         float right
@@ -173,10 +178,35 @@
     @media tablet
         &
             border none
-            padding 10px
-
             margin-bottom 40px
 
-        &__line_defined &__edit
+        &_form
+            padding 10px
+
+        &__line_defined &__edit,
+        &__date
             float none
             display block
+
+        &_result &__share
+            position static
+
+            padding 0
+            margin 20px 0
+
+            text-align left
+
+            border-radius initial
+            border none
+
+            transform none
+
+        &_result .share-icons .share
+            margin 7px 20px 0 0
+
+    @media phone
+        &_result
+            padding 20px 30px 40px 90px
+
+        &_result &__userpic
+            left -95px
