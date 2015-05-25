@@ -65,10 +65,13 @@ block content
 
                     +e('label').edit(for="edit-input") Редактировать
 
+                    +e('span').homepage
+                        +e('a').homepage-link(href="/123") facebook.com/vasya-poupkin
+
                     +e('span').country
                         +e('img').country-flag(src='/img/flags/ru.svg' width=16 height=12)
-                        +e('span').country-text Россия, Москва
 
+                        +e('span').country-text Россия, Москва
                     +e('span').occupation Фрилансер
 
 
@@ -97,7 +100,7 @@ block content
                 +b.text-input
                     +e('input').control
 
-            +e.line
+            +e.line._editable
                 +e('h2').title Ссылка на профиль&nbsp;
                     +e('span').title-note (не обязательно)
                 +b.text-input
