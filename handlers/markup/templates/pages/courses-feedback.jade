@@ -11,7 +11,7 @@ block append variables
 
 
 block content
-    +b.course-feedback
+    +b.course-feedback._form
         +e('form').form
             +e.line
                 +e('h2').title Как вы в целом оцениваете курс
@@ -48,11 +48,36 @@ block content
                 +b('textarea').textarea-input.__textarea-head(placeholder="Несколько слов о том, насколько полезным курс оказался для вас, как доступно излагается материал и т.д.")
 
             +e.line
+                +e('h2').title
+                    +e('input').checkbox(type="checkbox" checked)
+                    | Публичный отзыв&nbsp;
+                    +e('span').title-note (будет опубликован на javascript.ru)
+
+            +e('input').edit-input(type="checkbox" id="edit-input" hidden)
+
+            +e.line._defined
+                +e.user
+                    +e.userpic
+                        +e('img').userpic-img(src="/img/userpic/userpic.svg")
+
+                    +e('span').username
+                        +e('a').username-link(href="/123") Александр Луговой
+
+                    +e('label').edit(for="edit-input") Редактировать
+
+                    +e('span').country
+                        +e('img').country-flag(src='/img/flags/ru.svg' width=16 height=12)
+                        +e('span').country-text Россия, Москва
+
+                    +e('span').occupation Фрилансер
+
+
+            +e.line._editable
                 +e('h2').title Имя
                 +b.text-input
-                    +e('input').control(value="Пупкин Вася" disabled)
+                    +e('input').control(value="Пупкин Вася")
 
-            +e.line
+            +e.line._editable
                 +e('h2').title Фото
                 +b.upload-userpic(data-photo-load)
                   input(type="hidden" name="photoId")
@@ -60,23 +85,18 @@ block content
                   +e('a').new(href="#") Загрузите новое фото
 
 
-            +e.line
+            +e.line._editable
                 +e('h2').title Страна
                 +b('select').input-select._small(name="country")
                     +e('option')(value="ru") Россия
                     +e('option')(value="ua") Украина
 
-            +e.line
+            +e.line._editable
                 +e('h2').title Город&nbsp;
                     +e('span').title-note (не обязательно)
                 +b.text-input
                     +e('input').control
 
-            +e.line
-                +e('h2').title
-                    +e('input').checkbox(type="checkbox" checked)
-                    | Публичный отзыв&nbsp;
-                    +e('span').title-note (будет опубликован на javascript.ru)
             +e.line
                 +e('h2').title Ссылка на профиль&nbsp;
                     +e('span').title-note (не обязательно)

@@ -1,12 +1,12 @@
 .course-feedback
     @extend $yellow-border
 
+    box-sizing: border-box
+    max-width 635px
+    margin 0 auto
     padding 50px 70px
 
     text-align left
-
-    &__form
-        max-width 410px
 
     h2&__title
         font-size 14px
@@ -28,13 +28,54 @@
     &__line:not(:first-child)
         margin-top 25px
 
+    &__line_defined &__user
+        position relative
+        box-sizing border-box
+
+        min-height 105px
+        padding 10px 25px 10px 120px
+
+        border-radius 4px
+        background #EEE
+
+    &__line_defined &__userpic
+        top 6px
+        left 15px
+
+    &__line_defined &__country,
+    &__line_defined &__occupation
+        display block
+
+        margin-top 7px
+
+        color light_gray_color
+
+    &__line_defined &__edit
+        float right
+
+        cursor pointer
+        color light_link_color
+
+    &__line_defined &__edit:hover
+        color link_hover_color
+
+    &__line_editable,
+    &__edit-input:checked ~ &__line_defined
+        display none
+
+    &__edit-input:checked ~ &__line_editable
+        display block
+
     &__label
         line-height 25px
 
-    & .textarea-input,
+    & .textarea-input
+        width 100%
+
     & .text-input,
     & .input-select
         width 100%
+        max-width 410px
 
     & .textarea-input
         height 110px
@@ -52,36 +93,40 @@
 
         padding 20px 30px 40px 120px
 
-    &_result &__user
+    &__user
         position relative
         margin-top 15px
 
-    &_result &__userpic
+    &__userpic
         position absolute
         top -15px
         left -100px
 
-    &_result &__userpic-img
+    &__userpic-img
         width 86px
         height 86px
 
-    &_result &__username
+    &__username
         margin-right 10px
 
-    &_result &__username-link
+    &__username-link
         font-weight bold
         color light_link_color
 
-    &_result &__username-link:hover
+    &__username-link:hover
         color link_hover_color
 
-    &_result &__country-flag
+    &__country
+        white-space nowrap
+
+    &__country-flag
         margin-right 5px
 
-    &_result &__country-text
+    &__country-text
+        white-space normal
         color light_gray_color
 
-    &_result &__date
+    &__date
         float right
         color light_gray_color
 
@@ -124,3 +169,14 @@
 
     &_external
         border-color #F5F2F0
+
+    @media tablet
+        &
+            border none
+            padding 10px
+
+            margin-bottom 40px
+
+        &__line_defined &__edit
+            float none
+            display block
