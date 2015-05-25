@@ -10,6 +10,8 @@ env.NODE_ENV = env.NODE_ENV || 'development';
 
 var secret = require('./secret');
 
+Error.stackTraceLimit = 100;
+
 module.exports = {
   server: {
     port:       env.PORT || 3000,

@@ -49,6 +49,8 @@ block content
             option(value=country.co selected=(country.co == form.country))= country.na
         if errors.country
           +e.err= errors.country
+        if form.country
+          +e('img').flag(src="/img/flags/#{form.country}.svg" height=24 width=32)
 
       +e.line
         +e('label').label(for="invite-city") Город

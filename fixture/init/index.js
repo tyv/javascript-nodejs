@@ -3,7 +3,7 @@ const _ = require('lodash');
 module.exports = _.merge(
   require('./user'),
   require('./newsletter'),
-  require('./orderTemplate'),
+  require('./payments'),
   require('./course'),
   require('./migrationState'),
   require('./videoKey')

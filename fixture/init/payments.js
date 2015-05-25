@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
+require('payments');
 
-var OrderTemplate = require('payments').OrderTemplate;
+exports.Transaction = [];
+exports.TransactionLog = [];
+exports.Order = [];
 
 exports.OrderTemplate = [
   {

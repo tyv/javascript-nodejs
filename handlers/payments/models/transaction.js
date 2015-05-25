@@ -160,6 +160,7 @@ schema.methods.getStatusDescription = function() {
 */
 
 schema.methods.logRequest = function*(event, request) {
+  throw new Error("WOPS")
   yield this.log(event, {url: request.originalUrl, body: request.body});
 };
 
@@ -175,8 +176,6 @@ schema.methods.log = function*(event, data) {
     event: event,
     data: data
   };
-
-//  console.log(options);
 
   var log = new TransactionLog(options);
   yield log.persist();
