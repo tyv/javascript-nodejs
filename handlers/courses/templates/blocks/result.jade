@@ -20,12 +20,12 @@
 
       +b.course-register-success.courses-register-common
         +e('h2').title.courses-register-common__title!= orderInfo.title
-      if orderInfo.accent
-        +e('h3').title.courses-register-common__title!= orderInfo.accent
-      if orderInfo.description
-        +e.body
-          != orderInfo.description
-          if orderInfo.linkToProfile
-            != orderInfo.linkToProfile
+        if orderInfo.accent
+          +e('h3').title.courses-register-common__title!= orderInfo.accent
+        if orderInfo.description
+          +e.body
+            != orderInfo.description
+            if orderInfo.linkToProfile
+              != orderInfo.linkToProfile
 
 
