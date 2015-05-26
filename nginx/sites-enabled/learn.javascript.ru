@@ -51,8 +51,13 @@ server {
     alias   <%=root%>/download/;
   }
 
-  # restricted download
+  # restricted download (download module)
   location ^~ /download/ {
+    include "partial/proxy-3000";
+  }
+
+  # restricted download (courses module)
+  location ^~ /courses/download/ {
     include "partial/proxy-3000";
   }
 

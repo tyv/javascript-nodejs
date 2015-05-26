@@ -48,7 +48,7 @@ var schema = new Schema({
   // group w/o materials can set this to undefined
   // otherwise there will be a link to the page (maybe without files yet)
   materials: {
-    type:    [CourseMaterial],
+    type:    [CourseMaterial.schema],
     default: []
   },
 
@@ -96,15 +96,15 @@ var schema = new Schema({
 
 
 schema.methods.getMaterialUrl = function(material) {
-  return `/courses/groups/${this.slug}/materials/${material.filename}`;
+  return `/courses/download/${this.slug}/${material.filename}`;
 };
 
-schema.methods.getMaterialFilePath = function(material) {
-  return path.join(config.downloadRoot, this.getMaterialUrl(material));
+schema.methods.getMaterialFileRelativePath = function(material) {
+  return `courses/${this.slug}/${material.filename}`;
 };
 
 schema.methods.getMaterialFileSize = function* (material) {
-  var stat = yield fs.stat(this.getMaterialFilePath(material));
+  var stat = yield fs.stat(path.join(config.downloadRoot, this.getMaterialFileRelativePath(material)));
   return stat.size;
 };
 

@@ -32,7 +32,7 @@ block content
           +e('tr').line
             +e('td').num
             +e('td').name
-              +e('a').link(href=material.filename)= material.title
+              +e('a').link(href=material.url)= material.title
             +e('td').size= material.size
             +e('td').added= moment(material.created).format('DD.MM.YYYY')
   else

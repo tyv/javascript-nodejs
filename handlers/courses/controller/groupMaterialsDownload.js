@@ -20,7 +20,7 @@ exports.get = function*() {
   this.set({
     'Content-Type': 'application/octet-stream',
     'Content-Disposition': 'attachment; filename=' + path.basename(material.filename),
-    'X-Accel-Redirect': '/_download' + group.getMaterialUrl(material)
+    'X-Accel-Redirect': '/_download/' + group.getMaterialFileRelativePath(material)
   });
 
   this.body = '';
