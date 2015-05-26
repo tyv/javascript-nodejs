@@ -29,7 +29,7 @@ var schema = new Schema({
 });
 
 schema.methods.getUrl = function() {
-  return config.server.siteHost + '/download/now/' + this.linkId;
+  return config.server.siteHost + '/download/' + this.linkId;
 };
 
 module.exports = mongoose.model('ExpiringDownloadLink', schema);
