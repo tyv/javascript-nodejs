@@ -14,24 +14,27 @@ block content
   - data.push({ url: '/123', name: 'Материалы, 2013 09 22 2130', size: '2 Gb', date: moment(new Date()).locale('ru').format('DD MMM YYYY') });
   - data.push({ url: '/123', name: 'Материалы, 2013 09 26 2130', size: '2 Gb', date: moment(new Date()).locale('ru').format('DD MMM YYYY') });
 
-  // TODO!
-  +b.courses-materials
+  if materials.length
+    +b.courses-materials
 
-    +e('p').video-key
-      | Серийный номер для видео:
-      = ' '
-      +e('span')= videoKey
+      +e('p').video-key
+        | Серийный номер для видео:
+        = ' '
+        +e('span')= videoKey
 
-    +e('table').table
-      +e('tr').line
-        +e('th').num #
-        +e('th').name Название
-        +e('th').size Размер
-        +e('th').added Добавлено
-      for material in data
+      +e('table').table
         +e('tr').line
-          +e('td').num
-          +e('td').name
-            +e('a').link(href=material.url) !{ material.name }
-          +e('td').size !{ material.size }
-          +e('td').added !{ material.date }
+          +e('th').num #
+          +e('th').name Название
+          +e('th').size Размер
+          +e('th').added Добавлено
+        for material in materials
+          +e('tr').line
+            +e('td').num
+            +e('td').name
+              +e('a').link(href=material.filename)= material.title
+            +e('td').size= material.size
+            +e('td').added= moment(material.created).format('DD.MM.YYYY')
+  else
+    +b.notification._message._success
+      +e.content Материалов пока нет, будут доступны позже.

@@ -10,9 +10,18 @@ exports.Course = [
     slug:  "js",
     videoKeyTag: "js",
     title: "Курс JavaScript/DOM/интерфейсы",
-    shortDescription: "Просто хороший курс",
+    shortDescription: `"Правильный" курс по профессиональному JavaScript, цель которого – научить думать на JavaScript, писать просто, быстро и красиво.`,
     isListed: true,
     weight: 1
+  },
+  {
+    "_id": "543250000000000000000003",
+    slug:  "nodejs",
+    videoKeyTag: "nodejs",
+    title: "Курс по Node.JS",
+    shortDescription: `Грамотная разработка на платформе Node.JS (серверный JavaScript).`,
+    isListed: true,
+    weight: 2
   }
 ];
 

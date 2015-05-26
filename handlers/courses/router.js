@@ -15,6 +15,7 @@ router.get('/orders/:orderNumber(\\d+)', require('./controller/signup').get);
 
 router.get('/groups/:groupBySlug/info', mustBeParticipant, require('./controller/groupInfo').get);
 router.get('/groups/:groupBySlug/materials', mustBeParticipant, require('./controller/groupMaterials').get);
+router.get('/groups/:groupBySlug/materials/:filename', mustBeParticipant, require('./controller/groupMaterialsDownload').get);
 router.get('/groups/:groupBySlug/feedback', mustBeParticipant, require('./controller/groupFeedback').get);
 router.post('/groups/:groupBySlug/feedback', mustBeParticipant, require('./controller/groupFeedback').post);
 

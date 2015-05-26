@@ -6,6 +6,7 @@ var path = require('path');
 var log = require('log')();
 var validate = require('validate');
 var CourseParticipant = require('./courseParticipant');
+var CourseMaterial = require('./courseMaterial');
 
 var schema = new Schema({
   // 01.01.2015
@@ -42,6 +43,13 @@ var schema = new Schema({
   participantsLimit: {
     type:     Number,
     required: true
+  },
+
+  // group w/o materials can set this to undefined
+  // otherwise there will be a link to the page (maybe without files yet)
+  materials: {
+    type:    [CourseMaterial],
+    default: []
   },
 
   // is this group in the open course list (otherwise hidden)?
@@ -86,25 +94,18 @@ var schema = new Schema({
   }
 });
 
-schema.methods.readMaterials = function*() {
-  var groupDir = path.join(config.courseRoot, this.slug);
 
-  try {
-    var files = yield fs.readdir(groupDir);
-    return files.map(function(file) {
-      if (file[0] == '.') return null;
-      return {
-        path: path.join(groupDir, file),
-        url: `/courses/groups/${this.slug}/download/${file}`,
-        title: file
-      };
-    }).filter(Boolean);
-  } catch (e) {
-    log.error("Group dir must be a directory", groupDir);
+schema.methods.getMaterialUrl = function(material) {
+  return `/courses/groups/${this.slug}/materials/${material.filename}`;
+};
 
-    return [];
-  }
+schema.methods.getMaterialFilePath = function(material) {
+  return path.join(config.downloadRoot, this.getMaterialUrl(material));
+};
 
+schema.methods.getMaterialFileSize = function* (material) {
+  var stat = yield fs.stat(this.getMaterialFilePath(material));
+  return stat.size;
 };
 
 schema.methods.decreaseParticipantsLimit = function(count) {

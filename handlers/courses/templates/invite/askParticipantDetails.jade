@@ -55,15 +55,15 @@ block content
       +e.line
         +e('label').label(for="invite-city") Город
         +b('span')(class=["text-input", "__input", errors.city ? '_invalid' : ''])
-          +e('input').control#invite-city(type="text", name="city" value=form.city pattern=validate.patterns.singleword)
+          +e('input').control#invite-city(type="text", name="city" value=form.city pattern=validate.patterns.doubleword)
           if errors.city
             +e.err= errors.city
 
       +e.line
         +e('label').label(for="invite-aboutLink") LinkedIn / Github / Moikrug...
         +b('span')(class=["text-input", "__input", errors.aboutLink ? '_invalid' : ''])
-          +e('input').control#invite-aboutLink(type="url", name="aboutLink" pattern=validate.patterns.webpageUrl value=form.aboutLink)
-        +e('p').note Профиль в соц сети или личная страница, где можно узнать о вашей профессиональной деятельности.
+          +e('input').control#invite-aboutLink(type="url", name="aboutLink" pattern=validate.patterns.webpageUrl value=form.aboutLink placeholder="https://linkedin.com/in/vasya")
+        +e('p').note Профиль в соц. сети или личная страница, где можно узнать о вашей профессиональной деятельности.
 
       +e.line
         +e('label').label(for="invite-occupation") Область работы

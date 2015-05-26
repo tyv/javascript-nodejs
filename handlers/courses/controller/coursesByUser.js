@@ -55,8 +55,7 @@ exports.get = function*(next) {
       title: 'Инструкции по настройке окружения'
     }];
 
-    var materials = yield groups[i].readMaterials();
-    if (materials.length) {
+    if (groups[i].materials) {
       groupInfo.links.push({
         url: `/courses/groups/${group.slug}/materials`,
         title: 'Материалы для обучения'
