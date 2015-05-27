@@ -26,14 +26,17 @@ exports.all = function*() {
   }).populate('group').populate('order').exec();
 
   this.locals.mailto = "mailto:orders@javascript.ru";
-  if (invite.order) this.locals.mailto += "?subject=" + encodeURIComponent('Заказ ' + invite.order.number);
 
   if (!invite) {
     this.throw(404);
   }
 
+  if (invite.order) {
+    this.locals.mailto += "?subject=" + encodeURIComponent('Заказ ' + invite.order.number);
+  }
+
   if (invite.accepted) {
-    this.addFlashMessage("success", "Поздравляем, вы присоединились к курсу. Ниже рядом с курсом вы найдёте полезные ссылки, включая инструкцию.");
+    this.addFlashMessage("success", "Поздравляем, вы присоединились к курсу. Ниже, рядом с курсом, вы найдёте инструкцию.");
     this.redirect(this.user.getProfileUrl() + '/courses');
     return;
   }
@@ -50,7 +53,7 @@ exports.all = function*() {
   // invite was NOT accepted, but this guy is a participant (added manually?),
   // so show the same as accepted
   if (participantsByEmail[invite.email]) {
-    this.addFlashMessage("success", "Вы уже участник курса. Ниже рядом с курсом вы найдёте полезные ссылки, включая инструкцию.");
+    this.addFlashMessage("success", "Вы уже участник курса. Ниже, рядом с курсом, вы найдёте инструкцию.");
     this.redirect(this.user.getProfileUrl() + '/courses');
     return;
   }

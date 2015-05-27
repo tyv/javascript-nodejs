@@ -27,6 +27,7 @@
     "blueimp-canvas-to-blob": "git://github.com/hugomrdias/JavaScript-Canvas-to-Blob",
     "browser-pack": "*",
     "bunyan": "*",
+    "bytes": "^2.1.0",
     "cls-bluebird": "*",
     "cls-mongoose": "*",
     "co": "*",

@@ -53,6 +53,8 @@ gulp.task('migrate:up', lazyRequireTask('migrate/tasks/up'));
 gulp.task('migrate:down', lazyRequireTask('migrate/tasks/down'));
 gulp.task('migrate:create', lazyRequireTask('migrate/tasks/create'));
 
+gulp.task('courses:material:add', lazyRequireTask('courses/tasks/materialAdd'));
+
 gulp.task("nodemon", lazyRequireTask('./tasks/nodemon', {
   // shared client/server code has require('template.jade) which precompiles template on run
   // so I have to restart server to pickup the template change
