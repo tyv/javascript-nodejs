@@ -15,7 +15,7 @@ block content
         +e('form').form
             +e.line
                 +e('h2').title Как вы в целом оцениваете курс
-                +b.rating-chooser.clearfix
+                +b.rating-chooser._invalid.clearfix
                     +e('fieldset').fieldset
                         +e('input').input(type="radio" id="star5" name="rating" value="5" hidden)
                         +e('label').label(for="star5" title="Отлично")
@@ -33,6 +33,8 @@ block content
                         +e('label').label(for="star1" title="Плохо")
                             +e('span').label-text Плохо
 
+                    +e('span').err Нужно выбрать оценку
+
             +e.line
                 +e('h2').title Порекомендовали бы вы этот курс другим?
                 +e('label').label
@@ -45,7 +47,9 @@ block content
 
             +e.line
                 +e('h2').title Отзыв
-                +b('textarea').textarea-input.__textarea-head(placeholder="Несколько слов о том, насколько полезным курс оказался для вас, как доступно излагается материал и т.д.")
+                +b('textarea').textarea-input._invalid(placeholder="Несколько слов о том, насколько полезным курс оказался для вас, как доступно излагается материал и т.д.")
+                span.textarea-input__err Напишите отзыв
+
 
             +e.line
                 +e('h2').title
