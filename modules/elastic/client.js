@@ -1,10 +1,6 @@
 var elasticsearch = require('elasticsearch');
 var config = require('config');
 
-const clsNamespace = require('continuation-local-storage').getNamespace('app');
-
-require('cls-elasticsearch')(clsNamespace);
-
 const log = require('log')();
 
 // logger from

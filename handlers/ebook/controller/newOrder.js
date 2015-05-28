@@ -15,6 +15,5 @@ exports.get = function*() {
 
   this.locals.paymentMethods = require('../lib/paymentMethods');
 
-
   this.body = this.render('newOrder');
 };
