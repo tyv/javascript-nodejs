@@ -160,7 +160,6 @@ schema.methods.getStatusDescription = function() {
 */
 
 schema.methods.logRequest = function*(event, request) {
-  throw new Error("WOPS")
   yield this.log(event, {url: request.originalUrl, body: request.body});
 };
 
