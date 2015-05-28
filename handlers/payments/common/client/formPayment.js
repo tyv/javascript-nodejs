@@ -76,6 +76,11 @@ class FormPayment {
       orderData[key] = paymentData[key];
     }
 
+    var discountCode = window.location.search.match(/[?&]discountCode=(\w+)/);
+    if (discountCode) {
+      orderData.discountCode = discountCode[1];
+    }
+
     // response status must be 200
     var request = xhr({
       method:         'POST',

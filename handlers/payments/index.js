@@ -9,6 +9,7 @@ exports.loadTransaction = require('./lib/loadTransaction');
 exports.getOrderInfo = require('./lib/getOrderInfo');
 
 var Order = exports.Order = require('./models/order');
+var Discount = exports.Discount = require('./models/discount');
 var OrderTemplate = exports.OrderTemplate = require('./models/orderTemplate');
 var Transaction = exports.Transaction = require('./models/transaction');
 var TransactionLog = exports.TransactionLog = require('./models/transactionLog');

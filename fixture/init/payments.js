@@ -3,6 +3,10 @@ require('payments');
 
 exports.Transaction = [];
 exports.TransactionLog = [];
+exports.Discount = [{
+  code: "DISCOUNT",
+  discount: 1
+}];
 exports.Order = [];
 
 exports.OrderTemplate = [
@@ -12,7 +16,7 @@ exports.OrderTemplate = [
     slug:        "js",
     module:      'ebook',
     weight:      1,
-    amount:      1,
+    amount:      2,
     data:        {
       file: "tutorial/js.zip"
     }
@@ -23,7 +27,7 @@ exports.OrderTemplate = [
     slug:        "ui",
     module:      'ebook',
     weight:      2,
-    amount:      1,
+    amount:      2,
     data:        {
       file: "tutorial/ui.zip"
     }
@@ -34,7 +38,7 @@ exports.OrderTemplate = [
     slug:        "js-ui",
     module:      'ebook',
     weight:      3,
-    amount:      1,
+    amount:      2,
     data:        {
       file: "tutorial/js-ui.zip"
     }

@@ -1,14 +1,21 @@
 var Order = require('payments').Order;
+var Discount = require('payments').Discount;
 
 // middleware
 // create order from template,
 // use the incoming data if needed
 module.exports = function* (orderTemplate, user, requestBody) {
 
+  var amount = orderTemplate.amount;
+  if (requestBody.discountCode) {
+    var discount = yield* Discount.findByCodeAndModule(requestBody.discountCode, 'ebook');
+    if (discount) amount = discount.apply(amount);
+  }
+
   var order = new Order({
     title:       orderTemplate.title,
     description: orderTemplate.description,
-    amount:      orderTemplate.amount,
+    amount:      amount,
     module:      orderTemplate.module,
     data:        orderTemplate.data
   });

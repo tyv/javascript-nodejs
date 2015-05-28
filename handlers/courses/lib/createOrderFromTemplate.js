@@ -1,4 +1,5 @@
 var Order = require('payments').Order;
+var Discount = require('payments').Discount;
 var OrderCreateError = require('payments').OrderCreateError;
 var CourseGroup = require('../models/courseGroup');
 var pluralize = require('textUtil/pluralize');
@@ -42,9 +43,17 @@ module.exports = function*(orderTemplate, user, requestBody) {
     throw new OrderCreateError("Вы не авторизованы.");
   }
 
+
+  var price = group.price;
+  if (requestBody.discountCode) {
+    var discount = yield* Discount.findByCodeAndModule(requestBody.discountCode, 'courses');
+    if (discount) price = discount.apply(price);
+  }
+
+
   var order = new Order({
     title:  group.title,
-    amount: orderData.count * group.price,
+    amount: orderData.count * price,
     module: orderTemplate.module,
     data:   orderData,
     email:  user.email,
