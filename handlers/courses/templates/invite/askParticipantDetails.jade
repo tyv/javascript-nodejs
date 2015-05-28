@@ -39,7 +39,7 @@ block content
         +e('span').label Фото
         +b.upload-userpic(data-photo-load)
           input(type="hidden" name="photoId")
-          +e('i').img(style="background-image: url('#{thumb(form.photo, 64, 64)}')")
+          +e('i').img(style="background-image: url('#{thumb(form.photo || user.getPhotoUrl(), 64, 64)}')")
           +e('a').new(href="#") Загрузите новое фото
 
       +e.line
@@ -49,8 +49,6 @@ block content
             option(value=country.co selected=(country.co == form.country))= country.na
         if errors.country
           +e.err= errors.country
-        if form.country
-          +e('img').flag(src="/img/flags/#{form.country}.svg" height=24 width=32)
 
       +e.line
         +e('label').label(for="invite-city") Город
@@ -69,15 +67,15 @@ block content
         +e('label').label(for="invite-occupation") Область работы
         +b('span')(class=["text-input", "__input", errors.occupation ? '_invalid' : ''])
           +e('input').control#invite-occupation(type="text", name="occupation" value=form.occupation)
-        +e('p').note Кем работаете? Основные используемые языки и технологии (кратко)
+        +e('p').note Кем или в какой области работаете?
 
       +e.line
         +e('label').label(for="invite-purpose") С какой целью записались на курс?
-        +b('textarea').textarea-input#invite-purpose
+        +b('textarea').textarea-input(name="purpose")#invite-purpose
 
       +e.line
         +e('label').label(for="invite-wishes") Ваши пожелания по курсу?
-        +b('textarea').textarea-input#invite-wishes
+        +b('textarea')(name="wishes").textarea-input#invite-wishes
 
       +e.line.__submit
         +b('button').button._action(type="submit")

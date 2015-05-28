@@ -18,7 +18,7 @@ bunyan.prototype._emit = function addReqIdToEveryRecord(rec, noemit) {
         // clsContext.requestId kept across async calls by CLS, should be correct
         if (rec.requestId !== clsContext.requestId) {
           // trust rec.requestId, if we're here => context is lost somewhere (bug)
-          console.error(`LOG: CLS returned wrong context? (${rec.requestId}) !== (${clsContext.requestId}).`, rec);
+          console.error(`LOG: CLS wrong context ${clsContext.requestId} should be ${rec.requestId}`, rec);
         }
       }
     }

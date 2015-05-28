@@ -23,7 +23,7 @@ exports.all = function*() {
 
   var invite = yield CourseInvite.findOne({
     token: this.params.inviteToken || this.request.body && this.request.body.inviteToken
-  }).populate('group').populate('order').exec();
+  }).populate('group order').exec();
 
   this.locals.mailto = "mailto:orders@javascript.ru";
 
@@ -47,7 +47,8 @@ exports.all = function*() {
     return;
   }
 
-  yield CourseGroup.populate(invite.group, {path: 'participants.user'});
+  //yield CourseGroup.populate(invite.group, {path: 'participants'});
+  yield CourseGroup.populate(invite.group, 'participants participants.user course');
 
   var participantsByEmail = _.indexBy(_.pluck(invite.group.participants, 'user'), 'email');
   // invite was NOT accepted, but this guy is a participant (added manually?),
@@ -104,21 +105,20 @@ function* askParticipantDetails(invite) {
   this.locals.countries = selectCountries;
 
   if (this.method == 'POST') {
-    var participantData = _.clone(this.request.body);
+    var participantData = _.pick(this.request.body,
+      'photoId firstName surname country city aboutLink occupation purpose wishes'.split(' ')
+    );
     participantData.user = this.user;
 
     if (participantData.photoId) {
       var photo = yield ImgurImage.findOne({imgurId: this.request.body.photoId}).exec();
       participantData.photo = photo.link;
-    } else {
-      participantData.photo = this.user.getPhotoUrl();
     }
 
     var participant = new CourseParticipant(participantData);
 
-
     try {
-      yield participant.validate();
+      yield participant.persist();
     } catch (e) {
       var errors = {};
       for (var key in e.errors) {
@@ -141,7 +141,7 @@ function* askParticipantDetails(invite) {
     this.redirect('/courses/invite/' + invite.token);
 
 
-  } else {
+  } else if (this.method == 'GET') {
 
     this.body = this.render('invite/askParticipantDetails', {
       errors: {},
@@ -157,7 +157,7 @@ function* askParticipantDetails(invite) {
 
 function* acceptParticipant(invite, participant) {
 
-  invite.group.participants.push(participant);
+  invite.group.participants.push(participant._id);
 
   this.user.profileTabsEnabled.addToSet('courses');
   yield this.user.persist();
@@ -169,7 +169,7 @@ function* acceptParticipant(invite, participant) {
   yield invite.group.persist();
 
 
-  yield CourseGroup.populate(invite.group, [{path: 'participants.user'}, {path: 'course'}]);
+  yield CourseGroup.populate(invite.group, 'participants participants.user course');
 
   if (process.env.NODE_ENV != 'development') {
     yield* grantXmppChatMemberships(invite.group);

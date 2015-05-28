@@ -67,7 +67,10 @@ var schema = new Schema({
     default: false
   },
 
-  participants: [CourseParticipant.schema],
+  participants: [{
+    type:     Schema.Types.ObjectId,
+    ref:      'CourseParticipant'
+  }],
 
   // room jid AND gotowebinar id
   // an offline group may not have this
@@ -97,6 +100,15 @@ var schema = new Schema({
 
 schema.methods.getMaterialUrl = function(material) {
   return `/courses/download/${this.slug}/${material.filename}`;
+};
+
+schema.methods.getParticipantByUserId = function(id) {
+  for (var i = 0; i < this.participants.length; i++) {
+    var participant = this.participants[i];
+    if (String(participant.user) == String(id)) return participant;
+  }
+
+  return null;
 };
 
 schema.methods.getMaterialFileRelativePath = function(material) {

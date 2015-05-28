@@ -1,6 +1,7 @@
 "use strict";
 
 const CourseInvite = require('../models/courseInvite');
+const CourseParticipant = require('../models/courseParticipant');
 const CourseGroup = require('../models/courseGroup');
 
 /**
@@ -24,9 +25,19 @@ exports.get = function*(next) {
   }).populate('group').exec();
 
   // plus groups where participates
-  var groups = yield CourseGroup.find({
-    'participants.user': user._id
+  var participant = yield CourseParticipant.findOne({
+    user: user._id
   }).exec();
+
+  var groups;
+  if (participant) {
+    // plus groups where participates
+    groups = yield CourseGroup.find({
+      participants: participant._id
+    }).exec();
+  } else {
+    groups = [];
+  }
 
   this.body = [];
 

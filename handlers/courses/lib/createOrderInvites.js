@@ -23,7 +23,7 @@ module.exports = function*(order) {
 
   // get existing participants, they don't need invites
   var group = yield CourseGroup.findById(order.data.group).exec();
-  yield CourseGroup.populate(group, {path: 'participants.user'});
+  yield CourseGroup.populate(group, 'participants participants.user');
   var participantsByEmail = _.indexBy(_.pluck(group.participants, 'user'), 'email');
 
   var invites = [];

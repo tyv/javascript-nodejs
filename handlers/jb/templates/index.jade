@@ -40,7 +40,7 @@ block content
 
       +e.line
         +e("label").label(for="product") Редактор:
-        +b('select').input-select(name="product" id="product")
+        +b('select').input-select._small(name="product" id="product")
           each title, value in products
             +e('option')(value=value selected=(form && form.product == value))= title
 

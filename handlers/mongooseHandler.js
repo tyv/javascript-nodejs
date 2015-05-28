@@ -1,6 +1,5 @@
 const mongoose = require('lib/mongoose');
 
-const shimmer = require('shimmer');
 const clsNamespace = require('continuation-local-storage').getNamespace('app');
 
 require('cls-mongoose')(clsNamespace);

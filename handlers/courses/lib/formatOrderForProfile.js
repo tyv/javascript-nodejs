@@ -6,7 +6,7 @@ var paymentMethods = require('./paymentMethods');
 
 module.exports = function* formatCourseOrder(order) {
 
-  var group = yield CourseGroup.findById(order.data.group).populate('course').exec();
+  var group = yield CourseGroup.findById(order.data.group).populate('course participants').exec();
 
   if (!group) {
     this.log.error("Not found group for order", order.toObject());

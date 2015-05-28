@@ -8,6 +8,7 @@ exports.init = function(app) {
 exports.Course = require('./models/course');
 exports.CourseGroup = require('./models/courseGroup');
 exports.CourseInvite = require('./models/courseInvite');
+exports.CourseFeedback = require('./models/courseFeedback');
 
 exports.onPaid = require('./lib/onPaid');
 

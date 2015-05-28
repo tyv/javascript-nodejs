@@ -8,7 +8,7 @@ const Order = require('payments').Order;
 // called by payments/common/order
 module.exports = function*() {
 
-  var group = yield CourseGroup.findById(this.order.data.group).populate('participants.user').exec();
+  var group = yield CourseGroup.findById(this.order.data.group).populate('participants participants.user').exec();
 
   var groupParticipantsByEmail = _.indexBy(group.participants, function(participant) {
     return participant.user.email;

@@ -7,7 +7,7 @@ var log = require('log')();
 var validate = require('validate');
 var countries = require('countries');
 
-var schema = {
+var schema = new Schema({
   firstName:  {
     type:      String,
     validate:  [
@@ -71,7 +71,10 @@ var schema = {
     // there may be groups without video & keys
     // for those with videos, video key is stored in participant
   }
-};
+});
 
-module.exports = mongoose.model('CourseParticipant', new Schema(schema));
-//module.exports.schemaObject = schema;
+schema.virtual('fullName').get(function () {
+  return this.firstName + ' ' + this.surname;
+});
+
+module.exports = mongoose.model('CourseParticipant', schema);

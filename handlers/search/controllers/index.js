@@ -1,7 +1,12 @@
-var elasticClient = require('elastic').client;
+"use strict";
 
+var request = require('request');
 var Task = require('tutorial').Task;
 var Article = require('tutorial').Article;
+var config = require('config');
+var _ = require('lodash');
+
+const clsNamespace = require('continuation-local-storage').getNamespace('app');
 
 // known types and methods to convert hits to showable results
 // FIXME: many queries to MongoDB for parents (breadcrumbs) Cache them?
@@ -65,7 +70,14 @@ exports.get = function *get(next) {
   locals.resultsCountPerType = {};
 
   if (searchQuery) {
+    var test = Math.random();
+
+    //console.log("SEARCH CTRL in", test, process.namespaces.app.get('context').requestId);
+
     var result = yield* search(searchQuery);
+
+    //console.log("SEARCH CTRL out", test, process.namespaces.app.get('context').requestId);
+
 
     var hits = result[searchType].hits.hits;
 
@@ -145,19 +157,36 @@ function* search(query) {
     }
   };
 
-  var queries = {};
-  for(var type in searchTypes) {
-    // object of promises
-    queries[type] = elasticClient().search({
-      index: 'js',
-      type: type,
-      body: queryBody
-    });
-  }
-
   // 1 query per type to ES
   // maybe: replace w/ ES aggregations?
-  var result = yield queries;
+
+  var db = 'js';
+  var result = {};
+  for(var type in searchTypes) {
+    // object of promises
+    /*
+    queries[type] = request({
+      url: config.elastic.host + '/js/' + type + '/_search',
+      method: 'POST',
+      json: true,
+      body: queryBody
+    });
+    */
+
+    // request sequentially for CLS to work
+    // if in parallel, it fails to keep the context
+    result[type] = yield function(callback) {
+      request({
+        url: `${config.elastic.host}/${db}/${type}/_search`,
+        method: 'POST',
+        json: true,
+        body: queryBody
+      }, clsNamespace.bind(function(error, response, body) {
+        callback(error, body);
+      }));
+    };
+
+  }
 
   return result;
 }

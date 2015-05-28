@@ -8,6 +8,14 @@ exports.post = function*() {
 
   var self = this;
 
+  if (process.env.IMGUR_DISABLED) {
+    this.body = {
+      imgurId: (Math.random() * 1e6 ^ 0).toString(36),
+      link:    '//assets/img/logo.png'
+    };
+    return;
+  }
+
   var imgurImage;
   try {
     imgurImage = yield new Promise(function(resolve, reject) {
@@ -36,7 +44,7 @@ exports.post = function*() {
       form.parse(self.req);
 
     });
-  } catch(e) {
+  } catch (e) {
     if (e instanceof BadImageError) {
       this.status = 400;
       this.body = e.message;
@@ -48,7 +56,7 @@ exports.post = function*() {
 
 
   this.body = {
-    link: imgurImage.link,
+    link:    imgurImage.link,
     imgurId: imgurImage.imgurId
   };
 

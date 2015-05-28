@@ -54,12 +54,13 @@ exports.init = function(app) {
       // set the color of the status code;
       var s = status / 100 | 0;
 
+      // not ctx.url, but ctx.originalUrl because mount middleware changes it
+      // request to /payments/common/order in case of error is logged as /order
+
       ctx.log[err ? 'error' : 'info'](
-        "<-- %s %s", ctx.method, ctx.url, {
+        "<-- %s %s", ctx.method, ctx.originalUrl, {
         event:    "request-end",
         method:   ctx.method,
-        // not url, because mount middleware changes it
-        // request to /payments/common/order in case of error is logged as /order
         url:      ctx.originalUrl,
         status:   status,
         timeDuration: Date.now() - start

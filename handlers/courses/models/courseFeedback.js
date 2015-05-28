@@ -12,22 +12,23 @@ var schema = new Schema({
 
   stars: {
     type: Number,
-    required: true,
+    required: "Не стоит оценка.",
     min: 1,
     max: 5
   },
 
   content: {
     type: String,
+    required: "Отсутствует текст отзыва."
+  },
+
+  participant: {
+    type: Schema.Types.ObjectId,
+    ref:  'CourseParticipant',
     required: true
   },
 
-  // copy from participants
-  participantName: {
-    type: String,
-    required: true
-  },
-
+  // todo (not used now)
   // for selected reviews, to show at the courses main, cut them at this point
   // todo: add an intellectual cutting function like jQuery dotdotdot, but w/o jquery
   cutAtLength: {
@@ -35,14 +36,14 @@ var schema = new Schema({
   },
 
   // copy from avatar if exists
-  photoLink: {
+  photo: {
     type: String
   },
 
   country: {
     type: String,
     enum: Object.keys(countries.all),
-    required: true
+    required: "Страна не указана."
   },
 
   city: {
@@ -54,7 +55,16 @@ var schema = new Schema({
     required: true
   },
 
-  profileLink: {
+  recommend: {
+    type: Boolean,
+    required: true
+  },
+
+  aboutLink: {
+    type: String
+  },
+
+  occupation: {
     type: String
   },
 
@@ -65,5 +75,5 @@ var schema = new Schema({
 });
 
 
-module.exports = mongoose.model('CourseReview', schema);
+module.exports = mongoose.model('CourseFeedback', schema);
 

@@ -24,8 +24,13 @@ exports.init = function(app) {
       clsNamespace.set('context', this);
       yield* next;
     } finally {
+
+      if (clsNamespace.get('context').requestId != this.requestId) {
+        console.error("CLS: wrong context", clsNamespace.get('context').requestId, "should be", this.requestId);
+      }
+
       // important: all request-related events must be finished within request
-      // after request finished, the context is lost.
+      // after request finished, the context is lost (kept by bindEmitter if any)
       clsNamespace.exit(context);
     }
   });

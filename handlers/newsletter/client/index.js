@@ -2,11 +2,6 @@ var Spinner = require('client/spinner');
 var xhr = require('client/xhr');
 var notification = require('client/notification');
 
-function init() {
-
-
-}
-
 function submitSubscribeForm(form, onSuccess) {
 
   if (!form.elements.email.value) {
@@ -62,5 +57,4 @@ function submitSubscribeForm(form, onSuccess) {
 
 }
 
-exports.init = init;
 exports.submitSubscribeForm = submitSubscribeForm;

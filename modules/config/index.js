@@ -84,7 +84,7 @@ module.exports = {
   jb:      secret.jb,
   lang:    env.NODE_LANG || 'ru',
   elastic: {
-    host: 'localhost:9200'
+    host: 'http://localhost:9200'
   },
 
   plnkrAuthId: secret.plnkrAuthId,
