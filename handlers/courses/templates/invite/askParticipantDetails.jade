@@ -58,16 +58,16 @@ block content
             +e.err= errors.city
 
       +e.line
+        +e('label').label(for="invite-occupation") Область работы
+        +b('span')(class=["text-input", "__input", errors.occupation ? '_invalid' : ''])
+          +e('input').control#invite-occupation(type="text", name="occupation" value=form.occupation)
+        +e('p').note Кем или в какой области работаете (кратко)?
+
+      +e.line
         +e('label').label(for="invite-aboutLink") LinkedIn / Github / Moikrug...
         +b('span')(class=["text-input", "__input", errors.aboutLink ? '_invalid' : ''])
           +e('input').control#invite-aboutLink(type="url", name="aboutLink" pattern=validate.patterns.webpageUrl value=form.aboutLink placeholder="https://linkedin.com/in/vasya")
         +e('p').note Профиль в соц. сети или личная страница, где можно узнать о вашей профессиональной деятельности.
-
-      +e.line
-        +e('label').label(for="invite-occupation") Область работы
-        +b('span')(class=["text-input", "__input", errors.occupation ? '_invalid' : ''])
-          +e('input').control#invite-occupation(type="text", name="occupation" value=form.occupation)
-        +e('p').note Кем или в какой области работаете?
 
       +e.line
         +e('label').label(for="invite-purpose") С какой целью записались на курс?

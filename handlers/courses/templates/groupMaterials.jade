@@ -6,10 +6,16 @@ block append variables
   - var sitetoolbar = true
   - var layout_main_class = "main_width-limit"
 
+block append head
+  script(defer src=pack("coursesMaterials", "js"))
+
 block content
 
-  form
-    input(type="checkbox") Уведомлять меня по email о появлении материалов.
+  form(action="/courses/participants")
+    label
+      input(type="hidden" name="id" value=participant._id)
+      input(type="checkbox" value="1" name="shouldNotifyMaterials" checked=participant.shouldNotifyMaterials data-should-notify-materials)
+      | &nbsp;Уведомлять меня по email о появлении материалов.
 
 
   if materials.length

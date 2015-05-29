@@ -9,7 +9,7 @@ module.exports = function* (options) {
 
   var field = options.field || 'orderNumber';
 
-  var orderNumber = this.request.body && this.request.body[field] || this.params[field] || this.query[field];
+  var orderNumber = Number(this.request.body && this.request.body[field] || this.params[field] || this.query[field]);
 
   if (!orderNumber) {
     if (options.throwIfNotFound) {

@@ -66,6 +66,11 @@ var schema = new Schema({
     required: true
   },
 
+  shouldNotifyMaterials: {
+    type: Boolean,
+    default: true
+  },
+
   videoKey: {
     type: String
     // there may be groups without video & keys

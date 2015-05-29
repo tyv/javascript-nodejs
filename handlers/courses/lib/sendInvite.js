@@ -21,7 +21,7 @@ module.exports = function*(invite) {
     order:        invite.order,
     group:        invite.group,
     userExists:   userExists,
-    link:         config.server.siteHost + '/courses/invite/' + invite.token
+    link:         (config.server.siteHost || 'http://javascript.in') + '/courses/invite/' + invite.token
   });
 
 

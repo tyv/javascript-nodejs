@@ -18,6 +18,8 @@ exports.get = function*() {
     return String(p.user) == String(this.user._id);
   }.bind(this))[0];
 
+  this.locals.participant = participant;
+
   var materials = this.locals.materials = [];
   for (var i = 0; i < group.materials.length; i++) {
     var material = group.materials[i];

@@ -51,7 +51,7 @@ module.exports = function* (order) {
     to: order.email,
     orderNumber: order.number,
     subject: "Подтверждение оплаты за курс, заказ " + order.number,
-    orderUserInviteLink: config.server.siteHost + '/courses/invite/' + orderUserInvite.token,
+    orderUserInviteLink: (config.server.siteHost || 'http://javascript.in') + '/courses/invite/' + orderUserInvite.token,
     orderUserIsParticipant: orderUserIsParticipant,
     orderHasOtherParticipants: orderHasParticipantsExceptUser
   });

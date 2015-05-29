@@ -66,6 +66,7 @@ var webpackConfig = {
     coursesCourse:             'courses/client/course',
     coursesSignup:             'courses/client/signup',
     coursesParticipantDetails: 'courses/client/participantDetails',
+    coursesMaterials:          'courses/client/materials',
     coursesFeedback:           'courses/client/feedback',
     footer:                    'client/footer',
     nodejsScreencast:          'nodejsScreencast/client'

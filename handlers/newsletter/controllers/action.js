@@ -14,7 +14,13 @@ exports.get = function*() {
     this.throw(404);
   }
 
+  if (subscriptionAction.applied) {
+    this.throw(403, "Подтверждение уже было обработано ранее.");
+  }
+
   var subscription = yield subscriptionAction.apply();
+
+  yield subscriptionAction.persist();
 
   if (subscriptionAction.action == 'remove') {
     this.body = this.render('removed');

@@ -22,6 +22,10 @@ router.get('/download/:groupBySlug/:filename', mustBeParticipant, require('./con
 
 router.all('/groups/:groupBySlug/feedback', mustBeParticipant, require('./controller/groupFeedback').all);
 
+router.get('/feedback/:feedbackNumber', require('./controller/feedback').get);
+
+router.patch('/participants', require('./controller/participants').patch);
+
 router.all('/invite/:inviteToken?', require('./controller/invite').all);
 
 // for profile

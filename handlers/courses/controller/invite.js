@@ -112,7 +112,13 @@ function* askParticipantDetails(invite) {
 
     if (participantData.photoId) {
       var photo = yield ImgurImage.findOne({imgurId: this.request.body.photoId}).exec();
-      participantData.photo = photo.link;
+      if (photo) { // no photo if stale form (?) or just bad post
+        participantData.photo = photo.link;
+      }
+    }
+
+    if (!participantData.photo && this.user.photo) {
+      participantData.photo = this.user.photo;
     }
 
     var participant = new CourseParticipant(participantData);
@@ -146,7 +152,6 @@ function* askParticipantDetails(invite) {
     this.body = this.render('invite/askParticipantDetails', {
       errors: {},
       form:   {
-        photo:   this.user.getPhotoUrl(),
         country: 'ru'
       }
     });

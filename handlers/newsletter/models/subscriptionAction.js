@@ -11,6 +11,10 @@ const schema = new Schema({
     required: true
   },
 
+  applied: {
+    type: Boolean
+  },
+
   newsletters: {
     // can be empty
     type:     [{
@@ -67,6 +71,7 @@ schema.methods.apply = function*() {
     if (subscription) {
       yield subscription.remove();
     }
+    this.applied = true;
     return;
   }
 
@@ -91,6 +96,7 @@ schema.methods.apply = function*() {
     yield subscription.persist();
   }
 
+  this.applied = true;
   return subscription;
 };
 

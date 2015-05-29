@@ -93,7 +93,7 @@ block content
         +b.text-input
           +e('input').control(value=participant.fullName disabled)
 
-      +e(class=["line", form.photo ? "" : "_editable"])
+      +e(class=["line", (form.photo || user.photo) ? "_editable": ""])
         +e('h2').title Фото
         +b.upload-userpic(data-photo-load)
           input(type="hidden" name="photoId")

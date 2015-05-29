@@ -44,7 +44,9 @@ exports.all = function*() {
 
     if (this.request.body.photoId) {
       var photo = yield ImgurImage.findOne({imgurId: this.request.body.photoId}).exec();
-      courseFeedback.photo = photo.link;
+      if (photo) {
+        courseFeedback.photo = photo.link;
+      }
     }
 
     try {
@@ -63,7 +65,7 @@ exports.all = function*() {
       return;
     }
 
-    this.redirect(`/courses/groups/${group.slug}/feedback`);
+    this.redirect(`/courses/feedback/${courseFeedback.number}`);
     return;
 
 

@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var autoIncrement = require('mongoose-auto-increment');
 var Schema = mongoose.Schema;
 var countries = require('countries');
 
@@ -74,6 +75,7 @@ var schema = new Schema({
   }
 });
 
+schema.plugin(autoIncrement.plugin, {model: 'CourseFeedback', field: 'number', startAt: 1});
 
 module.exports = mongoose.model('CourseFeedback', schema);
 
