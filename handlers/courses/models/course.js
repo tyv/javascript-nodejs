@@ -54,6 +54,7 @@ schema.methods.getUrl = function() {
 schema.methods.hasOpenGroups = function*() {
   var anyGroup = CourseGroup.findOne({
     isOpenForSignup: true,
+    isListed: true,
     course: this._id
   }).exec();
 
