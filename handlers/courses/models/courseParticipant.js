@@ -8,6 +8,20 @@ var validate = require('validate');
 var countries = require('countries');
 
 var schema = new Schema({
+
+  group: {
+    type: Schema.Types.ObjectId,
+    ref:  'CourseGroup',
+    required: true
+  },
+
+  // participation cancelled?
+  isActive: {
+    type: Boolean,
+    required: true,
+    default: true
+  },
+
   firstName:  {
     type:      String,
     validate:  [
@@ -54,6 +68,7 @@ var schema = new Schema({
     type:      String,
     maxlength: 16 * 1024
   },
+
   wishes:     {
     type:      String,
     maxlength: 16 * 1024
@@ -77,6 +92,8 @@ var schema = new Schema({
     // for those with videos, video key is stored in participant
   }
 });
+
+schema.index({group: 1, user: 1}, {unique: true});
 
 schema.virtual('fullName').get(function () {
   return this.firstName + ' ' + this.surname;

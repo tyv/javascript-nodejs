@@ -1,6 +1,7 @@
 const countries = require('countries');
 const ImgurImage = require('imgur').ImgurImage;
-const CourseFeedback = require('../models/courseFeedback')
+const CourseFeedback = require('../models/courseFeedback');
+const CourseParticipant = require('../models/courseParticipant');
 const _ = require('lodash');
 
 exports.all = function*() {
@@ -9,22 +10,23 @@ exports.all = function*() {
 
   this.locals.title = "Отзыв\n" + group.title;
 
-  var participant = this.locals.participant = group.getParticipantByUserId(this.user._id);
+  this.locals.participant = this.participant;
+
   this.locals.countries = countries.all;
 
   var courseFeedback = yield CourseFeedback.findOne({
-    participant: participant._id
+    participant: this.participant._id
   }).exec();
 
   if (!courseFeedback) {
     courseFeedback = new CourseFeedback({
       recommend:  true,
       isPublic:   true,
-      country:    participant.country,
-      photo:      participant.photo,
-      aboutLink:  participant.aboutLink,
-      city:       participant.city,
-      occupation: participant.occupation
+      country:    this.participant.country,
+      photo:      this.participant.photo,
+      aboutLink:  this.participant.aboutLink,
+      city:       this.participant.city,
+      occupation: this.participant.occupation
     });
   }
 
@@ -33,8 +35,8 @@ exports.all = function*() {
       'stars content country city isPublic recommend aboutLink occupation'.split(' ')
     );
 
-    feedbackData.participant = participant._id;
-    feedbackData.courseGroup = group._id;
+    feedbackData.participant = this.participant._id;
+    feedbackData.group = group._id;
     feedbackData.recommend = Boolean(+feedbackData.recommend);
     feedbackData.isPublic = Boolean(+feedbackData.isPublic);
 

@@ -1,6 +1,7 @@
 var bytes = require('bytes');
 var Course = require('../models/course');
 var CourseGroup = require('../models/courseGroup');
+var CourseParticipant = require('../models/courseParticipant');
 var _ = require('lodash');
 
 // Group info for a participant, with user instructions on how to login
@@ -14,11 +15,7 @@ exports.get = function*() {
 
   this.locals.title = "Материалы для обучения\n" + group.title;
 
-  var participant = group.participants.filter(function(p) {
-    return String(p.user) == String(this.user._id);
-  }.bind(this))[0];
-
-  this.locals.participant = participant;
+  this.locals.participant = this.participant;
 
   var materials = this.locals.materials = [];
   for (var i = 0; i < group.materials.length; i++) {
@@ -32,6 +29,6 @@ exports.get = function*() {
   }
 
   this.body = this.render('groupMaterials', {
-    videoKey: participant.videoKey
+    videoKey: this.participant.videoKey
   });
 };

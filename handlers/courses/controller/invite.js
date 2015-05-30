@@ -48,13 +48,22 @@ exports.all = function*() {
   }
 
   //yield CourseGroup.populate(invite.group, {path: 'participants'});
-  yield CourseGroup.populate(invite.group, 'participants course');
-  yield User.populate(invite.group, 'participants.user');
+  yield CourseGroup.populate(invite.group, 'course');
 
-  var participantsByEmail = _.indexBy(_.pluck(invite.group.participants, 'user'), 'email');
+  var userByEmail = yield User.findOne({
+    email: invite.email
+  }).exec();
+
+  var participantByEmail = yield CourseParticipant.findOne({
+    isActive: true,
+    group: invite.group._id,
+    user: userByEmail._id
+  }).exec();
+
+
   // invite was NOT accepted, but this guy is a participant (added manually?),
   // so show the same as accepted
-  if (participantsByEmail[invite.email]) {
+  if (participantByEmail) {
     this.addFlashMessage("success", "Вы уже участник курса. Ниже, рядом с курсом, вы найдёте инструкцию.");
     this.redirect(this.user.getProfileUrl() + '/courses');
     return;
@@ -109,7 +118,8 @@ function* askParticipantDetails(invite) {
     var participantData = _.pick(this.request.body,
       'photoId firstName surname country city aboutLink occupation purpose wishes'.split(' ')
     );
-    participantData.user = this.user;
+    participantData.user = this.user._id;
+    participantData.group = invite.group._id;
 
     if (participantData.photoId) {
       var photo = yield ImgurImage.findOne({imgurId: this.request.body.photoId}).exec();
@@ -121,6 +131,7 @@ function* askParticipantDetails(invite) {
     if (!participantData.photo && this.user.photo) {
       participantData.photo = this.user.photo;
     }
+
 
     var participant = new CourseParticipant(participantData);
 
@@ -161,9 +172,7 @@ function* askParticipantDetails(invite) {
 
 }
 
-function* acceptParticipant(invite, participant) {
-
-  invite.group.participants.push(participant._id);
+function* acceptParticipant(invite) {
 
   this.user.profileTabsEnabled.addToSet('courses');
   yield this.user.persist();
@@ -174,16 +183,21 @@ function* acceptParticipant(invite, participant) {
 
   yield invite.group.persist();
 
+  yield CourseGroup.populate(invite.group, 'course');
 
-  yield CourseGroup.populate(invite.group, 'participants course');
-  yield User.populate(invite.group, 'participants.user');
+
+  var participants = yield CourseParticipant.find({
+    group: invite.group._id,
+    isActive: true
+  }).populate('user').exec();
+
 
   if (process.env.NODE_ENV != 'development') {
-    yield* grantXmppChatMemberships(invite.group);
+    yield* grantXmppChatMemberships(invite.group, participants);
   }
 
   if (invite.group.course.videoKeyTag) {
-    yield *grantVideoKeys(invite.group);
+    yield *grantVideoKeys(invite.group, participants);
   }
 
 
@@ -262,7 +276,7 @@ function* loginByInvite(invite) {
 }
 
 
-function* grantXmppChatMemberships(group) {
+function* grantXmppChatMemberships(group, participants) {
   log.debug("Grant xmpp chat membership");
   // grant membership in chat
   var client = new xmppClient({
@@ -277,14 +291,13 @@ function* grantXmppChatMemberships(group) {
     membersOnly: 1
   });
 
-
   var jobs = [];
-  for (var i = 0; i < group.participants.length; i++) {
-    var participant = group.participants[i];
+  for (var i = 0; i < participants.length; i++) {
+    var participant = participants[i];
 
     log.debug("grant " + roomJid + " to", participant.user.profileName, participant.firstName, participant.surname);
 
-    jobs.push(client.grantMember(roomJid, participant.user.profileName,  participant.firstName + ' ' + participant.surname));
+    jobs.push(client.grantMember(roomJid, participant.user.profileName,  participant.fullName));
   }
 
   // grant all in parallel
@@ -293,25 +306,25 @@ function* grantXmppChatMemberships(group) {
   client.disconnect();
 }
 
-function* grantVideoKeys(group) {
+function* grantVideoKeys(group, participants) {
 
-  var participants = group.participants.filter(function(participant) {
+  var participantsWithoutKeys = participants.filter(function(participant) {
     return !participant.videoKey;
   });
 
   var videoKeys = yield VideoKey.find({
     tag: group.course.videoKeyTag,
     used: false
-  }).limit(participants.length).exec();
+  }).limit(participantsWithoutKeys.length).exec();
 
   log.debug("Keys selected", videoKeys && videoKeys.toArray());
 
-  if (!videoKeys || videoKeys.length != participants.length) {
-    throw new Error("Недостаточно серийных номеров " + participants.length);
+  if (!videoKeys || videoKeys.length != participantsWithoutKeys.length) {
+    throw new Error("Недостаточно серийных номеров " + participantsWithoutKeys.length);
   }
 
-  for (var i = 0; i < participants.length; i++) {
-    var participant = participants[i];
+  for (var i = 0; i < participantsWithoutKeys.length; i++) {
+    var participant = participantsWithoutKeys[i];
     participant.videoKey = videoKeys[i].key;
     videoKeys[i].used = true;
   }

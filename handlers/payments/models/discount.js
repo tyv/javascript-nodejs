@@ -46,6 +46,7 @@ var schema = new Schema({
  */
 schema.statics.findByCodeAndModule = function*(code, onlyModule) {
   var discount = yield Discount.findOne({code: code, isActive: true}).exec();
+  if (!discount) return null;
   if (discount.onlyModule && discount.onlyModule != onlyModule) return null;
   return discount;
 };

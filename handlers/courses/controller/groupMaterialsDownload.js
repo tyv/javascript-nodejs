@@ -11,7 +11,6 @@ exports.get = function*() {
 
   var material = _.where(group.materials, {filename: this.params.filename})[0];
 
-  console.log(material);
   // ensure the path to material is valid
   if (!material) {
     this.throw(404);

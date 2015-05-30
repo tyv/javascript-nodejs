@@ -5,7 +5,7 @@ var countries = require('countries');
 
 var schema = new Schema({
 
-  courseGroup: {
+  group: {
     type: Schema.Types.ObjectId,
     ref:  'CourseGroup',
     required: true

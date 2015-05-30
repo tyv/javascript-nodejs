@@ -8,20 +8,22 @@ exports.get = function*() {
 
   var number = +this.params.feedbackNumber;
 
-  var courseFeedback = this.locals.courseFeedback = yield CourseFeedback.findOne({number: number}).populate('courseGroup participant').exec();
+  var courseFeedback = this.locals.courseFeedback = yield CourseFeedback.findOne({number: number}).populate('group participant').exec();
 
   if (!courseFeedback) {
     this.throw(404);
   }
 
-  var authorOrAdmin = this.locals.authorOrAdmin = this.user.isAdmin || String(this.user._id) == String(courseFeedback.participant.user);
+  var authorOrAdmin = this.user.isAdmin || String(this.user._id) == String(courseFeedback.participant.user);
+  this.locals.authorOrAdmin = authorOrAdmin;
+
   if (!courseFeedback.isPublic && !authorOrAdmin) {
     this.throw(403, "Отзыв не публичный");
   }
 
   this.locals.participantUser = yield User.findById(courseFeedback.participant.user).exec();
 
-  var group = this.locals.group = courseFeedback.courseGroup;
+  var group = this.locals.group = courseFeedback.group;
 
   this.locals.title = "Отзыв\n" + group.title;
 

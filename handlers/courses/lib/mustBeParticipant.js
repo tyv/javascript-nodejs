@@ -1,4 +1,5 @@
-var _ = require('lodash');
+const _ = require('lodash');
+const CourseParticipant = require('../models/courseParticipant');
 
 module.exports = function*(next) {
 
@@ -8,11 +9,17 @@ module.exports = function*(next) {
     this.throw(401);
   }
 
-  var participantIds = _.pluck(group.participants, 'user').map(String);
+  var participant = yield CourseParticipant.findOne({
+    isActive: true,
+    group: group._id,
+    user: this.user._id
+  }).exec();
 
-  if (!~participantIds.indexOf(String(this.user._id))) {
+  if (!participant) {
     this.throw(403, "Вы не являетесь участником этой группы.");
   }
+
+  this.participant = participant;
 
   yield* next;
 };
