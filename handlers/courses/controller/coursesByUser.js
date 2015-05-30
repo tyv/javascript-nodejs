@@ -3,6 +3,7 @@
 const CourseInvite = require('../models/courseInvite');
 const CourseParticipant = require('../models/courseParticipant');
 const CourseGroup = require('../models/courseGroup');
+const CourseFeedback = require('../models/courseFeedback');
 
 /**
  * The order form is sent to checkout when it's 100% valid (client-side code validated it)
@@ -57,7 +58,15 @@ exports.get = function*(next) {
     let group = groups[i];
     yield CourseGroup.populate(group, {path: 'course'});
 
+    let hasFeedback = yield CourseFeedback.findOne({
+      courseGroup: group._id,
+      participant: participant._id
+    }).exec();
+
     let groupInfo = formatGroup(group);
+    groupInfo.hasFeedback = hasFeedback;
+    groupInfo.feedbackLink = `/courses/groups/${group.slug}/feedback`;
+
     groupInfo.links = [{
       url: group.course.getUrl(),
       title: 'Описание курса'

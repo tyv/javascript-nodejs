@@ -114,7 +114,7 @@ function xhr(options) {
     }
 
     if (normalStatuses.indexOf(request.status) == -1) {
-      fail("Ошибка на стороне сервера (код " + request.status + "), попытайтесь позднее", e);
+      fail("Ошибка на стороне сервера (код " + request.status + "), попытайтесь позднее.", e);
       return;
     }
 
@@ -124,7 +124,7 @@ function xhr(options) {
       try {
         result = JSON.parse(result);
       } catch (e) {
-        fail("Некорректный формат ответа от сервера", e);
+        fail("Некорректный формат ответа от сервера.", e);
         return;
       }
     }
