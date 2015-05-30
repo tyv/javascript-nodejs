@@ -4,6 +4,7 @@ const co = require('co');
 const _ = require('lodash');
 const request = require('koa-request');
 const transload = require('imgur').transload;
+const log = require('log')();
 
 function UserAuthError(message) {
   this.message = message;
@@ -59,7 +60,7 @@ function makeProviderId(profile) {
 module.exports = function(req, profile, done) {
   // profile = the data returned by the facebook graph api
 
-  req.log.debug({profile: profile}, "profile");
+  log.debug({profile: profile}, "profile");
 
   var userToConnect = req.user;
 
