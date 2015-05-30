@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 var Course = require('courses').Course;
 var CourseGroup = require('courses').CourseGroup;
+var Discount = require('payments').Discount;
 var CourseInvite = require('courses').CourseInvite;
 var VideoKey = require('videokey').VideoKey;
 
