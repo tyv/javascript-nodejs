@@ -9,7 +9,7 @@ module.exports = function* (orderTemplate, user, requestBody) {
   var amount = orderTemplate.amount;
   if (requestBody.discountCode) {
     var discount = yield* Discount.findByCodeAndModule(requestBody.discountCode, 'ebook');
-    if (discount) amount = discount.apply(amount);
+    if (discount) amount = discount.adjustAmount(amount);
   }
 
   var order = new Order({

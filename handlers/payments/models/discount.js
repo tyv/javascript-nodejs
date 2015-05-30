@@ -12,9 +12,13 @@ var schema = new Schema({
   },
 
 
-  onlyModule: {
-    type: String
+  module: {
+    type: String,
+    required: true
   },
+
+  // data for the module
+  data: {},
 
   code: {
     type: String,
@@ -44,14 +48,11 @@ var schema = new Schema({
  * @param onlyModule
  * @returns {*}
  */
-schema.statics.findByCodeAndModule = function*(code, onlyModule) {
-  var discount = yield Discount.findOne({code: code, isActive: true}).exec();
-  if (!discount) return null;
-  if (discount.onlyModule && discount.onlyModule != onlyModule) return null;
-  return discount;
+schema.statics.findByCodeAndModule = function*(code, module) {
+  return yield Discount.findOne({code: code, isActive: true, module: module}).exec();
 };
 
-schema.methods.apply = function(amount) {
+schema.methods.adjustAmount = function(amount) {
   return this.discount < 1 ? amount * this.discount : this.discount;
 };
 

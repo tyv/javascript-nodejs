@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-var VideoKey = require('videokey').VideoKey;
+var VideoKey = require('videoKey').VideoKey;
 
 exports.VideoKey = [
   {

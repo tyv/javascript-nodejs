@@ -59,12 +59,25 @@ exports.all = function*() {
         errors[key] = e.errors[key].message;
       }
 
-      this.body = this.render('groupFeedback/feedback', {
+      this.body = this.render('feedback/edit', {
         errors: errors,
         form:   courseFeedback
       });
 
       return;
+    }
+
+    // make the new picture user avatar
+    if (courseFeedback.photo && !this.user.photo) {
+      yield this.user.persist({
+        photo: courseFeedback.photo
+      });
+    }
+
+    if (courseFeedback.isPublic) {
+      this.addFlashMessage("success", "Ваш отзыв успешно сохранен. При желании, вы можете поделиться им в соц сетях.");
+    } else {
+      this.addFlashMessage("success", "Ваш отзыв успешно сохранен. Он будет виден только нам.");
     }
 
     this.redirect(`/courses/feedback/${courseFeedback.number}`);
@@ -75,7 +88,7 @@ exports.all = function*() {
 
     this.locals.form = courseFeedback;
 
-    this.body = this.render('groupFeedback/feedback');
+    this.body = this.render('feedback/edit');
   }
 
 };

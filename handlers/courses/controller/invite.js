@@ -136,7 +136,9 @@ function* askParticipantDetails(invite) {
     var participant = new CourseParticipant(participantData);
 
     try {
+
       yield participant.persist();
+
     } catch (e) {
       var errors = {};
       for (var key in e.errors) {
@@ -153,11 +155,17 @@ function* askParticipantDetails(invite) {
 
     this.log.debug(participant.toObject(), "participant is accepted");
 
+    // make the new picture user avatar
+    if (participant.photo && !this.user.photo) {
+      yield this.user.persist({
+        photo: participant.photo
+      });
+    }
+
     yield* acceptParticipant.call(this, invite, participant);
 
     // will show "welcome" cause the invite is accepted
     this.redirect('/courses/invite/' + invite.token);
-
 
   } else if (this.method == 'GET') {
 
