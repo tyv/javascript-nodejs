@@ -85,8 +85,17 @@ exports.get = function*() {
 
   this.locals.rateUsdRub = money.convert(1, {from: 'USD', to: 'RUB'});
 
+  var price = group.price;
+
+  if (this.query.code) {
+    var discount = yield* payments.Discount.findByCodeAndModule(this.query.code, 'courses');
+    if (discount && discount.data.slug == group.slug) {
+      price = discount.adjustAmount(price);
+    }
+  }
+
   this.locals.groupInfo = {
-    price:           group.price,
+    price:           price,
     participantsMax: group.participantsLimit,
     slug:            group.slug
   };

@@ -23,7 +23,10 @@ exports.CourseParticipant = [];
 exports.CourseFeedback = [];
 
 exports.Discount = [{
-  onlyModule: 'courses',
+  module: 'courses',
+  data: {
+    slug: 'js-1'
+  },
   discount: 1,
   code: '14052015'
 }];

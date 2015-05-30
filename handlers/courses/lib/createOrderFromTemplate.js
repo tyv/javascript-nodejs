@@ -47,7 +47,9 @@ module.exports = function*(orderTemplate, user, requestBody) {
   var price = group.price;
   if (requestBody.discountCode) {
     var discount = yield* Discount.findByCodeAndModule(requestBody.discountCode, 'courses');
-    if (discount) price = discount.apply(price);
+    if (discount && discount.data.slug == group.slug) {
+      price = discount.adjustAmount(price);
+    }
   }
 
 
