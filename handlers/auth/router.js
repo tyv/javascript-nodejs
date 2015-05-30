@@ -7,6 +7,7 @@ var disconnect = require('./controller/disconnect');
 var forgot = require('./controller/forgot');
 var forgotRecover = require('./controller/forgotRecover');
 var logout = require('./controller/logout');
+var login = require('./controller/login');
 var xmpp = require('./controller/xmpp');
 var mustBeAuthenticated = require('./lib/mustBeAuthenticated');
 var mustNotBeAuthenticated = require('./lib/mustNotBeAuthenticated');
@@ -43,9 +44,14 @@ if (process.env.NODE_ENV == 'development') {
 router.post('/register', mustNotBeAuthenticated, register.post);
 router.post('/forgot', mustNotBeAuthenticated, forgot.post);
 
+router.get('/login', login.get);
+
 router.get('/verify/:verifyEmailToken', verify.get);
 router.get('/forgot-recover/:passwordResetToken?', mustNotBeAuthenticated, forgotRecover.get);
 router.post('/forgot-recover', forgotRecover.post);
+
+
+
 
 router.post('/reverify', reverify.post);
 

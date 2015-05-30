@@ -56,6 +56,7 @@ var webpackConfig = {
 
   entry: {
     about:                     'about/client',
+    auth:                      'auth/client',
     angular:                   'client/angular',
     head:                      'client/head',
     tutorial:                  'tutorial/client',

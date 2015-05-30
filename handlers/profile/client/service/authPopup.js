@@ -14,12 +14,12 @@ angular.module('profile')
     var top = (window.outerHeight - height) / 2;
     var left = (window.outerWidth - width) / 2;
 
-    window.authModal = {
+    window.authForm = {
       onAuthSuccess: onSuccess,
       onAuthFailure: onFail
     };
 
-    authPopup = window.open(url, 'authModal', 'width=' + width + ',height=' + height + ',scrollbars=0,top=' + top + ',left=' + left);
+    authPopup = window.open(url, 'authForm', 'width=' + width + ',height=' + height + ',scrollbars=0,top=' + top + ',left=' + left);
   };
 
 });

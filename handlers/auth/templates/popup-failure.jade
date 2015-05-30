@@ -21,9 +21,9 @@ body
       }
       if (accessAllowed) {
         // https and same domain in both windows
-        if (window.opener.authModal) {
+        if (window.opener.authForm) {
           window.opener.focus();
-          window.opener.authModal.onAuthFailure(reason);
+          window.opener.authForm.onAuthFailure(reason);
         }
         window.close();
       } else {

@@ -1,0 +1,17 @@
+extends /layouts/main
+
+block append variables
+  - var layout_header_class = "main__header_center"
+  - var layout_main_class = "main_width-limit"
+  - var content_class = '_center'
+  - var sitetoolbar = true
+
+block append head
+  script(defer src=pack("auth", "js"))
+
+block content
+
+  script window.authOptions = !{JSON.stringify(authOptions)}
+
+  div#auth-form(style="display: table-cell;border:1px solid #DFDFD0")
+

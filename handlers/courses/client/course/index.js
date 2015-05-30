@@ -39,9 +39,9 @@ function initSignupButton() {
     });
     spinner.start();
 
-    require.ensure('auth/client', function() {
+    require.ensure('auth/client/authModal', function() {
       spinner.stop();
-      var AuthModal = require('auth/client').AuthModal;
+      var AuthModal = require('auth/client/authModal');
       new AuthModal({
         callback: function() {
           window.location.href = link.href;

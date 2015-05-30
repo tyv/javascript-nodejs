@@ -17,9 +17,9 @@ function login() {
   modal.setContent(spinner.elem);
   spinner.start();
 
-  require.ensure('auth/client', function() {
+  require.ensure('auth/client/authModal', function() {
     modal.remove();
-    var AuthModal = require('auth/client').AuthModal;
+    var AuthModal = require('auth/client/authModal');
     new AuthModal();
   }, 'authClient');
 

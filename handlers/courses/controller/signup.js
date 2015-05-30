@@ -15,6 +15,13 @@ exports.get = function*() {
 
   var group;
 
+  if (!this.isAuthenticated()) {
+    this.addFlashMessage('info', 'Для доступа к этой странице нужна авторизация.');
+    this.newFlash.successRedirect = this.originalUrl;
+    this.redirect('/auth/login');
+    return;
+  }
+
   if (this.params.orderNumber) {
     yield* this.loadOrder({
       ensureSuccessTimeout: 10000
@@ -39,11 +46,6 @@ exports.get = function*() {
     // if the group is full
     if (!group.isOpenForSignup) {
       this.throw(403, "Запись в эту группу завершена.");
-    }
-
-    if (!this.isAuthenticated()) {
-      this.redirect(group.course.getUrl());
-      return;
     }
 
     this.locals.title = "Регистрация\n" + group.title;
