@@ -20,9 +20,9 @@ router.get('/groups/:groupBySlug/materials', mustBeParticipant, require('./contr
 // because the prefix /course/download must be constant for nginx to proxy *.zip to node
 router.get('/download/:groupBySlug/:filename', mustBeParticipant, require('./controller/groupMaterialsDownload').get);
 
-router.all('/groups/:groupBySlug/feedback', mustBeParticipant, require('./controller/groupFeedback').all);
+router.all('/groups/:groupBySlug/feedback', mustBeParticipant, require('./controller/groupFeedbackEdit').all);
 
-router.get('/feedback/:feedbackNumber', require('./controller/feedback').get);
+router.get('/feedback/:feedbackNumber', require('./controller/groupFeedbackShow').get);
 
 router.patch('/participants', require('./controller/participants').patch);
 

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const countries = require('countries');
 const CourseFeedback = require('../models/courseFeedback');
+const CourseGroup = require('../models/courseGroup');
 const User = require('users').User;
 const _ = require('lodash');
 
@@ -13,6 +14,8 @@ exports.get = function*() {
   if (!courseFeedback) {
     this.throw(404);
   }
+
+  yield CourseGroup.populate(courseFeedback.group, 'course');
 
   var authorOrAdmin = this.user.isAdmin || String(this.user._id) == String(courseFeedback.participant.user);
   this.locals.authorOrAdmin = authorOrAdmin;
@@ -29,8 +32,11 @@ exports.get = function*() {
 
   this.locals.countries = countries.all;
 
+  if (authorOrAdmin) {
+    this.locals.editLink = `/courses/groups/${courseFeedback.group.slug}/feedback`;
+  }
 
-  this.body = this.render('feedback/single');
+  this.body = this.render('feedback/show');
 
 };
 

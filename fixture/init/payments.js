@@ -3,10 +3,7 @@ require('payments');
 
 exports.Transaction = [];
 exports.TransactionLog = [];
-exports.Discount = [{
-  code: "DISCOUNT",
-  discount: 1
-}];
+exports.Discount = [];
 exports.Order = [];
 
 exports.OrderTemplate = [
