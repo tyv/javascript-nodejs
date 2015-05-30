@@ -41,7 +41,7 @@ exports.CourseGroup = [
     price:             99999,
     participantsLimit: 40,
     webinarId:         '116500571',
-    isListed:          true,
+    isListed:          false,
     isOpenForSignup:   true,
     title:             "Курс JavaScript/DOM/интерфейсы (14.05)"
   }
