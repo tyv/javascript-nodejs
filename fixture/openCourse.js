@@ -35,7 +35,7 @@ exports.CourseGroup = [
   {
     course:            '5569b7fc097bf243c1d54e5b',
     dateStart:         new Date(2015, 4, 14),
-    dateEnd:           new Date(2016, 6, 16),
+    dateEnd:           new Date(2015, 6, 16),
     timeDesc:          "пн/чт 19:30 - 21:00 GMT+3",
     slug:              'js-1',
     price:             99999,

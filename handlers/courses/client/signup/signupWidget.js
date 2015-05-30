@@ -40,7 +40,7 @@ class SignupWidget {
         elem: this.elems.contact
       });
 
-      contactForm.elem.addEventListener('select', this.onContactFormSelect.bind(this));
+      contactForm.elem.addEventListener('change', this.onContactFormSelect.bind(this));
 
       this.elems.receiptContactEditLink.onclick = (e) => {
         e.preventDefault();
