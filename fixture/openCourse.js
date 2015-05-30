@@ -21,6 +21,12 @@ exports.CourseInvite = [];
 exports.CourseParticipant = [];
 exports.CourseFeedback = [];
 
+exports.Discount = [{
+  onlyModule: 'courses',
+  discount: 1,
+  code: '14052015'
+}];
+
 exports.CourseGroup = [
   {
     course:            '5569b7fc097bf243c1d54e5b',
