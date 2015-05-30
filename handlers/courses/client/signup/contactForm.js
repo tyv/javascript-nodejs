@@ -19,7 +19,7 @@ class ContactForm {
   onSubmit(event) {
     event.preventDefault();
 
-    this.elem.dispatchEvent(new CustomEvent('change', {
+    this.elem.dispatchEvent(new CustomEvent('contact-submit', {
       detail: {
         name:  this.elems.contactName.value,
         phone: this.elems.contactPhone.value
