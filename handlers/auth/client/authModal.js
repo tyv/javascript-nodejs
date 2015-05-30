@@ -14,6 +14,7 @@ class AuthModal extends Modal {
   constructor(options) {
     super(options);
     this.options = options || {};
+    this.options.inModal = true;
 
     var authForm = new AuthForm(this.options);
     this.setContent(authForm.getElem());

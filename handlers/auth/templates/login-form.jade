@@ -26,6 +26,7 @@ include /bem
     +e.line.__footer
         +b('button').button._action(type="submit")
           +e('span').text Войти
-        +e('a').close-link.tablet-only.modal__close Отмена
+        if inModal
+          +e('a').close-link.tablet-only.modal__close Отмена
     include login-form-footer
 

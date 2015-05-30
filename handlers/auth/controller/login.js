@@ -14,11 +14,11 @@ exports.get = function* () {
     return;
   }
 
-  console.log(this.flash);
+  this.locals.headTitle = "Авторизация";
 
   this.locals.authOptions = {
     successRedirect: this.flash.successRedirect || '/',
-    message: this.flash.messages[0]
+    message: this.flash.messages && this.flash.messages[0]
   };
 
   this.body = this.render('login');

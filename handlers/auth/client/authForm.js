@@ -29,7 +29,7 @@ class AuthForm {
 
   render() {
     this.elem = document.createElement('div');
-    this.elem.innerHTML = clientRender(loginForm);
+    this.elem.innerHTML = clientRender(loginForm, this.options);
 
     if (this.options.message) {
       this.showFormMessage(this.options.message);
@@ -108,12 +108,12 @@ class AuthForm {
 
     this.delegate('[data-switch="register-form"]', 'click', function(e) {
       e.preventDefault();
-      this.elem.innerHTML = clientRender(registerForm);
+      this.elem.innerHTML = clientRender(registerForm, this.options);
     });
 
     this.delegate('[data-switch="login-form"]', 'click', function(e) {
       e.preventDefault();
-      this.elem.innerHTML = clientRender(loginForm);
+      this.elem.innerHTML = clientRender(loginForm, this.options);
     });
 
     this.delegate('[data-switch="forgot-form"]', 'click', function(e) {
@@ -121,7 +121,7 @@ class AuthForm {
 
       // move currently entered email into forgotForm
       var oldEmailInput = this.elem.querySelector('[type="email"]');
-      this.elem.innerHTML = clientRender(forgotForm);
+      this.elem.innerHTML = clientRender(forgotForm, this.options);
       var newEmailInput = this.elem.querySelector('[type="email"]');
       newEmailInput.value = oldEmailInput.value;
     });
@@ -217,7 +217,7 @@ class AuthForm {
     request.addEventListener('success', function(event) {
 
       if (this.status == 201) {
-        self.elem.innerHTML = clientRender(loginForm);
+        self.elem.innerHTML = clientRender(loginForm, this.options);
         self.showFormMessage({
           html: "<p>С адреса notify@javascript.ru отправлено письмо со ссылкой-подтверждением.</p>" +
                 "<p><a href='#' data-action-verify-email='" + form.elements.email.value + "'>перезапросить подтверждение.</a></p>",
@@ -265,7 +265,7 @@ class AuthForm {
     request.addEventListener('success', function(event) {
 
       if (this.status == 200) {
-        self.elem.innerHTML = clientRender(loginForm);
+        self.elem.innerHTML = clientRender(loginForm, this.options);
         self.showFormMessage({html: event.result, type: 'success'});
       } else if (this.status == 404) {
         self.showFormMessage({html: event.result, type: 'error'});
