@@ -48,7 +48,8 @@ exports.all = function*() {
   }
 
   //yield CourseGroup.populate(invite.group, {path: 'participants'});
-  yield CourseGroup.populate(invite.group, 'participants participants.user course');
+  yield CourseGroup.populate(invite.group, 'participants course');
+  yield User.populate(invite.group, 'participants.user');
 
   var participantsByEmail = _.indexBy(_.pluck(invite.group.participants, 'user'), 'email');
   // invite was NOT accepted, but this guy is a participant (added manually?),
@@ -174,7 +175,8 @@ function* acceptParticipant(invite, participant) {
   yield invite.group.persist();
 
 
-  yield CourseGroup.populate(invite.group, 'participants participants.user course');
+  yield CourseGroup.populate(invite.group, 'participants course');
+  yield User.populate(invite.group, 'participants.user');
 
   if (process.env.NODE_ENV != 'development') {
     yield* grantXmppChatMemberships(invite.group);

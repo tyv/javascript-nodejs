@@ -4,11 +4,13 @@ const CourseGroup = require('../models/courseGroup');
 const _ = require('lodash');
 const sendOrderInvites = require('./sendOrderInvites');
 const Order = require('payments').Order;
+const User = require('users').User;
 
 // called by payments/common/order
 module.exports = function*() {
 
-  var group = yield CourseGroup.findById(this.order.data.group).populate('participants participants.user').exec();
+  var group = yield CourseGroup.findById(this.order.data.group).populate('participants').exec();
+  yield User.populate(group, 'participants.user');
 
   var groupParticipantsByEmail = _.indexBy(group.participants, function(participant) {
     return participant.user.email;

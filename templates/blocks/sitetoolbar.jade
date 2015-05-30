@@ -1,5 +1,5 @@
 block append variables
-  - var siteToolbarSections = [ { slug: 'tutorial', title: 'Учебник' }, { url: 'http://javascript.ru/forum', title: 'Форум' }, { url: 'http://es5.javascript.ru', title: 'ES5' }, { url: 'http://javascript.ru/courses', title: 'Курсы' }, { url: 'http://javascript.ru/manual', title: 'Справочник' },  { slug: 'nodejs-screencast', title: 'Node.JS' } ];
+  - var siteToolbarSections = [ { slug: 'tutorial', title: 'Учебник' }, { url: 'http://javascript.ru/forum', title: 'Форум' }, { url: 'http://es5.javascript.ru', title: 'ES5' }, { slug: 'courses', url: 'http://javascript.ru/courses', title: 'Курсы' }, { url: 'http://javascript.ru/manual', title: 'Справочник' },  { slug: 'nodejs-screencast', title: 'Node.JS' } ];
   - siteToolbarSections.push({ slug: 'quiz', title: 'Тесты знаний' });
 
 <!--[if lt IE 10]><div style="color:red;text-align:center">Извините, старый IE не поддерживается, используйте другой браузер.</div><![endif]-->
@@ -41,7 +41,7 @@ block append variables
       +e('ul').sections-list
          each section in siteToolbarSections
           +e('li')(class=["section", section.slug && siteToolbarCurrentSection == section.slug && ' _current'])
-            +e('a').link(href=section.slug ? ('/' + section.slug) : section.url)= section.title
+            +e('a').link(href=section.url ? section.url : ('/' + section.slug))= section.title
 
     if siteToolbarCurrentSection == 'tutorial'
       include ./buy-book

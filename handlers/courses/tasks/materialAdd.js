@@ -1,24 +1,31 @@
-var co = require('co');
-var gutil = require('gulp-util');
-var yargs = require('yargs');
-var CourseMaterial = require('../models/courseMaterial');
-var CourseGroup = require('../models/courseGroup');
-var _ = require('lodash');
-var path = require('path');
+const path = require('path');
+const sendMail = require('mailer').send;
+const config = require('config');
+const co = require('co');
+const gutil = require('gulp-util');
+const yargs = require('yargs');
+const CourseMaterial = require('../models/courseMaterial');
+const CourseGroup = require('../models/courseGroup');
+const User = require('users').User;
+const _ = require('lodash');
 
 module.exports = function() {
 
   return function() {
 
-    var argv = require('yargs')
+    const argv = require('yargs')
       // file should be in download/courses/js-1/js-basic.zip
-      .usage('gulp courses:materials:add --group js-1 --title "Введение" --file js-basic.zip')
+      .usage('gulp courses:material:add --group js-1 --title "Введение" --file js-basic.zip')
       .demand(['group', 'file'])
       .argv;
 
 
     return co(function*() {
-      var group = yield CourseGroup.findOne({slug: argv.group}).exec();
+      var group = yield CourseGroup
+        .findOne({slug: argv.group})
+        .populate('participants').exec();
+
+      yield User.populate(group, 'participants.user');
 
       if (!group) {
         throw new Error("No group:" + argv.group);
@@ -28,14 +35,34 @@ module.exports = function() {
         throw new Error(`Material ${argv.file} already exists in group ${argv.group}`);
       }
 
-      group.materials.push({
-        title: argv.title || argv.file,
+      var material = {
+        title:    argv.title || argv.file,
         filename: argv.file
-      });
+      };
+
+      group.materials.push(material);
 
       yield group.persist();
 
       gutil.log(`Added ${argv.file} to group ${argv.group}`);
+
+      var recipients = group.participants
+        .filter(function(participant) { return participant.shouldNotifyMaterials; })
+        .map(function(participant) {
+          return {email: participant.user.email, name: participant.fullName};
+        });
+
+      yield sendMail({
+        templatePath: path.join(__dirname, '../templates/materialsEmail'),
+        subject:      "Добавлены материалы курса",
+        to:           recipients,
+        link:         config.server.siteHost + `/courses/groups/${group.slug}/materials`,
+        fileLink:     config.server.siteHost + `/courses/download/${group.slug}/${material.filename}`,
+        fileTitle:    material.title
+      });
+
+      gutil.log("Sent notification to", recipients);
+
     });
 
   };

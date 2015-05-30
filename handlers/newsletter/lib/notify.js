@@ -15,7 +15,7 @@ module.exports = function*(subscriptionAction) {
 
     yield sendMail({
       templatePath: path.join(__dirname, '../templates/emailConfirm'),
-      subject:      "Подтверждение подписки",
+      subject:      "Подтвердите подписку",
       to:           subscriptionAction.email,
       link:         (config.server.siteHost || 'http://javascript.in') + '/newsletter/action/' + subscriptionAction.accessKey
     });
