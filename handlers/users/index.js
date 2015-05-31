@@ -18,6 +18,11 @@ exports.init = function(app) {
         return this.user && this.user.isAdmin || this.get('X-Admin-Key') === config.adminKey;
       }
     });
+
+    if (this.isAdmin) {
+      this.log.level("debug");
+    }
+
     yield* next;
   });
 
