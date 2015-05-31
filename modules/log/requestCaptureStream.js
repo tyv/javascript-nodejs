@@ -1,6 +1,6 @@
 "use strict";
 
-// Adapted and rewritten, from restify
+// Adapted and rewritten, from restify by Ilya Kantor
 // initial Copyright 2012 Mark Cavage, Inc.  All rights reserved.
 var Stream = require('stream').Stream;
 var util = require('util');
@@ -101,15 +101,6 @@ class RequestCaptureStream extends Stream {
 
   }
 
-  toString() {
-    var STR_FMT = '[object %s<level=%d, limit=%d, maxRequestIds=%d>]';
-
-    return (sprintf(STR_FMT,
-      this.constructor.name,
-      this.level,
-      this.limit,
-      this.maxRequestIds));
-  }
 
 
 }
