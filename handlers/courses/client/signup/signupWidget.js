@@ -61,7 +61,7 @@ class SignupWidget {
 
   }
 
-  onPaymentSubmit() {
+  onPaymentSubmit(event) {
     event.preventDefault();
     new FormPayment(this, this.elem.querySelector('.pay-method')).submit();
   }
