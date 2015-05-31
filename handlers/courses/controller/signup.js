@@ -2,6 +2,7 @@ const payments = require('payments');
 var getOrderInfo = payments.getOrderInfo;
 var Course = require('../models/course');
 var CourseGroup = require('../models/courseGroup');
+var CourseInvite = require('../models/courseInvite');
 var config = require('config');
 var moment = require('momentWithLocale');
 var money = require('money');
@@ -36,6 +37,15 @@ exports.get = function*() {
 
     if (!group) {
       this.throw(404, "Нет такой группы.");
+    }
+
+    if (this.order.status == payments.Order.STATUS_SUCCESS) {
+      var invite = yield CourseInvite.findOne({email: this.user.email, accepted: false}).exec();
+      if (invite) this.locals.hasInvite = true;
+
+      if (this.order.data.count > 1 || this.order.data.emails[0] != this.user.email) {
+        this.locals.hasOtherParticipants = true;
+      }
     }
 
   } else {
