@@ -20,8 +20,6 @@ module.exports = function* (order) {
 
   var emails = order.data.emails;
 
-  console.log("!!!", emails, order.user.email);
-
   // order.user is the only one registered person, we know all about him
   var orderUserIsParticipant = emails.indexOf(order.user.email) != -1;
 
