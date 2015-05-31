@@ -7,7 +7,6 @@ const sendMail = require('mailer').send;
 const CourseInvite = require('../models/courseInvite');
 const CourseGroup = require('../models/courseGroup');
 const createOrderInvites = require('./createOrderInvites');
-const xmppClient = require('xmppClient');
 const VideoKey = require('videoKey').VideoKey;
 const sendInvite = require('./sendInvite');
 
@@ -51,7 +50,7 @@ module.exports = function* (order) {
     to: order.email,
     orderNumber: order.number,
     subject: "Подтверждение оплаты за курс, заказ " + order.number,
-    orderUserInviteLink: (config.server.siteHost || 'http://javascript.in') + '/courses/invite/' + orderUserInvite.token,
+    orderUserInviteLink: orderUserIsParticipant && (config.server.siteHost + '/courses/invite/' + orderUserInvite.token),
     orderUserIsParticipant: orderUserIsParticipant,
     orderHasOtherParticipants: orderHasParticipantsExceptUser
   });

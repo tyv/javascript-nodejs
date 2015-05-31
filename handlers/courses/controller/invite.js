@@ -2,6 +2,7 @@ const Course = require('../models/course');
 const CourseInvite = require('../models/courseInvite');
 const config = require('config');
 const CourseGroup = require('../models/courseGroup');
+const onAddParticipant = require('../lib/onAddParticipant');
 const User = require('users').User;
 const VideoKey = require('videoKey').VideoKey;
 const _ = require('lodash');
@@ -12,7 +13,6 @@ const NO_SUCH_USER = 3;
 const CourseParticipant = require('../models/courseParticipant');
 const ImgurImage = require('imgur').ImgurImage;
 const log = require('log')();
-const XmppClient = require('xmppClient');
 
 
 exports.all = function*() {
@@ -191,23 +191,7 @@ function* acceptParticipant(invite) {
 
   yield invite.group.persist();
 
-  yield CourseGroup.populate(invite.group, 'course');
-
-
-  var participants = yield CourseParticipant.find({
-    group: invite.group._id,
-    isActive: true
-  }).populate('user').exec();
-
-
-  if (process.env.NODE_ENV != 'development') {
-    yield* grantXmppChatMemberships(invite.group, participants);
-  }
-
-  if (invite.group.course.videoKeyTag) {
-    yield *grantVideoKeys(invite.group, participants);
-  }
-
+  yield* onAddParticipant(invite.group);
 
 }
 
@@ -281,66 +265,4 @@ function* loginByInvite(invite) {
 
   yield this.login(userByEmail);
   return LOGIN_SUCCESSFUL;
-}
-
-
-function* grantXmppChatMemberships(group, participants) {
-  log.debug("Grant xmpp chat membership");
-  // grant membership in chat
-  var client = new XmppClient({
-    jid:      config.xmpp.admin.login + '/host',
-    password: config.xmpp.admin.password
-  });
-
-  yield client.connect();
-
-  var roomJid = yield client.createRoom({
-    roomName:    group.webinarId,
-    membersOnly: 1
-  });
-
-  var jobs = [];
-  for (var i = 0; i < participants.length; i++) {
-    var participant = participants[i];
-
-    log.debug("grant " + roomJid + " to", participant.user.profileName, participant.firstName, participant.surname);
-
-    jobs.push(client.grantMember(roomJid, participant.user.profileName,  participant.fullName));
-  }
-
-  // grant all in parallel
-  yield jobs;
-
-  client.disconnect();
-}
-
-function* grantVideoKeys(group, participants) {
-
-  var participantsWithoutKeys = participants.filter(function(participant) {
-    return !participant.videoKey;
-  });
-
-  var videoKeys = yield VideoKey.find({
-    tag: group.course.videoKeyTag,
-    used: false
-  }).limit(participantsWithoutKeys.length).exec();
-
-  log.debug("Keys selected", videoKeys && videoKeys.toArray());
-
-  if (!videoKeys || videoKeys.length != participantsWithoutKeys.length) {
-    throw new Error("Недостаточно серийных номеров " + participantsWithoutKeys.length);
-  }
-
-  for (var i = 0; i < participantsWithoutKeys.length; i++) {
-    var participant = participantsWithoutKeys[i];
-    participant.videoKey = videoKeys[i].key;
-    videoKeys[i].used = true;
-  }
-
-  yield group.persist();
-
-  var jobs = videoKeys.map(function(videoKey) {
-    return videoKey.persist();
-  });
-  yield jobs;
 }

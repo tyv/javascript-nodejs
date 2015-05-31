@@ -6,6 +6,20 @@ var router = module.exports = new Router();
 router.param('userById', require('users').routeUserById);
 router.param('groupBySlug', require('./lib/routeGroupBySlug'));
 
+router.get('/hooks', function*() {
+
+  if (this.isAdmin) {
+    const CourseGroup = require('./models/courseGroup');
+    var onAddParticipant = require('./lib/onAddParticipant');
+
+    var group = yield CourseGroup.findOne({slug: 'js-1'}).exec();
+    yield* onAddParticipant(group);
+    this.body = "OK";
+  }
+  
+});
+
+
 router.get('/', require('./controller/frontpage').get);
 router.get('/:course', require('./controller/course').get);
 
@@ -25,6 +39,7 @@ router.all('/groups/:groupBySlug/feedback', mustBeParticipant, require('./contro
 router.get('/feedback/:feedbackNumber', require('./controller/groupFeedbackShow').get);
 
 router.patch('/participants', require('./controller/participants').patch);
+
 
 router.all('/invite/:inviteToken?', require('./controller/invite').all);
 

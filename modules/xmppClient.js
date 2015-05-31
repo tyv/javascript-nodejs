@@ -50,6 +50,9 @@ class Client extends EventEmitter {
       password: this.options.password // config.xmpp.admin.password
     });
 
+    // up to 100 simultaneous requests to server, each has an on('stanza') listener awaiting for the response w/ same id
+    this.client.setMaxListeners(100);
+
     this.client.connection.socket.on('error', this.emit.bind(this, 'error'));
 
     this.client.on('error', function(err) {
