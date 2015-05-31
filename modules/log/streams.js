@@ -1,6 +1,4 @@
-// disable requestcapturestream (pending rewrite if CLS works good)
-
-//const RequestCaptureStream = require('./requestCaptureStream');
+const RequestCaptureStream = require('./requestCaptureStream');
 
 var streams;
 
@@ -29,18 +27,17 @@ if (process.env.LOG_LEVEL) {
       {
         level:  'info',
         stream: process.stdout
-      }/*,
+      },
       {
         level:  'debug',
         type:   'raw',
         stream: new RequestCaptureStream({
+          level:         'error',
           maxRecords:    150,
           maxRequestIds: 2000,
-          dumpDefault:   true, // if error happens also dump all records, not bound to a request
-          // default records dumped AFTER request
-          streams:       [process.stderr]
+          stream:        process.stderr
         })
-      }*/
+      }
     ];
   }
 }

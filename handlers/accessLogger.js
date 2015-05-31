@@ -10,13 +10,13 @@ exports.init = function(app) {
     var req = this.req;
 
     var start = Date.now();
-    this.log.info("--> %s %s", req.method, req.url, {
+    this.log.info({
       event: "request-start",
       method: req.method,
       url: req.url,
       referer: this.request.get('referer'),
       ua: this.request.get('user-agent')
-    });
+    }, "--> %s %s", req.method, req.originalUrl || req.url);
 
     try {
       yield next;
@@ -57,14 +57,13 @@ exports.init = function(app) {
       // not ctx.url, but ctx.originalUrl because mount middleware changes it
       // request to /payments/common/order in case of error is logged as /order
 
-      ctx.log[err ? 'error' : 'info'](
-        "<-- %s %s", ctx.method, ctx.originalUrl, {
+      ctx.log[err ? 'error' : 'info']({
         event:    "request-end",
         method:   ctx.method,
         url:      ctx.originalUrl,
         status:   status,
         timeDuration: Date.now() - start
-      });
+      }, "<-- %s %s", ctx.method, ctx.originalUrl);
     }
 
   });
