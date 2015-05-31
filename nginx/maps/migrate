@@ -434,7 +434,6 @@ map $uri $migrate {
   /task/filtraciya-cherez-funkciu https://learn.javascript.ru/task/filter-through-function;
   /task/preobrazovanie https://learn.javascript.ru/task/tostring-valueof;
   /task/armiya-funkcij https://learn.javascript.ru/task/make-army;
-  /task/var-window https://learn.javascript.ru/task/var-window;
   /task/vopros-po-var https://learn.javascript.ru/task/which-value-is-modified;
   /task/logiruushij-dekorator-1-argument https://learn.javascript.ru/task/logging-decorator;
   /task/summa-cherez-zamykanie https://learn.javascript.ru/task/closure-sum;
