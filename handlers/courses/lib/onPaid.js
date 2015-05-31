@@ -45,18 +45,6 @@ module.exports = function* (order) {
 
   yield group.persist();
 
-  console.log({
-    templatePath: path.join(__dirname, '..', 'templates', 'successEmail'),
-    from: 'orders',
-    to: order.email,
-    orderNumber: order.number,
-    subject: "Подтверждение оплаты за курс, заказ " + order.number,
-    orderUserInviteLink: (config.server.siteHost || 'http://javascript.in') + '/courses/invite/' + orderUserInvite.token,
-    orderUserIsParticipant: orderUserIsParticipant,
-    orderHasOtherParticipants: orderHasParticipantsExceptUser
-  });
-
-
   yield sendMail({
     templatePath: path.join(__dirname, '..', 'templates', 'successEmail'),
     from: 'orders',
