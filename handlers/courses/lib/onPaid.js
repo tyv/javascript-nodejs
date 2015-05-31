@@ -22,10 +22,10 @@ module.exports = function* (order) {
   var emails = order.data.emails;
 
   // order.user is the only one registered person, we know all about him
-  var orderUserIsParticipant = ~emails.indexOf(order.user.email);
+  var orderUserIsParticipant = emails.indexOf(order.user.email) != -1;
 
   // is there anyone except the user?
-  var orderHasParticipantsExceptUser = emails.length > 1 || emails[0] != order.user.email;
+  var orderHasParticipantsExceptUser = order.data.count > 1 || emails[0] != order.user.email;
 
 
   log.debug("orderUserIsParticipant:", orderUserIsParticipant, "orderHasParticipantsExceptUser:", orderHasParticipantsExceptUser);
@@ -44,6 +44,18 @@ module.exports = function* (order) {
   }
 
   yield group.persist();
+
+  console.log({
+    templatePath: path.join(__dirname, '..', 'templates', 'successEmail'),
+    from: 'orders',
+    to: order.email,
+    orderNumber: order.number,
+    subject: "Подтверждение оплаты за курс, заказ " + order.number,
+    orderUserInviteLink: (config.server.siteHost || 'http://javascript.in') + '/courses/invite/' + orderUserInvite.token,
+    orderUserIsParticipant: orderUserIsParticipant,
+    orderHasOtherParticipants: orderHasParticipantsExceptUser
+  });
+
 
   yield sendMail({
     templatePath: path.join(__dirname, '..', 'templates', 'successEmail'),
