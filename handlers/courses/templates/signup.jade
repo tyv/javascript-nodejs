@@ -15,7 +15,6 @@ block content
 
   script var groupInfo = !{JSON.stringify(groupInfo)};
   script var rateUsdRub = #{rateUsdRub};
-  - console.log(order);
   script var orderNumber = #{order ? order.number : 'null'};
 
   - var step = !order ? '1' : (order.status != 'success' && order.status != 'pending' || changePaymentRequested) ? '3' : '4';

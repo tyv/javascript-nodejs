@@ -182,7 +182,7 @@ function* getOrderInfo(order) {
       transaction: transaction,
       accent:      "Оплата не прошла, попробуйте ещё раз.",
       description: (transaction.statusMessage ? `<div>Причина:&nbsp;<em>${escapeHtml(transaction.statusMessage)}</em></div>` : '') +
-                   `<p>По вопросам, касающимся оплаты, пишите на ${mailUrl}.</p>.`
+                   `<p>По вопросам, касающимся оплаты, пишите на ${mailUrl}.</p>`
     };
 
 

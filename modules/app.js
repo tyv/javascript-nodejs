@@ -108,10 +108,6 @@ endpoints.push(
   'profileGuest', 'quiz', 'currencyRate', 'payments', 'download', 'staticPage', 'newsletter', 'mailer', 'courses'
 );
 
-// stick to bottom to detect any not-yet-processed /:slug
-endpoints.push('tutorial');
-
-endpoints.push('404');
 
 endpoints.forEach(function(name) {
   app.requireHandler(name);
@@ -124,6 +120,12 @@ if (fs.existsSync(config.extraHandlersRoot)) {
     app.requireHandler(extraHandler);
   });
 }
+
+// stick to bottom to detect any not-yet-processed /:slug
+app.requireHandler('tutorial');
+
+// must be last
+app.requireHandler('404');
 
 // uncomment for time-require to work
 //process.emit('exit');

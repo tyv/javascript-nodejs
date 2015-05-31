@@ -1,7 +1,7 @@
 "use strict";
 
-// Copyright 2012 Mark Cavage, Inc.  All rights reserved.
-// from restify
+// Adapted and rewritten, from restify by Ilya Kantor
+// initial Copyright 2012 Mark Cavage, Inc.  All rights reserved.
 var Stream = require('stream').Stream;
 var util = require('util');
 
@@ -10,30 +10,11 @@ var bunyan = require('bunyan');
 var LRU = require('lru-cache');
 var os = require('os');
 
+var clsNamespace = require('continuation-local-storage').getNamespace('app');
+
 ///--- Globals
 
 var sprintf = util.format;
-
-// every node.js run, in every process this id will be different
-var PROCESS_ID = os.hostname() + '-' + process.pid;
-
-///--- Helpers
-
-function appendStream(streams, s) {
-  assert.arrayOfObject(streams, 'streams');
-  assert.object(s, 'stream');
-
-  if (s instanceof Stream) {
-    streams.push({
-      raw:    false,
-      stream: s
-    });
-  } else {
-    assert.optionalBool(s.raw, 'stream.raw');
-    assert.object(s.stream, 'stream.stream');
-    streams.push(s);
-  }
-}
 
 
 ///--- API
@@ -59,8 +40,7 @@ class RequestCaptureStream extends Stream {
 
     assert.object(opts, 'options');
     assert.optionalObject(opts.stream, 'options.stream');
-    assert.optionalArrayOfObject(opts.streams, 'options.streams');
-    assert.optionalNumber(opts.level, 'options.level');
+    assert.optionalString(opts.level, 'options.level');
     assert.optionalNumber(opts.maxRecords, 'options.maxRecords');
     assert.optionalNumber(opts.maxRequestIds, 'options.maxRequestIds');
 
@@ -74,25 +54,15 @@ class RequestCaptureStream extends Stream {
     this._offset = -1;
     this._rings = [];
 
-    this.streams = [];
-
-    if (opts.streams) {
-      opts.streams.forEach(appendStream.bind(null, this.streams));
-    }
-
-    this.haveNonRawStreams = false;
-    for (var i = 0; i < this.streams.length; i++) {
-      if (!this.streams[i].raw) {
-        this.haveNonRawStreams = true;
-        break;
-      }
-    }
+    this.stream = opts.stream;
   }
 
 
   write(record) {
-    console.log(record);
-    var reqId = record.requestId || PROCESS_ID;
+    // only request records
+    if (!record.requestId) return;
+
+    var reqId = record.requestId;
     var ring;
     var self = this;
 
@@ -115,60 +85,22 @@ class RequestCaptureStream extends Stream {
 
     ring.write(record);
 
-    if (record.level >= this.level) {
+    if (record.level >= this.level && !(record.status && record.status < 500) ) {
       this.dump(ring);
     }
   }
 
   dump(ring) {
 
-    var lastRecord = ring.records[ring.records.length - 1];
-    var lastRequestId = lastRecord.requestId;
-
-    var recordsToDump = [];
-
-    if (!lastRequestId) {
-      // error outside of request
-      // no idea which context is required
-      // let's dump everything context for the error
-    }
-
-    var i, r, ser;
+    var i, r;
     for (i = 0; i < ring.records.length; i++) {
       r = ring.records[i];
-      if (this.haveNonRawStreams) {
-        ser = JSON.stringify(r, bunyan.safeCycles()) + '\n';
-      }
-      this.streams.forEach(function(s) {
-        s.stream.write(s.raw ? r : ser);
-      });
+      this.stream.write(this.stream.raw ? r : JSON.stringify(r, bunyan.safeCycles()) + '\n');
     }
     ring.records.length = 0;
 
-    var defaultRing = self.requestMap.get(PROCESS_ID);
-    for (i = 0; i < defaultRing.records.length; i++) {
-      r = defaultRing.records[i];
-      if (this.haveNonRawStreams) {
-        ser = JSON.stringify(r,
-            bunyan.safeCycles()) + '\n';
-      }
-      self.streams.forEach(function(s) {
-        s.stream.write(s.raw ? r : ser);
-      });
-    }
-    defaultRing.records.length = 0;
-
   }
 
-  toString() {
-    var STR_FMT = '[object %s<level=%d, limit=%d, maxRequestIds=%d>]';
-
-    return (sprintf(STR_FMT,
-      this.constructor.name,
-      this.level,
-      this.limit,
-      this.maxRequestIds));
-  }
 
 
 }
