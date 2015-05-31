@@ -11,8 +11,6 @@ var OrderCreateError = require('../../lib/orderCreateError');
  */
 exports.post = function*(next) {
 
-  yield function(callback) {};
-
   yield* this.loadOrder();
 
   var paymentMethod = paymentMethods[this.request.body.paymentMethod];
