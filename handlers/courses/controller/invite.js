@@ -12,7 +12,7 @@ const NO_SUCH_USER = 3;
 const CourseParticipant = require('../models/courseParticipant');
 const ImgurImage = require('imgur').ImgurImage;
 const log = require('log')();
-const xmppClient = require('xmppClient');
+const XmppClient = require('xmppClient');
 
 
 exports.all = function*() {
@@ -287,7 +287,7 @@ function* loginByInvite(invite) {
 function* grantXmppChatMemberships(group, participants) {
   log.debug("Grant xmpp chat membership");
   // grant membership in chat
-  var client = new xmppClient({
+  var client = new XmppClient({
     jid:      config.xmpp.admin.login + '/host',
     password: config.xmpp.admin.password
   });

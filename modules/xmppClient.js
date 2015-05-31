@@ -15,6 +15,7 @@ var EventEmitter = require('events').EventEmitter;
  */
 class Client extends EventEmitter {
   constructor(options) {
+    super(options);
     this.options = options;
 
     this.promiseRejectHooks = [];
@@ -275,6 +276,10 @@ class Client extends EventEmitter {
 
 module.exports = Client;
 
+
+
+
+/*
 if (!module.parent) {
   // Usage example
   co(function*() {
@@ -299,3 +304,4 @@ if (!module.parent) {
   });
 
 }
+*/
