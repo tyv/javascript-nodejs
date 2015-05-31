@@ -16,7 +16,7 @@ router.get('/hooks', function*() {
     yield* onAddParticipant(group);
     this.body = "OK";
   }
-  
+
 });
 
 

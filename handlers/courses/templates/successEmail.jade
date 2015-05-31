@@ -6,18 +6,21 @@ block body
 
   p Подтверждаем получение оплаты за заказ #{orderNumber}.
 
-  if orderUserIsParticipant
-    p Перейдите по ссылке <a href="#{orderUserInviteLink}">#{orderUserInviteLink}</a>, чтобы присоединиться к группе.
-
-    if orderHasOtherParticipants
-
-      p.
-        Приглашённые вами участники также получат письмо на электронную почту с предложением присоединиться.
-        Письмо придёт с адреса orders@javascript.ru.
-
+  if !orderHasParticipants
+    p Вы не указали участников. Это можно сделать в разделе учётной записи <a href="#{profileOrdersUrl}">Заказы</a>, в деталях заказа.
   else
-    p.
-      Приглашённые вами участники получат письмо на электронную почту с предложением присоединиться к группе.
-      Письмо придёт с адреса orders@javascript.ru.
+    if orderUserIsParticipant
+      p Перейдите по ссылке <a href="#{orderUserInviteLink}">#{orderUserInviteLink}</a>, чтобы присоединиться к группе.
+
+      if orderHasOtherParticipants
+
+        p.
+          Приглашённые вами участники также получат письмо на электронную почту с предложением присоединиться.
+          Письмо придёт с адреса orders@javascript.ru.
+
+    else
+      p.
+        Приглашённые вами участники получат письмо на электронную почту с предложением присоединиться к группе.
+        Письмо придёт с адреса orders@javascript.ru.
 
   p Если возникнут какие-либо вопросы &ndash; вы всегда можете ответить на это письмо.
