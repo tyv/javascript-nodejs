@@ -30,9 +30,10 @@ class FormPayment {
     this.paymentMethodElem.classList.add('modal-overlay_light');
 
     var spinner = new Spinner({
-      elem:  this.paymentMethodElem,
-      size:  'medium',
-      class: 'pay-method__spinner'
+      elem:  this.paymentMethodElem.querySelector('[type="submit"]'),
+      size:  'small',
+      class: '',
+      elemClass: 'button_loading'
     });
     spinner.start();
 

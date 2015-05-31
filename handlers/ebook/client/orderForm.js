@@ -29,7 +29,7 @@ class OrderForm {
 
   onSubmit(event) {
     event.preventDefault();
-    new FormPayment(this, this.elem.querySelector('.pay-method')).submit();
+    new FormPayment(this, this.elem).submit();
   }
 
 
