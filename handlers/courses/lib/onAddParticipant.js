@@ -77,7 +77,7 @@ function* grantXmppChatMemberships(group, participants) {
 
     log.debug("grant " + roomJid + " to", participant.user.profileName, participant.firstName, participant.surname);
 
-    jobs.push(client.grantMember(roomJid, participant.user.profileName,  participant.fullName));
+    jobs.push(client.grantMember(roomJid, participant.user.profileName + '@' + config.xmpp.server,  participant.fullName));
   }
 
   // grant all in parallel

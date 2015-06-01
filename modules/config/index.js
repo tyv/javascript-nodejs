@@ -38,6 +38,7 @@ module.exports = {
   },
 
   xmpp: {
+    server:  'javascript.ru',
     admin: secret.xmpp.admin
   },
 
