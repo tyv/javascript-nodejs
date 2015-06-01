@@ -21,5 +21,9 @@ include /bem
           +e('span').status._started(ng-if="group.status == 'started'") Занятия начались
           +e('span')(ng-if="group.status == 'ended'")
             +e('span').status._ended Курсы завершены
-            br
-            +e('a').feedback(ng-if="!group.hasFeedback" ng-href="{{group.feedbackLink}}") Оставить отзыв
+            +e('ul').info-links
+              +e('li')(ng-if="group.feedbackLink").info-links-item
+                +e('a').feedback(ng-href="{{group.feedbackLink}}") Оставить отзыв
+              +e('li').info-links-item
+                +e('a').feedback(ng-href="{{group.certificateLink}}" data-tooltip="Сертификаты в нашем деле значат немногое. Надеюсь, вы получили знания!") Скачать сертификат
+

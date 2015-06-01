@@ -14,7 +14,7 @@ router.get('/hooks', function*() {
 
     var group = yield CourseGroup.findOne({slug: 'js-1'}).exec();
     yield* onAddParticipant(group);
-    this.body = "OK";
+    this.body = "OK " + this.requestId;
   }
 
 });
@@ -39,6 +39,7 @@ router.all('/groups/:groupBySlug/feedback', mustBeParticipant, require('./contro
 router.get('/feedback/:feedbackNumber', require('./controller/groupFeedbackShow').get);
 
 router.patch('/participants', require('./controller/participants').patch);
+router.get('/download/participant/:participantId/certificate.jpg', mustBeAuthenticated, require('./controller/participantCertificateDownload').get);
 
 
 router.all('/invite/:inviteToken?', require('./controller/invite').all);

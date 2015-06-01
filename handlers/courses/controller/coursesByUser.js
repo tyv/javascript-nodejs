@@ -22,83 +22,94 @@ exports.get = function*(next) {
 
   // active invites
   var invites = yield CourseInvite.find({
-    email: user.email,
+    email:    user.email,
     accepted: false
   }).populate('group').exec();
 
   // plus groups where participates
-  var participantWithGroups = yield CourseParticipant.find({
-    user: user._id,
+  var userParticipants = yield CourseParticipant.find({
+    user:     user._id,
     isActive: true
   }).populate('group').exec();
 
   var groups;
-  if (participantWithGroups) {
+  if (userParticipants) {
     // plus groups where participates
-    groups = _.pluck(participantWithGroups, 'group');
+    groups = _.pluck(userParticipants, 'group');
   } else {
     groups = [];
   }
 
-  this.body = [];
+  var groupInfoItems = [];
 
   for (let i = 0; i < invites.length; i++) {
     let group = invites[i].group;
     yield CourseGroup.populate(group, {path: 'course'});
     let groupInfo = formatGroup(group);
     groupInfo.links = [{
-      url: group.course.getUrl(),
+      url:   group.course.getUrl(),
       title: 'Описание курса'
     }];
     groupInfo.inviteUrl = '/courses/invite/' + invites[i].token;
-    this.body.push(groupInfo);
+    groupInfo.status = 'invite';
+    groupInfoItems.push(groupInfo);
   }
 
   for (let i = 0; i < groups.length; i++) {
     let group = groups[i];
     yield CourseGroup.populate(group, {path: 'course'});
 
+    let participant = userParticipants.filter(function(userParticipant) {
+      return String(userParticipant.group._id) == String(group._id);
+    })[0];
+
     let hasFeedback = yield CourseFeedback.findOne({
-      courseGroup: group._id,
-      participant: participantWithGroups._id
+      group: group._id,
+      participant: participant._id
     }).exec();
 
     let groupInfo = formatGroup(group);
-    groupInfo.hasFeedback = hasFeedback;
-    groupInfo.feedbackLink = `/courses/groups/${group.slug}/feedback`;
+    if (!hasFeedback) {
+      groupInfo.feedbackLink = `/courses/groups/${group.slug}/feedback`;
+    }
 
     groupInfo.links = [{
-      url: group.course.getUrl(),
+      url:   group.course.getUrl(),
       title: 'Описание курса'
     }, {
-      url: `/courses/groups/${group.slug}/info`,
+      url:   `/courses/groups/${group.slug}/info`,
       title: 'Инструкции по настройке окружения'
     }];
 
     if (groups[i].materials) {
       groupInfo.links.push({
-        url: `/courses/groups/${group.slug}/materials`,
+        url:   `/courses/groups/${group.slug}/materials`,
         title: 'Материалы для обучения'
       });
     }
-    this.body.push(groupInfo);
+
+    groupInfo.status = (groupInfo.dateStart > new Date()) ? 'accepted' :
+      (groupInfo.dateEnd > new Date()) ? 'started' : 'ended';
+
+
+    if (groupInfo.status == 'ended') {
+      groupInfo.certificateLink = `/courses/download/participant/${participant._id}/certificate.jpg`;
+    }
+    groupInfoItems.push(groupInfo);
+
   }
 
-  for (var i = 0; i < this.body.length; i++) {
-    var groupInfo = this.body[i];
-    groupInfo.status = groupInfo.inviteUrl ? 'invite' :
-      (groupInfo.dateStart > new Date()) ? 'accepted' :
-        (groupInfo.dateEnd > new Date()) ? 'started' : 'ended';
-  }
-
+  this.body = groupInfoItems;
 
 };
 
+
+
 function formatGroup(group) {
   return {
-    title: group.title,
+    title:     group.title,
     dateStart: group.dateStart,
-    dateEnd: group.dateEnd,
-    timeDesc: group.timeDesc
+    dateEnd:   group.dateEnd,
+    timeDesc:  group.timeDesc
   };
 }
