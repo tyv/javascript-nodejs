@@ -6,6 +6,7 @@ const gutil = require('gulp-util');
 const yargs = require('yargs');
 const CourseMaterial = require('../models/courseMaterial');
 const CourseGroup = require('../models/courseGroup');
+const CourseParticipant = require('../models/courseParticipant');
 const User = require('users').User;
 const _ = require('lodash');
 
@@ -23,9 +24,9 @@ module.exports = function() {
     return co(function*() {
       var group = yield CourseGroup
         .findOne({slug: argv.group})
-        .populate('participants').exec();
+        .exec();
 
-      yield User.populate(group, 'participants.user');
+      var participants = yield CourseParticipant.find({group: group._id}).populate('user').exec();
 
       if (!group) {
         throw new Error("No group:" + argv.group);
@@ -46,7 +47,7 @@ module.exports = function() {
 
       gutil.log(`Added ${argv.file} to group ${argv.group}`);
 
-      var recipients = group.participants
+      var recipients = participants
         .filter(function(participant) { return participant.shouldNotifyMaterials; })
         .map(function(participant) {
           return {email: participant.user.email, name: participant.fullName};
