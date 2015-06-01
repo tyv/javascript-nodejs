@@ -37,7 +37,11 @@
 
                     else if course.status === 'ended'
                         +e('span').status._ended Курсы завершены
-                        br
-                        +e('a').feedback(href="/123") Оставить отзыв
+                        +e('ul').info-links
+                            +e('li').info-links-item
+                                +e('a').info-link(href="/123") Отсавить отзыв
+                            +e('li').info-links-item
+                                +e('a').info-link(href="/123") Скачать серфтификат
+
 
 
