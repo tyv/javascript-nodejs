@@ -17,9 +17,9 @@ exports.Course = [
   {
     "_id":            "543250000000000000000003",
     slug:             "nodejs",
-    videoKeyTag:      "nodejs",
+    videoKeyTag:      "js",
     title:            "Курс по Node.JS",
-    shortDescription: `Грамотная разработка на платформе Node.JS (серверный JavaScript).`,
+    shortDescription: `Профессиональная разработка на платформе Node.JS/IO.JS (серверный JavaScript), с использованием современных фреймворков и технологий.`,
     isListed:         true,
     weight:           2
   }
@@ -45,7 +45,7 @@ exports.CourseGroup = [
   },
   {
     course:            '543250000000000000000002',
-    dateStart:         new Date(2016, 5, 1),
+    dateStart:         new Date(2016, 6, 1),
     dateEnd:           new Date(2016, 11, 10),
     timeDesc:          "пн/чт 21:30 - 23:00 GMT+3",
     slug:              'js-2',
@@ -55,6 +55,19 @@ exports.CourseGroup = [
     isListed:          true,
     isOpenForSignup:   true,
     title:             "Курс JavaScript/DOM/интерфейсы (06.01)"
+  },
+  {
+    "course":          "543250000000000000000003",
+    dateStart:         new Date(2016, 6, 1),
+    dateEnd:           new Date(2016, 11, 10),
+    timeDesc:          "пн/чт 21:30 - 23:00 GMT+3",
+    slug:              "nodejs-01",
+    price:             1,
+    webinarId:         '789',
+    participantsLimit: 30,
+    isListed:          true,
+    isOpenForSignup:   true,
+    title:             "Курс по Node.JS"
   }
 ];
 
