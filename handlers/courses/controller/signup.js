@@ -17,9 +17,7 @@ exports.get = function*() {
   var group;
 
   if (!this.isAuthenticated()) {
-    this.addFlashMessage('info', 'Для доступа к этой странице нужна авторизация.');
-    this.newFlash.successRedirect = this.originalUrl;
-    this.redirect('/auth/login');
+    this.authAndRedirect(this.originalUrl);
     return;
   }
 

@@ -8,7 +8,7 @@ exports.init = function(app) {
 
   require('./strategies');
 
-  app.use( mountHandlerMiddleware('/auth', __dirname) );
+  app.use(mountHandlerMiddleware('/auth', __dirname));
 
   // no csrf check for guest endpoints (no generation of csrf for anon)
   app.csrfChecker.ignore.add('/auth/login/:any*');
@@ -17,6 +17,14 @@ exports.init = function(app) {
   app.csrfChecker.ignore.add('/auth/forgot');
   app.csrfChecker.ignore.add('/auth/forgot-recover');
 
+  app.use(function*(next) {
+    this.redirectToAuth = function(url) {
+      this.addFlashMessage('info', 'Для доступа к этой странице нужна авторизация.');
+      this.newFlash.successRedirect = url;
+      this.redirect('/auth/login');
+    };
+    yield* next;
+  });
 };
 
 

@@ -35,9 +35,17 @@ exports.all = function*() {
     this.locals.mailto += "?subject=" + encodeURIComponent('Заказ ' + invite.order.number);
   }
 
+  var userByEmail = yield User.findOne({
+    email: invite.email
+  }).exec();
+
   if (invite.accepted) {
-    this.addFlashMessage("success", "Поздравляем, вы присоединились к курсу. Ниже, рядом с курсом, вы найдёте инструкцию.");
-    this.redirect(this.user.getProfileUrl() + '/courses');
+    if (this.user) {
+      this.addFlashMessage("success", "Поздравляем, вы присоединились к курсу. Ниже, рядом с курсом, вы найдёте инструкцию.");
+      this.redirect(this.user.getProfileUrl() + '/courses');
+    } else {
+      this.authAndRedirect(userByEmail.getProfileUrl() + '/courses');
+    }
     return;
   }
 
@@ -50,9 +58,6 @@ exports.all = function*() {
   //yield CourseGroup.populate(invite.group, {path: 'participants'});
   yield CourseGroup.populate(invite.group, 'course');
 
-  var userByEmail = yield User.findOne({
-    email: invite.email
-  }).exec();
 
   var participantByEmail = yield CourseParticipant.findOne({
     isActive: true,
@@ -64,8 +69,12 @@ exports.all = function*() {
   // invite was NOT accepted, but this guy is a participant (added manually?),
   // so show the same as accepted
   if (participantByEmail) {
-    this.addFlashMessage("success", "Вы уже участник курса. Ниже, рядом с курсом, вы найдёте инструкцию.");
-    this.redirect(this.user.getProfileUrl() + '/courses');
+    if (this.user) {
+      this.addFlashMessage("success", "Вы уже участник курса. Ниже, рядом с курсом, вы найдёте инструкцию.");
+      this.redirect(this.user.getProfileUrl() + '/courses');
+    } else {
+      this.authAndRedirect(userByEmail.getProfileUrl() + '/courses');
+    }
     return;
   }
 
