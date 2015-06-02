@@ -18,7 +18,7 @@ exports.init = function(app) {
   app.csrfChecker.ignore.add('/auth/forgot-recover');
 
   app.use(function*(next) {
-    this.redirectToAuth = function(url) {
+    this.authAndRedirect = function(url) {
       this.addFlashMessage('info', 'Для доступа к этой странице нужна авторизация.');
       this.newFlash.successRedirect = url;
       this.redirect('/auth/login');
