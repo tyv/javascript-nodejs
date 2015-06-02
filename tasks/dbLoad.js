@@ -11,7 +11,9 @@ module.exports = function() {
 
     var args = require('yargs')
       .usage("gulp db:load --from fixture/init")
+      .example("gulp db:load --from fixture/more --no-reset")
       .demand(['from'])
+      .default('reset', true)
       .describe('from', 'file to import')
       .argv;
 
@@ -21,7 +23,7 @@ module.exports = function() {
 
     return co(function*() {
 
-      yield* dataUtil.loadModels(dbPath, { reset: true });
+      yield* dataUtil.loadModels(dbPath, { reset: args.reset });
 
       gutil.log("loaded db " + dbPath);
     });
