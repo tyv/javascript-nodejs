@@ -40,6 +40,7 @@ exports.all = function*() {
       this.addFlashMessage("success", "Поздравляем, вы присоединились к курсу. Ниже, рядом с курсом, вы найдёте инструкцию.");
       this.redirect(this.user.getProfileUrl() + '/courses');
     } else {
+      this.status = 403;
       this.body = this.render('/notification', {
         title:   "Это приглашение уже принято",
         message: {
@@ -53,7 +54,7 @@ exports.all = function*() {
 
   // invite is also a login token, so we limit it's validity
   if (invite.validUntil < Date.now()) {
-
+    this.status = 404;
     this.body = this.render('/notification', {
       title:   "Ссылка устарела",
       message: {
@@ -87,7 +88,7 @@ exports.all = function*() {
       this.addFlashMessage("success", "Вы уже участник курса. Ниже, рядом с курсом, вы найдёте инструкцию.");
       this.redirect(this.user.getProfileUrl() + '/courses');
     } else {
-
+      this.status = 403;
       this.body = this.render('/notification', {
         title:   "Это приглашение уже принято",
         message: {
