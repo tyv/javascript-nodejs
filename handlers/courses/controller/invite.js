@@ -35,45 +35,66 @@ exports.all = function*() {
     this.locals.mailto += "?subject=" + encodeURIComponent('Заказ ' + invite.order.number);
   }
 
-  var userByEmail = yield User.findOne({
-    email: invite.email
-  }).exec();
-
   if (invite.accepted) {
-    if (this.user) {
+    if (this.user && this.user.email == invite.email) {
       this.addFlashMessage("success", "Поздравляем, вы присоединились к курсу. Ниже, рядом с курсом, вы найдёте инструкцию.");
       this.redirect(this.user.getProfileUrl() + '/courses');
     } else {
-      this.authAndRedirect(userByEmail.getProfileUrl() + '/courses');
+      this.body = this.render('/notification', {
+        title:   "Это приглашение уже принято",
+        message: {
+          type: 'success',
+          html: "Это приглашение уже принято. Зайдите в учётную запись участника для доступа к курсу."
+        }
+      });
     }
     return;
   }
 
   // invite is also a login token, so we limit it's validity
   if (invite.validUntil < Date.now()) {
-    this.body = this.render("invite/outdated");
+
+    this.body = this.render('/notification', {
+      title:   "Ссылка устарела",
+      message: {
+        type: 'success',
+        html: `
+          Извините, ссылка по которой вы перешли, устарела.
+          Если у вас возникли какие-либо вопросы – пишите на <a href="mailto:orders@javascript.ru">orders@javascript.ru</a>
+          `
+      }
+    });
     return;
   }
 
-  //yield CourseGroup.populate(invite.group, {path: 'participants'});
   yield CourseGroup.populate(invite.group, 'course');
 
+  var userByEmail = yield User.findOne({
+    email: invite.email
+  }).exec();
 
   var participantByEmail = yield CourseParticipant.findOne({
     isActive: true,
-    group: invite.group._id,
-    user: userByEmail._id
+    group:    invite.group._id,
+    user:     userByEmail._id
   }).exec();
 
 
   // invite was NOT accepted, but this guy is a participant (added manually?),
   // so show the same as accepted
   if (participantByEmail) {
-    if (this.user) {
+    if (this.user && this.user.email == invite.email) {
       this.addFlashMessage("success", "Вы уже участник курса. Ниже, рядом с курсом, вы найдёте инструкцию.");
       this.redirect(this.user.getProfileUrl() + '/courses');
     } else {
-      this.authAndRedirect(userByEmail.getProfileUrl() + '/courses');
+
+      this.body = this.render('/notification', {
+        title:   "Это приглашение уже принято",
+        message: {
+          type: 'success',
+          html: "Это приглашение уже принято. Зайдите в учётную запись участника для доступа к курсу."
+        }
+      });
     }
     return;
   }
