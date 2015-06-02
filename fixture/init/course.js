@@ -40,7 +40,7 @@ exports.CourseGroup = [
     participantsLimit: 30,
     webinarId:         '123',
     isListed:          true,
-    isOpenForSignup:   true,
+    isOpenForSignup:   false,
     title:             "Курс JavaScript/DOM/интерфейсы (01.01)"
   },
   {
@@ -53,7 +53,7 @@ exports.CourseGroup = [
     webinarId:         '456',
     participantsLimit: 30,
     isListed:          true,
-    isOpenForSignup:   true,
+    isOpenForSignup:   false,
     title:             "Курс JavaScript/DOM/интерфейсы (06.01)"
   },
   {
