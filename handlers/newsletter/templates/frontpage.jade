@@ -24,7 +24,8 @@ block content
     else
       p Ваш email:
 
-      input(type="email", name="email", placeholder="my@mail.com", required, pattern=validate.patterns.email, style="font-size:125%")
+      +b('span').text-input
+        +e('input').control#forgot-email(name="email" type="email" placeholder="my@mail.com", required, pattern=validate.patterns.email)
 
     input(type="hidden", name="_csrf", value=csrf())
     if accessKey
