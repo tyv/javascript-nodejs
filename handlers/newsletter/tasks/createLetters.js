@@ -19,6 +19,7 @@ module.exports = function(options) {
       // gulp newsletter:createLetters --slug js-1405 --templatePath ./js-1405.jade --subject 'Курс JavaScript: напоминание о собрании' --test iliakan@gmail.com --nounsubscribe
       .example("gulp newsletter:createLetters --slug nodejs --templatePath ./mail.jade --subject 'Тема письма'")
       .describe('slug', 'Названия рассылок NewsLetter через запятую')
+      .describe('slugExcept', 'Названия рассылок NewsLetter через запятую, подписчиком которых не слать')
       .describe('templatePath', 'Шаблон для рассылки')
       .describe('subject', 'Тема письма')
       .describe('test', 'Email, на который выслать тестовое письмо.')
@@ -29,6 +30,7 @@ module.exports = function(options) {
     return co(function* () {
 
       var slugs = args.slug.split(',').filter(String);
+      var slugExcepts = args.slugExcept ? args.slugExcept.split(',').filter(String) : [];
 
       var newsletters = yield Newsletter.find({
         slug: {
@@ -36,15 +38,24 @@ module.exports = function(options) {
         }
       }).exec();
 
+      if (newsletters.length != slugs.length) {
+        throw new Error("Can't find one or more newsletters with slugs: " + args.slug);
+      }
+
+      var newslettersExcept = yield Newsletter.find({
+        slug: {
+          $in: slugExcepts
+        }
+      }).exec();
+
+      if (newslettersExcept.length != slugExcepts.length) {
+        throw new Error("Can't find one or more newsletters with slugExcepts: " + args.except);
+      }
 
       var newsletterIdToSlug = {};
       newsletters.forEach(function(n) {
         newsletterIdToSlug[n._id.toString()] = n.slug;
       });
-
-      if (newsletters.length != slugs.length) {
-        throw new Error("Can't find one or more newsletters with slugs: " + args.slug);
-      }
 
       var release = yield NewsletterRelease.create({
         newsletters: newsletters.map(function(n) { return n._id; })
@@ -54,7 +65,8 @@ module.exports = function(options) {
       // subscriptions which match any of newsletter slugs
       var subscriptions = yield Subscription.find({
         newsletters: {
-          $in: newsletters.map(function(n) { return n._id; })
+          $in: newsletters.map(function(n) { return n._id; }),
+          $nin: newslettersExcept.map(function(n) { return n._id; })
         }
       }, {email: true, newsletters: true, accessKey: true, _id: false}).exec();
 
@@ -69,12 +81,10 @@ module.exports = function(options) {
         ];
       }
 
-      console.log(subscriptions[0].newsletters);
-
       for (var i = 0; i < subscriptions.length; i++) {
         var subscription = subscriptions[i];
         var unsubscribeUrl = args.nounsubscribe ? null :
-          (config.server.siteHost || 'http://javascript.in') + '/newsletter/subscriptions/' + subscription.accessKey;
+          config.server.siteHost + '/newsletter/subscriptions/' + subscription.accessKey;
 
 
         var listSlug = '';
