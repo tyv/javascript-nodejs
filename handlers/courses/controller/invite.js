@@ -74,30 +74,31 @@ exports.all = function*() {
     email: invite.email
   }).exec();
 
-  var participantByEmail = yield CourseParticipant.findOne({
-    isActive: true,
-    group:    invite.group._id,
-    user:     userByEmail._id
-  }).exec();
+  if (userByEmail) {
+    var participantByEmail = yield CourseParticipant.findOne({
+      isActive: true,
+      group:    invite.group._id,
+      user:     userByEmail._id
+    }).exec();
 
-
-  // invite was NOT accepted, but this guy is a participant (added manually?),
-  // so show the same as accepted
-  if (participantByEmail) {
-    if (this.user && this.user.email == invite.email) {
-      this.addFlashMessage("success", "Вы уже участник курса. Ниже, рядом с курсом, вы найдёте инструкцию.");
-      this.redirect(this.user.getProfileUrl() + '/courses');
-    } else {
-      this.status = 403;
-      this.body = this.render('/notification', {
-        title:   "Это приглашение уже принято",
-        message: {
-          type: 'success',
-          html: "Это приглашение уже принято. Зайдите в учётную запись участника для доступа к курсу."
-        }
-      });
+    // invite was NOT accepted, but this guy is a participant (added manually?),
+    // so show the same as accepted
+    if (participantByEmail) {
+      if (this.user && this.user.email == invite.email) {
+        this.addFlashMessage("success", "Вы уже участник курса. Ниже, рядом с курсом, вы найдёте инструкцию.");
+        this.redirect(this.user.getProfileUrl() + '/courses');
+      } else {
+        this.status = 403;
+        this.body = this.render('/notification', {
+          title:   "Это приглашение уже принято",
+          message: {
+            type: 'success',
+            html: "Это приглашение уже принято. Зайдите в учётную запись участника для доступа к курсу."
+          }
+        });
+      }
+      return;
     }
-    return;
   }
 
   // invalid invite, person not in list
