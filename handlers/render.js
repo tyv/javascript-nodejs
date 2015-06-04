@@ -186,7 +186,7 @@ exports.init = function(app) {
         loc.schema = {};
       }
 
-      loc.httpsOriginalUrl = this.request.originalUrl.replace(/^http:/, 'https:');
+      loc.canonicalUrl = 'https://' + config.server.siteHost + this.request.originalUrl;
 
       if (!/\.jade$/.test(templatePath)) {
         templatePath += '.jade';
