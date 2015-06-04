@@ -7,6 +7,9 @@ var log = require('log')();
 var validate = require('validate');
 var countries = require('countries');
 
+// make sure ref:User is resolved when a gulp task wants this model
+require('users').User;
+
 var schema = new Schema({
 
   group: {

@@ -26,11 +26,11 @@ module.exports = function() {
         .findOne({slug: argv.group})
         .exec();
 
-      var participants = yield CourseParticipant.find({group: group._id}).populate('user').exec();
-
       if (!group) {
         throw new Error("No group:" + argv.group);
       }
+
+      var participants = yield CourseParticipant.find({group: group._id}).populate('user').exec();
 
       if (_.some(group.materials, {filename: argv.file})) {
         throw new Error(`Material ${argv.file} already exists in group ${argv.group}`);
