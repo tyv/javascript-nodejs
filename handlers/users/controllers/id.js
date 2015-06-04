@@ -80,7 +80,7 @@ exports.patch = function*(next) {
 
     user.pendingVerifyEmail = fields.email;
     user.verifyEmailToken = Math.random().toString(36).slice(2, 10);
-    user.verifyEmailRedirect = '/profile/account';
+    user.verifyEmailRedirect = user.getProfileUrl();
 
     yield sendMail({
       templatePath: path.join(this.templateDir, 'verify-change-email'),
