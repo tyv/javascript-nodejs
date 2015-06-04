@@ -24,6 +24,6 @@ exports.info = {
   title: "Интеркасса",
   name:    path.basename(__dirname),
   hasIcon: false,
-  cards: ['visa-mastercard', 'privatbank'],
-  subtitle: "и другие методы (Украина)"
+  cards: ['privatbank'],
+  subtitle: "и другие методы для Украины"
 };
