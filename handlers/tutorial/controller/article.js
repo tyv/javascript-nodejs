@@ -94,7 +94,7 @@ exports.get = function *get(next) {
   };
 
   locals.schema = {
-    itemtype: 'http://schema.org/Article',
+/*    itemtype: 'http://schema.org/Article',*/
   };
 
   this.body = this.render(renderedArticle.isFolder ? "folder" : "article", locals);
