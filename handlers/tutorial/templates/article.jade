@@ -7,6 +7,8 @@ block sidebar
   include sidebar
 
 block append head
+  meta(property="og:title", content=title || headTitle)
+  meta(property="og:type", content="article")
   script(defer src=pack("tutorial", "js"))
 
 block content
