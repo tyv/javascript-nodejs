@@ -182,6 +182,12 @@ exports.init = function(app) {
 
       _.assign(loc, locals);
 
+      if (!loc.schema) {
+        loc.schema = {};
+      }
+
+      loc.httpsOriginalUrl = this.request.originalUrl.replace(/^http:/, 'https:');
+
       if (!/\.jade$/.test(templatePath)) {
         templatePath += '.jade';
       }

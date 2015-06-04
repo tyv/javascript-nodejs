@@ -9,11 +9,26 @@ link(href='//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,7
 
 //- favicon apple touch
 link(rel="apple-touch-icon-precomposed" href="/img/favicon/apple-touch-icon-precomposed.png")
+link(rel="canonical" href=httpsOriginalUrl)
+
 //- IE10 Metro
 meta(name="msapplication-TileColor" content="#222A2C")
 meta(name="msapplication-TileImage" content="/img/favicon/tileicon.png")
 // favicon the rest
 link(rel="icon" href="/img/favicon/favicon.png")
+
+meta(itemprop="name", content=(headTitle || title))
+meta(itemprop="image", content=(schema.titleImage || "https://learn.javascript.ru/img/logo_square.png"))
+
+meta(property="og:title", content=(headTitle || title))
+meta(property="og:image", content=(schema.titleImage || "https://learn.javascript.ru/img/logo_square.png"))
+meta(property="fb:admins", content="100001562528165")
+
+meta(name="twitter:card", content="summary")
+meta(name="twitter:title", content=(headTitle || title))
+meta(name="twitter:site", content="@iliakan")
+meta(name="twitter:creator", content="@iliakan")
+meta(name="twitter:image", content=(schema.titleImage || "https://learn.javascript.ru/img/logo_square.png"))
 
 
 link(href=pack('head', 'css') rel='stylesheet')

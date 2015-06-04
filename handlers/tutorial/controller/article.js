@@ -93,6 +93,10 @@ exports.get = function *get(next) {
     sections: sections
   };
 
+  locals.schema = {
+    itemtype: 'http://schema.org/Article',
+  };
+
   this.body = this.render(renderedArticle.isFolder ? "folder" : "article", locals);
 
 };
