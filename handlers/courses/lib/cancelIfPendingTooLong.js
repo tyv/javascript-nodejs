@@ -12,10 +12,10 @@ module.exports = function*(order) {
   assert(order.user);
 
   // wait for a week, do nothing
-  /*
-   if (order.created > new Date() - 7 * 24 * 86400 * 1e3) {
-   return;
-   }*/
+
+  if (order.created > new Date() - 7 * 24 * 86400 * 1e3) {
+    return;
+  }
 
   var ordersSameGroupAndUser = yield Order.find({
     user:         order.user,
@@ -45,9 +45,9 @@ module.exports = function*(order) {
 
   gutil.log("Sent letter to " + orderUser.email);
 
-  /*
-   yield order.persist({
-   status: Order.STATUS_CANCEL
-   });
-   */
+
+  yield order.persist({
+    status: Order.STATUS_CANCEL
+  });
+
 };
