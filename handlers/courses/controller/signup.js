@@ -21,6 +21,13 @@ exports.get = function*() {
     return;
   }
 
+  var discount;
+
+  if (this.query.code) {
+    discount = yield* payments.Discount.findByCodeAndModule(this.query.code, 'courses');
+  }
+
+
   if (this.params.orderNumber) {
     yield* this.loadOrder({
       ensureSuccessTimeout: 10000
@@ -52,16 +59,16 @@ exports.get = function*() {
 
     // a visitor can't reach this page through UI, only by direct link
     // if the group is full
-    if (!group.isOpenForSignup) {
+    if (!group.isOpenForSignup && !discount) {
       this.statusCode = 403;
       this.body = this.render('/notification', {
-        title: 'Запись в эту группу завершена',
+        title:   'Запись в эту группу завершена',
         message: {
           type: 'error',
           html: `
-        Запись в эту группу завершена.
-        Перейдите на <a href="/courses/${group.course.slug}">страницу курса</a>, чтобы увидеть открытые группы.
-        `
+          Запись в эту группу завершена.
+          Перейдите на <a href="/courses/${group.course.slug}">страницу курса</a>, чтобы увидеть открытые группы.
+          `
         }
       });
       return;
@@ -106,11 +113,8 @@ exports.get = function*() {
 
   var price = group.price;
 
-  if (this.query.code) {
-    var discount = yield* payments.Discount.findByCodeAndModule(this.query.code, 'courses');
-    if (discount && discount.data.slug == group.slug) {
-      price = discount.adjustAmount(price);
-    }
+  if (discount && discount.data.slug == group.slug) {
+    price = discount.adjustAmount(price);
   }
 
   this.locals.groupInfo = {

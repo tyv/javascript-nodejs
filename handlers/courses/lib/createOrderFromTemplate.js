@@ -45,11 +45,16 @@ module.exports = function*(orderTemplate, user, requestBody) {
 
 
   var price = group.price;
+  var discount;
   if (requestBody.discountCode) {
-    var discount = yield* Discount.findByCodeAndModule(requestBody.discountCode, 'courses');
+    discount = yield* Discount.findByCodeAndModule(requestBody.discountCode, 'courses');
     if (discount && discount.data.slug == group.slug) {
       price = discount.adjustAmount(price);
     }
+  }
+
+  if (!group.isOpenForSignup && !discount) {
+    this.throw(403, "Запись в эту группу завершена, извините");
   }
 
 

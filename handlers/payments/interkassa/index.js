@@ -25,5 +25,5 @@ exports.info = {
   name:    path.basename(__dirname),
   hasIcon: false,
   cards: ['privatbank'],
-  subtitle: "оплата через банк для Украины"
+  subtitle: "банковская квитанция для Украины"
 };

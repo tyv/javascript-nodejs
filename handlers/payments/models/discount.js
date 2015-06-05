@@ -53,7 +53,9 @@ schema.statics.findByCodeAndModule = function*(code, module) {
 };
 
 schema.methods.adjustAmount = function(amount) {
-  return this.discount < 1 ? amount * this.discount : this.discount;
+  return this.discount == 1 ? amount :
+    this.discount < 1 ? amount * this.discount :
+      this.discount;
 };
 
 var Discount = module.exports = mongoose.model('Discount', schema);
