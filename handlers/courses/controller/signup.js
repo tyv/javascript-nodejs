@@ -53,7 +53,18 @@ exports.get = function*() {
     // a visitor can't reach this page through UI, only by direct link
     // if the group is full
     if (!group.isOpenForSignup) {
-      this.throw(403, "Запись в эту группу завершена.");
+      this.statusCode = 403;
+      this.body = this.render('/notification', {
+        title: 'Запись в эту группу завершена',
+        message: {
+          type: 'error',
+          html: `
+        Запись в эту группу завершена.
+        Перейдите на <a href="/courses/${group.course.slug}">страницу курса</a>, чтобы увидеть открытые группы.
+        `
+        }
+      });
+      return;
     }
 
     this.locals.title = "Регистрация\n" + group.title;

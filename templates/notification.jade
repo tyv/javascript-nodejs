@@ -7,4 +7,4 @@ block append variables
 
 block content
   +b(class=["notification", "_message", "_" + message.type])
-    +e.content= message.html
+    +e.content!= message.html
