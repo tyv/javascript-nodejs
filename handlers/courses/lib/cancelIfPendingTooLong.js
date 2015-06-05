@@ -13,10 +13,6 @@ module.exports = function*(order) {
 
   // wait for a week, do nothing
 
-  if (order.created > new Date() - 7 * 24 * 86400 * 1e3) {
-    return;
-  }
-
   var ordersSameGroupAndUser = yield Order.find({
     user:         order.user,
     'data.group': order.data.group
@@ -25,6 +21,20 @@ module.exports = function*(order) {
   var orderSuccessSameGroupAndUser = ordersSameGroupAndUser.filter(function(order) {
     return order.status == Order.STATUS_SUCCESS;
   })[0];
+
+
+  if (orderSuccessSameGroupAndUser) {
+    // 2 days if has success order to same group
+    if (order.created > new Date() - 2 * 24 * 86400 * 1e3) {
+      return;
+    }
+  } else {
+    // 7 days wait otherwise
+    if (order.created > new Date() - 7 * 24 * 86400 * 1e3) {
+      return;
+    }
+  }
+
 
   var orderUser = yield User.findById(order.user).exec();
   var orderGroup = yield CourseGroup.findById(order.data.group).exec();
