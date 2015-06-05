@@ -29,11 +29,14 @@ var schema = new Schema({
 
   // order can be bound to either an email or a user
   email: {
-    type: String
+    type: String,
+    index: true
   },
+
   user:  {
     type: Schema.Types.ObjectId,
-    ref:  'User'
+    ref:  'User',
+    index: true
   },
 
   data: {
@@ -79,6 +82,10 @@ schema.methods.onPaid = function*() {
     status: Order.STATUS_PAID
   });
   yield* require(this.module).onPaid(this);
+};
+
+schema.methods.cancelIfPendingTooLong = function*() {
+  yield* require(this.module).cancelIfPendingTooLong(this);
 };
 
 schema.plugin(autoIncrement.plugin, {model: 'Order', field: 'number', startAt: 1});

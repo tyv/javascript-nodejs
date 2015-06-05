@@ -10,4 +10,5 @@ exports.init = function(app) {
 };
 
 exports.onPaid = require('./lib/onPaid');
+exports.cancelIfPendingTooLong = require('./lib/cancelIfPendingTooLong');
 exports.createOrderFromTemplate = require('./lib/createOrderFromTemplate');

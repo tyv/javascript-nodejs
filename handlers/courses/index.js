@@ -11,6 +11,7 @@ exports.CourseInvite = require('./models/courseInvite');
 exports.CourseFeedback = require('./models/courseFeedback');
 
 exports.onPaid = require('./lib/onPaid');
+exports.cancelIfPendingTooLong = require('./lib/cancelIfPendingTooLong');
 
 exports.getAgreement = require('./lib/getAgreement');
 
