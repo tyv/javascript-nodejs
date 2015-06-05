@@ -43,18 +43,11 @@ function checkSignature(body) {
       return body[key];
     });
 
-  console.log(signature);
   signature.push(interkassaConfig.secret);
-
-  console.log(signature);
 
   signature = signature.join(':');
 
-  console.log(signature);
-
   signature = new Buffer(md5(signature, {asBytes: true})).toString('base64');
-
-  console.log(signature, '==', incomingSignature);
 
   return signature == incomingSignature;
 }

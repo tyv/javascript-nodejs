@@ -92,6 +92,7 @@ gulp.task("tutorial:beautify", lazyRequireTask('tutorial/tasks/beautify', {
 gulp.task("tutorial:edit", lazyRequireTask('tutorial/tasks/edit'));
 
 gulp.task("payments:order:paid", lazyRequireTask('payments/tasks/orderPaid'));
+gulp.task("payments:transaction:paid", lazyRequireTask('payments/tasks/transactionPaid'));
 gulp.task("payments:order:cancelPending", lazyRequireTask('payments/tasks/orderCancelPending'));
 
 gulp.task("newsletter:send", lazyRequireTask('newsletter/tasks/send'));
