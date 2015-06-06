@@ -18,7 +18,7 @@ module.exports = function() {
         var order = yield Order.findOne({
           status: Order.STATUS_PENDING,
           number: { $gt: lastNumber }
-        }).sort({number: 1}).exec();
+        }).sort({number: 1}).limit(1).exec();
 
         if (!order) break;
         lastNumber = order.number;
