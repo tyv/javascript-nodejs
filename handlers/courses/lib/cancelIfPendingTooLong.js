@@ -22,19 +22,23 @@ module.exports = function*(order) {
     return order.status == Order.STATUS_SUCCESS;
   })[0];
 
+  gutil.log("order " + order.number);
 
   if (orderSuccessSameGroupAndUser) {
     // 2 days if has success order to same group
     if (order.created > new Date() - 2 * 24 * 86400 * 1e3) {
+      gutil.log("...less than 2 days, return");
       return;
     }
   } else {
     // 7 days wait otherwise
     if (order.created > new Date() - 7 * 24 * 86400 * 1e3) {
+      gutil.log("...less than 7 days, return");
       return;
     }
   }
 
+  gutil.log("Canceling " + order.number)
 
   var orderUser = yield User.findById(order.user).exec();
   var orderGroup = yield CourseGroup.findById(order.data.group).exec();
