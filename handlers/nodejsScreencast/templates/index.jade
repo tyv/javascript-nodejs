@@ -52,11 +52,10 @@ block content
 
     +e("p").foot Ниже вы можете ознакомиться более детально с содержанием скринкаста
 
-    +e("a")(href="#" data-nodejs-screencast-top-subscribe).tag
-      | Не прозевайте
-      br
-      |курсы по
-      strong  Node.js!
+    if hasOpenCourseGroups
+      +e("a")(href="/courses/nodejs").tag Не прозевайте<br>курсы по <strong>Node.js!</strong>
+    else
+      +e("a")(href="#" data-nodejs-screencast-top-subscribe).tag Не прозевайте<br>курсы по <strong>Node.js!</strong>
 
 
   .main(class='main_width-limit-wide').nodejs-screencast-content
