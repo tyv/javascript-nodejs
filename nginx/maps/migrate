@@ -663,7 +663,7 @@ map $uri $migrate {
   /task/vstavte-elementy-v-konec-spiska https://learn.javascript.ru/task/append-to-list;
   /task/dlya-podsvetki-setinterval-ili-settimeout https://learn.javascript.ru/task/highlight-tactics;
   /task/js-voprosnik-24 https://learn.javascript.ru/quiz;
-  /task/finally-ili-prosto-kod https://learn.javascript.ru/task/finally-ili-prosto-kod;
+  /task/finally-ili-prosto-kod https://learn.javascript.ru/task/finally-or-code-after;
   /task/kakie-obrabotchiki-srabotayut https://learn.javascript.ru/task/which-handlers-run;
   /task/naydite-koordinaty-tochki-v-dokumente https://learn.javascript.ru/task/find-point-coordinates;
   /task/peredvigat-myach-po-polyu https://learn.javascript.ru/task/move-ball-field;
