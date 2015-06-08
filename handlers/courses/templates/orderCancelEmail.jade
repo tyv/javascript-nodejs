@@ -14,7 +14,7 @@ block body
 
   p
     | Список активных заказов доступен в личном кабинете:&nbsp;
-    a(href=(orderUser.getProfileUrl() + '/orders'))= orderUser.getProfileUrl() + '/orders'
+    a(href=profileOrdersLink)= profileOrdersLink
     | &nbsp;(нужно авторизоваться на сайте).
 
   p Если вы оплачивали этот заказ или собираетесь это сделать – ответьте на это письмо.

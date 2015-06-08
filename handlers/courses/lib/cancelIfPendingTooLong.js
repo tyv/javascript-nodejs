@@ -5,6 +5,7 @@ var assert = require('assert');
 const mailer = require('mailer');
 var gutil = require('gulp-util');
 var path = require('path');
+var config = require('config');
 
 // pending for a week => cancel without a notice
 module.exports = function*(order) {
@@ -54,6 +55,7 @@ module.exports = function*(order) {
     orderSuccessSameGroupAndUser: orderSuccessSameGroupAndUser,
     orderUser:                    orderUser,
     orderGroup:                   orderGroup,
+    profileOrdersLink:            config.server.siteHost + orderUser.getProfileUrl() + '/orders',
     order:                        order,
     subject:                      "[Курсы, система регистрации] Отмена заказа " + order.number + " на сайте javascript.ru"
   });
