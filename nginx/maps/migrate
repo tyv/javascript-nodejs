@@ -482,14 +482,12 @@ map $uri $migrate {
   /task/cepochka-vyzovov https://learn.javascript.ru/task/chain-calls;
   /task/summa-proizvolnogo-kolichestva-skobok https://learn.javascript.ru/task/sum-many-brackets;
   /task/sozdayte-kalkulyator https://learn.javascript.ru/task/calculator-extendable;
-  /task/dom-children https://learn.javascript.ru/task/dom-children;
   /task/proverka-sushestvovaniya-detej https://learn.javascript.ru/task/has-childnodes;
   /task/poluchite-polzovatelskij-atribut https://learn.javascript.ru/task/get-user-attribute;
   /task/skruglenaya-knopka-so-stilyami-iz-javascript https://learn.javascript.ru/task/round-button-javascript;
   /task/pochemu-neverno-verno https://learn.javascript.ru/task/compare-empty-arrays;
   /task/pojmajte-perehod-po-ssylke https://learn.javascript.ru/task/catch-link-navigation;
   /task/voprosnik-po-preobrazovaniyam-dlya-obektov https://learn.javascript.ru/task/object-types-conversion-questions;
-  /task/createtextnode-vs-innerhtml https://learn.javascript.ru/task/createtextnode-vs-innerhtml;
   /task/podmenit-div-na-drugoy-s-takim-zhe-razmerom https://learn.javascript.ru/task/div-placeholder;
   /task/pomestite-myach-v-centr-polya https://learn.javascript.ru/task/put-ball-in-center;
   /task/x-x https://learn.javascript.ru/task/array-equals-string;
@@ -499,7 +497,6 @@ map $uri $migrate {
   /task/beskonechnyj-cikl-po-oshibke https://learn.javascript.ru/task/endless-loop-error;
   /task/animirujte-myach https://learn.javascript.ru/task/animate-ball;
   /task/animirujte-padenie-myacha-s-otskokami-vpravo https://learn.javascript.ru/task/animate-ball-hops;
-  /task/parse-expression https://learn.javascript.ru/task/parse-expression;
   /task/find-all-numbers-including-decimal-point https://learn.javascript.ru/task/find-decimal-numbers;
   /task/vyzov-v-kontekste-massiva https://learn.javascript.ru/task/call-array-this;
   /task/vyzov-na-meste https://learn.javascript.ru/task/call-inplace;
@@ -507,7 +504,6 @@ map $uri $migrate {
   /task/prototip-posle-sozdaniya https://learn.javascript.ru/task/prototype-after-new;
   /task/argumenty-po-umolchaniu https://learn.javascript.ru/task/default-arguments;
   /task/match-string-with-quotes https://learn.javascript.ru/task/match-quoted-string;
-  /task/find-html-comments https://learn.javascript.ru/task/find-html-comments;
   /task/vopros-po-navigacionnym-ssylkam https://learn.javascript.ru/task/navigation-links-which-null;
   /task/window-i-peremennaya-2 https://learn.javascript.ru/task/window-and-variable-2;
   /task/sozdat-obekt-tem-zhe-konstruktorom https://learn.javascript.ru/task/new-object-same-constructor;
@@ -600,7 +596,6 @@ map $uri $migrate {
   /task/js-voprosnik-17 https://learn.javascript.ru/quiz;
   /task/massiv-chastichnyh-summ https://learn.javascript.ru/task/partial-sums-array;
   /task/podmassiv-naibolshej-summy https://learn.javascript.ru/task/maximal-subarray;
-  /task/vertical-align-table-cell-position https://learn.javascript.ru/task/vertical-align-table-cell-position;
   /task/v-chem-otlichie-width-i-clientwidth https://learn.javascript.ru/task/width-vs-clientwidth;
   /task/sortirovka-tablicy https://learn.javascript.ru/task/sort-table;
   /task/chisla-fibonachchi https://learn.javascript.ru/task/fibonacci-numbers;
