@@ -41,6 +41,7 @@ function getInvoice(transaction) {
     BIK: invoiceConfig.BIK,
     TRANSACTION_NUMBER: String(transaction.number),
     TRANSACTION_DATE: moment(transaction.created).format('DD.MM.YYYY'),
+    BUYER_COMPANY_NAME: transaction.paymentDetails.companyName,
     PAYMENT_DESCRIPTION: `Оплата за информационно-консультационные услуги по счёту ${transaction.number}`,
     AMOUNT: transaction.amount,
     AMOUNT_IN_WORDS: priceInWords(transaction.amount),
