@@ -12,7 +12,14 @@ block append head
   script(defer src=pack("tutorial", "js"))
 
 block content
-  != content
+  article(itemscope itemtype="http://schema.org/TechArticle")
+    meta(itemprop="name", content=title)
+    div(itemprop="author", itemscope, itemtype="http://schema.org/Person")
+      meta(itemprop="email", content="iliakan@gmail.com")
+      meta(itemprop="name" content="Ilya Kantor")
+    div(itemprop="articleBody")
+      != content
+
 
   if tasks.length
 
