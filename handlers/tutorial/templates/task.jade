@@ -8,11 +8,17 @@ block append head
   script(defer src=pack("tutorial", "js"))
 
 block main
-  +b.task-single
+
+  +b.task-single(itemscope itemtype="http://schema.org/TechArticle")
+    meta(itemprop="name", content=title)
+    div(itemprop="author", itemscope, itemtype="http://schema.org/Person")
+      meta(itemprop="email", content="iliakan@gmail.com")
+      meta(itemprop="name" content="Ilya Kantor")
+
     +e('a').back(href=articleUrl)
       span вернуться к уроку
 
-    +b.task.__task
+    +b.task.__task(itemprop="articleBody")
       +e.header
         +e.title-wrap
           +e('h2').title= task.title
