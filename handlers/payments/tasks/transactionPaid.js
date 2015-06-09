@@ -30,8 +30,6 @@ module.exports = function() {
         status: Transaction.STATUS_SUCCESS
       });
 
-      yield* transaction.order.onPaid();
-
       transaction.order.status = Order.STATUS_PAID;
 
       yield* transaction.order.onPaid();
