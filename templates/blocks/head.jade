@@ -1,4 +1,4 @@
-title= (headTitle || title)
+title(itemprop="name")= (headTitle || title)
 
 //- for mobile devices
 meta(name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes")
@@ -17,7 +17,6 @@ meta(name="msapplication-TileImage" content="/img/favicon/tileicon.png")
 // favicon the rest
 link(rel="icon" href="/img/favicon/favicon.png")
 
-meta(itemprop="name", content=(headTitle || title))
 meta(itemprop="image", content=(schema.titleImage || "https://learn.javascript.ru/img/logo_square.png"))
 
 meta(property="og:title", content=(headTitle || title))
