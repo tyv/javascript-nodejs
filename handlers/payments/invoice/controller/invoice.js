@@ -32,7 +32,7 @@ exports.get = function*() {
 function getInvoice(transaction) {
   var invoiceDoc = new Docxtemplater(invoiceDocContent);
 
-  invoiceDoc.setData({
+  var data = {
     COMPANY_NAME: invoiceConfig.COMPANY_NAME,
     INN: invoiceConfig.INN,
     ACCOUNT: invoiceConfig.ACCOUNT,
@@ -43,12 +43,14 @@ function getInvoice(transaction) {
     TRANSACTION_DATE: moment(transaction.created).format('DD.MM.YYYY'),
     BUYER_COMPANY_NAME: transaction.paymentDetails.companyName,
     PAYMENT_DESCRIPTION: `Оплата за информационно-консультационные услуги по счёту ${transaction.number}`,
-    AMOUNT: transaction.amount,
+    AMOUNT: transaction.amount + 'р.',
     AMOUNT_IN_WORDS: priceInWords(transaction.amount),
     SIGN_TITLE: invoiceConfig.SIGN_TITLE,
     SIGN_NAME: invoiceConfig.SIGN_NAME,
     SIGN_SHORT_NAME: invoiceConfig.SIGN_SHORT_NAME
-  });
+  };
+
+  invoiceDoc.setData(data);
 
   // apply replacements
   invoiceDoc.render();
