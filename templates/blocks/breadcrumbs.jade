@@ -3,8 +3,8 @@ each crumb, i in breadcrumbs
   - var isFirst = (i == 1);
   if i == 0
     +e("li").item._home(itemscope, itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb-1")
-      +e("a").link(href=crumb.url)
-        +e('span').hidden-text!= crumb.title
+      +e("a").link(href=crumb.url itemprop="url")
+        +e('span')(itemprop="title").hidden-text!= crumb.title
   else
     +e("li")(
       id="breadcrumb-#{i}",
