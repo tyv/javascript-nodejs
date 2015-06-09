@@ -9,6 +9,10 @@ block append head
 
 block main
 
+  //- for schema.org microdata
+  div(style="display:none")
+    include /blocks/breadcrumbs
+
   +b.task-single(itemscope itemtype="http://schema.org/TechArticle")
     meta(itemprop="name", content=title)
     div(itemprop="author", itemscope, itemtype="http://schema.org/Person")
