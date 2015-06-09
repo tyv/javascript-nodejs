@@ -220,11 +220,12 @@ function* renderArticle(slug) {
       title: 'Учебник',
       url: '/'
     });
+    /*
     path.push({
       title: 'JavaScript.ru',
       url: 'http://javascript.ru'
     });
-
+    */
     path = path.reverse();
 
     rendered.breadcrumbs = path;

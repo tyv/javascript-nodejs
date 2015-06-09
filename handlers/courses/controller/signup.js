@@ -80,7 +80,7 @@ exports.get = function*() {
   this.locals.paymentMethods = require('../lib/paymentMethods');
 
   this.locals.breadcrumbs = [
-    {title: 'JavaScript.ru', url: 'http://javascript.ru'},
+    {title: 'Учебник', url: '/'},
     {title: 'Курсы', url: '/courses'}
   ];
 

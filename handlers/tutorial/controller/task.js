@@ -36,10 +36,12 @@ exports.get = function *get(next) {
     title: 'Учебник',
     url: '/'
   });
+  /*
   breadcrumbs.push({
     title: 'JavaScript.ru',
     url: 'http://javascript.ru'
   });
+  */
 
   this.locals.breadcrumbs = breadcrumbs.reverse();
 
