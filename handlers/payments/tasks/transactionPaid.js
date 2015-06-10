@@ -25,6 +25,7 @@ module.exports = function() {
       }
 
 
+      console.log(transaction.order.status, Order.STATUS_PAID);
       if (transaction.order.status == Order.STATUS_PAID && !args.force) {
         throw new Error("Order already paid " + transaction.order.number);
       }
