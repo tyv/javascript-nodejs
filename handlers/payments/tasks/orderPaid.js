@@ -19,6 +19,10 @@ module.exports = function() {
         throw new Error("No order with number " + args.number);
       }
 
+      if (order.status == Order.STATUS_PAID && !args.force) {
+        throw new Error("Order already paid " + args.number);
+      }
+
       order.status = Order.STATUS_PAID;
 
       yield* order.onPaid();

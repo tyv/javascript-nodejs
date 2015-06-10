@@ -24,6 +24,11 @@ module.exports = function() {
         throw new Error("No transaction with number " + args.number);
       }
 
+
+      if (transaction.order.status == Order.STATUS_PAID && !args.force) {
+        throw new Error("Order already paid " + transaction.order.number);
+      }
+
       yield transaction.log('payments:transaction:paid');
 
       yield transaction.persist({
