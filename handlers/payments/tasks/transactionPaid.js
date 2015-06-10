@@ -38,6 +38,8 @@ module.exports = function() {
 
       transaction.order.status = Order.STATUS_PAID;
 
+      yield transaction.order.persist();
+      
       yield* transaction.order.onPaid();
 
     });
