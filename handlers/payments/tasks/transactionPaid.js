@@ -25,9 +25,8 @@ module.exports = function() {
       }
 
 
-      console.log(transaction.order.status, Order.STATUS_PAID);
-      if (transaction.order.status == Order.STATUS_PAID && !args.force) {
-        throw new Error("Order already paid " + transaction.order.number);
+      if (transaction.order.status == Order.STATUS_SUCCESS && !args.force) {
+        throw new Error("Order already success " + transaction.order.number);
       }
 
       yield transaction.log('payments:transaction:paid');
@@ -36,12 +35,11 @@ module.exports = function() {
         status: Transaction.STATUS_SUCCESS
       });
 
-      transaction.order.status = Order.STATUS_PAID;
-
-      yield transaction.order.persist();
-      
       yield* transaction.order.onPaid();
 
+      yield transaction.order.persist({
+        status: Order.STATUS_SUCCESS
+      });
     });
 
   };
