@@ -1,0 +1,34 @@
+.participants-logos
+
+    .main ul&__list,
+    .main li&__item
+        margin 0
+        padding 0
+        list-style none
+
+    .main li&__item:before
+        content: ''
+        display none
+
+    .main ul&__list
+        display flex
+        flex-wrap wrap
+
+        margin-top 10px
+
+    .main li&__item
+        box-sizing border-box
+
+        width 25%
+        padding 0 45px
+        margin-top 45px
+
+        text-align center
+
+    @media tablet
+        .main li&__item
+            width 50%
+
+
+
+
