@@ -11,6 +11,7 @@ module.exports = function() {
 
   var args = require('yargs')
     .example('gulp payments:transaction:paid --number 12345678')
+    .example('gulp payments:transaction:paid --number 12345678 --force')
     .demand(['number'])
     .argv;
 

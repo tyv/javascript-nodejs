@@ -16,7 +16,7 @@ module.exports = function() {
 
     const argv = require('yargs')
       // file should be in download/courses/js-1/js-basic.zip
-      .usage('gulp courses:material:add --group js-1 --title "Введение" --file js-basic.zip')
+      .usage('gulp courses:material:add --group js-1 --title "Введение" --file js-basic.zip --comment "Welcome."')
       .demand(['group', 'file'])
       .argv;
 
@@ -57,6 +57,7 @@ module.exports = function() {
         templatePath: path.join(__dirname, '../templates/materialsEmail'),
         subject:      "Добавлены материалы курса",
         to:           recipients,
+        comment:      argv.comment,
         link:         config.server.siteHost + `/courses/groups/${group.slug}/materials`,
         fileLink:     config.server.siteHost + `/courses/download/${group.slug}/${material.filename}`,
         fileTitle:    material.title
