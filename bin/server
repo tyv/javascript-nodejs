@@ -39,7 +39,9 @@ function shutdown() {
   });
 
   var dieDelay = process.env.PM2_GRACEFUL_TIMEOUT || 4000;
-  // I have 4000ms to close all connections
+  // I have 4000ms to let all connections finish
+  // not accepting new connections, closing socket.io (if used)
+  // keep-alive connection to server may still be alive, but safe to nuke the server w/ them
   setTimeout(function() {
     log.error("App is stopping for too long! Will be killed now!");
     // kill is accomplished by PM2

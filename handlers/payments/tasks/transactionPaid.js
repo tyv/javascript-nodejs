@@ -25,6 +25,7 @@ module.exports = function() {
         throw new Error("No transaction with number " + args.number);
       }
 
+      gutil.log("Order number:" + transaction.order.number);
 
       if (transaction.order.status == Order.STATUS_SUCCESS && !args.force) {
         throw new Error("Order already success " + transaction.order.number);
