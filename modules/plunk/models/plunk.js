@@ -150,7 +150,7 @@ schema.statics.request = function*(data) {
   var result = yield request(data);
 
   if (result.statusCode == 404) {
-    throw new Error("result status code 404, probably (plnkrAuthId is too old OR this plunk doesn't belong to javascript-plunk user)");
+    throw new Error("result status code 404, probably (plnkrAuthId is too old OR this plunk doesn't belong to plunk@javascript.ru (javascript-plunk) user)");
   }
   if (result.statusCode == 400) {
     throw new Error("invalid json, probably you don't need to stringify body (request will do it)");
