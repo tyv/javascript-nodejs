@@ -57,16 +57,24 @@ module.exports = function(options) {
         newsletterIdToSlug[n._id.toString()] = n.slug;
       });
 
+      var newsletterIds = newsletters.map(function(n) {
+        return n._id;
+      });
+      var newsletterExceptIds = newslettersExcept.map(function(n) {
+        return n._id;
+      });
+
       var release = yield NewsletterRelease.create({
-        newsletters: newsletters.map(function(n) { return n._id; })
+        newsletters:       newsletterIds,
+        newslettersExcept: newsletterExceptIds
       });
 
 
       // subscriptions which match any of newsletter slugs
       var subscriptions = yield Subscription.find({
         newsletters: {
-          $in: newsletters.map(function(n) { return n._id; }),
-          $nin: newslettersExcept.map(function(n) { return n._id; })
+          $in:  release.newsletters,
+          $nin: release.newslettersExcept
         }
       }, {email: true, newsletters: true, accessKey: true, _id: false}).exec();
 
@@ -74,19 +82,23 @@ module.exports = function(options) {
       if (args.test) {
         subscriptions = [
           new Subscription({
-            email: args.test,
-            accessKey: 'test',
-            newsletters: newsletters.map(function(n) { return n._id; })
+            email:       args.test,
+            accessKey:   'test',
+            newsletters: newsletters.map(function(n) {
+              return n._id;
+            })
           })
         ];
       }
 
       for (var i = 0; i < subscriptions.length; i++) {
         var subscription = subscriptions[i];
-        var unsubscribeUrl = args.nounsubscribe ? null :
+        var unsubscribeUrl = args.nounsubscribe ?
+          null :
           config.server.siteHost + '/newsletter/subscriptions/' + subscription.accessKey;
 
 
+        // listSlug is generated from a first newsletter, which causes the user to receive the message
         var listSlug = '';
         for (var j = 0; j < subscription.newsletters.length; j++) {
           var subscriptionNewsletterId = String(subscription.newsletters[j]);
@@ -99,13 +111,13 @@ module.exports = function(options) {
         }
 
         yield* mailer.createLetter({
-          from:                'informer',
-          templatePath:        args.templatePath,
-          to:                  subscription.email,
-          subject:             args.subject,
-          unsubscribeUrl:      unsubscribeUrl,
-          newsletterRelease:   release._id,
-          headers:             {
+          from:           'informer',
+          templatePath:   args.templatePath,
+          to:             subscription.email,
+          subject:        args.subject,
+          unsubscribeUrl: unsubscribeUrl,
+          labelId:        release._id,
+          headers:        {
             Precedence:         'bulk',
             'List-ID':          '<' + listSlug + '.list-id.javascript.ru>',
             'List-Unsubscribe': '<' + unsubscribeUrl + '>'

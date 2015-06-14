@@ -13,7 +13,7 @@ module.exports = function*(invite) {
   }).exec();
 
   yield sendMail({
-    templatePath: path.join(__dirname, '../templates/invite/email'),
+    templatePath: path.join(__dirname, '../templates/email/invite'),
     from:         'orders',
     to:           invite.email,
     contactName:  invite.order.data.contactName,
@@ -21,7 +21,7 @@ module.exports = function*(invite) {
     order:        invite.order,
     group:        invite.group,
     userExists:   userExists,
-    link:         (config.server.siteHost || 'http://javascript.in') + '/courses/invite/' + invite.token
+    link:         config.server.siteHost + '/courses/invite/' + invite.token
   });
 
 

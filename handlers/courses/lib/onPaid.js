@@ -46,7 +46,7 @@ module.exports = function* (order) {
   yield group.persist();
 
   yield sendMail({
-    templatePath: path.join(__dirname, '..', 'templates', 'successEmail'),
+    templatePath: path.join(__dirname, '../templates/email/paymentConfirmation'),
     from: 'orders',
     to: order.email,
     profileOrdersUrl: order.user.getProfileUrl() + '/orders',

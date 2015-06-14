@@ -19,8 +19,8 @@ module.exports = function(options) {
 
       var letters = yield Letter.find({
         sent: false,
-        // only newsletter emails, not transient ones
-        newsletterRelease: {
+        // only labelled emails (groups, newsletters), not transient ones
+        labelId: {
           $exists: true
         }
       }).exec();
@@ -29,7 +29,7 @@ module.exports = function(options) {
         var letter = letters[i];
 
         yield mailer.sendLetter(letter);
-        gutil.log("Sent to " + letter.message.to[0].email);
+        gutil.log("Sent to " + (letter.message.to.length < 50 ? JSON.stringify(letter.message.to) : letter.message.to.length));
       }
 
     });

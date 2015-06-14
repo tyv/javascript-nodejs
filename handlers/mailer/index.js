@@ -61,7 +61,7 @@ function* createLetter(options) {
 
   var letter = new Letter({
     message:           message,
-    newsletterRelease: options.newsletterRelease
+    labelId: options.labelId
   });
 
   yield letter.persist();

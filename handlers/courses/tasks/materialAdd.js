@@ -17,6 +17,10 @@ module.exports = function() {
     const argv = require('yargs')
       // file should be in download/courses/js-1/js-basic.zip
       .usage('gulp courses:material:add --group js-1 --title "Введение" --file js-basic.zip --comment "Welcome."')
+      .describe('group', 'Group slug')
+      .describe('title', 'The name of the file to be shown on the group page')
+      .describe('file', 'File name (must be in the group materials folder)')
+      .describe('comment', 'A paragraph of text to append to the letter')
       .demand(['group', 'file'])
       .argv;
 
@@ -54,7 +58,7 @@ module.exports = function() {
         });
 
       yield sendMail({
-        templatePath: path.join(__dirname, '../templates/materialsEmail'),
+        templatePath: path.join(__dirname, '../templates/email/materials'),
         subject:      "Добавлены материалы курса",
         to:           recipients,
         comment:      argv.comment,

@@ -1,6 +1,8 @@
 "use strict";
 
 const CourseGroup = require('../models/courseGroup');
+const CourseParticipant = require('../models/courseParticipant');
+const CourseInvite = require('../models/courseInvite');
 const _ = require('lodash');
 const sendOrderInvites = require('./sendOrderInvites');
 const Order = require('payments').Order;
@@ -9,10 +11,10 @@ const User = require('users').User;
 // called by payments/common/order
 module.exports = function*() {
 
-  var group = yield CourseGroup.findById(this.order.data.group).populate('participants').exec();
-  yield User.populate(group, 'participants.user');
+  //var group = yield CourseGroup.findById(this.order.data.group).exec();
+  var participants = yield CourseParticipant.find({group: this.order.data.group}).populate('user').exec();
 
-  var groupParticipantsByEmail = _.indexBy(group.participants, function(participant) {
+  var participantsByEmail = _.indexBy(participants, function(participant) {
     return participant.user.email;
   });
 
@@ -22,22 +24,27 @@ module.exports = function*() {
 
     this.log.debug("Incoming emails", emails);
 
+    // ignore the email if it's a participant
     emails = emails.filter(function throwAwayParticipantsInSubmitted(email) {
-      return !(email in groupParticipantsByEmail);
+      return !(email in participantsByEmail);
     });
 
     this.log.debug("Incoming emails except participants", emails);
 
+    // create a new emails list
+    // first, take participants from the order:
     var newEmails = this.order.data.emails.filter(function keepParticipantsInOrder(email) {
-      return email in groupParticipantsByEmail;
+      return email in participantsByEmail;
     });
 
     this.log.debug("Order participant emails", newEmails);
 
+    // second, add new (non-participating see above) emails
     newEmails = newEmails.concat(emails);
 
     this.log.debug("Order new emails", newEmails);
 
+    // should never happen (handwired request)
     if (newEmails.length > this.order.data.count) {
       this.throw(400, "Too many emails.");
     }
