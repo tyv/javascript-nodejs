@@ -33,7 +33,6 @@ module.exports = function() {
         accepted: false
       });
 
-
       for (var i = 0; i < invitesPending.length; i++) {
         var invite = invitesPending[i];
 

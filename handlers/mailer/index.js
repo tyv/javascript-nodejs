@@ -51,6 +51,14 @@ function* createLetter(options) {
   message.from_name = sender.fromName;
 
   message.to = (typeof options.to == 'string') ? [{email: options.to}] : options.to;
+
+  for (var i = 0; i < message.to.length; i++) {
+    var recepient = message.to[i];
+    if (!recepient.email) {
+      throw new Error("No email for recepient:" + recepient + " message options:" + JSON.stringify(options));
+    }
+  }
+
   message.headers = options.headers;
 
   // auto generate text by default (spamassassin wants that)
@@ -59,12 +67,11 @@ function* createLetter(options) {
   message.track_opens = options.track_opens;
   message.track_clicks = options.track_clicks;
 
-  var letter = new Letter({
-    message:           message,
-    labelId: options.labelId
+  var letter = yield Letter.create({
+    message: message,
+    labelId: options.labelId,
+    label:   options.label
   });
-
-  yield letter.persist();
 
   return letter;
 }
@@ -76,7 +83,6 @@ function* createLetter(options) {
  * @returns {*}
  */
 function* send(options) {
-
   var letter = yield* createLetter(options);
 
   return yield* sendLetter(letter);

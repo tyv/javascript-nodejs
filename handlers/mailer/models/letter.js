@@ -16,11 +16,17 @@ const schema = new Schema({
 
   // add a label to search through db for sent messages
   // e.g can send letters for the same label to those who didn't receive it
-  label: String,
+  label: {
+    type: String,
+    index: true
+  },
 
   // or you can label with objectId
   // e.g NewsletterRelease
-  labelId: Schema.Types.ObjectId,
+  labelId: {
+    type:  Schema.Types.ObjectId,
+    index: true
+  },
 
   message: {},
 
