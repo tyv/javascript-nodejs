@@ -8,8 +8,10 @@ var forgot = require('./controller/forgot');
 var forgotRecover = require('./controller/forgotRecover');
 var logout = require('./controller/logout');
 var login = require('./controller/login');
+var loginAs = require('./controller/loginAs');
 var xmpp = require('./controller/xmpp');
 var mustBeAuthenticated = require('./lib/mustBeAuthenticated');
+var mustBeAdmin = require('./lib/mustBeAdmin');
 var mustNotBeAuthenticated = require('./lib/mustNotBeAuthenticated');
 var passport = require('koa-passport');
 
@@ -46,11 +48,11 @@ router.post('/forgot', mustNotBeAuthenticated, forgot.post);
 
 router.get('/login', login.get);
 
+router.get('/login-as/:profileNameOrEmailOrId', mustBeAdmin, loginAs.get);
+
 router.get('/verify/:verifyEmailToken', verify.get);
 router.get('/forgot-recover/:passwordResetToken?', mustNotBeAuthenticated, forgotRecover.get);
 router.post('/forgot-recover', forgotRecover.post);
-
-
 
 
 router.post('/reverify', reverify.post);
