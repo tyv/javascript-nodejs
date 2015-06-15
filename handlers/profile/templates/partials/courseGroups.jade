@@ -12,7 +12,8 @@ include /bem
             +e('li').info-links-item(ng-repeat="link in group.links")
               +e('a').info-link(ng-href="{{link.url}}") {{link.title}}
         +e('td').info
-          +e('strong').start Начало {{group.dateStart | shortDate}}
+          //- group start date/time is always shown as in GMT+3
+          +e('strong').start Начало {{group.dateStart | shortDate:3}}
           +e.schedule Занятия {{ group.timeDesc }}
         +e('td').verify
           +e('span').status._verified(ng-if="group.status == 'accepted'") Участие подтверждено

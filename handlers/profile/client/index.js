@@ -42,11 +42,15 @@ profile
   .filter('capitalize', () => function(str) {
     return str[0].toUpperCase() + str.slice(1);
   })
-  .filter('longDate', () => function(date) {
-    return moment(date).format('D MMMM YYYY в LT');
+  .filter('longDate', () => function(date, offset) {
+    date = moment(date);
+    if (offset !== undefined) date = date.utcOffset(offset);
+    return date.format('D MMMM YYYY в LT');
   })
-  .filter('shortDate', () => function(date) {
-    return moment(date).format('D MMM YYYY');
+  .filter('shortDate', () => function(date, offset) {
+    date = moment(date);
+    if (offset !== undefined) date = date.utcOffset(offset);
+    return date.format('D MMM YYYY');
   })
   .filter('quizDuration', () => function(ms) {
     var seconds = Math.round(ms / 1000);
