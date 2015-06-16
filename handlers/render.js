@@ -58,6 +58,21 @@ function addStandardHelpers(locals, ctx) {
     locals.validate.patterns[name] = validate.patterns[name].source.replace(/\\\//g, '/');
   }
 
+  // replace lone surrogates in json, </script> -> <\/script>
+  locals.escapeJSON = function(s) {
+    var json = JSON.stringify(s);
+    return json.replace(/\//g, '\\/')
+      .replace(/[\u003c\u003e]/g,
+      function(c) {
+        return '\\u'+('0000'+c.charCodeAt(0).toString(16)).slice(-4).toUpperCase();
+      }
+    ).replace(/[\u007f-\uffff]/g,
+      function(c) {
+        return '\\u'+('0000'+c.charCodeAt(0).toString(16)).slice(-4);
+      }
+    );
+  };
+
   Object.defineProperty(locals, "user", {
     get: function() {
       return ctx.req.user;

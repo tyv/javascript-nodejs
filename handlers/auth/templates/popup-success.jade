@@ -2,7 +2,7 @@ doctype html
 html
   title Успешная авторизация
 body
-  script var user = !{JSON.stringify(user.getInfoFields())};
+  script var user = !{escapeJSON(user.getInfoFields())};
 
   script.
 

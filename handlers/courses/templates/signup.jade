@@ -13,7 +13,7 @@ block append head
 
 block content
 
-  script var groupInfo = !{JSON.stringify(groupInfo)};
+  script var groupInfo = !{escapeJSON(groupInfo)};
   script var rateUsdRub = #{rateUsdRub};
   script var orderNumber = #{order ? order.number : 'null'};
 

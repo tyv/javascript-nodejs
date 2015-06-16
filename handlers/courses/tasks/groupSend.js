@@ -66,7 +66,7 @@ module.exports = function() {
         yield* mailer.send({
           from:         'informer',
           templatePath: args.templatePath,
-          to:           recipients,
+          to:           recipientsToSend,
           subject:      args.subject,
           label:        args.test ? undefined : label,
           headers:      {
