@@ -2,7 +2,7 @@ const Course = require('../models/course');
 const CourseInvite = require('../models/courseInvite');
 const config = require('config');
 const CourseGroup = require('../models/courseGroup');
-const onAddParticipant = require('../lib/onAddParticipant');
+const registerParticipants = require('../lib/registerParticipants');
 const User = require('users').User;
 const VideoKey = require('videoKey').VideoKey;
 const _ = require('lodash');
@@ -223,7 +223,7 @@ function* acceptParticipant(invite) {
 
   yield invite.group.persist();
 
-  yield* onAddParticipant(invite.group);
+  yield* registerParticipants(invite.group);
 
 }
 

@@ -1,23 +1,13 @@
 var Router = require('koa-router');
 var mustBeAuthenticated = require('auth').mustBeAuthenticated;
 var mustBeParticipant = require('./lib/mustBeParticipant');
+var mustBeAdmin = require('auth').mustBeAdmin;
 var router = module.exports = new Router();
 
 router.param('userById', require('users').routeUserById);
 router.param('groupBySlug', require('./lib/routeGroupBySlug'));
 
-router.get('/hooks', function*() {
-
-  if (this.isAdmin) {
-    const CourseGroup = require('./models/courseGroup');
-    var onAddParticipant = require('./lib/onAddParticipant');
-
-    var group = yield CourseGroup.findOne({slug: 'js-1'}).exec();
-    yield* onAddParticipant(group);
-    this.body = "OK " + this.requestId;
-  }
-
-});
+router.get('/register-participants/:groupBySlug', mustBeAdmin, require('./controller/registerParticipants'));
 
 
 router.get('/', require('./controller/frontpage').get);
