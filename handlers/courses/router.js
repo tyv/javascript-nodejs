@@ -7,7 +7,7 @@ var router = module.exports = new Router();
 router.param('userById', require('users').routeUserById);
 router.param('groupBySlug', require('./lib/routeGroupBySlug'));
 
-router.get('/register-participants/:groupBySlug', mustBeAdmin, require('./controller/registerParticipants'));
+router.get('/register-participants/:groupBySlug', mustBeAdmin, require('./controller/registerParticipants').get);
 
 
 router.get('/', require('./controller/frontpage').get);
