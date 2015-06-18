@@ -10,4 +10,6 @@
           +b('a').link(href=course.url)= course.title
           if course.hasOpenGroups
             +e('span').course-badge Идёт набор в группы
-        +e('p').course-text!= course.shortDescription
+        +e('div').course-text
+          != course.shortDescription
+
