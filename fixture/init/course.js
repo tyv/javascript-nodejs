@@ -67,7 +67,7 @@ exports.CourseGroup = [
     webinarId:         '789',
     participantsLimit: 30,
     isListed:          true,
-    isOpenForSignup:   true,
+    isOpenForSignup:   false,
     title:             "Курс по Node.JS"
   }
 ];
