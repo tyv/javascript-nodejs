@@ -1,0 +1,46 @@
+
++b.course-form
+  +e("h3").title Курс и новые выпуски скринкаста по Node.JS
+  +e("p").text Время от времени я провожу онлайн-курс по Node.JS / IO.JS.
+  +e("p").text Курс &mdash; это практика, решение задач на Node.JS, изучение современной разработки на нём.
+
+  - var groups = [];
+  - var rateUsdRub = 50;
+  - groups.push({dateStart: '1 Янв 2016', dateEnd: '10 Ноя 2016', price: '24000', slug:'a', timeDesc: 'пн/чт 19:30 - 21:00 GMT+3'});
+  - groups.push({dateStart: '1 Янв 2016', dateEnd: '10 Ноя 2016', price: '24000', slug:'a', timeDesc: 'пн/чт 19:30 - 21:00 GMT+3'});
+
+
+  if groups.length
+    +e('h4').title._recruitment Сейчас проходит набор в группы
+    +b.courses-recruitment
+      +e('ul').list
+
+        each group in groups
+          +e('li').course
+            +e.info
+              +e('h4').title !{ group.dateStart } — !{ group.dateEnd }
+              +e('p').text!= group.timeDesc
+
+            +e.apply
+              +b.price
+                +e('span') #{group.price} RUB
+                +e('span').secondary &nbsp;≈&nbsp;#{Math.round(group.price / rateUsdRub)}$
+              +e.submit
+                +b('a')(data-group-signup-link href='/courses/groups/' + group.slug + '/signup' type="button").button._action
+                  +e('span').text Записаться
+
+  +e("p").text
+    +e('a').more(src='/123') Узнать больше о курсах
+
+  +e("p").text Пришлю уведомление с деталями программы, когда будет открыта запись, и вы сможете решить, интересно ли это вам. Также уведомление будет при новых выпусках скринкаста.
+
+  +e("form").form(data-newsletter-subscribe-form="nodejs-bottom" onsubmit="return false" action="/newsletter/subscribe" method="POST")
+    input(type="hidden" value="nodejs" name="slug")
+    if user
+      input(type="hidden" value=user.email name="email")
+    else
+      +b.text-input
+        +e('input').control(type="email" placeholder="me@mail.com" name="email" data-modal-autofocus required)
+
+    +b("button").button._action(type="submit")
+      +e("span").text Уведомите меня

@@ -50,16 +50,16 @@ exports.CourseGroup = [
   },
   {
     course:            oid('course-nodejs'),
-    dateStart:         new Date(2016, 6, 1),
-    dateEnd:           new Date(2016, 11, 10),
-    timeDesc:          "пн/чт 21:30 - 23:00 GMT+3",
-    slug:              'js-2',
+    dateStart:         new Date(2015, 6, 22),
+    dateEnd:           new Date(2015, 7, 10),
+    timeDesc:          "пн/ср/сб 19:30 - 21:00 GMT+3",
+    slug:              'nodejs-20160722',
     price:             1,
     webinarId:         '456',
     participantsLimit: 30,
     isListed:          true,
-    isOpenForSignup:   false,
-    title:             "Курс JavaScript/DOM/интерфейсы (06.01)"
+    isOpenForSignup:   true,
+    title:             "Курс по Node.JS (22.07)"
   },
   {
     course:            oid('course-nodejs'),
