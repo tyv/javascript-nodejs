@@ -12,7 +12,9 @@ const User = require('users').User;
 module.exports = function*() {
 
   //var group = yield CourseGroup.findById(this.order.data.group).exec();
-  var participants = yield CourseParticipant.find({group: this.order.data.group}).populate('user').exec();
+  var participants = yield CourseParticipant.find({
+    group: this.order.data.group
+  }).populate('user').exec();
 
   var participantsByEmail = _.indexBy(participants, function(participant) {
     return participant.user.email;

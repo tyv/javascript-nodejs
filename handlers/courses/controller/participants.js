@@ -17,7 +17,7 @@ exports.patch = function*() {
     this.throw(404);
   }
 
-  if (String(participant.user) != String(this.user._id)) {
+  if (String(participant.user) != String(this.user._id) && !this.isAdmin) {
     this.throw(403);
   }
 

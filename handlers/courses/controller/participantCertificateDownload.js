@@ -18,7 +18,10 @@ exports.get = function*() {
     this.throw(404);
   }
 
-  var participant = yield CourseParticipant.findById(id).populate('group').exec();
+  var participant = yield CourseParticipant.find({
+    _id: id,
+    isActive: true
+  }).populate('group').exec();
 
   if (!participant) {
     this.throw(404);

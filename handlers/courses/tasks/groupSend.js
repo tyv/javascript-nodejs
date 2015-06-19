@@ -35,7 +35,10 @@ module.exports = function() {
         throw new Error("No group:" + args.group);
       }
 
-      var participants = yield CourseParticipant.find({group: group._id}).populate('user').exec();
+      var participants = yield CourseParticipant.find({
+        isActive: true,
+        group: group._id
+      }).populate('user').exec();
 
       var recipients = participants
         .map(function(participant) {

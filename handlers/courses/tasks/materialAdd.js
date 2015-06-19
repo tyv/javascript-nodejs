@@ -34,7 +34,11 @@ module.exports = function() {
         throw new Error("No group:" + argv.group);
       }
 
-      var participants = yield CourseParticipant.find({group: group._id}).populate('user').exec();
+      var participants = yield CourseParticipant.find({
+        isActive: true,
+        shouldNotifyMaterials: true,
+        group: group._id
+      }).populate('user').exec();
 
       if (_.some(group.materials, {filename: argv.file})) {
         throw new Error(`Material ${argv.file} already exists in group ${argv.group}`);
@@ -52,7 +56,6 @@ module.exports = function() {
       gutil.log(`Added ${argv.file} to group ${argv.group}`);
 
       var recipients = participants
-        .filter(function(participant) { return participant.shouldNotifyMaterials; })
         .map(function(participant) {
           return {email: participant.user.email, name: participant.fullName};
         });
