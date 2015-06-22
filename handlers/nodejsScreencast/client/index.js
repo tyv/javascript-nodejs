@@ -16,22 +16,23 @@ function init() {
 
   var link = document.querySelector('[data-nodejs-screencast-top-subscribe]');
 
-  link.onclick = function(event) {
-    var modal = new Modal();
-    modal.setContent(clientRender(courseForm));
+  if (link) {
+    link.onclick = function(event) {
+      var modal = new Modal();
+      modal.setContent(clientRender(courseForm));
 
-    var form = modal.elem.querySelector('form');
-    form.setAttribute('data-newsletter-subscribe-form', 'nodejs-top');
-    form.onsubmit = function(event) {
+      var form = modal.elem.querySelector('form');
+      form.setAttribute('data-newsletter-subscribe-form', 'nodejs-top');
+      form.onsubmit = function(event) {
+        event.preventDefault();
+        newsletter.submitSubscribeForm(form, function() {
+          modal.remove();
+        });
+      };
+
       event.preventDefault();
-      newsletter.submitSubscribeForm(form, function() {
-        modal.remove();
-      });
     };
-
-    event.preventDefault();
-  };
-
+  }
 }
 
 function initList() {

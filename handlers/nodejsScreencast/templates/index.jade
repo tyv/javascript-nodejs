@@ -52,7 +52,7 @@ block content
 
     +e("p").foot Ниже вы можете ознакомиться более детально с содержанием скринкаста
 
-    if hasOpenCourseGroups
+    if groups
       +e("a")(href="/courses/nodejs").tag Не прозевайте<br>курсы по <strong>Node.js!</strong>
     else
       +e("a")(href="/courses/nodejs" data-nodejs-screencast-top-subscribe).tag Не прозевайте<br>курсы по <strong>Node.js!</strong>
@@ -71,7 +71,7 @@ block content
           dt Пробую запускать в FAR, но не вижу вывода скрипта.
           dd Нажмите <code class="shortcut">Ctrl + O</code>, это отключит панели FAR и вы сможете всё видеть. Нажмите ещё раз &mdash; и панели снова появятся.
 
-        include _course-form
+    include _course-form
 
     include /blocks/comments
 
