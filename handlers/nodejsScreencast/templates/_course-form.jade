@@ -29,11 +29,9 @@
 
   +e("form").form(data-newsletter-subscribe-form="nodejs-bottom" onsubmit="return false" action="/newsletter/subscribe" method="POST")
     input(type="hidden" value="nodejs" name="slug")
-    if user
-      input(type="hidden" value=user.email name="email")
-    else
-      +b.text-input
-        +e('input').control(type="email" placeholder="me@mail.com" name="email" data-modal-autofocus required)
+
+    +b.text-input
+      +e('input').control(type="email" placeholder="me@mail.com" name="email" value=(user && user.email) data-modal-autofocus required)
 
     +b("button")(class=["button", groups.length ? "_common" : "_action"] type="submit")
       +e("span").text Уведомите меня
