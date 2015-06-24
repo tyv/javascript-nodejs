@@ -174,7 +174,8 @@ $font-trash
 
 $font-menu
     @extend $font-icon
-    content '\21'
+    //- \0021, not just \21
+    content '\0021'
 
 $font-link
     @extend $font-icon

@@ -33,9 +33,8 @@
 
     +b.text-input-button
         +e.input
-            +b.text-input._invalid
+            +b.text-input
                 +e('input').control(type="email" placeholder="me@mail.com" name="email" value=(user && user.email) data-modal-autofocus required)
-                +e('span').err тест ошибки
         +e.button
             +b('button')(class=["button", groups.length ? "_common" : "_action"] type="submit")
                 +e('span').text Уведомите меня
