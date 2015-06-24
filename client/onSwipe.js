@@ -37,6 +37,18 @@ function onSwipe(elem, options) {
     // too slow
     if (elapsedTime > allowedTime) return;
 
+    var insideScrollable = false;
+    var elem = e.target;
+    while(elem) {
+      if (elem.scrollWidth > elem.clientWidth) {
+        insideScrollable = true;
+        break;
+      }
+      elem = elem.parentElement;
+    }
+
+    if (insideScrollable) return;
+
     //console.log("threshold", dist, threshold);
 
     if (dist > threshold) {

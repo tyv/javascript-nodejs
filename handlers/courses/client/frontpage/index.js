@@ -28,7 +28,6 @@ function initParticipantsSlider() {
 
     list.style.transform = `translateX(${-transformX}px)`;
 
-    console.log(transformX, list.scrollWidth - list.clientWidth);
     if (transformX === 0) {
       slider.classList.add('participants-logos__slider_disable_left');
     } else {
