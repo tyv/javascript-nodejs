@@ -67,10 +67,12 @@
         &
             border-radius initial
 
-            background none
-
             margin-left -10px
             margin-right -10px
+
+        &_program
+            background none
+
 
         &__body
             display flex
@@ -82,10 +84,14 @@
 
             border: none
 
-        & &__col:nth-child(2)
+        & &__col:last-child
+            border-top 1px solid separator_color
+
+        &_program &__col:last-child
             order -1
 
             background #f7f6ea
+            border none
 
         & .map__text
             display none
