@@ -3,6 +3,8 @@
     &__slider
         position relative
 
+        margin 40px 0 40px 0
+
         padding 0 50px
 
 
@@ -49,8 +51,6 @@
 
         cursor pointer
         color #ccc
-
-        transition unquote('color') 0.3s
 
     &__arr:hover
         color color
@@ -108,13 +108,11 @@
         vertical-align middle
 
     &__logo
-        filter grayscale(100%)
         opacity 0.75
 
-        transition filter 0.3s, opacity 0.3s
+        transition opacity 0.3s
 
     &__item:hover &__logo
-        filter none
         opacity 1
 
 

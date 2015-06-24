@@ -1,5 +1,8 @@
 extends /layouts/main
 
+block append head
+  script(defer src=pack("coursesFrontpage", "js"))
+
 block append variables
 
   - var layout_header_class = "main__header_center"
@@ -21,8 +24,8 @@ block content
     //- include blocks/frontpage/testimonials
     include blocks/frontpage/tabbedPane
     include blocks/frontpage/guarantee
-    include blocks/frontpage/professionals
     include blocks/frontpage/participants-logos
+    include blocks/frontpage/professionals
     include blocks/frontpage/faq
     +b.fixed-tab.phone-only.courses-tab
       a.courses-tab__link(href="#courses") Перейти к списку открытых курсов
