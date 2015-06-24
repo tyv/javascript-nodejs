@@ -39,7 +39,7 @@ function onSwipe(elem, options) {
 
     var insideScrollable = false;
     var elem = e.target;
-    while(elem) {
+    while(elem != document.body) {
       if (elem.scrollWidth > elem.clientWidth) {
         insideScrollable = true;
         break;
