@@ -11,41 +11,13 @@
     +e('i').arr._left
     +e('i').arr._right
     +e.slider-i
+      - var i = 1
       //- change translateX for list
       +e('ul').list
-        +e('li').item
-          +e('img').logo(src="/courses/logos/yandex.svg" height="60px")
-        +e('li').item
-          +e('img').logo(src="/courses/logos/rbc.png" height="60px")
-        +e('li').item
-          +e('img').logo(src="/courses/logos/rambler.svg" height="60px")
-        +e('li').item
-          +e('img').logo(src="/courses/logos/nigma.png" height="60px")
-        +e('li').item
-          +e('img').logo(src="/courses/logos/micex.gif" height="60px")
-        +e('li').item
-          +e('img').logo(src="/courses/logos/yota.jpg" height="60px")
-        +e('li').item
-          +e('img').logo(src="/courses/logos/it-territory.jpg" height="60px")
-        +e('li').item
-          +e('img').logo(src="/courses/logos/timeout.jpg" height="60px")
-        +e('li').item
-          +e('img').logo(src="/courses/logos/netcracker.jpg" height="60px")
-        +e('li').item
-          +e('img').logo(src="/courses/logos/twigle.png" height="60px")
-        +e('li').item
-          +e('img').logo(src="/courses/logos/rabotaru.jpg" height="60px")
-        +e('li').item
-          +e('img').logo(src="/courses/logos/superjob.gif" height="60px")
-        +e('li').item
-          +e('img').logo(src="/courses/logos/interfax.svg" height="60px")
-        +e('li').item
-          +e('img').logo(src="/courses/logos/epam.svg" height="60px")
-        +e('li').item
-          +e('img').logo(src="/courses/logos/megaplan.png" height="60px")
-        +e('li').item
-          +e('img').logo(src="/courses/logos/notamedia.png" height="60px")
-
+        while i <= 27
+          +e('li').item
+            +e('img').logo(src="/courses/logos/"+i+".png" height="60px")
+          - i++
 
   p.
     За время обучения были оставлены сотни отзывов,

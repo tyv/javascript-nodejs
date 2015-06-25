@@ -8,7 +8,7 @@ function initParticipantsSlider() {
   var arrowLeft = slider.querySelector('.participants-logos__arr_left');
   var arrowRight = slider.querySelector('.participants-logos__arr_right');
 
-  var transformX = list.scrollWidth / 2 - list.clientWidth / 2;
+  var transformX = 0;
 
   render();
 
