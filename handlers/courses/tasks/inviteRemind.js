@@ -14,7 +14,7 @@ module.exports = function() {
   return function() {
 
     var args = require('yargs')
-      .example("gulp invite:remind --group nodejs-1")
+      .example("gulp courses:invite:remind --group nodejs-1")
       .describe('group', 'URL-название группы')
       .demand(['group'])
       .argv;
@@ -35,6 +35,8 @@ module.exports = function() {
 
       for (var i = 0; i < invitesPending.length; i++) {
         var invite = invitesPending[i];
+
+        log.info("Pending invite", invite.toObject());
 
         yield* mailer.send({
           from:         'orders',
