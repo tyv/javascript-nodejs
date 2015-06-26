@@ -18,15 +18,15 @@ block content
       +e('button').close(title="Закрыть")
 
 
-  p Участники курсов имеют 30% скидку на персональную лицензию Jetbrains.
+  p Участники курсов имеют 30% скидку на персональную лицензию почти для любого редактора от Jetbrains.
 
   +b("form").jetbrains-form(method="POST" action="/jb" name="jb")
     input(type="hidden", name="_csrf", value=csrf())
 
     p.note
-      | Если вам нужен только JavaScript/HTML/CSS &ndash; выбирайте WebStorm.
+      | Совет: если вам нужен только JavaScript/HTML/CSS – выбирайте WebStorm.
       br
-      | Другие редакторы в дополнение к JS/HTML/CSS поддерживают язык, указанный в списке.
+      | Если ещё какой-то язык – выберите из селекта ниже.
     +e.form
       +e.line
         +e("label").label(for="name") Имя и фамилия (англ.):
