@@ -5,6 +5,7 @@ var Task = require('tutorial').Task;
 var Article = require('tutorial').Article;
 var config = require('config');
 var _ = require('lodash');
+var sanitizeHtml = require('sanitize-html');
 
 const clsNamespace = require('continuation-local-storage').getNamespace('app');
 
@@ -86,10 +87,19 @@ exports.get = function *get(next) {
     for (var i = 0; i < hits.length; i++) {
       var hit = hits[i];
 
+      // if no highlighted words in title, hit.highlight.title would be empty
+      var title = hit.highlight.title ? hit.highlight.title.join('… ') : hit.fields.title[0];
+
+      title = sanitizeHtml(title, {
+        allowedTags: ['mark'],
+        allowedAttributes: {
+          mark: ['class']
+        }
+      });
+
       var hitFormatted = {
         url: searchTypes[hit._type].hit2url(hit),
-        // if no highlighted words in title, hit.highlight.title would be empty
-        title: hit.highlight.title ? hit.highlight.title.join('… ') : hit.fields.title[0],
+        title,
         // if no highlighted words in text, hit.highlight.search would be empty
         search: hit.highlight.search ? hit.highlight.search.join('… ') : '…',
         breadcrumb: yield* searchTypes[hit._type].hit2breadcrumb(hit)

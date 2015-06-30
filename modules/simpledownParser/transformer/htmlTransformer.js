@@ -249,7 +249,8 @@ HtmlTransformer.prototype.transformSourceTag = function(node) {
   var renderTrusted = (node.isTrusted() && !node.attrs.untrusted) ? 1 : false;
 
   var attrs = locals.attrs = {
-    "data-trusted": renderTrusted
+    "data-trusted": renderTrusted,
+    "data-babel": node.attrs.babel ? '1' : '0'
   };
 
   // demo height of
