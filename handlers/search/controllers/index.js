@@ -90,6 +90,8 @@ exports.get = function *get(next) {
       // if no highlighted words in title, hit.highlight.title would be empty
       var title = hit.highlight.title ? hit.highlight.title.join('… ') : hit.fields.title[0];
 
+      // header may have "<mark....>" tags only, tags like "<template>" are not allowed
+      // todo: escape instead of removing
       title = sanitizeHtml(title, {
         allowedTags: ['mark'],
         allowedAttributes: {
