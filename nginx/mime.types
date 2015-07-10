@@ -8,6 +8,7 @@ types {
     image/jpeg                            jpeg jpg;
     application/javascript              js;
     application/atom+xml                  atom;
+    application/json			json;
 
     text/mathml                           mml;
     text/plain                            txt;
