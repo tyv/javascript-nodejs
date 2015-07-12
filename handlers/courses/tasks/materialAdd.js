@@ -2,6 +2,7 @@ const path = require('path');
 const sendMail = require('mailer').send;
 const config = require('config');
 const co = require('co');
+const fs = require('mz/fs');
 const gutil = require('gulp-util');
 const yargs = require('yargs');
 const CourseMaterial = require('../models/courseMaterial');
@@ -48,6 +49,14 @@ module.exports = function() {
         title:    argv.title || argv.file,
         filename: argv.file
       };
+
+      var filePath = `${config.downloadRoot}/courses/${group.slug}/${material.filename}`;
+
+      var fileExists = yield fs.exists(filePath);
+
+      if (!fileExists) {
+        throw new Error("No such file: " + fileExists);
+      }
 
       group.materials.push(material);
 
