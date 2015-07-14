@@ -1,15 +1,15 @@
 .text-input-button
-    display inline-table
+    display flex
+    flex-wrap wrap
 
-    &__input,
-    &__button
-        display table-cell
+    &__input
+        flex-basis 150px
+        flex-grow 1
 
-        vertical-align top
+        margin-bottom 5px
 
     &__input
         box-sizing border-box
-        width 100%
         padding-right 20px
 
     &__input .text-input
