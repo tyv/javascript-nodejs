@@ -16,10 +16,6 @@ try {
   }
 }
 
-if (!window.localStorage) { // disabled
-
-}
-
 require('./unready');
 
 //exports.init = require('./init');

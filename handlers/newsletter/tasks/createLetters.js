@@ -24,6 +24,7 @@ module.exports = function(options) {
       .describe('subject', 'Тема письма')
       .describe('test', 'Email, на который выслать тестовое письмо.')
       .describe('nounsubscribe', 'Без ссылки на отписку.')
+      .describe('track', 'Отслеживать переходы.')
       .demand(['slug', 'templatePath', 'subject'])
       .argv;
 
@@ -113,6 +114,7 @@ module.exports = function(options) {
         yield* mailer.createLetter({
           from:           'informer',
           templatePath:   args.templatePath,
+          track_clicks:   args.track ? true : false,
           to:             subscription.email,
           subject:        args.subject,
           unsubscribeUrl: unsubscribeUrl,

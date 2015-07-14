@@ -44,9 +44,11 @@ var webpackConfig = {
   },
 
   cache:        process.env.NODE_ENV == 'development',
+
   watchOptions: {
     aggregateTimeout: 10
   },
+
   watch:        process.env.NODE_ENV == 'development',
 
   devtool: process.env.NODE_ENV == 'development' ? "" : // try "eval" ?
