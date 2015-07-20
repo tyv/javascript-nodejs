@@ -5,6 +5,13 @@
         text-align center
         margin 39px 0 4px
 
+    &__brick-title .main__anchor::before
+        z-index 1
+        transform translateZ(0)
+
+        width 22px
+        line-height 25px
+
     & &__title ~ p
         color light_gray_color
         text-align center
@@ -39,13 +46,8 @@
         font-weight bold
         margin-top 0
 
-    & &__brick-title-link
-        color alternate_link_color
-
-
     & &__brick-title-link:hover
-        color link_hover_color
-        text-decoration: underline
+        color hoverize(color)
 
     &__brick-content
         margin 12px 0
