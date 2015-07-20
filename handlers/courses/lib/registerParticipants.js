@@ -91,7 +91,7 @@ function* grantXmppChatMemberships(group, participants) {
 }
 
 // when user updates his details, regrant him, just in case he changed his name
-User.post('save', function(user) {
+User.schema.post('save', function(user) {
   co(function*() {
 
     var participants = yield CourseParticipant.find({
