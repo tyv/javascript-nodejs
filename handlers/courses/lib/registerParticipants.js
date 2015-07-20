@@ -98,8 +98,6 @@ User.schema.post('save', function(user) {
       user:    user._id
     }).populate('group').exec();
 
-    log.info("Grant participants", participants);
-
     var groups = participants.map(function(participant) {
       return participant.group;
     });
