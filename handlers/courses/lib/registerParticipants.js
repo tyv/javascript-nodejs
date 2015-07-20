@@ -108,7 +108,7 @@ User.post('save', function(user) {
     }
 
   }).catch(function(err) {
-    log.error(err);
+    log.error("Grant error", err);
   });
 
 });
