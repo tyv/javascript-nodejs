@@ -90,7 +90,7 @@ function* grantXmppChatMemberships(group, participants) {
   client.disconnect();
 }
 
-// when user updates his details, regrant him, just in case he changed his name
+// when user updates his details, regrant his groups, just in case he changed his name
 User.schema.post('save', function(user) {
   co(function*() {
 
