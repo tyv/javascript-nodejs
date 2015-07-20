@@ -4,8 +4,12 @@ const CourseParticipant = require('../models/courseParticipant');
 const config = require('config');
 const XmppClient = require('xmppClient');
 const VideoKey = require('videoKey').VideoKey;
+const User = require('users').User;
+const co = require('co');
 
-module.exports = function*(group) {
+module.exports = grantKeysAndChatToGroup;
+
+function* grantKeysAndChatToGroup(group) {
   yield CourseGroup.populate(group, 'course');
 
   var participants = yield CourseParticipant.find({
@@ -18,7 +22,7 @@ module.exports = function*(group) {
   if (group.course.videoKeyTag) {
     yield *grantVideoKeys(group, participants);
   }
-};
+}
 
 
 function* grantVideoKeys(group, participants) {
@@ -85,3 +89,26 @@ function* grantXmppChatMemberships(group, participants) {
 
   client.disconnect();
 }
+
+// when user updates his details, regrant him, just in case he changed his name
+User.post('save', function(user) {
+  co(function*() {
+
+    var participants = yield CourseParticipant.find({
+      user:    user._id
+    }).populate('group').exec();
+
+    var groups = participants.map(function(participant) {
+      return participant.group;
+    });
+
+    for (var i = 0; i < groups.length; i++) {
+      var group = groups[i];
+      yield grantKeysAndChatToGroup(group);
+    }
+
+  }).catch(function(err) {
+    log.error(err);
+  });
+
+});
