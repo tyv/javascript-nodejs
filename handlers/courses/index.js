@@ -19,3 +19,5 @@ exports.createOrderFromTemplate = require('./lib/createOrderFromTemplate');
 
 exports.patch = require('./lib/patch');
 exports.formatOrderForProfile = require('./lib/formatOrderForProfile');
+
+require('./lib/registerParticipants'); // registers middleware for user save

@@ -107,6 +107,7 @@ User.post('save', function(user) {
       yield grantKeysAndChatToGroup(group);
     }
 
+
   }).catch(function(err) {
     log.error("Grant error", err);
   });
