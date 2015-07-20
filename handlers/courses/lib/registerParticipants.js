@@ -98,7 +98,7 @@ User.post('save', function(user) {
       user:    user._id
     }).populate('group').exec();
 
-    log.info("Participants", participants);
+    log.info("Grant participants", participants);
 
     var groups = participants.map(function(participant) {
       return participant.group;
