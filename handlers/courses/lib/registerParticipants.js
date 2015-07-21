@@ -91,8 +91,20 @@ function* grantXmppChatMemberships(group, participants) {
 }
 
 // when user updates his details, regrant his groups, just in case he changed his name
-User.schema.post('save', function(user) {
+User.schema.pre('save', function(next) {
+  var user = this;
   co(function*() {
+
+    var paths = user.modifiedPaths();
+
+    next();
+
+    if (paths.indexOf('profileName') == -1) return;
+
+    // wait 1 sec for db to save all changes
+    yield function(callback) {
+      setTimeout(callback, 1000);
+    };
 
     var participants = yield CourseParticipant.find({
       user:    user._id
@@ -106,7 +118,6 @@ User.schema.post('save', function(user) {
       var group = groups[i];
       yield grantKeysAndChatToGroup(group);
     }
-
 
   }).catch(function(err) {
     log.error("Grant error", err);
