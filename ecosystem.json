@@ -24,7 +24,6 @@
         "STATIC_HOST": "https://ru.js.cx"
       },
       "env_en":             {
-        "NODE_ENV":    "production",
         "NODE_LANG":   "en",
         "SITE_HOST":   "https://javascript.info",
         "STATIC_HOST": "https://en.js.cx"
