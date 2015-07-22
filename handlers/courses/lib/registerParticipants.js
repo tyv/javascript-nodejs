@@ -101,7 +101,8 @@ User.schema.pre('save', function(next) {
 
     if (paths.indexOf('profileName') == -1) return;
 
-    // wait 1 sec for db to save all changes
+    // wait 1 sec for db to save all changes,
+    // that's for grant calls to populate user correctly
     yield function(callback) {
       setTimeout(callback, 1000);
     };

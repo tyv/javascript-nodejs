@@ -1,5 +1,5 @@
 {
-  "apps":   [
+  "apps": [
     {
       "name":               "javascript",
       "script":             "bin/server",
@@ -14,13 +14,20 @@
         "HOST":                        "127.0.0.1",
         "PORT":                        "3000",
         "PM2_GRACEFUL_LISTEN_TIMEOUT": 1000,
-        "PM2_GRACEFUL_TIMEOUT":        5000
+        "PM2_GRACEFUL_TIMEOUT":        5000,
+        "ASSET_VERSIONING":            "file",
+        "NODE_ENV":                    "production"
       },
-      "env_production":     {
-        "NODE_ENV":         "production",
-        "SITE_HOST":        "https://learn.javascript.ru",
-        "STATIC_HOST":      "https://js.cx",
-        "ASSET_VERSIONING": "file"
+      "env_ru":             {
+        "NODE_LANG":   "ru",
+        "SITE_HOST":   "https://learn.javascript.ru",
+        "STATIC_HOST": "https://ru.js.cx"
+      },
+      "env_en":             {
+        "NODE_ENV":    "production",
+        "NODE_LANG":   "en",
+        "SITE_HOST":   "https://javascript.info",
+        "STATIC_HOST": "https://en.js.cx"
       }
     }
   ]

@@ -35,6 +35,8 @@ function addStandardHelpers(locals, ctx) {
 
   locals._ = _;
 
+  locals.lang = process.env.NODE_LANG;
+
   locals.url = url.parse(ctx.protocol + '://' + ctx.host + ctx.originalUrl);
   locals.context = ctx;
 

@@ -79,7 +79,7 @@ var webpackConfig = {
   externals: {
     // require("angular") is external and available
     // on the global var angular
-    "angular": "angular"
+    angular: "angular"
   },
 
   module: {
