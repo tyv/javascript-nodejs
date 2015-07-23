@@ -130,7 +130,7 @@
   "devDependencies": {
     "better-assert": "*",
     "chokidar": "*",
-    "clarify": "^1.0.5",
+    "clarify": "*",
     "co-mocha": "*",
     "ejs": "^1",
     "exports-loader": "*",
