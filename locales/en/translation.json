@@ -8,7 +8,7 @@
     },
     "Next lesson": "Next lesson",
     "Previous lesson": "Previous lesson",
-    "/i/sitetoolbar__logo": {
-        "svg": "/i/sitetoolbar__logo.svg"
-    }
+    "sitetoolbar__logo_svg": "sitetoolbar__logo.en.svg",
+    "sitetoolbar__logo_width": "185",
+    "Sorry, the IE<10 is not supported, please use a newer browser.": "Sorry, the IE<10 is not supported, please use a newer browser."
 }

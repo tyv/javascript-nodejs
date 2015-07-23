@@ -8,7 +8,7 @@
     },
     "Previous lesson": "Предыдущий урок",
     "Next lesson": "Следующий урок",
-    "/i/sitetoolbar__logo": {
-        "svg": "/i/sitetoolbar__logo.svg"
-    }
+    "sitetoolbar__logo_svg": "sitetoolbar__logo.svg",
+    "sitetoolbar__logo_width": "171",
+    "Sorry, the IE<10 is not supported, please use a newer browser.": "Извините, IE<10 не поддерживается, пожалуйста используйте более новый браузер."
 }
