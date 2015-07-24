@@ -110,7 +110,7 @@ schema.methods.mergeAndSyncRemote = function*(files) {
 
 schema.statics.createRemote = function*(description, files) {
 
-  if (Plunk.REMOTE_OFF) {
+  if (process.env.PLUNK_REMOTE_OFF) {
     return Math.random().toString(36).slice(2);
   }
 
@@ -162,7 +162,7 @@ schema.statics.request = function*(data) {
 schema.statics.updateRemote = function* (plunkId, changes) {
 
 
-  if (Plunk.REMOTE_OFF) {
+  if (process.env.PLUNK_REMOTE_OFF) {
     return;
   }
 
