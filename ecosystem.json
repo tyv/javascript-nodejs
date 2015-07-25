@@ -18,7 +18,7 @@
         "ASSET_VERSIONING":            "file",
         "NODE_ENV":                    "production"
       },
-      "env_ru":             {
+      "env_nightly":             {
         "NODE_LANG":   "ru",
         "SITE_HOST":   "https://learn.javascript.ru",
         "STATIC_HOST": "https://ru.js.cx"
