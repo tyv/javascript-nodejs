@@ -12,7 +12,8 @@ co(function*() {
   log.info("App is listening");
 
 }).catch(function(err) {
-  throw err;
+  log.error(err);
+  process.exit(1); // fatal error, could not boot!
 });
 
 process.on('message', function(msg) {

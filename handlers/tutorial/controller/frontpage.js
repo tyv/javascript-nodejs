@@ -16,6 +16,9 @@ exports.get = function *get(next) {
     tags: ['article']
   }, renderTutorial);
 
+  if (!tutorial.length) {
+    this.throw(404, "Database is empty?"); // empty db
+  }
 
   var locals = {
     chapters: tutorial

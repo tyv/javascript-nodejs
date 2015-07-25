@@ -18,7 +18,7 @@ block body
           document.querySelector('.page').classList.add('page_sidebar-animation-on');
         }, 0);
 
-    //- основное содержимое статьи идёт до сайдбара (пользователь увидит его первым)
+    //- main content goes before sidebar (visitor will see it first)
     .page__inner
       main(class=(mainclass ? mainclass : 'main') + ' ' + [layout_main_class])
         block main

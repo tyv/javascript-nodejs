@@ -1,11 +1,11 @@
 var i18n = require("i18next");
 
 i18n.init({
-  lng: process.env.NODE_LANG || 'ru',
+  lng:           process.env.NODE_LANG || 'ru',
   supportedLngs: ['en', 'ru'],
-  fallbackLng: false,
-  saveMissing: true,
-  sendMissingTo : 'all',
-  debug: process.env.NODE_ENV == 'development'
+  fallbackLng:   'en',
+  saveMissing:   false,
+  sendMissingTo: 'ru',
+  debug:         process.env.NODE_ENV == 'development'
 });
 

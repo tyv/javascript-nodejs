@@ -47,6 +47,7 @@ module.exports = function(prefix, moduleDir) {
 
   }
 
+  // /users/me  -> /me
   return mount(prefix, wrapMiddleware);
 
 };

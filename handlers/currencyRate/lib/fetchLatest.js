@@ -8,10 +8,18 @@ var log = require('log')();
 
 module.exports = function*() {
 
-  var result = yield request({
-    url: 'http://openexchangerates.org/api/latest.json?app_id=' + config.openexchangerates.appId,
-    json: true
-  });
+  var result;
+
+  try {
+    result = yield request({
+      url:  'http://openexchangerates.org/api/latest.json?app_id=' + config.openexchangerates.appId,
+      json: true
+    });
+  } catch(e) {
+    // failed to request (remote server unavailable?)
+    log.error(e);
+    return;
+  }
 
   if (!result.body) {
     log.error(result);

@@ -1,4 +1,5 @@
 
+// FIXME: add flash deletion?
 exports.init = function(app) {
   // koa-flash is broken
   // reading from one object, writing to another object

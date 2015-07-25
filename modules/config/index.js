@@ -10,7 +10,11 @@ env.NODE_ENV = env.NODE_ENV || 'development';
 
 var secret = require('./secret');
 
-Error.stackTraceLimit = 20;
+if (env.DEV_TRACE) {
+  Error.stackTraceLimit = 1000;
+  require('trace');
+  require('clarify');
+}
 
 module.exports = {
   server: {

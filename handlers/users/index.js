@@ -19,6 +19,7 @@ exports.init = function(app) {
       }
     });
 
+    // Fixme: move to logger?
     if (this.isAdmin) {
       this.log.level("debug");
     }

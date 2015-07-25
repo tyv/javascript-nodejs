@@ -2,14 +2,16 @@ block append variables
   - var siteToolbarSections = [ { slug: 'tutorial', title: 'Учебник' }, { url: 'http://javascript.ru/forum', title: 'Форум' }, { url: 'http://es5.javascript.ru', title: 'ES5' }, { slug: 'courses', url: '/courses', title: 'Курсы' }, { url: 'http://javascript.ru/manual', title: 'Справочник' },  { slug: 'nodejs-screencast', title: 'Node.JS' } ];
   - siteToolbarSections.push({ slug: 'quiz', title: 'Тесты знаний' });
 
-<!--[if lt IE 10]><div style="color:red;text-align:center">Извините, старый IE не поддерживается, используйте другой браузер.</div><![endif]-->
+<!--[if lt IE 10]>
+div(style="color:red;text-align:center")= t("Sorry, the IE<10 is not supported, please use a newer browser.")
+<![endif]-->
 
 +b(class = 'sitetoolbar' + (bookChildNumber ? '_tutorial' : ''))
   +e.content
     +e.logo-wrap
       +e('a').link._logo(href="/")
 
-        +e('img').logo._normal(src="/img/sitetoolbar__logo.svg")
+        +e('img').logo._normal(src="/img/" + t("sitetoolbar__logo_svg"), width=t("sitetoolbar__logo_width"))
         +e('img').logo._small(src="/img/sitetoolbar__logo_small.svg")
         script
           :uglify
