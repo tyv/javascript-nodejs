@@ -1,10 +1,10 @@
 extends /layouts/main
 
 block append head
-  link(href=pack('quiz', 'css') rel='stylesheet')
+  +pack('quiz', 'css')
 
 block append head
-  script(defer src=pack("quiz", "js"))
+  +pack("quiz", "js")(defer)
 
 block append variables
 

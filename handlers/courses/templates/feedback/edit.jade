@@ -8,7 +8,7 @@ block append variables
   - var siteToolbarCurrentSection = "courses"
 
 block append head
-  script(defer src=pack("coursesFeedback", "js"))
+  +pack("coursesFeedback", "js")(defer)
 
 //-
   Поле показывается отдельно, если у него не стоит _editable ИЛИ нажата кнопка Редактировать

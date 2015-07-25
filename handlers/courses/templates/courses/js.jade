@@ -10,7 +10,7 @@ block append variables
   - var siteToolbarCurrentSection = "courses"
 
 block append head
-  script(defer src=pack("coursesCourse", "js"))
+  +pack("coursesCourse", "js")(defer)
 
 block content
   p В первую очередь этот курс для тех, кто либо не разрабатывал на JS, либо разрабатывал на нём эпизодически и теперь хочет освоить профессионально.

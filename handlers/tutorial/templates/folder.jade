@@ -7,7 +7,7 @@ block sidebar
   include sidebar
 
 block append head
-  script(defer src=pack("tutorial", "js"))
+  +pack("tutorial", "js")(defer)
 
 block content
 

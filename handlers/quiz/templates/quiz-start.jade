@@ -1,7 +1,7 @@
 extends /layouts/main
 
 block append head
-  link(href=pack('quiz', 'css') rel='stylesheet')
+  +pack('quiz', 'css')
 
 block append variables
 
@@ -12,7 +12,7 @@ block append variables
   - var layout_main_class = "main_width-limit"
 
 block append head
-  script(defer src=pack("quiz", "js"))
+  +pack("quiz", "js")(defer)
 
 block content
 

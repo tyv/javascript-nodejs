@@ -8,7 +8,7 @@ block append variables
   - var title = 'Вход в систему'
 
 block append head
-  script(defer src=pack("auth", "js"))
+  +pack("auth", "js")(defer)
 
 block content
 

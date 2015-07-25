@@ -1,13 +1,20 @@
 //- header + footer + empty body
 extends ./base
 
+mixin pack(name, type)
+  if type == "js"
+    script(src=pack(name, type) type="application/javascript;version=1.8")&attributes(attributes)
+    script(src=pack(name, type) type="application/javascript")&attributes(attributes)
+  else if type == "css"
+    link(href=pack(name, type) rel="stylesheet")
+
 block html
   head
     script window.currentUser = !{escapeJSON(user ? user.getInfoFields() : null)};
     block variables
     include ../blocks/head
     block head
-    script(defer src=pack("footer", "js"))
+    +pack("footer", "js")(defer)
 
   body.no-icons
     script head.fontTest();

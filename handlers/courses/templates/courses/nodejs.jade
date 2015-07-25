@@ -10,7 +10,7 @@ block append variables
   - var comments = true
 
 block append head
-  script(defer src=pack("coursesCourse", "js"))
+  +pack("coursesCourse", "js")(defer)
 
 block content
 

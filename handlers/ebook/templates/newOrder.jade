@@ -14,7 +14,7 @@ block append ga
     ga('ec:setAction', 'click');
 
 block append head
-  script(defer src=pack("ebook", "js"))
+  +pack("ebook", "js")(defer)
 
 block content
 

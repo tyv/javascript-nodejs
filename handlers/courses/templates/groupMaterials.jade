@@ -9,7 +9,7 @@ block append variables
 
 
 block append head
-  script(defer src=pack("coursesMaterials", "js"))
+  +pack("coursesMaterials", "js")(defer)
 
 block content
 

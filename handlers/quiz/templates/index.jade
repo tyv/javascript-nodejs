@@ -1,7 +1,7 @@
 extends /layouts/main
 
 block append head
-  link(href=pack('quiz', 'css') rel='stylesheet')
+  +pack('quiz', 'css')
 
 block append variables
   - var sitetoolbar = true
