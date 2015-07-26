@@ -15,13 +15,13 @@ exports.get = function *get(next) {
     tags: ['article']
   }, renderArticle.bind(this, this.params.slug));
 
-
   if (!renderedArticle) {
     yield* next;
     return;
   }
 
   var locals = renderedArticle;
+
   locals.sitetoolbar = true;
 
   locals.siteToolbarCurrentSection = "tutorial";
@@ -127,6 +127,7 @@ function* renderArticle(slug) {
   rendered.title = article.title;
   rendered.isFolder = article.isFolder;
   rendered.weight = article.weight;
+  rendered.canonicalPath = article.getUrl();
 
   const tree = yield* Article.findTree();
   const articleInTree = tree.byId(article._id);
