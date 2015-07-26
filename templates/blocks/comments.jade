@@ -17,10 +17,12 @@
 
 #disqus_thread
 
+//- disqus_url gets correct host only in production
+if env.NODE_ENV == 'production'
+  script var disqus_shortname = 'learnjavascriptru';
+  script var disqus_identifier = !{escapeJSON(canonicalPath)};
+  script var disqus_title = !{escapeJSON(headTitle || title)};
+  script var disqus_url = !{escapeJSON(canonicalUrl)};
 
-script.
-  var disqus_shortname = 'learnjavascriptru';
-  var disqus_identifier = location.pathname;
-
-script(async src='//learnjavascriptru.disqus.com/embed.js')
-script(async src='//learnjavascriptru.disqus.com/count.js')
+  script(async src='//learnjavascriptru.disqus.com/embed.js')
+  script(async src='//learnjavascriptru.disqus.com/count.js')

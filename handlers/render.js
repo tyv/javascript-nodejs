@@ -203,7 +203,15 @@ exports.init = function(app) {
         loc.schema = {};
       }
 
-      loc.canonicalUrl = config.server.siteHost + this.request.originalUrl;
+
+      if (!loc.canonicalPath) {
+        // strip query
+        loc.canonicalPath = this.request.originalUrl.replace(/\?.*/, '');
+        // /intro/   -> /intro
+        loc.canonicalPath = loc.canonicalPath.replace(/\/+$/, '');
+      }
+      console.log(loc.canonicalPath);
+      loc.canonicalUrl = config.server.siteHost + loc.canonicalPath;
 
       if (!/\.jade$/.test(templatePath)) {
         templatePath += '.jade';
