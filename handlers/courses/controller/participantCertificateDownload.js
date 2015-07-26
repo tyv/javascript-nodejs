@@ -35,7 +35,7 @@ exports.get = function*() {
   var dateStart = moment(participant.group.dateStart).format('DD.MM.YYYY');
   var dateEnd = moment(participant.group.dateEnd).format('DD.MM.YYYY');
 
-  var cmd = `/opt/local/bin/convert ${config.projectRoot}/extra/courses/cert-blank-300dpi.jpg \
+  var cmd = `/usr/bin/convert ${config.projectRoot}/extra/courses/cert-blank-300dpi.jpg \
     -font ${config.projectRoot}/extra/courses/font/calibri.ttf -pointsize 70 \
    -annotate +900+1050 'Настоящим удостоверяется, что с ${dateStart} по ${dateEnd}' \
    -fill "#7F0000" -pointsize 140 -annotate +900+1250 '${participant.fullName}' \
@@ -43,7 +43,7 @@ exports.get = function*() {
    -fill black -pointsize 70 -annotate +900+1500 '"${participant.group.course.title}"' \
     jpeg:-`;
 
-  console.log(cmd);
+  //console.log(cmd);
   /*
    var cmd = `/opt/local/bin/convert ${config.projectRoot}/extra/courses/cert-blank-600dpi.jpg \
    -font ${config.projectRoot}/extra/courses/font/calibri.ttf -pointsize 140 \
