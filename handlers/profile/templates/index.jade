@@ -7,12 +7,12 @@ block append variables
 
 block append head
   base(href=user.getProfileUrl() + '/')
-  +pack('quiz', 'css')
+  !=css("quiz")
 
 block content
 
-  +pack("angular", "js")
-  +pack("profile", "js")
+  !=js("angular", {defer: true})
+  !=js("profile", {defer: true})
 
   +b(ng-app="profile" ng-strict-di)
 

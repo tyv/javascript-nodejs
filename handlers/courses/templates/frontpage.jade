@@ -1,7 +1,7 @@
 extends /layouts/main
 
 block append head
-  +pack("coursesFrontpage", "js")(defer)
+  !=js("coursesFrontpage", {defer: true})
 
 block append variables
 

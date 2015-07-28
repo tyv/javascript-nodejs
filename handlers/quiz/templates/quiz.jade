@@ -1,10 +1,10 @@
 extends /layouts/main
 
 block append head
-  +pack('quiz', 'css')
+  !=css("quiz")
 
 block append head
-  +pack("quiz", "js")(defer)
+  !=js("quiz", {defer: true})
 
 block append variables
 

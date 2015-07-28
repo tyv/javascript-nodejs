@@ -7,7 +7,7 @@ block sidebar
   include sidebar
 
 block append head
-  +pack("tutorial", "js")(defer)
+  !=js("tutorial", {defer: true})
 
 block content
 

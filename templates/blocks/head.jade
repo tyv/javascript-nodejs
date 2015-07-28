@@ -30,7 +30,7 @@ meta(name="twitter:creator", content="@iliakan")
 meta(name="twitter:image", content=(schema.titleImage || "https://learn.javascript.ru/img/logo_square.png"))
 
 
-+pack('head', 'css')
+!=css("head")
 
 if prev
   link(rel="prev" href=prev.url)
@@ -55,7 +55,7 @@ else
     window.ga = function() {};
   script window.metrika = { reachGoal: function() {} };
 
-+pack("head", "js")
+!=js("head")
 
 //- head из конкретной статьи
 !=head

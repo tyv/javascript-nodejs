@@ -9,7 +9,7 @@ block sidebar
 block append head
   meta(property="og:title", content=title || headTitle)
   meta(property="og:type", content="article")
-  +pack("tutorial", "js")(defer)
+  !=js("tutorial", {defer: true})
 
 block content
   article(itemscope itemtype="http://schema.org/TechArticle")

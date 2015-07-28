@@ -9,7 +9,7 @@ block append variables
   - var siteToolbarCurrentSection = "courses"
 
 block append head
-  +pack("coursesSignup", "js")(defer)
+  !=js("coursesSignup", {defer: true})
 
 block content
 

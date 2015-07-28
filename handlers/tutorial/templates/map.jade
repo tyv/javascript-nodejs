@@ -1,7 +1,7 @@
 extends /layouts/html
 
 block append head
-  +pack("tutorial", "js")(defer)
+  !=js("tutorial", {defer: true})
 
 block body
 

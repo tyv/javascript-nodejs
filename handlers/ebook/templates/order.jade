@@ -12,7 +12,7 @@ block append ga
   script window.ga('send', 'event', 'payment', 'return-#{orderInfo.status}', 'ebook');
 
 block append head
-  +pack("ebook", "js")(defer)
+  !=js("ebook", {defer: true})
 
 block content
 

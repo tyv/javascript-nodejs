@@ -6,7 +6,7 @@ block append variables
   - var layout_header_class = "main__header_center"
 
 block append head
-  +pack("tutorial", "js")(defer)
+  !=js("tutorial", {defer: true})
 
 block content
   +b.intro

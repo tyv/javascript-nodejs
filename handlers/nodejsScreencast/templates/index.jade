@@ -8,7 +8,7 @@ block append variables
   - var mainclass = "main-headered"
 
 block append head
-  +pack("nodejsScreencast", "js")(defer)
+  !=js("nodejsScreencast", {defer: true})
 
 block content
   +b.nodejs-screencast-header

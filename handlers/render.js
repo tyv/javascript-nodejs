@@ -42,6 +42,27 @@ function addStandardHelpers(locals, ctx) {
 
   locals.analyticsEnabled = ctx.query.noa ? false : (ctx.host == 'learn.javascript.ru' && process.env.NODE_ENV == 'production');
 
+  locals.js = function(name, options) {
+    options = options || {};
+
+    let src = locals.pack(name, 'js');
+
+    let attrs = options.defer ? ' defer' : '';
+
+    return `<script>
+      if (~navigator.userAgent.toLowerCase().indexOf('firefox')) document.write('<script src="${src}" type="application/javascript;version=1.8"${attrs}><\\/script>');
+      else document.write('<script src="${src}"${attrs}><\\/script>');
+      </script>
+    `;
+  };
+
+
+  locals.css = function(name) {
+    let src = locals.pack(name, 'css');
+
+    return `<link href="${src}" rel="stylesheet">`;
+  };
+
   // we don't use defer in sessions, so can assign it
   // (simpler, need to call yield this.session)
   locals.session = ctx.session;
