@@ -17,6 +17,7 @@ module.exports = function() {
 
     var args = require('yargs')
       .example("gulp courses:group:send --group nodejs --templatePath ./mail.jade --subject 'Тема письма'")
+      .example("gulp courses:group:send --group js-1 --templatePath ./extra/groupLetters/js-1-end.jade --subject 'Завершение курса JavaScript'")
       .example("gulp courses:group:send --group js-1405 --templatePath ./js-1405.jade --subject 'Курс JavaScript: напоминание о собрании' --test iliakan@gmail.com")
       .example("gulp courses:group:send --group js-1405 --templatePath ./js-1405.jade --subject 'Курс JavaScript: напоминание о собрании'")
       .describe('group', 'Название группы')
