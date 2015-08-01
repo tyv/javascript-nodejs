@@ -24,7 +24,7 @@ document.addEventListener("pointercancel", log, false);
 document.addEventListener("mouseover", log, false);
 */
 document.addEventListener('mouseover', function(event) {
-  var target = event.target.closest('[data-add-class-on-hover]');
+  var target = event.target.closest('[data-add-class-on-hover]') || event.target.closest('.button');
   if (target) {
     currentHoverElem = target;
     target.classList.add('hover');
