@@ -1,7 +1,7 @@
 $pseudo
     text-decoration none
     border-bottom 1px dashed transparent
-    &:hover
+    .working-hover &:hover
         border-bottom 1px dashed
         text-decoration none
 
@@ -21,7 +21,7 @@ $link-type
     cursor pointer
     color link_color
 
-.pseudo:hover
+.working-hover .pseudo:hover
     color link_hover_color
 
 :link
@@ -38,8 +38,8 @@ $link-type
 :visited
     text-decoration none
 
-a:hover,
-a:active
+.working-hover a:hover,
+.working-hover a:active
     color link_hover_color
     text-decoration underline
 

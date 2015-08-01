@@ -51,4 +51,7 @@ document.addEventListener('mouseout', function(event) {
   currentHoverElem = null;
 });
 
+if (!navigator.userAgent.match(/(iPad|iPhone|iPod)/g)) {
+  document.documentElement.classList.add('working-hover');
+}
 
