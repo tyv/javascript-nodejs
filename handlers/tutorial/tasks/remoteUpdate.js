@@ -101,7 +101,7 @@ module.exports = function(options) {
       exec('ssh ' + host + ' "bash /tmp/check.sh"');
 
       /* jshint -W106 */
-      var env = ecosystem.apps[0].env_production;
+      var env = ecosystem.apps[0]['env_' + args.host];
 
       exec(`ssh ${host} "cd ${config.projectRoot} && SITE_HOST=${env.SITE_HOST} STATIC_HOST=${env.STATIC_HOST} gulp tutorial:cache:regenerate && gulp cache:clean"`);
     });
