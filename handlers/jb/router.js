@@ -17,5 +17,6 @@ router.get('/go', function*() {
   });
 
   this.status = 301;
-  this.redirect('https://ad.doubleclick.net/ddm/jump/N3643.1915072JAVASCRIPT.RU/B8253346.111523141;sz=200x200;ord=[timestamp]?');
+  this.redirect('http://www.jetbrains.com/webstorm/?utm_source=javascript.ru&utm_medium=banner&utm_content=webstormge&utm_campaign=webstorm');
+  //this.redirect('https://ad.doubleclick.net/ddm/jump/N3643.1915072JAVASCRIPT.RU/B8253346.111523141;sz=200x200;ord=[timestamp]?');
 });
