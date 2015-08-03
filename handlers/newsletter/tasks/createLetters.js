@@ -16,7 +16,7 @@ module.exports = function(options) {
 
     var args = require('yargs')
       .usage("Slug is required.")
-      // gulp newsletter:createLetters --slug js-1405 --templatePath ./js-1405.jade --subject 'Курс JavaScript: напоминание о собрании' --test iliakan@gmail.com --nounsubscribe
+      // gulp newsletter:createLetters --slug js --templatePath ./extra/newsletters/js-1405.jade --subject 'Курс JavaScript: напоминание о собрании' --test iliakan@gmail.com --nounsubscribe
       .example("gulp newsletter:createLetters --slug nodejs --templatePath ./mail.jade --subject 'Тема письма'")
       .describe('slug', 'Названия рассылок NewsLetter через запятую')
       .describe('slugExcept', 'Названия рассылок NewsLetter через запятую, подписчиком которых не слать')
