@@ -99,7 +99,7 @@ var webpackConfig = {
       {
         test:   /\.styl$/,
         // ExtractTextPlugin breaks HMR for CSS
-        loader: ExtractTextPlugin.extract('style', 'css!autoprefixer?browsers=last 2 version!stylus?linenos=true')
+        loader: ExtractTextPlugin.extract('style', 'css!autoprefixer?browsers=last 2 version!hover!stylus?linenos=true')
         //loader: 'style!css!autoprefixer?browsers=last 2 version!stylus?linenos=true'
       },
       {

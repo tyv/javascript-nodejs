@@ -60,8 +60,8 @@
     &_error &__close
         color #A86464
 
-        &:hover
-            color lighten(@color, 20%)
+    &_error &__close &:hover
+        color lighten(#A86464, 20%)
 
     &_warning
         background #FCF8E1
@@ -70,8 +70,8 @@
     &_warning &__close
         color #A99E62
 
-        &:hover
-            color lighten(@color, 20%)
+    &_warning &__close &:hover
+        color lighten(#A99E62, 20%)
 
     &_info
         background #D9EDF8
@@ -80,8 +80,8 @@
     &_info &__close
         color #5C879F
 
-        &:hover
-            color lighten(@color, 20%)
+    &_info &__close &:hover
+        color lighten(#5C879F, 20%)
 
     &_success
         background #DFF0D6
@@ -90,8 +90,8 @@
     &_success &__close
         color #699552
 
-        &:hover
-            color lighten(@color, 20%)
+    &_success &__close &:hover
+        color lighten(#699552, 20%)
 
     &__close
         @extend $button-reset
