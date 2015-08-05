@@ -8,6 +8,7 @@ var gutil = require('gulp-util');
 const path = require('path');
 const CourseGroup = require('../models/courseGroup');
 const CourseParticipant = require('../models/courseParticipant');
+const User = require('users').User;
 const mailer = require('mailer');
 const config = require('config');
 
@@ -38,7 +39,7 @@ module.exports = function() {
 
       var participants = yield CourseParticipant.find({
         isActive: true,
-        group: group._id
+        group:    group._id
       }).populate('user').exec();
 
       var recipients = participants
@@ -66,21 +67,33 @@ module.exports = function() {
         recipientsToSend = [{email: args.test}];
       }
 
-      if (recipientsToSend.length) {
+      var usersByEmail = {};
+      for (var i = 0; i < recipientsToSend.length; i++) {
+        var recipient = recipientsToSend[i];
+        var user = yield User.findOne({email: recipient.email}).exec();
+        if (!user) {
+          throw new Error("No user for email: " + recipient.email);
+        }
+        usersByEmail[recipient.email] = user;
+      }
+
+      for (var i = 0; i < recipientsToSend.length; i++) {
+
+        var recipient = recipientsToSend[i];
         yield* mailer.send({
           from:         'informer',
           templatePath: args.templatePath,
-          to:           recipientsToSend,
+          to:           [recipient],
+          user:         usersByEmail[recipient.email],
+          group:        group,
           subject:      args.subject,
-          label:        args.test ? undefined : label,
-          headers:      {
-            Precedence: 'bulk',
-            'List-ID':  `<${group.slug}.group.list-id.javascript.ru>`
-          }
+          label:        args.test ? undefined : label
         });
 
         gutil.log("Sent letter to " + JSON.stringify(recipientsToSend));
-      } else {
+      }
+
+      if (!recipients.length) {
         gutil.log(`No recipients (was ${recipients.length} before label exclusion)`);
       }
 

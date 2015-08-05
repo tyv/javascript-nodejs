@@ -97,6 +97,10 @@ schema.methods.getMaterialUrl = function(material) {
   return `/courses/download/${this.slug}/${material.filename}`;
 };
 
+schema.methods.getFeedbackUrl = function(material) {
+  return `/courses/groups/${this.slug}/feedback`;
+};
+
 schema.methods.getMaterialFileRelativePath = function(material) {
   return `courses/${this.slug}/${material.filename}`;
 };
