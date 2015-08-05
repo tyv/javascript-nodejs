@@ -90,7 +90,7 @@ module.exports = function() {
           label:        args.test ? undefined : label
         });
 
-        gutil.log("Sent letter to " + JSON.stringify(recipientsToSend));
+        gutil.log("Sent letter to " + JSON.stringify(recipient));
       }
 
       if (!recipients.length) {
