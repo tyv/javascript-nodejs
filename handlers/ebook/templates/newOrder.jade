@@ -25,7 +25,7 @@ block content
         +e('h2').alternate-title Выберите курс
         +b.extract._small.__extract
           each orderTemplate, i in orderTemplates
-            +e.item(data-add-class-on-hover)
+            +e.item
               +e('input').input(type="radio" name="orderTemplate" value=orderTemplate.slug data-price=orderTemplate.amount checked=(i==0) id=('book-' + i) )
               +e.wrap
                 +e.input-wrap

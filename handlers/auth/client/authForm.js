@@ -217,7 +217,7 @@ class AuthForm {
     request.addEventListener('success', function(event) {
 
       if (this.status == 201) {
-        self.elem.innerHTML = clientRender(loginForm, this.options);
+        self.elem.innerHTML = clientRender(loginForm, self.options);
         self.showFormMessage({
           html: "<p>С адреса notify@javascript.ru отправлено письмо со ссылкой-подтверждением.</p>" +
                 "<p><a href='#' data-action-verify-email='" + form.elements.email.value + "'>перезапросить подтверждение.</a></p>",
