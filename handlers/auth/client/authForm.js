@@ -265,7 +265,7 @@ class AuthForm {
     request.addEventListener('success', function(event) {
 
       if (this.status == 200) {
-        self.elem.innerHTML = clientRender(loginForm, this.options);
+        self.elem.innerHTML = clientRender(loginForm, self.options);
         self.showFormMessage({html: event.result, type: 'success'});
       } else if (this.status == 404) {
         self.showFormMessage({html: event.result, type: 'error'});
