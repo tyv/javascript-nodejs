@@ -20,12 +20,9 @@ const schema = new Schema({
 
 schema.index({slug: 1, score: 1}, {unique: true});
 
-// TODO: test me
-// http://docs.mongodb.org/v2.6/MongoDB-aggregation-guide.pdf
 schema.statics.getBelowScorePercentage = function*(slug, score) {
 
-  var belowCount = yield QuizStat.aggregate(
-    {
+  var belowCount = yield QuizStat.aggregate({
       $match: {
         slug: slug,
         score: {
