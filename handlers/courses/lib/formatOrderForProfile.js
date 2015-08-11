@@ -1,4 +1,5 @@
 var CourseGroup = require('courses').CourseGroup;
+var CourseParticipant = require('courses').CourseParticipant;
 var User = require('users').User;
 var _ = require('lodash');
 var getOrderInfo = require('payments').getOrderInfo;
@@ -6,7 +7,7 @@ var paymentMethods = require('./paymentMethods');
 
 module.exports = function* formatCourseOrder(order) {
 
-  var group = yield CourseGroup.findById(order.data.group).populate('course participants').exec();
+  var group = yield CourseGroup.findById(order.data.group).populate('course');
 
   if (!group) {
     this.log.error("Not found group for order", order.toObject());
@@ -17,11 +18,13 @@ module.exports = function* formatCourseOrder(order) {
     email: {
       $in: order.data.emails
     }
-  }).exec();
+  });
 
   var usersByEmail = _.indexBy(users, 'email');
 
-  var groupParticipantsByUser = _.indexBy(group.participants, 'user');
+  var groupParticipants = yield CourseParticipant.find({group: order.data.group});
+
+  var groupParticipantsByUser = _.indexBy(groupParticipants, 'user');
 
   var orderToShow = {
     created:      order.created,

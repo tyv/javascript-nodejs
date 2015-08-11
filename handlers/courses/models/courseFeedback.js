@@ -31,7 +31,7 @@ var schema = new Schema({
 
   // todo (not used now)
   // for selected reviews, to show at the courses main, cut them at this point
-  // todo: add an intellectual cutting function like jQuery dotdotdot, but w/o jquery
+  // todo: add an intelligent cutting function like jQuery dotdotdot, but w/o jquery
   cutAtLength: {
     type: Number
   },

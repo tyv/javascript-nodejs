@@ -26,6 +26,8 @@ router.get('/download/:groupBySlug/:filename', mustBeParticipant, require('./con
 
 router.all('/groups/:groupBySlug/feedback', mustBeParticipant, require('./controller/groupFeedbackEdit').all);
 
+router.get('/:course/reviews', require('./controller/courseReviews').get);
+
 router.get('/feedback/:feedbackNumber', require('./controller/groupFeedbackShow').get);
 
 router.patch('/participants', require('./controller/participants').patch);

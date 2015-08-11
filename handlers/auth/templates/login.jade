@@ -12,7 +12,7 @@ block append head
 
 block content
 
-  script window.authOptions = !{JSON.stringify(authOptions)}
+  script window.authOptions = !{escapeJSON(authOptions)}
 
   div#auth-form
 
