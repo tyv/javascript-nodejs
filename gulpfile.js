@@ -193,7 +193,7 @@ gulp.task('tutorial:kill:content', ['cache:clean'], lazyRequireTask('tutorial/ta
 gulp.task('tutorial:cache:regenerate', lazyRequireTask('tutorial/tasks/cacheRegenerate'));
 
 gulp.task('cloudflare:clean', lazyRequireTask('./tasks/cloudflareClean', {
-  domains: ['javascript.ru', 'js.cx']
+  domains: [config.domain.main, config.domain.static]
 }));
 
 gulp.task('cache:clean', lazyRequireTask('./tasks/cacheClean'));

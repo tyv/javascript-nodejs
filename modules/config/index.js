@@ -17,6 +17,13 @@ if (env.DEV_TRACE) {
 }
 
 module.exports = {
+  // production domain, for tutorial imports, descriptions, etc
+  // for the places where in-dev we must use a real domain
+  domain: {
+    main:   env.NODE_LANG == 'en' ? 'javascript.info' : 'learn.javascript.ru',
+    static: env.NODE_LANG == 'en' ? 'en.js.cx' : 'js.cx'
+  },
+
   server: {
     port:       env.PORT || 3000,
     host:       env.HOST || '0.0.0.0',

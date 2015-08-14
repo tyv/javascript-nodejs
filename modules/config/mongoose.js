@@ -1,4 +1,4 @@
-module.exports = {
+var config = module.exports = {
   "uri":     "mongodb://localhost/" + (
     process.env.NODE_ENV == 'test' ? "js_test" :
     process.env.NODE_LANG == 'en' ? `js_en` :
@@ -13,3 +13,4 @@ module.exports = {
     }
   }
 };
+

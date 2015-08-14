@@ -40,7 +40,7 @@ function addStandardHelpers(locals, ctx) {
   locals.url = url.parse(ctx.protocol + '://' + ctx.host + ctx.originalUrl);
   locals.context = ctx;
 
-  locals.analyticsEnabled = ctx.query.noa ? false : (ctx.host == 'learn.javascript.ru' && process.env.NODE_ENV == 'production');
+  locals.analyticsEnabled = ctx.query.noa ? false : (ctx.host == config.domain.main && process.env.NODE_ENV == 'production');
 
   locals.js = function(name, options) {
     options = options || {};

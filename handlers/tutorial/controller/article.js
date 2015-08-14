@@ -6,6 +6,7 @@ const TaskRenderer = require('../renderer/taskRenderer');
 const _ = require('lodash');
 const CacheEntry = require('cache').CacheEntry;
 const makeAnchor = require('textUtil/makeAnchor');
+const t = require('i18next').t;
 
 exports.get = function *get(next) {
 
@@ -34,14 +35,14 @@ exports.get = function *get(next) {
   if (renderedArticle.isFolder) {
 
     sections.push({
-      title: 'Смежные разделы',
+      title: t('Смежные разделы'),
       links: renderedArticle.siblings
     });
 
   } else {
 
     sections.push({
-      title: 'Раздел',
+      title: t('Раздел'),
       links: [renderedArticle.breadcrumbs[renderedArticle.breadcrumbs.length-1]]
     });
 
@@ -58,7 +59,7 @@ exports.get = function *get(next) {
 
     if (headerLinks.length) {
       sections.push({
-        title: 'Навигация по уроку',
+        title: t('Навигация по уроку'),
         links: headerLinks
       });
     }
