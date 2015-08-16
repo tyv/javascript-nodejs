@@ -20,7 +20,7 @@ module.exports = {
   // production domain, for tutorial imports, descriptions, etc
   // for the places where in-dev we must use a real domain
   domain: {
-    main:   env.NODE_LANG == 'en' ? 'javascript.info' : 'learn.javascript.ru',
+    main:   env.NODE_LANG == 'en' ? 'learn.javascript.info' : 'learn.javascript.ru',
     static: env.NODE_LANG == 'en' ? 'en.js.cx' : 'js.cx'
   },
 
@@ -88,6 +88,11 @@ module.exports = {
   adminKey: secret.adminKey,
 
   certDir: path.join(secret.dir, 'cert'),
+
+  disqus: {
+    domain: process.env.NODE_LANG == 'en' ? 'javascriptinfo' : 'learnjavascriptru'
+  },
+
 
   openexchangerates: {
     appId: secret.openexchangerates.appId

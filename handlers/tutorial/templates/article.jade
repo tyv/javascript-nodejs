@@ -25,7 +25,7 @@ block content
 
     +b.tasks
       +e('h2').title#tasks
-        +e('a').title-anchor.main__anchor.main__anchor_noicon(href="#tasks") Задачи
+        +e('a').title-anchor.main__anchor.main__anchor_noicon(href="#tasks")= t('Tasks')
 
       each task, i in tasks
         +b.task.__task
@@ -37,8 +37,8 @@ block content
 
             +e.header-note
               if task.importance
-                +e('span').importance(title="Насколько эта задача важна для освоения материала, от 1 до 5") важность: #{task.importance}
-              +e('button').solution(type="button") решение
+                +e('span').importance(title=t("How important is the task, from 1 to 5")) #{t('importance')}: #{task.importance}
+              +e('button').solution(type="button")= t('solution')
 
             include _task_content
 

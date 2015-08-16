@@ -7,9 +7,11 @@ function arrToObj(arr) {
   return result;
 }
 
+
 // Теги, которые допускаются НЕ в trusted-режиме
 var SAFE_TAGS = "a abbr acronym address em i b strong u strike cite blockquote code kbd tt ul ol li dl dt dd br hr pre img figure h1 h2 h3 h4 h5 h6 hgroup p div span sub sup table th td caption tr tbody thead tfoot".split(' ');
 var SAFE_TAGS_SET = arrToObj(SAFE_TAGS);
+
 
 // Теги, которые не нужно оборачивать в <p>
 var NO_WRAP_TAGS = "h1 h2 h3 h4 h5 h6 hgroup ol ul li dl dd dt p div footer header blockquote pre br hr canvas table td tr th tbody thead tfoot caption figure audio canvas embed iframe form fieldset script style object".split(" ");
@@ -39,9 +41,9 @@ var BBTAGS_SELF_CLOSE_SET = arrToObj(BBTAGS_SELF_CLOSE);
 var BBTAGS_ALL = BBTAGS_NEED_CLOSE.concat(BBTAGS_SELF_CLOSE);
 
 var BBTAG_BLOCK_DEFAULT_TITLE = {
-  smart: 'На заметку:',
-  ponder: 'Вопрос:',
-  warn: 'Важно:'
+  smart: "Please note:",
+  ponder: "How do you think?",
+  warn: "Important:"
 };
 
 var HREF_PROTOCOL_REG = /^([^\/#]*?)(?:\:|&#0*58|&#x0*3a)/;

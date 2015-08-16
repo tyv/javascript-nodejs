@@ -82,7 +82,7 @@ div(style="color:red;text-align:center")= t("Sorry, the IE<10 is not supported, 
     +e.tablet-menu-line
       +e.tablet-menu-content
         +b.share-icons
-          +e('span').title Поделиться
+          +e('span').title= t('Share')
           include ../blocks/social-icons
 
   if bookChildNumber && bookLeafCount

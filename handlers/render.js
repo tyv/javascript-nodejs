@@ -231,8 +231,10 @@ exports.init = function(app) {
         // /intro/   -> /intro
         loc.canonicalPath = loc.canonicalPath.replace(/\/+$/, '');
       }
-      console.log(loc.canonicalPath);
+
       loc.canonicalUrl = config.server.siteHost + loc.canonicalPath;
+
+      loc.disqusDomain = config.disqus.domain;
 
       if (!/\.jade$/.test(templatePath)) {
         templatePath += '.jade';

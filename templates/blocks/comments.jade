@@ -1,28 +1,25 @@
 +b.comments(id="comments")
   +e.header
     +e("h2").header-title
-      a(href="#comments" name="comments") Комментарии
+      a(href="#comments" name="comments")= t('Comments')
     +e.read-before
-      +e("span").read-before-link перед тем как писать&hellip;
+      +e("span").read-before-link= t('read me before writing…')
       +e.read-before-popup
         +e.read-before-popup-i
           ul
-            li Приветствуются комментарии, содержащие дополнения и вопросы по статье, и ответы на них.
-            li
-              | Для одной строки кода используйте тег <code>&lt;code&gt;</code>,
-              | для нескольких строк кода&nbsp;&mdash; тег <code>&lt;pre&gt;</code>,
-              | если больше 10 строк&nbsp;&mdash; ссылку на песочницу (<a href="http://plnkr.co/edit/?p=preview">plnkr</a>, <a href="http://jsfiddle.net">jsfiddle</a>, <a href="http://codepen.io">codepen</a>...).
-            li Если что-то непонятно в статье&nbsp;&mdash; пишите, что именно и с какого места.
+            li= t("You're welcome to post additions, questions to the articles and answers to them.")
+            li!= t("To insert a few words of code, use the <code>&lt;code&gt;</code> tag, for several lines – use <code>&lt;pre&gt;</code>, for more than 10 lines – use a sandbox (<a href='http://plnkr.co/edit/?p=preview'>plnkr</a>, <a href='http://jsbin.com'>JSBin</a>, <a href='http://codepen.io'>codepen</a>…)")
+            li= t("If you can't understand something in the article – please elaborate.")
 
 
 #disqus_thread
 
 //- disqus_url gets correct host only in production
 if env.NODE_ENV == 'production'
-  script var disqus_shortname = 'learnjavascriptru';
+  script var disqus_shortname = !{escapeJSON(disqusDomain)};
   script var disqus_identifier = !{escapeJSON(canonicalPath)};
   script var disqus_title = !{escapeJSON(headTitle || title)};
   script var disqus_url = !{escapeJSON(canonicalUrl)};
 
-  script(async src='//learnjavascriptru.disqus.com/embed.js')
-  script(async src='//learnjavascriptru.disqus.com/count.js')
+  script(async src='//' + disqusDomain + '.disqus.com/embed.js')
+  script(async src='//' + disqusDomain + '.disqus.com/count.js')

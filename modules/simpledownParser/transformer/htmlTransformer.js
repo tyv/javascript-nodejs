@@ -9,6 +9,7 @@ var stripIndents = require('textUtil/stripIndents');
 var TextNode = require('simpledownParser').TextNode;
 var _ = require('lodash');
 var extractHighlight = require('../util/source/extractHighlight');
+var t = require('i18next').t;
 
 var iframeBoxTemplate = require('./iframeBox.jade');
 var codeBoxTemplate = require('./codeBox.jade');
@@ -341,10 +342,10 @@ HtmlTransformer.prototype.transformDemoTag = function(node) {
     attrs.href = node.attrs.src[0] == '/' ? node.attrs.src : this.staticHost + this.resourceWebRoot + '/' + node.attrs.src;
     attrs.href += '/';
     attrs.target = '_blank';
-    return this.wrapTagAround('a', attrs, 'Демо в новом окне');
+    return this.wrapTagAround('a', attrs, t("Demo in the new window"));
   }
 
-  return this.wrapTagAround('button', {"onclick": 'runDemo(this)'}, "Запустить демо");
+  return this.wrapTagAround('button', {"onclick": 'runDemo(this)'}, t("Run the demo"));
 
 };
 

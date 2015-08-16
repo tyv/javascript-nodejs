@@ -35,14 +35,14 @@ exports.get = function *get(next) {
   if (renderedArticle.isFolder) {
 
     sections.push({
-      title: t('Смежные разделы'),
+      title: t('Sibling chapters'),
       links: renderedArticle.siblings
     });
 
   } else {
 
     sections.push({
-      title: t('Раздел'),
+      title: t('Chapter'),
       links: [renderedArticle.breadcrumbs[renderedArticle.breadcrumbs.length-1]]
     });
 
@@ -59,7 +59,7 @@ exports.get = function *get(next) {
 
     if (headerLinks.length) {
       sections.push({
-        title: t('Навигация по уроку'),
+        title: t('Lesson navigation'),
         links: headerLinks
       });
     }
@@ -75,13 +75,13 @@ exports.get = function *get(next) {
 
     if (renderedArticle.tasks.length) {
       section2.links.push({
-        title: 'Задачи (' + renderedArticle.tasks.length + ')',
+        title: t('Tasks') +' (' + renderedArticle.tasks.length + ')',
         url: '#tasks'
       });
     }
 
     section2.links.push({
-      title: 'Комментарии',
+      title: t('Comments'),
       url:   '#comments'
     });
 

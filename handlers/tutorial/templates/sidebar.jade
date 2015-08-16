@@ -9,13 +9,14 @@ each section in sidebar.sections
             +e('a').link(href=link.url)= link.title
 
 +e.section
-  +e.section-title Поделиться
+  +e.section-title= t('Share')
   +b('a').share._tw.sidebar__share(href="https://twitter.com/share?url="+encodeURIComponent(url.href))
   //- [] encoded as %5B %5D to make validator happy
   +b('a').share._fb.sidebar__share(href="https://www.facebook.com/sharer/sharer.php?s=100&p%5Burl%5D="+encodeURIComponent(url.href))
   +b('a').share._gp.sidebar__share(href="https://plus.google.com/share?url="+encodeURIComponent(url.href))
-  +b('a').share._vk.sidebar__share(href="https://vkontakte.ru/share.php?url="+encodeURIComponent(url.href))
+  if env.NODE_LANG=='ru'
+    +b('a').share._vk.sidebar__share(href="https://vkontakte.ru/share.php?url="+encodeURIComponent(url.href))
 
 +e.section
-  +e('a').link(href="https://github.com/iliakan/javascript-tutorial") Редактировать на github
+  +e('a').link(href="https://github.com/iliakan/javascript-tutorial/tree/" + env.NODE_LANG)= t('Edit on github')
 

@@ -1,5 +1,6 @@
 module.exports = BbtagParser;
 
+var t = require('i18next').t;
 var StringSet = require('../util/stringSet');
 var Parser = require('./parser');
 var BodyParser = require('./bodyParser');
@@ -180,7 +181,7 @@ BbtagParser.prototype.parseBlock = function() {
     content.push.apply(content, headerContent);
     content.push('</div>');
   } else {
-    content.push('<span class="important__type">', consts.BBTAG_BLOCK_DEFAULT_TITLE[this.name], '</span>');
+    content.push('<span class="important__type">', t(consts.BBTAG_BLOCK_DEFAULT_TITLE[this.name]), '</span>');
   }
 
   content.push('</div>'); // ../important__header
