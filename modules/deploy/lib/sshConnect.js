@@ -28,7 +28,7 @@ module.exports = function*(host) {
 
 
   client.runInBuild = function(cmd, options) {
-    return sshExec(client, `cd ${config.deploy.buildPath}; ${cmd}`, options);
+    return sshExec(client, `cd ${config.deploy.buildPath}; NODE_LANG=${config.lang} ${cmd}`, options);
   };
 
   client.run = function(cmd, options) {
