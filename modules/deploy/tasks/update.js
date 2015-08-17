@@ -25,7 +25,7 @@ module.exports = function() {
       try {
         // make sure tests pass unless --no-test
         if (args.test !== false) {
-          yield* client.runInBuild(`npm test`);
+          yield* client.runInBuild(`NODE_LANG=ru npm test`);
         }
 
         yield* client.runInTarget(`git reset --hard`);
