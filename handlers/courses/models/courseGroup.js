@@ -45,6 +45,12 @@ var schema = new Schema({
     required: true
   },
 
+  teacher:       {
+    type:     Schema.Types.ObjectId,
+    ref:      'User',
+    required: true
+  },
+
   // group w/o materials can set this to undefined
   // otherwise there will be a link to the page (maybe without files yet)
   materials: {
