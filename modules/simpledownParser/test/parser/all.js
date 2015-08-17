@@ -211,7 +211,7 @@ describe("BodyParser", function() {
       it("smart without title", function() {
         var result = (format("[smart]text[/smart]")).replace(/\n/g, '');
         result.should.be.eql(
-          "<div class=\"important important_smart\"><div class=\"important__header\"><span class=\"important__type\">На заметку:</span></div><div class=\"important__content\">text</div></div>"
+          "<div class=\"important important_smart\"><div class=\"important__header\"><span class=\"important__type\">Please note:</span></div><div class=\"important__content\">text</div></div>"
         );
       });
 
