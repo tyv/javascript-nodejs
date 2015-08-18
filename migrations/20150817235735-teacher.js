@@ -19,9 +19,10 @@ exports.up = function*() {
   for (var i = 0; i < groups.length; i++) {
     var group = groups[i];
     group.teacher = ilya._id;
+
+    yield group.save();
   }
 
-  yield group.save();
 };
 
 exports.down = function*() {
