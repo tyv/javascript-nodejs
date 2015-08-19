@@ -2,6 +2,9 @@
 var mountHandlerMiddleware = require('lib/mountHandlerMiddleware');
 
 exports.init = function(app) {
+
+  app.multipartParser.ignore.add('/courses/groups/:groupBySlug/materials');
+
   app.use(mountHandlerMiddleware('/courses', __dirname));
 };
 

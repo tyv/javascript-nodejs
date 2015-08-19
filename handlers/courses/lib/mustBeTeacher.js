@@ -12,20 +12,7 @@ module.exports = function*(next) {
   if (String(this.user._id) == String(this.groupBySlug.teacher)) {
     this.teacher = this.user;
     yield* next;
-    return;
+  } else {
+    this.throw(403, "Вы не являетесь преподавателем этой группы.");
   }
-
-  var participant = yield CourseParticipant.findOne({
-    isActive: true,
-    group: group._id,
-    user: this.user._id
-  });
-
-  if (!participant) {
-    this.throw(403, "Вы не участвуете в этой группе.");
-  }
-
-  this.participant = participant;
-
-  yield* next;
 };

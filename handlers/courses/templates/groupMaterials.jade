@@ -15,10 +15,23 @@ block content
 
   if participant
     form(action="/courses/participants")
+      input(type="hidden", name="_csrf", value=csrf())
       label
         input(type="hidden" name="id" value=participant._id)
         input(type="checkbox" value="1" name="shouldNotifyMaterials" checked=participant.shouldNotifyMaterials data-should-notify-materials)
         | &nbsp;Уведомлять меня по email о появлении материалов.
+  else if teacher
+
+    +e('form').form(method="POST" action="?_csrf=" + csrf() enctype="multipart/form-data")
+      +e.line
+        +e('input')(name="materials" type="file" accept="application/zip" required)
+
+      +e.line
+        +b('textarea').textarea-input(name="comment" placeholder="Комментарий")
+
+      +e.line.__submit
+        +b('button').button._action(type="submit")
+          +e('span').text Добавить материал
 
 
   if materials.length
