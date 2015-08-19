@@ -1,12 +1,14 @@
 
-// FIXME: add flash deletion?
 exports.init = function(app) {
   // koa-flash is broken
   // reading from one object, writing to another object
   // occasionally writing to default
   app.use(function *flash(next) {
+
+    // this.flash is the previous flash
     this.flash = this.session.flash || {};
 
+    // this.newFlash is an accessor to the new flash
     this.session.flash = {};
 
     Object.defineProperty(this, 'newFlash', {
@@ -20,11 +22,10 @@ exports.init = function(app) {
 
     yield *next;
 
-    // now this.session can be null
+    // note that this.session can be null
     // (logout does that)
-
     if (this.session && Object.keys(this.session.flash).length === 0) {
-      // don't write empty flash
+      // don't write empty new flash
       delete this.session.flash;
     }
 
