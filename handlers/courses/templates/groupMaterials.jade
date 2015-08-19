@@ -13,20 +13,22 @@ block append head
 
 block content
 
-  form(action="/courses/participants")
-    label
-      input(type="hidden" name="id" value=participant._id)
-      input(type="checkbox" value="1" name="shouldNotifyMaterials" checked=participant.shouldNotifyMaterials data-should-notify-materials)
-      | &nbsp;Уведомлять меня по email о появлении материалов.
+  if participant
+    form(action="/courses/participants")
+      label
+        input(type="hidden" name="id" value=participant._id)
+        input(type="checkbox" value="1" name="shouldNotifyMaterials" checked=participant.shouldNotifyMaterials data-should-notify-materials)
+        | &nbsp;Уведомлять меня по email о появлении материалов.
 
 
   if materials.length
     +b.courses-materials
 
-      +e('p').video-key
-        | Серийный номер для видео:
-        = ' '
-        +e('span')= videoKey
+      if participant
+        +e('p').video-key
+          | Серийный номер для видео:
+          = ' '
+          +e('span')= participant.videoKey
 
       +e('table').table
         +e('tr').line

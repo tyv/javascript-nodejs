@@ -30,11 +30,10 @@ exports.get = function*(next) {
   var userParticipants = yield CourseParticipant.find({
     user:     user._id,
     isActive: true
-  }).populate('group').exec();
+  }).populate('group');
 
   var groups;
   if (userParticipants) {
-    // plus groups where participates
     groups = _.pluck(userParticipants, 'group');
   } else {
     groups = [];
@@ -64,7 +63,7 @@ exports.get = function*(next) {
     })[0];
 
     let hasFeedback = yield CourseFeedback.findOne({
-      group: group._id,
+      group:       group._id,
       participant: participant._id
     }).exec();
 
@@ -99,10 +98,41 @@ exports.get = function*(next) {
 
   }
 
+  // plus groups where teaches
+  var groupsWhereTeacher = yield CourseGroup.find({
+    teacher: user._id,
+    dateEnd: {
+      // show 2 weeks after the end, not more
+      $lt:  new Date(+new Date() + 14*86400*1e3)
+    }
+  });
+
+
+  for (let i = 0; i < groupsWhereTeacher.length; i++) {
+    let group = groupsWhereTeacher[i];
+    yield CourseGroup.populate(group, {path: 'course'});
+
+    let groupInfo = formatGroup(group);
+
+    groupInfo.isTeacher = true;
+
+    groupInfo.links = [{
+      url:   group.course.getUrl(),
+      title: 'Описание курса'
+    }, {
+      url:   `/courses/groups/${group.slug}/materials`,
+      title: 'Материалы для обучения'
+    }];
+
+    groupInfo.status = (groupInfo.dateStart > new Date()) ? 'accepted' :
+      (groupInfo.dateEnd > new Date()) ? 'started' : 'ended';
+
+    groupInfoItems.push(groupInfo);
+  }
+
   this.body = groupInfoItems;
 
 };
-
 
 
 function formatGroup(group) {

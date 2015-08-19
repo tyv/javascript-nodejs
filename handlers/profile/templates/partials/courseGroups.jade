@@ -25,6 +25,6 @@ include /bem
             +e('ul').info-links
               +e('li')(ng-if="group.feedbackLink").info-links-item
                 +e('a').feedback(ng-href="{{group.feedbackLink}}") Оставить отзыв
-              +e('li').info-links-item
+              +e('li')(ng-if="!group.isTeacher").info-links-item
                 +e('a').feedback(ng-href="{{group.certificateLink}}") Скачать сертификат
 

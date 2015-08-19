@@ -17,6 +17,8 @@ exports.get = function*() {
 
   this.locals.participant = this.participant;
 
+  this.locals.teacher = this.teacher;
+
   var materials = this.locals.materials = [];
   for (var i = 0; i < group.materials.length; i++) {
     var material = group.materials[i];
@@ -28,7 +30,5 @@ exports.get = function*() {
     });
   }
 
-  this.body = this.render('groupMaterials', {
-    videoKey: this.participant.videoKey
-  });
+  this.body = this.render('groupMaterials');
 };
