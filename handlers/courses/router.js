@@ -1,6 +1,7 @@
 var Router = require('koa-router');
 var mustBeAuthenticated = require('auth').mustBeAuthenticated;
 var mustBeParticipantOrTeacher = require('./lib/mustBeParticipantOrTeacher');
+var mustBeParticipant = require('./lib/mustBeParticipant');
 var mustBeTeacher = require('./lib/mustBeTeacher');
 var mustBeAdmin = require('auth').mustBeAdmin;
 var router = module.exports = new Router();
@@ -26,7 +27,7 @@ router.post('/groups/:groupBySlug/materials', mustBeTeacher, require('./controll
 // because the prefix /course/download must be constant for nginx to proxy *.zip to node
 router.get('/download/:groupBySlug/:filename', mustBeParticipantOrTeacher, require('./controller/groupMaterialsDownload').get);
 
-router.all('/groups/:groupBySlug/feedback', mustBeParticipantOrTeacher, require('./controller/groupFeedbackEdit').all);
+router.all('/groups/:groupBySlug/feedback', mustBeParticipant, require('./controller/groupFeedbackEdit').all);
 
 router.get('/:course/reviews', require('./controller/courseReviews').get);
 
