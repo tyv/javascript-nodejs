@@ -68,13 +68,11 @@ exports.post = function*() {
     form.on('close', resolve);
 
     form.parse(self.req);
-
-
   });
 
   var file = this.files.materials;
   /*
-  file example:
+    file example: (@see multiparty)
   { fieldName: 'materials',
    originalFilename: '10_types_intro_protected.zip',
    path: '/var/folders/41/nsmzxxxn0fx7c656wngnq_wh0000gn/T/3o-PzBrAMsX5W35KZ5JH0HKw.zip',
@@ -115,7 +113,7 @@ exports.post = function*() {
   yield sendMail({
     templatePath: path.join(__dirname, '../templates/email/materials'),
     subject:      "Добавлены материалы курса",
-    to:           [{email: 'iliakan@gmail.com'}], // recipients
+    to:           recipients, // recipients
     comment:      this.request.body.comment,
     link:         config.server.siteHost + `/courses/groups/${group.slug}/materials`,
     fileLink:     config.server.siteHost + `/courses/download/${group.slug}/${material.filename}`,
@@ -125,6 +123,5 @@ exports.post = function*() {
   this.addFlashMessage('success', 'Материал добавлен');
 
   this.redirect(this.originalUrl);
-
 };
 
