@@ -1,3 +1,5 @@
+'use strict';
+
 var bytes = require('bytes');
 var Course = require('../models/course');
 var sendMail = require('mailer').send;
@@ -88,8 +90,11 @@ exports.post = function*() {
     group: group._id
   }).populate('user');
 
-  if (_.some(group.materials, {filename: file.originalFilename})) {
-    this.throw(409, `Material ${file.originalFilename} already exists`);
+  // remove old file with same name just in case
+  for(let i=0; i<group.materials.length; i++) {
+    if (group.materials[i].filename == file.originalFilename) {
+      group.materials.splice(i--, 1);
+    }
   }
 
   var material = {
@@ -120,7 +125,7 @@ exports.post = function*() {
     fileTitle:    material.title
   });
 
-  this.addFlashMessage('success', 'Материал добавлен');
+  this.addFlashMessage('success', 'Материал добавлен, уведомления разосланы.');
 
   this.redirect(this.originalUrl);
 };
