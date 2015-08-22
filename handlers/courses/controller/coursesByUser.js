@@ -103,7 +103,9 @@ exports.get = function*(next) {
     teacher: user._id,
     dateEnd: {
       // show 2 weeks after the end, not more
-      $lt:  new Date(+new Date() + 14*86400*1e3)
+      $not: {
+        $lt:  new Date(+new Date() - 14*86400*1e3)
+      }
     }
   });
 
