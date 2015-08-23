@@ -47,6 +47,7 @@ class RequestCaptureStream extends Stream {
     this.level = opts.level ? bunyan.resolveLevel(opts.level) : bunyan.WARN;
     this.limit = opts.maxRecords || 100;
     this.maxRequestIds = opts.maxRequestIds || 1000;
+    
     this.requestMap = LRU({
       max: this.maxRequestIds
     });

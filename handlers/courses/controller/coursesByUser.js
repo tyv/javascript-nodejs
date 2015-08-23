@@ -109,7 +109,6 @@ exports.get = function*(next) {
     }
   });
 
-
   for (let i = 0; i < groupsWhereTeacher.length; i++) {
     let group = groupsWhereTeacher[i];
     yield CourseGroup.populate(group, {path: 'course'});
