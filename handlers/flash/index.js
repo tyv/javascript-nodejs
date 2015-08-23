@@ -8,6 +8,8 @@ exports.init = function(app) {
     // this.flash is the previous flash
     this.flash = this.session.flash || {};
 
+    // overwrite this.session.flash with a new object
+    // thus deleting the old content
     // this.newFlash is an accessor to the new flash
     this.session.flash = {};
 
