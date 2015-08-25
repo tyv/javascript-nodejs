@@ -254,6 +254,26 @@ class Client extends EventEmitter {
     return roomJid;
   }
 
+  *grantModerator(roomJid, nick) {
+    // Example 137. Admin Grants Moderator Status
+
+    var item = {nick: nick, role: 'moderator'};
+    if (nick) item.nick = nick;
+
+    var iq = new xmpp.Element('' +
+      'iq', {to: roomJid, from: this.client.jid, type: 'set'})
+      .c('query', {xmlns: 'http://jabber.org/protocol/muc#admin'})
+      .c('item', item)
+      .c('reason').t('welcome').up().up().up();
+
+    var stanza = yield this.send(iq);
+
+    var isOk = stanza.is('iq') &&
+      (stanza.attrs.type == 'result');
+
+    assert(isOk);
+  }
+
   *grantMember(roomJid, memberJid, nick) {
     // Example 120, Admin grants membership
 

@@ -15,9 +15,11 @@ function* grantKeysAndChatToGroup(group) {
   var participants = yield CourseParticipant.find({
     group:    group._id,
     isActive: true
-  }).populate('user').exec();
+  }).populate('user');
 
-  yield* grantXmppChatMemberships(group, participants);
+  var teacher = yield User.findById(group.teacher);
+
+  yield* grantXmppChatMemberships(group, participants, teacher);
 
   if (group.course.videoKeyTag) {
     yield *grantVideoKeys(group, participants);
@@ -58,7 +60,7 @@ function* grantVideoKeys(group, participants) {
 
 
 
-function* grantXmppChatMemberships(group, participants) {
+function* grantXmppChatMemberships(group, participants, teacher) {
   log.debug("Grant xmpp chat membership");
   // grant membership in chat
   var client = new XmppClient({
@@ -67,8 +69,6 @@ function* grantXmppChatMemberships(group, participants) {
   });
 
   yield client.connect();
-
-
 
   var roomJid = yield client.createRoom({
     roomName:    group.webinarId,
@@ -86,6 +86,10 @@ function* grantXmppChatMemberships(group, participants) {
 
   // grant all in parallel
   yield jobs;
+
+  // TODO: test me teacher access!!
+  // profileName or fullName here?
+  yield client.grantModerator(roomJid, teacher.profileName);
 
   client.disconnect();
 }
