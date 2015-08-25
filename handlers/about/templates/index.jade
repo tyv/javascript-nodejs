@@ -29,9 +29,9 @@ block append head
 block content
   +b.about-banner
     +e("header").header
-      +e("h1").title проект
+      +e("h1").title some facts about
         br
-        +e("span").name Javascript.ru
+        +e("span").name Javascript.info
 
       +e("hr").line
 
@@ -40,63 +40,63 @@ block content
         +e("li").item
           +e("h2").num 2
           +e("p").description
-            | конференции
+            | conferences
             br
             | JS. Talks
 
         +e("li").item
           +e("h2").num 4940
           +e("p").description
-            | участников очных
+            | participants of offline
             br
-            | мастер-классов
+            | master classes
 
         +e("li").item
-          +e("h2").num 1255
+          +e("h2").num >2000
           +e("p").description
-            | участников
+            | participants of online
             br
-            | дистанционного обучения
+            | courses
 
         +e("li").item
-          +e("h2").num >282000
+          +e("h2").num >100000
           +e("p").description
-            | посетителей в месяц
+            | visitors per month
             br
-            | (на основе последнего года)
+            | (based on last year)
 
         +e("li").item
           +e("h2").num >24000
           +e("p").description
-            | строк на js в
+            | lines of JS code in the
             br
-            | open-source коде сайта
+            | open-source site repository
 
         +e("li").item
           +e("h2").num >93000
           +e("p").description
-            | строк в учебнике
+            | lines in JavaScript
             br
-            | Javascript
+            | tutorial
 
   +b.about-layout.columns.columns_2
 
     +b.about-text.about-layout__left.columns__col
-      +e('h1').title О проекте
+      +e('h1').title About the project
       +e.body
-        p Javascript.ru был запущен в 2007 году и с тех пор стал одним из крупнейших русскоязычных порталов по JavaScript. Сегодня основные цели проекта это:
+        p The project javascript.ru was launched in 2007 and since then hosts one of the biggest russian-speaking JavaScript communities. JavaScript.info is a part of javascript.ru rewritten into English. The purpose of our project is:
         +e('ol').list
-          +e('li').item Предоставлять грамотную и актуальную информацию по JavaScript и смежным технологиям.
-          +e('li').item Популяризировать современные фронтенд-технологии.
-          +e('li').item Проводить онлайн и оффлайн-мероприятия по обучению JavaScript.
-          +e('li').item Создание сообщества JS-разработчиков и обмен знаниями.
+          +e('li').item Provide competent, up-to-date information about JavaScript and related technologies.
+          +e('li').item Popularize modern frontend technologies.
+          +e('li').item Organize online and offline JavaScript-related events.
+          +e('li').item Develop the JavaScript community and knowledge sharing.
         p
-          | Код этого сайта и содержимое учебника по Javascript находится в open-source доступе и его можно посмотреть на&nbsp;
+          | This site as well as the book about JavaScript are open-source projects which you can find on&nbsp;
           a(href="https://github.com/iliakan/javascript-nodejs") github
           | .
 
     +b.about-text.about-layout__right.columns__col
-      +e('h1').title Люди
+      +e('h1').title People
       +e.body
         +e('ul').humans
 
@@ -104,51 +104,49 @@ block content
             +e('i').human-userpic
               +e('img').human-userpic-i(src="/about/iliakan.jpg")
             +e('h3').human-title
-              +e('a')(href="https://ikantor.moikrug.ru/") Илья Кантор
-            +e('p').human-role Координатор, тренер, JS-разработчик
+              +e('a')(href="https://www.linkedin.com/in/iliakan") Ilya Kantor
+            +e('p').human-role Founder, trainer, JS-developer
 
           +e('li').human
             +e('i').human-userpic
               +e('img').human-userpic-i(src="/about/bezart.jpg")
             +e('h3').human-title
-              +e('a')(href="http://bezart.me/") Артем Безценный
-            +e('p').human-role UX-дизайнер
+              +e('a')(href="http://bezart.me/") Artem Beztsinniy
+            +e('p').human-role UX-designer
 
           +e('li').human
             +e('i').human-userpic
               +e('img').human-userpic-i(src="/about/tyv.jpg")
             +e('h3').human-title
-              +e('a')(href="https://ua.linkedin.com/in/tkachenkoyuri") Юрий Ткаченко
-            +e('p').human-role На дуде игрец
+              +e('a')(href="https://ua.linkedin.com/in/tkachenkoyuri") Yuri Tkachenko
+            +e('p').human-role HTML/CSS and related techs guru
 
           +e('li').human
             +e('i').human-userpic
               +e('img').human-userpic-i(src="/about/amax.jpg")
             +e('h3').human-title
-              +e('a')(href="https://www.linkedin.com/pub/aleksey-maximov/54/b76/215") Алексей Максимов
-            +e('p').human-role Админ
-
-      +e('p') А также <a href="https://github.com/iliakan/javascript-nodejs/blob/master/CONTRIBUTORS.md">другие контрибьюторы</a>.
+              +e('a')(href="https://www.linkedin.com/pub/aleksey-maximov/54/b76/215") Alexey Maximov
+            +e('p').human-role Admin
 
   +b.about-map
-    +e('h1').title География офлайн событий
+    +e('h1').title Geography of offline events
     +e('h1').map-container#map
 
   +b.about-layout.columns.columns_2
 
     +b.about-text.about-layout__left.columns__col
-      +e('h1').title Принять участие в проекте
+      +e('h1').title Participate in the project
       +e.body
         p
-          | Если у вас есть идеи по улучшению работы сайта либо содержимого учебника по Javascript, не стесняйтесь присылать их нам либо заходите на наш&nbsp;
+          | If you have ideas how to improve the site engine or the content, please file an issue or suggest a PR on the&nbsp;
           a(href="https://github.com/iliakan/javascript-nodejs") github
           | .
 
     +b.about-text.about-layout__right.columns__col
-      +e('h1').title#contact-us Связаться с нами
+      +e('h1').title#contact-us Contact us
       +e.body._center
         p
-          | Илья Кантор
+          | Ilya Kantor
         p
           a(href="mailto:iliakan@javascript.ru") iliakan@javascript.ru
           br
