@@ -35,7 +35,7 @@ function addStandardHelpers(locals, ctx) {
 
   locals._ = _;
 
-  locals.lang = process.env.NODE_LANG;
+  locals.lang = config.lang;
 
   locals.url = url.parse(ctx.protocol + '://' + ctx.host + ctx.originalUrl);
   locals.context = ctx;
@@ -195,6 +195,8 @@ exports.init = function(app) {
   app.use(function *(next) {
     var ctx = this;
 
+    var renderFileCache = {};
+
     this.locals = _.assign({}, config.jade);
 
     /**
@@ -236,26 +238,47 @@ exports.init = function(app) {
 
       loc.disqusDomain = config.disqus.domain;
 
-      if (!/\.jade$/.test(templatePath)) {
-        templatePath += '.jade';
-      }
-
-      var templatePathResolved;
-      if (loc.useAbsoluteTemplatePath) {
-        templatePathResolved = templatePath;
-      } else {
-        if (templatePath[0] == '/') {
-          this.log.debug("Lookup " + templatePath + " in " + loc.basedir);
-          templatePathResolved = path.join(loc.basedir, templatePath);
-        } else {
-          this.log.debug("Lookup " + templatePath + " in " + this.templateDir);
-          templatePathResolved = path.join(this.templateDir, templatePath);
-        }
-      }
-
+      var templatePathResolved = resolvePath(templatePath, loc);
       this.log.debug("render file " + templatePathResolved);
       return jade.renderFile(templatePathResolved, loc);
     };
+
+    function resolvePath(templatePath, options) {
+      var cacheKey = templatePath + ":" + options.useAbsoluteTemplatePath;
+
+      if (renderFileCache[cacheKey]) {
+        return renderFileCache[cacheKey];
+      }
+
+      // first we try template.en.jade
+      // if fails then template.jade
+      var templatePathWithLangAndExt = templatePath + '.' + config.lang;
+      if (!/\.jade$/.test(templatePathWithLangAndExt)) {
+        templatePathWithLangAndExt += '.jade';
+      }
+
+
+      var templatePathResolved;
+      if (options.useAbsoluteTemplatePath) {
+        templatePathResolved = templatePathWithLangAndExt;
+      } else {
+        if (templatePath[0] == '/') {
+          ctx.log.debug("Lookup " + templatePathWithLangAndExt + " in " + options.basedir);
+          templatePathResolved = path.join(options.basedir, templatePathWithLangAndExt);
+        } else {
+          ctx.log.debug("Lookup " + templatePathWithLangAndExt + " in " + ctx.templateDir);
+          templatePathResolved = path.join(ctx.templateDir, templatePathWithLangAndExt);
+        }
+      }
+
+      if (!fs.existsSync(templatePathResolved)) {
+        templatePathResolved = templatePathResolved.replace(`.${config.lang}.jade`, '.jade');
+      }
+
+      renderFileCache[cacheKey] = templatePathResolved;
+
+      return templatePathResolved;
+    }
 
     yield* next;
   });
