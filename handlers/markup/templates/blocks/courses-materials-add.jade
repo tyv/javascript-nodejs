@@ -1,0 +1,12 @@
++b('form').courses-materials-add
+    +e('h2').title Добавление материала
+    +e.line
+        input(type='file')
+    +e.line
+        +b('span').text-input.__input
+          +e('input').control(placeholder='Комментарий (опционально)')
+    +e.line
+        +b('button').button._action.__submit(type="submit")
+          +e('span').text Добавить
+
+
