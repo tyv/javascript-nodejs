@@ -1,0 +1,154 @@
+
+extends /layouts/main
+
+
+block append variables
+
+  - var headTitle = 'Современный учебник Javascript';
+  - var sitetoolbar = true
+  - var header = false
+  - var layout_page_class = "page_contains_header"
+  - var mainclass = "main-headered"
+
+  //- var layout_main_class = "main_width-limit"
+block append head
+  !=css("about")
+  script(defer src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js")
+  !=js("about", {defer: true})
+  //- google maps will call about.init() when loaded
+  script(defer src="https://maps.googleapis.com/maps/api/js?v=3.exp&&callback=about.init")
+  link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css")
+  style.
+    .leaflet-map-pane {
+      z-index: 2 !important;
+    }
+    .leaflet-google-layer {
+      z-index: 1 !important;
+    }
+
+block content
+  +b.about-banner
+    +e("header").header
+      +e("h1").title some facts about
+        br
+        +e("span").name Javascript.info
+
+      +e("hr").line
+
+    +b.about-list
+      +e("ul").list
+        +e("li").item
+          +e("h2").num 2
+          +e("p").description
+            | conferences
+            br
+            | JS. Talks
+
+        +e("li").item
+          +e("h2").num 4940
+          +e("p").description
+            | participants of offline
+            br
+            | master classes
+
+        +e("li").item
+          +e("h2").num >2000
+          +e("p").description
+            | participants of online
+            br
+            | courses
+
+        +e("li").item
+          +e("h2").num >100000
+          +e("p").description
+            | visitors per month
+            br
+            | (based on last year)
+
+        +e("li").item
+          +e("h2").num >24000
+          +e("p").description
+            | lines of JS code in the
+            br
+            | open-source site repository
+
+        +e("li").item
+          +e("h2").num >93000
+          +e("p").description
+            | lines in JavaScript
+            br
+            | tutorial
+
+  +b.about-layout.columns.columns_2
+
+    +b.about-text.about-layout__left.columns__col
+      +e('h1').title About the project
+      +e.body
+        p The project javascript.ru was launched in 2007 and since then hosts one of the biggest russian-speaking JavaScript communities. JavaScript.info is a part of javascript.ru rewritten into English. The purpose of our project is:
+        +e('ol').list
+          +e('li').item Provide competent, up-to-date information about JavaScript and related technologies.
+          +e('li').item Popularize modern frontend technologies.
+          +e('li').item Organize online and offline JavaScript-related events.
+          +e('li').item Develop the JavaScript community and knowledge sharing.
+        p
+          | This site as well as the book about JavaScript are open-source projects which you can find on&nbsp;
+          a(href="https://github.com/iliakan/javascript-nodejs") github
+          | .
+
+    +b.about-text.about-layout__right.columns__col
+      +e('h1').title People
+      +e.body
+        +e('ul').humans
+
+          +e('li').human
+            +e('i').human-userpic
+              +e('img').human-userpic-i(src="/about/iliakan.jpg")
+            +e('h3').human-title
+              +e('a')(href="https://www.linkedin.com/in/iliakan") Ilya Kantor
+            +e('p').human-role Founder, trainer, JS-developer
+
+          +e('li').human
+            +e('i').human-userpic
+              +e('img').human-userpic-i(src="/about/bezart.jpg")
+            +e('h3').human-title
+              +e('a')(href="http://bezart.me/") Artem Beztsinniy
+            +e('p').human-role UX-designer
+
+          +e('li').human
+            +e('i').human-userpic
+              +e('img').human-userpic-i(src="/about/tyv.jpg")
+            +e('h3').human-title
+              +e('a')(href="https://ua.linkedin.com/in/tkachenkoyuri") Yuri Tkachenko
+            +e('p').human-role HTML/CSS and related techs guru
+
+          +e('li').human
+            +e('i').human-userpic
+              +e('img').human-userpic-i(src="/about/amax.jpg")
+            +e('h3').human-title
+              +e('a')(href="https://www.linkedin.com/pub/aleksey-maximov/54/b76/215") Alexey Maximov
+            +e('p').human-role Admin
+
+  +b.about-map
+    +e('h1').title Geography of offline events
+    +e('h1').map-container#map
+
+  +b.about-layout.columns.columns_2
+
+    +b.about-text.about-layout__left.columns__col
+      +e('h1').title Participate in the project
+      +e.body
+        p
+          | If you have ideas how to improve the site engine or the content, please file an issue or suggest a PR on the&nbsp;
+          a(href="https://github.com/iliakan/javascript-nodejs") github
+          | .
+
+    +b.about-text.about-layout__right.columns__col
+      +e('h1').title#contact-us Contact us
+      +e.body._center
+        p
+          | Ilya Kantor
+        p
+          a(href="mailto:iliakan@javascript.ru") iliakan@javascript.ru
+          br
+          | +79035419441
+
