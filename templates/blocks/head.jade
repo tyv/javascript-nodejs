@@ -17,17 +17,17 @@ meta(name="msapplication-TileImage" content="/img/favicon/tileicon.png")
 // favicon the rest
 link(rel="icon" href="/img/favicon/favicon.png")
 
-meta(itemprop="image", content=(schema.titleImage || "https://learn.javascript.ru/img/logo_square.png"))
+meta(itemprop="image", content=(schema.titleImage || "https://" + domain.main + "/img/logo_square.png"))
 
 meta(property="og:title", content=(headTitle || title))
-meta(property="og:image", content=(schema.titleImage || "https://learn.javascript.ru/img/logo_square.png"))
+meta(property="og:image", content=(schema.titleImage || "https://" + domain.main + "/img/logo_square.png"))
 meta(property="fb:admins", content="100001562528165")
 
 meta(name="twitter:card", content="summary")
 meta(name="twitter:title", content=(headTitle || title))
 meta(name="twitter:site", content="@iliakan")
 meta(name="twitter:creator", content="@iliakan")
-meta(name="twitter:image", content=(schema.titleImage || "https://learn.javascript.ru/img/logo_square.png"))
+meta(name="twitter:image", content=(schema.titleImage || "https://" + domain.main + "/img/logo_square.png"))
 
 
 !=css("head")
@@ -40,6 +40,8 @@ if next
 
 //- Counters only on production
 if analyticsEnabled
+  script var GA_ID = "#{config.ga.id}";
+  script var YANDEX_METRIKA_ID = #{config.yandexMetrika.id};
   include ../blocks/ga
   //- let page specify more data to send w/ pageview
   block ga

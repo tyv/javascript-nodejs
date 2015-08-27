@@ -70,6 +70,8 @@ function addStandardHelpers(locals, ctx) {
 
   locals.env = process.env;
 
+  locals.domain = config.domain;
+
 
   // patterns to use in urls
   // no need to escape /

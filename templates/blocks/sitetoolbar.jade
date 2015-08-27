@@ -39,22 +39,25 @@ div(style="color:red;text-align:center")= t("Sorry, the IE<10 is not supported, 
             })();
     +e.nav-toggle-wrap
       +e('button').nav-toggle(onclick="document.querySelector('.sitetoolbar').classList.toggle('sitetoolbar_menu_open')" type="button")
-    +e('nav').sections
-      +e('ul').sections-list
-         each section in siteToolbarSections
-          +e('li')(class=["section", section.slug && siteToolbarCurrentSection == section.slug && ' _current'])
-            +e('a').link(href=section.url ? section.url : ('/' + section.slug))= section.title
 
-    if siteToolbarCurrentSection == 'tutorial'
-      include ./buy-book
+    if lang=='ru'
+      +e('nav').sections
+        +e('ul').sections-list
+           each section in siteToolbarSections
+            +e('li')(class=["section", section.slug && siteToolbarCurrentSection == section.slug && ' _current'])
+              +e('a').link(href=section.url ? section.url : ('/' + section.slug))= section.title
 
-    if user
-      include ./user
-    else
-      include ./guest
+      if siteToolbarCurrentSection == 'tutorial'
+        include ./buy-book
+
+      if user
+        include ./user
+      else
+        include ./guest
 
     include ./search
 
+  // todo: en variant
   +e.tablet-menu
     +e.tablet-menu-line
       +e.tablet-menu-content

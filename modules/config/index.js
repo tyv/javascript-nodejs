@@ -31,6 +31,14 @@ module.exports = {
     staticHost: env.STATIC_HOST || ''
   },
 
+  ga: {
+    id: env.lang == 'ru' ? 'UA-2056213-16' : 'UA-2056213-19'
+  },
+
+  yandexMetrika: {
+    id: env.lang == 'ru' ? 17649010 : 32184394
+  },
+
   test: {
     e2e: {
       sshHost:  secret.test.e2e.sshHost, // remote host for testing e2e callbacks

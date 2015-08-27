@@ -65,15 +65,15 @@ block content
 
   include /blocks/banner-bottom
 
-  script(type="application/ld+json").
-    {
-       "@context": "http://schema.org",
-       "@type": "WebSite",
-       "url": "https://learn.javascript.ru/",
-       "potentialAction": {
-         "@type": "SearchAction",
-         "target": "https://learn.javascript.ru/search?query={search_term_string}",
-         "query-input": "required name=search_term_string"
-       }
-    }
+  script(type="application/ld+json")
+    | {
+    |   "@context": "http://schema.org",
+    |   "@type": "WebSite",
+    |   "url": "https://#{domain.main}/",
+    |   "potentialAction": {
+    |     "@type": "SearchAction",
+    |     "target": "https://#{domain.main}/search?query={search_term_string}",
+    |     "query-input": "required name=search_term_string"
+    |   }
+    | }
 
