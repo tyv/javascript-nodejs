@@ -14,8 +14,8 @@ exports.get = function*() {
     this.throw(404);
   }
 
-  if (this.transaction.status != Transaction.STATUS_PENDING || this.transaction.paymentMethod != 'invoice') {
-    this.log.debug("Improper transaction", this.transaction.toObject());
+  if (this.transaction.paymentMethod != 'invoice') {
+    this.log.debug("Only invoice transactions are allowed", this.transaction.toObject());
     this.throw(400);
   }
 
