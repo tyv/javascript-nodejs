@@ -48,7 +48,10 @@ function* getOrderInfo(order) {
       number:      order.number,
       status:      "success",
       statusText:  "Оплата получена",
-      transaction: transaction
+      transaction: transaction,
+      descriptionProfile: transaction.paymentMethod == 'invoice' && transaction.paymentDetails.agreementRequired ?
+        `Вы можете повторно скачать <a href="/payments/invoice/${transaction.number}/agreement.docx">договор с актом</a>.` :
+        ''
       // no title/accent/description, because the action on success is order-module-dependant
     };
   }
@@ -73,8 +76,10 @@ function* getOrderInfo(order) {
   }
 
   if (order.status == Order.STATUS_PENDING) {
+
+    // let's check if
     // PENDING order, but Transaction.STATUS_SUCCESS?
-    // impossible!
+    // (impossible)
     transaction = yield Transaction.findOne({
       order:  order._id,
       status: Transaction.STATUS_SUCCESS

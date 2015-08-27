@@ -36,6 +36,8 @@ function* createLetter(options) {
   var locals = Object.create(options);
   _.assign(locals, config.jade);
 
+  locals.lang = config.lang;
+  locals.domain = config.domain;
   locals.logoBase64 = logoBase64;
   locals.signature = sender.signature;
 

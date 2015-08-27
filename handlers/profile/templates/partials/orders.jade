@@ -68,5 +68,7 @@ include /bem
 
             +e('a').cancel-order(ng-click="cancelOrder(order)") Отменить заказ
 
+          +e.settings-line._foot(ng-if="order.orderInfo.status == 'success' && order.orderInfo.descriptionProfile")
+            +e('p').note(ng-bind-html="order.orderInfo.descriptionProfile | trust_html")
 
 
