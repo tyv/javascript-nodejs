@@ -40,8 +40,8 @@ if next
 
 //- Counters only on production
 if analyticsEnabled
-  script var GA_ID = "#{config.ga.id}";
-  script var YANDEX_METRIKA_ID = #{config.yandexMetrika.id};
+  script var GA_ID = "#{ga.id}";
+  script var YANDEX_METRIKA_ID = #{yandexMetrika.id};
   include ../blocks/ga
   //- let page specify more data to send w/ pageview
   block ga

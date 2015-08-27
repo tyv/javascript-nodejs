@@ -11,5 +11,7 @@ block content
     +e.text
       if error.description
         != error.description
+      else if user
+        | Возможно, вы не под тем пользователем?
       else
-        | Возможно, вам нужно войти под нужным пользователем?
+        | Возможно, вам нужно войти на сайт?

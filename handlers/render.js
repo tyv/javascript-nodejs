@@ -71,7 +71,8 @@ function addStandardHelpers(locals, ctx) {
   locals.env = process.env;
 
   locals.domain = config.domain;
-
+  locals.ga = config.ga;
+  locals.yandexMetrika = config.yandexMetrika;
 
   // patterns to use in urls
   // no need to escape /
