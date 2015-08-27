@@ -1,13 +1,20 @@
 +b.page-footer
   +e.left
     +e("ul").list
-      +e("li").item ©&nbsp;2007—!{new Date().getFullYear()}&nbsp;Илья Кантор
+      +e("li").item ©&nbsp;2007—!{new Date().getFullYear()}&nbsp; #{t('Ilya Kantor')}
       +e("li").item
-        +e("a")(href="/about#contact-us").link связаться с нами
+        +e("a")(href="/about#contact-us").link= t('contact us')
       +e("li").item
-        +e("a")(href="/about").link о проекте
-      +e("li").item
-        +e("a")(href="/agreement").link соглашение
+        +e("a")(href="/about").link= t('about the project')
+      if lang == 'ru'
+        +e("li").item
+          +e("a")(href="/agreement").link соглашение
+      if lang == 'en'
+        +e("li").item
+          +e("a")(href="https://learn.javascript.ru").link RU
+          = ' '
+          | / EN
+
 
   +e.right
     +e("ul").list
