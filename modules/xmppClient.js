@@ -1,12 +1,13 @@
 'use strict';
 
 var util = require('util');
-var xmpp = require('node-xmpp');
+var xmppClient = require('node-xmpp').Client; //-client');
 var co = require('co');
 var config = require('config');
 var log = require('log')();
 var assert = require('assert');
 var EventEmitter = require('events').EventEmitter;
+var xmppElement = xmppClient.ltx.Element;
 
 /**
  * Wrapper over xmpp-client
@@ -45,7 +46,7 @@ class Client extends EventEmitter {
 
   connect() {
 
-    this.client = new xmpp.Client({
+    this.client = new xmppClient({
       jid:      this.options.jid, // config.xmpp.admin.login + '/host',
       password: this.options.password // config.xmpp.admin.password
     });
@@ -142,7 +143,7 @@ class Client extends EventEmitter {
     var iq;
 
     // Example 153, create room
-    var presence = new xmpp.Element(
+    var presence = new xmppElement(
       'presence',
       {from: this.client.jid, to: roomJid + '/host'}
     )
@@ -169,7 +170,7 @@ class Client extends EventEmitter {
     assert(isNewRoom || isExistingRoom);
 
     // Example 156 or 163, request config form
-    iq = new xmpp.Element('iq', {to: roomJid, from: this.client.jid, type: 'get'})
+    iq = new xmppElement('iq', {to: roomJid, from: this.client.jid, type: 'get'})
       .c('query', {xmlns: 'http://jabber.org/protocol/muc#owner'});
 
     // Example 157, service sends config form
@@ -210,7 +211,7 @@ class Client extends EventEmitter {
     // <field var='muc#roomconfig_enablelogging'><value>1</value></field>
     // </x></query></iq>
 
-    iq = new xmpp.Element(
+    iq = new xmppElement(
       'iq',
       {to: roomJid, from: this.client.jid, type: 'set'})
       .c('query', {xmlns: 'http://jabber.org/protocol/muc#owner'})
@@ -260,7 +261,7 @@ class Client extends EventEmitter {
     var item = {nick: nick, role: 'moderator'};
     if (nick) item.nick = nick;
 
-    var iq = new xmpp.Element('' +
+    var iq = new xmppElement('' +
       'iq', {to: roomJid, from: this.client.jid, type: 'set'})
       .c('query', {xmlns: 'http://jabber.org/protocol/muc#admin'})
       .c('item', item)
@@ -280,7 +281,7 @@ class Client extends EventEmitter {
     var item = {affiliation: 'member', jid: memberJid};
     if (nick) item.nick = nick;
 
-    var iq = new xmpp.Element('' +
+    var iq = new xmppElement('' +
       'iq', {to: roomJid, from: this.client.jid, type: 'set'})
       .c('query', {xmlns: 'http://jabber.org/protocol/muc#admin'})
       .c('item', item)
