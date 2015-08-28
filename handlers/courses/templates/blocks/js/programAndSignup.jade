@@ -37,6 +37,9 @@
                     +e('h4').title #{formatGroupDate(group.dateStart)} — #{formatGroupDate(group.dateEnd)}
                     +e('p').text!= group.timeDesc
 
+                    if group.participantsLimit < 15
+                      +e('p').participants-limit Осталось #{group.participantsLimit} #{pluralize(group.participantsLimit, 'место', 'места', 'мест')}
+
                   +e.apply
                     +b.price
                       +e('span') #{group.price} RUB
