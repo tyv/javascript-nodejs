@@ -19,16 +19,21 @@
         margin-bottom 36px
 
     &__container
-        -webkit-columns 200px 3
-        -moz-columns 200px 3
-        columns 200px 3
         font-size 14px
 
+        margin 0 -30px
+
+        columns 200px 3
+
     &__brick
-        margin 0 9px 25px
-        -webkit-column-break-inside avoid
+        margin 0 30px
+        padding-bottom 20px
+
         page-break-inside avoid // Fx uses this for columns too
         break-inside avoid
+
+    .main ul&__chapters-list
+        margin 0
 
     &__chapters-list &__item
         margin .3em 0
@@ -41,10 +46,10 @@
     &__col:last-child &__brick
         margin 0 0 0 18px
 
-    & &__brick-title
+    .main & &__brick-title
         font 18px font
         font-weight bold
-        margin-top 0
+        margin 0 0 10px 0 !important
 
     & &__brick-title-link:hover
         color hoverize(color)
