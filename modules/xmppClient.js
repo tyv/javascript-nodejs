@@ -275,10 +275,10 @@ class Client extends EventEmitter {
     assert(isOk);
   }
 
-  *grantMember(roomJid, memberJid, nick) {
+  *grantMember(roomJid, memberJid, nick, affilation) {
     // Example 120, Admin grants membership
 
-    var item = {affiliation: 'member', jid: memberJid};
+    var item = {affiliation: affilation, jid: memberJid};
     if (nick) item.nick = nick;
 
     var iq = new xmppElement('' +

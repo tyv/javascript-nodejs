@@ -81,7 +81,7 @@ function* grantXmppChatMemberships(group, participants, teacher) {
 
     log.debug("grant " + roomJid + " to", participant.user.profileName, participant.firstName, participant.surname);
 
-    jobs.push(client.grantMember(roomJid, participant.user.profileName + '@' + config.xmpp.server,  participant.fullName));
+    jobs.push(client.grantMember(roomJid, participant.user.profileName + '@' + config.xmpp.server,  participant.fullName, 'member'));
   }
 
   // grant all in parallel
@@ -92,8 +92,8 @@ function* grantXmppChatMemberships(group, participants, teacher) {
 
   log.debug("adding user");
 
-  yield client.grantMember(roomJid, teacher.profileName + '@' + config.xmpp.server, teacher.displayName);
-  yield client.grantModerator(roomJid, teacher.displayName);
+  yield client.grantMember(roomJid, teacher.profileName + '@' + config.xmpp.server, teacher.displayName, 'owner');
+//  yield client.grantModerator(roomJid, teacher.displayName);
 
   client.disconnect();
 }
