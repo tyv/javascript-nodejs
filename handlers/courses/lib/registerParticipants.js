@@ -90,6 +90,8 @@ function* grantXmppChatMemberships(group, participants, teacher) {
   // TODO: test me teacher access!!
   // profileName or fullName here?
 
+  log.debug("adding user");
+
   yield client.grantMember(roomJid, teacher.profileName + '@' + config.xmpp.server, teacher.displayName);
   yield client.grantModerator(roomJid, teacher.displayName);
 
