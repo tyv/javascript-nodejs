@@ -44,7 +44,7 @@ function* grantVideoKeys(group, participants) {
   log.debug("Keys selected", videoKeys && videoKeys.toArray());
 
   if (!videoKeys || videoKeys.length != participantsWithoutKeys.length) {
-    throw new Error("Недостаточно серийных номеров " + participantsWithoutKeys.length);
+    throw new Error(`Недостаточно серийных номеров ${group.course.videoKeyTag} ${participantsWithoutKeys.length}`);
   }
 
   for (var i = 0; i < participantsWithoutKeys.length; i++) {
