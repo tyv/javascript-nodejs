@@ -13,6 +13,7 @@ const i18n = require('i18next');
 const money = require('money');
 const url = require('url');
 const validate = require('validate');
+const pluralize = require('textUtil/pluralize');
 
 // public.versions.json is regenerated and THEN node is restarted on redeploy
 // so it loads a new version.
@@ -70,9 +71,12 @@ function addStandardHelpers(locals, ctx) {
 
   locals.env = process.env;
 
+  locals.pluralize = pluralize;
   locals.domain = config.domain;
   locals.ga = config.ga;
   locals.yandexMetrika = config.yandexMetrika;
+
+
 
   // patterns to use in urls
   // no need to escape /

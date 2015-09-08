@@ -35,7 +35,7 @@ module.exports = function() {
         // unless --no-build
         if (args.build !== false) {
           yield* client.runInBuild(`NODE_ENV=production ASSET_VERSIONING=file gulp build`);
-          yield* client.runInBuild('git add --force public manifest');
+          yield* client.runInBuild('git add -A --force public manifest');
         }
 
         // if there's nothing to commit,

@@ -44,7 +44,7 @@ function* grantVideoKeys(group, participants) {
   log.debug("Keys selected", videoKeys && videoKeys.toArray());
 
   if (!videoKeys || videoKeys.length != participantsWithoutKeys.length) {
-    throw new Error("Недостаточно серийных номеров " + participantsWithoutKeys.length);
+    throw new Error(`Недостаточно серийных номеров ${group.course.videoKeyTag} ${participantsWithoutKeys.length}`);
   }
 
   for (var i = 0; i < participantsWithoutKeys.length; i++) {
@@ -81,7 +81,7 @@ function* grantXmppChatMemberships(group, participants, teacher) {
 
     log.debug("grant " + roomJid + " to", participant.user.profileName, participant.firstName, participant.surname);
 
-    jobs.push(client.grantMember(roomJid, participant.user.profileName + '@' + config.xmpp.server,  participant.fullName));
+    jobs.push(client.grantMember(roomJid, participant.user.profileName + '@' + config.xmpp.server,  participant.fullName, 'member'));
   }
 
   // grant all in parallel
@@ -89,7 +89,11 @@ function* grantXmppChatMemberships(group, participants, teacher) {
 
   // TODO: test me teacher access!!
   // profileName or fullName here?
-  yield client.grantModerator(roomJid, teacher.profileName);
+
+  log.debug("adding user");
+
+  yield client.grantMember(roomJid, teacher.profileName + '@' + config.xmpp.server, teacher.displayName, 'owner');
+//  yield client.grantModerator(roomJid, teacher.displayName);
 
   client.disconnect();
 }
