@@ -3,12 +3,15 @@ document.addEventListener('click', onSearchClick);
 
 var initialized = false;
 
+var sitetoolbarClassName = document.documentElement.lang === 'ru' ? 'sitetoolbar' : 'sitetoolbar-light';
+var sitetoolbarSelector = '.' + sitetoolbarClassName;
+
 // toggle search on/off, autofocus on input when "on"
 function onSearchClick(event) {
 
   if (!event.target.closest) return; // svg
 
-  var searchToggle = event.target.closest('.sitetoolbar__search-toggle');
+  var searchToggle = event.target.closest(sitetoolbarSelector + '__search-toggle');
 
   if (searchToggle) {
     if (!initialized) initialize();
@@ -17,10 +20,11 @@ function onSearchClick(event) {
 }
 
 function initialize() {
-  var sitetoolbar = document.querySelector('.sitetoolbar');
 
-  var input = sitetoolbar.querySelector('.sitetoolbar__search-input input');
-  var find = sitetoolbar.querySelector('.sitetoolbar__find');
+  var sitetoolbar = document.querySelector(sitetoolbarSelector);
+
+  var input = sitetoolbar.querySelector(sitetoolbarSelector + '__search-input input');
+  var find = sitetoolbar.querySelector(sitetoolbarSelector + '__find');
 
   var possibleSubmit;
 
@@ -45,18 +49,18 @@ function initialize() {
 function toggle() {
 
   var paranja,
-      sitetoolbar = document.querySelector('.sitetoolbar');
+      sitetoolbar = document.querySelector(sitetoolbarSelector);
+    console.log(123);
+  sitetoolbar.classList.toggle(sitetoolbarClassName + '_search_open');
 
-  sitetoolbar.classList.toggle('sitetoolbar_search_open');
+  var input = sitetoolbar.querySelector(sitetoolbarSelector + '__search-input input');
 
-  var input = sitetoolbar.querySelector('.sitetoolbar__search-input input');
-
-  if (sitetoolbar.classList.contains('sitetoolbar_search_open')) {
+  if (sitetoolbar.classList.contains(sitetoolbarClassName + '_search_open')) {
 
     input.focus();
 
     paranja = document.createElement('div');
-    paranja.className = 'sitetoolbar sitetoolbar__search-paranja';
+    paranja.className = sitetoolbarClassName + ' ' + sitetoolbarClassName + '__search-paranja';
     paranja.style.top = sitetoolbar.offsetHeight + 'px';
 
     document.body.appendChild(paranja);
@@ -65,7 +69,7 @@ function toggle() {
 
   } else {
 
-    paranja = document.querySelector('.sitetoolbar__search-paranja');
+    paranja = document.querySelector(sitetoolbarSelector + '__search-paranja');
     paranja.parentNode.removeChild(paranja);
     document.body.classList.remove('paranja-open');
 
