@@ -22,17 +22,16 @@ block content
         | &nbsp;Уведомлять меня по email о появлении материалов.
   else if teacher
 
-    +e('form').form(method="POST" action="?_csrf=" + csrf() enctype="multipart/form-data")
+    +b('form')(method="POST" action="?_csrf=" + csrf() enctype="multipart/form-data").courses-materials-add
+      +e('h2').title Добавление материала
       +e.line
-        +e('input')(name="materials" type="file" accept="application/zip" required)
-
+        input(name="materials" type="file" accept="application/zip" required)
       +e.line
-        +b('textarea').textarea-input(name="comment" placeholder="Комментарий")
-
-      +e.line.__submit
-        +b('button').button._action(type="submit")
-          +e('span').text Добавить материал
-
+        +b('span').text-input.__input
+          +e('input').control(name="comment" placeholder='Комментарий (опционально)')
+      +e.line
+        +b('button').button._action.__submit(type="submit")
+          +e('span').text Добавить
 
   if materials.length
     +b.courses-materials
@@ -54,8 +53,14 @@ block content
             +e('td').num
             +e('td').name
               +e('a').link(href=material.url)= material.title
+              if material.comment
+                +e('p').note!= material.comment
             +e('td').size= material.size
             +e('td').added= moment(material.created).format('DD.MM.YYYY')
   else
     +b.notification._message._info
       +e.content Материалов пока нет, будут доступны позже.
+
+
+
+

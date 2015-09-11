@@ -32,6 +32,7 @@ exports.get = function*() {
     materials.push({
       title:   material.title,
       created: material.created,
+      comment: material.comment || '',
       url:     group.getMaterialUrl(material),
       size:    bytes(yield* group.getMaterialFileSize(material))
     });
@@ -90,7 +91,7 @@ exports.post = function*() {
     group: group._id
   }).populate('user');
 
-  // remove old file with same name just in case
+  // remove old material with the same name (Adding the same file replaces it)
   for(let i=0; i<group.materials.length; i++) {
     if (group.materials[i].filename == file.originalFilename) {
       group.materials.splice(i--, 1);
@@ -99,7 +100,8 @@ exports.post = function*() {
 
   var material = {
     title:    file.originalFilename,
-    filename: file.originalFilename
+    filename: file.originalFilename,
+    comment: this.request.body.comment
   };
 
   var filePath = `${config.downloadRoot}/courses/${group.slug}/${material.filename}`;
@@ -119,7 +121,7 @@ exports.post = function*() {
     templatePath: path.join(__dirname, '../templates/email/materials'),
     subject:      "Добавлены материалы курса",
     to:           recipients, // recipients
-    comment:      this.request.body.comment,
+    comment:      material.comment,
     link:         config.server.siteHost + `/courses/groups/${group.slug}/materials`,
     fileLink:     config.server.siteHost + `/courses/download/${group.slug}/${material.filename}`,
     fileTitle:    material.title
