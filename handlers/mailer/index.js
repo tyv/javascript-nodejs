@@ -129,3 +129,7 @@ exports.Letter = require('./models/letter');
 exports.send = send;
 exports.createLetter = createLetter;
 exports.sendLetter = sendLetter;
+
+if (process.env.MAILER_DISABLED) {
+  console.log("MAILER DISABLED");
+}

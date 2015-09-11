@@ -17,6 +17,10 @@ var schema = new Schema({
     required: true
   },
 
+  comment: {
+    type: String
+  },
+
   created: {
     type:    Date,
     default: Date.now
