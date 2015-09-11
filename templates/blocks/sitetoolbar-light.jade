@@ -1,7 +1,7 @@
 +b(class = ['sitetoolbar-light', bookChildNumber ? '_tutorial' : ''])
   +e.content
       +e.nav-toggle-wrap
-        +e('button').nav-toggle(onclick="document.querySelector('.sitetoolbar-light').classList.toggle('sitetoolbar_menu_open')" type="button")
+        +e('button').nav-toggle(onclick="document.querySelector('.sitetoolbar-light').classList.toggle('sitetoolbar-light_menu_open')" type="button")
 
       +e.logo-wrap
         +e('a').link._logo(href="/")
@@ -34,3 +34,33 @@
               })();
 
       include ./search-light
+
+  +b.tablet-menu
+    +e.line
+      +e.content
+        +e('select')(onchange="if(this.value) window.location.href=this.value").nav.input-select.input-select_small
+          - var inSection = siteToolbarSections.filter(function(section) { return siteToolbarCurrentSection == section.slug; }).length;
+          if !inSection
+            +e('option')(selected) Выберите раздел
+          each section in siteToolbarSections
+            +e('option')(
+              value=(section.slug ? ('/' + section.slug) : section.url)
+              selected = (session.slug && siteToolbarCurrentSection == section.slug)
+            )= section.title
+
+    +e.line
+      +e.content
+        include /blocks/map-with-title
+
+    +e.line
+      +e.content
+        +b("a").tablet-ebook(href="/ebook")
+          +e("span").text Купить учебник
+          +e("span").note (EPUB + PDF)
+
+
+    +e.line
+      +e.content
+        +b.share-icons
+          +e('span').title= t('Share')
+          include ../blocks/social-icons

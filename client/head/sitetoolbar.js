@@ -50,7 +50,7 @@ function toggle() {
 
   var paranja,
       sitetoolbar = document.querySelector(sitetoolbarSelector);
-    console.log(123);
+
   sitetoolbar.classList.toggle(sitetoolbarClassName + '_search_open');
 
   var input = sitetoolbar.querySelector(sitetoolbarSelector + '__search-input input');
@@ -60,7 +60,7 @@ function toggle() {
     input.focus();
 
     paranja = document.createElement('div');
-    paranja.className = sitetoolbarClassName + ' ' + sitetoolbarClassName + '__search-paranja';
+    paranja.className = 'search-paranja';
     paranja.style.top = sitetoolbar.offsetHeight + 'px';
 
     document.body.appendChild(paranja);
@@ -69,7 +69,7 @@ function toggle() {
 
   } else {
 
-    paranja = document.querySelector(sitetoolbarSelector + '__search-paranja');
+    paranja = document.querySelector('.search-paranja');
     paranja.parentNode.removeChild(paranja);
     document.body.classList.remove('paranja-open');
 

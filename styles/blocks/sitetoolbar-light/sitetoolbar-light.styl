@@ -36,6 +36,7 @@
 
     &__link_logo
         position relative
+        margin-left 30px
 
     &__logo,
     &__link_logo
@@ -120,8 +121,6 @@
 
         text-align center
 
-        transition left 0.3s ease-out
-
     &__search .text-input
         display block
 
@@ -155,7 +154,7 @@
         padding 0
 
         border: none
-        border-left 1px solid #8eb0d2
+        border-left 1px solid #e7e7e7
         border-radius 0 4px 4px 0
         background sitetoolbar_secondary_bg
 
@@ -178,7 +177,20 @@
 
     // Search (end)
 
+    & .tablet-menu,
+    &__nav-toggle-wrap
+        display none
+
+    @media tablet
+        &__nav-toggle-wrap
+            display block
+
+        &__link_logo
+            margin-left 0
+
     @media phone
+        &__search-content
+            position static
 
         &__logo_normal
             display none
@@ -194,13 +206,27 @@
 
         &__search-input
             opacity 0
+            visibility hidden
+            left 20px
+            right 20px
 
         &__search-toggle:before
             left 0
 
         &_search_open &__search-input
             opacity 1
+            visibility visible
+
+        &_search_open &__search-toggle
+            position static
 
         &_search_open &__search-toggle:before
             position absolute
-            left -256px
+            left 25px
+
+        &_search_open &__nav-toggle-wrap,
+        &_search_open &__logo-wrap
+            display none
+
+        &_menu_open  .tablet-menu
+            display block

@@ -47,7 +47,7 @@ if lang=='ru'
             +e('li')(class=["section", section.slug && siteToolbarCurrentSection == section.slug && ' _current'])
               +e('a').link(href=section.url ? section.url : ('/' + section.slug))= section.title
 
-        if siteToolbarCurrentSection == 'tutorial'
+      if siteToolbarCurrentSection == 'tutorial'
           include ./buy-book
 
         if user
@@ -58,10 +58,10 @@ if lang=='ru'
       include ./search
 
     // todo: en variant
-    +e.tablet-menu
-      +e.tablet-menu-line
-        +e.tablet-menu-content
-          +e('select')(onchange="if(this.value) window.location.href=this.value").tablet-menu-nav.input-select.input-select_small
+    +b.tablet-menu
+      +e.line
+        +e.content
+          +e('select')(onchange="if(this.value) window.location.href=this.value").nav.input-select.input-select_small
             - var inSection = siteToolbarSections.filter(function(section) { return siteToolbarCurrentSection == section.slug; }).length;
             if !inSection
               +e('option')(selected) Выберите раздел
@@ -71,19 +71,19 @@ if lang=='ru'
                 selected = (session.slug && siteToolbarCurrentSection == section.slug)
               )= section.title
 
-      +e.tablet-menu-line
-        +e.tablet-menu-content
+      +e.line
+        +e.content
           include /blocks/map-with-title
 
-      +e.tablet-menu-line
-        +e.tablet-menu-content
+      +e.line
+        +e.content
           +b("a").tablet-ebook(href="/ebook")
             +e("span").text Купить учебник
             +e("span").note (EPUB + PDF)
 
 
-      +e.tablet-menu-line
-        +e.tablet-menu-content
+      +e.line
+        +e.content
           +b.share-icons
             +e('span').title= t('Share')
             include ../blocks/social-icons
