@@ -6,41 +6,41 @@ block append variables
 div(style="color:red;text-align:center")= t("Sorry, the IE<10 is not supported, please use a newer browser.")
 <![endif]-->
 
-+b(class = 'sitetoolbar' + (bookChildNumber ? '_tutorial' : ''))
-  +e.content
-    +e.logo-wrap
-      +e('a').link._logo(href="/")
+if lang=='ru'
+  +b(class = 'sitetoolbar' + (bookChildNumber ? '_tutorial' : ''))
+    +e.content
+      +e.logo-wrap
+        +e('a').link._logo(href="/")
 
-        +e('img').logo._normal(src="/img/" + t("sitetoolbar__logo_svg"), width=t("sitetoolbar__logo_width"))
-        +e('img').logo._small(src="/img/sitetoolbar__logo_small.svg")
-        script
-          :uglify
-            (function() {
+          +e('img').logo._normal(src="/img/" + t("sitetoolbar__logo_svg"), width=t("sitetoolbar__logo_width"))
+          +e('img').logo._small(src="/img/sitetoolbar__logo_small.svg")
+          script
+            :uglify
+              (function() {
 
-              /* chrome renders embed.svg with a delay,
-               this loads embed later to prevent flickering */
-              Array.prototype.forEach
-                .call(
-                  document.querySelectorAll('img.sitetoolbar__logo'),
-                  function(logo) {
-                    var embed = document.createElement('object');
-                    embed.type='image/svg+xml';
+                /* chrome renders embed.svg with a delay,
+                 this loads embed later to prevent flickering */
+                Array.prototype.forEach
+                  .call(
+                    document.querySelectorAll('img.sitetoolbar__logo'),
+                    function(logo) {
+                      var embed = document.createElement('object');
+                      embed.type='image/svg+xml';
 
-                    embed.className = logo.className;
-                    embed.style.cssText = 'left:0;top:0;position:absolute';
+                      embed.className = logo.className;
+                      embed.style.cssText = 'left:0;top:0;position:absolute';
 
-                    embed.onload = function() {
-                      embed.onload = null;
-                      logo.style.visibility = 'hidden';
-                    };
-                    embed.data = logo.src;
-                    logo.parentNode.insertBefore(embed, logo);
-                  });
-            })();
-    +e.nav-toggle-wrap
-      +e('button').nav-toggle(onclick="document.querySelector('.sitetoolbar').classList.toggle('sitetoolbar_menu_open')" type="button")
+                      embed.onload = function() {
+                        embed.onload = null;
+                        logo.style.visibility = 'hidden';
+                      };
+                      embed.data = logo.src;
+                      logo.parentNode.insertBefore(embed, logo);
+                    });
+              })();
+      +e.nav-toggle-wrap
+        +e('button').nav-toggle(onclick="document.querySelector('.sitetoolbar').classList.toggle('sitetoolbar_menu_open')" type="button")
 
-    if lang=='ru'
       +e('nav').sections
         +e('ul').sections-list
            each section in siteToolbarSections
@@ -48,45 +48,48 @@ div(style="color:red;text-align:center")= t("Sorry, the IE<10 is not supported, 
               +e('a').link(href=section.url ? section.url : ('/' + section.slug))= section.title
 
       if siteToolbarCurrentSection == 'tutorial'
-        include ./buy-book
+          include ./buy-book
 
-      if user
-        include ./user
-      else
-        include ./guest
+        if user
+          include ./user
+        else
+          include ./guest
 
-    include ./search
+      include ./search
 
-  // todo: en variant
-  +e.tablet-menu
-    +e.tablet-menu-line
-      +e.tablet-menu-content
-        +e('select')(onchange="if(this.value) window.location.href=this.value").tablet-menu-nav.input-select.input-select_small
-          - var inSection = siteToolbarSections.filter(function(section) { return siteToolbarCurrentSection == section.slug; }).length;
-          if !inSection
-            +e('option')(selected) Выберите раздел
-          each section in siteToolbarSections
-            +e('option')(
-              value=(section.slug ? ('/' + section.slug) : section.url)
-              selected = (session.slug && siteToolbarCurrentSection == section.slug)
-            )= section.title
+    // todo: en variant
+    +b.tablet-menu
+      +e.line
+        +e.content
+          +e('select')(onchange="if(this.value) window.location.href=this.value").nav.input-select.input-select_small
+            - var inSection = siteToolbarSections.filter(function(section) { return siteToolbarCurrentSection == section.slug; }).length;
+            if !inSection
+              +e('option')(selected) Выберите раздел
+            each section in siteToolbarSections
+              +e('option')(
+                value=(section.slug ? ('/' + section.slug) : section.url)
+                selected = (session.slug && siteToolbarCurrentSection == section.slug)
+              )= section.title
 
-    +e.tablet-menu-line
-      +e.tablet-menu-content
-        include /blocks/map-with-title
+      +e.line
+        +e.content
+          include /blocks/map-with-title
 
-    +e.tablet-menu-line
-      +e.tablet-menu-content
-        +b("a").tablet-ebook(href="/ebook")
-          +e("span").text Купить учебник
-          +e("span").note (EPUB + PDF)
+      +e.line
+        +e.content
+          +b("a").tablet-ebook(href="/ebook")
+            +e("span").text Купить учебник
+            +e("span").note (EPUB + PDF)
 
 
-    +e.tablet-menu-line
-      +e.tablet-menu-content
-        +b.share-icons
-          +e('span').title= t('Share')
-          include ../blocks/social-icons
+      +e.line
+        +e.content
+          +b.share-icons
+            +e('span').title= t('Share')
+            include ../blocks/social-icons
 
-  if bookChildNumber && bookLeafCount
-    +b('progress').tutorial-progress(data-sticky, value=bookChildNumber, max= bookLeafCount, data-tooltip=("Урок " + bookChildNumber + " из " + bookLeafCount))
+    if bookChildNumber && bookLeafCount
+      +b('progress').tutorial-progress(data-sticky, value=bookChildNumber, max= bookLeafCount, data-tooltip=("Урок " + bookChildNumber + " из " + bookLeafCount))
+else
+
+  include ./sitetoolbar-light
