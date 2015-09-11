@@ -36,17 +36,6 @@
       include ./search-light
 
   +b.tablet-menu
-    +e.line
-      +e.content
-        +e('select')(onchange="if(this.value) window.location.href=this.value").nav.input-select.input-select_small
-          - var inSection = siteToolbarSections.filter(function(section) { return siteToolbarCurrentSection == section.slug; }).length;
-          if !inSection
-            +e('option')(selected) Выберите раздел
-          each section in siteToolbarSections
-            +e('option')(
-              value=(section.slug ? ('/' + section.slug) : section.url)
-              selected = (session.slug && siteToolbarCurrentSection == section.slug)
-            )= section.title
 
     +e.line
       +e.content
