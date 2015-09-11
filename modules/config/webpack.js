@@ -123,7 +123,11 @@ var webpackConfig = {
   },
 
   stylus: {
-    use: [nib()]
+    use: [
+      nib(),
+      function(style) {
+        style.define('lang', config.lang);
+      }]
   },
 
   resolve: {
