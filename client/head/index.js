@@ -1,5 +1,5 @@
 
-require('styles');
+require(`styles/${LANG}`);
 
 require('client/polyfill');
 
@@ -16,12 +16,14 @@ try {
   }
 }
 
-require('./unready');
+if (LANG == 'ru') {
+  require('./unready');
 
-//exports.init = require('./init');
-exports.login = require('./login');
+  //exports.init = require('./init');
+  exports.login = require('./login');
 
-require('./logout');
+  require('./logout');
+}
 exports.Modal = require('./modal');
 exports.fontTest = require('./fontTest');
 exports.resizeOnload = require('./resizeOnload');
