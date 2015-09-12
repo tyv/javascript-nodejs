@@ -38,12 +38,54 @@ block content
 
 
     +b('section').course-feedbacks
-        +e('h2').title
-            +e('span').title-n 286
-            | &nbsp;отзывов
-            | с оценкой
-            +e('span').title-mark !{' '} «Отлично»
-            +e('a').show-all показать все
+        +e.head
+            +e('h2').title
+                +e('span').title-n 286
+                | &nbsp;отзывов
+
+            +e.select
+              +b('select').input-select._small.__control
+                +e('option').option(value="all") о всех преподавателях
+                +e('option').option(value="ilia") о Илье Канторе
+                +e('option').option(value="ilia") о Валентине Валентиновском
+
+            +e.select
+              +b('select').input-select._small.__control
+                +e('option').option(value="all") с любой оценкой
+                +e('option').option(value="5") с оценкой 5
+                +e('option').option(value="4") с оценкой 4
+                +e('option').option(value="3") с оценкой 3
+                +e('option').option(value="4") с оценкой 4
+                +e('option').option(value="1") с оценкой 1
+
+
+        +e('article').feedback
+            +b.course-feedback._result._external
+                +e.user
+                    +e.userpic
+                        +e('img').userpic-img(src="/img/userpic/userpic.svg")
+
+                    +e('span').username
+                        +e('a').username-link(href="/123") Александр Луговой
+                    +e('span').country
+                        +e('img').country-flag(src='/img/flags/ru.svg' width=16 height=12)
+                        +e('span').country-text Россия, Москва
+                    +e('span').date 12 Мар 2015
+
+                +b.rating._4
+                    for raiting in [1,2,3,4,5]
+                        +e('i').star ★
+
+                +e.name Рекомендует курс “Javascript, DOM, интерфейсы”
+
+                +e.body
+                    p Очень доволен данным курсом.Я сам из Республики Беларусь. Практический все, с кем я общался по js, хоть раз да заходили на ваш сайт. Если кто-то решится из РБ пройти этот курс, рекомендую. Понравилось: подача материала, расставленные приоритеты в изучении, только актуальные данные , а не устаревшая информация. Мне не хватило пару занятий по организации проекта на js и про шаблоны. Хотел пройти курс у человека, который ПОЛНОСТЬЮ ПРАКТИК. Очень радостно, что вы поделились своим опытом!!! Спасибо.
+
+                +e.info
+                  | Преподаватель:
+                  =  ' '
+                  +e('a').teacher-link(href="/123") Валентиновский Валентин
+
 
         +e('article').feedback
             +b.course-feedback._result._external
@@ -67,6 +109,18 @@ block content
                 +e.body
                     p Очень доволен данным курсом.Я сам из Республики Беларусь.Практический все, с кем я общался по js, хоть раз да заходили на ваш сайт. Если кто-то решится из РБ пройти этот курс, рекомендую. Понравилось: подача материала, расставленные приоритеты в изучении, только актуальные данные , а не устаревшая информация. Мне не хватило пару занятий по организации проекта на js и про шаблоны. Хотел пройти курс у человека, который ПОЛНОСТЬЮ ПРАКТИК. Очень радостно, что вы поделились своим опытом!!! Спасибо.
 
+
+                +e.info
+                  | Преподаватель:
+                  =  ' '
+                  +e('a').teacher-link(href="/123") Валентиновский Валентин
+
+                  +e.teacher-comment Очень доволен увеником! Блабла бла блабла бла  бла блабла бла  бла блабла бла  бла блабла бла  бла блабла бла  бла блабла бла
+
+
+                +e('a').edit(href="/123") Редактировать
+
+
         +e('article').feedback
             +b.course-feedback._result._external
                 +e.user
@@ -89,6 +143,26 @@ block content
                 +e.body
                     p Очень доволен данным курсом.Я сам из Республики Беларусь.Практический все, с кем я общался по js, хоть раз да заходили на ваш сайт. Если кто-то решится из РБ пройти этот курс, рекомендую. Понравилось: подача материала, расставленные приоритеты в изучении, только актуальные данные , а не устаревшая информация. Мне не хватило пару занятий по организации проекта на js и про шаблоны. Хотел пройти курс у человека, который ПОЛНОСТЬЮ ПРАКТИК. Очень радостно, что вы поделились своим опытом!!! Спасибо.
 
+
+                +e.info
+                    | Преподаватель:
+                    =  ' '
+                    +e('a').teacher-link(href="/123") Валентиновский Валентин
+                    &nbsp;
+                    +e('button').add-comment
+
+                    +e.teacher-comment
+                        +b('textarea').textarea-input
+                        +e.ok-cancel
+                          +b('button')(type="submit").button._action.__item-save
+                            +e('span').text Опубликовать
+                          +e('button').item-cancel Отмена
+
+    +b.page-loader
+        +b('span').spinner._active._small
+            +e('span').dot._1
+            +e('span').dot._2
+            +e('span').dot._3
 
 
 

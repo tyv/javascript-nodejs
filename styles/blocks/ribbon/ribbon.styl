@@ -1,0 +1,60 @@
+.ribbon
+    position relative
+    line-height 14px
+    white-space nowrap
+
+    display inline-block
+
+    padding 8px 14px
+
+    text-align center
+
+    color #ffffff
+    background #f6aa51
+
+    &:before,
+    &:after
+        position absolute
+        top 8px
+        z-index -2
+
+        border 15px solid #f6aa51
+
+        content ''
+
+    &:before
+        left 15px
+        transform translateX(-100%)
+
+        border-right-width 24px
+        border-left-color transparent
+
+    &:after
+        right 15px
+        transform translateX(100%)
+
+        border-left-width 24px
+        border-right-color transparent
+
+
+    &__content
+      position relative
+
+    &__content:before,
+    &__content:after
+        position absolute
+        z-index -1
+        bottom -16px
+
+        border-style solid
+        border-color #7d4f14 transparent transparent transparent
+
+        content: ''
+
+    &__content:before
+        left -14px
+        border-width 10px 0 0 15px
+
+    &__content:after
+        right -14px
+        border-width 10px 15px 0 0

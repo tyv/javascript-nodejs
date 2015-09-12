@@ -1,0 +1,77 @@
+extends /layouts/main
+
+block append variables
+
+    - var layout_header_class = "main__header_center"
+    - var layout_main_class = "main_width-limit"
+    - var title = 'Валентиновский Валентин'
+
+    - var content_class = '_center'
+
+
+block content
+    include ../blocks/teacher-picture
+    include ../blocks/teacher-info
+
+    +b('section').course-feedbacks.teacher-feedback
+        +e.head
+          +e('h2').title Отзывы учеников
+
+        +e('article').feedback
+            +b.course-feedback._result._external
+                +e.user
+                    +e.userpic
+                        +e('img').userpic-img(src="/img/userpic/userpic.svg")
+
+                    +e('span').username
+                        +e('a').username-link(href="/123") Александр Луговой
+                    +e('span').country
+                        +e('img').country-flag(src='/img/flags/ru.svg' width=16 height=12)
+                        +e('span').country-text Россия, Москва
+                    +e('span').date 12 Мар 2015
+
+                +b.rating._4
+                    for raiting in [1,2,3,4,5]
+                        +e('i').star ★
+
+                +e.body
+                    p Очень доволен данным курсом.Я сам из Республики Беларусь.Практический все, с кем я общался по js, хоть раз да заходили на ваш сайт. Если кто-то решится из РБ пройти этот курс, рекомендую. Понравилось: подача материала, расставленные приоритеты в изучении, только актуальные данные , а не устаревшая информация. Мне не хватило пару занятий по организации проекта на js и про шаблоны. Хотел пройти курс у человека, который ПОЛНОСТЬЮ ПРАКТИК. Очень радостно, что вы поделились своим опытом!!! Спасибо.
+
+                +e.info
+                  | Курс:
+                  =  ' '
+                  a(href="/123") «Javascript, DOM, интерфейсы»
+                  <br>
+                  | Преподаватель:
+                  =  ' '
+                  +e('a').teacher-link(href="/123") Валентиновский Валентин
+
+
+        +e('article').feedback
+            +b.course-feedback._result._external
+                +e.user
+                    +e.userpic
+                        +e('img').userpic-img(src="/img/userpic/userpic.svg")
+
+                    +e('span').username
+                        +e('a').username-link(href="/123") Александр Луговой
+                    +e('span').country
+                        +e('img').country-flag(src='/img/flags/ru.svg' width=16 height=12)
+                        +e('span').country-text Россия, Москва
+                    +e('span').date 12 Мар 2015
+
+                +b.rating._4
+                    for raiting in [1,2,3,4,5]
+                        +e('i').star ★
+
+                +e.body
+                    p Очень доволен данным курсом.Я сам из Республики Беларусь.Практический все, с кем я общался по js, хоть раз да заходили на ваш сайт. Если кто-то решится из РБ пройти этот курс, рекомендую. Понравилось: подача материала, расставленные приоритеты в изучении, только актуальные данные , а не устаревшая информация. Мне не хватило пару занятий по организации проекта на js и про шаблоны. Хотел пройти курс у человека, который ПОЛНОСТЬЮ ПРАКТИК. Очень радостно, что вы поделились своим опытом!!! Спасибо.
+
+                +e.info
+                  | Курс:
+                  =  ' '
+                  a(href="/123") «Javascript, DOM, интерфейсы»
+                  <br>
+                  | Преподаватель:
+                  =  ' '
+                  +e('a').teacher-link(href="/123") Валентиновский Валентин
