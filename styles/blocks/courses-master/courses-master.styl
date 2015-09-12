@@ -1,56 +1,25 @@
 .courses-master
-    position relative
+    display inline-block
 
-    min-height 150px
-    margin-top 40px
-    padding 0 0 0 185px
+    & .teacher-picture
+        display block
 
-    text-align left
+    & .teacher-picture__img
+        position static
 
-    &:before
-        position absolute
-        left 15px
-        top 5px
+    &__name
+        color light_link_color
 
-        width 145px
-        height 145px
+    &__name-text
+        display inline-block
 
-        background #ccc
-        border-radius 50%
-        background url(/about/iliakan.jpg) no-repeat center center
-        background-size cover
-        content: ''
+        font-size 16px
+        padding-top 15px
 
-    & h2&__title
-        font-family secondary_font
-        line-height initial
+    &__name:hover &__name-text
+        text-decoration underline
 
-        margin 0 0 10px 0
-
-    & p&__text
-        padding 0
-        margin 7px 0
-
-    @media (max-width: 690px)
+    @media tablet
         &
-            width auto
-            padding 0
+          width 145px
 
-            border-bottom none
-
-        & h2&__title
-
-            text-align center
-
-            padding-bottom 185px
-
-        &:before
-            left 50%
-            top 60px
-
-            margin-left -73px
-
-        & p&__text
-            font-size 14px
-
-            margin 10px 0
