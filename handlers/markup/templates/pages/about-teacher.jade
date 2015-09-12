@@ -14,7 +14,8 @@ block content
     include ../blocks/teacher-info
 
     +b('section').course-feedbacks.teacher-feedback
-        +e('h2').title Отзывы учеников
+        +e.head
+          +e('h2').title Отзывы учеников
 
         +e('article').feedback
             +b.course-feedback._result._external
@@ -43,7 +44,7 @@ block content
                   <br>
                   | Преподаватель:
                   =  ' '
-                  a(href="/123") «Javascript, DOM, интерфейсы»
+                  +e('a').teacher-link(href="/123") Валентиновский Валентин
 
 
         +e('article').feedback
@@ -73,4 +74,4 @@ block content
                   <br>
                   | Преподаватель:
                   =  ' '
-                  a(href="/123") «Javascript, DOM, интерфейсы»
+                  +e('a').teacher-link(href="/123") Валентиновский Валентин

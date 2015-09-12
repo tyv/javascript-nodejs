@@ -158,7 +158,11 @@
 
     &_result &__edit
         font-size 12px
-        color light_link_color
+        display inline-block
+
+        margin-top 20px
+
+        color secondary_color
 
     &_result &__share
         position absolute
@@ -187,6 +191,66 @@
 
     &_external
         border-color #F5F2F0
+
+    &__teacher-comment
+        position relative
+
+        padding 10px 15px
+        margin-top 30px
+
+        color color
+        border-radius 3px
+        background background_blocks
+
+        &:before
+            position absolute
+            top -6px
+            left 30%
+            z-index -1
+
+            width 20px
+            height 20px
+
+            background background_blocks
+
+            transform rotate(45deg)
+
+            content: ''
+
+    &__add-comment
+        @extend $button-reset
+
+        margin-left 5px
+
+        cursor pointer
+        color light_gray_color
+
+        &:after
+            @extend $font-comment
+
+            font-size 16px
+            line-height 16px
+
+    &__teacher-comment .textarea-input
+        height 60px
+
+    &__ok-cancel
+        margin-top 10px
+
+        & .button_action
+            margin-right 20px
+
+    &__item-cancel
+        @extend $button-reset
+
+        font size/lineheight font
+
+        color light_link_color
+
+    &__item-cancel:hover
+        color secondary_color
+        text-decoration underline
+
 
     @media tablet
         &
