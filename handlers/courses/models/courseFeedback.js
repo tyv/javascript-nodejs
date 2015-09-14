@@ -23,6 +23,10 @@ var schema = new Schema({
     required: "Отсутствует текст отзыва."
   },
 
+  teacherComment: {
+    type: String
+  },
+
   participant: {
     type: Schema.Types.ObjectId,
     ref:  'CourseParticipant',

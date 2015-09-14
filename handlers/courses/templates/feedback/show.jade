@@ -9,44 +9,11 @@ block append variables
   - var siteToolbarCurrentSection = "courses"
   - var sitetoolbar = true
 
+block append head
+  !=js("coursesFeedback", {defer: true})
+
 block content
 
-  +b.course-feedback._result
-    +e.user
-      +e.userpic
-        +e('img').userpic-img(src=thumb(courseFeedback.photo || participantUser.getPhotoUrl(), 86, 86))
-
-      +e('span').username
-        +e('a').username-link(href=participantUser.getProfileUrl())= courseFeedback.participant.fullName
-      +e('span').country
-        +e('img').country-flag(src='/img/flags/#{courseFeedback.country}.svg' width=16 height=12)
-        +e('span').country-text
-          = countries[courseFeedback.country].na
-          if courseFeedback.city
-            | ,&nbsp;
-            = courseFeedback.city
-
-      +e('span').date= moment(courseFeedback.created).format('D MMM YYYY')
-
-      if courseFeedback.aboutLink
-        +e('span').homepage
-          +e('a').homepage-link(href=courseFeedback.aboutLink, target="_blank")= courseFeedback.aboutLink
-
-    +b(class=["rating", "_" + courseFeedback.stars])
-      for raiting in [1,2,3,4,5]
-        +e('i').star ★
-
-    if courseFeedback.recommend
-      +e.name Рекомендует #{group.course.title.replace(/./, function(match) { return match.toLowerCase(); })}
-
-    +e.body!= renderSimpledown(courseFeedback.content, {trusted: false})
-
-    if editLink
-      +e('a').edit(href=editLink) редактировать
-    +e.share
-      +b.share-icons
-        +e('span').title Поделиться
-        include /blocks/social-icons
-
+  include _item
 
 

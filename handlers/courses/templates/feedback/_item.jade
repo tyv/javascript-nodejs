@@ -1,0 +1,56 @@
+
++b.course-feedback._result(data-coursefeedback-number=courseFeedback.number)
+  +e.user
+    +e.userpic
+      +e('img').userpic-img(src=thumb(courseFeedback.photo, 86, 86))
+
+    +e('span').username
+      +e('a').username-link(href=courseFeedback.author.link)= courseFeedback.author.name
+    +e('span').country
+      +e('img').country-flag(src='/img/flags/#{courseFeedback.country}.svg' width=16 height=12)
+      +e('span').country-text
+        = countries[courseFeedback.country].na
+        if courseFeedback.city
+          | ,&nbsp;
+          = courseFeedback.city
+
+    +e('span').date= moment(courseFeedback.created).format('D MMM YYYY')
+
+    if courseFeedback.aboutLink
+      +e('span').homepage
+        +e('a').homepage-link(href=courseFeedback.aboutLink, target="_blank")= courseFeedback.aboutLink
+
+  +b(class=["rating", "_" + courseFeedback.stars])
+    for raiting in [1,2,3,4,5]
+      +e('i').star ★
+
+  if courseFeedback.recommend
+    +e.name Рекомендует #{courseFeedback.course.title.replace(/./, function(match) { return match.toLowerCase(); })}
+
+  +e.body!= courseFeedback.content
+
+  +e.info
+    | Преподаватель:
+    =  ' '
+    +e('a').teacher-link(href=courseFeedback.teacher.link)
+      = courseFeedback.teacher.name
+    if courseFeedback.isTeacher
+      = ' '
+      +e('button').add-comment(data-action-coursefeedback-comment-add style="display:#{courseFeedback.teacherComment ? 'none' : ''}")
+
+    if courseFeedback.teacherComment
+      +e.teacher-comment
+        +e!= courseFeedback.teacherComment
+        if courseFeedback.isTeacher
+          script(type="text/comment" data-coursefeedback-comment-raw)= courseFeedback.teacherCommentRaw
+          +e('a').edit(href='#' data-action-coursefeedback-comment-edit) редактировать
+
+
+  if courseFeedback.editLink
+    +e('a').edit(href=courseFeedback.editLink) редактировать
+
+  if courseFeedback.share
+    +e.share
+      +b.share-icons
+        +e('span').title Поделиться
+        include /blocks/social-icons

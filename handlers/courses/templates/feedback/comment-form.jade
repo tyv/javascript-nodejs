@@ -1,0 +1,8 @@
+include /bem
+
++b('form').course-feedback-comment-form
+  +b('textarea')(name="teacherComment").textarea-input= teacherCommentRaw
+  +e.ok-cancel
+    +b('button')(type="submit").button._action.__item-save
+      +e('span').text Опубликовать
+    +e('button')(type="button" data-action-comment-cancel!).item-cancel Отмена

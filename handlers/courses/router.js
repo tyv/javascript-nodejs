@@ -31,6 +31,7 @@ router.all('/groups/:groupBySlug/feedback', mustBeParticipant, require('./contro
 
 router.get('/:course/reviews', require('./controller/courseReviews').get);
 
+router.patch('/feedback/comment', mustBeAuthenticated, require('./controller/groupFeedbackComment').patch);
 router.get('/feedback/:feedbackNumber', require('./controller/groupFeedbackShow').get);
 
 router.patch('/participants', require('./controller/participants').patch);

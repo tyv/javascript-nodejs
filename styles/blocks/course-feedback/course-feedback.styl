@@ -10,6 +10,29 @@
         max-width 635px
         margin 30px auto 0
 
+    &-comment-form
+        &__item-cancel
+            @extend $button-reset
+
+            font size/lineheight font
+
+            color light_link_color
+
+        &__item-cancel:hover
+            color secondary_color
+            text-decoration underline
+
+        & .textarea-input
+            height 60px
+
+        &__ok-cancel
+            margin-top 10px
+
+            & .button_action
+                margin-right 20px
+
+
+
 
     h2&__title
         font-size 14px
@@ -230,26 +253,6 @@
 
             font-size 16px
             line-height 16px
-
-    &__teacher-comment .textarea-input
-        height 60px
-
-    &__ok-cancel
-        margin-top 10px
-
-        & .button_action
-            margin-right 20px
-
-    &__item-cancel
-        @extend $button-reset
-
-        font size/lineheight font
-
-        color light_link_color
-
-    &__item-cancel:hover
-        color secondary_color
-        text-decoration underline
 
 
     @media tablet
