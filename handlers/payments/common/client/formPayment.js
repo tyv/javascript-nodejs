@@ -77,7 +77,7 @@ class FormPayment {
       orderData[key] = paymentData[key];
     }
 
-    var discountCode = window.location.search.match(/[?&]code=(\w+)/);
+    var discountCode = window.location.search.match(/[?&]code=([-\w]+)/);
     if (discountCode) {
       orderData.discountCode = discountCode[1];
     }

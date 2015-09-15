@@ -53,15 +53,13 @@ module.exports = function*(orderTemplate, user, requestBody) {
       discount = null;
     }
 
-    log.debug("discount for " + requestBody.discountCode, discount);
-
     if (discount) {
       price = discount.adjustAmount(price);
     }
   }
 
   if (!group.isOpenForSignup && !discount) {
-    throw new OrderCreateError("Запись в эту группу завершена, извините");
+    throw new OrderCreateError("Запись в эту группу завершена, извините.");
   }
 
 
