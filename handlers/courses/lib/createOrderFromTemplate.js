@@ -4,6 +4,7 @@ var OrderCreateError = require('payments').OrderCreateError;
 var CourseGroup = require('../models/courseGroup');
 var pluralize = require('textUtil/pluralize');
 var _ = require('lodash');
+var log = require('log')();
 
 // middleware
 // create order from template,
@@ -48,13 +49,19 @@ module.exports = function*(orderTemplate, user, requestBody) {
   var discount;
   if (requestBody.discountCode) {
     discount = yield* Discount.findByCodeAndModule(requestBody.discountCode, 'courses');
-    if (discount && discount.data.slug == group.slug) {
+    if (discount && discount.data.slug != group.slug) {
+      discount = null;
+    }
+
+    log.debug("discount for " + requestBody.discountCode, discount);
+
+    if (discount) {
       price = discount.adjustAmount(price);
     }
   }
 
   if (!group.isOpenForSignup && !discount) {
-    this.throw(403, "Запись в эту группу завершена, извините");
+    throw new OrderCreateError("Запись в эту группу завершена, извините");
   }
 
 
