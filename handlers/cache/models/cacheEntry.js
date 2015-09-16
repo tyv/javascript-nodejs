@@ -71,7 +71,7 @@ schema.statics.getOrGenerate = function* (doc, generator) {
   var result;
 
   // disable cache for development
-  if (process.env.NODE_ENV == 'development') {
+  if (process.env.NODE_ENV == 'development' && !process.env.CACHEENTRY_ENABLED) {
     return yield generator();
   }
 
@@ -83,7 +83,7 @@ schema.statics.getOrGenerate = function* (doc, generator) {
   if (!result) {
     generatingStartTimestamp = Date.now();
     try {
-      yield new CacheEntry({ key: doc.key, generatingStartTimestamp: generatingStartTimestamp }).persist();
+      yield new CacheEntry({ key: doc.key, generatingStartTimestamp: generatingStartTimestamp }).save();
     } catch (e) {
       // lost the race, someone has already persisted it and started generating
       if (e.code == 11000) {

@@ -5,24 +5,21 @@ const CourseParticipant = require('../models/courseParticipant');
 const CourseGroup = require('../models/courseGroup');
 const User = require('users').User;
 const _ = require('lodash');
-const renderSimpledown = require('renderSimpledown');
+const renderFeedback = require('../lib/renderFeedback');
 
 exports.get = function*() {
 
   var number = +this.params.feedbackNumber;
 
-  var courseFeedback = yield CourseFeedback.findOne({number: number}).populate('group participant');
+  var courseFeedback = yield CourseFeedback.findOne({number: number}).populate('group');
 
   if (!courseFeedback) {
     this.throw(404);
   }
 
-  yield CourseGroup.populate(courseFeedback.group, 'course teacher');
-  yield CourseParticipant.populate(courseFeedback.participant, "user");
-
   var authorOrAdmin = false;
   if (this.user) {
-    if (this.isAdmin || String(this.user._id) == String(courseFeedback.participant.user._id)) {
+    if (this.user.isAdmin || this.user._id.equals(courseFeedback.userCache)) {
       authorOrAdmin = true;
     }
   }
@@ -38,42 +35,9 @@ exports.get = function*() {
 
   this.locals.countries = countries.all;
 
-  var isTeacher = this.user && (this.isAdmin || String(this.user._id) == String(group.teacher._id));
-
-  this.locals.courseFeedback = {
-    photo:     courseFeedback.photo || courseFeedback.participant.user.getPhotoUrl(),
-    author:    {
-      link: courseFeedback.participant.user.getProfileUrl(),
-      name: courseFeedback.participant.fullName
-    },
-    country:   courseFeedback.country,
-    city:      courseFeedback.city,
-    created:   courseFeedback.created,
-    aboutLink: courseFeedback.aboutLink,
-    stars:     courseFeedback.stars,
-    recommend: courseFeedback.recommend,
-    course:    {
-      title: group.course.title
-    },
-    teacher: {
-      link: "/courses/teacher/" + group.teacher.profileName,
-      name: group.teacher.displayName
-    },
-    content:   renderSimpledown(courseFeedback.content, {trusted: false}),
-    isTeacher: isTeacher,
-    number: courseFeedback.number,
-    teacherComment: courseFeedback.teacherComment ? renderSimpledown(courseFeedback.teacherComment, {trusted: false}) : '',
-    teacherCommentRaw: isTeacher ? (courseFeedback.teacherComment || '') : ''
-  };
-
-  if (authorOrAdmin) {
-    courseFeedback.editLink = `/courses/groups/${courseFeedback.group.slug}/feedback`;
-  }
-
-  courseFeedback.share = true;
+  this.locals.courseFeedback = yield* renderFeedback(courseFeedback, this.user);
 
   this.body = this.render('feedback/show');
-
 
 };
 

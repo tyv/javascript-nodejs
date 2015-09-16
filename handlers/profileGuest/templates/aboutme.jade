@@ -51,11 +51,11 @@ block profileContent
       +e.lcell
         +e.name Зарегистрирован
       +e.rcell
-        +e.value= moment(profileUser.created).format('DD.MM.YY в LT')
+        +e.value= moment(profileUser.created).format('DD.MM.YYYY в LT')
 
     +b.profile-field
       +e.lcell
         +e.name Активность
       +e.rcell
-        +e.value Последняя активность #{moment(profileUser.lastActivity || profileUser.created).format('DD.MM.YY в LT')}
+        +e.value Последняя активность #{moment(profileUser.lastActivity || profileUser.created).format('DD.MM.YYYY в LT')}
 

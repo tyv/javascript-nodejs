@@ -11,7 +11,7 @@ var ImgurImage = require('imgur').ImgurImage;
 
 exports.get = function*(next) {
 
-  var fields = 'created displayName realName birthday email gender country town interests profileName publicEmail'.split(' ');
+  var fields = 'created displayName realName birthday email gender country town interests aboutMe profileName publicEmail'.split(' ');
 
   this.body = { };
   fields.forEach( function(field) {
@@ -56,7 +56,7 @@ exports.patch = function*(next) {
 
   var fields = this.request.body;
 
-  'displayName realName birthday gender country town interests profileName publicEmail'.split(' ').forEach(function(field) {
+  'displayName realName birthday gender country town interests aboutMe profileName publicEmail'.split(' ').forEach(function(field) {
     if (field in fields) {
       user[field] = fields[field];
     }

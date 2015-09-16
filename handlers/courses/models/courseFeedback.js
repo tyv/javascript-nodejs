@@ -33,6 +33,18 @@ var schema = new Schema({
     required: true
   },
 
+  teacherCache: {
+    type: Schema.Types.ObjectId,
+    ref:  'User',
+    required: true
+  },
+
+  userCache: {
+    type: Schema.Types.ObjectId,
+    ref:  'User',
+    required: true
+  },
+
   // todo (not used now)
   // for selected reviews, to show at the courses main, cut them at this point
   // todo: add an intelligent cutting function like jQuery dotdotdot, but w/o jquery

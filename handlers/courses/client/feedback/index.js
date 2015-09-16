@@ -107,9 +107,12 @@ class FeedbackItem {
     spinner.start();
     submitButton.disabled = true;
 
-    request.addEventListener('success', (event) => {
+    request.addEventListener('loadend', (event) => {
       spinner.stop();
       submitButton.disabled = false;
+    });
+
+    request.addEventListener('success', (event) => {
 
       if (request.status == 200) {
         new notification.Success("Комментарий сохранён");

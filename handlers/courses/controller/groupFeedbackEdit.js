@@ -20,13 +20,15 @@ exports.all = function*() {
 
   if (!courseFeedback) {
     courseFeedback = new CourseFeedback({
-      recommend:  true,
-      isPublic:   true,
-      country:    this.participant.country,
-      photo:      this.participant.photo,
-      aboutLink:  this.participant.aboutLink,
-      city:       this.participant.city,
-      occupation: this.participant.occupation
+      recommend:    true,
+      isPublic:     true,
+      country:      this.participant.country,
+      photo:        this.participant.photo,
+      aboutLink:    this.participant.aboutLink,
+      city:         this.participant.city,
+      occupation:   this.participant.occupation,
+      userCache:    this.user.id,
+      teacherCache: group.teacher
     });
   }
 
@@ -90,9 +92,5 @@ exports.all = function*() {
 
     this.body = this.render('feedback/edit');
   }
-
-};
-
-exports.post = function*() {
 
 };
