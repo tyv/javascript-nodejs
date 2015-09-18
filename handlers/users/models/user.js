@@ -1,5 +1,6 @@
 var transliterate = require('textUtil/transliterate');
 var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 var hash = require('../lib/hash');
 var troop = require('mongoose-troop');
 var _ = require('lodash');
@@ -153,9 +154,13 @@ var UserSchema = new mongoose.Schema({
   town:                      String,
   publicEmail:               String,
   interests:                 String,
+  teachesCourses:            [{
+    type: Schema.Types.ObjectId,
+    ref:  'Course'
+  }],
   aboutMe:                   {
-    type: String,
-    maxlength: 300
+    type:      String,
+    maxlength: 600
   },
   deleted:                   { // private & login data is deleted
     type:    Boolean,
@@ -318,7 +323,7 @@ UserSchema.pre('save', function(next) {
 });
 
 UserSchema.pre('save', function(next) {
-  if (this.aboutMe) this.aboutMe = this.aboutMe.slice(0, 300);
+  if (this.aboutMe) this.aboutMe = this.aboutMe.slice(0, 600);
   next();
 });
 

@@ -40,6 +40,16 @@ block profileContent
         +e.rcell
           +e.value= profileUser.interests
 
+    if profileUser.aboutMe
+      +b.profile-field
+        +e.lcell
+          +e.name О себе
+        +e.rcell
+          +e.value
+           | <p>
+           != profileUser.aboutMe.replace(/&([^#]|#[^0-9]?|#x[^0-9]?|$)/g, '&amp;$1').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/^(https?:\/\/(-\.)?([^\s/?.#-]+\.?)+(\/[^\s]*)?)$/, '<a href="$1">$1</a>').replace('\n\n', '</p><p>')
+           | </p>
+
     if profileUser.birthday
       +b.profile-field
         +e.lcell
@@ -52,6 +62,17 @@ block profileContent
         +e.name Зарегистрирован
       +e.rcell
         +e.value= moment(profileUser.created).format('DD.MM.YYYY в LT')
+
+    if profileUser.teachesCourses
+      +b.profile-field
+        +e.lcell
+          +e.name Ведёт курсы
+        +e.rcell
+          +e.value
+            each course, index in profileUser.teachesCourses
+              a(href=course.getUrl())= course.title
+              if index < profileUser.teachesCourses.length - 1
+                = ', '
 
     +b.profile-field
       +e.lcell
