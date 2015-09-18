@@ -8,14 +8,14 @@ exports.get = function* (next) {
 
   var user = yield User.findOne({
     profileName: this.params.profileName
-  }).exec();
+  }).populate('teachesCourses');
 
   if (!user) {
     this.throw(404);
   }
 
   // the visitor is the owner => another middleware
-  if (this.user && String(this.user._id) == String(user._id)) {
+  if (this.user && this.user._id.equals(user._id)) {
     yield* next;
     return;
   }
