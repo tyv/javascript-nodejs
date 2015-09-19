@@ -54,7 +54,6 @@
     "jade": "*",
     "jade-loader": "*",
     "js-yaml": "*",
-    "juice2": "*",
     "koa": "*",
     "koa-bodyparser": "*",
     "koa-compose": "*",
