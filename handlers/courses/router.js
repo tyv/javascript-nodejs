@@ -29,7 +29,7 @@ router.get('/download/:groupBySlug/:filename', mustBeParticipantOrTeacher, requi
 
 router.all('/groups/:groupBySlug/feedback', mustBeParticipant, require('./controller/groupFeedbackEdit').all);
 
-router.get('/:course/reviews', require('./controller/courseReviews').get);
+router.get('/:course/feedback', require('./controller/courseFeedback').get);
 
 router.patch('/feedback/comment', mustBeAuthenticated, require('./controller/groupFeedbackComment').patch);
 router.get('/feedback/:feedbackNumber', require('./controller/groupFeedbackShow').get);

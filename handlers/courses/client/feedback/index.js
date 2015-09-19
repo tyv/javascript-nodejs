@@ -1,109 +1,37 @@
 var xhr = require('client/xhr');
 var Spinner = require('client/spinner');
-var delegate = require('client/delegate');
-var notification = require('client/notification');
-var clientRender = require('client/clientRender');
-var commentForm = require('../../templates/feedback/comment-form.jade');
 
-class FeedbackManager {
+class FeedbackLoader {
 
-  constructor() {
+  constructor(elem, course, filter) {
 
-    this.elem = document;
-
-    this.delegate("[data-action-coursefeedback-comment-add]", "click", (event) => {
-      event.preventDefault();
-      this.getItem(event.target).addComment();
-
-    });
-
-    this.delegate("[data-action-coursefeedback-comment-edit]", "click", (event) => {
-      event.preventDefault();
-      this.getItem(event.target).editComment();
-    });
-
-  }
-
-  getItem(elem) {
-    elem = elem.closest('.course-feedback');
-    if (!elem.feedbackItem) {
-      elem.feedbackItem = new FeedbackItem(elem);
-    }
-    return elem.feedbackItem;
-  }
-
-}
-delegate.delegateMixin(FeedbackManager.prototype);
-
-class FeedbackItem {
-  constructor(elem) {
     this.elem = elem;
+    this.baseUrl = `/courses/${course}/feedback?partialMode=1`;
 
-    this.number = +elem.getAttribute('data-coursefeedback-number');
-
-    var commentStore = this.elem.querySelector('[data-coursefeedback-comment-raw]');
-    this.teacherCommentRaw = commentStore ? commentStore.innerHTML.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/ ,'&') : '';
-
-    this.delegate(".course-feedback-comment-form", "submit", (event) => {
-      event.preventDefault();
-      this.onSubmitComment();
-    });
-
-    this.delegate("[data-action-comment-cancel]", "click", (event) => {
-      event.preventDefault();
-      this.onCancelComment();
-    });
-  }
-
-  addComment() {
-    this.renderCommentForm();
-  }
-
-  editComment() {
-    this.renderCommentForm();
-  }
-
-  renderCommentForm() {
-    var teacherCommentElem = this.elem.querySelector('.course-feedback__teacher-comment');
-    if (teacherCommentElem) {
-      this.teacherComment = teacherCommentElem.firstChild.innerHTML;
-    } else {
-      this.teacherComment = "";
-      teacherCommentElem = document.createElement('div');
-      teacherCommentElem.className = 'course-feedback__teacher-comment';
-      this.elem.querySelector('.course-feedback__info').appendChild(teacherCommentElem);
+    for (var key in filter) {
+      this.baseUrl += `&${key}=${filter[key]}`;
     }
 
-    teacherCommentElem.innerHTML = clientRender(commentForm, {
-      teacherCommentRaw: this.teacherCommentRaw
+    
+    var spinner = new Spinner();
+    this.elem.innerHTML = '';
+    this.elem.appendChild(spinner.elem);
+    spinner.start();
+
+    this.load({
+      skip: 0
     });
-    teacherCommentElem.querySelector('textarea').focus();
   }
 
-  onCancelComment() {
-    this.renderComment();
-  }
+  load({skip}) {
 
-  onSubmitComment() {
-    var form = this.elem.querySelector('form');
-    var value = form.elements.teacherComment.value.trim();
+    let url = `${this.baseUrl}&skip=${skip}`;
 
     const request = xhr({
-      method: 'PATCH',
-      url:    '/courses/feedback/comment',
-      body:   {
-        number: this.number,
-        teacherComment: value
-      }
+      method: 'GET',
+      url:    url
     });
 
-    var submitButton = form.querySelector('[type="submit"]');
-
-    var spinner = new Spinner({
-      elem:      submitButton,
-      size:      'small',
-      elemClass: 'button_loading'
-    });
     spinner.start();
     submitButton.disabled = true;
 

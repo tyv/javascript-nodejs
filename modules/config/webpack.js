@@ -73,6 +73,7 @@ var webpackConfig = {
     coursesMaterials:          'courses/client/materials',
     coursesFeedbackEdit:       'courses/client/feedbackEdit',
     coursesFeedback:           'courses/client/feedback',
+    coursesFeedbackShow:       'courses/client/feedbackShow',
     coursesFrontpage:          'courses/client/frontpage',
     footer:                    'client/footer',
     nodejsScreencast:          'nodejsScreencast/client'

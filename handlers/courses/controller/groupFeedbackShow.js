@@ -35,7 +35,11 @@ exports.get = function*() {
 
   this.locals.countries = countries.all;
 
-  this.locals.courseFeedback = yield* renderFeedback(courseFeedback, this.user);
+  var feedbackRendered = this.locals.courseFeedback = yield* renderFeedback(courseFeedback, this.user);
+  feedbackRendered.shareEnabled = true;
+  if (feedbackRendered.isTeacher) {
+    feedbackRendered.teacherFeedbackEnabled = true;
+  }
 
   this.body = this.render('feedback/show');
 

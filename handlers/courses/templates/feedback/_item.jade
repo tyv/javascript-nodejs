@@ -34,14 +34,14 @@
     =  ' '
     +e('a').teacher-link(href=courseFeedback.teacher.link)
       = courseFeedback.teacher.name
-    if courseFeedback.isTeacher
+    if courseFeedback.teacherFeedbackEnabled
       = ' '
       +e('button').add-comment(data-action-coursefeedback-comment-add style="display:#{courseFeedback.teacherComment ? 'none' : ''}")
 
     if courseFeedback.teacherComment
       +e.teacher-comment
         +e!= courseFeedback.teacherComment
-        if courseFeedback.isTeacher
+        if courseFeedback.teacherFeedbackEnabled
           script(type="text/comment" data-coursefeedback-comment-raw)= courseFeedback.teacherCommentRaw
           +e('a').edit(href='#' data-action-coursefeedback-comment-edit) редактировать
 
@@ -49,7 +49,7 @@
   if courseFeedback.editLink
     +e('a').edit(href=courseFeedback.editLink) редактировать
 
-  if courseFeedback.share
+  if courseFeedback.shareEnabled
     +e.share
       +b.share-icons
         +e('span').title Поделиться
