@@ -16,6 +16,12 @@ var schema = new Schema({
     required: true
   },
 
+  // "JavaScript/DOM/интерфейсы"
+  titleShort: {
+    type: String,
+    required: true
+  },
+
   // short description to show in the list
   shortDescription: {
     type: String

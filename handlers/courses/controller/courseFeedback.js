@@ -8,7 +8,6 @@ const Course = require('../models/course');
 const User = require('users').User;
 const _ = require('lodash');
 const CacheEntry = require('cache').CacheEntry;
-const renderFeedback = require('../lib/renderFeedback');
 
 exports.get = function*() {
 
@@ -20,52 +19,17 @@ exports.get = function*() {
     this.throw(404);
   }
 
-  if (!this.query.partialMode) {
+  this.locals.title = "Отзыв о курсе\n" + this.locals.course.title;
 
-    this.locals.title = "Отзыв о курсе\n" + this.locals.course.title;
+  // star => count
+  let feedbackStats = yield* CacheEntry.getOrGenerate({
+    key:  'courses:feedback:' + this.params.slug,
+    tags: ['courses:feedback']
+  }, getFeedbackStats.bind(this, this.locals.course));
 
-    // star => count
-    let feedbackStats = yield* CacheEntry.getOrGenerate({
-      key:  'courses:feedback:' + this.params.slug,
-      tags: ['courses:feedback']
-    }, getFeedbackStats.bind(this, this.locals.course));
-
-    this.body = this.render('feedback/list', {
-      stats: feedbackStats
-    });
-
-  } else {
-
-    var skip = +this.query.skip || 0;
-    var limit = 10;
-    var filter = {
-      isPublic: true
-    };
-    if (this.query.teacherId) {
-      if (!mongoose.Types.ObjectId.isValid(this.query.teacherId)) this.throw(400, "teacherId is malformed");
-      filter.teacherCache = this.query.teacherId;
-    }
-    if (this.query.stars) {
-      filter.stars = +this.query.stars;
-    }
-
-    let feedbacks = yield CourseFeedback.find(filter).skip(skip).limit(limit);
-
-    let feedbacksRendered = [];
-
-    for (var i = 0; i < feedbacks.length; i++) {
-      var feedback = feedbacks[i];
-
-      feedbacksRendered.push(yield* renderFeedback(feedback, this.user));
-    }
-
-    this.locals.countries = countries.all;
-
-    this.body = this.render('feedback/listItems', {
-      courseFeedbacks: feedbacksRendered
-    });
-
-  }
+  this.body = this.render('feedback/list', {
+    stats: feedbackStats
+  });
 
 };
 
@@ -98,7 +62,7 @@ function* getFeedbackStats(course) {
 
   let totalFeedbacks = stats.reduce(function(prev, next) { return prev + next.count; }, 0);
 
-  console.log(totalFeedbacks);
+  //console.log(totalFeedbacks);
   // default stats (if no stars for a star)
   let starStatsPopulated = {};
   for(let i=1; i<=5; i++) starStatsPopulated[i] = {

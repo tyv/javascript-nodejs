@@ -1,6 +1,6 @@
 include /bem
 
-each courseFeedback in courseFeedbacks
-  include _item
-
-
+if courseFeedbacks.length
+  each courseFeedback in courseFeedbacks
+    article.course-feedbacks__feedback
+      include _item

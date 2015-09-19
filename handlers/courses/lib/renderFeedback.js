@@ -54,10 +54,12 @@ function* renderFeedback(courseFeedback, user) {
     stars:             courseFeedback.stars,
     recommend:         courseFeedback.recommend,
     course:            {
+      link: courseFeedback.group.course.getUrl(),
+      titleShort: courseFeedback.group.course.titleShort || courseFeedback.group.course.title,
       title: courseFeedback.group.course.title
     },
     teacher:           {
-      link: "/courses/teacher/" + courseFeedback.group.teacher.profileName,
+      link: courseFeedback.group.teacher.getProfileUrl(),
       name: courseFeedback.group.teacher.displayName
     },
     content:           renderSimpledown(courseFeedback.content, {trusted: false}),

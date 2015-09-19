@@ -1,5 +1,5 @@
 
-+b.course-feedback._result(data-coursefeedback-number=courseFeedback.number)
++b(class=["course-feedback", "_result", isList ? '_external': ''] data-coursefeedback-number=courseFeedback.number)
   +e.user
     +e.userpic
       +e('img').userpic-img(src=thumb(courseFeedback.photo, 86, 86))
@@ -25,9 +25,15 @@
       +e('i').star ★
 
   if courseFeedback.recommend
-    +e.name Рекомендует #{courseFeedback.course.title.replace(/./, function(match) { return match.toLowerCase(); })}
+    +e.name Рекомендует курс "#{courseFeedback.course.titleShort}"
 
   +e.body!= courseFeedback.content
+
+  +e.info
+    | Курс:
+    =  ' "'
+    +e('a').course-link(href=courseFeedback.course.link)= courseFeedback.course.titleShort
+    = '"'
 
   +e.info
     | Преподаватель:
