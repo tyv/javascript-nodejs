@@ -13,7 +13,19 @@ block content
     +b.profile-photo
       +e.upic(style="background-image: url('" + profileUser.getPhotoUrl(146, 146) + "')")
 
+    +e.content
 
-    block profileContent
+      if tabs.length == 1
+        +e.single-tab-header
+      else
+        +e.tabs
+          each tab, name in tabs
+            +e(class=['tab', tab.active && '_current'])
+              +e.tab-content
+                +e('a').tab-link(href=tab.url)= profileTabNames[name]
 
+      +e.fields
 
+        block profileContent
+
+    block profileFeedback
