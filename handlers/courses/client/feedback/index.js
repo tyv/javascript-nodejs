@@ -12,7 +12,7 @@ class FeedbackLoader {
       this.baseUrl += `&${key}=${filter[key]}`;
     }
 
-    
+
     var spinner = new Spinner();
     this.elem.innerHTML = '';
     this.elem.appendChild(spinner.elem);

@@ -1,13 +1,20 @@
 'use strict';
 
 var util = require('util');
-var xmppClient = require('node-xmpp').Client; //-client');
+
+var xmppClient, xmppElement;
+try {
+  xmppClient = require('node-xmpp-client');
+  xmppElement = xmppClient.ltx.Element;
+} catch(e) {
+  xmppClient = {};
+  xmppElement = {};
+}
 var co = require('co');
 var config = require('config');
 var log = require('log')();
 var assert = require('assert');
 var EventEmitter = require('events').EventEmitter;
-var xmppElement = xmppClient.ltx.Element;
 
 /**
  * Wrapper over xmpp-client
