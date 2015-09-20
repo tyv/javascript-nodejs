@@ -1,76 +1,43 @@
 var xhr = require('client/xhr');
-
-class FeedbackLoader {
-
-  constructor({elem, filter}) {
-
-    this.elem = elem;
-    this.container = elem.querySelector('[data-feedback-container]');
-    this.baseUrl = `/courses/feedback-list?`;
-
-    this.count = 0;
-
-    this.hasMore = true;
-
-    for (var key in filter) {
-      this.baseUrl += `&${key}=${filter[key]}`;
-    }
-
-    this.load();
-
-    window.addEventListener('scroll', e => this.onScroll(e));
-  }
-
-  onScroll(event) {
-    if (!this.hasMore) return;
-
-    if (this.container.getBoundingClientRect().bottom <= document.documentElement.clientHeight && !this.isLoading) {
-      this.load();
-    }
-  }
-
-  load() {
-
-    let url = `${this.baseUrl}&skip=${this.count}`;
-
-    const request = xhr({
-      method: 'GET',
-      json:   true,
-      url:    url
-    });
-
-    this.elem.classList.add('profile__feedbacks_loading');
-
-    this.isLoading = true;
-
-    request.addEventListener('loadend', () => {
-      this.isLoading = false;
-      this.elem.classList.remove('profile__feedbacks_loading');
-    });
-
-    request.addEventListener('success', (event) => {
-      if (event.result.count) {
-        this.container.insertAdjacentHTML("beforeEnd", event.result.html);
-        this.count += event.result.count;
-      } else if (!this.count) {
-        // if multiple load calls hit it => no multi-append
-        this.container.innerHTML = `<p style="text-align:center">Отзывов пока нет.</p>`;
-      }
-
-      if (event.result.hasMore === false) {
-        this.hasMore = false;
-      }
-    });
-
-  }
-
-}
+var FeedbackLoader = require('../lib/feedbackLoader');
+var pluralize = require('textUtil/pluralize');
 
 function init() {
+  let loader = new FeedbackLoader(window.FEEDBACK_LIST_INIT);
 
-  new FeedbackLoader(window.FEEDBACK_LIST_INIT);
+  let countElem = document.querySelector('[data-feedback-count]');
+
+  loader.elem.addEventListener('feedbackChange', function(event) {
+    countElem.hidden = false;
+
+    countElem.children[0].innerHTML = event.detail.loader.total;
+    countElem.children[1].innerHTML = pluralize(event.detail.loader.total, 'отзыв', 'отзыва', 'отзывов');
+  });
+
+  let teacherSelector = loader.elem.querySelector('[name="teacherId"]');
+
+  teacherSelector.onchange = update;
+
+  let starsSelector = loader.elem.querySelector('[name="stars"]');
+
+  starsSelector.onchange = update;
+
+  function update() {
+    let filter = loader.filter;
+    filter.teacherId = teacherSelector.value;
+    filter.stars = starsSelector.value;
+    loader.reset(filter);
+
+    let activeStarsElem = document.querySelector('[data-stars-title].feedback-stat__item_active');
+    if (activeStarsElem) {
+      activeStarsElem.classList.remove('feedback-stat__item_active');
+    }
+
+    if (starsSelector.value) {
+      document.querySelector(`[data-stars-title="${starsSelector.value}"]`).classList.add('feedback-stat__item_active');
+    }
+  }
 
 }
-
 
 init();

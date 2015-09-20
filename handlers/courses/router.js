@@ -14,7 +14,7 @@ router.get('/register-participants/:groupBySlug', mustBeAdmin, require('./contro
 
 router.get('/', require('./controller/frontpage').get);
 
-router.get('/feedback-list', require('./controller/courseFeedbackList').get);
+router.get('/feedback-fetch', require('./controller/courseFeedbackFetch').get);
 
 router.get('/:course', require('./controller/course').get);
 

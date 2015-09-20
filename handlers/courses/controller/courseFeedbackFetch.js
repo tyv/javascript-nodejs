@@ -38,6 +38,7 @@ exports.get = function*() {
 
   let feedbacks = yield CourseFeedback.find(filter).sort({created: -1}).skip(skip).limit(limit);
 
+
   let feedbacksRendered = [];
 
   for (var i = 0; i < feedbacks.length; i++) {
@@ -53,11 +54,18 @@ exports.get = function*() {
     isList: true
   });
 
-  this.body = {
-    html,
+  let response = {
+             html,
     count: feedbacks.length,
     hasMore: feedbacks.length == limit
   };
 
+  if (this.query.needTotal) {
+    response.total = yield CourseFeedback.count(filter);
+  }
+
+  yield (callback) => setTimeout(callback, 3000);
+
+  this.body = response;
 };
 

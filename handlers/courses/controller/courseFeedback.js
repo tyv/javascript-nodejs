@@ -27,8 +27,13 @@ exports.get = function*() {
     tags: ['courses:feedback']
   }, getFeedbackStats.bind(this, this.locals.course));
 
+  let teachers = yield User.find({
+    teachesCourses: {$exists: true, $not: {$size: 0}}
+  });
+
   this.body = this.render('feedback/list', {
-    stats: feedbackStats
+    stats: feedbackStats,
+    teachers
   });
 
 };

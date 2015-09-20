@@ -1,7 +1,7 @@
 extends root
 
 block append head
-  !=js("coursesFeedbackList", {defer: true})
+  !=js("profileGuestAboutMe", {defer: true})
 
 block profileContent
   if profileUser.realName
@@ -85,20 +85,21 @@ block profileContent
 block profileFeedback
 
   if profileUser.teachesCourses
-    +e.feedbacks._loading
-      +b('section').course-feedbacks.teacher-feedback
+
+    +e.feedbacks
+      +b('section').course-feedbacks.teacher-feedback._loading
         +e.head
           +e('h2').title Отзывы учеников
 
         +e.feedbacks-list(data-feedback-container)
 
-      +e.loader
-        +b.page-loader
-            +b('span').spinner._active._small
-                +e('span').dot._1
-                +e('span').dot._2
-                +e('span').dot._3
+        +e.loader
+          +b.page-loader
+              +b('span').spinner._active._small
+                  +e('span').dot._1
+                  +e('span').dot._2
+                  +e('span').dot._3
 
-    script window.FEEDBACK_LIST_INIT = { elem: document.querySelector('.profile__feedbacks'), filter: {teacherId: "#{profileUser._id}" } };
+    script window.FEEDBACK_LIST_INIT = { elem: document.querySelector('.course-feedbacks'), filter: {teacherId: "#{profileUser._id}" } };
 
 

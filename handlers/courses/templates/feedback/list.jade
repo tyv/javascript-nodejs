@@ -9,7 +9,10 @@ block append variables
   - var siteToolbarCurrentSection = "courses"
   - var sitetoolbar = true
   - var statsBarLength = 240
-  - console.log(stats.stars);
+
+block append head
+  !=js("coursesFeedbackList", {defer: true})
+
 
 block content
 
@@ -17,65 +20,52 @@ block content
 
   +b.feedback-stat
     +e('ul').list
-      +e('li').item._active Отлично
+      +e('li').item(data-stars-title=5) Отлично
         +e('span').status
           +e('span').status-i(style="width: " + stats.stars[5].fraction * statsBarLength + "px")
-      +e('li').item Хорошо
+      +e('li').item(data-stars-title=4) Хорошо
         +e('span').status
           +e('span').status-i(style="width: " + stats.stars[4].fraction * statsBarLength + "px")
-      +e('li').item Нормально
+      +e('li').item(data-stars-title=3) Нормально
         +e('span').status
           +e('span').status-i(style="width: " + stats.stars[3].fraction * statsBarLength + "px")
-      +e('li').item Так себе
+      +e('li').item(data-stars-title=2) Так себе
         +e('span').status
           +e('span').status-i(style="width: " + stats.stars[2].fraction * statsBarLength + "px")
-      +e('li').item Плохо
+      +e('li').item(data-stars-title=1) Плохо
         +e('span').status
           +e('span').status-i(style="width: " + stats.stars[1].fraction * statsBarLength + "px")
     +b.pie
       +e.text
-        +e('strong').percents #{stats.recommendFraction * 100}%
+        +e('strong').percents #{Math.round(stats.recommendFraction * 100)}%
         +e('span').advice Пользователей рекомендуют эти курсы
-  +b('section').course-feedbacks
-    +e('h2').title
-      +e('span').title-n 286
-      | &nbsp;отзывов
-      | с оценкой
-      +e('span').title-mark !{' '} «Отлично»
-      +e('a').show-all показать все
-    +e('article').feedback
-      +b.course-feedback._result._external
-        +e.user
-          +e.userpic
-            +e('img').userpic-img(src="/img/userpic/userpic.svg")
-          +e('span').username
-            +e('a').mjmusername-link(href="/123") Александр Луговой
-          +e('span').country
-            +e('img').country-flag(src='/img/flags/ru.svg' width=16 height=12)
-            +e('span').country-text Россия, Москва
-          +e('span').date 12 Мар 2015
-        +b.rating._4
-          for raiting in [1,2,3,4,5]
-            +e('i').star ★
-        +e.name Рекомендует курс “Javascript, DOM, интерфейсы”
-        +e.body
-          p Очень доволен данным курсом.Я сам из Республики Беларусь.Практический все, с кем я общался по js, хоть раз да заходили на ваш сайт. Если кто-то решится из РБ пройти этот курс, рекомендую. Понравилось: подача материала, расставленные приоритеты в изучении, только актуальные данные , а не устаревшая информация. Мне не хватило пару занятий по организации проекта на js и про шаблоны. Хотел пройти курс у человека, который ПОЛНОСТЬЮ ПРАКТИК. Очень радостно, что вы поделились своим опытом!!! Спасибо.
-    +e('article').feedback
-      +b.course-feedback._result._external
-        +e.user
-          +e.userpic
-            +e('img').userpic-img(src="/img/userpic/userpic.svg")
-          +e('span').username
-            +e('a').username-link(href="/123") Александр Луговой
-          +e('span').country
-            +e('img').country-flag(src='/img/flags/ru.svg' width=16 height=12)
-            +e('span').country-text Россия, Москва
-          +e('span').date 12 Мар 2015
-        +b.rating._4
-          for raiting in [1,2,3,4,5]
-            +e('i').star ★
-        +e.name Рекомендует курс “Javascript, DOM, интерфейсы”
-        +e.body
-          p Очень доволен данным курсом.Я сам из Республики Беларусь.Практический все, с кем я общался по js, хоть раз да заходили на ваш сайт. Если кто-то решится из РБ пройти этот курс, рекомендую. Понравилось: подача материала, расставленные приоритеты в изучении, только актуальные данные , а не устаревшая информация. Мне не хватило пару занятий по организации проекта на js и про шаблоны. Хотел пройти курс у человека, который ПОЛНОСТЬЮ ПРАКТИК. Очень радостно, что вы поделились своим опытом!!! Спасибо.
 
+  +b('section').course-feedbacks._loading
+    +e.head
+      +e('h2').title(hidden data-feedback-count)
+        +e('span').title-n
+        +e('span').title-t
+      +e.select
+        +b('select')(name="teacherId").input-select._small.__control
+          +e('option').option(value="" selected) все преподаватели
+          each teacher in teachers
+            +e('option').option(value=teacher._id)= teacher.displayName
+      +e.select
+        +b('select')(name="stars").input-select._small.__control
+          +e('option').option(value="all" selected) с любой оценкой
+          +e('option').option(value="5") с оценкой 5
+          +e('option').option(value="4") с оценкой 4
+          +e('option').option(value="3") с оценкой 3
+          +e('option').option(value="4") с оценкой 4
+          +e('option').option(value="1") с оценкой 1
 
+    +e.feedbacks-list(data-feedback-container)
+
+    +e.loader
+      +b.page-loader
+        +b('span').spinner._active._small
+          +e('span').dot._1
+          +e('span').dot._2
+          +e('span').dot._3
+
+  script window.FEEDBACK_LIST_INIT={ elem: document.querySelector('.course-feedbacks'), filter: { course: "#{course.slug}" } };
