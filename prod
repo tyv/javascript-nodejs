@@ -1,4 +1,4 @@
 #!/bin/bash
 NODE_ENV=production gulp build
-NODE_ENV=production node --harmony_classes ./bin/server
+NODE_ENV=production node ./bin/server
 
