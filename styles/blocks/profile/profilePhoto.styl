@@ -1,28 +1,40 @@
 .profile-photo
+    text-align center
+    margin 25px 0 35px
+
     &__upic
+        position relative
+        overflow hidden
+
+        display inline-block
+
         width 146px
         height 146px
-        margin 23px auto 35px
-        position relative
+
         background-position 50% 50%
         background-size contain
         background-repeat no-repeat
         border-radius 50%
 
     &__upic-edit
+        font-size 12px
+
         position absolute
         top 0
         right 0
         bottom 0
         left 0
-        text-align center
-        color #fff
-        background rgba(0, 0, 0, .7)
+
+        display none
+
+        line-height 17px
+
         border-radius 50%
         cursor pointer
-        font-size 12px
-        line-height 17px
-        display none
+        text-align center
+
+        color #fff
+        background rgba(0, 0, 0, .7)
 
     &__upic-edit::before
         @extend $font-camera
@@ -49,4 +61,24 @@
     &__content
         margin 20px 0
         border-radius 4px
+
+    &__sign
+        text-align center
+
+    &__sign-text
+        font-size 13px
+        line-height 13px
+
+        display inline-block
+
+        padding 5px 15px
+        margin-top 10px
+
+        white-space nowrap
+
+        border-radius 50px
+
+        color #ffffff
+        background #f6aa51
+
 
