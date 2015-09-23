@@ -13,6 +13,10 @@ block content
     +b.profile-photo
       +e.upic(style="background-image: url('" + profileUser.getPhotoUrl(146, 146) + "')")
 
+      if profileUser.teachesCourses || 1
+        +e.sign
+          +e('span').sign-text Преподаватель
+
     +e.content
 
       if tabs.length == 1
