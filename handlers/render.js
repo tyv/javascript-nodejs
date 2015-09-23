@@ -134,6 +134,9 @@ function addStandardHelpers(locals, ctx) {
     }
   });
 
+
+  locals.renderParagraphsAndLinks = require('renderParagraphsAndLinks');
+
   locals.csrf = function() {
     // function, not a property to prevent autogeneration
     // jade touches all local properties

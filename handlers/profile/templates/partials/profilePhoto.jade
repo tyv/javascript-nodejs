@@ -9,3 +9,6 @@ include /bem
   )
     +e.upic-edit(ng-click="changePhoto()") Загрузить<br> фотографию
       +e.content
+
+  +e.sign(ng-if="teachesCourses && teachesCourses.length")
+    +e('span').sign-text Преподаватель

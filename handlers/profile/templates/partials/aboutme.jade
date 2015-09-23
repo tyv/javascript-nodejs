@@ -32,6 +32,6 @@ include /bem
     +e('profile-field')(field-name="interests" field-title="Интересы" field-value="me.interests")
       input.text-input__control(focus-on="editing" ng-model="editingValue" type="text")
 
-    +e('profile-field')(field-name="aboutMe" field-title="О себе" field-value="me.aboutMe")
+    +e('profile-field')(field-name="aboutMe" field-format-value="renderParagraphsAndLinks" field-title="О себе" field-value="me.aboutMe")
       textarea.textarea-input(maxlength=600 focus-on="editing" ng-model="editingValue")
       p Только текст и ссылки, не более 600 символов.

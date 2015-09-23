@@ -57,8 +57,8 @@ module.exports = {
   },
 
   xmpp: {
-    server:  'javascript.ru',
-    admin: secret.xmpp.admin
+    server: 'javascript.ru',
+    admin:  secret.xmpp.admin
   },
 
   appKeys:  [secret.sessionKey],
@@ -153,6 +153,7 @@ module.exports = {
   downloadRoot:         path.join(process.cwd(), 'download'),
   courseRoot:           path.join(process.cwd(), 'course'),
   tmpRoot:              path.join(process.cwd(), 'tmp'),
+  localesRoot:          path.join(process.cwd(), 'locales'),
   // extra handlers from outside of the main repo
   extraHandlersRoot:    path.join(process.cwd(), 'extra/handlers'),
   // js/css build versions

@@ -223,7 +223,9 @@ UserSchema.statics.getInfoFields = function(user) {
     isAdmin:            user.isAdmin,
     created:            user.created,
     lastActivity:       user.lastActivity,
-    profileTabsEnabled: user.profileTabsEnabled
+    profileTabsEnabled: user.profileTabsEnabled,
+    aboutMe:            user.aboutMe,
+    teachesCourses:     user.teachesCourses
   };
 };
 

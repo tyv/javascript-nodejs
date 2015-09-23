@@ -39,6 +39,11 @@ require('./controller/account');
 
 
 profile
+  .filter('unsafe_html', ['$sce', function($sce){
+    return function(text) {
+      return $sce.trustAsHtml(text);
+    };
+  }])
   .filter('capitalize', () => function(str) {
     return str[0].toUpperCase() + str.slice(1);
   })

@@ -6,7 +6,7 @@ include /bem
   progress-overlay
   name="form"
   ng-submit="submit()"
-  ng-click="edit()"
+  ng-click="edit($event)"
   ng-class="{'profile-field_editing': editing}"
 )
 
@@ -14,7 +14,7 @@ include /bem
     +e.name {{title}}:
 
   +e.rcell
-    +e.value(ng-bind="formatValue(value)")
+    +e.value(ng-bind-html="formatValue(value) | unsafe_html")
     +e.change(ng-show="editing")
       +e.change-content
         +b.text-input._small.__control(ng-class="{'text-input_invalid':form.$invalid}")

@@ -8,7 +8,8 @@ angular.module('profile')
     return {
       templateUrl: '/profile/templates/partials/profilePhoto',
       scope: {
-        photo: '='
+        photo: '=',
+        teachesCourses: '='
       },
       replace: true,
 

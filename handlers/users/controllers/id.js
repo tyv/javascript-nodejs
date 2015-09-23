@@ -13,7 +13,10 @@ exports.get = function*(next) {
 
   var fields = 'created displayName realName birthday email gender country town interests aboutMe profileName publicEmail'.split(' ');
 
-  this.body = { };
+  this.body = {
+    teachesCourses: this.params.user.teachesCourses.map(String)
+  };
+
   fields.forEach( function(field) {
     this.body[field] = this.params.user[field];
   }, this);

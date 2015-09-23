@@ -6,7 +6,7 @@ var webpack = require('webpack');
 var CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin");
 var WriteVersionsPlugin = require('lib/webpack/writeVersionsPlugin');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
-
+var I18nPlugin = require("i18n-webpack-plugin");
 var del = require('del');
 
 // 3rd party / slow to build modules
@@ -167,7 +167,9 @@ var webpackConfig = {
     new CommonsChunkPlugin("head", extHash("head", 'js')),
     new WriteVersionsPlugin(path.join(config.manifestRoot, "pack.versions.json")),
 
-    new ExtractTextPlugin(extHash('[name]', 'css', '[contenthash]'), {allChunks: true})
+    new ExtractTextPlugin(extHash('[name]', 'css', '[contenthash]'), {allChunks: true}),
+
+    new I18nPlugin(require(path.join(config.localesRoot, config.lang, 'translation')))
   ],
 
   recordsPath: path.join(config.tmpRoot, 'webpack.json'),

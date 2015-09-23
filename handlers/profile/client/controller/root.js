@@ -3,7 +3,6 @@ var profile = angular.module('profile');
 
 profile.controller('ProfileRootCtrl', ($scope, $state, $timeout, $http, me, promiseTracker) => {
 
-  //window.me = me;
   $scope.me = me;
 
   $scope.loadingTracker = promiseTracker();
@@ -12,6 +11,7 @@ profile.controller('ProfileRootCtrl', ($scope, $state, $timeout, $http, me, prom
   window.currentUser.profileTabsEnabled.forEach(function(tab) {
     tabs.push('root.' + tab);
   });
+
 
   $scope.tabs = tabs.map((stateName) => {
     var state = $state.get(stateName);

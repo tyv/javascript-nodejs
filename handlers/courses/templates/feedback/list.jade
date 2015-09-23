@@ -36,9 +36,43 @@ block content
         +e('span').status
           +e('span').status-i(style="width: " + stats.stars[1].fraction * statsBarLength + "px")
     +b.pie
+      +e('svg').diagram(height="180" width="180")
+        circle(cx=90 cy=90 r=90 fill="#469269")
+        path(fill="#010A05" id="statsPercentagePath" fill-opacity="0.22")
+
+      script
+        :uglify
+          !function() {
+            function drawPercentage(percentage) {
+              var r = 90;
+              var cx = 90;
+              var cy = 90;
+
+              // normal formula is:
+              // cx + r * Math.cos(2PI*percentage)
+              // the angle is calculated clockwise & starting from horizontal X-axis
+              // so we substract PI/2 to make it start 1/4-circle earlier
+              var x = cx + r * Math.cos(2*Math.PI*percentage - Math.PI/2);
+              var y = cy + r * Math.sin(2*Math.PI*percentage - Math.PI/2);
+
+              var d = "M" + x + "," + y + " A90,90 0 " + (percentage >= 0.5 ? 0 : 1) + ",1 90,0 L90,90 z";
+              document.getElementById('statsPercentagePath').setAttribute('d', d);
+            }
+
+            drawPercentage(feedbackStats.recommendFraction);
+          }();
+
       +e.text
         +e('strong').percents #{Math.round(stats.recommendFraction * 100)}%
         +e('span').advice Пользователей рекомендуют эти курсы
+
+  +b.feedback-policy
+    +e.link Политика отзывов javascript.ru
+      +e.popup
+        +e('ul').list
+          li Показываются все отзывы, опубликованные авторами. Фильтрацию по оценке вы можете сделать сами.
+          li Отзывы не модерируются. Исключение может быть сделано только при нарушении условий пользования сайтом и курсами.
+          li Все люди – реальные участники.
 
   +b('section').course-feedbacks._loading
     +e.head
