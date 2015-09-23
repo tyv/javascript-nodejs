@@ -14,7 +14,7 @@
           | ,&nbsp;
           = courseFeedback.city
 
-    +e('span').date= moment(courseFeedback.created).format('D MMM YYYY')
+    +e('a')(href=courseFeedback.link).date= moment(courseFeedback.created).format('D MMM YYYY')
 
     if courseFeedback.aboutLink
       +e('span').homepage

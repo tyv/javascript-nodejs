@@ -17,6 +17,8 @@ exports.get = function*() {
     this.throw(404);
   }
 
+  yield CourseGroup.populate(courseFeedback.group, "course");
+
   var authorOrAdmin = false;
   if (this.user) {
     if (this.user.isAdmin || this.user._id.equals(courseFeedback.userCache)) {

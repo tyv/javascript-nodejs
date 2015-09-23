@@ -44,8 +44,8 @@ function* renderFeedback(courseFeedback, user) {
     photo:             courseFeedback.photo || courseFeedback.participant.user.getPhotoUrl(),
     author:            {
       userId: courseFeedback.participant.user._id,
-      link: courseFeedback.participant.user.getProfileUrl(),
-      name: courseFeedback.participant.fullName
+      link:   courseFeedback.participant.user.getProfileUrl(),
+      name:   courseFeedback.participant.fullName
     },
     country:           courseFeedback.country,
     city:              courseFeedback.city,
@@ -54,9 +54,9 @@ function* renderFeedback(courseFeedback, user) {
     stars:             courseFeedback.stars,
     recommend:         courseFeedback.recommend,
     course:            {
-      link: courseFeedback.group.course.getUrl(),
+      link:       courseFeedback.group.course.getUrl(),
       titleShort: courseFeedback.group.course.titleShort || courseFeedback.group.course.title,
-      title: courseFeedback.group.course.title
+      title:      courseFeedback.group.course.title
     },
     teacher:           {
       link: courseFeedback.group.teacher.getProfileUrl(),
@@ -67,7 +67,8 @@ function* renderFeedback(courseFeedback, user) {
     number:            courseFeedback.number,
     teacherComment:    courseFeedback.teacherComment ? renderSimpledown(courseFeedback.teacherComment, {trusted: false}) : '',
     teacherCommentRaw: isTeacher ? (courseFeedback.teacherComment || '') : '',
-    editLink:          authorOrAdmin ? `/courses/groups/${courseFeedback.group.slug}/feedback` : null
+    editLink:          authorOrAdmin ? `/courses/groups/${courseFeedback.group.slug}/feedback` : null,
+    link:              `/courses/feedback/${courseFeedback.number}`
   };
 
 

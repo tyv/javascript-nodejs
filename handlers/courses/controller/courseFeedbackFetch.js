@@ -64,8 +64,6 @@ exports.get = function*() {
     response.total = yield CourseFeedback.count(filter);
   }
 
-  yield (callback) => setTimeout(callback, 3000);
-
   this.body = response;
 };
 
