@@ -206,7 +206,7 @@ BbtagParser.prototype.parseSource = function() {
     }
   }
 
-  var attrs = this.trusted ? _.clone(this.params) : _.pick(this.params, ['src', 'run', 'height', 'autorun']);
+  var attrs = this.trusted ? _.clone(this.params) : _.pick(this.params, ['src', 'run', 'height', 'autorun', 'no-strict']);
 
   // src => body is ignored
   return new SourceTag(this.name, src ? '' : this.body, attrs);

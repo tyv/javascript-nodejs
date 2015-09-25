@@ -250,8 +250,12 @@ HtmlTransformer.prototype.transformSourceTag = function(node) {
   var renderTrusted = (node.isTrusted() && !node.attrs.untrusted) ? 1 : false;
 
   var attrs = locals.attrs = {
-    "data-trusted": renderTrusted
+    "data-trusted": renderTrusted,
   };
+
+  if (node.attrs['no-strict']) {
+    attrs['data-no-strict'] = "1";
+  }
 
   // demo height of
   if (node.attrs.height) {
@@ -294,8 +298,6 @@ HtmlTransformer.prototype.transformSourceTag = function(node) {
 
   locals.text = text;
   locals.ebookType = this.ebookType;
-
-
 
   return this.wrapTagAround('no-typography', {}, codeBoxTemplate(locals));
 };

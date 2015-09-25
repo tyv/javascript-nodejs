@@ -29,7 +29,7 @@ exports.get = function*() {
     course: this.locals.course._id
   }).sort({
     dateStart: 1
-  }).exec();
+  }).populate('teacher');
 
   this.body = this.render('courses/' + this.locals.course.slug);
 };

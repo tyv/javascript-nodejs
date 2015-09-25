@@ -36,6 +36,10 @@
                   +e.info
                     +e('h4').title #{formatGroupDate(group.dateStart)} — #{formatGroupDate(group.dateEnd)}
                     +e('p').text!= group.timeDesc
+                    +e.teacher
+                      | Ведущий:
+                      = ' '
+                      a(href=group.teacher.getProfileUrl())= group.teacher.displayName
 
                     if group.participantsLimit < 15
                       +e('p').participants-limit Осталось #{group.participantsLimit} #{pluralize(group.participantsLimit, 'место', 'места', 'мест')}

@@ -1,4 +1,7 @@
+'use strict';
+
 var Course = require('../models/course');
+var User = require('users').User;
 var moment = require('momentWithLocale');
 
 exports.get = function*() {
@@ -18,6 +21,10 @@ exports.get = function*() {
     });
   }
 
+  let teachers = yield User.find({
+    teachesCourses: {$exists: true, $not: {$size: 0}}
+  });
+
 
   this.locals.formatGroupDate = function(date) {
     return moment(date).format('D MMM YYYY').replace(/[а-я]/, function(letter) {
@@ -25,5 +32,7 @@ exports.get = function*() {
     });
   };
 
-  this.body = this.render('frontpage');
+  this.body = this.render('frontpage', {
+    teachers
+  });
 };

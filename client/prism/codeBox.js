@@ -17,6 +17,10 @@ function CodeBox(elem) {
   var isJS = preElem.classList.contains('language-javascript');
   var isHTML = preElem.classList.contains('language-markup');
   var isTrusted = +elem.getAttribute('data-trusted');
+  var isNoStrict = +elem.getAttribute('data-no-strict');
+
+  if (!isNoStrict && isJS) code="'use strict';\n" + code;
+
   var jsFrame;
   var htmlResult;
   var isFirstRun = true;
@@ -163,13 +167,13 @@ function CodeBox(elem) {
 
   function runJS() {
 
+    console.log(code);
     if (isTrusted) {
 
       try {
         /* jshint -W061 */
         window["eval"].call(window, code);
       } catch (e) {
-        console.error(e);
         alert(__("Error") + ': ' + e.message);
       }
 

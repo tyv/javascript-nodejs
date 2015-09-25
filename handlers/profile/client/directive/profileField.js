@@ -57,7 +57,7 @@ angular.module('profile')
           }).then((response) => {
 
             if (this.name == 'displayName') {
-              new notification.Success("Изменение имени везде произойдёт после перезагрузки страницы.", 'slow');
+              new notification.Success("Ваше имя пользователя изменено.", 'slow');
             } else if (this.name == 'email') {
               new notification.Warning("Требуется подтвердить смену email, проверьте почту.", 'slow');
             } else if (this.name == 'profileName') {
