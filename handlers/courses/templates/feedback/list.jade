@@ -36,7 +36,7 @@ block content
         +e('span').status
           +e('span').status-i(style="width: " + stats.stars[1].fraction * statsBarLength + "px")
     +b.pie
-      +e('svg').diagram(height="180" width="180")
+      +e('svg').image(height="180" width="180")
         circle(cx=90 cy=90 r=90 fill="#469269")
         path(fill="#010A05" id="statsPercentagePath" fill-opacity="0.22")
 
