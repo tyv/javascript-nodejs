@@ -14,6 +14,10 @@ exports.up = function*() {
     email: 'iliakan@gmail.com'
   });
 
+  var mikhail = yield User.findOne({
+    email: 'glukym@gmail.com'
+  });
+
   var groups = yield CourseGroup.find({});
 
   for (var i = 0; i < groups.length; i++) {
@@ -22,6 +26,10 @@ exports.up = function*() {
 
     yield group.save();
   }
+
+  CourseGroup.update({slug: "js-20151005-2130"}, {teacher: mikhail._id});
+  CourseGroup.update({slug: "js-20151005"}, {teacher: mikhail._id});
+  CourseGroup.update({slug: "js-20150811"}, {teacher: mikhail._id});
 
 };
 
