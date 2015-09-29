@@ -14,13 +14,21 @@ function init() {
     countElem.children[1].innerHTML = pluralize(event.detail.loader.total, 'отзыв', 'отзыва', 'отзывов');
   });
 
-  let teacherSelector = loader.elem.querySelector('[name="teacherId"]');
+  let form = document.querySelector('[data-feedback-form]');
+
+  let teacherSelector = form.elements.teacherId;
+  let starsSelector = form.elements.stars;
 
   teacherSelector.onchange = update;
-
-  let starsSelector = loader.elem.querySelector('[name="stars"]');
-
   starsSelector.onchange = update;
+
+  document.addEventListener('click', (e) => {
+    let titleElem = e.target.closest('[data-stars-title]');
+    if (!titleElem) return;
+    starsSelector.value = titleElem.getAttribute('data-stars-title');
+    update();
+  });
+
 
   function update() {
     let filter = loader.filter;

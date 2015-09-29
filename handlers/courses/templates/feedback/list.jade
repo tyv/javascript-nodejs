@@ -64,18 +64,18 @@ block content
 
       +e.text
         +e('strong').percents #{Math.round(stats.recommendFraction * 100)}%
-        +e('span').advice Пользователей рекомендуют эти курсы
+        +e('span').advice Оставивших отзыв рекомендуют эти курсы
 
   +b.feedback-policy
     +e.link Политика отзывов javascript.ru
       +e.popup
         +e('ul').list
-          li Показываются все отзывы, опубликованные авторами. Фильтрацию по оценке вы можете сделать сами.
-          li Отзывы показываются "как есть", не модерируются (исключение может быть сделано только при нарушении условий прохождения курса).
+          li Показываются все отзывы, опубликованные авторами, без выбора, без исключений.
+          li Отзывы показываются "как есть", не модерируются, исключение может быть сделано при нарушении правил сайта и курса (нецензурная лексика и др).
           li Отзыв может оставить только реальный участник, после прохождения курса.
 
   +b('section').course-feedbacks._loading
-    +e.head
+    +e('form')(data-feedback-form).head
       +e('h2').title(hidden data-feedback-count)
         +e('span').title-n
         +e('span').title-t
@@ -90,7 +90,7 @@ block content
           +e('option').option(value="5") с оценкой 5
           +e('option').option(value="4") с оценкой 4
           +e('option').option(value="3") с оценкой 3
-          +e('option').option(value="4") с оценкой 4
+          +e('option').option(value="2") с оценкой 4
           +e('option').option(value="1") с оценкой 1
 
     +e.feedbacks-list(data-feedback-container)

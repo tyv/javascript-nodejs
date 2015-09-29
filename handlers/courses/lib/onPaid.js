@@ -49,7 +49,7 @@ module.exports = function* (order) {
     templatePath: path.join(__dirname, '../templates/email/paymentConfirmation'),
     from: 'orders',
     to: order.email,
-    profileOrdersUrl: order.user.getProfileUrl() + '/orders',
+    profileOrdersUrl: config.server.siteHost + order.user.getProfileUrl() + '/orders',
     orderNumber: order.number,
     subject: "Подтверждение оплаты за курс, заказ " + order.number,
     orderHasParticipants: orderHasParticipants,
