@@ -12,8 +12,8 @@ var gutil = require('gulp-util');
 module.exports = function() {
 
   var args = require('yargs')
-    .example('gulp deploy:build --host nightly')
-    .example('gulp deploy:build --host nightly --with-npm')
+    .example('gulp deploy:build --host learn-ru')
+    .example('gulp deploy:build --host learn-ru --with-npm')
     .demand(['host'])
     .argv;
 

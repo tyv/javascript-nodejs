@@ -12,7 +12,7 @@ var gutil = require('gulp-util');
 module.exports = function() {
 
   var args = require('yargs')
-    .example('gulp deploy:update --host nightly')
+    .example('gulp deploy:update --host learn-ru')
     .demand(['host'])
     .argv;
 
