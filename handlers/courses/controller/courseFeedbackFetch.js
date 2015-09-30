@@ -24,7 +24,7 @@ exports.get = function*() {
     if (!course) this.throw(404);
 
     let groups = yield CourseGroup.find({course: course._id}, {_id: 1});
-    let groupIds = groups.map(group => group._id);
+    let groupIds = groups.map(function(group) { return group._id });
     filter.group = {$in: groupIds };
   }
 
