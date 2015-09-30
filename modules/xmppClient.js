@@ -4,7 +4,7 @@ var util = require('util');
 
 var xmppClient, xmppElement;
 try {
-  xmppClient = require('node-xmpp-client');
+  xmppClient = require('node-xmpp').Client; // node-xmpp-client
   xmppElement = xmppClient.ltx.Element;
 } catch(e) {
   xmppClient = {};
