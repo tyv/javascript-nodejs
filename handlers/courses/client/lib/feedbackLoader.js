@@ -67,7 +67,7 @@ class FeedbackLoader {
         this.count += event.result.count;
       } else if (!this.count) {
         // if multiple load calls hit it => no multi-append
-        this.container.innerHTML = `<p style="text-align:center">Таких отзывов пока нет.</p>`;
+        this.container.innerHTML = `<p style="text-align:center">Отзывов пока нет.</p>`;
       }
 
       if (event.result.hasMore === false) {
