@@ -6,7 +6,7 @@
         +b.courses-master
           +e('a').name(href=teacher.getProfileUrl())
             +b('figure').teacher-picture
-              +e('img').img(src="/teacher.jpg" src2=teacher.getPhotoUrl(145, 145) alt="Фото")
+              +e('img').img(src=teacher.getPhotoUrl(145, 145) alt="Фото")
               +e('figcaption').text= teacher.displayName
 
 //-
