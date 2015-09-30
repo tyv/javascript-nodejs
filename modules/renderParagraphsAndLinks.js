@@ -1,6 +1,7 @@
 var escapeHtmlText = require('textUtil/escapeHtmlText');
 
 module.exports = function renderParagraphsAndLinks(text) {
+  if (!text) return '';
 
   text = escapeHtmlText(text);
 
