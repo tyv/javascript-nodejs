@@ -56,7 +56,7 @@
 
 Для ее использования в браузере должна быть установлена и включена java. Если у вас ее нет -- скачать можно здесь: <a href="http://java.com/ru/download/">http://java.com/ru/download/</a>.
 
-Для захода в систему зайдите на адрес <a href="http://joingotowebinar.com">http://joingotowebinar.com</a> и укажите в первом поле название комнаты, а во втором -- `логин@javascript.ru`.
+Для захода в систему зайдите на адрес <a href="http://joinwebinar.com">http://joinwebinar.com</a> и укажите в первом поле название комнаты, а во втором -- `логин@javascript.ru`.
 
 [warn]
 Нужно использовать именно номер комнаты и логин, например <code>12982351439</code> и <code>vasily-ivanovich@javascript.ru</code>. Свою почту указывать не нужно.
@@ -184,7 +184,7 @@
 
 Если вход не удаётся -- проверьте, во-первых, правильные ли данные вы вводите.
 
-**На сайте <a href="http://joingotowebinar.com">http://joingotowebinar.com</a> в поле E-mail нужно ввести имя страницы профиля, прибавив к нему `"javascript.ru"` например `vasya@javascript.ru`, а не ваш email.**
+**На сайте <a href="http://joinwebinar.com">http://joinwebinar.com</a> в поле E-mail нужно ввести имя страницы профиля, прибавив к нему `"javascript.ru"` например `vasya@javascript.ru`, а не ваш email.**
 
 В поле Webinar Id вводите `Номер комнаты` со страницы группы.
 
