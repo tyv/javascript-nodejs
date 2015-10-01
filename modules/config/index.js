@@ -32,11 +32,11 @@ module.exports = {
   },
 
   ga: {
-    id: env.lang == 'ru' ? 'UA-2056213-16' : 'UA-2056213-19'
+    id: env.NODE_LANG == 'ru' ? 'UA-2056213-16' : 'UA-2056213-19'
   },
 
   yandexMetrika: {
-    id: env.lang == 'ru' ? 17649010 : 32184394
+    id: env.NODE_LANG == 'ru' ? 17649010 : 32184394
   },
 
   test: {
