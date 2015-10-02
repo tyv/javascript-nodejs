@@ -7,21 +7,24 @@ exports.User = [
     "displayName": "ilya kantor",
     "email": "iliakan@gmail.com",
     "password": "1234",
-    "verifiedEmail": true
+    "verifiedEmail": true,
+    "githubLink": ""
   },
   { "_id": "000000000000000000000002",
     "created": new Date(2014,0,1),
     "displayName": "tester",
     "email": "tester@mail.com",
     "password": "1234",
-    "verifiedEmail": true
+    "verifiedEmail": true,
+    "githubLink": ""
   },
   { "_id": "000000000000000000000003",
     "created": new Date(2014,0,1),
     "displayName": "vasya",
     "email": "vasya@mail.com",
     "password": "1234",
-    "verifiedEmail": false
+    "verifiedEmail": false,
+    "githubLink": ""
   }
 ];
 
