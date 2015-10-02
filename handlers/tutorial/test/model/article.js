@@ -22,6 +22,7 @@ describe('Article', function() {
       slug: 'slug',
       content: "Content",
       isFolder: false,
+      githubLink: '',
       weight: 0
     });
 
