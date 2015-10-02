@@ -1,11 +1,4 @@
 {
-    "app": {
-        "name": "javascript"
-    },
-    "creator": {
-        "firstname": "Илья",
-        "lastname": "Кантор"
-    },
     "contact us": "связаться с нами",
     "about the project": "о проекте",
     "Ilya Kantor": "Илья Кантор",

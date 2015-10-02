@@ -1,6 +1,8 @@
 var i18n = require("i18next");
 
 i18n.init({
+  nsseparator: '::',
+  keyseparator: '..',
   lng:           process.env.NODE_LANG || 'ru',
   supportedLngs: ['en', 'ru'],
   fallbackLng:   'en',
