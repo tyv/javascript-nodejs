@@ -32,23 +32,7 @@
         +e('h3').title Набор в группы
 
         if groups.length
-          +b.courses-recruitment
-            +e('a').anchor#signup
-            +e('ul').list
-
-              each group in groups
-                +e('li').course
-                  +e.info
-                    +e('h4').title #{formatGroupDate(group.dateStart)} — #{formatGroupDate(group.dateEnd)}
-                    +e('p').text!= group.timeDesc
-
-                  +e.apply
-                    +b.price
-                      +e('span') #{group.price} RUB
-                      +e('span').secondary &nbsp;≈&nbsp;#{Math.round(group.price / rateUsdRub)}$
-                    +e.submit
-                      +b('a')(data-group-signup-link href='/courses/groups/' + group.slug + '/signup' type="button").button._action
-                        +e('span').text Записаться
+          include ../signup
 
           p Вы также можете подписаться на уведомления по набору новых групп по этой программе:
 
