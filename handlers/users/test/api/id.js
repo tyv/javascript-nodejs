@@ -8,7 +8,7 @@ const fixtures = require(path.join(__dirname, '../fixtures/db'));
 const app = require('app');
 const should = require('should');
 
-describe('Authorization', function() {
+describe('User REST API', function() {
 
   var server;
 
