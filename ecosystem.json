@@ -23,6 +23,11 @@
         "SITE_HOST":   "https://learn.javascript.ru",
         "STATIC_HOST": "https://ru.js.cx"
       },
+      "env_nightly":             {
+        "NODE_LANG":   "ru",
+        "SITE_HOST":   "https://learn.javascript.ru",
+        "STATIC_HOST": "https://ru.js.cx"
+      },
       "env_en":             {
         "NODE_LANG":   "en",
         "SITE_HOST":   "https://learn.javascript.info",

@@ -43,6 +43,11 @@ const schema = new Schema({
 
   search: String,
 
+  githubLink: {
+    type: String,
+    required: true
+  },
+
   isFolder: {
     type:     Boolean,
     required: true

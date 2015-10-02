@@ -148,7 +148,11 @@ TutorialImporter.prototype.syncFolder = function*(sourceFolderPath, parent) {
   this.checkIfErrorsInParsed(parsed);
   data.title = this.extractHeader(parsed);
 
+  data.githubLink = config.tutorialGithubBaseUrl + sourceFolderPath.slice(this.root.length);
+
   const folder = new Article(data);
+
+
   yield folder.persist();
 
   const subPaths = fs.readdirSync(sourceFolderPath);
@@ -204,6 +208,11 @@ TutorialImporter.prototype.syncArticle = function* (articlePath, parent) {
 
   this.checkIfErrorsInParsed(parsed);
   data.title = this.extractHeader(parsed);
+
+  // todo: githubLink!
+
+  //tutorialGithubBaseUrl
+  data.githubLink = config.tutorialGithubBaseUrl + articlePath.slice(this.root.length) + '/article.md';
 
 
   // todo: updating:
@@ -320,6 +329,8 @@ TutorialImporter.prototype.syncTask = function*(taskPath, parent) {
 
   data.weight = parseInt(taskPathName);
   data.slug = taskPathName.slice(String(data.weight).length + 1);
+
+  data.githubLink = config.tutorialGithubBaseUrl + taskPath.slice(this.root.length);
 
   yield Task.destroy({slug: data.slug});
 

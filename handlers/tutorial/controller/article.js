@@ -25,6 +25,7 @@ exports.get = function *get(next) {
 
   locals.sitetoolbar = true;
 
+  locals.githubLink = renderedArticle.githubLink;
   locals.siteToolbarCurrentSection = "tutorial";
 
   if (!renderedArticle.isFolder) {
@@ -128,6 +129,7 @@ function* renderArticle(slug) {
   rendered.title = article.title;
   rendered.isFolder = article.isFolder;
   rendered.weight = article.weight;
+  rendered.githubLink = article.githubLink;
   rendered.canonicalPath = article.getUrl();
 
   const tree = yield* Article.findTree();

@@ -17,6 +17,7 @@ each section in sidebar.sections
   if env.NODE_LANG=='ru'
     +b('a').share._vk.sidebar__share(href="https://vkontakte.ru/share.php?url="+encodeURIComponent(url.href))
 
-+e.section
-  +e('a').link(href="https://github.com/iliakan/javascript-tutorial/tree/" + env.NODE_LANG)= t('Edit on github')
+if githubLink
+  +e.section
+    +e('a').link(href=githubLink)= t('Edit on Github')
 

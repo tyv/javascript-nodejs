@@ -47,6 +47,11 @@ var schema = new Schema({
     required: true
   },
 
+  githubLink: {
+    type: String,
+    required: true
+  },
+
   parent: {
     type:     ObjectId,
     ref:      'Article',

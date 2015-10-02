@@ -20,6 +20,9 @@ exports.get = function *get(next) {
 
   const rendered = yield* renderer.renderWithCache(task);
 
+
+  this.locals.githubLink = task.githubLink;
+
   var breadcrumbs = [];
 
   var parentId = task.parent._id;

@@ -10,6 +10,8 @@ env.NODE_ENV = env.NODE_ENV || 'development';
 
 var secret = require('./secret');
 
+var lang = env.NODE_LANG || 'ru';
+
 if (env.DEV_TRACE) {
   Error.stackTraceLimit = 1000;
   require('trace');
@@ -20,8 +22,8 @@ module.exports = {
   // production domain, for tutorial imports, descriptions, etc
   // for the places where in-dev we must use a real domain
   domain: {
-    main:   env.NODE_LANG == 'en' ? 'learn.javascript.info' : 'learn.javascript.ru',
-    static: env.NODE_LANG == 'en' ? 'en.js.cx' : 'js.cx'
+    main:   lang == 'en' ? 'learn.javascript.info' : 'learn.javascript.ru',
+    static: lang == 'en' ? 'en.js.cx' : 'js.cx'
   },
 
   server: {
@@ -32,11 +34,11 @@ module.exports = {
   },
 
   ga: {
-    id: env.NODE_LANG == 'ru' ? 'UA-2056213-16' : 'UA-2056213-19'
+    id: lang == 'ru' ? 'UA-2056213-16' : 'UA-2056213-19'
   },
 
   yandexMetrika: {
-    id: env.NODE_LANG == 'ru' ? 17649010 : 32184394
+    id: lang == 'ru' ? 17649010 : 32184394
   },
 
   test: {
@@ -98,7 +100,7 @@ module.exports = {
   certDir: path.join(secret.dir, 'cert'),
 
   disqus: {
-    domain: process.env.NODE_LANG == 'en' ? 'javascriptinfo' : 'learnjavascriptru'
+    domain: lang == 'en' ? 'javascriptinfo' : 'learnjavascriptru'
   },
 
 
@@ -107,7 +109,7 @@ module.exports = {
   },
 
   jb:      secret.jb,
-  lang:    env.NODE_LANG || 'ru',
+  lang:    lang,
   elastic: {
     host: 'http://localhost:9200'
   },
@@ -158,7 +160,9 @@ module.exports = {
   extraHandlersRoot:    path.join(process.cwd(), 'extra/handlers'),
   // js/css build versions
   manifestRoot:         path.join(process.cwd(), 'manifest'),
-  migrationsRoot:       path.join(process.cwd(), 'migrations')
+  migrationsRoot:       path.join(process.cwd(), 'migrations'),
+  tutorialGithubBaseUrl: 'https://github.com/iliakan/javascript-tutorial/blob/' + lang
+
 };
 
 // webpack config uses general config
