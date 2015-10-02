@@ -121,6 +121,9 @@ exports.get = function*(next) {
       url:   group.course.getUrl(),
       title: 'Описание курса'
     }, {
+      url:   `/courses/groups/${group.slug}/info`,
+      title: 'Инструкции по настройке окружения'
+    }, {
       url:   `/courses/groups/${group.slug}/materials`,
       title: 'Материалы для обучения'
     }];
