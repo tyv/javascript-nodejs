@@ -15,6 +15,7 @@ describe("ArticleRenderer", function() {
     const article = new Article({
       title:   "Title",
       slug:    "test",
+      githubLink: '',
       content: "# Title\n\n## Title\n\nMy html *string*."
     });
     const renderer = new ArticleRenderer();
@@ -33,7 +34,8 @@ describe("ArticleRenderer", function() {
       slug:    "test",
       weight:  0,
       isFolder: false,
-      content: "# Title\n\n## Title\n\nMy html *string*."
+      content: "# Title\n\n## Title\n\nMy html *string*.",
+      githubLink: ''
     }).persist();
 
     const article = new Article({
@@ -41,7 +43,8 @@ describe("ArticleRenderer", function() {
       slug:    "test",
       weight:  0,
       isFolder: false,
-      content: "# Title\n\n[](/test)"
+      content: "# Title\n\n[](/test)",
+      githubLink: ''
     });
 
     const renderer = new ArticleRenderer();
