@@ -117,7 +117,7 @@ function *loadModel(Model, data) {
       yield model.persist();
     } catch (e) {
       if (e.name == 'ValidationError') {
-        log.error("loadModel persist validation error", e, e.errors);
+        log.error("loadModel persist validation error", e, e.errors, model.toObject());
       }
       throw e;
     }

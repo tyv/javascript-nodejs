@@ -38,7 +38,7 @@ exports.Article = [
     "weight" : 1,
     "slug" : "folder",
     "title" : "Введение",
-    "githubLink": ""
+    "githubLink": "http://not.exists.com"
   },
   {
     "parent" : '000000000000000000000010',
@@ -47,6 +47,6 @@ exports.Article = [
     "weight" : 1,
     "slug" : "article",
     "title" : "Введение в JavaScript",
-    "githubLink": ""
+    "githubLink": "http://not.exists.com"
   }
 ];

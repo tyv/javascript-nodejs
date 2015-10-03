@@ -22,7 +22,7 @@ describe('Article', function() {
       slug: 'slug',
       content: "Content",
       isFolder: false,
-      githubLink: '',
+      githubLink: 'http://not.exists.com',
       weight: 0
     });
 

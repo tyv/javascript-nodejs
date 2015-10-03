@@ -10,7 +10,7 @@ exports.Article = [
     slug:     "article-1",
     content:  "Content 1",
     modified: new Date(2014, 0, 1),
-    githubLink: '',
+    githubLink: 'http://not.exists.com',
     isFolder: true,
     weight:   0
   },
@@ -20,7 +20,7 @@ exports.Article = [
     slug:     "article-2",
     content:  "Content 2",
     modified: new Date(2014, 0, 2),
-    githubLink: '',
+    githubLink: 'http://not.exists.com',
     isFolder: true,
     weight:   1
   },
@@ -32,7 +32,7 @@ exports.Article = [
     modified: new Date(2014, 0, 2),
     isFolder: false,
     weight:   0,
-    githubLink: '',
+    githubLink: 'http://not.exists.com',
     parent:   ids[0]
   },
   {
@@ -43,7 +43,7 @@ exports.Article = [
     modified: new Date(2014, 0, 3),
     isFolder: false,
     weight:   1,
-    githubLink: '',
+    githubLink: 'http://not.exists.com',
     parent:   ids[0]
   },
   {
@@ -53,7 +53,7 @@ exports.Article = [
     content:  "Content 2.1",
     modified: new Date(2014, 0, 4),
     isFolder: false,
-    githubLink: '',
+    githubLink: 'http://not.exists.com',
     weight:   0,
     parent:   ids[1]
   },
@@ -64,7 +64,7 @@ exports.Article = [
     content:  "Content 2.2",
     modified: new Date(2014, 0, 5),
     isFolder: false,
-    githubLink: '',
+    githubLink: 'http://not.exists.com',
     weight:   1,
     parent:   ids[1]
   }

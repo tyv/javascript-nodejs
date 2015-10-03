@@ -15,7 +15,7 @@ describe("ArticleRenderer", function() {
     const article = new Article({
       title:   "Title",
       slug:    "test",
-      githubLink: '',
+      githubLink: 'http://not.exists.com',
       content: "# Title\n\n## Title\n\nMy html *string*."
     });
     const renderer = new ArticleRenderer();
@@ -35,7 +35,7 @@ describe("ArticleRenderer", function() {
       weight:  0,
       isFolder: false,
       content: "# Title\n\n## Title\n\nMy html *string*.",
-      githubLink: ''
+      githubLink: 'http://not.exists.com'
     }).persist();
 
     const article = new Article({
@@ -44,7 +44,7 @@ describe("ArticleRenderer", function() {
       weight:  0,
       isFolder: false,
       content: "# Title\n\n[](/test)",
-      githubLink: ''
+      githubLink: 'http://not.exists.com'
     });
 
     const renderer = new ArticleRenderer();

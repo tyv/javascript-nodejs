@@ -34,7 +34,7 @@ exports.Article = [
     "weight" : 1,
     "slug" : "js",
     "title" : "JavaScript",
-    "githubLink": ""
+    "githubLink": "http://not.exists.com"
   },
   {
     "_id": '000000000000000000000011',
@@ -43,7 +43,7 @@ exports.Article = [
     "weight" : 2,
     "slug" : "ui",
     "title" : "Интерфейсы",
-    "githubLink": ""
+    "githubLink": "http://not.exists.com"
   },
   {
     "_id": '000000000000000000000012',
@@ -52,7 +52,7 @@ exports.Article = [
     "weight" : 3,
     "slug" : "more",
     "title" : "Дополнительно",
-    "githubLink": ""
+    "githubLink": "http://not.exists.com"
   },
   {
     "parent" : '000000000000000000000010',
@@ -61,7 +61,7 @@ exports.Article = [
     "weight" : 1,
     "slug" : "article",
     "title" : "Введение в JavaScript",
-    "githubLink": ""
+    "githubLink": "http://not.exists.com"
   },
   {
     "parent" : '000000000000000000000011',
@@ -70,7 +70,7 @@ exports.Article = [
     "weight" : 2,
     "slug" : "article2",
     "title" : "Введение в JavaScript",
-    "githubLink": ""
+    "githubLink": "http://not.exists.com"
   },
   {
     "parent" : '000000000000000000000012',
@@ -79,6 +79,6 @@ exports.Article = [
     "weight" : 3,
     "slug" : "article3",
     "title" : "И ещё про JavaScript",
-    "githubLink": ""
+    "githubLink": "http://not.exists.com"
   }
 ];
