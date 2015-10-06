@@ -34,6 +34,7 @@ function getInvoice(transaction) {
 
   var data = {
     COMPANY_NAME: invoiceConfig.COMPANY_NAME,
+    COMPANY_ADDRESS: invoiceConfig.COMPANY_ADDRESS,
     INN: invoiceConfig.INN,
     ACCOUNT: invoiceConfig.ACCOUNT,
     BANK: invoiceConfig.BANK,

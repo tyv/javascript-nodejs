@@ -1,6 +1,6 @@
 const Order = require('payments').Order;
 const sendMail = require('mailer').send;
-const ExpiringDownloadLink = require('download').ExpiringDownloadLink;
+const ExpiringDownloadLink = require('downloadByLink').ExpiringDownloadLink;
 const path = require('path');
 const log = require('log')();
 

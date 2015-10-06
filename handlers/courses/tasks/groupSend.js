@@ -47,6 +47,13 @@ module.exports = function() {
           return {email: participant.user.email, name: participant.fullName};
         });
 
+
+      var teacher = yield User.findById(group.teacher);
+      recipients.push({
+        email: teacher.email,
+        name: teacher.displayName
+      });
+
       // filter out already received
       var recipientsByEmail = _.indexBy(recipients, 'email');
 

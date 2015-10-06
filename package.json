@@ -102,7 +102,7 @@
     "passport-yandex": "*",
     "passthrough-counter": "*",
     "path-to-regexp": "*",
-    "prismjs": "git://github.com/iliakan/prism#gh-pages",
+    "prismjs": "*",
     "request": "*",
     "sanitize-html": "*",
     "send": "*",

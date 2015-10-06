@@ -89,7 +89,7 @@ app.requireHandler('passportRememberMe');
 
 app.requireHandler('lastActivity');
 
-app.requireHandler('csrf');
+app.requireHandler('csrfCheck');
 
 app.requireHandler('flash');
 
@@ -105,7 +105,7 @@ if (process.env.NODE_ENV == 'development') {
 
 endpoints.push(
   'users', 'auth', 'ebook', 'cache', 'search', 'profile', 'jb', 'play', 'nodejsScreencast', 'about', 'imgur',
-  'profileGuest', 'quiz', 'currencyRate', 'payments', 'download', 'staticPage', 'newsletter', 'mailer', 'courses'
+  'profileGuest', 'quiz', 'currencyRate', 'payments', 'downloadByLink', 'staticPage', 'newsletter', 'mailer', 'courses'
 );
 
 
