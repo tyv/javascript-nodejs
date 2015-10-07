@@ -79,6 +79,10 @@ var schema = new Schema({
     type: String
   },
 
+  skypeLink: {
+    type: String
+  },
+
   course:       {
     type:     Schema.Types.ObjectId,
     ref:      'Course',

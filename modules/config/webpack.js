@@ -39,7 +39,6 @@ var webpackConfig = {
     filename:   extHash("[name]", 'js'),
 
     chunkFilename: extHash("[name]-[id]", 'js'),
-    // the setting below does not work with CommonsChunkPlugin
     library:       '[name]'
   },
 
