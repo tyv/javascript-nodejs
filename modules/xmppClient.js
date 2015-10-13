@@ -172,7 +172,7 @@ class Client extends EventEmitter {
     assert(isNewRoom || isExistingRoom);
 
     // Example 156 or 163, request config form
-    iq = new xmppElement('iq', {to: roomJid, from: this.client.jid, type: 'get'})
+    iq = new Stanza.Element('iq', {to: roomJid, from: this.client.jid, type: 'get'})
       .c('query', {xmlns: 'http://jabber.org/protocol/muc#owner'});
 
     // Example 157, service sends config form
