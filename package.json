@@ -9,7 +9,6 @@
     "test": "SELENIUM_LOCAL=1 NODE_ENV=test gulp test"
   },
   "precommit": "NODE_ENV=development node `which gulp` pre-commit",
-  "//": "blueimp-canvas-to-blob is taken from a fork w/ browserify support",
   "//": "node-xmpp-client installs for linux only",
   "dependencies": {
     "node-xmpp-client": "*",
@@ -159,6 +158,7 @@
     "gulp-stylus": "*",
     "gulp-uglify": "*",
     "gulp-util": "*",
+    "i18n-webpack-plugin": "*",
     "imagemin-pngquant": "*",
     "js-beautify": "*",
     "lazypipe": "*",
@@ -178,7 +178,7 @@
     "superagent": "*",
     "supertest": "*",
     "time-require": "*",
-    "trace": "^1.2.0"
+    "trace": "*"
   },
   "engineStrict": true,
   "repository": {

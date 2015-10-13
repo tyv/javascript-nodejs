@@ -2,14 +2,9 @@
 
 var util = require('util');
 
-var xmppClient, xmppElement;
-try {
-  xmppClient = require('node-xmpp').Client; // node-xmpp-client
-  xmppElement = xmppClient.ltx.Element;
-} catch(e) {
-  xmppClient = {};
-  xmppElement = {};
-}
+var XmppClient = require('node-xmpp-client');
+var Stanza = XmppClient.Stanza;
+
 var co = require('co');
 var config = require('config');
 var log = require('log')();
@@ -53,7 +48,7 @@ class Client extends EventEmitter {
 
   connect() {
 
-    this.client = new xmppClient({
+    this.client = new XmppClient({
       jid:      this.options.jid, // config.xmpp.admin.login + '/host',
       password: this.options.password // config.xmpp.admin.password
     });
@@ -150,7 +145,7 @@ class Client extends EventEmitter {
     var iq;
 
     // Example 153, create room
-    var presence = new xmppElement(
+    var presence = new Stanza.Element(
       'presence',
       {from: this.client.jid, to: roomJid + '/host'}
     )
@@ -218,7 +213,7 @@ class Client extends EventEmitter {
     // <field var='muc#roomconfig_enablelogging'><value>1</value></field>
     // </x></query></iq>
 
-    iq = new xmppElement(
+    iq = new Stanza.Element(
       'iq',
       {to: roomJid, from: this.client.jid, type: 'set'})
       .c('query', {xmlns: 'http://jabber.org/protocol/muc#owner'})
@@ -268,7 +263,7 @@ class Client extends EventEmitter {
     var item = {nick: nick, role: 'moderator'};
     if (nick) item.nick = nick;
 
-    var iq = new xmppElement('' +
+    var iq = new Stanza.Element('' +
       'iq', {to: roomJid, from: this.client.jid, type: 'set'})
       .c('query', {xmlns: 'http://jabber.org/protocol/muc#admin'})
       .c('item', item)
@@ -288,7 +283,7 @@ class Client extends EventEmitter {
     var item = {affiliation: affilation, jid: memberJid};
     if (nick) item.nick = nick;
 
-    var iq = new xmppElement('' +
+    var iq = new Stanza.Element('' +
       'iq', {to: roomJid, from: this.client.jid, type: 'set'})
       .c('query', {xmlns: 'http://jabber.org/protocol/muc#admin'})
       .c('item', item)
