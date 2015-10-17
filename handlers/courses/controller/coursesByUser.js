@@ -78,6 +78,9 @@ exports.get = function*(next) {
     }, {
       url:   `/courses/groups/${group.slug}/info`,
       title: 'Инструкции по настройке окружения'
+    }, {
+      url:   `/jb`,
+      title: 'Скидка на редакторы Jetbrains'
     }];
 
     if (groups[i].materials) {

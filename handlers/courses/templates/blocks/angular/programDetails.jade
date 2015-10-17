@@ -1,0 +1,103 @@
++b.courses-parts.courses-mix
+  +e('h2').title Основные темы программы
+
+  +b.tabbed-pane._01
+
+    +e('ul').tabs
+      +e('li').tab._01 Первая часть курса
+      +e('li').tab._02 Вторая часть курса
+      +e('li').tab._03 Третья часть курса
+
+    +e.body._01
+      +e('h2').title.phone-only Первая часть курса
+      ol
+        li
+          strong Быстрый старт с Angular.JS
+          ul
+            li Общая структура фреймворка.
+            li Встроенные директивы и шаблонизация в Angular.JS.
+            li Двустороннее связывание.
+            li Создание своих директив.
+            li Вложенные директивы, наследование и передачи <code>$scope</code>.
+        li
+          strong Сервисы
+          ul
+            li Организация service provider'ов и зависимостей.
+            li Встроенные сервисы Angular.JS.
+            li Написание своих сервисов, отличия между реализациями провайдера.
+        li
+          strong Редактирование данных, модель и формы в Angular.JS
+          ul
+            li Модель, директива <code>ng-model</code>.
+            li Удобная валидация форм, встроенные и свои директивы.
+            li Автоматичский показ ошибок, <code>ng-message</code>.
+
+        li
+          strong Навигация и маршрутизация
+          ul
+            li Роутер ui-router
+            li Управление состояниями: <code>$state</code> и <code>$stateProvider</code>.
+
+      p.
+        По окончанию первой части курса вы понимаете, как разработать на Angular.JS несложное приложение для вывода и редактирования данных.
+
+    +e.body._02
+      +e('h2').title.phone-only Вторая часть курса
+      ol
+        li
+          strong Авторизация в приложении
+
+          ul
+            li Интерфейс для авторизации на Angular.JS
+            li Интерцептор для проверки прав.
+
+        li
+          strong Организация приложения на диске
+          ul
+            li Файловая структура.
+            li WebPack для сборки.
+
+        li
+          strong Автоматизированные тесты.
+          ul
+            li Unit-тесты и TDD (вместе с jasmine и karma).
+            li Функциональные(e2e) тесты с использованием protractor
+
+    +e.body._03
+      +e('h2').title.phone-only Третья часть курса
+      ol
+        li
+          strong Более сложные директивы
+          ul
+            li Использование сервиса <code>$compile</code>.
+            li вложенные директивы с transclude.
+
+        li
+          strong Интеграция со сторонними модулями
+          ul
+            li Сторонние плагины, не знающие про Angular.JS
+            li <code>$scope.watch</code>
+            li <code>$scope.apply</code>
+            li События, <code>ng-events</code> на <code>$scope</code>
+
+        li
+          strong Возможные проблемы и их решение
+          ul
+            li <code>$watch</code> и проблемы производительности
+            li Серверный рендеринг, поисковики
+            li Подгрузка модулей на лету
+            li Angular.JS и Drag'n'Drop
+
+        li
+          strong Возможное будущее, краткая информация про Angular 2.0
+
+
+  script.
+    var className = 'tabbed-pane', block = document.querySelector('.' + className);
+
+    block.querySelector('.' + className + '__tabs').addEventListener('click', function(e) {
+       block.className = className + ' ' + className + '_' +  e.target.className.split('_').pop();
+    });
+
+
+

@@ -1,0 +1,85 @@
+extends /layouts/main
+
+
+block append variables
+
+  - var layout_main_class = "main_width-limit"
+  - var title = 'Онлайн-курс: настройка окружения';
+  - var sitetoolbar = true
+  - var siteToolbarCurrentSection = "courses"
+
+block append head
+  !=js("courses", {defer: true})
+
+
+block content
+
+  p.
+    Эта инструкция &ndash; о том, как настроить у себя окружение для обучения.
+    Прочитайте, пожалуйста, ее полностью. Настройте всё и, желательно, протестируйте на собрании.
+    Это важно, чтобы вы могли сразу же полноценно принимать участие в процессе.
+
+  p Для общения используется одновременно видео, аудио и чат.
+
+
+  h2 Общение в чате
+
+  p Для чата мы используем Jabber. Это удобный чат-клиент с открытым протоколом и большим количеством свободно распространяемого программного обеспечения.
+
+  p Если у вас он ещё не стоит Jabber-клиент, нужно будет поставить. Самые популярные клиенты:
+
+  ul
+    li Для Windows и Linux: <a href="http://pidgin.im">Pidgin</a>.
+    li Для MacOS: <a href="https://adium.im/">Adium</a>.
+
+  p Для входа на сервер вам понадобятся:
+
+  ul
+    li <b>Логин:</b> <code>#{user.profileName}</code> и сервер <code>javascript.ru</code> (в некоторых клиентах вводятся вместе <code>#{user.profileName}@javascript.ru</code>).
+    li
+     | <b>Пароль:</b> тот, которые вы используете для входа в сайт <code>#{domain.main}</code>.
+     | Если вы ранее входили только через Facebook/Github/..., то пароля может не быть,
+     | тогда создайте его во вкладке профиля <a href="#{user.getProfileUrl()}/account">Аккаунт</a>.
+
+  p Подключайтесь к чату <code>#{group.webinarId}</code>, конференц-сервер <code>conference.javascript.ru</code>, в качестве своего ника(псевдонима) для комнаты укажите свое имя и фамилию в формате "Имя Фамилия".
+
+  p Есть короткое видео по установке и настройке <a href="/courses/pidgin.mp4">Pidgin</a> и <a href="/courses/adium.mp4">Adium</a>.
+
+  h2 Система для разделения экрана и общения
+
+  p Мы используем систему GoToWebinar, в ней специальный кодек, который обеспечивает лучшее качество скринкастов, чем более распространённый flv-формат.
+
+  p.
+    Для использования этой системы в браузере должна быть установлена и включена java.
+    Если у вас ее нет &ndash; скачать можно здесь:
+    <a href="http://java.com/ru/download/">http://java.com/ru/download/</a>.
+
+  p Для захода в систему зайдите на <a href="http://joinwebinar.com">http://joinwebinar.com</a> и введите:
+
+  ul
+    li <b>Webinar ID:</b> <code>#{group.webinarId}</code>.
+    li <b>Email:</b> <code>#{user.profileName}@javascript.ru</code> (именно это, не ваш реальный email).
+
+  p Для запуска системы отвечайте Yes на вопросы. Если ничего не запускается &ndash; возможно, нужно нажать кнопку <b>Launch</b> или <b>Download Software</b> и запустить скачанную программу вручную.
+
+  p Когда программа поставится, при следующем заходе скачивать или запускать ее заново будет не нужно.
+
+  :simpledown
+    [warn]
+    До собрания попробуйте войти, как указано выше, чтобы вас "зарегистрировало", но работать видео будет только во время онлайн-встречи.
+
+    При попытке зайти во "внеурочное" время видео не запустится. Это нормально.
+    [/warn]
+
+  p
+   | Заранее, для проверки, можно подключиться по адресу <a href="https://www3.gotomeeting.com/join/406552062">https://www3.gotomeeting.com/join/406552062</a>,
+   | людей там нет, но программа должна поставиться и запуститься.
+
+  p Полная инструкция по тестированию входа находится на <a href="http://support.citrixonline.com/en_US/GoToMeeting/help_files/GTM140010?title=Test+Your+GoToMeeting+Connection">http://support.citrixonline.com/en_US/GoToMeeting/help_files/GTM140010?title=Test+Your+GoToMeeting+Connection</a>.
+
+  p Практика показывает, что если у вас стоит Java и работает Skype, то и видео тоже нормально заработает.
+
+  if group.skypeLink
+    p Для неофициального общения также есть Skype-группа, к которой можно присоединиться по ссылке: <a href="#{group.skypeLink}">#{group.skypeLink}</a>.
+
+  include:simpledown ./angular.md
