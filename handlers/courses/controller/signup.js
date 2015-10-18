@@ -59,7 +59,7 @@ exports.get = function*() {
 
     // a visitor can't reach this page through UI, only by direct link
     // if the group is full
-    if (!group.isOpenForSignup && !discount) {
+    if (!group.isOpenForSignup && (!discount || discount.data.slug != group.slug)) {
       this.statusCode = 403;
       this.body = this.render('/notification', {
         title:   'Запись в эту группу завершена',
