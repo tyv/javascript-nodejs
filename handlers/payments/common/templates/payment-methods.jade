@@ -19,5 +19,7 @@
               +e('img').logo(src="/pay-methods/pay-" + paymentMethod.name + '.svg' alt=paymentMethod.name[0].toUpperCase() + paymentMethod.name.slice(1))
         if paymentMethod.name == "paypal"
           include paypal-settings
+        if paymentMethod.name == "interkassa"
+          include interkassa-settings
         if paymentMethod.name == "invoice"
           include invoice-settings

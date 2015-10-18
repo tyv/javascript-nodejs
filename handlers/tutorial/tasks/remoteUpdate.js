@@ -28,7 +28,7 @@ module.exports = function(options) {
     var host = args.host;
     return co(function* () {
 
-      exec(`rsync -crlDvtz --delete-after ${config.publicRoot}/task ${config.publicRoot}/article ${host}:${config.publicRoot}/`);
+      exec(`rsync -crlDvtz -e ssh --delete-after ${config.publicRoot}/task ${config.publicRoot}/article ${host}:${config.publicRoot}/`);
 
 
       del.sync('dump');

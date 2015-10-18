@@ -14,7 +14,7 @@ exports.renderForm = require('./renderForm');
 exports.createTransaction = function*(order, requestBody) {
 
   var currency = requestBody.paypalCurrency;
-  if (!~Transaction.schema.path('currency').enumValues.indexOf(currency)) {
+  if (!~['USD', 'RUB', 'EUR'].indexOf(currency)) {
     throw(new Error("Unsupported currency:" + currency));
   }
 
