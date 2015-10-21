@@ -34,7 +34,7 @@ exports.Subscription = [
 exports.Newsletter = [
   {
     "_id":  "100000000000000000000001",
-    title:  "Курс и скринкасты по Node.JS / IO.JS",
+    title:  "Курс и скринкасты по Node.JS",
     slug:   "nodejs",
     period: "несколько раз в год",
     weight: 1
