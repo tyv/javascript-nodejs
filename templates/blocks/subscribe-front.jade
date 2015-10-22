@@ -1,0 +1,29 @@
++b.subscribe._fancy
+  +e('h3').title Следите за обновлениями javascript.ru
+
+  +e('form').form
+    +e.line
+      +e('label').name
+        +e('input').input(type="checkbox")
+        | Курс JavaScript/DOM/интерфейсы (раз в 1.5-2 месяца)
+
+    +e.line
+      +e('label').name
+        +e('input').input(type="checkbox")
+        | Курс и скринкасты по Node.JS / IO.JS (несколько раз в год)
+
+    +e.line
+      +e('label').name
+        +e('input').input(type="checkbox")
+        | Продвинутые курсы, мастер-классы, конференции, новые выпуски статей по JavaScript (редко)
+
+    +e.line._email
+
+      +b.text-input-button
+        +e.input
+          +b.text-input
+            +e('input').control(type="email", placeholder="Ваш e-mail", name="email", required)
+        +e.button
+          +b('button').button._action(type="submit")
+            +e('span').text Подписаться
+
