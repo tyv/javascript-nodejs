@@ -1,0 +1,33 @@
+extends /layouts/main
+
+block append variables
+  - var title = "Nazarkator";
+  - var layout_header_class = "main__header_center"
+  - var layout_main_class = "main_width-limit-wide"
+  - var sitetoolbar = true
+
+block content
+  +b.profile
+
+    +e.content
+      +e.tabs
+        +e.tab
+          +e.tab-content
+            +e('a').tab-link(href="#") Профиль
+        +e.tab
+          +e.tab-content
+            +e('a').tab-link(href="#") Аккаунт
+        +e.tab
+          +e.tab-content
+            +e('a').tab-link(href="#") Заказы
+        +e.tab
+          +e.tab-content
+            +e('a').tab-link(href="#") Курсы
+        +e.tab._current
+          +e.tab-content
+            | Уведомления
+        +e.tab
+          +e.tab-content
+            +e('a').tab-link(href="profile-quiz") Тесты
+
+      include /blocks/subscribe-profile
