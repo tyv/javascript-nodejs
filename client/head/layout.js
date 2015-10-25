@@ -69,7 +69,10 @@ function compactifySidebar() {
 
 function onWindowScrollAndResize() {
 
-  var sitetoolbar = document.querySelector('.sitetoolbar');
+  var toolbarSelector = document.documentElement.lang === 'ru' ? '.sitetoolbar' : '.sitetoolbar-light';
+  var sitetoolbar = document.querySelector(toolbarSelector);
+
+
   if (!sitetoolbar) {
     log("no sitetoolbar");
     return; // page in a no-top-nav layout
