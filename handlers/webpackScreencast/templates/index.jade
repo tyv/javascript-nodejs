@@ -1,24 +1,24 @@
 extends /layouts/main
 
 block append variables
-  - var headTitle = 'Скринкаст по Node.JS';
+  - var headTitle = 'Скринкаст по Webpack';
   - var sitetoolbar = true
   - var header = true
   - var layout_page_class = "page_contains_header"
   - var mainclass = "main-headered"
 
 block append head
-  !=js("nodejsScreencast", {defer: true})
+  !=js("webpackScreencast", {defer: true})
 
 block content
   +b.nodejs-screencast-header
 
     +e("h1").title Скринкаст
       //- two spaces! one is consumed, one remains
-      +e("strong").title-accent  NODE.JS
+      +e("strong").title-accent  WebPack
 
     +e("p").description
-      | Основные возможности и средства создания веб-сервисов, включая внутренние особенности самого сервера Node.JS
+      | Модульный frontend при помощи Webpack
 
     +e("ul").buttons
 
@@ -52,20 +52,9 @@ block content
 
     +e("p").foot Ниже вы можете ознакомиться более детально с содержанием скринкаста
 
-    +e("a")(href="/courses/nodejs").tag Не прозевайте<br>курсы по <strong>Node.js!</strong>
-
   .main(class='main_width-limit-wide').nodejs-screencast-content
 
     include:simpledown index.md
-
-    +b.faq-cite
-      +e("h2").title Ответы на частые вопросы:
-      +e.list
-        +e('dl')
-          dt У меня Windows, пытаюсь запустить скрипт в <code>cmd</code>, набираю <code>"node server.js"</code> &mdash; выдаёт ошибку, что делать?
-          dd Перейдите в нужную директорию командой <code>"CD &lt;директория, в которой у вас находится server.js&gt;"</code>. Например: <code>"CD C:\node"</code>. Оттуда и запускайте.
-          dt Пробую запускать в FAR, но не вижу вывода скрипта.
-          dd Нажмите <code class="shortcut">Ctrl + O</code>, это отключит панели FAR и вы сможете всё видеть. Нажмите ещё раз &mdash; и панели снова появятся.
 
     include /blocks/subscriptionsForm
 

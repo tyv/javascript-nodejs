@@ -1,0 +1,29 @@
+
++b.subscribe._fancy
+  +e('h3').title Следите за обновлениями javascript.ru
+
+  +e('form').form(method="POST", action="/newsletter/subscribe" data-newsletter-subscribe-form="newsletters-all")
+    input(type="hidden", name="_csrf", value=csrf())
+    input(type="hidden", name="replace", value=1)
+
+    if user
+      input(type="hidden", name="email", value=user.email)
+
+    each newsletter in newsletters
+      +e.line
+        +e('label').name
+          +e('input').input(type="checkbox", name="slug", value=newsletter.slug, checked=newsletter.subscribed || undefined)
+          = ' '
+          = newsletter.title
+
+    +e.line._email
+
+      +b.text-input-button
+        if (!user)
+          +e.input
+            +b.text-input
+              +e('input').control(type="email", placeholder="Ваш e-mail", name="email", required)
+        +e.button
+          +b('button').button._action(type="submit")
+            +e('span').text Подписаться
+

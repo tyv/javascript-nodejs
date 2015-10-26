@@ -36,12 +36,12 @@ function initList() {
       '<div class="lessons-list__popup">' +
       '<ul class="lessons-list__popup-list">' +
       '<li class="lessons-list__popup-item">' +
-      '<a data-track-outbound href="/nodejs-screencast/nodejs-mp4-low/' +
+      '<a data-track-outbound href="/webpack-screencast/webpack-mp4-low/' +
       mnemo + '.mp4">Компактный размер</a>' +
       '</li>' +
 
       '<li class="lessons-list__popup-item">' +
-      '<a data-track-outbound href="/nodejs-screencast/nodejs-mp4/' +
+      '<a data-track-outbound href="/webpack-screencast/webpack-mp4/' +
       mnemo + '.mp4">Высокое качество</a>' +
       '</li>' +
       '</ul>' +
@@ -56,7 +56,7 @@ function initList() {
     link.onclick = function(e) {
       e.preventDefault();
       var videoId = this.getAttribute('data-video-id');
-      window.ga('send', 'event', 'nodejs-screencast', 'open', videoId, {
+      window.ga('send', 'event', 'webpack-screencast', 'open', videoId, {
         hitCallback: gaHitCallback(function() {
           openVideo(videoId);
         })
@@ -82,7 +82,7 @@ function openVideo(videoId) {
 
   var width = sizeList[i].width;
   var height = sizeList[i].height;
-  window.ga('send', 'event', 'nodejs-screencast', 'open', videoId + '-' + width + 'x' + height, {
+  window.ga('send', 'event', 'webpack-screencast', 'open', videoId + '-' + width + 'x' + height, {
     hitCallback: gaHitCallback(function() {
 
       if (i === 0) {

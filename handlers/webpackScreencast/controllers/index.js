@@ -12,7 +12,7 @@ const Subscription = require('newsletter').Subscription;
 const Newsletter = require('newsletter').Newsletter;
 
 exports.get = function*() {
-  this.locals.siteToolbarCurrentSection = "nodejs-screencast";
+  this.locals.siteToolbarCurrentSection = "webpack-screencast";
 
   let subscription = null;
   if (this.user) {

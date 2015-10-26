@@ -104,7 +104,7 @@ if (process.env.NODE_ENV == 'development') {
 }
 
 endpoints.push(
-  'users', 'auth', 'ebook', 'cache', 'search', 'profile', 'jb', 'play', 'nodejsScreencast', 'about', 'imgur',
+  'users', 'auth', 'ebook', 'cache', 'search', 'profile', 'jb', 'play', 'nodejsScreencast', 'webpackScreencast', 'about', 'imgur',
   'profileGuest', 'quiz', 'currencyRate', 'payments', 'downloadByLink', 'staticPage', 'newsletter', 'mailer', 'courses'
 );
 

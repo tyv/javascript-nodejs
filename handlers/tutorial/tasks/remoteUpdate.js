@@ -26,6 +26,9 @@ module.exports = function(options) {
     var collections = ['tasks', 'plunks', 'articles', 'references'];
 
     var host = args.host;
+
+    var db = config.lang == 'ru' ? 'js' : 'js_en';
+
     return co(function* () {
 
       exec(`rsync -crlDvtz -e ssh --delete-after ${config.publicRoot}/task ${config.publicRoot}/article ${host}:${config.publicRoot}/`);
@@ -49,9 +52,9 @@ module.exports = function(options) {
         exec('ssh ' + host + ' "mongoimport --db js_sync --drop --file dump/'+coll+'.json"');
       });*/
       collections.forEach(function(coll) {
-        exec('mongodump -d js -c ' + coll);
+        exec('mongodump -d ' + db + ' -c ' + coll);
       });
-      exec('mv dump/js dump/js_sync');
+      exec('mv dump/' + db + ' dump/js_sync');
 
       exec('ssh ' + args.host + ' "rm -rf dump"');
       exec('scp -r -C dump ' + host + ':');
@@ -62,7 +65,7 @@ module.exports = function(options) {
 
       var file = fs.openSync("/tmp/cmd.js", "w");
 
-      fs.writeFileSync("/tmp/check.sh", 'mongo js --eval "db.articles.find().length()";\n');
+      fs.writeFileSync("/tmp/check.sh", 'mongo ' + db + ' --eval "db.articles.find().length()";\n');
 
       // copy/overwrite collections from js_sync to js and then remove non-existing ids
       // without destroy! (elasticsearch river breaks)
@@ -97,7 +100,7 @@ module.exports = function(options) {
       exec('scp /tmp/check.sh ' + host + ':/tmp/');
 
       exec('ssh ' + host + ' "bash /tmp/check.sh"');
-      exec('ssh ' + host + ' "mongo js /tmp/cmd.js"');
+      exec('ssh ' + host + ' "mongo ' + db + ' /tmp/cmd.js"');
       exec('ssh ' + host + ' "bash /tmp/check.sh"');
 
       /* jshint -W106 */

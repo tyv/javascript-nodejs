@@ -76,7 +76,8 @@ var webpackConfig = {
     coursesFrontpage:          'courses/client/frontpage',
     profileGuestAboutMe:       'profileGuest/client/aboutMe',
     footer:                    'client/footer',
-    nodejsScreencast:          'nodejsScreencast/client'
+    nodejsScreencast:          'nodejsScreencast/client',
+    webpackScreencast:         'webpackScreencast/client'
   },
 
   externals: {
