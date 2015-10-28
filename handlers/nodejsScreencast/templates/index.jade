@@ -11,7 +11,7 @@ block append head
   !=js("nodejsScreencast", {defer: true})
 
 block content
-  +b.nodejs-screencast-header
+  +b.screencast-header._style_nodejs
 
     +e("h1").title Скринкаст
       //- two spaces! one is consumed, one remains
@@ -54,7 +54,7 @@ block content
 
     +e("a")(href="/courses/nodejs").tag Не прозевайте<br>курсы по <strong>Node.js!</strong>
 
-  .main(class='main_width-limit-wide').nodejs-screencast-content
+  .main(class='main_width-limit-wide').screencast-content
 
     include:simpledown index.md
 
