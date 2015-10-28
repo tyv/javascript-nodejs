@@ -10,28 +10,13 @@ var money = require('money');
 var moment = require('momentWithLocale');
 const Subscription = require('newsletter').Subscription;
 const Newsletter = require('newsletter').Newsletter;
+const newsLetterPopulateContext = require('newsletter').populateContext;
 
 exports.get = function*() {
   this.locals.siteToolbarCurrentSection = "nodejs-screencast";
 
-  let subscription = null;
-  if (this.user) {
-    subscription = this.locals.subscription = yield Subscription.findOne({
-      email: this.user.email
-    });
-  }
+  yield* newsLetterPopulateContext(this);
 
-  var newsletters = yield Newsletter.find({}).sort({weight: 1}).exec();
-
-  this.locals.newsletters = newsletters.map(function(newsletter) {
-    return {
-      slug:       newsletter.slug,
-      title:      newsletter.title,
-      period:     newsletter.period,
-      // mongoose array can #indexOf ObjectIds
-      subscribed: subscription && ~subscription.newsletters.indexOf(newsletter._id)
-    };
-  });
 
   this.body = this.render('index');
 };

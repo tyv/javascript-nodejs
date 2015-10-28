@@ -10,6 +10,7 @@ module.exports = {
   paypal:      {},
   payanyway:   {},
   banksimple:  {},
+  banksimpleua:  {},
   interkassa:  {},
 
   cloudflare: {},

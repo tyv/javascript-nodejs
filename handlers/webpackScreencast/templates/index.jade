@@ -26,22 +26,22 @@ block content
         +b("a")(href="https://www.youtube.com/playlist?list=PLDyvV36pndZFWfEQpNixIHVvp191Hb3Gg").simple-button
           +e.text
             | Смотреть на
-            +e("strong").accent  Youtube
-          +e.description  Плейлист 43 записи
+            +e("strong")  Youtube
+          +e.description  Плейлист
 
       +e("li").button
-        +b("a")(href="/nodejs-screencast/nodejs-mp4-low.zip").simple-button
+        +b("a")(href="/nodejs-screencast/webpack-mp4-low.zip").simple-button
           +e.text
             | Скачать скринкаст
           +e.description  Компактный размер
-            +e("strong").description-accent  (228Mb)
+            +e("strong").description-accent  (83Mb)
 
       +e("li").button
-        +b("a")(href="/nodejs-screencast/nodejs-mp4.zip").simple-button
+        +b("a")(href="/webpack-screencast/webpack-mp4.zip").simple-button
           +e.text
             | Скачать скринкаст
           +e.description  Хорошее качество
-            +e("strong").description-accent  (4Gb)
+            +e("strong").description-accent  (137Mb)
 
     +e("p").info Если вы где-то выкладываете этот скринкаст (торрент и т.п.), то обязательно давайте ссылку на эту страницу, так как все обновления и важные изменения я публикую здесь.
 
@@ -52,7 +52,7 @@ block content
 
     +e("p").foot Ниже вы можете ознакомиться более детально с содержанием скринкаста
 
-  .main(class='main_width-limit-wide').nodejs-screencast-content
+  .main(class='main_width-limit-wide').webpack-screencast-content
 
     include:simpledown index.md
 

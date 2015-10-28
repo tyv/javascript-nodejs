@@ -4,6 +4,7 @@ const Task = require('../models/task');
 const _ = require('lodash');
 const ArticleRenderer = require('../renderer/articleRenderer');
 const CacheEntry = require('cache').CacheEntry;
+const newsLetterPopulateContext = require('newsletter').populateContext;
 
 exports.get = function *get(next) {
 
@@ -23,6 +24,8 @@ exports.get = function *get(next) {
   var locals = {
     chapters: tutorial
   };
+
+  yield* newsLetterPopulateContext(this);
 
   this.body = this.render('frontpage', locals);
 };

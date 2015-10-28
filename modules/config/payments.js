@@ -22,6 +22,7 @@ module.exports = {
     },
 
     banksimple: secret.banksimple,
+    banksimpleua: secret.banksimpleua,
 
     paypal: {
       email:    secret.paypal.email,

@@ -3,6 +3,7 @@ var prism = require('client/prism');
 var xhr = require('client/xhr');
 var TutorialMapModal = require('./tutorialMapModal');
 var TutorialMap = require('./tutorialMap');
+var newsletter = require('newsletter/client');
 
 function init() {
 
@@ -11,6 +12,8 @@ function init() {
   initFolderList();
 
   initSidebarHighlight();
+
+  initNewsletterForm();
 
   delegate(document, '[data-action="tutorial-map"]', 'click', function(event) {
     if (event.which != 1) return; // only left-click, FF needs this
@@ -34,6 +37,20 @@ function init() {
   }
 
 }
+
+
+function initNewsletterForm() {
+
+  var form = document.querySelector('[data-newsletter-subscribe-form]');
+  if (!form) return;
+
+  form.onsubmit = function(event) {
+    event.preventDefault();
+    newsletter.submitSubscribeForm(form);
+  };
+
+}
+
 
 function showTutorialMapModal() {
 
