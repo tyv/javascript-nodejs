@@ -28,7 +28,8 @@ exports.get = function*() {
     isOpenForSignup: true,
     course: this.locals.course._id
   }).sort({
-    dateStart: 1
+    dateStart: 1,
+    created: 1
   }).populate('teacher');
 
   this.body = this.render('courses/' + this.locals.course.slug);

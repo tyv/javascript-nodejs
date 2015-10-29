@@ -140,7 +140,7 @@ function* getOrderInfo(order) {
           title:              "Спасибо за заказ!",
           accent:             `Для завершения заказа скачайте счёт и оплатите его через банк.`,
           description:        `<div><button class="submit-button" onclick="location.href='/payments/banksimpleua/${transaction.number}/invoice.docx'" type="button"><span class="submit-button__text">Скачать квитанцию</span></button></div>
-            <p>Квитанция действительна три дня.</p>
+            <p>Квитанция действительна три дня. Она в гривнах, переведена по "биржевому курсу с задержкой", как правило он лучше банковского.</p>
             <p>После оплаты, в течение двух рабочих днейа, мы вышлем вам всю необходимую информацию на адрес <b>${order.email}</b>.</p>
             <p>Если у вас возникли какие-либо вопросы, присылайте их на ${mailUrl}.</p>
             `,

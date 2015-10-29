@@ -10,11 +10,13 @@ module.exports = function*() {
 
   var result;
 
+  var url = 'http://openexchangerates.org/api/latest.json?app_id=' + config.openexchangerates.appId;
   try {
     result = yield request({
-      url:  'http://openexchangerates.org/api/latest.json?app_id=' + config.openexchangerates.appId,
+      url:  url,
       json: true
     });
+    log.debug(url);
   } catch(e) {
     // failed to request (remote server unavailable?)
     log.error(e);
