@@ -21,7 +21,7 @@
 
 <div class="lessons-list lessons-list_screencast">
 <ol class="lessons-list__lessons">
-<li class="lessons-list__lesson" data-mnemo="01-intro"><a href="#" data-video-id="ys1LlGJ1k1Q">Введение</a></li>
+<li class="lessons-list__lesson" data-mnemo="01-intro"><a href="#" data-video-id="kLMjOd-x0aQ">Введение</a></li>
 </ol>
 </div>
 
@@ -33,7 +33,7 @@
 
 <div class="lessons-list lessons-list_screencast">
 <ol class="lessons-list__lessons">
-<li class="lessons-list__lesson" data-mnemo="02-simple-1"><a href="#" data-video-id="cA54meoi2ks">Простой конфиг</a></li>
+<li class="lessons-list__lesson" data-mnemo="02-simple-1"><a href="#" data-video-id="z8p27oR5VmU">Простой конфиг</a></li>
 <li class="lessons-list__lesson" data-mnemo="02-simple-2"><a href="#" data-video-id="AUS-QEp4NUo">Внешний доступ к модулям</a></li>
 <li class="lessons-list__lesson" data-mnemo="02-simple-3"><a href="#" data-video-id="85zatjhaOkE">Пересборка при изменениях</a></li>
 <li class="lessons-list__lesson" data-mnemo="02-simple-4"><a href="#" data-video-id="v9gtHkynU5E">Source maps</a></li>
@@ -51,7 +51,7 @@
 
 <div class="lessons-list lessons-list_screencast">
 <ol class="lessons-list__lessons">
-<li class="lessons-list__lesson" data-mnemo="03-multi-1"><a href="#" data-video-id="YgbYwqEO2rs">Несколько точек входа</a></li>
+<li class="lessons-list__lesson" data-mnemo="03-multi-1"><a href="#" data-video-id="JYP0e7uwgG0">Несколько точек входа</a></li>
 <li class="lessons-list__lesson" data-mnemo="03-multi-2"><a href="#" data-video-id="R0OxO-iJmws">NoErrorsPlugin</a></li>
 <li class="lessons-list__lesson" data-mnemo="03-multi-3"><a href="#" data-video-id="pSKd2zkEAZM">CommonsChunkPlugin</a></li>
 <li class="lessons-list__lesson" data-mnemo="03-multi-4"><a href="#" data-video-id="ohfdNMBS6x0">Информация о сборке</a></li>
@@ -69,7 +69,7 @@
 
 <div class="lessons-list lessons-list_screencast">
 <ol class="lessons-list__lessons">
-<li class="lessons-list__lesson" data-mnemo="04-require-1"><a href="#" data-video-id="wjdz0rpSVXw">Динамический require</a></li>
+<li class="lessons-list__lesson" data-mnemo="04-require-1"><a href="#" data-video-id="Om6yGdU_YlQ">Динамический require</a></li>
 <li class="lessons-list__lesson" data-mnemo="04-require-2"><a href="#" data-video-id="Fy16GeWZ6Oc">Объединение фрагментов</a></li>
 <li class="lessons-list__lesson" data-mnemo="04-require-3"><a href="#" data-video-id="BE-MXZLDwN4">require(выражение)</a></li>
 <li class="lessons-list__lesson" data-mnemo="04-require-4"><a href="#" data-video-id="qUfLCtLvOs0">require.context</a></li>
