@@ -19,6 +19,11 @@ module.exports = {
       fromEmail: 'informer@javascript.ru',
       fromName:  'JavaScript.ru',
       signature: "<em>Успешной разработки!<br>Илья Кантор</em>"
+    },
+    mgrinko: {
+      fromEmail: 'm.grinko@javascript.ru',
+      fromName:  'JavaScript.ru',
+      signature: "<em>Успешной разработки!<br>Михаил Гринько</em>"
     }
   },
   mandrill: {
