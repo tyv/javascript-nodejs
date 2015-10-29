@@ -30,7 +30,7 @@ exports.get = function*() {
     ACCOUNT: bankConfig.ACCOUNT,
     TRANSACTION_NUMBER: String(this.transaction.number),
     TRANSACTION_DATE: moment(this.transaction.created).format('DD.MM.YYYY'),
-    PAYMENT_DESCRIPTION: `Оплата по счёту ${this.transaction.number}`,
+    PAYMENT_DESCRIPTION: `Информационно-консультационные услуги, счёт ${this.transaction.number}`,
     AMOUNT: this.transaction.amount,
     AMOUNT_WORDS: priceInWords(this.transaction.amount, 'ua')
   });
