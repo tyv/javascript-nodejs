@@ -104,6 +104,10 @@ server {
     alias   /js/nodejs-screencast/$1;
   }
 
+  location ~ ^/webpack-screencast/(.*)$ {
+    alias   /js/webpack-screencast/$1;
+  }
+
 
   include "partial/javascript-static";
 
