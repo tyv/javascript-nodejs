@@ -88,7 +88,7 @@ module.exports = function() {
 
         var recipient = recipientsToSend[i];
         yield* mailer.send({
-          from:         'mgrinko',
+          from:         args.from || 'informer',
           templatePath: args.templatePath,
           to:           [recipient],
           user:         usersByEmail[recipient.email],
