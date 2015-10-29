@@ -16,7 +16,7 @@
             +e('p').participants-limit Осталось #{group.participantsLimit} #{pluralize(group.participantsLimit, 'место', 'места', 'мест')}
 
         +e.apply
-          +b.price(style=(index > 0 ? "visibility:hidden" : undefined))
+          +b.price
             +e('span') #{group.price} RUB
             +e('span').secondary &nbsp;≈&nbsp;#{Math.round(group.price / rateUsdRub)}$
           +e.submit
