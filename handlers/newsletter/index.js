@@ -15,22 +15,23 @@ let Subscription = exports.Subscription = require('./models/subscription');
 
 exports.populateContext = function* (context) {
 
+  /*
   let subscription = null;
   if (context.user) {
     subscription = context.locals.subscription = yield Subscription.findOne({
       email: context.user.email
     });
   }
-
+*/
   var newsletters = yield Newsletter.find({}).sort({weight: 1}).exec();
 
   context.locals.newsletters = newsletters.map(function(newsletter) {
     return {
       slug:       newsletter.slug,
       title:      newsletter.title,
-      period:     newsletter.period,
+      period:     newsletter.period
       // mongoose array can #indexOf ObjectIds
-      subscribed: subscription && ~subscription.newsletters.indexOf(newsletter._id)
+      // subscribed: subscription && ~subscription.newsletters.indexOf(newsletter._id)
     };
   });
 };

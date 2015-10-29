@@ -12,7 +12,7 @@
     each newsletter in newsletters
       +e.line
         +e('label').name
-          +e('input').input(type="checkbox", name="slug", value=newsletter.slug, checked=newsletter.subscribed || undefined)
+          +e('input').input(type="checkbox", name="slug", value=newsletter.slug)
           = ' '
           = newsletter.title
 
