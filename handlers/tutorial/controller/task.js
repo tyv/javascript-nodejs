@@ -9,7 +9,7 @@ exports.get = function *get(next) {
 
   const task = yield Task.findOne({
     slug: this.params.slug
-  }).populate('parent', 'slug').exec();
+  }).populate('parent');
 
   if (!task) {
     yield* next;
