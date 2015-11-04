@@ -41,7 +41,7 @@
 
 <div class="lessons-list lessons-list_screencast">
 <ol class="lessons-list__lessons">
-<li class="lessons-list__lesson" data-mnemo="02-simple-1"><a href="#" data-video-id="z8p27oR5VmU">Простой конфиг</a></li>
+<li class="lessons-list__lesson" data-mnemo="02-simple-1"><a href="#" data-video-id="DJSZKf9GkUs">Простой конфиг</a></li>
 <li class="lessons-list__lesson" data-mnemo="02-simple-2"><a href="#" data-video-id="AUS-QEp4NUo">Внешний доступ к модулям</a></li>
 <li class="lessons-list__lesson" data-mnemo="02-simple-3"><a href="#" data-video-id="85zatjhaOkE">Пересборка при изменениях</a></li>
 <li class="lessons-list__lesson" data-mnemo="02-simple-4"><a href="#" data-video-id="v9gtHkynU5E">Source maps</a></li>
