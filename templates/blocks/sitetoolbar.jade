@@ -48,12 +48,16 @@ if lang=='ru'
               +e('a').link(href=section.url ? section.url : ('/' + section.slug))= section.title
 
       if siteToolbarCurrentSection == 'tutorial'
-          include ./buy-book
+        +e.book-wrap
+          +b("a").buy-book-button(href="/ebook") Купить EPUB/PDF
+      else
+        +e.book-wrap
+          +b("a").buy-book-button(href="/courses") Набор на курсы JS/Node
 
-        if user
-          include ./user
-        else
-          include ./guest
+      if user
+        include ./user
+      else
+        include ./guest
 
       include ./search
 
