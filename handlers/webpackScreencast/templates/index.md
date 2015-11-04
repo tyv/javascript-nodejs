@@ -98,7 +98,7 @@
 <li class="lessons-list__lesson">Подключение сторонних библиотек</li>
 <li class="lessons-list__lesson">Стили и картинки</li>
 <li class="lessons-list__lesson">Браузерное кеширование</li>
-<li class="lessons-list__lesson">Live reload</li>
+<li class="lessons-list__lesson">Live reload и Hot Module Replacement</li>
 </ol>
 </div>
 
