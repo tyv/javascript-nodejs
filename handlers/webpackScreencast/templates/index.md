@@ -71,7 +71,7 @@
 </no-typography>
 
 
-## Часть 4: Несколько скриптов
+## Часть 4: Продвинутые require
 
 <no-typography>
 
@@ -88,16 +88,53 @@
 </div>
 </no-typography>
 
-## Планируются ещё 4 части
+## Часть 5: Подключение библиотек
+
+<no-typography>
+<div class="lessons-list lessons-list_screencast">
+<ol class="lessons-list__lessons">
+<li class="lessons-list__lesson" data-mnemo="05-library-1"><a href="#" data-video-id="RdZkFNzST3c">CDN и сборка: externals</a></li>
+<li class="lessons-list__lesson" data-mnemo="05-library-2"><a href="#" data-video-id="9VSVg38Afms">Локально: ProvidePlugin</a></li>
+<li class="lessons-list__lesson" data-mnemo="05-library-3"><a href="#" data-video-id="EeLg1mTaz3U">Оптимизация: noParse, include</a></li>
+<li class="lessons-list__lesson" data-mnemo="05-library-4"><a href="#" data-video-id="7LSEczQiCQA">Старые скрипты: пути и imports/exports</a></li>
+<li class="lessons-list__lesson" data-mnemo="05-library-5"><a href="#" data-video-id="XV1M4Pwx-Ik">expose и script-loader</a></li>
+</ol>
+</div>
+</no-typography>
+
+## Часть 6: Стили и файлы
+
+<no-typography>
+<div class="lessons-list lessons-list_screencast">
+<ol class="lessons-list__lessons">
+<li class="lessons-list__lesson" data-mnemo="06-styles-assets-1"><a href="#" data-video-id="hkPwyt3lhbg">Компонент "меню", style-loader</a></li>
+<li class="lessons-list__lesson" data-mnemo="06-styles-assets-2"><a href="#" data-video-id="k8LdbZcOvWs">CSS и file-loader</a></li>
+<li class="lessons-list__lesson" data-mnemo="06-styles-assets-3"><a href="#" data-video-id="03qQYfKMBO8">url-loader</a></li>
+<li class="lessons-list__lesson" data-mnemo="06-styles-assets-4"><a href="#" data-video-id="6WxoxUuSVA4">jade-loader</a></li>
+<li class="lessons-list__lesson" data-mnemo="06-styles-assets-5"><a href="#" data-video-id="2s6-1VIVwPo">less, sass, stylus</a></li>
+<li class="lessons-list__lesson" data-mnemo="06-styles-assets-6"><a href="#" data-video-id="62qYFgokzdU">ExtractTextPlugin</a></li>
+</ol>
+</div>
+</no-typography>
+
+## Часть 7: Длинное кеширование
+
+<no-typography>
+<div class="lessons-list lessons-list_screencast">
+<ol class="lessons-list__lessons">
+<li class="lessons-list__lesson" data-mnemo="07-caching-1"><a href="#" data-video-id="62qYFgokzdU">Повторение: пример конфига</a></li>
+<li class="lessons-list__lesson" data-mnemo="07-caching-2"><a href="#" data-video-id="kxxFQZx3KOk">Настройки для кеширования</a></li>
+</ol>
+</div>
+</no-typography>
+
+## Планируется ещё 1 часть
 
 
 <no-typography>
 
 <div class="lessons-list lessons-list_screencast">
 <ol class="lessons-list__lessons">
-<li class="lessons-list__lesson">Подключение сторонних библиотек</li>
-<li class="lessons-list__lesson">Стили и картинки</li>
-<li class="lessons-list__lesson">Браузерное кеширование</li>
 <li class="lessons-list__lesson">Live reload и Hot Module Replacement</li>
 </ol>
 </div>
