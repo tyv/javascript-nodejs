@@ -25,9 +25,12 @@ module.exports = function() {
 
       yield* order.onPaid();
 
-      yield order.persist({
-        status: Order.STATUS_SUCCESS
-      });
+      order.status = Order.STATUS_SUCCESS;
+      if ("amount" in args) {
+        order.amount = +args.amount;
+      }
+
+      yield order.persist();
 
     });
 
