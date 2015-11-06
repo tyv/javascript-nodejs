@@ -124,7 +124,7 @@
 <no-typography>
 <div class="lessons-list lessons-list_screencast">
 <ol class="lessons-list__lessons">
-<li class="lessons-list__lesson" data-mnemo="07-caching-1"><a href="#" data-video-id="62qYFgokzdU">Повторение: пример конфига</a></li>
+<li class="lessons-list__lesson" data-mnemo="07-caching-1"><a href="#" data-video-id="ZpSKNCBv_2s">Повторение: пример конфига</a></li>
 <li class="lessons-list__lesson" data-mnemo="07-caching-2"><a href="#" data-video-id="kxxFQZx3KOk">Настройки для кеширования</a></li>
 </ol>
 </div>
