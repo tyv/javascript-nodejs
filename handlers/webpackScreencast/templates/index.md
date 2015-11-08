@@ -130,18 +130,19 @@
 </div>
 </no-typography>
 
-## Планируется ещё 1 часть
-
+## Часть 8: Live reload и Hot Module Replacement
 
 <no-typography>
-
 <div class="lessons-list lessons-list_screencast">
 <ol class="lessons-list__lessons">
-<li class="lessons-list__lesson">Live reload и Hot Module Replacement</li>
+<li class="lessons-list__lesson" data-mnemo="08-live-reload-1"><a href="#" data-video-id="e9oA1AVV-jg">Webpack Dev Server</a></li>
+<li class="lessons-list__lesson" data-mnemo="08-live-reload-2"><a href="#" data-video-id="1BnRKzlwa7M">Продвинутая настройка WDS</a></li>
+<li class="lessons-list__lesson" data-mnemo="08-live-reload-3"><a href="#" data-video-id="o0NJQYWR7BI">Live Reload</a></li>
+<li class="lessons-list__lesson" data-mnemo="08-live-reload-4"><a href="#" data-video-id="EQhXtTOxpVk">Hot Module Replacement</a></li>
 </ol>
 </div>
-
 </no-typography>
+
     
 ## Код
 
