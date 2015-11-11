@@ -14,6 +14,7 @@ module.exports = function() {
   var args = require('yargs')
     .example('gulp deploy:build --host learn-ru')
     .example('gulp deploy:build --host learn-ru --with-npm')
+    .example('gulp deploy:build --host learn-ru --no-build --no-test')
     .demand(['host'])
     .argv;
 
@@ -48,6 +49,12 @@ module.exports = function() {
             // exit code 1 means that there's something to commit
             yield* client.runInBuild('git commit -a -m deploy');
           }
+        }
+
+
+        // make sure tests pass unless --no-test
+        if (args.test !== false) {
+          yield* client.runInBuild(`npm test`);
         }
 
         yield* client.runInBuild('git push origin production');

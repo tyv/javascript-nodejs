@@ -50,7 +50,8 @@ function* getOrderInfo(order) {
       statusText:  "Оплата получена",
       transaction: transaction,
       descriptionProfile: transaction.paymentMethod == 'invoice' && transaction.paymentDetails.agreementRequired ?
-        `Вы можете повторно скачать <a href="/payments/invoice/${transaction.number}/agreement.docx">договор с актом</a>.` :
+        `Вы можете повторно скачать <a href="/payments/invoice/${transaction.number}/invoice.docx">скачать счёт</a>
+        и <a href="/payments/invoice/${transaction.number}/agreement.docx">договор с актом</a>.` :
         ''
       // no title/accent/description, because the action on success is order-module-dependant
     };
