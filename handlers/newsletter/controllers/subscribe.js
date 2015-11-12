@@ -23,10 +23,6 @@ const ACTION_REMOVE = 'remove';
  */
 exports.post = function*() {
 
-  yield function(cb) {
-    setTimeout(cb, 5000);
-  };
-
   var self = this;
 
   var subscription;
