@@ -39,6 +39,12 @@ exports.all = function*() {
     var server = require(modulePath);
 
     this.req.url = "/" + serverPath;
+
+    var originalUrl = this.request.originalUrl;
+    if (~originalUrl.indexOf('?')) {
+      this.req.url += originalUrl.slice(originalUrl.indexOf('?'));
+    }
+
     this.res.statusCode = 200; // reset default koa 404 assignment
     this.log.debug("passing control to modulePath server, url=", this.req.url);
     this.respond = false;
