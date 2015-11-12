@@ -59,7 +59,7 @@ exports.post = function*() {
 
     yield sendMail({
       templatePath: path.join(this.templateDir, 'mail'),
-      to: 'iliakan@gmail.com',//config.jb.email,
+      to: config.jb.email,
       subject: "Запрос лицензии",
       form: form
     });
