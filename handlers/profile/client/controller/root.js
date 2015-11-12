@@ -7,7 +7,7 @@ profile.controller('ProfileRootCtrl', ($scope, $state, $timeout, $http, me, prom
 
   $scope.loadingTracker = promiseTracker();
 
-  var tabs = ['root.aboutme', 'root.account'];
+  var tabs = ['root.aboutme', 'root.account', 'root.subscriptions'];
   window.currentUser.profileTabsEnabled.forEach(function(tab) {
     tabs.push('root.' + tab);
   });

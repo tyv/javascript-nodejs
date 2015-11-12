@@ -114,6 +114,7 @@ function addStandardHelpers(locals, ctx) {
     orders: 'Заказы',
     courses: 'Курсы',
     aboutme: 'Публичный профиль',
+    subscriptions: 'Уведомления',
     account: 'Аккаунт'
   };
 

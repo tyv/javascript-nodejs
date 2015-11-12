@@ -43,6 +43,15 @@ angular.module('profile').config(($locationProvider, $stateProvider, $urlRouterP
         quizResults: /*@ngInject*/ (QuizResults) => QuizResults.query()
       }
     },
+    'root.subscriptions':  {
+      url:         '/subscriptions',
+      title:       'Уведомления',
+      templateUrl: "/profile/templates/partials/subscriptions",
+      controller:  'ProfileSubscriptionsCtrl',
+      resolve:     {
+        newsletters: /*@ngInject*/ (Newsletters) => Newsletters.query()
+      }
+    },
     'root.orders':  {
       url:         '/orders',
       title:       'Заказы',

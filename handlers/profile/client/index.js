@@ -19,8 +19,8 @@ require('./directive/dateRangeValidator');
 require('./factory/me');
 
 require('./factory/quizResults');
-
 require('./factory/orders');
+require('./factory/newsletters');
 require('./factory/courseGroups');
 
 require('./config');
@@ -32,6 +32,8 @@ require('./controller/orders');
 require('./controller/courseGroups');
 
 require('./controller/aboutme');
+
+require('./controller/subscriptions');
 
 require('./controller/quizResults');
 

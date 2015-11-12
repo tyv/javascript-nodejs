@@ -1,8 +1,5 @@
 var config = require('config');
 var User = require('users').User;
-var mongoose = require('mongoose');
-var QuizResult = require('quiz').QuizResult;
-var Order = require('payments').Order;
 
 // skips the request unless it's the owner
 exports.get = function* (next) {
@@ -19,7 +16,7 @@ exports.get = function* (next) {
     return;
   }
 
-  var user = yield User.findOne({profileName: this.params.profileName}).exec();
+  var user = yield User.findOne({profileName: this.params.profileName});
 
   if (!user) {
     this.throw(404);

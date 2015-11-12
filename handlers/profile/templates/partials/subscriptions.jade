@@ -1,0 +1,18 @@
+include /bem
+
++b.subscribe
+  +e('h3').title Управление подписками
+
+  +e('form')(
+    name="form"
+    ng-submit="submit()"
+  ).form
+    +e.line(ng-repeat="newsletter in newsletters")
+      +e('label').name
+        +e('input').input(type="checkbox" name="slug" ng-model="newsletter.subscribed") {{newsletter.title}}
+
+    +e.action
+      +b('button')(type="submit").button._action.__save
+        +e('span').text Сохранить
+
+

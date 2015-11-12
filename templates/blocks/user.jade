@@ -12,6 +12,8 @@
           +e('a').secondary-link.__usermenu-link(href=user.getProfileUrl()) Публичный профиль
         +e('li').usermenu-item
           +e('a').secondary-link.__usermenu-link(href=user.getProfileUrl() + "/account") Аккаунт
+        +e('li').usermenu-item
+          +e('a').secondary-link.__usermenu-link(href=user.getProfileUrl() + "/subscriptions") Уведомления
         each tab in user.profileTabsEnabled
           +e('li').usermenu-item
             +e('a').secondary-link.__usermenu-link(href=user.getProfileUrl() + "/" + tab)= profileTabNames[tab]

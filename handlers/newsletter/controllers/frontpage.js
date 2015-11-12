@@ -23,7 +23,7 @@ exports.get = function*() {
   } else if (this.user) {
     subscription = yield Subscription.findOne({
       email: this.user.email
-    }).exec();
+    });
   }
 
   this.locals.email = subscription ? subscription.email :
