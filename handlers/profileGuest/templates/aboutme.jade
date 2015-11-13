@@ -81,7 +81,7 @@ block profileContent
 
 block profileFeedback
 
-  if profileUser.teachesCourses
+  if profileUser.teachesCourses && profileUser.teachesCourses.length
 
     +e.feedbacks
       +b('section').course-feedbacks.teacher-feedback._loading
