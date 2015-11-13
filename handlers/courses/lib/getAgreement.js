@@ -4,6 +4,7 @@ var path = require('path');
 var invoiceConfig = require('config').payments.modules.invoice;
 const moment = require('moment');
 const CourseGroup = require('../models/courseGroup');
+const priceInWords = require('textUtil/priceInWords');
 
 // Load the docx file as a binary
 // @see https://github.com/open-xml-templating/docxtemplater
@@ -45,7 +46,8 @@ module.exports = function*(transaction) {
     INVOICE_COMPANY_NAME: transaction.paymentDetails.companyName,
     INVOICE_COMPANY_ADDRESS: transaction.paymentDetails.companyAddress,
     INVOICE_BANK_DETAILS: transaction.paymentDetails.bankDetails,
-    AMOUNT: transaction.amount
+    AMOUNT: transaction.amount,
+    AMOUNT_WORDS: priceInWords(transaction.amount)
   });
 
   // apply replacements
