@@ -1,3 +1,5 @@
+'use strict';
+
 var co = require('co');
 var gutil = require('gulp-util');
 var Transaction = require('../models/transaction');
@@ -33,15 +35,8 @@ module.exports = function() {
 
       yield transaction.log('payments:transaction:paid');
 
-      yield transaction.persist({
-        status: Transaction.STATUS_SUCCESS
-      });
+      yield* transaction.order.onPaid(transaction);
 
-      yield* transaction.order.onPaid();
-
-      yield transaction.order.persist({
-        status: Order.STATUS_SUCCESS
-      });
     });
 
   };

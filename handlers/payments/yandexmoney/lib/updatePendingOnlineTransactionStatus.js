@@ -44,13 +44,11 @@ module.exports = function*(transaction) {
 
   transaction.paymentDetails.processing = false;
 
-  yield transaction.persist();
-
   if (transaction.status == Transaction.STATUS_SUCCESS) {
     // success!
-
-    yield* order.onPaid();
-
+    yield* order.onPaid(transaction);
+  } else {
+    yield transaction.persist();
   }
 
 };

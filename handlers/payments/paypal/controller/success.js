@@ -73,13 +73,10 @@ exports.get = function* (next) {
     yield this.transaction.log("success: transaction is already processed by IPN");
   } else {
 
-    yield refreshedTransaction.persist({
-      status:        Transaction.STATUS_SUCCESS,
-      statusMessage: 'Paypal подтвердил оплату'
-    });
+    yield this.transaction.log("success: paypal confirmed the payment");
 
     this.log.debug("will call order onPaid module=" + this.order.module);
-    yield* this.order.onPaid();
+    yield* this.order.onPaid(this.transaction);
   }
 
   this.redirectToOrder();

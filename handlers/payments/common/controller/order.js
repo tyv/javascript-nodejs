@@ -12,15 +12,6 @@ exports.patch = function*() {
     this.throw(404, 'Нет такого заказа.');
   }
 
-  /*
-  if (this.isAdmin) {
-    // support status change
-    if (this.request.body.status == Order.STATUS_PAID) {
-      yield* this.order.onPaid();
-    }
-  }
-  */
-
   var orderModule = require(this.order.module);
 
   if (orderModule.patch) {

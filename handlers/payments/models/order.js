@@ -1,3 +1,5 @@
+'use strict';
+
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var autoIncrement = require('mongoose-auto-increment');
@@ -65,22 +67,48 @@ schema.pre('save', function(next) {
 //  that's to easily find/cancel a pending method
 // Here I guard against hand-made POST requests (just to be sure)
 // P.S. it is ok to create a transaction if a SUCCESS one exists (maybe split payment?)
-schema.methods.cancelPendingTransactions = function*() {
+schema.methods.cancelPendingTransactions = function*(statusMessage) {
 
   yield Transaction.findOneAndUpdate({
     order:  this._id,
     status: Transaction.STATUS_PENDING
   }, {
     status:        Transaction.STATUS_FAIL,
-    statusMessage: "смена способа оплаты."
-  }).exec();
+    statusMessage: statusMessage
+  });
 
 };
 
-schema.methods.onPaid = function*() {
+schema.methods.onPaid = function*(transaction) {
+  // transaction which has actually paid the order (if exists)
+  if (transaction) {
+
+    // it is possible that a "failed" transaction is paid while another "newer" one is pending
+    // e.g two bank invoices, the older one is paid
+    if (transaction.status == Transaction.STATUS_FAIL) {
+      yield* this.cancelPendingTransactions("оплачена предыдущая транзакция.");
+    }
+
+    // now let's check if there is a successful TX for this order already
+    // that would be strange (2 payments for one thing? a mistake!)
+    let existingSuccessTx = yield Transaction.findOne({
+      order:  this._id,
+      status: Transaction.STATUS_SUCCESS
+    });
+
+    if (existingSuccessTx) {
+      throw new Error("onPaid triggered for tx " + transaction._id + " but another success tx exists already " + existingSuccessTx._id);
+    }
+
+    transaction.status = Transaction.STATUS_SUCCESS;
+
+    yield transaction.persist();
+  }
+
   this.persist({
     status: Order.STATUS_PAID
   });
+
   yield* require(this.module).onPaid(this);
 };
 

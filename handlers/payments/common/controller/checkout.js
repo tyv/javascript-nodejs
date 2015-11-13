@@ -59,7 +59,7 @@ exports.post = function*(next) {
 
     // Many waiting transactions not allowed.
     // The old one must had been cancelled before this.
-    yield* this.order.cancelPendingTransactions();
+    yield* this.order.cancelPendingTransactions("смена способа оплаты.");
 
   }
 

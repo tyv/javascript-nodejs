@@ -1,3 +1,5 @@
+'use strict';
+
 var co = require('co');
 var gutil = require('gulp-util');
 var Order = require('../models/order');

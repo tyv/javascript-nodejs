@@ -117,14 +117,10 @@ exports.post = function* (next) {
       yield this.transaction.log("ipn: transaction is already processed to success by PDT/IPN");
     } else {
 
-      yield refreshedTransaction.persist({
-        status:        Transaction.STATUS_SUCCESS,
-        statusMessage: 'Paypal подтвердил оплату'
-      });
+      yield this.transaction.log("ipn: paypal confirmed the payment");
 
       this.log.debug("will call order onPaid module=" + this.order.module);
-      yield* this.order.onPaid();
-
+      yield* this.order.onPaid(refreshedTransaction);
     }
 
     this.body = '';

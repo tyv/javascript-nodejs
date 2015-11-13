@@ -17,12 +17,8 @@ exports.post = function* (next) {
 
   yield this.transaction.logRequest('callback', this.request);
 
-  yield this.transaction.persist({
-    status: Transaction.STATUS_SUCCESS
-  });
-
   this.log.debug("will call order onPaid module=" + this.order.module);
-  yield* this.order.onPaid();
+  yield* this.order.onPaid(this.transaction);
 
   this.body = 'SUCCESS';
 };

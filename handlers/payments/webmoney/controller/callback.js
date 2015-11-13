@@ -45,12 +45,8 @@ exports.post = function* (next) {
     this.throw(404, "transaction data doesn't match the POST body");
   }
 
-  yield this.transaction.persist({
-    status: Transaction.STATUS_SUCCESS
-  });
-
   this.log.debug("will call order onPaid module=" + this.order.module);
-  yield* this.order.onPaid();
+  yield* this.order.onPaid(this.transaction);
 
   this.body = 'OK';
 
