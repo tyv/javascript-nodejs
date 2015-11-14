@@ -1,10 +1,12 @@
 var fs = require('fs');
 var Docxtemplater = require('docxtemplater');
 var path = require('path');
-var invoiceConfig = require('config').payments.modules.invoice;
 const moment = require('moment');
 const CourseGroup = require('../models/courseGroup');
 const priceInWords = require('textUtil/priceInWords');
+const config = require('config');
+
+const invoiceConfig = config.payments.modules.invoice;
 
 // Load the docx file as a binary
 // @see https://github.com/open-xml-templating/docxtemplater
@@ -15,7 +17,7 @@ module.exports = function*(transaction) {
 
   var invoiceDoc = new Docxtemplater(docContent);
 
-  var group = yield CourseGroup.findById(transaction.order.data.group).exec();
+  var group = yield CourseGroup.findById(transaction.order.data.group).populate('course');
 
   if (!group) {
     this.throw(400, "Нет группы");
@@ -47,7 +49,8 @@ module.exports = function*(transaction) {
     INVOICE_COMPANY_ADDRESS: transaction.paymentDetails.companyAddress,
     INVOICE_BANK_DETAILS: transaction.paymentDetails.bankDetails,
     AMOUNT: transaction.amount,
-    AMOUNT_WORDS: priceInWords(transaction.amount)
+    AMOUNT_WORDS: priceInWords(transaction.amount),
+    COURSE_URL: 'https://' + config.domain.main + group.course.getUrl()
   });
 
   // apply replacements
