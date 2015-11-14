@@ -22,8 +22,9 @@ var router = module.exports = new Router();
 router.post('/login/local', function*(next) {
   var ctx = this;
 
+
   // only callback-form of authenticate allows to assign ctx.body=info if 401
-  yield passport.authenticate('local', function*(err, user, info) {
+  var middleware = passport.authenticate('local', function*(err, user, info) {
     if (err) throw err;
     if (user === false) {
       ctx.status = 401;
@@ -33,7 +34,9 @@ router.post('/login/local', function*(next) {
       yield ctx.rememberMe();
       ctx.body = {user: user.getInfoFields() };
     }
-  }).call(this, next);
+  });
+
+  yield middleware.call(this, next);
 
 });
 
