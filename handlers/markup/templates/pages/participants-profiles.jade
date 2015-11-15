@@ -1,0 +1,143 @@
+extends /layouts/main
+
+block append variables
+
+    - var layout_header_class = "main__header_center"
+    - var layout_main_class = "main_width-limit"
+    - var title = 'Участиники группы: RollingStones/1962–present'
+
+    - var content_class = '_center'
+
+
+block content
+
+  +b.participants-profiles
+    +e('ol').profiles
+      +e('li').profile
+        +b.questionnaire
+          +e.userpic
+            +e('img').userpic-img(src="http://juanboliche.com/wp/wp-content/uploads/2013/07/Mick-Jagger.jpg")
+          +e.content
+            +e('h3').title Mick Jagger
+            +e('ul').list
+              +e('li').qa
+                +e('h4').question._inline Страна
+                +e('p').answer Великобритания
+
+              +e('li').qa
+                +e('h4').question._inline Город
+                +e('p').answer Дартфорт
+
+              +e('li').qa
+                +e('h4').question._inline Ссылка на профиль
+                +e('p').answer
+                  a(href="https://en.wikipedia.org/wiki/Mick_Jagger") https://en.wikipedia.org/wiki/Mick_Jagger
+
+              +e('li').qa
+                +e('h4').question._inline Область работы
+                +e('p').answer Секс наркотики и рок-н-рол
+
+              +e('li').qa
+                +e('h4').question._block С какой целью записались на курс?
+                +e('p').answer Срочно нужна новая профессия
+
+              +e('li').qa
+                +e('h4').question._block Ваши пожелания по курсу
+                +e('p').answer А вы не могли бы говорить с британским акцентом?
+
+      +e('li').profile
+        +b.questionnaire
+          +e.userpic
+            +e('img').userpic-img(src="http://www.mojo4music.com/media/2015/07/Keef_mojocover-770.jpg")
+          +e.content
+            +e('h3').title Keith Richards
+            +e('ul').list
+              +e('li').qa
+                +e('h4').question._inline Страна
+                +e('p').answer Великобритания
+
+              +e('li').qa
+                +e('h4').question._inline Город
+                +e('p').answer Дартфорт
+
+              +e('li').qa
+                +e('h4').question._inline Ссылка на профиль
+                +e('p').answer
+                  a(href="https://en.wikipedia.org/wiki/Keith_Richards") https://en.wikipedia.org/wiki/Keith_Richards
+
+              +e('li').qa
+                +e('h4').question._inline Область работы
+                +e('p').answer 6 струн
+
+              +e('li').qa
+                +e('h4').question._block С какой целью записались на курс?
+                +e('p').answer Срочно нужна новая профессия
+
+              +e('li').qa
+                +e('h4').question._block Ваши пожелания по курсу
+                +e('p').answer А вы не могли бы говорить с британским акцентом?
+
+      +e('li').profile
+        +b.questionnaire
+          +e.userpic
+            +e('img').userpic-img(src="http://www.timeisonourside.com/CharlieNow.jpg")
+          +e.content
+            +e('h3').title Charlie Watts
+            +e('ul').list
+              +e('li').qa
+                +e('h4').question._inline Страна
+                +e('p').answer Великобритания
+
+              +e('li').qa
+                +e('h4').question._inline Город
+                +e('p').answer Кингсбури
+
+              +e('li').qa
+                +e('h4').question._inline Ссылка на профиль
+                +e('p').answer
+                  a(href="https://en.wikipedia.org/wiki/Charlie_Watts") https://en.wikipedia.org/wiki/Charlie_Watts
+
+              +e('li').qa
+                +e('h4').question._inline Область работы
+                +e('p').answer Палки, тарелки
+
+              +e('li').qa
+                +e('h4').question._block С какой целью записались на курс?
+                +e('p').answer Срочно нужна новая профессия
+
+              +e('li').qa
+                +e('h4').question._block Ваши пожелания по курсу
+                +e('p').answer А вы не могли бы говорить с британским акцентом?
+
+      +e('li').profile
+        +b.questionnaire
+          +e.userpic
+            +e('img').userpic-img(src="http://www.clashmusic.com/sites/default/files/legacy/files/imagecache/big_node_view/files/images/ronnie-wood-2.jpg")
+          +e.content
+            +e('h3').title Ronnie Wood
+            +e('ul').list
+              +e('li').qa
+                +e('h4').question._inline Страна
+                +e('p').answer Великобритания
+
+              +e('li').qa
+                +e('h4').question._inline Город
+                +e('p').answer Хилингдон
+
+              +e('li').qa
+                +e('h4').question._inline Ссылка на профиль
+                +e('p').answer
+                  a(href="https://en.wikipedia.org/wiki/Ronnie_Wood") https://en.wikipedia.org/wiki/Ronnie_Wood
+
+              +e('li').qa
+                +e('h4').question._inline Область работы
+                +e('p').answer Буп-буп-бупупупуп
+
+              +e('li').qa
+                +e('h4').question._block С какой целью записались на курс?
+                +e('p').answer Срочно нужна новая профессия
+
+              +e('li').qa
+                +e('h4').question._block Ваши пожелания по курсу
+                +e('p').answer А вы не могли бы говорить с британским акцентом?
+
