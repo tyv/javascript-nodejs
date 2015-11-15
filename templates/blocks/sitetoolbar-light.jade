@@ -53,3 +53,6 @@
         +b.share-icons
           +e('span').title= t('Share')
           include ../blocks/social-icons
+
+  if bookChildNumber && bookLeafCount
+    +b('progress').tutorial-progress(data-sticky, value=bookChildNumber, max= bookLeafCount, data-tooltip=("Урок " + bookChildNumber + " из " + bookLeafCount))
